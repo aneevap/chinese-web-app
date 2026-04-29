@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>🐼 New Learner — 学汉字</title>
+<script src="nav.js"></script>
+<script src="profiles.js"></script>
+<script src="strings.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #FFF8EE 0%, #F0FFF8 100%);
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── HEADER ── */
+.page-header {
+    text-align: center;
+    padding: 24px 20px 0;
+}
+.page-header .emoji { font-size: 2.5em; }
+.page-header h1 {
+    font-size: clamp(1.2em, 4vw, 1.6em);
+    color: #333; margin-top: 8px;
+}
+.page-header p {
+    font-size: clamp(0.75em, 2vw, 0.88em);
+    color: #aaa; margin-top: 4px;
+}
+
+/* ── FORM ── */
+.form-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 16px 32px;
+    gap: 20px;
+    max-width: 480px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* ── SECTION BLOCKS ── */
+.form-section {
+    background: white;
+    border-radius: 16px;
+    padding: 16px;
+    width: 100%;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+}
+.section-label {
+    font-size: 0.72em;
+    font-weight: bold;
+    color: #bbb;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 10px;
+}
+
+/* ── NICKNAME INPUT ── */
+.nickname-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    font-size: 1em;
+    color: #333;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.nickname-input:focus { border-color: #FFB347; }
+.nickname-hint {
+    font-size: 0.72em;
+    color: #aaa;
+    margin-top: 5px;
+}
+.nickname-warn {
+    font-size: 0.72em;
+    color: #FF8C42;
+    margin-top: 5px;
+    min-height: 1em;
+}
+
+/* ── AVATAR GRID ── */
+.avatar-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+}
+.avatar-btn {
+    width:  clamp(40px, 10vw, 52px);
+    height: clamp(40px, 10vw, 52px);
+    border-radius: 50%;
+    border: 3px solid transparent;
+    background: #f9f9f9;
+    font-size: clamp(1.2em, 3.5vw, 1.6em);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.avatar-btn:hover  { border-color: #FFD9A0; background: #FFF8EE; }
+.avatar-btn.active {
+    border-color: #FFB347;
+    background: #FFF3E0;
+    transform: scale(1.15);
+    box-shadow: 0 3px 10px rgba(255,179,71,0.4);
+}
+
+/* ── COLOR PICKER ── */
+.color-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+.color-btn {
+    width:  clamp(30px, 7vw, 38px);
+    height: clamp(30px, 7vw, 38px);
+    border-radius: 50%;
+    border: 3px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    outline: none;
+}
+.color-btn:hover  { transform: scale(1.12); }
+.color-btn.active {
+    border-color: #333;
+    transform: scale(1.2);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+/* ── PREVIEW CARD ── */
+.preview-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 0;
+}
+.preview-avatar {
+    width:  72px; height: 72px;
+    border-radius: 50%;
+    border: 3px solid #eee;
+    background: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.2em;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+    transition: border-color 0.3s;
+}
+.preview-name {
+    font-size: 0.95em;
+    font-weight: bold;
+    color: #333;
+}
+.preview-title {
+    font-size: 0.7em;
+    color: #aaa;
+}
+
+/* ── SUBMIT BUTTON ── */
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: #FFB347;
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+    box-shadow: 0 4px 14px rgba(255,179,71,0.4);
+}
+.submit-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+.submit-btn:not(:disabled):active { transform: scale(0.97); }
+
+/* ── BACK LINK ── */
+.back-link {
+    font-size: 0.8em;
+    color: #bbb;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: underline;
+    padding-bottom: 8px;
+}
+.back-link:hover { color: #999; }
+
+/* ── DUPLICATE WARNING ── */
+.dup-warning {
+    background: #FFF3E0;
+    border: 2px solid #FFB347;
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 0.78em;
+    color: #E65100;
+    display: none;
+    line-height: 1.5;
+}
+.dup-warning.visible { display: block; }
+</style>
+</head>
+<body>
+
+<div id="app-nav"></div>
+
+<div class="page-header">
+    <span class="emoji">🐼</span>
+    <h1>Create Your Learner</h1>
+    <p>Pick a nickname and avatar to get started!</p>
+</div>
+
+<div class="form-wrap">
+
+    <!-- PREVIEW -->
+    <div class="form-section">
+        <div class="section-label">Preview</div>
+        <div class="preview-wrap">
+            <div class="preview-avatar" id="preview-avatar">🐼</div>
+            <div class="preview-name"  id="preview-name">Your name</div>
+            <div class="preview-title">🥚 Panda Hatchling</div>
+        </div>
+    </div>
+
+    <!-- NICKNAME -->
+    <div class="form-section">
+        <div class="section-label">Nickname</div>
+        <input
+            class="nickname-input"
+            id="nickname-input"
+            type="text"
+            maxlength="16"
+            placeholder="e.g. Mia"
+            oninput="onNicknameInput()"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="words"
+            spellcheck="false"
+        >
+        <div class="nickname-hint">Up to 16 characters</div>
+        <div class="nickname-warn" id="nickname-warn"></div>
+        <div class="dup-warning" id="dup-warning">
+            ⚠️ A learner with this name and avatar already exists.
+            You can still continue — they will be separate profiles.
+        </div>
+    </div>
+
+    <!-- AVATAR -->
+    <div class="form-section">
+        <div class="section-label">Choose Avatar</div>
+        <div class="avatar-grid" id="avatar-grid"></div>
+    </div>
+
+    <!-- COLOR -->
+    <div class="form-section">
+        <div class="section-label">Choose Color</div>
+        <div class="color-grid" id="color-grid"></div>
+    </div>
+
+    <!-- SUBMIT -->
+    <button class="submit-btn" id="submit-btn"
+            onclick="createLearner()" disabled>
+        Let's go! 🚀
+    </button>
+
+    <div class="back-link" onclick="goBack()">
+        ← Back to profile picker
+    </div>
+
+</div>
+
+<script>
+/* =====================================================
+   STATE
+===================================================== */
+var selectedAvatar = XHZ.AVATARS[0];   // default first avatar
+var selectedColor  = XHZ.COLORS[0].hex; // default first color
+
+/* =====================================================
+   INIT
+===================================================== */
+window.onload = function() {
+    buildAvatarGrid();
+    buildColorGrid();
+    updatePreview();
+    validateForm();
+};
+
+/* =====================================================
+   AVATAR GRID
+===================================================== */
+function buildAvatarGrid() {
+    var grid = document.getElementById('avatar-grid');
+    grid.innerHTML = '';
+
+    XHZ.AVATARS.forEach(function(emoji, i) {
+        var btn = document.createElement('div');
+        btn.className = 'avatar-btn' + (i === 0 ? ' active' : '');
+        btn.textContent = emoji;
+        btn.onclick = (function(e) {
+            return function() { selectAvatar(e); };
+        })(emoji);
+        grid.appendChild(btn);
+    });
+}
+
+function selectAvatar(emoji) {
+    selectedAvatar = emoji;
+
+    // Update active state
+    var btns = document.querySelectorAll('.avatar-btn');
+    btns.forEach(function(btn) {
+        btn.className = 'avatar-btn' + (btn.textContent === emoji ? ' active' : '');
+    });
+
+    updatePreview();
+    checkDuplicate();
+    validateForm();
+}
+
+/* =====================================================
+   COLOR GRID
+===================================================== */
+function buildColorGrid() {
+    var grid = document.getElementById('color-grid');
+    grid.innerHTML = '';
+
+    XHZ.COLORS.forEach(function(color, i) {
+        var btn = document.createElement('div');
+        btn.className   = 'color-btn' + (i === 0 ? ' active' : '');
+        btn.style.background = color.hex;
+        btn.title       = color.name;
+        btn.onclick = (function(c) {
+            return function() { selectColor(c); };
+        })(color.hex);
+        grid.appendChild(btn);
+    });
+}
+
+function selectColor(hex) {
+    selectedColor = hex;
+
+    // Update active state
+    var btns = document.querySelectorAll('.color-btn');
+    btns.forEach(function(btn) {
+        btn.className = 'color-btn' +
+            (btn.style.background === hex ||
+             btn.style.backgroundColor === hex ? ' active' : '');
+    });
+
+    updatePreview();
+    validateForm();
+}
+
+/* =====================================================
+   NICKNAME INPUT
+===================================================== */
+function onNicknameInput() {
+    var val  = document.getElementById('nickname-input').value;
+    var warn = document.getElementById('nickname-warn');
+
+    // Trim warning
+    if (val.trim().length === 0 && val.length > 0) {
+        warn.textContent = 'Nickname cannot be only spaces.';
+    } else {
+        warn.textContent = '';
+    }
+
+    updatePreview();
+    checkDuplicate();
+    validateForm();
+}
+
+/* =====================================================
+   DUPLICATE CHECK
+===================================================== */
+function checkDuplicate() {
+    var nickname = document.getElementById('nickname-input').value.trim();
+    var dupWarn  = document.getElementById('dup-warning');
+
+    if (nickname.length > 0 && XHZ.isDuplicate(nickname, selectedAvatar)) {
+        dupWarn.classList.add('visible');
+    } else {
+        dupWarn.classList.remove('visible');
+    }
+}
+
+/* =====================================================
+   PREVIEW
+===================================================== */
+function updatePreview() {
+    var nickname = document.getElementById('nickname-input').value.trim();
+    var avatar   = document.getElementById('preview-avatar');
+    var name     = document.getElementById('preview-name');
+
+    avatar.textContent       = selectedAvatar;
+    avatar.style.borderColor = selectedColor;
+    name.textContent         = nickname.length > 0 ? nickname : 'Your name';
+}
+
+/* =====================================================
+   FORM VALIDATION
+===================================================== */
+function validateForm() {
+    var nickname = document.getElementById('nickname-input').value.trim();
+    var btn      = document.getElementById('submit-btn');
+    btn.disabled = nickname.length === 0;
+}
+
+/* =====================================================
+   CREATE LEARNER
+===================================================== */
+function createLearner() {
+    var nickname = document.getElementById('nickname-input').value.trim();
+
+    if (!nickname) return;
+
+    // Create profile in localStorage
+    var profile = XHZ.createProfile({
+        nickname: nickname,
+        avatar:   selectedAvatar,
+        color:    selectedColor,
+    });
+
+    // Set as active and go to write
+    XHZ.setActive(profile.id);
+    window.location.href = 'write.html';
+}
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+function goBack() {
+    // If there are profiles, go back to picker
+    // If no profiles, stay here (no back destination)
+    if (XHZ.getAllProfiles().length > 0) {
+        window.location.href = 'index.html';
+    }
+}
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    initNav('new-learner');
+    refreshStrings();
+});
+</script>
+</body>
+</html>

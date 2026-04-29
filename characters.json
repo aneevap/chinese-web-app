@@ -1,0 +1,954 @@
+{
+    "sets": [
+        {
+            "id": "numbers",
+            "name": "🔢 Numbers",
+            "color": "#FFB347",
+            "characters": [
+                {
+                    "ch": "一",
+                    "py": "yī",
+                    "en": "One",
+                    "th": "หนึ่ง",
+                    "zh": "一加一等于二。",
+                    "sent_en": "One plus one equals two.",
+                    "sent_th": "หนึ่งบวกหนึ่งเท่ากับสอง"
+                },
+                {
+                    "ch": "二",
+                    "py": "èr",
+                    "en": "Two",
+                    "th": "สอง",
+                    "zh": "我有两个苹果。",
+                    "sent_en": "I have two apples.",
+                    "sent_th": "ฉันมีแอปเปิ้ลสองลูก"
+                },
+                {
+                    "ch": "三",
+                    "py": "sān",
+                    "en": "Three",
+                    "th": "สาม",
+                    "zh": "桌上有三本书。",
+                    "sent_en": "There are three books on the table.",
+                    "sent_th": "บนโต๊ะมีหนังสือสามเล่ม"
+                },
+                {
+                    "ch": "十",
+                    "py": "shí",
+                    "en": "Ten",
+                    "th": "สิบ",
+                    "zh": "我有十根手指。",
+                    "sent_en": "I have ten fingers.",
+                    "sent_th": "ฉันมีนิ้วมือสิบนิ้ว"
+                },
+                {
+                    "ch": "八",
+                    "py": "bā",
+                    "en": "Eight",
+                    "th": "แปด",
+                    "zh": "八月是夏天。",
+                    "sent_en": "August is summer.",
+                    "sent_th": "เดือนแปดเป็นหน้าร้อน"
+                },
+                {
+                    "ch": "六",
+                    "py": "liù",
+                    "en": "Six",
+                    "th": "หก",
+                    "zh": "我家有六口人。",
+                    "sent_en": "There are six people in my family.",
+                    "sent_th": "บ้านฉันมีหกคน"
+                },
+                {
+                    "ch": "七",
+                    "py": "qī",
+                    "en": "Seven",
+                    "th": "เจ็ด",
+                    "zh": "一周有七天。",
+                    "sent_en": "There are seven days in a week.",
+                    "sent_th": "หนึ่งสัปดาห์มีเจ็ดวัน"
+                },
+                {
+                    "ch": "九",
+                    "py": "jiǔ",
+                    "en": "Nine",
+                    "th": "เก้า",
+                    "zh": "九月天气很凉快。",
+                    "sent_en": "September weather is cool.",
+                    "sent_th": "เดือนกันยายนอากาศเย็นสบาย"
+                },
+                {
+                    "ch": "四",
+                    "py": "sì",
+                    "en": "Four",
+                    "th": "สี่",
+                    "zh": "一年有四个季节。",
+                    "sent_en": "There are four seasons in a year.",
+                    "sent_th": "หนึ่งปีมีสี่ฤดูกาล"
+                },
+                {
+                    "ch": "五",
+                    "py": "wǔ",
+                    "en": "Five",
+                    "th": "ห้า",
+                    "zh": "我有五本书。",
+                    "sent_en": "I have five books.",
+                    "sent_th": "ฉันมีหนังสือห้าเล่ม"
+                },
+                {
+                    "ch": "两",
+                    "py": "liǎng",
+                    "en": "Two (of something)",
+                    "th": "สอง (สิ่งของ)",
+                    "zh": "我有两只猫。",
+                    "sent_en": "I have two cats.",
+                    "sent_th": "ฉันมีแมวสองตัว"
+                }
+            ]
+        },
+        {
+            "id": "nature",
+            "name": "🌿 Nature",
+            "color": "#AED581",
+            "characters": [
+                {
+                    "ch": "木",
+                    "py": "mù",
+                    "en": "Wood",
+                    "th": "ไม้",
+                    "zh": "这张桌子是木头做的。",
+                    "sent_en": "This table is made of wood.",
+                    "sent_th": "โต๊ะนี้ทำจากไม้"
+                },
+                {
+                    "ch": "禾",
+                    "py": "hé",
+                    "en": "Grain / Rice plant",
+                    "th": "ต้นข้าว",
+                    "zh": "田里长满了禾苗。",
+                    "sent_en": "The field is full of rice plants.",
+                    "sent_th": "ในนามีต้นข้าวเต็มไปหมด"
+                },
+                {
+                    "ch": "土",
+                    "py": "tǔ",
+                    "en": "Soil",
+                    "th": "ดิน",
+                    "zh": "花种在土里。",
+                    "sent_en": "Flowers are planted in the soil.",
+                    "sent_th": "ดอกไม้ปลูกในดิน"
+                },
+                {
+                    "ch": "火",
+                    "py": "huǒ",
+                    "en": "Fire",
+                    "th": "ไฟ",
+                    "zh": "火是红色的。",
+                    "sent_en": "Fire is red.",
+                    "sent_th": "ไฟมีสีแดง"
+                },
+                {
+                    "ch": "日",
+                    "py": "rì",
+                    "en": "Sun / Day",
+                    "th": "ดวงอาทิตย์",
+                    "zh": "今天的日照很温暖。",
+                    "sent_en": "Today's sunlight is very warm.",
+                    "sent_th": "วันนี้แสงแดดอบอุ่นมาก"
+                },
+                {
+                    "ch": "月",
+                    "py": "yuè",
+                    "en": "Moon / Month",
+                    "th": "พระจันทร์",
+                    "zh": "今晚的月亮很圆。",
+                    "sent_en": "The moon is very round tonight.",
+                    "sent_th": "คืนนี้พระจันทร์กลมมาก"
+                },
+                {
+                    "ch": "山",
+                    "py": "shān",
+                    "en": "Mountain",
+                    "th": "ภูเขา",
+                    "zh": "那座山很高。",
+                    "sent_en": "That mountain is very tall.",
+                    "sent_th": "ภูเขานั้นสูงมาก"
+                },
+                {
+                    "ch": "水",
+                    "py": "shuǐ",
+                    "en": "Water",
+                    "th": "น้ำ",
+                    "zh": "我想喝水。",
+                    "sent_en": "I want to drink water.",
+                    "sent_th": "ฉันอยากดื่มน้ำ"
+                },
+                {
+                    "ch": "云",
+                    "py": "yún",
+                    "en": "Cloud",
+                    "th": "เมฆ",
+                    "zh": "天上有很多云。",
+                    "sent_en": "There are many clouds in the sky.",
+                    "sent_th": "บนท้องฟ้ามีเมฆมาก"
+                },
+                {
+                    "ch": "雨",
+                    "py": "yǔ",
+                    "en": "Rain",
+                    "th": "ฝน",
+                    "zh": "今天下雨了。",
+                    "sent_en": "It is raining today.",
+                    "sent_th": "วันนี้ฝนตก"
+                },
+                {
+                    "ch": "风",
+                    "py": "fēng",
+                    "en": "Wind",
+                    "th": "ลม",
+                    "zh": "今天风很大。",
+                    "sent_en": "The wind is very strong today.",
+                    "sent_th": "วันนี้ลมแรงมาก"
+                },
+                {
+                    "ch": "田",
+                    "py": "tián",
+                    "en": "Field",
+                    "th": "ทุ่งนา",
+                    "zh": "农民在田里工作。",
+                    "sent_en": "The farmer works in the field.",
+                    "sent_th": "ชาวนาทำงานในทุ่งนา"
+                },
+                {
+                    "ch": "米",
+                    "py": "mǐ",
+                    "en": "Rice",
+                    "th": "ข้าว",
+                    "zh": "我每天都吃米饭。",
+                    "sent_en": "I eat rice every day.",
+                    "sent_th": "ฉันกินข้าวทุกวัน"
+                },
+                {
+                    "ch": "果",
+                    "py": "guǒ",
+                    "en": "Fruit",
+                    "th": "ผลไม้",
+                    "zh": "我喜欢吃水果。",
+                    "sent_en": "I like to eat fruit.",
+                    "sent_th": "ฉันชอบกินผลไม้"
+                }
+            ]
+        },
+        {
+            "id": "animals",
+            "name": "🐾 Animals",
+            "color": "#F48FB1",
+            "characters": [
+                {
+                    "ch": "马",
+                    "py": "mǎ",
+                    "en": "Horse",
+                    "th": "ม้า",
+                    "zh": "这匹马跑得很快。",
+                    "sent_en": "This horse runs very fast.",
+                    "sent_th": "ม้าตัวนี้วิ่งเร็วมาก"
+                },
+                {
+                    "ch": "鸟",
+                    "py": "niǎo",
+                    "en": "Bird",
+                    "th": "นก",
+                    "zh": "树上有一只小鸟。",
+                    "sent_en": "There is a small bird in the tree.",
+                    "sent_th": "บนต้นไม้มีนกตัวเล็ก"
+                },
+                {
+                    "ch": "牛",
+                    "py": "niú",
+                    "en": "Cow",
+                    "th": "วัว",
+                    "zh": "牛在草地上吃草。",
+                    "sent_en": "The cow eats grass in the meadow.",
+                    "sent_th": "วัวกินหญ้าในทุ่งหญ้า"
+                },
+                {
+                    "ch": "羊",
+                    "py": "yáng",
+                    "en": "Sheep",
+                    "th": "แกะ",
+                    "zh": "草地上有很多羊。",
+                    "sent_en": "There are many sheep in the meadow.",
+                    "sent_th": "ในทุ่งหญ้ามีแกะมากมาย"
+                },
+                {
+                    "ch": "鱼",
+                    "py": "yú",
+                    "en": "Fish",
+                    "th": "ปลา",
+                    "zh": "鱼在水里游泳。",
+                    "sent_en": "Fish swim in the water.",
+                    "sent_th": "ปลาว่ายน้ำในน้ำ"
+                }
+            ]
+        },
+        {
+            "id": "body",
+            "name": "👁️ Body",
+            "color": "#CE93D8",
+            "characters": [
+                {
+                    "ch": "目",
+                    "py": "mù",
+                    "en": "Eye",
+                    "th": "ตา",
+                    "zh": "他的目光很锐利。",
+                    "sent_en": "His gaze is very sharp.",
+                    "sent_th": "สายตาของเขาแหลมคมมาก"
+                },
+                {
+                    "ch": "耳",
+                    "py": "ěr",
+                    "en": "Ear",
+                    "th": "หู",
+                    "zh": "兔子的耳朵很长。",
+                    "sent_en": "The rabbit's ears are very long.",
+                    "sent_th": "หูของกระต่ายยาวมาก"
+                },
+                {
+                    "ch": "头",
+                    "py": "tóu",
+                    "en": "Head",
+                    "th": "หัว",
+                    "zh": "我的头有点痛。",
+                    "sent_en": "My head hurts a little.",
+                    "sent_th": "หัวของฉันปวดนิดหน่อย"
+                },
+                {
+                    "ch": "口",
+                    "py": "kǒu",
+                    "en": "Mouth",
+                    "th": "ปาก",
+                    "zh": "张开嘴，说“啊”。",
+                    "sent_en": "Open your mouth and say \"ah\".",
+                    "sent_th": "อ้าปากแล้วพูดว่า \"อา\""
+                },
+                {
+                    "ch": "手",
+                    "py": "shǒu",
+                    "en": "Hand",
+                    "th": "มือ",
+                    "zh": "请洗手再吃饭。",
+                    "sent_en": "Please wash your hands before eating.",
+                    "sent_th": "กรุณาล้างมือก่อนกินข้าว"
+                },
+                {
+                    "ch": "足",
+                    "py": "zú",
+                    "en": "Foot",
+                    "th": "เท้า",
+                    "zh": "我的足受伤了。",
+                    "sent_en": "My foot is injured.",
+                    "sent_th": "เท้าของฉันเจ็บ"
+                },
+                {
+                    "ch": "心",
+                    "py": "xīn",
+                    "en": "Heart",
+                    "th": "หัวใจ",
+                    "zh": "她有一颗善良的心。",
+                    "sent_en": "She has a kind heart.",
+                    "sent_th": "เธอมีหัวใจที่ดีงาม"
+                },
+                {
+                    "ch": "毛",
+                    "py": "máo",
+                    "en": "Hair / Fur",
+                    "th": "ขน",
+                    "zh": "猫的毛很软。",
+                    "sent_en": "The cat's fur is very soft.",
+                    "sent_th": "ขนแมวนุ่มมาก"
+                },
+                {
+                    "ch": "牙",
+                    "py": "yá",
+                    "en": "Tooth",
+                    "th": "ฟัน",
+                    "zh": "每天要刷牙。",
+                    "sent_en": "You must brush your teeth every day.",
+                    "sent_th": "ต้องแปรงฟันทุกวัน"
+                }
+            ]
+        },
+        {
+            "id": "people",
+            "name": "👨‍👩‍👧 People",
+            "color": "#80DEEA",
+            "characters": [
+                {
+                    "ch": "人",
+                    "py": "rén",
+                    "en": "Person",
+                    "th": "คน",
+                    "zh": "那是一个好人。",
+                    "sent_en": "That is a good person.",
+                    "sent_th": "นั่นคือคนดี"
+                },
+                {
+                    "ch": "大",
+                    "py": "dà",
+                    "en": "Big",
+                    "th": "ใหญ่",
+                    "zh": "这只狗很大。",
+                    "sent_en": "This dog is very big.",
+                    "sent_th": "สุนัขตัวนี้ตัวใหญ่มาก"
+                },
+                {
+                    "ch": "天",
+                    "py": "tiān",
+                    "en": "Sky / Day",
+                    "th": "ท้องฟ้า / วัน",
+                    "zh": "今天天气很好。",
+                    "sent_en": "The weather is very nice today.",
+                    "sent_th": "วันนี้อากาศดีมาก"
+                },
+                {
+                    "ch": "文",
+                    "py": "wén",
+                    "en": "Language / Culture",
+                    "th": "ภาษา / วัฒนธรรม",
+                    "zh": "我喜欢学中文。",
+                    "sent_en": "I like learning Chinese.",
+                    "sent_th": "ฉันชอบเรียนภาษาจีน"
+                },
+                {
+                    "ch": "儿",
+                    "py": "ér",
+                    "en": "Child",
+                    "th": "เด็ก",
+                    "zh": "这个儿子很聪明。",
+                    "sent_en": "This son is very clever.",
+                    "sent_th": "ลูกชายคนนี้ฉลาดมาก"
+                },
+                {
+                    "ch": "子",
+                    "py": "zǐ",
+                    "en": "Child / Son",
+                    "th": "ลูก",
+                    "zh": "孩子们在玩耍。",
+                    "sent_en": "The children are playing.",
+                    "sent_th": "เด็กๆ กำลังเล่น"
+                },
+                {
+                    "ch": "公",
+                    "py": "gōng",
+                    "en": "Public / Male elder",
+                    "th": "สาธารณะ",
+                    "zh": "公园里有很多花。",
+                    "sent_en": "There are many flowers in the park.",
+                    "sent_th": "ในสวนสาธารณะมีดอกไม้มากมาย"
+                },
+                {
+                    "ch": "自",
+                    "py": "zì",
+                    "en": "Self",
+                    "th": "ตัวเอง",
+                    "zh": "你要自己做作业。",
+                    "sent_en": "You must do your homework yourself.",
+                    "sent_th": "ต้องทำการบ้านเอง"
+                }
+            ]
+        },
+        {
+            "id": "directions",
+            "name": "🧭 Directions",
+            "color": "#98D8C8",
+            "characters": [
+                {
+                    "ch": "上",
+                    "py": "shàng",
+                    "en": "Up / Above",
+                    "th": "บน",
+                    "zh": "猫在桌子上面。",
+                    "sent_en": "The cat is on top of the table.",
+                    "sent_th": "แมวอยู่บนโต๊ะ"
+                },
+                {
+                    "ch": "下",
+                    "py": "xià",
+                    "en": "Down / Below",
+                    "th": "ล่าง",
+                    "zh": "书包在椅子下面。",
+                    "sent_en": "The bag is under the chair.",
+                    "sent_th": "กระเป๋าอยู่ใต้เก้าอี้"
+                },
+                {
+                    "ch": "中",
+                    "py": "zhōng",
+                    "en": "Middle / Center",
+                    "th": "กลาง",
+                    "zh": "桌子在房间中间。",
+                    "sent_en": "The table is in the middle of the room.",
+                    "sent_th": "โต๊ะอยู่กลางห้อง"
+                },
+                {
+                    "ch": "东",
+                    "py": "dōng",
+                    "en": "East",
+                    "th": "ทิศตะวันออก",
+                    "zh": "太阳从东边升起。",
+                    "sent_en": "The sun rises in the east.",
+                    "sent_th": "ดวงอาทิตย์ขึ้นทางทิศตะวันออก"
+                },
+                {
+                    "ch": "西",
+                    "py": "xī",
+                    "en": "West",
+                    "th": "ทิศตะวันตก",
+                    "zh": "太阳在西边落下。",
+                    "sent_en": "The sun sets in the west.",
+                    "sent_th": "ดวงอาทิตย์ตกทางทิศตะวันตก"
+                },
+                {
+                    "ch": "左",
+                    "py": "zuǒ",
+                    "en": "Left",
+                    "th": "ซ้าย",
+                    "zh": "银行在左边。",
+                    "sent_en": "The bank is on the left.",
+                    "sent_th": "ธนาคารอยู่ทางซ้าย"
+                },
+                {
+                    "ch": "右",
+                    "py": "yòu",
+                    "en": "Right",
+                    "th": "ขวา",
+                    "zh": "学校在右边。",
+                    "sent_en": "The school is on the right.",
+                    "sent_th": "โรงเรียนอยู่ทางขวา"
+                },
+                {
+                    "ch": "回",
+                    "py": "huí",
+                    "en": "Return / Go back",
+                    "th": "กลับ",
+                    "zh": "我要回家了。",
+                    "sent_en": "I am going back home.",
+                    "sent_th": "ฉันจะกลับบ้านแล้ว"
+                },
+                {
+                    "ch": "出",
+                    "py": "chū",
+                    "en": "Exit / Go out",
+                    "th": "ออก",
+                    "zh": "请从这里出去。",
+                    "sent_en": "Please exit from here.",
+                    "sent_th": "กรุณาออกทางนี้"
+                },
+                {
+                    "ch": "入",
+                    "py": "rù",
+                    "en": "Enter",
+                    "th": "เข้า",
+                    "zh": "请入座。",
+                    "sent_en": "Please take your seat.",
+                    "sent_th": "กรุณาเข้าที่นั่ง"
+                }
+            ]
+        },
+        {
+            "id": "everyday",
+            "name": "🏠 Everyday",
+            "color": "#FFCC80",
+            "characters": [
+                {
+                    "ch": "个",
+                    "py": "gè",
+                    "en": "(measure word)",
+                    "th": "ลักษณะนาม",
+                    "zh": "我吃了一个苹果。",
+                    "sent_en": "I ate one apple.",
+                    "sent_th": "ฉันกินแอปเปิ้ลหนึ่งลูก"
+                },
+                {
+                    "ch": "门",
+                    "py": "mén",
+                    "en": "Door",
+                    "th": "ประตู",
+                    "zh": "请关上门。",
+                    "sent_en": "Please close the door.",
+                    "sent_th": "กรุณาปิดประตู"
+                },
+                {
+                    "ch": "不",
+                    "py": "bù",
+                    "en": "No / Not",
+                    "th": "ไม่",
+                    "zh": "我不喜欢吃苦瓜。",
+                    "sent_en": "I do not like eating bitter melon.",
+                    "sent_th": "ฉันไม่ชอบกินมะระ"
+                },
+                {
+                    "ch": "开",
+                    "py": "kāi",
+                    "en": "Open / Start",
+                    "th": "เปิด",
+                    "zh": "请把窗户打开。",
+                    "sent_en": "Please open the window.",
+                    "sent_th": "กรุณาเปิดหน้าต่าง"
+                },
+                {
+                    "ch": "了",
+                    "py": "le",
+                    "en": "(completed action)",
+                    "th": "(คำช่วย)",
+                    "zh": "我吃了饭。",
+                    "sent_en": "I have eaten.",
+                    "sent_th": "ฉันกินข้าวแล้ว"
+                },
+                {
+                    "ch": "也",
+                    "py": "yě",
+                    "en": "Also / Too",
+                    "th": "ด้วย",
+                    "zh": "我也喜欢吃苹果。",
+                    "sent_en": "I also like eating apples.",
+                    "sent_th": "ฉันก็ชอบกินแอปเปิ้ลด้วย"
+                },
+                {
+                    "ch": "长",
+                    "py": "cháng",
+                    "en": "Long",
+                    "th": "ยาว",
+                    "zh": "这条路很长。",
+                    "sent_en": "This road is very long.",
+                    "sent_th": "ถนนสายนี้ยาวมาก"
+                },
+                {
+                    "ch": "小",
+                    "py": "xiǎo",
+                    "en": "Small",
+                    "th": "เล็ก",
+                    "zh": "小猫真可爱。",
+                    "sent_en": "The little cat is so cute.",
+                    "sent_th": "แมวตัวเล็กน่ารักมาก"
+                },
+                {
+                    "ch": "少",
+                    "py": "shǎo",
+                    "en": "Few / Little",
+                    "th": "น้อย",
+                    "zh": "这里的人很少。",
+                    "sent_en": "There are very few people here.",
+                    "sent_th": "ที่นี่มีคนน้อยมาก"
+                },
+                {
+                    "ch": "书",
+                    "py": "shū",
+                    "en": "Book",
+                    "th": "หนังสือ",
+                    "zh": "我喜欢看书。",
+                    "sent_en": "I like reading books.",
+                    "sent_th": "ฉันชอบอ่านหนังสือ"
+                },
+                {
+                    "ch": "车",
+                    "py": "chē",
+                    "en": "Vehicle / Car",
+                    "th": "รถ",
+                    "zh": "这辆车是红色的。",
+                    "sent_en": "This car is red.",
+                    "sent_th": "รถคันนี้สีแดง"
+                },
+                {
+                    "ch": "电",
+                    "py": "diàn",
+                    "en": "Electricity",
+                    "th": "ไฟฟ้า",
+                    "zh": "电灯很亮。",
+                    "sent_en": "The electric light is very bright.",
+                    "sent_th": "หลอดไฟสว่างมาก"
+                },
+                {
+                    "ch": "生",
+                    "py": "shēng",
+                    "en": "Born / Life",
+                    "th": "เกิด / ชีวิต",
+                    "zh": "我在泰国出生。",
+                    "sent_en": "I was born in Thailand.",
+                    "sent_th": "ฉันเกิดในประเทศไทย"
+                },
+                {
+                    "ch": "年",
+                    "py": "nián",
+                    "en": "Year",
+                    "th": "ปี",
+                    "zh": "今年是新年。",
+                    "sent_en": "This year is the new year.",
+                    "sent_th": "ปีนี้เป็นปีใหม่"
+                },
+                {
+                    "ch": "今",
+                    "py": "jīn",
+                    "en": "Now / Today",
+                    "th": "ตอนนี้ / วันนี้",
+                    "zh": "今天天气很好。",
+                    "sent_en": "Today the weather is great.",
+                    "sent_th": "วันนี้อากาศดีมาก"
+                },
+                {
+                    "ch": "用",
+                    "py": "yòng",
+                    "en": "Use",
+                    "th": "ใช้",
+                    "zh": "我用筷子吃饭。",
+                    "sent_en": "I eat with chopsticks.",
+                    "sent_th": "ฉันกินข้าวด้วยตะเกียบ"
+                },
+                {
+                    "ch": "正",
+                    "py": "zhèng",
+                    "en": "Correct / Upright",
+                    "th": "ถูกต้อง",
+                    "zh": "你的答案是正确的。",
+                    "sent_en": "Your answer is correct.",
+                    "sent_th": "คำตอบของคุณถูกต้อง"
+                }
+            ]
+        },
+        {
+            "id": "movement",
+            "name": "🏃 Movement",
+            "color": "#EF9A9A",
+            "characters": [
+                {
+                    "ch": "飞",
+                    "py": "fēi",
+                    "en": "Fly",
+                    "th": "บิน",
+                    "zh": "鸟在天上飞。",
+                    "sent_en": "Birds fly in the sky.",
+                    "sent_th": "นกบินอยู่บนท้องฟ้า"
+                },
+                {
+                    "ch": "走",
+                    "py": "zǒu",
+                    "en": "Walk / Go",
+                    "th": "เดิน",
+                    "zh": "我们走路去学校。",
+                    "sent_en": "We walk to school.",
+                    "sent_th": "เราเดินไปโรงเรียน"
+                },
+                {
+                    "ch": "升",
+                    "py": "shēng",
+                    "en": "Rise / Go up",
+                    "th": "ขึ้น",
+                    "zh": "太阳慢慢升起来。",
+                    "sent_en": "The sun slowly rises.",
+                    "sent_th": "ดวงอาทิตย์ค่อยๆ ขึ้น"
+                },
+                {
+                    "ch": "开",
+                    "py": "kāi",
+                    "en": "Open / Start",
+                    "th": "เริ่ม / เปิด",
+                    "zh": "花开了。",
+                    "sent_en": "The flower has bloomed.",
+                    "sent_th": "ดอกไม้บานแล้ว"
+                },
+                {
+                    "ch": "见",
+                    "py": "jiàn",
+                    "en": "See / Meet",
+                    "th": "เห็น / พบ",
+                    "zh": "很高兴见到你。",
+                    "sent_en": "Nice to meet you.",
+                    "sent_th": "ยินดีที่ได้พบคุณ"
+                }
+            ]
+        },
+        {
+            "id": "shapes",
+            "name": "📐 Shapes",
+            "color": "#B0BEC5",
+            "characters": [
+                {
+                    "ch": "巾",
+                    "py": "jīn",
+                    "en": "Cloth / Towel",
+                    "th": "ผ้า",
+                    "zh": "这条毛巾很柔软。",
+                    "sent_en": "This towel is very soft.",
+                    "sent_th": "ผ้าขนหนูนี้柔软มาก"
+                },
+                {
+                    "ch": "尺",
+                    "py": "chǐ",
+                    "en": "Ruler",
+                    "th": "ไม้บรรทัด",
+                    "zh": "我用尺子量长度。",
+                    "sent_en": "I use a ruler to measure length.",
+                    "sent_th": "ฉันใช้ไม้บรรทัดวัดความยาว"
+                },
+                {
+                    "ch": "方",
+                    "py": "fāng",
+                    "en": "Square / Direction",
+                    "th": "สี่เหลี่ยม",
+                    "zh": "这个盒子是方形的。",
+                    "sent_en": "This box is square.",
+                    "sent_th": "กล่องนี้เป็นรูปสี่เหลี่ยม"
+                },
+                {
+                    "ch": "半",
+                    "py": "bàn",
+                    "en": "Half",
+                    "th": "ครึ่ง",
+                    "zh": "我喝了半杯水。",
+                    "sent_en": "I drank half a glass of water.",
+                    "sent_th": "ฉันดื่มน้ำครึ่งแก้ว"
+                },
+                {
+                    "ch": "片",
+                    "py": "piàn",
+                    "en": "Slice / Piece",
+                    "th": "ชิ้น",
+                    "zh": "我吃了一片面包。",
+                    "sent_en": "I ate a slice of bread.",
+                    "sent_th": "ฉันกินขนมปังหนึ่งแผ่น"
+                },
+                {
+                    "ch": "平",
+                    "py": "píng",
+                    "en": "Flat / Peaceful",
+                    "th": "แบน / สงบ",
+                    "zh": "这条路很平。",
+                    "sent_en": "This road is very flat.",
+                    "sent_th": "ถนนสายนี้ราบเรียบมาก"
+                }
+            ]
+        },
+        {
+            "id": "nature2",
+            "name": "🌱 Nature2",
+            "color": "#A5D6A7",
+            "characters": [
+                {
+                    "ch": "白",
+                    "py": "bái",
+                    "en": "White",
+                    "th": "สีขาว",
+                    "zh": "雪是白色的。",
+                    "sent_en": "Snow is white.",
+                    "sent_th": "หิมะมีสีขาว"
+                },
+                {
+                    "ch": "里",
+                    "py": "lǐ",
+                    "en": "Inside",
+                    "th": "ข้างใน",
+                    "zh": "书包里有很多书。",
+                    "sent_en": "There are many books inside the bag.",
+                    "sent_th": "ในกระเป๋ามีหนังสือมากมาย"
+                },
+                {
+                    "ch": "皮",
+                    "py": "pí",
+                    "en": "Skin / Peel",
+                    "th": "ผิว",
+                    "zh": "苹果皮是红色的。",
+                    "sent_en": "Apple skin is red.",
+                    "sent_th": "เปลือกแอปเปิ้ลสีแดง"
+                },
+                {
+                    "ch": "本",
+                    "py": "běn",
+                    "en": "Root / Origin",
+                    "th": "ราก / ต้นฉบับ",
+                    "zh": "这本书很有趣。",
+                    "sent_en": "This book is very interesting.",
+                    "sent_th": "หนังสือเล่มนี้น่าสนใจมาก"
+                },
+                {
+                    "ch": "业",
+                    "py": "yè",
+                    "en": "Industry / Work",
+                    "th": "อุตสาหกรรม",
+                    "zh": "他努力做作业。",
+                    "sent_en": "He works hard on his homework.",
+                    "sent_th": "เขาขยันทำการบ้าน"
+                },
+                {
+                    "ch": "巴",
+                    "py": "bā",
+                    "en": "Tail / Suffix",
+                    "th": "หาง",
+                    "zh": "小狗的尾巴在摇。",
+                    "sent_en": "The puppy's tail is wagging.",
+                    "sent_th": "ลูกสุนัขกระดิกหาง"
+                }
+            ]
+        },
+        {
+            "id": "misc",
+            "name": "✨ Misc",
+            "color": "#FFF59D",
+            "characters": [
+                {
+                    "ch": "无",
+                    "py": "wú",
+                    "en": "None / Without",
+                    "th": "ไม่มี",
+                    "zh": "今天无风。",
+                    "sent_en": "There is no wind today.",
+                    "sent_th": "วันนี้ไม่มีลม"
+                },
+                {
+                    "ch": "又",
+                    "py": "yòu",
+                    "en": "Again / Also",
+                    "th": "อีกครั้ง",
+                    "zh": "他又迟到了。",
+                    "sent_en": "He is late again.",
+                    "sent_th": "เขามาสายอีกแล้ว"
+                },
+                {
+                    "ch": "力",
+                    "py": "lì",
+                    "en": "Strength",
+                    "th": "แรง",
+                    "zh": "他力气很大。",
+                    "sent_en": "He is very strong.",
+                    "sent_th": "เขามีแรงมาก"
+                },
+                {
+                    "ch": "广",
+                    "py": "guǎng",
+                    "en": "Wide / Broad",
+                    "th": "กว้าง",
+                    "zh": "这条路很宽广。",
+                    "sent_en": "This road is very wide.",
+                    "sent_th": "ถนนสายนี้กว้างมาก"
+                },
+                {
+                    "ch": "已",
+                    "py": "yǐ",
+                    "en": "Already",
+                    "th": "แล้ว",
+                    "zh": "我已经吃饭了。",
+                    "sent_en": "I have already eaten.",
+                    "sent_th": "ฉันกินข้าวแล้ว"
+                },
+                {
+                    "ch": "几",
+                    "py": "jǐ",
+                    "en": "How many",
+                    "th": "กี่",
+                    "zh": "你有几本书？",
+                    "sent_en": "How many books do you have?",
+                    "sent_th": "คุณมีหนังสือกี่เล่ม"
+                }
+            ]
+        }
+    ]
+}

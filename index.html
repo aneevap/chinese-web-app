@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>🐼 学汉字 Learn Chinese</title>
+<script src="nav.js"></script>
+<script src="profiles.js"></script>
+<script src="strings.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #FFF8EE 0%, #F0FFF8 100%);
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* ── MAIN AREA ── */
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 16px 24px;
+    gap: 20px;
+}
+
+/* ── WHO'S LEARNING SECTION ── */
+.section-title {
+    font-size: clamp(0.8em, 2.5vw, 1em);
+    font-weight: bold;
+    color: #bbb;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-align: center;
+}
+
+/* ── PROFILE GRID ── */
+.profile-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    width: 100%;
+    max-width: 600px;
+}
+
+/* ── PROFILE CARD ── */
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    width: clamp(90px, 22vw, 120px);
+}
+.profile-card:active { transform: scale(0.93); }
+
+.profile-avatar-wrap {
+    position: relative;
+    width:  clamp(70px, 18vw, 90px);
+    height: clamp(70px, 18vw, 90px);
+}
+.profile-avatar {
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    border: 3px solid #eee;
+    background: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: clamp(2em, 6vw, 2.8em);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+}
+.profile-card:hover .profile-avatar {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+}
+
+/* Equipped item badge */
+.equipped-badge {
+    position: absolute;
+    bottom: 0; right: 0;
+    width:  clamp(22px, 5vw, 28px);
+    height: clamp(22px, 5vw, 28px);
+    border-radius: 50%;
+    background: white;
+    border: 2px solid #eee;
+    display: flex; align-items: center; justify-content: center;
+    font-size: clamp(0.7em, 1.8vw, 0.9em);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+
+/* Guest dot */
+.guest-dot {
+    position: absolute;
+    top: 2px; right: 2px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: #FFB347;
+    border: 2px solid white;
+}
+
+.profile-name {
+    font-size: clamp(0.82em, 2.2vw, 0.95em);
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Title row hidden — shown only when calculable (progress.html does this) */
+.profile-title { display: none; }
+
+/* ── ADD LEARNER CARD ── */
+.add-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    width: clamp(90px, 22vw, 120px);
+}
+.add-card:active { transform: scale(0.93); }
+.add-avatar {
+    width:  clamp(70px, 18vw, 90px);
+    height: clamp(70px, 18vw, 90px);
+    border-radius: 50%;
+    border: 3px dashed #ccc;
+    background: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: clamp(1.8em, 5vw, 2.4em);
+    color: #ccc;
+    transition: border-color 0.2s, color 0.2s;
+}
+.add-card:hover .add-avatar { border-color: #FFB347; color: #FFB347; }
+.add-label {
+    font-size: clamp(0.72em, 1.8vw, 0.82em);
+    color: #bbb;
+    text-align: center;
+}
+
+/* ── EMPTY STATE ── */
+.first-launch {
+    background: #FFF3E0;
+    border: 2px solid #FFB347;
+    border-radius: 14px;
+    padding: 14px 18px;
+    max-width: 360px;
+    width: 100%;
+    text-align: center;
+    font-size: 0.82em;
+    color: #E65100;
+    line-height: 1.6;
+}
+
+/* ── PARENT SETTINGS BUTTON ── */
+.parent-btn {
+    background: transparent;
+    border: 2px solid #eee;
+    border-radius: 20px;
+    padding: 7px 20px;
+    font-size: 0.8em;
+    color: #565454;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+    transition: all 0.2s;
+    margin-top: 4px;
+}
+.parent-btn:hover { border-color: #ccc; color: #999; }
+
+/* ── MODALS ── */
+.modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 100;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.25s;
+}
+.modal-overlay.visible { opacity: 1; pointer-events: all; }
+
+.modal {
+    background: white;
+    border-radius: 20px;
+    padding: 24px 20px;
+    width: min(360px, 92vw);
+    max-height: 80dvh;
+    overflow-y: auto;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+    transform: scale(0.9);
+    transition: transform 0.25s;
+}
+.modal-overlay.visible .modal { transform: scale(1); }
+
+.modal-title {
+    font-size: 1.05em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+}
+.modal-close {
+    margin-left: auto;
+    background: none; border: none;
+    font-size: 1.2em; color: #aaa;
+    cursor: pointer; padding: 0 4px;
+}
+
+/* ── PIN ENTRY ── */
+.pin-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+.pin-label { font-size: 0.82em; color: #666; }
+.pin-row {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+.pin-digit {
+    width: 44px; height: 52px;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    font-size: 1.3em;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: textfield;
+    -moz-appearance: textfield;
+    -webkit-appearance: textfield;
+}
+.pin-digit::-webkit-outer-spin-button,
+.pin-digit::-webkit-inner-spin-button { -webkit-appearance: none; }
+.pin-digit:focus { border-color: #FFB347; }
+.pin-error {
+    font-size: 0.75em;
+    color: #F44336;
+    text-align: center;
+    min-height: 1em;
+}
+
+/* ── PROFILE LIST IN MODAL ── */
+.modal-profile-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+.modal-profile-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 10px;
+    border: 2px solid #f0f0f0;
+    border-radius: 12px;
+    background: #fafafa;
+}
+.modal-profile-row .av {
+    font-size: 1.5em;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: white;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid #eee;
+    flex-shrink: 0;
+}
+.modal-profile-row .info { flex: 1; min-width: 0; }
+.modal-profile-row .info .name {
+    font-weight: bold; font-size: 0.88em; color: #333;
+}
+.modal-profile-row .info .sub {
+    font-size: 0.72em; color: #aaa; margin-top: 1px;
+}
+.modal-del-btn {
+    background: #FFF0F0; border: none;
+    border-radius: 8px; padding: 5px 10px;
+    color: #F44336; font-size: 0.75em;
+    cursor: pointer; flex-shrink: 0;
+    transition: background 0.2s;
+}
+.modal-del-btn:hover { background: #FFCDD2; }
+
+/* ── MODAL BUTTONS ── */
+.modal-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.88em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    margin-top: 6px;
+}
+.modal-btn:active      { opacity: 0.8; }
+.modal-btn-primary     { background: #FFB347; color: white; }
+.modal-btn-secondary   { background: #f0f0f0; color: #666; }
+.modal-divider {
+    border: none; border-top: 2px solid #f0f0f0;
+    margin: 14px 0;
+}
+
+/* ── CONFIRM DIALOG ── */
+.confirm-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 200;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.2s;
+}
+.confirm-overlay.visible { opacity: 1; pointer-events: all; }
+.confirm-box {
+    background: white;
+    border-radius: 16px;
+    padding: 24px 20px;
+    width: min(300px, 88vw);
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+}
+.confirm-box p {
+    font-size: 0.88em; color: #555;
+    margin-bottom: 16px; line-height: 1.5;
+}
+.confirm-btns { display: flex; gap: 10px; }
+.confirm-btns button {
+    flex: 1; padding: 9px;
+    border: none; border-radius: 10px;
+    font-size: 0.85em; font-weight: bold; cursor: pointer;
+}
+.confirm-btns .btn-cancel  { background: #f0f0f0; color: #666; }
+.confirm-btns .btn-confirm { background: #F44336; color: white; }
+</style>
+</head>
+<body>
+
+<!-- NAV: hideLinks keeps page nav off the picker screen -->
+<div id="app-nav"></div>
+
+<div class="main">
+
+    <!-- Shown only when zero profiles exist -->
+    <div class="first-launch" id="first-launch" style="display:none;" >
+        👋 Welcome to <strong>学汉字</strong>!<br>
+        Add a learner below to get started. 🐼
+    </div>
+
+ <div class="section-title" id="picker-label" style="display:none;" data-i18n="who_learning">
+</div>
+
+    <div class="profile-grid" id="profile-grid"></div>
+
+<button class="parent-btn" onclick="openParentGate()" data-i18n="parent_settings">
+    ⚙️ Parent settings
+</button>
+<div style="font-size:0.72em;color:#000000;text-align:center;max-width:280px;line-height:1.5;" data-i18n="pin_protect_tip">
+    🔒 Set a PIN to protect learner profiles from being deleted
+</div>
+
+</div>
+
+<!-- PIN GATE MODAL -->
+<div class="modal-overlay" id="pin-gate-overlay">
+    <div class="modal">
+        <div class="modal-title">
+            <span data-i18n="parent_access">
+            🔑 Parent Access</span>
+            <button class="modal-close" onclick="closePinGate()">✕</button>
+        </div>
+        <div class="pin-section">
+            <div class="pin-label" data-i18n="enter_pin"></div>
+            <div class="pin-row">
+                <input class="pin-digit" type="number" maxlength="1"
+                       id="pg0" oninput="pinGateInput(0)" onkeydown="pinGateKey(event,0)">
+                <input class="pin-digit" type="number" maxlength="1"
+                       id="pg1" oninput="pinGateInput(1)" onkeydown="pinGateKey(event,1)">
+                <input class="pin-digit" type="number" maxlength="1"
+                       id="pg2" oninput="pinGateInput(2)" onkeydown="pinGateKey(event,2)">
+                <input class="pin-digit" type="number" maxlength="1"
+                       id="pg3" oninput="pinGateInput(3)" onkeydown="pinGateKey(event,3)">
+            </div>
+            <div class="pin-error" id="pin-gate-error"></div>
+        </div>
+        <button class="modal-btn modal-btn-primary" onclick="submitPinGate()">
+            Unlock ⚙️
+        </button>
+        <button class="modal-btn modal-btn-secondary" onclick="closePinGate()">
+            Cancel
+        </button>
+    </div>
+</div>
+
+<!-- PARENT SETTINGS MODAL -->
+<div class="modal-overlay" id="settings-overlay">
+    <div class="modal">
+        <div class="modal-title">
+            ⚙️ Parent Settings
+            <button class="modal-close" onclick="closeSettings()">✕</button>
+        </div>
+        <div style="font-size:0.78em;color:#aaa;margin-bottom:12px;">
+            Manage learner profiles
+        </div>
+
+        <div class="modal-profile-list" id="settings-profile-list"></div>
+
+        <hr class="modal-divider">
+
+        <div style="font-size:0.82em;font-weight:bold;color:#666;margin-bottom:8px;">
+            🔑 Change Parent PIN
+        </div>
+        <div class="pin-row"
+             style="justify-content:flex-start;gap:6px;margin-bottom:6px;">
+            <input class="pin-digit" type="number" maxlength="1"
+                   id="np0" oninput="newPinInput(0)" onkeydown="newPinKey(event,0)"
+                   style="width:38px;height:44px;font-size:1.1em;">
+            <input class="pin-digit" type="number" maxlength="1"
+                   id="np1" oninput="newPinInput(1)" onkeydown="newPinKey(event,1)"
+                   style="width:38px;height:44px;font-size:1.1em;">
+            <input class="pin-digit" type="number" maxlength="1"
+                   id="np2" oninput="newPinInput(2)" onkeydown="newPinKey(event,2)"
+                   style="width:38px;height:44px;font-size:1.1em;">
+            <input class="pin-digit" type="number" maxlength="1"
+                   id="np3" oninput="newPinInput(3)" onkeydown="newPinKey(event,3)"
+                   style="width:38px;height:44px;font-size:1.1em;">
+            <button class="modal-btn modal-btn-primary"
+                    style="width:auto;padding:0 14px;margin:0;height:44px;"
+                    onclick="changePin()">Save</button>
+        </div>
+        <div class="pin-error" id="new-pin-error"></div>
+
+        <hr class="modal-divider">
+
+        <button class="modal-btn modal-btn-secondary" onclick="closeSettings()">
+            Close
+        </button>
+    </div>
+</div>
+
+<!-- CONFIRM DELETE -->
+<div class="confirm-overlay" id="confirm-overlay">
+    <div class="confirm-box">
+        <p id="confirm-msg">Are you sure?</p>
+        <div class="confirm-btns">
+            <button class="btn-cancel"  onclick="closeConfirm()">Cancel</button>
+            <button class="btn-confirm" onclick="confirmAction()">Delete</button>
+        </div>
+    </div>
+</div>
+
+<script>
+/* =====================================================
+   CONSTANTS
+===================================================== */
+var PIN_KEY     = 'xhz_parent_pin';
+var DEFAULT_PIN = '0000';
+
+/* =====================================================
+   STATE
+===================================================== */
+var confirmCallback = null;
+
+/* =====================================================
+   INIT
+   ?picker param  → always show profile picker (skip auto-login)
+   no param       → auto-login if exactly 1 profile
+===================================================== */
+window.onload = function() {
+    var params    = new URLSearchParams(window.location.search);
+
+    renderProfiles();
+};
+
+/* =====================================================
+   RENDER PROFILES
+===================================================== */
+function renderProfiles() {
+    var profiles = XHZ.getAllProfiles();
+    var grid     = document.getElementById('profile-grid');
+    var label    = document.getElementById('picker-label');
+    var first    = document.getElementById('first-launch');
+
+    grid.innerHTML = '';
+
+    if (profiles.length === 0) {
+        first.style.display = 'block';
+        label.style.display = 'none';
+    } else {
+        first.style.display = 'none';
+        label.style.display = 'block';
+    }
+
+    profiles.forEach(function(profile) {
+        var card = document.createElement('div');
+        card.className = 'profile-card';
+
+        /* Equipped item badge */
+        var items     = XHZ.getItems(profile.id);
+        var equipped  = items ? items.equipped : {};
+        var itemEmoji = getFirstEquippedEmoji(profile.id, equipped);
+
+        card.innerHTML =
+            '<div class="profile-avatar-wrap">' +
+                '<div class="profile-avatar" style="border-color:' +
+                    profile.color + ';">' +
+                    profile.avatar +
+                '</div>' +
+                (itemEmoji
+                    ? '<div class="equipped-badge">' + itemEmoji + '</div>'
+                    : '') +
+                (profile.is_guest
+                    ? '<div class="guest-dot" title="Progress saved on device only"></div>'
+                    : '') +
+            '</div>' +
+            '<div class="profile-name">' + escapeHtml(profile.nickname) + '</div>';
+
+        card.onclick = (function(p) {
+            return function() { selectProfile(p); };
+        })(profile);
+
+        grid.appendChild(card);
+    });
+
+    /* Add learner card */
+    var addCard = document.createElement('div');
+    addCard.className = 'add-card';
+    addCard.innerHTML =
+        '<div class="add-avatar">＋</div>' +
+        '<div class="add-label" data-i18n="add_learner"></div>';
+    addCard.onclick = function() {
+        window.location.href = 'new-learner.html';
+    };
+    grid.appendChild(addCard);
+}
+
+/* ── Get first equipped item emoji from rewards ── */
+function getFirstEquippedEmoji(profileId, equipped) {
+    if (!equipped) return null;
+    /* Check each category in priority order */
+    var categories = ['aura', 'tool', 'accessory', 'food'];
+    for (var i = 0; i < categories.length; i++) {
+        var itemId = equipped[categories[i]];
+        if (itemId) {
+            /* Return itemId as fallback emoji key —
+               rewards.json not loaded here to keep index.html lightweight.
+               Item emoji lookup deferred to progress.html */
+            return null; /* TODO: load rewards.json if item display needed */
+        }
+    }
+    return null;
+}
+
+/* =====================================================
+   SELECT PROFILE
+===================================================== */
+function selectProfile(profile) {
+    XHZ.setActive(profile.id);
+    showActivityPicker(profile);
+}
+function showActivityPicker(profile) {
+    document.getElementById('picker-name').textContent = 'Hi ' + profile.nickname + '! 👋';
+    document.getElementById('activity-overlay').classList.add('visible');
+}
+
+function closeActivityPicker() {
+    document.getElementById('activity-overlay').classList.remove('visible');
+}
+/* =====================================================
+   PARENT PIN GATE
+===================================================== */
+function getStoredPin() {
+    return localStorage.getItem(PIN_KEY) || DEFAULT_PIN;
+}
+
+function openParentGate() {
+    clearPinGate();
+    /* No PIN set yet → skip gate */
+    if (!localStorage.getItem(PIN_KEY)) {
+        openSettings();
+        return;
+    }
+    document.getElementById('pin-gate-overlay').classList.add('visible');
+    setTimeout(function() { document.getElementById('pg0').focus(); }, 300);
+}
+
+function closePinGate() {
+    document.getElementById('pin-gate-overlay').classList.remove('visible');
+    clearPinGate();
+}
+
+function clearPinGate() {
+    ['pg0','pg1','pg2','pg3'].forEach(function(id) {
+        document.getElementById(id).value = '';
+    });
+    document.getElementById('pin-gate-error').textContent = '';
+}
+
+function pinGateInput(i) {
+    var val = document.getElementById('pg' + i).value;
+    if (val.length > 1) document.getElementById('pg' + i).value = val.slice(-1);
+    if (val.length >= 1 && i < 3) document.getElementById('pg' + (i + 1)).focus();
+    if (i === 3 && document.getElementById('pg3').value.length >= 1) submitPinGate();
+}
+
+function pinGateKey(e, i) {
+    if (e.key === 'Backspace' && !document.getElementById('pg' + i).value && i > 0) {
+        document.getElementById('pg' + (i - 1)).focus();
+    }
+}
+
+function submitPinGate() {
+    var entered = ['pg0','pg1','pg2','pg3']
+        .map(function(id) { return document.getElementById(id).value; })
+        .join('');
+    if (entered.length < 4) {
+        document.getElementById('pin-gate-error').textContent = t('pin_incomplete');
+        return;
+    }
+    if (entered === getStoredPin()) {
+        closePinGate();
+        openSettings();
+    } else {
+        document.getElementById('pin-gate-error').textContent = '❌ ' + t('pin_wrong');
+        clearPinGate();
+        document.getElementById('pg0').focus();
+    }
+}
+
+/* =====================================================
+   PARENT SETTINGS
+===================================================== */
+function openSettings() {
+    renderSettingsProfiles();
+    clearNewPin();
+    document.getElementById('settings-overlay').classList.add('visible');
+}
+
+function closeSettings() {
+    document.getElementById('settings-overlay').classList.remove('visible');
+}
+
+function renderSettingsProfiles() {
+    var profiles = XHZ.getAllProfiles();
+    var list     = document.getElementById('settings-profile-list');
+    list.innerHTML = '';
+
+    if (profiles.length === 0) {
+        list.innerHTML =
+            '<div style="font-size:0.8em;color:#aaa;text-align:center;padding:8px;">' +
+            'No learners yet.</div>';
+        return;
+    }
+
+    profiles.forEach(function(profile) {
+        var row        = document.createElement('div');
+        row.className  = 'modal-profile-row';
+        var totalStars = XHZ.getTotalStars(profile.id);
+        var streak     = XHZ.getCurrentStreak(profile.id);
+
+        row.innerHTML =
+            '<div class="av">' + profile.avatar + '</div>' +
+            '<div class="info">' +
+                '<div class="name">' + escapeHtml(profile.nickname) +
+                    (profile.is_guest
+                        ? ' <span style="color:#FFB347;font-size:0.8em;">⚠️ guest</span>'
+                        : '') +
+                '</div>' +
+                '<div class="sub">' +
+                    totalStars + ' ⭐ · ' + streak + ' day streak' +
+                '</div>' +
+            '</div>' +
+            '<button class="modal-del-btn">Delete</button>';
+
+        row.querySelector('.modal-del-btn').onclick = (function(p) {
+            return function() { promptDeleteProfile(p); };
+        })(profile);
+
+        list.appendChild(row);
+    });
+}
+
+/* =====================================================
+   DELETE PROFILE
+===================================================== */
+function promptDeleteProfile(profile) {
+    document.getElementById('confirm-msg').innerHTML =
+        'Delete <strong>' + escapeHtml(profile.nickname) + '</strong>?<br>' +
+        '<span style="color:#F44336;">All progress will be lost forever.</span>';
+
+    confirmCallback = function() {
+        XHZ.deleteProfile(profile.id);
+        renderSettingsProfiles();
+        renderProfiles();
+    };
+
+    document.getElementById('confirm-overlay').classList.add('visible');
+}
+
+function closeConfirm() {
+    document.getElementById('confirm-overlay').classList.remove('visible');
+    confirmCallback = null;
+}
+
+function confirmAction() {
+    if (confirmCallback) confirmCallback();
+    closeConfirm();
+}
+
+/* =====================================================
+   CHANGE PIN
+===================================================== */
+function newPinInput(i) {
+    var val = document.getElementById('np' + i).value;
+    if (val.length > 1) document.getElementById('np' + i).value = val.slice(-1);
+    if (val.length >= 1 && i < 3) document.getElementById('np' + (i + 1)).focus();
+}
+
+function newPinKey(e, i) {
+    if (e.key === 'Backspace' && !document.getElementById('np' + i).value && i > 0) {
+        document.getElementById('np' + (i - 1)).focus();
+    }
+}
+
+function clearNewPin() {
+    ['np0','np1','np2','np3'].forEach(function(id) {
+        document.getElementById(id).value = '';
+    });
+    document.getElementById('new-pin-error').textContent = '';
+    document.getElementById('new-pin-error').style.color = '#F44336';
+}
+
+function changePin() {
+    var pin = ['np0','np1','np2','np3']
+        .map(function(id) { return document.getElementById(id).value; })
+        .join('');
+    if (pin.length < 4) {
+        document.getElementById('new-pin-error').textContent = 'Please enter all 4 digits.';
+        return;
+    }
+    localStorage.setItem(PIN_KEY, pin);
+    clearNewPin();
+    var errEl = document.getElementById('new-pin-error');
+    errEl.style.color   = '#66BB6A';
+    errEl.textContent   = '✅ PIN saved!';
+    setTimeout(function() {
+        errEl.textContent = '';
+        errEl.style.color = '#F44336';
+    }, 2000);
+}
+
+/* =====================================================
+   UTILS
+===================================================== */
+function escapeHtml(str) {
+    return String(str)
+        .replace(/&/g,  '&amp;')
+        .replace(/</g,  '&lt;')
+        .replace(/>/g,  '&gt;')
+        .replace(/"/g,  '&quot;');
+}
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        initNav('index', { hideLinks: true });
+        refreshStrings();       
+    });
+</script>
+<div class="modal-overlay" id="activity-overlay">
+    <div class="modal" style="text-align:center;">
+        <div class="modal-title" style="justify-content:center;">
+            <span id="picker-name"></span>
+        </div>
+        <div style="font-size:0.82em;color:#aaa;margin-bottom:16px;" data-i18n="what_to_do">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+            <a href="write.html" style="text-decoration:none;">
+                <button class="modal-btn modal-btn-primary" style="font-size:1em;" data-i18n="activity_write">
+                </button>
+            </a>
+            <a href="study.html" style="text-decoration:none;" >
+                <button class="modal-btn modal-btn-primary"
+                        style="font-size:1em;background:#98D8C8;" data-i18n="activity_study">
+                    📖 Study
+                </button>
+            </a>
+            <a href="print.html" style="text-decoration:none;">
+                <button class="modal-btn modal-btn-primary"
+                        style="font-size:1em;background:#B0BEC5;" data-i18n="activity_print">
+                    🖨️ Print Worksheet
+                </button>
+            </a>
+            <button class="modal-btn modal-btn-secondary" data-i18n="cancel"
+                    onclick="closeActivityPicker()">
+                Cancel
+            </button>
+        </div>
+    </div>
+</div>
+<!-- ── Ko-fi floating ── -->
+<div style="
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    z-index: 999;
+    opacity: 0.75;
+    transition: opacity 0.2s;
+" onmouseover="this.style.opacity='1'" 
+   onmouseout="this.style.opacity='0.75'">
+    <a href='https://ko-fi.com/D1D41XCDKQ' target='_blank'>
+        <img height='28' 
+             style='border:0px;height:28px;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,0.15);' 
+             src='https://storage.ko-fi.com/cdn/kofi6.png?v=6' 
+             alt='Buy Me a Coffee at ko-fi.com'/>
+    </a>
+</div>
+</body>
+</html>

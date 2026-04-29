@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Study · 学汉字</title>
+<script src="nav.js"></script>
+<script src="profiles.js"></script>
+<script src="strings.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--theme-color:#6C9EBD;--theme-color-light:#6C9EBD55;--theme-color-pale:#6C9EBD18;--card-radius:18px;--font-main:'Segoe UI',system-ui,sans-serif}
+html,body{height:100%;font-family:var(--font-main);background:var(--theme-color-pale);color:#222;overflow-x:hidden;transition:background 0.4s}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
+button:active{opacity:.82}
+
+/* GUEST BANNER */
+.guest-banner{background:#FFF3E0;border-top:2px solid #FFB347;padding:6px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:.72em;color:#E65100;flex-shrink:0}
+.guest-banner button{background:#FFB347;color:#fff;border:none;border-radius:8px;padding:3px 10px;font-size:.9em;cursor:pointer;white-space:nowrap}
+.guest-banner .dismiss{background:transparent;color:#aaa;font-size:1.1em;padding:0 4px}
+
+/* LAYOUT */
+#page-wrap{display:flex;flex-direction:column;min-height:100vh}
+#main-content{flex:1;padding-bottom:72px}
+.view{display:none}
+.view.active{display:block}
+
+/* MAP VIEW */
+#view-map{padding:0 0 32px}
+#course-tabs{display:flex;gap:8px;padding:14px 16px 0;overflow-x:auto;scrollbar-width:none}
+#course-tabs::-webkit-scrollbar{display:none}
+.course-tab{flex-shrink:0;padding:8px 18px;border-radius:20px;font-size:.85rem;font-weight:600;border:2px solid #ddd;background:#fff;color:#666;transition:all .2s;cursor:pointer}
+.course-tab.active{background:var(--theme-color);border-color:var(--theme-color);color:#fff}
+.course-tab.locked{opacity:.45;cursor:not-allowed;pointer-events:all}
+#map-header{padding:16px 16px 8px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+#map-title-block h2{font-size:1.2rem;font-weight:700;color:#222}
+#map-title-block p{font-size:.8rem;color:#888;margin-top:2px}
+#map-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.mode-btn,.quiet-btn{padding:6px 12px;border-radius:16px;font-size:.82rem;font-weight:600;border:2px solid #ddd;background:#fff;color:#666;transition:all .2s;cursor:pointer}
+.mode-btn.active{background:var(--theme-color);border-color:var(--theme-color);color:#fff}
+.quiet-btn.active{background:#555;border-color:#555;color:#fff}
+
+/* JOURNEY PATH */
+#journey-path{padding:12px 16px;display:flex;flex-direction:column;gap:0}
+.stage-connector{width:4px;height:32px;background:#ddd;margin-left:30px;border-radius:2px;transition:background .4s}
+.stage-connector.done{background:var(--theme-color)}
+.stage-card{display:flex;align-items:center;gap:14px;background:#fff;border-radius:var(--card-radius);padding:14px 16px;width:100%;max-width:520px;border:2px solid #e8e8e8;box-shadow:0 2px 8px rgba(0,0,0,.06);transition:all .2s;text-align:left;position:relative;overflow:hidden;cursor:pointer}
+.stage-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--theme-color);opacity:0;transition:opacity .2s}
+.stage-card.completed::before{opacity:1}
+.stage-card:not(.locked):hover{border-color:var(--theme-color);box-shadow:0 4px 16px rgba(0,0,0,.10);transform:translateY(-1px)}
+.stage-card.locked{opacity:.55;cursor:not-allowed;background:#f8f8f8}
+.stage-icon{width:48px;height:48px;border-radius:50%;background:var(--theme-color-pale);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;border:2px solid var(--theme-color);transition:all .4s}
+.stage-card.locked .stage-icon{background:#eee;border-color:#ccc}
+.stage-info{flex:1;min-width:0}
+.stage-info h3{font-size:1rem;font-weight:700;color:#222;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stage-info .stage-meta{font-size:.78rem;color:#888;margin-top:2px}
+.stage-stars{display:flex;gap:2px;margin-top:5px}
+.stage-stars span{font-size:.9rem;opacity:.25}
+.stage-stars span.lit{opacity:1}
+.stage-badge{font-size:.72rem;font-weight:700;padding:3px 8px;border-radius:10px;background:#e8f5e9;color:#2e7d32;flex-shrink:0}
+.stage-badge.in-progress{background:#fff3e0;color:#e65100}
+#dojo-section{padding:20px 16px 0;max-width:520px}
+#dojo-btn{width:100%;padding:14px;border-radius:var(--card-radius);background:#f0f0f0;border:2px dashed #ccc;color:#aaa;font-size:.95rem;font-weight:600;display:flex;align-items:center;justify-content:center;gap:10px;cursor:default}
+#dojo-btn .dojo-label{font-size:.78rem;font-weight:400}
+
+/* SESSION VIEW */
+#view-session{display:none;flex-direction:column;height:calc(100dvh - 48px);overflow:hidden}
+#view-session.active{display:flex}
+@media(max-width:600px) and (orientation:portrait){#view-session{height:calc(100dvh - 48px - 56px - env(safe-area-inset-bottom))}}
+#session-header{display:flex;align-items:center;gap:12px;padding:10px 16px;background:#fff;border-bottom:1px solid #eee;flex-shrink:0}
+#btn-back-map{font-size:1.3rem;padding:4px 8px;border-radius:10px;color:#555;transition:background .15s}
+#btn-back-map:hover{background:#f0f0f0}
+#session-title{flex:1;font-size:1rem;font-weight:700;color:#222}
+#session-progress-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0}
+#session-progress-label{font-size:.72rem;color:#888}
+#session-progress-bar-bg{width:80px;height:6px;background:#eee;border-radius:3px;overflow:hidden}
+#session-progress-bar{height:100%;background:var(--theme-color);border-radius:3px;transition:width .4s ease;width:0%}
+#phase-indicator{display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 16px;font-size:.8rem;font-weight:600;color:#fff;background:var(--theme-color);flex-shrink:0;transition:background .4s}
+.phase-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4);transition:all .2s}
+.phase-dot.active-dot{background:#fff;transform:scale(1.35)}
+
+/* FLASHCARD PHASE */
+#phase-flash{flex:1;display:flex;flex-direction:column;overflow:hidden}
+#flash-batch-label{text-align:center;font-size:.78rem;color:#888;padding:8px 0 4px;flex-shrink:0}
+#flash-card-area{flex:1;display:flex;align-items:center;justify-content:center;padding:8px 20px;position:relative;overflow:hidden}
+#swipe-hint{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:6px;font-size:.75rem;color:#bbb;pointer-events:none;animation:hintFade 3s ease forwards;z-index:10}
+@keyframes hintFade{0%{opacity:0}20%{opacity:1}80%{opacity:1}100%{opacity:0}}
+@keyframes hintFade2{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+
+.flash-card{width:100%;max-width:360px;aspect-ratio:3/4;max-height:calc(100% - 20px);perspective:1000px;cursor:pointer;flex-shrink:0;user-select:none}
+.flash-card-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,0,.2,1);border-radius:var(--card-radius)}
+.flash-card.flipped .flash-card-inner{transform:rotateY(180deg)}
+.flash-card.swipe-left{animation:swipeLeft .28s ease forwards}
+.flash-card.swipe-right{animation:swipeRight .28s ease forwards}
+@keyframes swipeLeft{to{transform:translateX(-120%) rotate(-10deg);opacity:0}}
+@keyframes swipeRight{to{transform:translateX(120%) rotate(10deg);opacity:0}}
+.flash-face{position:absolute;width:100%;height:100%;border-radius:var(--card-radius);backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 20px;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,.12)}
+.flash-front{background:#fff;border:2px solid #e8e8e8}
+.flash-back{background:var(--theme-color-pale);border:2px solid var(--theme-color);transform:rotateY(180deg)}
+.card-char{font-size:clamp(4rem,15vw,7rem);line-height:1;color:#222;font-family:'Noto Sans SC','PingFang SC',serif}
+.card-char-small{font-size:clamp(2.5rem,8vw,4rem);line-height:1;color:#333;font-family:'Noto Sans SC','PingFang SC',serif}
+.card-pinyin{font-size:clamp(1.1rem,3vw,1.4rem);color:var(--theme-color);font-weight:600;letter-spacing:.05em}
+.card-meaning{font-size:clamp(.95rem,2.5vw,1.1rem);color:#555;text-align:center;line-height:1.4}
+.card-sentence{font-size:clamp(.72rem,2vw,.82rem);color:#888;text-align:center;line-height:1.5;border-top:1px solid rgba(0,0,0,.08);padding-top:10px;width:100%}
+.card-story{font-size:.75rem;color:#a07850;background:#fdf5e6;border-radius:10px;padding:8px 12px;text-align:center;line-height:1.5;border:1px solid #f0ddb0;width:100%}
+.card-tap-hint{font-size:.72rem;color:#bbb;margin-top:4px;display:flex;align-items:center;gap:4px}
+
+#flash-dots{display:flex;justify-content:center;gap:8px;padding:8px 0 10px;flex-shrink:0}
+.flash-dot{width:8px;height:8px;border-radius:50%;background:#ddd;transition:all .2s;cursor:pointer}
+.flash-dot.current{background:var(--theme-color);transform:scale(1.3)}
+.flash-dot.done{background:var(--theme-color);opacity:.4}
+.flash-dot.unflipped{background:#ff9800;opacity:1;animation:dotPulse .8s ease infinite alternate}
+@keyframes dotPulse{from{transform:scale(1);opacity:.6}to{transform:scale(1.5);opacity:1}}
+
+#flash-footer{display:flex;align-items:center;justify-content:space-between;padding:8px 16px 16px;flex-shrink:0;gap:10px}
+#btn-prev-card,#btn-next-card{padding:10px 20px;border-radius:20px;font-size:.9rem;font-weight:600;background:#fff;border:2px solid #ddd;color:#555;transition:all .2s;min-width:80px}
+#btn-prev-card:hover,#btn-next-card:hover{border-color:var(--theme-color);color:var(--theme-color)}
+#btn-prev-card:disabled,#btn-next-card:disabled{opacity:.3;pointer-events:none}
+#btn-to-quiz{flex:1;padding:12px;border-radius:20px;background:var(--theme-color);color:#fff;font-size:.95rem;font-weight:700;transition:all .2s;box-shadow:0 3px 10px rgba(0,0,0,.15)}
+#btn-to-quiz:hover{filter:brightness(1.08);transform:translateY(-1px)}
+#btn-to-quiz:disabled{opacity:.45;pointer-events:none;transform:none}
+
+/* QUIZ PHASE */
+#phase-quiz{flex:1;display:flex;flex-direction:column;overflow:hidden}
+#quiz-question-area{flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding:12px 20px 8px;gap:6px;max-height:38vh}
+#quiz-char-display{font-size:clamp(2.5rem,10vw,5rem);font-family:'Noto Sans SC','PingFang SC',serif;color:#222;line-height:1}
+#quiz-prompt{font-size:1rem;color:#555;font-weight:600;text-align:center}
+.quiz-try-dots{display:flex;gap:6px;margin-top:4px}
+.quiz-try-dot{width:10px;height:10px;border-radius:50%;background:#ddd;transition:background .2s}
+.quiz-try-dot.used{background:#ff6b6b}
+#quiz-options{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:8px 16px 16px;align-content:start;overflow-y:auto}
+.quiz-option{min-height:90px;border-radius:var(--card-radius);background:#fff;border:3px solid #e8e8e8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:14px 10px;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.06);position:relative;overflow:visible;cursor:pointer}
+.quiz-option .opt-meaning-main{font-family:var(--font-main);font-size:clamp(1rem,3.5vw,1.25rem);font-weight:700;color:#333;text-align:center;line-height:1.3;padding:0 4px;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.quiz-option .opt-pinyin{font-family:var(--font-main);font-size:.78rem;color:#aaa;text-align:center}
+.quiz-option:hover:not(:disabled){border-color:var(--theme-color);transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.12)}
+.quiz-option.correct{border-color:#4caf50;background:#e8f5e9;animation:correctPulse .4s ease}
+.quiz-option.wrong{border-color:#ef5350;background:#ffebee;animation:wrongShake .4s ease}
+.quiz-option.revealed{border-color:#ff9800;background:#fff3e0}
+.quiz-option.revealed-big{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(1);width:260px;height:200px;z-index:500;border-color:#ff9800;background:#fff3e0;box-shadow:0 16px 48px rgba(0,0,0,.25);animation:revealPop .3s cubic-bezier(.34,1.56,.64,1) forwards;pointer-events:none;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:20px;border-radius:24px;border-width:4px;cursor:default}
+.quiz-option.revealed-big .opt-meaning-main{font-size:1.5rem;color:#e65c00}
+.quiz-option.revealed-big .opt-pinyin{font-size:1rem;color:#e65c00}
+#reveal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:499}
+#reveal-overlay.visible{display:block}
+@keyframes revealPop{0%{transform:translate(-50%,-50%) scale(.4);opacity:0}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
+.quiz-option:disabled{cursor:default;pointer-events:none}
+@keyframes correctPulse{0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)}}
+@keyframes wrongShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.quiz-stars-pop{position:absolute;top:6px;right:8px;font-size:.8rem;font-weight:700;color:#f59e0b;animation:starPop .5s ease forwards;pointer-events:none}
+@keyframes starPop{0%{transform:scale(0) translateY(0);opacity:1}60%{transform:scale(1.3) translateY(-8px);opacity:1}100%{transform:scale(1) translateY(-16px);opacity:0}}
+
+/* ROUND COMPLETE */
+#phase-complete{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 20px;gap:14px;text-align:center;overflow-y:auto}
+#complete-emoji{font-size:4rem;animation:bounceIn .5s ease}
+#complete-title{font-size:1.4rem;font-weight:800;color:#222}
+#complete-sub{font-size:.9rem;color:#666;line-height:1.5}
+#complete-score-display{display:flex;align-items:center;gap:10px;background:#fff;border-radius:16px;padding:14px 24px;box-shadow:0 4px 16px rgba(0,0,0,.08)}
+#complete-score-display .cs-stars{font-size:1.6rem}
+#complete-score-display .cs-points{font-size:1.6rem;font-weight:800;color:#f59e0b}
+#complete-score-display .cs-label{font-size:.8rem;color:#888}
+#complete-best-label{font-size:.82rem;color:#888}
+.complete-word-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;max-width:380px}
+.complete-word-chip{display:flex;align-items:center;gap:8px;background:#fff;border-radius:12px;padding:8px 12px;font-size:.85rem;border:1px solid #eee}
+.complete-word-chip .cwc-ch{font-family:'Noto Sans SC','PingFang SC',serif;font-size:1.2rem;color:#222}
+.complete-word-chip .cwc-en{color:#888;font-size:.78rem}
+.complete-word-chip .cwc-icon{margin-left:auto;font-size:.9rem}
+#btn-continue-session,#btn-back-to-map{padding:14px 32px;border-radius:24px;font-size:1rem;font-weight:700;transition:all .2s}
+#btn-continue-session{background:var(--theme-color);color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.15)}
+#btn-continue-session:hover{filter:brightness(1.08);transform:translateY(-2px)}
+#btn-back-to-map{background:#fff;color:#555;border:2px solid #ddd}
+#btn-back-to-map:hover{border-color:#aaa}
+@keyframes bounceIn{0%{transform:scale(.3);opacity:0}60%{transform:scale(1.15)}80%{transform:scale(.95)}100%{transform:scale(1);opacity:1}}
+
+/* BADGE POPUP */
+.badge-popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:1000;opacity:0;pointer-events:none;transition:opacity .3s}
+.badge-popup-overlay.visible{opacity:1;pointer-events:all}
+.badge-popup{background:#fff;border-radius:20px;padding:28px 24px;text-align:center;max-width:280px;width:90%;box-shadow:0 10px 40px rgba(0,0,0,.2);transform:scale(.8);transition:transform .3s}
+.badge-popup-overlay.visible .badge-popup{transform:scale(1)}
+.badge-popup-emoji{font-size:3.5em;margin-bottom:8px}
+.badge-popup-title{font-size:1.1em;font-weight:bold;color:#333;margin-bottom:4px}
+.badge-popup-sub{font-size:.8em;color:#888;margin-bottom:16px}
+.badge-popup-btn{background:var(--theme-color);color:#fff;border:none;border-radius:12px;padding:8px 20px;font-size:.9em;font-weight:bold;cursor:pointer;transition:transform .15s}
+.badge-popup-btn:active{transform:scale(.95)}
+
+/* TOAST */
+#toast-container{position:fixed;top:64px;right:16px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:#fff;border-radius:14px;padding:10px 16px;box-shadow:0 6px 24px rgba(0,0,0,.14);display:flex;align-items:center;gap:10px;font-size:.88rem;font-weight:600;animation:toastIn .3s ease;border-left:4px solid var(--theme-color);max-width:220px}
+.toast.badge-toast{border-left-color:#f59e0b}
+.toast.stars-toast{border-left-color:#4caf50}
+@keyframes toastIn{from{transform:translateX(120%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes toastOut{from{transform:translateX(0);opacity:1}to{transform:translateX(120%);opacity:0}}
+
+/* RESPONSIVE */
+@media(min-width:768px){#journey-path{align-items:center}#quiz-options{max-width:480px;margin:0 auto}#phase-quiz{align-items:center}#quiz-question-area{max-width:480px;margin:0 auto}#flash-footer{max-width:480px;margin:0 auto;padding-left:0;padding-right:0}#flash-dots{max-width:480px;margin:0 auto}}
+@media(min-width:1024px){#view-map{max-width:700px;margin:0 auto}#view-session{max-width:600px;margin:0 auto}}
+@media(max-height:500px){.flash-card{aspect-ratio:16/9;max-height:52vh}.card-char{font-size:3rem}#phase-complete{padding:10px 20px;gap:8px}#complete-emoji{font-size:2.5rem}}
+</style>
+</head>
+<body>
+<div id="page-wrap">
+    <div id="app-nav"></div>
+    <div class="guest-banner" id="guest-banner" style="display:none;">
+        <span>Progress is saved on this device for now. Sign up and we'll tell you when cloud saving is ready!</span>
+        <button onclick="window.location.href='signup.html'" data-i18n="save_my_progress">Save My Progress</button>
+        <button class="dismiss" onclick="dismissGuestBanner()">✕</button>
+    </div>
+    <div id="main-content">
+
+        <!-- VIEW 1: MAP -->
+        <div id="view-map" class="view active">
+            <div id="course-tabs"></div>
+            <div id="map-header">
+                <div id="map-title-block">
+                    <h2 id="map-course-title">Loading...</h2>
+                    <p  id="map-course-sub"></p>
+                </div>
+                <div id="map-controls">
+                    <button class="mode-btn active" data-mode="char"    onclick="setMode('char')"   >🔤 Char</button>
+                    <button class="mode-btn"        data-mode="meaning" onclick="setMode('meaning')">💬 Meaning</button>
+                    <button class="mode-btn"        data-mode="random"  onclick="setMode('random')" >🔀 Mix</button>
+                    <button id="quiet-toggle" class="quiet-btn"         onclick="toggleQuiet()"     >🔊</button>
+                </div>
+            </div>
+            <div id="journey-path"></div>
+            <div id="dojo-section">
+                <button id="dojo-btn" disabled>
+                    🥋 <span>Dojo</span>
+                    <span class="dojo-label">— Games Coming Soon</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- VIEW 2: SESSION -->
+        <div id="view-session" class="view">
+            <div id="session-header">
+                <button id="btn-back-map" onclick="confirmBackToMap()">←</button>
+                <span id="session-title">Numbers</span>
+                <div id="session-progress-wrap">
+                    <span id="session-progress-label">0 / 0</span>
+                    <div id="session-progress-bar-bg">
+                        <div id="session-progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="phase-indicator"></div>
+
+            <!-- FLASHCARD PHASE -->
+            <div id="phase-flash">
+                <div id="flash-batch-label">Batch 1 of 1</div>
+                <div id="flash-card-area">
+                    <div id="swipe-hint">← swipe → to browse</div>
+                </div>
+                <div id="flash-dots"></div>
+                <div id="flash-footer">
+                    <button id="btn-prev-card" onclick="prevCard()" disabled>‹ Prev</button>
+                    <button id="btn-next-card" onclick="nextCard()">Next ›</button>
+                    <button id="btn-to-quiz"   onclick="startQuiz()" style="display:none;">Quiz! →</button>
+                </div>
+            </div>
+            <div id="flip-hint" style="display:none;text-align:center;font-size:.78rem;color:#e65c00;padding:0 0 6px;animation:hintFade2 .3s ease;">
+                👆 Tap each card to flip it first!
+            </div>
+
+            <!-- QUIZ PHASE -->
+            <div id="phase-quiz" style="display:none;flex-direction:column;flex:1;overflow:hidden;">
+                <div id="quiz-question-area">
+                    <div id="quiz-char-display"></div>
+                    <div id="quiz-prompt"></div>
+                    <div class="quiz-try-dots">
+                        <div class="quiz-try-dot" id="try-dot-1"></div>
+                        <div class="quiz-try-dot" id="try-dot-2"></div>
+                    </div>
+                </div>
+                <div id="quiz-options"></div>
+            </div>
+
+            <!-- ROUND COMPLETE -->
+            <div id="phase-complete" style="display:none;flex:1;flex-direction:column;overflow-y:auto;">
+                <div id="complete-emoji">🎉</div>
+                <div id="complete-title">Round Complete!</div>
+                <div id="complete-sub"></div>
+                <div id="complete-score-display">
+                    <div class="cs-stars">⭐</div>
+                    <div>
+                        <div class="cs-points" id="cs-points">+0</div>
+                        <div class="cs-label">stars earned</div>
+                    </div>
+                </div>
+                <div id="complete-best-label"></div>
+                <div class="complete-word-row" id="complete-word-list"></div>
+                <button id="btn-continue-session" onclick="nextBatch()" style="display:none;">Next Batch →</button>
+                <button id="btn-back-to-map"      onclick="returnToMap()">← Back to Map</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="toast-container"></div>
+<div id="reveal-overlay"></div>
+<div class="badge-popup-overlay" id="badge-popup-overlay">
+    <div class="badge-popup">
+        <div class="badge-popup-emoji" id="badge-popup-emoji">🏅</div>
+        <div class="badge-popup-title" id="badge-popup-title">New Badge!</div>
+        <div class="badge-popup-sub"   id="badge-popup-sub"></div>
+        <button class="badge-popup-btn" onclick="closeBadgePopup()">Keep going! 🐼</button>
+    </div>
+</div>
+
+<script>
+/* ── STATE ── */
+var S = {
+    allCourses:[], courseWordMap:{}, activeCourse:null, activeThemes:[],
+    stageData:{}, inSession:false, activeThemeId:null, activeThemeName:'',
+    sessionMode:'char', quietMode:false,
+    batches:[], batchIndex:0, currentBatch:[], cardIndex:0,
+    seenCards:new Set(), allFlipped:false,
+    quizWords:[], quizIndex:0, quizTries:0, quizResults:[],
+    roundScore:0, sessionStarsEarned:0
+};
+var voicesReady=false, pendingSpeak=null, _audioCtx=null;
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded', async function() {
+    XHZ.requireActive();
+    var profile = XHZ.getActiveProfile();
+    if (!profile) { location.href='index.html'; return; }
+
+    if (profile.is_guest && localStorage.getItem('xhz_waitlisted') !== 'true')
+        document.getElementById('guest-banner').style.display = 'flex';
+
+    var unlockAudio = function() {
+        if (window.speechSynthesis) {
+            var u = new SpeechSynthesisUtterance(' ');
+            u.volume=0.01; u.rate=10;
+            window.speechSynthesis.speak(u);
+        }
+        document.body.removeEventListener('touchstart', unlockAudio);
+        document.body.removeEventListener('click', unlockAudio);
+    };
+    document.body.addEventListener('touchstart', unlockAudio, {passive:true});
+    document.body.addEventListener('click', unlockAudio, {passive:true});
+
+    await loadAllData();
+    loadStageData();
+    buildCourseTabs();
+    selectCourse(S.allCourses[0].id);
+    initNav('study');
+    refreshStrings();
+    initVoices();
+
+    onLangChange(function() {
+        refreshStrings();
+        if (!S.inSession) return;
+        var fv = document.getElementById('phase-flash').style.display    !== 'none';
+        var qv = document.getElementById('phase-quiz').style.display     !== 'none';
+        var cv = document.getElementById('phase-complete').style.display !== 'none';
+        if (fv) renderCard(S.cardIndex);
+        if (qv) renderQuizQuestion();
+        if (cv) {
+            var isPerfect = document.getElementById('complete-emoji').textContent === '🌟';
+            var info = getStageInfo(S.activeCourse, S.activeThemeId);
+            renderCompleteScreen(isPerfect, info ? info.best_score : 1);
+        }
+    });
+});
+
+function dismissGuestBanner() { document.getElementById('guest-banner').style.display='none'; }
+
+/* ── DATA ── */
+async function loadAllData() {
+    var res = await fetch('courses.json');
+    var data = await res.json();
+    S.allCourses = data.courses;
+    for (var i=0; i<S.allCourses.length; i++) {
+        var c = S.allCourses[i];
+        var r = await fetch(c.data_file);
+        var d = await r.json();
+        S.courseWordMap[c.id] = d.words;
+    }
+}
+
+/* ── STAGE DATA ── */
+function stageKey()                    { return 'xhz_study_stages_' + XHZ.getActiveProfile().id; }
+function loadStageData()               { try { S.stageData = JSON.parse(localStorage.getItem(stageKey())) || {}; } catch(e) { S.stageData={}; } }
+function saveStageData()               { localStorage.setItem(stageKey(), JSON.stringify(S.stageData)); }
+function getStageKey(cid,tid)          { return cid+'_'+tid; }
+function getStageInfo(cid,tid)         { return S.stageData[getStageKey(cid,tid)] || null; }
+function saveStageResult(cid,tid,score) {
+    var k=getStageKey(cid,tid), ex=S.stageData[k], today=new Date().toISOString().slice(0,10);
+    if (!ex || score > ex.best_score) S.stageData[k] = {best_score:score, completed_date:today};
+    saveStageData();
+}
+
+/* ── COURSE TABS ── */
+function canAccessCourse(id) {
+    var c = S.allCourses.find(function(c){return c.id===id;});
+    if (!c) return {allowed:false};
+    if (c.is_free || !c.unlock) return {allowed:true};
+    var pid = XHZ.getActiveProfile().id;
+    var cond = c.unlock.condition, src = c.unlock.source;
+    if (cond === 'seen_100') {
+        var ids = (S.courseWordMap[src]||[]).map(function(w){return w.word_id;});
+        var pct = ids.length ? (XHZ.getSeenCount(pid,ids)/ids.length)*100 : 0;
+        return {allowed:pct>=100, reason:'See all words in '+src+' first', progress:pct};
+    }
+    if (cond === 'mastered_80') {
+        var pct = XHZ.getYearMasteredPercent(pid, src);
+        return {allowed:pct>=80, reason:'Master 80% of '+src+' words first', progress:pct};
+    }
+    return {allowed:false, reason:'Not yet unlocked'};
+}
+
+function buildCourseTabs() {
+    var el = document.getElementById('course-tabs');
+    el.innerHTML = '';
+    S.allCourses.forEach(function(course) {
+        var access = canAccessCourse(course.id);
+        var btn = document.createElement('button');
+        btn.className = 'course-tab' + (!access.allowed ? ' locked' : '');
+        btn.textContent = course.name;
+        btn.dataset.id  = course.id;
+        btn.onclick = access.allowed
+            ? function(id){ return function(){ selectCourse(id); }; }(course.id)
+            : function(c,a){ return function(){
+                alert('🔒 '+c.name+'\n\n'+a.reason+(a.progress!==undefined?'\n\nProgress: '+Math.round(a.progress)+'%':''));
+              }; }(course, access);
+        el.appendChild(btn);
+    });
+}
+
+function selectCourse(id) {
+    S.activeCourse = id;
+    document.querySelectorAll('.course-tab').forEach(function(b){ b.classList.toggle('active', b.dataset.id===id); });
+    var course = S.allCourses.find(function(c){return c.id===id;});
+    S.activeThemes = course.themes;
+    document.getElementById('map-course-title').textContent = course.name;
+    var words = S.courseWordMap[id] || [];
+    document.getElementById('map-course-sub').textContent =
+        words.length + ' characters · ' + course.themes.length + ' themes';
+    if (course.themes && course.themes[0]) applyThemeColor(course.themes[0].color);
+    renderJourneyPath(course, words);
+}
+
+/* ── THEME COLOR ── */
+function applyThemeColor(hex) {
+    document.documentElement.style.setProperty('--theme-color', hex);
+    document.documentElement.style.setProperty('--theme-color-light', hex+'55');
+    document.documentElement.style.setProperty('--theme-color-pale',  hex+'18');
+    setNavTheme(hex);
+}
+
+/* ── JOURNEY PATH ── */
+function renderJourneyPath(course, allWords) {
+    var el = document.getElementById('journey-path');
+    el.innerHTML = '';
+    var pid = XHZ.getActiveProfile().id;
+    course.themes.forEach(function(theme, i) {
+        if (i > 0) {
+            var conn = document.createElement('div');
+            conn.className = 'stage-connector' + (getStageInfo(course.id, course.themes[i-1].id) ? ' done' : '');
+            el.appendChild(conn);
+        }
+        var themeWords = allWords.filter(function(w){return w.theme===theme.id;});
+        var info       = getStageInfo(course.id, theme.id);
+        var isLocked   = i > 0 && !getStageInfo(course.id, course.themes[i-1].id);
+        var wordIds    = themeWords.map(function(w){return w.word_id;});
+        var mastered   = XHZ.getMasteredCount(pid, wordIds);
+        var seen       = XHZ.getSeenCount(pid, wordIds);
+        var best       = info ? info.best_score : 0;
+
+        var stars = '';
+        for (var s=1;s<=5;s++) stars += '<span class="'+(s<=best?'lit':'')+'">⭐</span>';
+
+        var badge = info
+            ? '<span class="stage-badge">✓ Done</span>'
+            : seen > 0 ? '<span class="stage-badge in-progress">In Progress</span>' : '';
+
+        var card = document.createElement('button');
+        card.className = 'stage-card'+(info?' completed':'')+(isLocked?' locked':'');
+        if (!isLocked) card.onclick = function(th,tw){ return function(){ startSession(course.id,th,tw,allWords); }; }(theme,themeWords);
+        card.innerHTML =
+            '<div class="stage-icon">'+(isLocked?'🔒':theme.emoji)+'</div>'+
+            '<div class="stage-info">'+
+                '<h3>'+theme.name+'</h3>'+
+                '<div class="stage-meta">'+themeWords.length+' chars'+(info?' · '+info.completed_date:'')+' · '+mastered+'/'+themeWords.length+' mastered</div>'+
+                '<div class="stage-stars">'+stars+'</div>'+
+            '</div>'+badge;
+        el.appendChild(card);
+    });
+}
+
+/* ── MODE + QUIET ── */
+function setMode(mode) {
+    S.sessionMode = mode;
+    document.querySelectorAll('.mode-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.mode===mode); });
+}
+function toggleQuiet() {
+    S.quietMode = !S.quietMode;
+    var btn = document.getElementById('quiet-toggle');
+    btn.textContent = S.quietMode ? '🔇' : '🔊';
+    btn.classList.toggle('active', S.quietMode);
+}
+
+/* ── SESSION START ── */
+function startSession(courseId, theme, themeWords, allWords) {
+    S.activeCourse=courseId; S.activeThemeId=theme.id; S.activeThemeName=theme.name;
+    S.inSession=true; S.sessionStarsEarned=0;
+    applyThemeColor(theme.color);
+    S.batches    = makeBatches(shuffle(themeWords.slice()), 4, allWords);
+    S.batchIndex = 0;
+    showView('session');
+    document.getElementById('session-title').textContent = theme.emoji+' '+theme.name;
+    buildPhaseIndicator();
+    updateSessionProgress();
+    startBatch(0);
+}
+
+/* ── FIX 1: tag padding words ── */
+function makeBatches(words, size, allWords) {
+    var batches = [];
+    for (var i=0; i<words.length; i+=size) {
+        var batch = words.slice(i, i+size);
+        if (batch.length < size) {
+            var others = allWords.filter(function(w){
+                return !words.find(function(x){return x.word_id===w.word_id;});
+            });
+            var padding = shuffle(others.slice()).slice(0, size-batch.length).map(function(w){
+                return Object.assign({}, w, {_isPadding:true});
+            });
+            batch = batch.concat(padding);
+        }
+        batches.push(batch);
+    }
+    return batches.length ? batches : [words];
+}
+
+/* ── PHASE INDICATOR ── */
+function buildPhaseIndicator() {
+    var el = document.getElementById('phase-indicator');
+    el.innerHTML = '';
+    S.batches.forEach(function(_,i) {
+        var fd=document.createElement('div'); fd.className='phase-dot'+(i===0?' active-dot':''); fd.dataset.batchPhase=i+'_flash'; el.appendChild(fd);
+        var sep=document.createElement('span'); sep.style.cssText='font-size:.6rem;opacity:.5;'; sep.textContent='›'; el.appendChild(sep);
+        var qd=document.createElement('div'); qd.className='phase-dot'; qd.dataset.batchPhase=i+'_quiz'; el.appendChild(qd);
+        if (i < S.batches.length-1) {
+            var div=document.createElement('span'); div.style.cssText='font-size:.6rem;opacity:.3;margin:0 4px;'; div.textContent='|'; el.appendChild(div);
+        }
+    });
+}
+function updatePhaseIndicator(bi, phase) {
+    document.querySelectorAll('.phase-dot').forEach(function(d){d.classList.remove('active-dot');});
+    var t = document.querySelector('[data-batch-phase="'+bi+'_'+phase+'"]');
+    if (t) t.classList.add('active-dot');
+}
+
+/* ── SESSION PROGRESS ── */
+function updateSessionProgress() {
+    var total = S.batches.reduce(function(s,b){return s+b.length;},0);
+    var done  = S.batchIndex * 4;
+    document.getElementById('session-progress-label').textContent = done+' / '+total;
+    document.getElementById('session-progress-bar').style.width = (total?Math.round(done/total*100):0)+'%';
+}
+
+/* ── BATCH + FLASHCARD ── */
+function startBatch(bi) {
+    S.batchIndex=bi; S.currentBatch=S.batches[bi];
+    S.cardIndex=0; S.seenCards=new Set(); S.allFlipped=false;
+    document.getElementById('flash-batch-label').textContent = 'Batch '+(bi+1)+' of '+S.batches.length;
+    showPhase('flash');
+    updatePhaseIndicator(bi,'flash');
+    renderCard(0);
+    updateDots();
+    updateSessionProgress();
+    var hint = document.getElementById('swipe-hint');
+    if (hint) { hint.style.animation='none'; void hint.offsetHeight; hint.style.animation='hintFade 3s ease forwards'; }
+}
+
+function renderCard(index) {
+    S.cardIndex = index;
+    var word = S.currentBatch[index];
+    var area = document.getElementById('flash-card-area');
+    var mode = S.sessionMode === 'random' ? (Math.random()>.5?'char':'meaning') : S.sessionMode;
+    var lang = getNavLang();
+    var isCharFront = (mode==='char');
+    var front, back;
+
+    if (isCharFront) {
+        front = '<div class="card-char">'+word.ch+'</div><div class="card-tap-hint">👆 Tap to reveal</div>';
+        back  = '<div class="card-char-small">'+word.ch+'</div>'+
+                '<div class="card-pinyin">'+word.py+'</div>'+
+                '<div class="card-meaning">'+(lang==='th'?word.th:word.en)+'</div>';
+    } else {
+        front = '<div class="card-pinyin" style="font-size:1.5rem;">'+word.py+'</div>'+
+                '<div class="card-meaning" style="font-size:1.1rem;">'+(lang==='th'?word.th:word.en)+'</div>'+
+                '<div class="card-tap-hint">👆 Tap for character</div>';
+        back  = '<div class="card-char">'+word.ch+'</div><div class="card-pinyin">'+word.py+'</div>';
+    }
+    if (word.zh||word.sent_en) {
+        back += '<div class="card-sentence">'+
+            (word.zh?'<div style="font-weight:600;color:#444;margin-bottom:4px;">'+word.zh+'</div>':'')+
+            (word.sent_en?'<div>'+(lang==='th'?(word.sent_th||word.sent_en):word.sent_en)+'</div>':'')+
+            '</div>';
+    }
+    if (word.story) back += '<div class="card-story">📖 '+word.story+'</div>';
+
+    var old = area.querySelector('.flash-card');
+    if (old) old.remove();
+
+    var card = document.createElement('div');
+    card.className = 'flash-card';
+    card.innerHTML = '<div class="flash-card-inner"><div class="flash-face flash-front">'+front+'</div><div class="flash-face flash-back">'+back+'</div></div>';
+    if (S.seenCards.has(index)) card.classList.add('flipped');
+    card.addEventListener('click', function(){ flipCard(card, index, word); });
+    attachSwipe(card);
+    area.appendChild(card);
+    updateNavButtons();
+}
+
+/* ── FIX 2: guard markSeen + score for padding words ── */
+function flipCard(card, index, word) {
+    if (card.classList.contains('flipped')) return;
+    card.classList.add('flipped');
+    S.seenCards.add(index);
+    playFlipSound();
+    if (!word._isPadding) {
+        XHZ.markSeen(word.word_id);
+        var result = XHZ.addScore('study', 1, [word.word_id]);
+        S.sessionStarsEarned += 1;
+        handleScoreResult(result, 1);
+    }
+    if (!S.quietMode) speakChinese(word.ch);
+    checkAllFlipped();
+    updateDots();
+}
+
+function checkAllFlipped() {
+    if (S.seenCards.size >= S.currentBatch.length) { S.allFlipped=true; updateNavButtons(); }
+}
+
+/* ── SWIPE ── */
+function attachSwipe(card) {
+    var sx=0, sy=0;
+    card.addEventListener('touchstart', function(e){ sx=e.touches[0].clientX; sy=e.touches[0].clientY; }, {passive:true});
+    card.addEventListener('touchend',   function(e){
+        var dx=e.changedTouches[0].clientX-sx, dy=e.changedTouches[0].clientY-sy;
+        if (Math.abs(dx)>Math.abs(dy) && Math.abs(dx)>40) { if (dx<0) nextCard(); else prevCard(); }
+    }, {passive:true});
+}
+function nextCard() { if (S.cardIndex < S.currentBatch.length-1) animateCardExit('left', function(){ renderCard(S.cardIndex+1); updateDots(); }); }
+function prevCard() { if (S.cardIndex > 0) animateCardExit('right', function(){ renderCard(S.cardIndex-1); updateDots(); }); }
+function animateCardExit(dir, cb) {
+    var card = document.querySelector('.flash-card');
+    if (!card) { cb(); return; }
+    playFlipSound();
+    card.classList.add(dir==='left'?'swipe-left':'swipe-right');
+    setTimeout(cb, 260);
+}
+
+function updateNavButtons() {
+    var onLast  = (S.cardIndex === S.currentBatch.length-1);
+    var allSeen = S.allFlipped;
+    var hint    = document.getElementById('flip-hint');
+    document.getElementById('btn-prev-card').disabled = (S.cardIndex===0);
+
+    if (allSeen && onLast) {
+        document.getElementById('btn-next-card').style.display='none';
+        document.getElementById('btn-to-quiz').style.display='block';
+        hint.style.display='none';
+    } else if (allSeen) {
+        document.getElementById('btn-next-card').style.display='block';
+        document.getElementById('btn-next-card').disabled=false;
+        document.getElementById('btn-to-quiz').style.display='none';
+        hint.style.display='none';
+    } else if (onLast) {
+        document.getElementById('btn-next-card').style.display='block';
+        document.getElementById('btn-next-card').disabled=true;
+        document.getElementById('btn-to-quiz').style.display='none';
+        hint.style.display='block';
+        hint.style.animation='none'; void hint.offsetHeight; hint.style.animation='hintFade2 .3s ease';
+        highlightUnflippedDots();
+    } else {
+        document.getElementById('btn-next-card').style.display='block';
+        document.getElementById('btn-next-card').disabled=onLast;
+        document.getElementById('btn-to-quiz').style.display='none';
+        hint.style.display='none';
+    }
+}
+
+function updateDots() {
+    var el = document.getElementById('flash-dots');
+    el.innerHTML = '';
+    S.currentBatch.forEach(function(_,i) {
+        var dot = document.createElement('div');
+        dot.className = 'flash-dot'+(i===S.cardIndex?' current':'')+(S.seenCards.has(i)&&i!==S.cardIndex?' done':'');
+        dot.onclick = function(i){ return function(){ animateCardExit(i>S.cardIndex?'left':'right', function(){ renderCard(i); updateDots(); }); }; }(i);
+        el.appendChild(dot);
+    });
+}
+function highlightUnflippedDots() {
+    document.querySelectorAll('.flash-dot').forEach(function(dot,i){
+        dot.classList.remove('unflipped');
+        if (!S.seenCards.has(i) && i!==S.cardIndex) dot.classList.add('unflipped');
+    });
+}
+
+/* ── QUIZ ── */
+function startQuiz() {
+    S.quizWords=S.currentBatch.slice(); S.quizIndex=0; S.quizTries=0; S.quizResults=[]; S.roundScore=0;
+    showPhase('quiz');
+    updatePhaseIndicator(S.batchIndex,'quiz');
+    renderQuizQuestion();
+}
+
+function renderQuizQuestion() {
+    var word = S.quizWords[S.quizIndex];
+    var lang = getNavLang();
+    document.getElementById('try-dot-1').classList.remove('used');
+    document.getElementById('try-dot-2').classList.remove('used');
+    S.quizTries = 0;
+    document.getElementById('quiz-char-display').textContent = word.ch;
+    document.getElementById('quiz-prompt').textContent = lang==='th'?'คำนี้แปลว่าอะไร?':'What does this character mean?';
+
+    var allWords    = S.courseWordMap[S.activeCourse] || [];
+    var distractors = shuffle(allWords.filter(function(w){return w.word_id!==word.word_id;})).slice(0,3);
+    var options     = shuffle([word].concat(distractors));
+    var grid        = document.getElementById('quiz-options');
+    grid.innerHTML  = '';
+
+    options.forEach(function(opt) {
+        var btn = document.createElement('button');
+        btn.className = 'quiz-option';
+        btn.dataset.wordId = opt.word_id;
+        btn.innerHTML = '<span class="opt-meaning-main">'+(lang==='th'?opt.th:opt.en)+'</span><span class="opt-pinyin">'+opt.py+'</span>';
+        btn.addEventListener('click', function(){ handleQuizAnswer(btn, opt.word_id===word.word_id, word); });
+        grid.appendChild(btn);
+    });
+}
+
+/* ── FIX 3: markPracticed + guard padding in quiz ── */
+function handleQuizAnswer(btn, isCorrect, word) {
+    document.querySelectorAll('.quiz-option').forEach(function(b){b.disabled=true;});
+    if (isCorrect) {
+        btn.classList.add('correct');
+        playCorrectSound();
+        if (!S.quietMode) setTimeout(function(){ speakChinese(word.ch); }, 250);
+        var stars = S.quizTries===0 ? 3 : 1;
+        var pop = document.createElement('div');
+        pop.className='quiz-stars-pop'; pop.textContent='+'+stars+'⭐';
+        btn.appendChild(pop);
+        if (!word._isPadding) {
+            var result = XHZ.addScore('study', stars, [word.word_id]);
+            S.roundScore += stars; S.sessionStarsEarned += stars;
+            handleScoreResult(result, stars);
+            XHZ.markPracticed(word.word_id);
+            XHZ.markQuizCleared(word.word_id);
+        }
+        S.quizResults.push({word:word, cleared:true, tries:S.quizTries+1});
+        setTimeout(advanceQuiz, 900);
+    } else {
+        btn.classList.add('wrong');
+        S.quizTries++;
+        playWrongSound();
+        if (S.quizTries===1) document.getElementById('try-dot-1').classList.add('used');
+        if (S.quizTries===2) document.getElementById('try-dot-2').classList.add('used');
+        if (S.quizTries >= 2) {
+            revealCorrectAnswer(word);
+            S.quizResults.push({word:word, cleared:false, tries:2});
+            setTimeout(advanceQuiz, 1400);
+        } else {
+            setTimeout(function(){
+                document.querySelectorAll('.quiz-option').forEach(function(b){ if (!b.classList.contains('wrong')) b.disabled=false; });
+            }, 500);
+        }
+    }
+}
+
+function revealCorrectAnswer(word) {
+    document.getElementById('reveal-overlay').classList.add('visible');
+    document.querySelectorAll('.quiz-option').forEach(function(btn) {
+        if (btn.dataset.wordId===word.word_id) {
+            btn.classList.add('revealed','revealed-big');
+            btn.style.display='flex';
+        }
+    });
+}
+function hideRevealOverlay() {
+    document.getElementById('reveal-overlay').classList.remove('visible');
+    document.querySelectorAll('.quiz-option.revealed-big').forEach(function(b){ b.classList.remove('revealed-big'); });
+}
+function advanceQuiz() {
+    hideRevealOverlay();
+    S.quizIndex++;
+    if (S.quizIndex < S.quizWords.length) renderQuizQuestion(); else finishBatch();
+}
+
+/* ── FIX 4: finishBatch uses realResults only ── */
+function finishBatch() {
+    playBatchEndSound();
+    var real         = S.quizResults.filter(function(r){return !r.word._isPadding;});
+    var clearedCount = real.filter(function(r){return r.cleared;}).length;
+    var perfectRound = real.length > 0 && clearedCount===real.length && real.every(function(r){return r.tries===1;});
+
+    if (perfectRound) {
+        var br = XHZ.addScore('study', 5, []);
+        S.roundScore+=5; S.sessionStarsEarned+=5;
+        handleScoreResult(br, 5);
+    }
+    var starRating = scoreToStarRating(S.roundScore, real.length);
+    saveStageResult(S.activeCourse, S.activeThemeId, starRating);
+    showPhase('complete');
+    renderCompleteScreen(perfectRound, starRating);
+}
+
+function scoreToStarRating(score, wordCount) {
+    var max=wordCount*4+5, pct=score/max;
+    if (pct>=.95) return 5; if (pct>=.75) return 4; if (pct>=.55) return 3; if (pct>=.35) return 2; return 1;
+}
+
+/* ── FIX 4 cont: renderCompleteScreen filters padding ── */
+function renderCompleteScreen(isPerfect, starRating) {
+    var lang         = getNavLang();
+    var real         = S.quizResults.filter(function(r){return !r.word._isPadding;});
+    var clearedCount = real.filter(function(r){return r.cleared;}).length;
+
+    document.getElementById('complete-emoji').textContent  = isPerfect?'🌟':'🎉';
+    document.getElementById('complete-title').textContent  = isPerfect?(lang==='th'?'สมบูรณ์แบบ!':'Perfect Round!'):(lang==='th'?'จบแล้ว!':'Round Complete!');
+    document.getElementById('complete-sub').textContent    = lang==='th'?'ถูก '+clearedCount+' / '+real.length+' คำ':clearedCount+' / '+real.length+' words correct';
+    document.getElementById('cs-points').textContent       = '+'+S.roundScore;
+
+    var existing = getStageInfo(S.activeCourse, S.activeThemeId);
+    var bestEl   = document.getElementById('complete-best-label');
+    if (existing && starRating >= existing.best_score) {
+        bestEl.textContent='🏆 '+(lang==='th'?'คะแนนสูงสุดใหม่!':'New best score!'); bestEl.style.color='#f59e0b';
+    } else {
+        bestEl.textContent='⭐'.repeat(starRating)+' ('+starRating+'/5)'; bestEl.style.color='#888';
+    }
+
+    var listEl = document.getElementById('complete-word-list');
+    listEl.innerHTML = '';
+    real.forEach(function(r) {
+        var chip = document.createElement('div');
+        chip.className = 'complete-word-chip';
+        chip.innerHTML = '<span class="cwc-ch">'+r.word.ch+'</span>'+
+            '<div><div style="font-weight:600;font-size:.82rem;">'+r.word.py+'</div>'+
+            '<div class="cwc-en">'+(lang==='th'?r.word.th:r.word.en)+'</div></div>'+
+            '<span class="cwc-icon">'+(r.cleared?'✅':'❌')+'</span>';
+        listEl.appendChild(chip);
+    });
+
+    if (isPerfect) {
+        var bonus = document.createElement('div');
+        bonus.style.cssText='grid-column:1/-1;background:#fff8e1;border:1px solid #f59e0b;border-radius:12px;padding:10px 14px;font-size:.85rem;color:#e65c00;font-weight:600;text-align:center;';
+        bonus.textContent = lang==='th'?'🌟 +5⭐ โบนัสรอบสมบูรณ์แบบ!':'🌟 +5⭐ Perfect round bonus!';
+        listEl.appendChild(bonus);
+    }
+    document.getElementById('btn-continue-session').style.display = (S.batchIndex+1 < S.batches.length)?'block':'none';
+}
+
+function nextBatch() { S.batchIndex++; startBatch(S.batchIndex); }
+
+/* ── VIEW + PHASE NAV ── */
+function showView(v) {
+    document.getElementById('view-map').classList.toggle('active',     v==='map');
+    document.getElementById('view-session').classList.toggle('active', v==='session');
+    S.inSession = (v==='session');
+}
+function showPhase(p) {
+    document.getElementById('phase-flash').style.display    = p==='flash'    ? 'flex' : 'none';
+    document.getElementById('phase-quiz').style.display     = p==='quiz'     ? 'flex' : 'none';
+    document.getElementById('phase-complete').style.display = p==='complete' ? 'flex' : 'none';
+}
+function returnToMap() {
+    S.inSession = false;
+    showView('map');
+    var course = S.allCourses.find(function(c){return c.id===S.activeCourse;});
+    renderJourneyPath(course, S.courseWordMap[S.activeCourse]||[]);
+}
+function confirmBackToMap() { returnToMap(); }
+
+/* ── SCORE + BADGE ── */
+function handleScoreResult(result, stars) {
+    if (!result) return;
+    if (stars > 0) showToast('+'+stars+' ⭐', 'stars-toast', 1500);
+    if (result.newBadgeUnlocked  && result.badgeInfo)       setTimeout(function(){ showBadgePopup(result.badgeInfo);      }, 600);
+    if (result.newStudyUnlocked  && result.studyBadgeInfo)  setTimeout(function(){ showBadgePopup(result.studyBadgeInfo); }, 1200);
+}
+function showBadgePopup(info) {
+    if (!info) return;
+    document.getElementById('badge-popup-emoji').textContent = info.emoji || '🏅';
+    document.getElementById('badge-popup-title').textContent = '🎉 '+(info.label||'New Badge!');
+    document.getElementById('badge-popup-sub').textContent   = 'Keep it up! 🐼';
+    document.getElementById('badge-popup-overlay').classList.add('visible');
+}
+function closeBadgePopup() { document.getElementById('badge-popup-overlay').classList.remove('visible'); }
+
+function showToast(msg, type, duration) {
+    var c     = document.getElementById('toast-container');
+    var toast = document.createElement('div');
+    toast.className   = 'toast '+(type||'');
+    toast.textContent = msg;
+    c.appendChild(toast);
+    setTimeout(function() {
+        toast.style.animation = 'toastOut .3s ease forwards';
+        setTimeout(function(){ if (toast.parentNode) toast.parentNode.removeChild(toast); }, 300);
+    }, duration||2000);
+}
+
+/* ── AUDIO: VOICES ── */
+function initVoices() {
+    if (!window.speechSynthesis) return;
+    var load = function() {
+        var v = window.speechSynthesis.getVoices();
+        if (v.length) { voicesReady=true; if (pendingSpeak){ var fn=pendingSpeak; pendingSpeak=null; fn(); } }
+    };
+    load();
+    window.speechSynthesis.onvoiceschanged = load;
+    setTimeout(load,100); setTimeout(load,500);
+}
+function speakChinese(text) {
+    if (!window.speechSynthesis) return;
+    var doSpeak = function() {
+        window.speechSynthesis.cancel();
+        var utt=new SpeechSynthesisUtterance(text);
+        utt.lang='zh-CN'; utt.rate=0.85;
+        var voices=window.speechSynthesis.getVoices();
+        var voice=voices.find(function(v){return v.lang==='zh-CN';})||voices.find(function(v){return v.lang.startsWith('zh');});
+        if (voice) utt.voice=voice;
+        window.speechSynthesis.speak(utt);
+    };
+    if (!voicesReady) {
+        pendingSpeak=doSpeak;
+        window.speechSynthesis.getVoices();
+        setTimeout(function(){ if (pendingSpeak){ pendingSpeak(); pendingSpeak=null; } },150);
+    } else { doSpeak(); }
+}
+
+/* ── AUDIO: SOUND EFFECTS ── */
+function getAudioCtx() {
+    if (!_audioCtx) _audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+    if (_audioCtx.state==='suspended') _audioCtx.resume();
+    return _audioCtx;
+}
+function playFlipSound() {
+    try {
+        var ctx=getAudioCtx();
+        var buf=ctx.createBuffer(1,ctx.sampleRate*0.15,ctx.sampleRate);
+        var d=buf.getChannelData(0);
+        for (var i=0;i<d.length;i++) { var t=i/d.length; d[i]=(Math.random()*2-1)*Math.sin(Math.PI*t); }
+        var src=ctx.createBufferSource(), flt=ctx.createBiquadFilter(), g=ctx.createGain();
+        src.buffer=buf; flt.type='bandpass';
+        flt.frequency.setValueAtTime(400,ctx.currentTime);
+        flt.frequency.linearRampToValueAtTime(2000,ctx.currentTime+0.08);
+        flt.Q.value=1.5;
+        src.connect(flt); flt.connect(g); g.connect(ctx.destination);
+        g.gain.setValueAtTime(0.4,ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.15);
+        src.start();
+    } catch(e){}
+}
+function playCorrectSound() {
+    try {
+        var ctx=getAudioCtx();
+        [1047,1319,1568,2093].forEach(function(freq,i){
+            var osc=ctx.createOscillator(), g=ctx.createGain();
+            osc.connect(g); g.connect(ctx.destination);
+            osc.type='triangle'; osc.frequency.value=freq;
+            g.gain.setValueAtTime(0,ctx.currentTime+i*0.07);
+            g.gain.linearRampToValueAtTime(0.15,ctx.currentTime+i*0.07+0.01);
+            g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+i*0.07+0.2);
+            osc.start(ctx.currentTime+i*0.07); osc.stop(ctx.currentTime+i*0.07+0.2);
+        });
+    } catch(e){}
+}
+function playWrongSound() {
+    try {
+        var ctx=getAudioCtx();
+        var osc=ctx.createOscillator(), flt=ctx.createBiquadFilter(), g=ctx.createGain();
+        osc.connect(flt); flt.connect(g); g.connect(ctx.destination);
+        osc.type='sawtooth'; osc.frequency.value=160;
+        flt.type='lowpass';
+        flt.frequency.setValueAtTime(800,ctx.currentTime);
+        flt.frequency.linearRampToValueAtTime(200,ctx.currentTime+0.3);
+        g.gain.setValueAtTime(0.2,ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.3);
+        osc.start(); osc.stop(ctx.currentTime+0.3);
+    } catch(e){}
+}
+function playBatchEndSound() {
+    try {
+        var ctx=getAudioCtx();
+        [440,554,659,880].forEach(function(freq,i){
+            var osc=ctx.createOscillator(), g=ctx.createGain();
+            osc.connect(g); g.connect(ctx.destination);
+            osc.type='sine'; osc.frequency.value=freq;
+            g.gain.setValueAtTime(0,ctx.currentTime+i*0.09);
+            g.gain.linearRampToValueAtTime(0.18,ctx.currentTime+i*0.09+0.01);
+            g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+i*0.09+0.25);
+            osc.start(ctx.currentTime+i*0.09); osc.stop(ctx.currentTime+i*0.09+0.25);
+        });
+    } catch(e){}
+}
+
+/* ── UTILS ── */
+function shuffle(arr) {
+    for (var i=arr.length-1;i>0;i--) { var j=Math.floor(Math.random()*(i+1)), t=arr[i]; arr[i]=arr[j]; arr[j]=t; }
+    return arr;
+}
+</script>
+</body>
+</html>

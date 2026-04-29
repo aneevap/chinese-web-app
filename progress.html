@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>学汉字 Progress</title>
+<script src="nav.js"></script>
+<script src="profiles.js"></script>
+<script src="strings.js"></script>
+<style>
+:root {
+    --theme-color:       #FFB347;
+    --theme-color-light: #FFE0B255;
+    --theme-color-pale:  #FFB34718;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: Arial, sans-serif;
+    background: #F9F6F1;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── LOADING ── */
+.loading-screen {
+    position: fixed; inset: 0;
+    background: #FFF9F0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    z-index: 999; gap: 16px;
+    font-size: 1em; color: #aaa;
+}
+.loading-spinner {
+    width: 40px; height: 40px;
+    border: 4px solid #FFD9A0;
+    border-top-color: #FFB347;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── PAGE ── */
+.page-content {
+    flex: 1;
+    padding: 10px 12px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 700px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* ── GUEST BANNER ── */
+.guest-banner {
+    background: #FFF3E0;
+    border: 1.5px solid #FFB347;
+    border-radius: 12px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 0.78em;
+    color: #7a5500;
+    animation: fadeIn 0.3s ease both;
+}
+.guest-banner-text { flex: 1; line-height: 1.4; }
+.guest-banner-btn {
+    background: #FFB347;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 7px 14px;
+    font-size: 0.85em;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+    flex-shrink: 0;
+}
+.guest-banner-btn:hover { background: #e07a35; }
+
+/* ── SECTION CARD ── */
+.card {
+    background: white;
+    border-radius: 16px;
+    padding: 14px 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    animation: fadeIn 0.3s ease both;
+}
+.card-title {
+    font-size: 0.68em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #bbb;
+    margin-bottom: 10px;
+}
+
+/* ── PROFILE HEADER ── */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    animation: fadeIn 0.3s ease both;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+    position: relative;
+}
+.profile-header:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+.profile-header-tap-hint {
+    position: absolute; top: 8px; right: 12px;
+    font-size: 0.55em; color: #ccc; letter-spacing: 0.3px;
+}
+.profile-avatar { font-size: 2.8em; line-height: 1; }
+.profile-info   { flex: 1; }
+.profile-name   { font-size: 1.1em; font-weight: bold; color: #333; }
+.profile-title  {
+    font-size: 0.75em; color: var(--theme-color);
+    font-weight: bold; margin-top: 2px;
+}
+
+/* ── STATS ── */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 8px;
+}
+.stat-box {
+    background: var(--theme-color-pale);
+    border-radius: 12px;
+    padding: 10px 6px;
+    text-align: center;
+}
+.stat-box .val {
+    font-size: clamp(1.1em, 4vw, 1.5em);
+    font-weight: bold;
+    color: var(--theme-color);
+    line-height: 1.1;
+}
+.stat-box .lbl {
+    font-size: 0.56em; color: #aaa;
+    margin-top: 3px; font-weight: bold;
+    text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+/* ── TITLE PROGRESS ── */
+.title-row {
+    display: flex; align-items: center;
+    justify-content: space-between; margin-bottom: 8px;
+}
+.title-emoji-name { display: flex; align-items: center; gap: 8px; }
+.title-emoji { font-size: 1.6em; }
+.title-name  { font-size: 0.9em; font-weight: bold; color: #333; }
+.title-pct   { font-size: 0.78em; font-weight: bold; color: var(--theme-color); }
+.progress-track {
+    width: 100%; height: 10px;
+    background: #F0F0F0; border-radius: 99px; overflow: hidden;
+}
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--theme-color), #FF8C42);
+    border-radius: 99px; transition: width 0.8s ease;
+}
+.title-next {
+    font-size: 0.62em; color: #ccc;
+    margin-top: 5px; text-align: right;
+}
+
+/* ── BADGE SHELF ── */
+.badge-shelf { display: flex; flex-wrap: wrap; gap: 8px; }
+.badge-item {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 3px;
+    background: var(--theme-color-pale);
+    border-radius: 12px; padding: 8px 10px; min-width: 52px;
+}
+.badge-item .b-emoji  { font-size: 1.4em; }
+.badge-item .b-count  { font-size: 0.58em; font-weight: bold; color: var(--theme-color); }
+.badge-item .b-label  { font-size: 0.52em; color: #aaa; text-align: center; line-height: 1.2; }
+.badge-empty          { font-size: 0.75em; color: #ccc; padding: 8px 0; }
+
+/* ── CALENDAR ── */
+.cal-header {
+    display: flex; align-items: center;
+    justify-content: space-between; margin-bottom: 8px;
+}
+.cal-month { font-size: 0.82em; font-weight: bold; color: #555; }
+.cal-nav {
+    background: none; border: none; font-size: 1em;
+    cursor: pointer; color: #aaa; padding: 2px 6px;
+    border-radius: 6px; transition: background 0.2s;
+}
+.cal-nav:hover { background: #f0f0f0; }
+.cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+}
+.cal-day-label {
+    text-align: center; font-size: 0.55em;
+    font-weight: bold; color: #ccc;
+    padding-bottom: 3px; text-transform: uppercase;
+}
+.cal-day {
+    aspect-ratio: 1; border-radius: 8px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    font-size: 0.62em; color: #ccc;
+    background: #fafafa; position: relative; cursor: default;
+}
+.cal-day.has-data { cursor: pointer; color: #555; }
+.cal-day .cal-num   { font-size: 0.9em; line-height: 1; }
+.cal-day .cal-badge { font-size: 1em; line-height: 1; }
+.cal-day.today {
+    border: 2px solid var(--theme-color);
+    color: var(--theme-color); font-weight: bold;
+}
+.cal-day.empty { background: transparent; }
+
+/* ── WORD MASTERY ── */
+.mastery-course-tabs {
+    display: flex; flex-wrap: wrap;
+    gap: 4px; margin-bottom: 8px;
+}
+.mastery-course-tab {
+    padding: 3px 10px;
+    border: 2px solid #eee; background: #f9f9f9;
+    border-radius: 20px; font-size: 0.65em;
+    font-weight: bold; color: #aaa;
+    cursor: pointer; transition: all 0.2s;
+}
+.mastery-course-tab.active {
+    background: var(--theme-color);
+    border-color: var(--theme-color); color: white;
+}
+.mastery-theme-tabs {
+    display: flex; flex-wrap: wrap;
+    gap: 4px; margin-bottom: 10px;
+}
+.mastery-theme-tab {
+    padding: 3px 10px;
+    border: 2px solid #eee; background: #f9f9f9;
+    border-radius: 20px; font-size: 0.65em;
+    font-weight: bold; color: #aaa;
+    cursor: pointer; transition: all 0.2s; white-space: nowrap;
+}
+.mastery-theme-tab.active {
+    background: #f0f0f0; border-color: #ccc; color: #555;
+}
+.mastery-legend {
+    display: flex; gap: 10px;
+    flex-wrap: wrap; margin-bottom: 8px;
+}
+.legend-item {
+    display: flex; align-items: center;
+    gap: 4px; font-size: 0.6em; color: #888;
+}
+.legend-dot        { width: 8px; height: 8px; border-radius: 50%; }
+.dot-unseen        { background: #E0E0E0; }
+.dot-seen          { background: #90CAF9; }
+.dot-practiced     { background: #FFB347; }
+.dot-mastered      { background: #66BB6A; }
+.mastery-word-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+.mastery-word-btn {
+    width: clamp(40px, 11vw, 52px);
+    height: clamp(46px, 13vw, 58px);
+    border-radius: 10px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    font-size: clamp(0.95em, 3.5vw, 1.2em);
+    color: #333; cursor: pointer;
+    border: 2px solid transparent;
+    position: relative; transition: transform 0.15s;
+}
+.mastery-word-btn:active { transform: scale(0.93); }
+.mastery-word-btn .mw-py {
+    font-size: 0.26em; margin-top: 1px; color: #888;
+}
+.mastery-word-btn.s-unseen    { background: #F5F5F5; border-color: #E0E0E0; }
+.mastery-word-btn.s-seen      { background: #E3F2FD; border-color: #90CAF9; }
+.mastery-word-btn.s-practiced { background: #FFF3E0; border-color: #FFB347; }
+.mastery-word-btn.s-mastered  { background: #E8F5E9; border-color: #66BB6A; }
+.mastery-word-btn.s-mastered::after {
+    content: '✓'; position: absolute; top: -4px; right: -4px;
+    background: #66BB6A; color: white; border-radius: 50%;
+    width: 13px; height: 13px;
+    font-size: 0.3em; line-height: 13px; text-align: center;
+}
+.mastery-empty {
+    font-size: 0.75em; color: #ccc;
+    padding: 12px 0; text-align: center; width: 100%;
+}
+
+/* ── WORD TOOLTIP ── */
+.word-tooltip {
+    position: fixed;
+    background: white; border-radius: 12px;
+    padding: 10px 14px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    font-size: 0.75em; color: #555;
+    z-index: 500; pointer-events: none;
+    opacity: 0; transition: opacity 0.2s;
+    max-width: 180px; text-align: center;
+}
+.word-tooltip.visible { opacity: 1; }
+.word-tooltip .tt-ch     { font-size: 2em; color: #333; line-height: 1.2; }
+.word-tooltip .tt-py     { color: var(--theme-color); font-weight: bold; margin-bottom: 2px; }
+.word-tooltip .tt-en     { color: #888; }
+.word-tooltip .tt-status { margin-top: 4px; font-weight: bold; }
+.word-tooltip .tt-date   { font-size: 0.85em; color: #bbb; margin-top: 2px; }
+
+/* ── ITEM SHELF ── */
+.item-shelf { display: flex; flex-wrap: wrap; gap: 8px; }
+.item-slot {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 4px;
+    background: var(--theme-color-pale);
+    border-radius: 12px; padding: 8px 10px;
+    min-width: 58px; cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s; position: relative;
+}
+.item-slot.equipped {
+    border-color: var(--theme-color);
+    background: var(--theme-color-light);
+}
+.item-slot .it-emoji    { font-size: 1.5em; }
+.item-slot .it-label    { font-size: 0.52em; color: #888; text-align: center; line-height: 1.2; }
+.item-slot .it-category { font-size: 0.48em; color: #ccc; text-transform: uppercase; letter-spacing: 0.5px; }
+.item-slot.equipped .it-label { color: var(--theme-color); font-weight: bold; }
+.equipped-badge {
+    position: absolute; top: -4px; right: -4px;
+    background: var(--theme-color); color: white;
+    border-radius: 50%; width: 14px; height: 14px;
+    font-size: 0.45em; line-height: 14px; text-align: center;
+}
+.item-empty { font-size: 0.75em; color: #ccc; padding: 8px 0; }
+
+/* ════════════════════════════════════════════════
+   PARENT SETTINGS MODAL
+════════════════════════════════════════════════ */
+.modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 800;
+    align-items: center; justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.2s ease both;
+}
+.modal-overlay.open { display: flex; }
+
+.modal-box {
+    background: white;
+    border-radius: 20px;
+    padding: 24px 22px;
+    width: 100%; max-width: 340px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+    animation: slideUp 0.25s ease both;
+    position: relative;
+}
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.modal-close {
+    position: absolute; top: 14px; right: 16px;
+    background: none; border: none;
+    font-size: 1.1em; color: #bbb;
+    cursor: pointer; line-height: 1;
+    padding: 4px;
+}
+.modal-close:hover { color: #888; }
+
+.modal-title {
+    font-size: 1em; font-weight: bold;
+    color: #333; margin-bottom: 18px;
+}
+
+/* PIN dots */
+.pin-dots {
+    display: flex; gap: 10px;
+    justify-content: center; margin-bottom: 14px;
+}
+.pin-dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    background: white;
+    transition: all 0.15s;
+}
+.pin-dot.filled { background: var(--theme-color); border-color: var(--theme-color); }
+
+/* PIN keypad */
+.pin-keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px; margin-bottom: 16px;
+}
+.pin-key {
+    aspect-ratio: 1; border-radius: 12px;
+    border: 2px solid #f0f0f0; background: #fafafa;
+    font-size: 1.2em; font-weight: bold; color: #333;
+    cursor: pointer; transition: all 0.15s;
+    display: flex; align-items: center; justify-content: center;
+}
+.pin-key:hover  { background: var(--theme-color-pale); border-color: var(--theme-color); }
+.pin-key:active { transform: scale(0.92); }
+.pin-key.delete { font-size: 0.9em; color: #aaa; }
+
+.pin-tip {
+    font-size: 0.72em; color: #aaa;
+    text-align: center; margin-bottom: 14px;
+    line-height: 1.4;
+}
+.pin-error {
+    font-size: 0.72em; color: #f44336;
+    text-align: center; margin-bottom: 8px;
+    min-height: 18px;
+}
+
+/* Settings panel buttons */
+.settings-btn {
+    display: block; width: 100%;
+    padding: 11px 16px; margin-bottom: 8px;
+    border-radius: 12px; border: 2px solid #f0f0f0;
+    background: #fafafa; font-size: 0.88em;
+    font-weight: bold; color: #555;
+    cursor: pointer; text-align: left;
+    transition: all 0.2s;
+}
+.settings-btn:hover  { background: var(--theme-color-pale); border-color: var(--theme-color); color: #333; }
+.settings-btn:last-child { margin-bottom: 0; }
+
+/* Accent button — Create Account */
+.settings-btn-accent {
+    background: var(--theme-color);
+    border-color: var(--theme-color);
+    color: white;
+}
+.settings-btn-accent:hover {
+    background: #e07a35;
+    border-color: #e07a35;
+    color: white;
+}
+
+/* Profile list in settings */
+.settings-profile-list { margin-bottom: 12px; }
+.settings-profile-row {
+    display: flex; align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #f5f5f5;
+    font-size: 0.82em; color: #555;
+}
+.settings-profile-row:last-child { border-bottom: none; }
+.settings-profile-name { display: flex; align-items: center; gap: 8px; }
+.settings-del-btn {
+    background: none; border: 1px solid #ffcdd2;
+    border-radius: 8px; padding: 3px 10px;
+    font-size: 0.78em; color: #e57373;
+    cursor: pointer; transition: all 0.2s;
+}
+.settings-del-btn:hover { background: #ffebee; }
+
+/* Confirm panel */
+.confirm-text {
+    font-size: 0.82em; color: #555;
+    text-align: center; margin-bottom: 16px;
+    line-height: 1.5;
+}
+.confirm-name {
+    font-weight: bold; color: #333;
+    font-size: 1.1em;
+}
+.confirm-btns {
+    display: flex; gap: 8px;
+}
+.confirm-btns button {
+    flex: 1; padding: 10px;
+    border-radius: 12px; border: none;
+    font-size: 0.88em; font-weight: bold;
+    cursor: pointer; transition: all 0.2s;
+}
+.btn-cancel-del  { background: #f5f5f5; color: #888; }
+.btn-cancel-del:hover  { background: #ebebeb; }
+.btn-confirm-del { background: #ffebee; color: #e53935; }
+.btn-confirm-del:hover { background: #ffcdd2; }
+
+/* Change PIN new-PIN panel */
+.new-pin-label {
+    font-size: 0.78em; color: #888;
+    text-align: center; margin-bottom: 10px;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div class="loading-screen" id="loading-screen">
+    <div class="loading-spinner"></div>
+    <span>Loading progress...</span>
+</div>
+
+<!-- NAV -->
+<div id="app-nav"></div>
+
+<!-- PAGE -->
+<div class="page-content" id="page-content" style="display:none;">
+
+    <!-- GUEST BANNER -->
+    <div class="guest-banner" id="guest-banner" style="display:none;">
+        <span class="guest-banner-text" data-i18n="guest_banner"></span>
+        <button class="guest-banner-btn"
+                data-i18n="save_my_progress"
+                onclick="window.location.href='signup.html'"></button>
+    </div>
+
+    <!-- PROFILE HEADER -->
+    <div class="profile-header" id="profile-header"
+         onclick="openParentModal()"
+         title="Parent settings">
+        <span class="profile-header-tap-hint">⚙️ Settings</span>
+    </div>
+
+    <!-- STATS -->
+    <div class="card">
+        <div class="card-title">📊 Stats</div>
+        <div class="stats-grid" id="stats-grid"></div>
+    </div>
+
+    <!-- JOURNEY -->
+    <div class="card">
+        <div class="card-title">🏯 Journey</div>
+        <div id="title-content"></div>
+    </div>
+
+    <!-- BADGES -->
+    <div class="card">
+        <div class="card-title">🏅 Badges</div>
+        <div class="badge-shelf" id="badge-shelf"></div>
+    </div>
+
+    <!-- CALENDAR -->
+    <div class="card">
+        <div class="card-title">📅 Activity</div>
+        <div class="cal-header">
+            <button class="cal-nav" onclick="calPrev()">◀</button>
+            <span class="cal-month" id="cal-month"></span>
+            <button class="cal-nav" onclick="calNext()">▶</button>
+        </div>
+        <div class="cal-grid" id="cal-grid"></div>
+    </div>
+
+    <!-- WORD MASTERY -->
+    <div class="card">
+        <div class="card-title">📝 Word Mastery</div>
+        <div class="mastery-course-tabs" id="mastery-course-tabs"></div>
+        <div class="mastery-theme-tabs"  id="mastery-theme-tabs"></div>
+        <div class="mastery-legend">
+            <div class="legend-item"><div class="legend-dot dot-unseen"></div>Not seen</div>
+            <div class="legend-item"><div class="legend-dot dot-seen"></div>Seen</div>
+            <div class="legend-item"><div class="legend-dot dot-practiced"></div>Practiced</div>
+            <div class="legend-item"><div class="legend-dot dot-mastered"></div>Mastered</div>
+        </div>
+        <div class="mastery-word-grid" id="mastery-word-grid"></div>
+    </div>
+
+    <!-- ITEM SHELF -->
+    <div class="card">
+        <div class="card-title">🎒 Collection</div>
+        <div class="item-shelf" id="item-shelf"></div>
+    </div>
+
+</div>
+
+<!-- WORD TOOLTIP -->
+<div class="word-tooltip" id="word-tooltip">
+    <div class="tt-ch"     id="tt-ch"></div>
+    <div class="tt-py"     id="tt-py"></div>
+    <div class="tt-en"     id="tt-en"></div>
+    <div class="tt-status" id="tt-status"></div>
+    <div class="tt-date"   id="tt-date"></div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     PARENT SETTINGS MODAL
+════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="parent-modal">
+    <div class="modal-box" id="modal-box">
+        <!-- panel injected by JS -->
+    </div>
+</div>
+
+<script>
+/* =====================================================
+   STATE
+===================================================== */
+var profile             = null;
+var COURSES             = [];
+var COURSE_DATA         = {};
+var rewards             = null;
+var allMastery          = {};
+var calYear             = 0;
+var calMonth            = 0;
+var activeMasteryCourse = null;
+var activeThemeId       = null;
+var tooltipTimer        = null;
+
+/* =====================================================
+   INIT
+===================================================== */
+window.onload = function() {
+    XHZ.requireActive();
+    profile    = XHZ.getActiveProfile();
+    allMastery = XHZ.getAllMastery(profile.id) || {};
+
+    var now  = new Date();
+    calYear  = now.getFullYear();
+    calMonth = now.getMonth();
+
+    Promise.all([
+        fetch('rewards.json').then(function(r) { return r.json(); }),
+        fetch('courses.json').then(function(r) { return r.json(); })
+    ])
+    .then(function(results) {
+        rewards = results[0];
+        COURSES = results[1].courses;
+
+        var attempted = getAttemptedCourseIds();
+
+        if (!attempted.length) {
+            renderAll([]);
+            return;
+        }
+
+        return Promise.all(
+            attempted.map(function(id) {
+                var course = getCourseById(id);
+                return fetch(course.data_file)
+                    .then(function(r) { return r.json(); })
+                    .then(function(data) { COURSE_DATA[id] = data; });
+            })
+        ).then(function() {
+            renderAll(attempted);
+        });
+    })
+    .catch(function(err) {
+        console.error(err);
+        document.getElementById('loading-screen').innerHTML =
+            '<div style="color:#FF6B6B;text-align:center;padding:20px;">' +
+            '❌ Could not load data files.</div>';
+    });
+};
+
+/* =====================================================
+   HELPERS
+===================================================== */
+function getCourseById(id) {
+    return COURSES.find(function(c) { return c.id === id; }) || null;
+}
+
+function getAttemptedCourseIds() {
+    var wordIds = Object.keys(allMastery);
+    if (!wordIds.length) return [];
+    var found = {};
+    wordIds.forEach(function(wid) {
+        COURSES.forEach(function(c) {
+            if (wid.indexOf(c.id + '_') === 0) found[c.id] = true;
+        });
+    });
+    return COURSES
+        .filter(function(c) { return found[c.id]; })
+        .map(function(c)    { return c.id; });
+}
+
+function getAllWordsForCourse(courseId) {
+    var data = COURSE_DATA[courseId];
+    return data ? data.words : [];
+}
+
+/* =====================================================
+   RENDER ALL
+===================================================== */
+function renderAll(attempted) {
+    renderGuestBanner();
+    renderProfileHeader();
+    renderStats();
+    renderTitleProgress();
+    renderBadges();
+    renderCalendar();
+    renderMasteryGrid(attempted);
+    renderItemShelf();
+
+    document.getElementById('loading-screen').style.display = 'none';
+    document.getElementById('page-content').style.display   = 'flex';
+
+    initNav('progress');
+    refreshStrings();
+}
+
+/* =====================================================
+   GUEST BANNER
+===================================================== */
+function renderGuestBanner() {
+    var banner = document.getElementById('guest-banner');
+    var waitlisted = localStorage.getItem('xhz_waitlisted') === 'true';
+    if (profile && profile.is_guest && !waitlisted) {
+        banner.style.display = 'flex';
+    } else {
+        banner.style.display = 'none';
+    }
+}
+
+/* =====================================================
+   1. PROFILE HEADER
+===================================================== */
+function renderProfileHeader() {
+    var streak = XHZ.getCurrentStreak(profile.id) || 0;
+    var title  = getMasteryTitle();
+
+    /* keep the tap hint and onclick — inject content around it */
+    var header = document.getElementById('profile-header');
+    header.innerHTML =
+        '<span class="profile-header-tap-hint">⚙️ Settings</span>' +
+        '<div class="profile-avatar">' + profile.avatar + '</div>' +
+        '<div class="profile-info">' +
+            '<div class="profile-name">' + profile.nickname + '</div>' +
+            '<div class="profile-title">' + title.emoji + ' ' + title.title + '</div>' +
+        '</div>' +
+        (streak > 0
+            ? '<div style="text-align:center;">' +
+                '<div style="font-size:1.4em;">🔥</div>' +
+                '<div style="font-size:0.65em;font-weight:bold;color:#FF8C42;">' +
+                    streak + ' day' + (streak !== 1 ? 's' : '') +
+                '</div>' +
+              '</div>'
+            : '');
+}
+
+/* =====================================================
+   2. STATS
+===================================================== */
+function renderStats() {
+    var total   = XHZ.getTotalStars(profile.id)    || 0;
+    var streak  = XHZ.getCurrentStreak(profile.id) || 0;
+    var longest = XHZ.getLongestStreak(profile.id) || 0;
+
+    var bestRaw = XHZ.getBestDay(profile.id);
+    var best    = bestRaw
+        ? (typeof bestRaw === 'object' ? (bestRaw.score || 0) : bestRaw)
+        : 0;
+
+    var masteredCount = Object.values(allMastery)
+        .filter(function(m) { return m.status === 'mastered'; }).length;
+    var attemptedCount = Object.keys(allMastery).length;
+
+    var items = [
+        { val: total,          lbl: 'Total ⭐' },
+        { val: streak + ' 🔥', lbl: 'Streak' },
+        { val: longest,        lbl: 'Best Streak' },
+        { val: best + ' ⭐',   lbl: 'Best Day' },
+        { val: masteredCount,  lbl: 'Mastered' },
+        { val: attemptedCount, lbl: 'Attempted' }
+    ];
+
+    document.getElementById('stats-grid').innerHTML = items.map(function(s) {
+        return '<div class="stat-box">' +
+            '<div class="val">' + s.val + '</div>' +
+            '<div class="lbl">' + s.lbl + '</div>' +
+            '</div>';
+    }).join('');
+}
+
+/* =====================================================
+   3. JOURNEY / MASTERY TITLE
+===================================================== */
+function getMasteryTitle() {
+    if (!rewards || !rewards.mastery_titles) {
+        return { emoji: '🥚', title: 'Panda Hatchling', pct: 0, next: null };
+    }
+
+    var yearGroup = '1';
+    COURSES.forEach(function(c) {
+        var data = COURSE_DATA[c.id];
+        if (!data) return;
+        data.words.forEach(function(w) {
+            if (allMastery[w.word_id] &&
+                allMastery[w.word_id].status === 'mastered' &&
+                parseInt(c.year_group) > parseInt(yearGroup)) {
+                yearGroup = c.year_group;
+            }
+        });
+    });
+
+    var yearWords = [];
+    COURSES.forEach(function(c) {
+        if (c.year_group === yearGroup && COURSE_DATA[c.id]) {
+            yearWords = yearWords.concat(COURSE_DATA[c.id].words);
+        }
+    });
+
+    var totalYear = yearWords.length || 1;
+    var masteredYear = yearWords.filter(function(w) {
+        return allMastery[w.word_id] &&
+               allMastery[w.word_id].status === 'mastered';
+    }).length;
+    var pct = Math.round((masteredYear / totalYear) * 100);
+
+    var group = rewards.mastery_titles.find(function(g) {
+        return String(g.year_group) === String(yearGroup);
+    });
+    if (!group) return { emoji: '🥚', title: 'Panda Hatchling', pct: pct, next: null };
+
+    var sorted  = group.titles.slice().sort(function(a,b) { return b.min_pct - a.min_pct; });
+    var current = sorted.find(function(t) { return pct >= t.min_pct; }) || sorted[sorted.length - 1];
+    var nextT   = group.titles.slice()
+        .sort(function(a,b) { return a.min_pct - b.min_pct; })
+        .find(function(t) { return t.min_pct > pct; });
+
+    return {
+        emoji:     current.emoji,
+        title:     current.title,
+        pct:       pct,
+        next:      nextT || null,
+        yearGroup: yearGroup
+    };
+}
+
+function renderTitleProgress() {
+    var info = getMasteryTitle();
+    var pct  = info.pct || 0;
+
+    var nextHtml = info.next
+        ? '<div class="title-next">Next: ' + info.next.emoji + ' ' +
+          info.next.title + ' at ' + info.next.min_pct + '%</div>'
+        : '<div class="title-next">🎉 Maximum title reached!</div>';
+
+    document.getElementById('title-content').innerHTML =
+        '<div class="title-row">' +
+            '<div class="title-emoji-name">' +
+                '<span class="title-emoji">' + info.emoji + '</span>' +
+                '<span class="title-name">'  + info.title + '</span>' +
+            '</div>' +
+            '<span class="title-pct">' + pct + '%</span>' +
+        '</div>' +
+        '<div class="progress-track">' +
+            '<div class="progress-fill" id="title-fill" style="width:0%"></div>' +
+        '</div>' +
+        nextHtml;
+
+    setTimeout(function() {
+        var fill = document.getElementById('title-fill');
+        if (fill) fill.style.width = pct + '%';
+    }, 100);
+}
+
+/* =====================================================
+   4. BADGES
+===================================================== */
+function getAllDayRecords() {
+    var key  = 'xhz_scores_' + profile.id;
+    var data = localStorage.getItem(key);
+    if (!data) return [];
+    try {
+        return Object.values(JSON.parse(data).days || {});
+    } catch(e) { return []; }
+}
+
+function renderBadges() {
+    if (!rewards) return;
+    var shelf   = document.getElementById('badge-shelf');
+    var allDays = getAllDayRecords();
+    var counts  = {};
+
+    allDays.forEach(function(day) {
+        if (day.badge)       counts[day.badge]       = (counts[day.badge]       || 0) + 1;
+        if (day.study_badge) counts[day.study_badge] = (counts[day.study_badge] || 0) + 1;
+    });
+
+    var allBadges = (rewards.daily_badges || []).concat(rewards.study_badges || []);
+    var earned    = allBadges.filter(function(b) { return counts[b.id] > 0; });
+
+    if (!earned.length) {
+        shelf.innerHTML = '<div class="badge-empty">No badges yet — keep practising! 🐼</div>';
+        return;
+    }
+
+    shelf.innerHTML = earned.map(function(b) {
+        return '<div class="badge-item">' +
+            '<div class="b-emoji">' + b.emoji    + '</div>' +
+            '<div class="b-count">×' + counts[b.id] + '</div>' +
+            '<div class="b-label">' + b.label    + '</div>' +
+            '</div>';
+    }).join('');
+}
+
+/* =====================================================
+   5. CALENDAR
+===================================================== */
+var MONTH_NAMES = [
+    'January','February','March','April','May','June',
+    'July','August','September','October','November','December'
+];
+var DAY_LABELS = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+
+function calPrev() {
+    calMonth--;
+    if (calMonth < 0) { calMonth = 11; calYear--; }
+    renderCalendar();
+}
+function calNext() {
+    var now = new Date();
+    if (calYear > now.getFullYear() ||
+        (calYear === now.getFullYear() && calMonth >= now.getMonth())) return;
+    calMonth++;
+    if (calMonth > 11) { calMonth = 0; calYear++; }
+    renderCalendar();
+}
+
+function renderCalendar() {
+    document.getElementById('cal-month').textContent =
+        MONTH_NAMES[calMonth] + ' ' + calYear;
+
+    var stored = localStorage.getItem('xhz_scores_' + profile.id);
+    var days   = {};
+    if (stored) { try { days = JSON.parse(stored).days || {}; } catch(e) {} }
+
+    var grid        = document.getElementById('cal-grid');
+    var firstDay    = new Date(calYear, calMonth, 1).getDay();
+    var daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+    var today       = new Date();
+    var isThisMonth = today.getFullYear() === calYear && today.getMonth() === calMonth;
+
+    var scores = [];
+    for (var d = 1; d <= daysInMonth; d++) {
+        var dk  = calYear + '-' + pad(calMonth + 1) + '-' + pad(d);
+        var rec = days[dk];
+        if (rec) scores.push((rec.write_score || 0) + (rec.study_score || 0));
+    }
+    var maxScore = Math.max.apply(null, scores.concat([1]));
+
+    var html = DAY_LABELS.map(function(l) {
+        return '<div class="cal-day-label">' + l + '</div>';
+    }).join('');
+
+    for (var i = 0; i < firstDay; i++) {
+        html += '<div class="cal-day empty"></div>';
+    }
+
+    for (var d = 1; d <= daysInMonth; d++) {
+        var dateKey   = calYear + '-' + pad(calMonth + 1) + '-' + pad(d);
+        var rec       = days[dateKey];
+        var isToday   = isThisMonth && d === today.getDate();
+        var hasData   = !!rec;
+        var score     = hasData ? ((rec.write_score||0) + (rec.study_score||0)) : 0;
+        var intensity = hasData ? Math.max(0.15, score / maxScore) : 0;
+
+        var badgeEmoji = '';
+        var badgeId    = hasData ? (rec.badge || rec.study_badge || '') : '';
+        if (badgeId && rewards) {
+            var allB  = (rewards.daily_badges||[]).concat(rewards.study_badges||[]);
+            var found = allB.find(function(b) { return b.id === badgeId; });
+            if (found) badgeEmoji = found.emoji;
+        }
+
+        var bg  = hasData ? 'background:rgba(255,179,71,' + intensity + ');' : '';
+        var cls = 'cal-day' +
+            (hasData ? ' has-data' : '') +
+            (isToday ? ' today'    : '');
+
+        html += '<div class="' + cls + '" style="' + bg + '"' +
+            (hasData ? ' onclick="showCalDay(\'' + dateKey + '\')"' : '') + '>' +
+            '<span class="cal-num">' + d + '</span>' +
+            (badgeEmoji ? '<span class="cal-badge">' + badgeEmoji + '</span>' : '') +
+            '</div>';
+    }
+
+    grid.innerHTML = html;
+}
+
+function pad(n) { return String(n).padStart(2, '0'); }
+
+function showCalDay(dateKey) {
+    var stored = localStorage.getItem('xhz_scores_' + profile.id);
+    if (!stored) return;
+    try {
+        var rec = JSON.parse(stored).days[dateKey];
+        if (!rec) return;
+        var score = (rec.write_score||0) + (rec.study_score||0);
+        alert(
+            '📅 ' + dateKey + '\n' +
+            '⭐ Score: '  + score + '\n' +
+            '✍️  Write: ' + (rec.write_score||0) + '\n' +
+            '📚 Study: '  + (rec.study_score||0) + '\n' +
+            '📝 Chars: '  + (rec.chars_practiced||[]).length
+        );
+    } catch(e) {}
+}
+
+/* =====================================================
+   6. WORD MASTERY GRID
+===================================================== */
+function renderMasteryGrid(attempted) {
+    var courseTabsEl = document.getElementById('mastery-course-tabs');
+    var themeTabsEl  = document.getElementById('mastery-theme-tabs');
+    var gridEl       = document.getElementById('mastery-word-grid');
+
+    if (!attempted.length) {
+        courseTabsEl.innerHTML = '';
+        themeTabsEl.innerHTML  = '';
+        gridEl.innerHTML =
+            '<div class="mastery-empty">No words attempted yet. Start practising! 🐼</div>';
+        return;
+    }
+
+    courseTabsEl.innerHTML = attempted.map(function(id) {
+        return '<div class="mastery-course-tab" id="mctab-' + id + '" ' +
+            'onclick="selectMasteryCourse(\'' + id + '\')">' + id + '</div>';
+    }).join('');
+
+    activeMasteryCourse = attempted[0];
+    updateMasteryCourseTabs(activeMasteryCourse);
+    buildMasteryThemeTabs(activeMasteryCourse);
+}
+
+function selectMasteryCourse(id) {
+    activeMasteryCourse = id;
+    updateMasteryCourseTabs(id);
+    buildMasteryThemeTabs(id);
+}
+
+function updateMasteryCourseTabs(activeId) {
+    document.querySelectorAll('.mastery-course-tab').forEach(function(el) {
+        el.className = 'mastery-course-tab' +
+            (el.id === 'mctab-' + activeId ? ' active' : '');
+    });
+}
+
+function buildMasteryThemeTabs(courseId) {
+    var course      = getCourseById(courseId);
+    var themeTabsEl = document.getElementById('mastery-theme-tabs');
+
+    if (!course || !course.themes || !course.themes.length) {
+        themeTabsEl.innerHTML = '';
+        activeThemeId = null;
+        renderMasteryWords(courseId, null);
+        return;
+    }
+
+    themeTabsEl.innerHTML = course.themes.map(function(theme, i) {
+        return '<div class="mastery-theme-tab' + (i === 0 ? ' active' : '') + '" ' +
+            'id="mttab-' + theme.id + '" ' +
+            'onclick="selectMasteryTheme(\'' + courseId + '\',\'' + theme.id + '\')">' +
+            theme.emoji + ' ' + theme.name +
+            '</div>';
+    }).join('');
+
+    activeThemeId = course.themes[0].id;
+    renderMasteryWords(courseId, activeThemeId);
+}
+
+function selectMasteryTheme(courseId, themeId) {
+    activeThemeId = themeId;
+    document.querySelectorAll('.mastery-theme-tab').forEach(function(el) {
+        el.className = 'mastery-theme-tab' +
+            (el.id === 'mttab-' + themeId ? ' active' : '');
+    });
+    renderMasteryWords(courseId, themeId);
+}
+
+function renderMasteryWords(courseId, themeId) {
+    var gridEl = document.getElementById('mastery-word-grid');
+    var all    = getAllWordsForCourse(courseId);
+
+    var words = themeId
+        ? all.filter(function(w) { return w.theme === themeId; })
+        : all;
+
+    if (!words.length) {
+        gridEl.innerHTML = '<div class="mastery-empty">No words in this theme yet.</div>';
+        return;
+    }
+
+    var masteredCount  = words.filter(function(w) {
+        return allMastery[w.word_id] && allMastery[w.word_id].status === 'mastered';
+    }).length;
+    var practicedCount = words.filter(function(w) {
+        return allMastery[w.word_id] && allMastery[w.word_id].status === 'practiced';
+    }).length;
+    var seenCount = words.filter(function(w) {
+        return allMastery[w.word_id] && allMastery[w.word_id].status === 'seen';
+    }).length;
+
+    var html = words.map(function(w) {
+        var m      = allMastery[w.word_id];
+        var status = m ? m.status : 'unseen';
+        return '<div class="mastery-word-btn s-' + status + '" ' +
+            'onmouseenter="showWordTooltip(event,\'' + w.word_id + '\')" ' +
+            'ontouchstart="showWordTooltip(event,\'' + w.word_id + '\')" ' +
+            'onmouseleave="hideTooltip()" ' +
+            'ontouchend="hideTooltipSoon()">' +
+            w.ch +
+            '<span class="mw-py">' + w.py + '</span>' +
+            '</div>';
+    }).join('');
+
+    gridEl.innerHTML =
+        '<div style="width:100%;font-size:0.65em;color:#aaa;margin-bottom:6px;">' +
+            words.length + ' words · ' +
+            masteredCount + ' mastered · ' +
+            practicedCount + ' practiced · ' +
+            seenCount + ' seen' +
+        '</div>' + html;
+}
+
+/* ── TOOLTIP ── */
+function showWordTooltip(e, wordId) {
+    var tt = document.getElementById('word-tooltip');
+    var m  = allMastery[wordId];
+
+    var wordData = null;
+    Object.keys(COURSE_DATA).forEach(function(cid) {
+        if (wordData) return;
+        var found = COURSE_DATA[cid].words.find(function(w) {
+            return w.word_id === wordId;
+        });
+        if (found) wordData = found;
+    });
+    if (!wordData) return;
+
+    var statusLabels = {
+        unseen:    '⬜ Not seen',
+        seen:      '🔵 Seen',
+        practiced: '🟠 Practiced',
+        mastered:  '✅ Mastered'
+    };
+    var status = m ? m.status : 'unseen';
+
+    document.getElementById('tt-ch').textContent     = wordData.ch;
+    document.getElementById('tt-py').textContent     = wordData.py;
+    document.getElementById('tt-en').textContent     = wordData.en;
+    document.getElementById('tt-status').textContent = statusLabels[status] || status;
+    document.getElementById('tt-date').textContent   =
+        m && m.mastered_date ? 'Mastered: ' + m.mastered_date : '';
+
+    var x = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+    var y = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
+    tt.style.left = Math.min(x + 10, window.innerWidth  - 200) + 'px';
+    tt.style.top  = Math.min(y + 10, window.innerHeight - 150) + 'px';
+    tt.classList.add('visible');
+
+    if (tooltipTimer) clearTimeout(tooltipTimer);
+}
+function hideTooltip()     { document.getElementById('word-tooltip').classList.remove('visible'); }
+function hideTooltipSoon() { tooltipTimer = setTimeout(hideTooltip, 1200); }
+
+/* =====================================================
+   7. ITEM SHELF
+===================================================== */
+function renderItemShelf() {
+    if (!rewards || !rewards.effort_items) return;
+
+    // Silent catch-up — no popup on progress page
+    XHZ.checkEffortItems(profile.id, rewards.effort_items);
+
+    var shelf    = document.getElementById('item-shelf');
+    var itemData = XHZ.getItems(profile.id);
+    var earned   = itemData ? (itemData.earned   || []) : [];
+    var equipped = itemData ? (itemData.equipped || {}) : {};
+
+    if (!earned.length) {
+        shelf.innerHTML =
+            '<div class="item-empty">No items yet — earn ⭐ to unlock collectibles! 🎁</div>';
+        return;
+    }
+
+    shelf.innerHTML = earned.map(function(id) {
+        var item = rewards.effort_items.find(function(it) { return it.id === id; });
+        if (!item) return '';
+        var isEquip = equipped[item.category] === id;
+        return '<div class="item-slot' + (isEquip ? ' equipped' : '') + '" ' +
+            'onclick="toggleItem(\'' + id + '\',\'' + item.category + '\')">' +
+            (isEquip ? '<div class="equipped-badge">✓</div>' : '') +
+            '<div class="it-emoji">'    + item.emoji    + '</div>' +
+            '<div class="it-label">'    + item.label    + '</div>' +
+            '<div class="it-category">' + item.category + '</div>' +
+            '</div>';
+    }).join('');
+}
+
+function toggleItem(id, category) {
+    var itemData = XHZ.getItems(profile.id);
+    var equipped = itemData ? (itemData.equipped || {}) : {};
+    if (equipped[category] === id) {
+        XHZ.unequipItem(profile.id, category);
+    } else {
+        XHZ.equipItem(profile.id, id, category);
+    }
+    renderItemShelf();
+}
+
+/* =====================================================
+   PARENT SETTINGS MODAL
+===================================================== */
+var _pinBuffer   = '';
+var _modalMode   = '';   // 'pin-entry' | 'settings' | 'manage' | 'change-pin' | 'confirm-delete'
+var _deleteTarget = null;
+
+function openParentModal() {
+    var pin = localStorage.getItem('xhz_parent_pin');
+    _pinBuffer = '';
+    if (pin) {
+        showPinEntry();
+    } else {
+        showPinSetup();
+    }
+    document.getElementById('parent-modal').classList.add('open');
+}
+
+function closeParentModal() {
+    document.getElementById('parent-modal').classList.remove('open');
+    _pinBuffer    = '';
+    _deleteTarget = null;
+}
+
+/* click outside to close */
+document.getElementById('parent-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeParentModal();
+});
+
+/* ── PIN ENTRY ── */
+function showPinEntry() {
+    _modalMode = 'pin-entry';
+    _pinBuffer = '';
+    renderModalBox(
+        '<div class="modal-title" data-i18n="parent_access"></div>' +
+        '<div class="pin-dots" id="pin-dots">' + pinDotsHTML(0) + '</div>' +
+        '<div class="pin-error" id="pin-error"></div>' +
+        '<div class="pin-keypad">' + pinKeypadHTML() + '</div>' +
+        '<button class="settings-btn" style="margin-top:4px;" onclick="closeParentModal()" data-i18n="cancel"></button>'
+    );
+    refreshStrings();
+}
+
+/* ── PIN SETUP (no PIN set yet) ── */
+function showPinSetup() {
+    _modalMode = 'pin-setup';
+    _pinBuffer = '';
+    renderModalBox(
+        '<div class="modal-title" data-i18n="settings_title"></div>' +
+        '<p class="pin-tip" data-i18n="welcome_tip"></p>' +
+        '<div class="pin-dots" id="pin-dots">' + pinDotsHTML(0) + '</div>' +
+        '<div class="pin-error" id="pin-error"></div>' +
+        '<div class="pin-keypad">' + pinKeypadHTML() + '</div>' +
+        '<button class="settings-btn" style="margin-top:4px;" onclick="closeParentModal()" data-i18n="cancel"></button>'
+    );
+    refreshStrings();
+}
+
+/* ── SETTINGS PANEL ── */
+function showSettings() {
+    _modalMode = 'settings';
+    renderModalBox(
+        '<button class="modal-close" onclick="closeParentModal()">✕</button>' +
+        '<div class="modal-title" data-i18n="settings_title"></div>' +
+
+        '<button class="settings-btn settings-btn-accent" ' +
+        'onclick="window.location.href=\'signup.html\'">' +
+        '<span data-i18n="create_account"></span>' +
+        '</button>' +
+
+        '<button class="settings-btn" onclick="showManageProfiles()">' +
+        '<span data-i18n="manage_profiles"></span>' +
+        '</button>' +
+
+        '<button class="settings-btn" onclick="showChangePinPanel()">' +
+        '<span data-i18n="change_pin"></span>' +
+        '</button>' +
+
+        '<button class="settings-btn" onclick="closeParentModal()" data-i18n="close"></button>' +
+        '<div style="text-align:center;padding-top:12px; border-top:1px solid #f0f0f0; margin-top:4px;">' +'<p style="font-size:0.7em;color:#aaa;margin-bottom:8px;line-height:1.5;">' +
+'Made with ☕ by one developer</p>' +'<a href="https://ko-fi.com/D1D41XCDKQ" target="_blank">' +'<img height="30" style="border:0;height:30px;" ' +
+'src="https://storage.ko-fi.com/cdn/kofi6.png?v=6" alt="Buy Me a Coffee at ko-fi.com"/>' +
+'</a></div>'
+    );
+    refreshStrings();
+}
+
+/* ── MANAGE PROFILES ── */
+function showManageProfiles() {
+    _modalMode = 'manage';
+    var profiles = XHZ.getAllProfiles();
+    var listHTML = '';
+
+    if (!profiles.length) {
+        listHTML = '<p class="pin-tip" data-i18n="no_learners"></p>';
+    } else {
+        listHTML = '<div class="settings-profile-list">' +
+            profiles.map(function(p) {
+                return '<div class="settings-profile-row">' +
+                    '<span class="settings-profile-name">' +
+                        p.avatar + ' ' + p.nickname +
+                        (p.is_guest ? ' <span style="font-size:0.8em;color:#ccc;">(guest)</span>' : '') +
+                    '</span>' +
+                    '<button class="settings-del-btn" ' +
+                        'onclick="confirmDelete(\'' + p.id + '\')">' +
+                        '🗑 Delete' +
+                    '</button>' +
+                '</div>';
+            }).join('') +
+        '</div>';
+    }
+
+    renderModalBox(
+        '<button class="modal-close" onclick="showSettings()">←</button>' +
+        '<div class="modal-title" data-i18n="manage_profiles"></div>' +
+        listHTML +
+        '<button class="settings-btn" onclick="showSettings()" data-i18n="close"></button>'
+    );
+    refreshStrings();
+}
+
+/* ── CONFIRM DELETE ── */
+function confirmDelete(profileId) {
+    _deleteTarget = profileId;
+    var p = XHZ.getProfile(profileId);
+    if (!p) return;
+
+    renderModalBox(
+        '<button class="modal-close" onclick="showManageProfiles()">←</button>' +
+        '<div class="modal-title" data-i18n="are_you_sure"></div>' +
+        '<p class="confirm-text">' +
+            '<span class="confirm-name">' + p.avatar + ' ' + p.nickname + '</span><br/>' +
+            '<span data-i18n="delete_warning"></span>' +
+        '</p>' +
+        '<div class="confirm-btns">' +
+            '<button class="btn-cancel-del" onclick="showManageProfiles()" data-i18n="cancel"></button>' +
+            '<button class="btn-confirm-del" onclick="doDeleteProfile()" data-i18n="delete"></button>' +
+        '</div>'
+    );
+    refreshStrings();
+}
+
+function doDeleteProfile() {
+    if (!_deleteTarget) return;
+    var wasActive = (XHZ.getActiveId() === _deleteTarget);
+    XHZ.deleteProfile(_deleteTarget);
+    _deleteTarget = null;
+    if (wasActive) {
+        XHZ.clearActive();
+        window.location.href = 'index.html';
+    } else {
+        showManageProfiles();
+    }
+}
+
+/* ── CHANGE PIN ── */
+function showChangePinPanel() {
+    _modalMode = 'change-pin';
+    _pinBuffer = '';
+    renderModalBox(
+        '<button class="modal-close" onclick="showSettings()">←</button>' +
+        '<div class="modal-title" data-i18n="change_pin"></div>' +
+        '<p class="new-pin-label">Enter a new 4-digit PIN</p>' +
+        '<div class="pin-dots" id="pin-dots">' + pinDotsHTML(0) + '</div>' +
+        '<div class="pin-error" id="pin-error"></div>' +
+        '<div class="pin-keypad">' + pinKeypadHTML() + '</div>'
+    );
+    refreshStrings();
+}
+
+/* ── PIN HELPERS ── */
+function pinDotsHTML(filled) {
+    var h = '';
+    for (var i = 0; i < 4; i++) {
+        h += '<div class="pin-dot' + (i < filled ? ' filled' : '') + '"></div>';
+    }
+    return h;
+}
+
+function pinKeypadHTML() {
+    var keys = [1,2,3,4,5,6,7,8,9,'',0,'⌫'];
+    return keys.map(function(k) {
+        if (k === '') return '<div></div>';
+        var cls = k === '⌫' ? 'pin-key delete' : 'pin-key';
+        return '<button class="' + cls + '" onclick="pinPress(\'' + k + '\')">' + k + '</button>';
+    }).join('');
+}
+
+function pinPress(key) {
+    if (key === '⌫') {
+        _pinBuffer = _pinBuffer.slice(0, -1);
+    } else {
+        if (_pinBuffer.length >= 4) return;
+        _pinBuffer += String(key);
+    }
+
+    var dotsEl = document.getElementById('pin-dots');
+    if (dotsEl) dotsEl.innerHTML = pinDotsHTML(_pinBuffer.length);
+
+    if (_pinBuffer.length === 4) {
+        setTimeout(function() { handlePinComplete(); }, 120);
+    }
+}
+
+function handlePinComplete() {
+    var stored = localStorage.getItem('xhz_parent_pin');
+
+    if (_modalMode === 'pin-entry') {
+        if (_pinBuffer === stored) {
+            showSettings();
+        } else {
+            _pinBuffer = '';
+            var dotsEl = document.getElementById('pin-dots');
+            var errEl  = document.getElementById('pin-error');
+            if (dotsEl) dotsEl.innerHTML = pinDotsHTML(0);
+            if (errEl)  errEl.textContent = t('pin_wrong');
+        }
+        return;
+    }
+
+    if (_modalMode === 'pin-setup' || _modalMode === 'change-pin') {
+        localStorage.setItem('xhz_parent_pin', _pinBuffer);
+        _pinBuffer = '';
+        showSettings();
+        /* brief confirmation toast */
+        showToast(t('pin_saved'));
+        return;
+    }
+}
+
+/* ── RENDER HELPER ── */
+function renderModalBox(html) {
+    document.getElementById('modal-box').innerHTML = html;
+}
+
+/* ── TOAST ── */
+var _toastTimer = null;
+function showToast(msg) {
+    var existing = document.getElementById('progress-toast');
+    if (existing) existing.remove();
+
+    var toast = document.createElement('div');
+    toast.id = 'progress-toast';
+    toast.textContent = msg;
+    toast.style.cssText = [
+        'position:fixed',
+        'bottom:80px',
+        'left:50%',
+        'transform:translateX(-50%)',
+        'background:#333',
+        'color:#fff',
+        'padding:10px 20px',
+        'border-radius:20px',
+        'font-size:0.85em',
+        'font-weight:bold',
+        'z-index:9999',
+        'box-shadow:0 4px 16px rgba(0,0,0,0.25)',
+        'opacity:0',
+        'transition:opacity 0.2s'
+    ].join(';');
+
+    document.body.appendChild(toast);
+    requestAnimationFrame(function() {
+        toast.style.opacity = '1';
+    });
+
+    if (_toastTimer) clearTimeout(_toastTimer);
+    _toastTimer = setTimeout(function() {
+        toast.style.opacity = '0';
+        setTimeout(function() { toast.remove(); }, 250);
+    }, 2000);
+}
+</script>
+
+</body>
+</html>

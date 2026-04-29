@@ -1,0 +1,293 @@
+{
+  "daily_badges": [
+    {
+      "id":        "panda_master",
+      "label":     "Panda Master",
+      "emoji":     "🐼",
+      "min_score": 500,
+      "message":   "Incredible! You're a true Panda Master today!"
+    },
+    {
+      "id":        "rising_star",
+      "label":     "Rising Star",
+      "emoji":     "🌟",
+      "min_score": 300,
+      "message":   "Amazing effort! You're a Rising Star!"
+    },
+    {
+      "id":        "practice_hero",
+      "label":     "Practice Hero",
+      "emoji":     "🏅",
+      "min_score": 150,
+      "message":   "Great work! You're a Practice Hero today!"
+    },
+    {
+      "id":        "keep_going",
+      "label":     "Keep Going!",
+      "emoji":     "🥉",
+      "min_score": 50,
+      "message":   "Good start! Keep going and earn more stars!"
+    }
+  ],
+
+  "study_badges": [
+    {
+      "id":        "deep_thinker",
+      "label":     "Deep Thinker",
+      "emoji":     "🔬",
+      "min_score": 50,
+      "message":   "Wow! You studied so hard today, Deep Thinker!"
+    },
+    {
+      "id":        "good_learner",
+      "label":     "Good Learner",
+      "emoji":     "📚",
+      "min_score": 20,
+      "message":   "Nice! You're being a Good Learner today!"
+    }
+  ],
+
+  "mastery_titles": [
+    {
+      "year_group": "1",
+      "location":   "The Village",
+      "titles": [
+        {
+          "min_pct": 0,
+          "title":   "Panda Hatchling",
+          "emoji":   "🥚",
+          "message": "Yippee! You earned the title of Panda Hatchling! Your journey through The Village has just begun!"
+        },
+        {
+          "min_pct": 20,
+          "title":   "Bamboo Cub",
+          "emoji":   "🐾",
+          "message": "Yippee! You earned the title of Bamboo Cub! You are finding your feet in The Village!"
+        },
+        {
+          "min_pct": 40,
+          "title":   "Village Wanderer",
+          "emoji":   "🌿",
+          "message": "Yippee! You earned the title of Village Wanderer! You are bravely exploring The Village!"
+        },
+        {
+          "min_pct": 60,
+          "title":   "Lantern Carrier",
+          "emoji":   "🪔",
+          "message": "Yippee! You earned the title of Lantern Carrier! You are lighting the way through The Village!"
+        },
+        {
+          "min_pct": 80,
+          "title":   "Bamboo Guardian",
+          "emoji":   "🎋",
+          "message": "Yippee! You earned the title of Bamboo Guardian! You are almost the master of The Village!"
+        },
+        {
+          "min_pct": 100,
+          "title":   "Village Champion",
+          "emoji":   "🏮",
+          "message": "Yippee! You earned the title of Village Champion! You have conquered The Village! A new adventure awaits!"
+        }
+      ]
+    },
+    {
+      "year_group": "2",
+      "location":   "The Temple",
+      "titles": [
+        {
+          "min_pct": 0,
+          "title":   "Temple Seeker",
+          "emoji":   "🗺️",
+          "message": "Yippee! You earned the title of Temple Seeker! The mysteries of The Temple await you!"
+        },
+        {
+          "min_pct": 20,
+          "title":   "Incense Bearer",
+          "emoji":   "🌸",
+          "message": "Yippee! You earned the title of Incense Bearer! You are finding your path in The Temple!"
+        },
+        {
+          "min_pct": 40,
+          "title":   "Scroll Reader",
+          "emoji":   "📜",
+          "message": "Yippee! You earned the title of Scroll Reader! Ancient wisdom is opening up to you!"
+        },
+        {
+          "min_pct": 60,
+          "title":   "Temple Keeper",
+          "emoji":   "🏯",
+          "message": "Yippee! You earned the title of Temple Keeper! You are trusted to guard The Temple's secrets!"
+        },
+        {
+          "min_pct": 80,
+          "title":   "Jade Scholar",
+          "emoji":   "🪨",
+          "message": "Yippee! You earned the title of Jade Scholar! The Temple holds almost no secrets from you now!"
+        },
+        {
+          "min_pct": 100,
+          "title":   "Temple Master",
+          "emoji":   "⛩️",
+          "message": "Yippee! You earned the title of Temple Master! You have mastered The Temple! The Palace calls to you!"
+        }
+      ]
+    },
+    {
+      "year_group": "3",
+      "location":   "The Palace",
+      "titles": [
+        {
+          "min_pct": 0,
+          "title":   "Palace Visitor",
+          "emoji":   "🎏",
+          "message": "Yippee! You earned the title of Palace Visitor! The grandeur of The Palace surrounds you!"
+        },
+        {
+          "min_pct": 20,
+          "title":   "Court Apprentice",
+          "emoji":   "🎐",
+          "message": "Yippee! You earned the title of Court Apprentice! You are learning the ways of The Palace!"
+        },
+        {
+          "min_pct": 40,
+          "title":   "Royal Scribe",
+          "emoji":   "✒️",
+          "message": "Yippee! You earned the title of Royal Scribe! Your brushwork impresses the Palace court!"
+        },
+        {
+          "min_pct": 60,
+          "title":   "Palace Scholar",
+          "emoji":   "🔮",
+          "message": "Yippee! You earned the title of Palace Scholar! Your wisdom fills the halls of The Palace!"
+        },
+        {
+          "min_pct": 80,
+          "title":   "Imperial Sage",
+          "emoji":   "👑",
+          "message": "Yippee! You earned the title of Imperial Sage! The Emperor himself seeks your counsel!"
+        },
+        {
+          "min_pct": 100,
+          "title":   "Dragon Scholar",
+          "emoji":   "🐉",
+          "message": "Yippee! You earned the title of Dragon Scholar! You have mastered The Palace and achieved true greatness!"
+        }
+      ]
+    }
+  ],
+
+  "effort_items": [
+    {
+      "id":         "candy_bag",
+      "label":      "Candy Bag",
+      "emoji":      "🍬",
+      "category":   "food",
+      "min_stars":  100,
+      "message":    "You earned a Candy Bag! Sweet reward for your hard work! 🍬"
+    },
+    {
+      "id":         "bamboo_stick",
+      "label":      "Bamboo Stick",
+      "emoji":      "🎋",
+      "category":   "tool",
+      "min_stars":  300,
+      "message":    "You earned a Bamboo Stick! A trusty tool for any young adventurer! 🎋"
+    },
+    {
+      "id":         "straw_hat",
+      "label":      "Straw Hat",
+      "emoji":      "👒",
+      "category":   "accessory",
+      "min_stars":  600,
+      "message":    "You earned a Straw Hat! Looking great, little explorer! 👒"
+    },
+    {
+      "id":         "dumpling",
+      "label":      "Giant Dumpling",
+      "emoji":      "🥟",
+      "category":   "food",
+      "min_stars":  1000,
+      "message":    "You earned a Giant Dumpling! Delicious reward for 1000 stars! 🥟"
+    },
+    {
+      "id":         "wooden_sword",
+      "label":      "Wooden Sword",
+      "emoji":      "🗡️",
+      "category":   "tool",
+      "min_stars":  1500,
+      "message":    "You earned a Wooden Sword! Now you are a true warrior of words! 🗡️"
+    },
+    {
+      "id":         "magic_fan",
+      "label":      "Magic Fan",
+      "emoji":      "🪭",
+      "category":   "accessory",
+      "min_stars":  2000,
+      "message":    "You earned a Magic Fan! Wave it and watch the characters fly! 🪭"
+    },
+    {
+      "id":         "boba_tea",
+      "label":      "Boba Tea",
+      "emoji":      "🧋",
+      "category":   "food",
+      "min_stars":  2500,
+      "message":    "You earned a Boba Tea! The perfect drink for a hardworking scholar! 🧋"
+    },
+    {
+      "id":         "ink_brush",
+      "label":      "Ink Brush",
+      "emoji":      "🖌️",
+      "category":   "tool",
+      "min_stars":  3500,
+      "message":    "You earned an Ink Brush! The mightiest tool of any true scholar! 🖌️"
+    },
+    {
+      "id":         "dragon_cape",
+      "label":      "Dragon Cape",
+      "emoji":      "🦸",
+      "category":   "accessory",
+      "min_stars":  5000,
+      "message":    "You earned a Dragon Cape! Legendary. You are truly unstoppable! 🦸"
+    },
+    {
+      "id":         "golden_dumpling",
+      "label":      "Golden Dumpling",
+      "emoji":      "✨",
+      "category":   "food",
+      "min_stars":  7000,
+      "message":    "You earned a Golden Dumpling! This is the rarest treat in all of China! ✨"
+    },
+    {
+      "id":         "dragon_staff",
+      "label":      "Dragon Staff",
+      "emoji":      "🐉",
+      "category":   "tool",
+      "min_stars":  10000,
+      "message":    "You earned the Dragon Staff! Only the greatest scholars ever hold this! 🐉"
+    },
+    {
+      "id":         "sparkle_aura",
+      "label":      "Sparkle Aura",
+      "emoji":      "🌟",
+      "category":   "aura",
+      "min_stars":  500,
+      "message":    "You earned a Sparkle Aura! You are literally glowing with knowledge! 🌟"
+    },
+    {
+      "id":         "flame_aura",
+      "label":      "Flame Aura",
+      "emoji":      "🔥",
+      "category":   "aura",
+      "min_stars":  3000,
+      "message":    "You earned a Flame Aura! Your dedication is on fire! 🔥"
+    },
+    {
+      "id":         "rainbow_aura",
+      "label":      "Rainbow Aura",
+      "emoji":      "🌈",
+      "category":   "aura",
+      "min_stars":  8000,
+      "message":    "You earned a Rainbow Aura! Your brilliance lights up the whole sky! 🌈"
+    }
+  ]
+}

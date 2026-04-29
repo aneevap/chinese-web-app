@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Dojo · 学汉字</title>
+<script src="nav.js"></script>
+<script src="profiles.js"></script>
+<script src="strings.js"></script>
+<link rel="stylesheet" href="games/dist/assets/index.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: Arial, sans-serif;
+  background: var(--theme-color-pale);
+  color: #263238;
+  min-height: 100dvh;
+}
+#page-wrap { min-height: 100vh; display: flex; flex-direction: column; }
+#main-content { flex: 1; padding: 12px 12px 80px; }
+
+/* ── DOJO HEADER ── */
+.dojo-header {
+  text-align: center;
+  padding: 20px 12px 16px;
+}
+.dojo-header h1 {
+  font-size: 1.6rem;
+  color: #263238;
+  margin-bottom: 4px;
+}
+.dojo-header h1 span { font-size: 1.8rem; }
+.dojo-header p {
+  font-size: 0.85rem;
+  color: #90a4ae;
+  margin: 0;
+}
+
+/* ── GAME CARDS GRID ── */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.game-card {
+  background: #fff;
+  border: 1px solid #ffe0b2;
+  border-radius: 16px;
+  padding: 16px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  overflow: hidden;
+}
+.game-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.10);
+  border-color: var(--theme-color);
+}
+.game-card:active {
+  transform: translateY(-1px);
+}
+
+.game-card-icon {
+  font-size: 2.8rem;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.game-card-title {
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: #263238;
+}
+
+.game-card-desc {
+  font-size: 0.72rem;
+  color: #90a4ae;
+  line-height: 1.3;
+  max-width: 140px;
+}
+
+.game-card-highscore {
+  margin-top: auto;
+  padding-top: 6px;
+  font-size: 0.75rem;
+  color: #78909c;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.game-card-highscore .score-value {
+  font-weight: bold;
+  color: var(--theme-color);
+}
+
+.game-card-play {
+  margin-top: 4px;
+  background: var(--theme-color);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 18px;
+  font-size: 0.78rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.game-card-play:hover { opacity: 0.85; }
+
+/* Inline game container (for sushi) */
+#dojo-game-root {
+  background: #fff;
+  border: 1px solid #ffe0b2;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  display: none;
+}
+#dojo-game-root.visible { display: block; }
+
+.game-back-bar {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  background: #fafafa;
+  border-bottom: 1px solid #ffe0b2;
+}
+.game-back-btn {
+  background: none;
+  border: none;
+  font-size: 0.85rem;
+  color: #78909c;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+.game-back-btn:hover { background: #f0f0f0; color: #263238; }
+
+/* ── HALL OF FAME ── */
+.hall {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #ffe0b2;
+  padding: 16px;
+}
+.hall-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.hall-header h2 {
+  font-size: 1rem;
+  color: #263238;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.hall-header h2 span { font-size: 1.2rem; }
+
+.hall-list { display: grid; gap: 8px; }
+
+.hall-item {
+  display: grid;
+  grid-template-columns: 34px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #eceff1;
+  border-radius: 10px;
+  padding: 8px 10px;
+  transition: border-color 0.2s;
+}
+.hall-item:hover { border-color: #ffe0b2; }
+
+.hall-rank {
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: #90a4ae;
+  text-align: center;
+  width: 24px;
+}
+.hall-rank.gold { color: #ffd700; }
+.hall-rank.silver { color: #b0bec5; }
+.hall-rank.bronze { color: #cd7f32; }
+
+.hall-avatar { font-size: 1.4rem; text-align: center; }
+
+.hall-meta { line-height: 1.3; min-width: 0; }
+.hall-meta .hall-game-icon { font-size: 0.8rem; margin-right: 3px; }
+.hall-meta b { display: block; font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hall-meta .hall-sub {
+  font-size: 0.72rem;
+  color: #90a4ae;
+}
+
+.hall-score {
+  font-size: 0.82rem;
+  color: #546e7a;
+  text-align: right;
+  white-space: nowrap;
+}
+.hall-score .score-stars { color: #ffd700; }
+
+.hall-empty {
+  color: #90a4ae;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 20px 0;
+  line-height: 1.5;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 480px) {
+  .games-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .game-card { padding: 12px 8px; }
+  .game-card-icon { font-size: 2.2rem; }
+  .game-card-title { font-size: 0.85rem; }
+  .game-card-desc { font-size: 0.68rem; }
+}
+
+@media (min-width: 768px) {
+  .games-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+</style>
+</head>
+<body>
+  <div id="page-wrap">
+    <div id="app-nav"></div>
+    <main id="main-content">
+
+      <!-- DOJO HEADER -->
+      <div class="dojo-header">
+        <h1><span>🥋</span> Dojo</h1>
+        <p>Choose your challenge and master Chinese characters!</p>
+      </div>
+
+      <!-- GAME CARDS -->
+      <div class="games-grid" id="games-grid"></div>
+
+      <!-- INLINE GAME CONTAINER (for sushi mode) -->
+      <div class="game-back-bar" id="game-back-bar" style="display:none;">
+        <button class="game-back-btn" onclick="closeGame()">← Back to Dojo</button>
+      </div>
+      <div id="dojo-game-root"></div>
+
+      <!-- HALL OF FAME -->
+      <section class="hall">
+        <div class="hall-header">
+          <h2><span>🏆</span> Hall of Fame</h2>
+          <button onclick="testHallOfFame()" style="background:#e63946;color:white;border:none;border-radius:8px;padding:4px 10px;font-size:11px;cursor:pointer;">Test Add Score</button>
+        </div>
+
+        <div id="hall-list" class="hall-list"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <script type="module" src="games/dist/assets/game.js?v=5"></script>
+
+  <script>
+    /* =====================================================
+       GAME DEFINITIONS
+    ===================================================== */
+    var GAMES = [
+      {
+        id: 'sushi',
+        icon: '🍣',
+        title: 'Sushi Conveyor',
+        desc: 'Drag & drop characters to hungry customers on the conveyor belt!',
+        color: '#FF6B35',
+        inline: true,
+        route: null
+      },
+      {
+        id: 'matching',
+        icon: '🔤',
+        title: 'Matching Game',
+        desc: 'Match Chinese characters with their pinyin and meanings.',
+        color: '#7E57C2',
+        inline: false,
+        route: null
+      },
+      {
+        id: 'write',
+        icon: '✍️',
+        title: 'Write Practice',
+        desc: 'Practice writing Chinese characters stroke by stroke.',
+        color: '#43A047',
+        inline: false,
+        route: 'write.html'
+      },
+      {
+        id: 'study',
+        icon: '📖',
+        title: 'Study Cards',
+        desc: 'Review flashcards with characters, pinyin and meanings.',
+        color: '#00ACC1',
+        inline: false,
+        route: 'study.html'
+      }
+    ];
+
+    /* =====================================================
+       RENDER GAME CARDS
+    ===================================================== */
+    function renderGameCards() {
+      var grid = document.getElementById('games-grid');
+      grid.innerHTML = '';
+
+      GAMES.forEach(function(game) {
+        var card = document.createElement('a');
+        card.className = 'game-card';
+        card.href = game.inline ? 'javascript:void(0)' : (game.route || '#');
+        card.style.setProperty('--theme-color', game.color);
+
+        // Get high score for this game
+        var highScore = getGameHighScore(game.id);
+
+        card.innerHTML =
+          '<div class="game-card-icon">' + game.icon + '</div>' +
+          '<div class="game-card-title">' + game.title + '</div>' +
+          '<div class="game-card-desc">' + game.desc + '</div>' +
+          (highScore !== null
+            ? '<div class="game-card-highscore">⭐ Best: <span class="score-value">' + highScore + '</span></div>'
+            : '<div class="game-card-highscore" style="color:#cfd8dc;">No record yet</div>') +
+          '<div class="game-card-play" style="background:' + game.color + ';">▶ Play</div>';
+
+        if (game.inline) {
+          card.onclick = function(e) {
+            e.preventDefault();
+            openGame(game.id);
+          };
+        }
+
+        grid.appendChild(card);
+      });
+    }
+
+    /* =====================================================
+       GET HIGH SCORE FOR A GAME
+       Reads from profiles.js score data
+    ===================================================== */
+    function getGameHighScore(gameId) {
+      var profile = XHZ.getActiveProfile();
+      if (!profile) return null;
+
+      var allScores = XHZ.getAllScores(profile.id);
+      var best = null;
+
+      Object.values(allScores).forEach(function(day) {
+        // Check for game-specific scores stored in the day entry
+        if (day.game_scores && day.game_scores[gameId]) {
+          var score = day.game_scores[gameId];
+          if (best === null || score > best) best = score;
+        }
+      });
+
+      // Also check the dojo hall of fame for this game
+      try {
+        var hof = JSON.parse(localStorage.getItem('xhz_dojo_hall_of_fame') || '[]');
+        var myEntry = hof.find(function(e) {
+          return e.profileId === profile.id && e.gameId === gameId;
+        });
+        if (myEntry && (best === null || myEntry.bestScore > best)) {
+          best = myEntry.bestScore;
+        }
+      } catch(_) {}
+
+      return best;
+    }
+
+    /* =====================================================
+       OPEN / CLOSE INLINE GAME
+    ===================================================== */
+    function openGame(gameId) {
+      var root = document.getElementById('dojo-game-root');
+      var backBar = document.getElementById('game-back-bar');
+      root.classList.add('visible');
+      if (backBar) backBar.style.display = 'flex';
+      root.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // Dispatch event for the game module to mount
+      window.dispatchEvent(new CustomEvent('xhz:mount-game', {
+        detail: { gameId: gameId }
+      }));
+    }
+
+    function closeGame() {
+      var root = document.getElementById('dojo-game-root');
+      var backBar = document.getElementById('game-back-bar');
+      root.classList.remove('visible');
+      if (backBar) backBar.style.display = 'none';
+
+      // Dispatch event to unmount
+      window.dispatchEvent(new CustomEvent('xhz:unmount-game'));
+    }
+
+    /* =====================================================
+       HALL OF FAME — Top 10 rankings with date & time
+    ===================================================== */
+    function formatDate(ts) {
+      var d = new Date(ts);
+      var month = d.getMonth() + 1;
+      var day = d.getDate();
+      var hours = d.getHours();
+      var minutes = d.getMinutes();
+      var ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12 || 12;
+      minutes = minutes < 10 ? '0' + minutes : minutes;
+      return month + '/' + day + ' ' + hours + ':' + minutes + ' ' + ampm;
+    }
+
+    function renderHallOfFame() {
+      var listEl = document.getElementById('hall-list');
+      var entries = [];
+
+      try {
+        entries = JSON.parse(localStorage.getItem('xhz_dojo_hall_of_fame') || '[]');
+      } catch (_) {
+        entries = [];
+      }
+
+      if (!entries.length) {
+        listEl.innerHTML = '<div class="hall-empty">🏆 No records yet.<br>Play a game to appear on the leaderboard!</div>';
+        return;
+      }
+
+      // Sort all entries by score descending (highest score first)
+      var sorted = entries.slice().sort(function(a, b) {
+        if (b.bestScore !== a.bestScore) return b.bestScore - a.bestScore;
+        if (b.bestStars !== a.bestStars) return b.bestStars - a.bestStars;
+        return b.updatedAt - a.updatedAt;
+      });
+
+      // Get game icon map
+      var gameIconMap = {};
+      GAMES.forEach(function(g) { gameIconMap[g.id] = g.icon; });
+
+      // Show top 10
+      var maxRank = Math.min(10, sorted.length);
+      var html = '';
+
+      for (var i = 0; i < maxRank; i++) {
+        var entry = sorted[i];
+        var gid = entry.gameId || 'sushi';
+        var icon = gameIconMap[gid] || '🎮';
+        var rank = i + 1;
+
+        var rankClass = 'hall-rank';
+        var rankLabel = '#' + rank;
+        if (rank === 1) { rankClass += ' gold'; rankLabel = '🥇'; }
+        else if (rank === 2) { rankClass += ' silver'; rankLabel = '🥈'; }
+        else if (rank === 3) { rankClass += ' bronze'; rankLabel = '🥉'; }
+
+        html +=
+          '<div class="hall-item">' +
+            '<div class="' + rankClass + '">' + rankLabel + '</div>' +
+            '<div class="hall-avatar">' + (entry.avatar || '🐼') + '</div>' +
+            '<div class="hall-meta">' +
+              '<b><span class="hall-game-icon">' + icon + '</span>' + escapeHtml(entry.nickname) + '</b>' +
+              '<div class="hall-sub">Stage ' + entry.bestStage + ' · ' + formatDate(entry.updatedAt) + '</div>' +
+            '</div>' +
+            '<div class="hall-score">' +
+              '<span class="score-stars">' + entry.bestStars + '⭐</span><br>' +
+              'Score ' + entry.bestScore +
+            '</div>' +
+          '</div>';
+      }
+
+      listEl.innerHTML = html;
+    }
+
+
+    /* =====================================================
+       UTILITY
+    ===================================================== */
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&')
+        .replace(/</g, '<')
+        .replace(/>/g, '>')
+        .replace(/"/g, '"');
+    }
+
+    /* =====================================================
+       TEST HALL OF FAME — Adds a dummy score for testing
+    ===================================================== */
+    function testHallOfFame() {
+      var profile = XHZ.getActiveProfile();
+      if (!profile) {
+        alert('No active profile found!');
+        return;
+      }
+      var entries = [];
+      try {
+        entries = JSON.parse(localStorage.getItem('xhz_dojo_hall_of_fame') || '[]');
+      } catch(_) {}
+      // Always push a new test entry (don't overwrite old ones)
+      var testEntry = {
+        profileId: profile.id,
+        gameId: 'sushi',
+        nickname: profile.nickname,
+        avatar: profile.avatar,
+        bestStars: Math.floor(Math.random() * 10) + 1,
+        bestScore: Math.floor(Math.random() * 50) + 10,
+        bestStage: Math.floor(Math.random() * 5) + 1,
+        updatedAt: Date.now()
+      };
+      entries.push(testEntry);
+      localStorage.setItem('xhz_dojo_hall_of_fame', JSON.stringify(entries));
+      console.log('[Dojo] Test entry saved:', JSON.stringify(testEntry));
+      renderHallOfFame();
+    }
+
+
+    /* =====================================================
+       INIT
+    ===================================================== */
+    document.addEventListener('DOMContentLoaded', function() {
+
+      XHZ.requireActive();
+      initNav('study');
+      renderGameCards();
+      renderHallOfFame();
+
+      onLangChange(function() {
+        renderHallOfFame();
+        window.dispatchEvent(new CustomEvent('xhz:lang-changed'));
+      });
+
+      window.addEventListener('xhz:dojo-hof-updated', renderHallOfFame);
+    });
+  </script>
+</body>
+</html>
