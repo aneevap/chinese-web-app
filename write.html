@@ -2,1203 +2,848 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>学汉字 Learn Chinese</title>
-<script src="nav.js"></script>
-<script src="profiles.js"></script>
-<script src="strings.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+<script src="nav.js"></script><script src="profiles.js"></script><script src="strings.js"></script><script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bai Jamjuree:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root {
-    --theme-color: #FFB347;
-    --theme-color-light: #FFE0B255;
-    --theme-color-pale: #FFB34718;
-    --paper-bg: #fdfaf0;
-    --paper-texture: url('https://www.transparenttextures.com/patterns/rice-paper.png');
+:root{--bg:#FAF8F2;--cream:#FFFDF4;--cream-border:#F0EBD8;--card-yellow:#F9E847;--card-yellow-light:#FDF8D0;--card-yellow-soft:#FFF9E0;--teal:#1B7B5E;--teal-light:#D0F0E4;--teal-dark:#145C47;--text-dark:#222222;--text-mid:#555555;--text-light:#999999;--white:#FFFFFF;--correct:#4CAF50;--wrong:#F44336;--pink-light:#FDDEDE;--mint-light:#D4F5E4;--radius-lg:24px;--radius-md:16px;--radius-sm:12px;--radius-pill:999px;--shadow-card:0 4px 20px rgba(0,0,0,0.06);--shadow-soft:0 2px 10px rgba(0,0,0,0.04);--shadow-btn:0 4px 12px rgba(27,123,94,0.25);--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);--theme-color:#1B7B5E;--theme-color-light:#D0F0E4;--theme-color-pale:#F2F1EC}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Nunito','Bai Jamjuree','Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:var(--bg);height:100dvh;display:flex;flex-direction:column;overflow:hidden;color:var(--text-dark);padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
+.loading-screen{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:16px;font-size:1em;color:var(--text-light);font-weight:700}
+.loading-spinner{width:44px;height:44px;border:4px solid var(--teal-light);border-top-color:var(--teal);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* MOBILE TABS */
+.mobile-tabs{display:none;background:var(--white);padding:10px 16px;gap:10px;z-index:10}
+.m-tab-btn{flex:1;padding:14px 10px;border-radius:var(--radius-pill);border:2px solid var(--teal-light);font-weight:800;font-size:.9em;background:var(--white);color:var(--teal);cursor:pointer;transition:all .2s;min-height:48px;font-family:'Nunito',sans-serif}
+.m-tab-btn.active{background:var(--teal);color:var(--white);border-color:var(--teal);box-shadow:var(--shadow-btn)}
+
+/* GUEST BANNER */
+.guest-banner{background:var(--card-yellow-light);border-bottom:2px solid var(--card-yellow);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:.78em;color:var(--text-mid);flex-shrink:0;font-weight:700}
+.guest-banner button{background:var(--teal);color:var(--white);border:none;border-radius:var(--radius-pill);padding:8px 16px;font-size:.85em;font-weight:800;cursor:pointer;white-space:nowrap;min-height:44px}
+.guest-banner .dismiss{background:transparent;color:var(--text-light);font-size:1.3em;padding:0 8px;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center}
+
+/* MAIN LAYOUT */
+.main-content{display:flex;flex-direction:column;flex:1;padding:12px 16px;gap:10px;overflow-y:auto;overflow-x:hidden;min-height:0;align-items:center}
+/* INFO STRIP */
+.info-strip{width:100%;max-width:880px;background:var(--cream);border:1px solid var(--cream-border);border-radius:var(--radius-md);padding:10px 14px;display:flex;align-items:center;gap:14px;flex-shrink:0;box-shadow:var(--shadow-soft)}
+.info-strip-thumb{flex-shrink:0;width:96px;height:96px;border-radius:var(--radius-sm);background:var(--white);border:1px solid var(--cream-border);position:relative;overflow:hidden}
+.info-strip-thumb #anim-box{width:100%;height:100%}
+.info-strip-thumb .crosshair{border-radius:var(--radius-sm)}
+.info-strip-info{flex:1;display:flex;flex-direction:column;gap:4px;min-width:0}
+.info-strip-row1{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pinyin-text{font-size:1.35em;color:var(--text-dark);font-weight:900}
+.tone-badge{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;font-size:.65em;font-weight:800;flex-shrink:0}
+.tone-1{background:#DBEAFE;color:#1D4ED8}.tone-2{background:#D1FAE5;color:#065F46}.tone-3{background:#FEF3C7;color:#92400E}.tone-4{background:#FEE2E2;color:#991B1B}.tone-0{background:#F3F4F6;color:#9CA3AF}
+.meaning-text{font-size:1em;color:var(--text-mid);font-weight:800;line-height:1.2}
+.icon-btn{background:var(--white);border:1px solid var(--cream-border);border-radius:50%;width:40px;height:40px;font-size:1em;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
+.icon-btn:active{transform:scale(0.9);background:var(--teal-light)}
+.icon-btn.speaking{background:var(--teal);color:var(--white);border-color:var(--teal);animation:pulse .6s infinite alternate}
+.icon-btn.recording{background:var(--wrong);color:var(--white);border-color:var(--wrong);animation:pulse .6s infinite alternate}
+@keyframes pulse{from{transform:scale(1);box-shadow:0 0 0 rgba(255,100,66,0.4)}to{transform:scale(1.1);box-shadow:0 0 8px rgba(255,100,66,0.5)}}
+
+.mic-result{width:100%;background:var(--white);border-radius:var(--radius-sm);padding:6px 12px;font-size:.78em;color:var(--text-mid);text-align:center;border:1px solid var(--cream-border);transition:all .3s;display:flex;align-items:center;justify-content:center;flex-shrink:0;min-height:34px;font-weight:700}
+.mic-result.correct{background:var(--mint-light);border-color:var(--correct);color:#065F46}
+.mic-result.wrong{background:var(--pink-light);border-color:var(--wrong);color:#991B1B}
+.mic-result.listening{background:#FEF3C7;border-color:#F59E0B;color:#92400E}
+.replay-btn{background:var(--teal-light);border:none;border-radius:var(--radius-pill);padding:4px 12px;font-size:.7em;font-weight:800;color:var(--teal);cursor:pointer;display:none;align-items:center;gap:4px;min-height:30px;transition:background .2s;flex-shrink:0}
+.replay-btn.visible{display:flex}.replay-btn.playing{background:var(--teal);color:var(--white);animation:pulse .6s infinite alternate}
+
+/* CANVAS STAGE */
+.canvas-stage{width:100%;max-width:880px;background:var(--white);border-radius:var(--radius-lg);padding:18px;display:flex;flex-direction:column;align-items:center;gap:10px;box-shadow:var(--shadow-card);flex:0 0 auto;min-height:340px;position:relative;overflow:visible}
+.canvas-stage-header{position:absolute;top:14px;right:14px;z-index:5}
+.mode-toggle{display:flex;background:var(--bg);border-radius:var(--radius-pill);padding:3px;gap:0}
+.mode-btn{padding:0;width:40px;height:40px;border:none;background:transparent;color:var(--text-light);border-radius:50%;font-size:1.1em;font-weight:800;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;position:relative}
+.mode-btn.active{background:var(--teal);color:var(--white);box-shadow:var(--shadow-btn)}
+.mode-btn::after{content:attr(data-tooltip);position:absolute;bottom:-28px;left:50%;transform:translateX(-50%);background:var(--text-dark);color:var(--white);font-size:.55em;padding:3px 8px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;z-index:10}
+.mode-btn:hover::after{opacity:1}
+
+.char-box-wrapper{position:relative;flex-shrink:0}
+.canvas-stage .char-box-wrapper{width:min(260px,38vmin);height:min(260px,38vmin)}
+.char-box{width:100%;height:100%;border-radius:var(--radius-md);background:var(--white)}
+#anim-box{border:none}
+#quiz-box{border:1px solid var(--cream-border);box-shadow:0 2px 12px rgba(0,0,0,0.04)}
+.crosshair{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;border-radius:var(--radius-md);overflow:hidden;z-index:1}
+.crosshair::before,.crosshair::after{content:'';position:absolute;background:rgba(0,0,0,0.06)}
+.crosshair::before{top:50%;left:0;width:100%;height:1px}
+.crosshair::after{left:50%;top:0;width:1px;height:100%}
+#handwriting-canvas{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:var(--radius-md);pointer-events:none;z-index:2}
+
+/* SCORE BAR */
+.score-bar{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;width:100%;padding:4px 0;flex-shrink:0}
+.stars-display{font-size:1.4em;min-height:1.2em;line-height:1}
+.score-msg{font-size:.85em;font-weight:800;color:var(--correct);min-height:1em}
+.stats-row{display:flex;gap:16px}
+.stat-item{text-align:center;display:flex;align-items:baseline;gap:4px}
+.stat-val{font-size:1.05em;font-weight:900;color:var(--teal)}
+.stat-lbl{font-size:.65em;color:var(--text-light);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+
+/* SENTENCE CARD */
+.sentence-card{width:100%;max-width:880px;background:var(--card-yellow-soft);border:1px solid #F0E89A;border-radius:var(--radius-md);padding:10px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0;box-shadow:var(--shadow-soft)}
+.sentence-card .icon-btn{width:36px;height:36px;font-size:.9em;background:var(--white);border-color:#F0E89A}
+.sentence-card-text{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}
+.sentence-zh{font-size:.95em;color:var(--text-dark);font-weight:800}
+.sentence-tr{font-size:.78em;color:var(--text-mid);font-weight:700}
+
+.no-mic-msg{font-size:.7em;color:var(--text-light);text-align:center;flex-shrink:0;font-weight:700}
+.section-hidden{display:none!important}
+
+/* WORD LIST SECTION */
+.word-list-section{background:var(--white);border-top:none;flex-shrink:0;border-radius:var(--radius-lg) var(--radius-lg) 0 0;box-shadow:0 -4px 20px rgba(0,0,0,0.05);padding-bottom:8px}
+.picker-row{display:flex;gap:8px;padding:10px 12px 6px;align-items:center;flex-wrap:wrap}
+.picker-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;border:none;border-radius:var(--radius-pill);font-family:'Nunito',sans-serif;font-size:.85em;font-weight:800;color:var(--text-dark);cursor:pointer;transition:all .2s;min-height:42px;flex-shrink:0}
+.picker-btn:active{transform:scale(0.96)}
+.picker-btn-emoji{font-size:1.1em;flex-shrink:0}
+.picker-btn-label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.picker-btn-arrow{font-size:.9em;color:var(--text-light);flex-shrink:0}
+.picker-btn-course{background:var(--teal-light);color:var(--teal-dark)}
+.picker-btn-course .picker-btn-arrow{color:var(--teal)}
+.picker-btn-category{background:var(--card-yellow);color:var(--text-dark);box-shadow:0 2px 8px rgba(249,232,71,0.3)}
+.picker-btn-category .picker-btn-arrow{color:var(--text-mid)}
+
+.picker-nav{display:flex;align-items:center;gap:6px;margin-left:auto}
+.picker-pos{font-size:.78em;font-weight:800;color:var(--text-mid);padding:0 6px;min-width:38px;text-align:center}
+.page-btn{background:var(--bg);border:none;border-radius:50%;width:36px;height:36px;font-size:.95em;color:var(--teal);cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:900;transition:all .15s;flex-shrink:0}
+.page-btn:active{transform:scale(0.9);background:var(--teal-light)}
+.page-btn:disabled{opacity:.3;cursor:not-allowed}
+.page-dots{display:flex;gap:4px;align-items:center;padding:0 4px}
+.page-dot{width:7px;height:7px;border-radius:50%;background:#D8D8D0;transition:all .2s;cursor:pointer}
+.page-dot.active{background:var(--teal);width:18px;border-radius:4px}
+.grid-btn{background:var(--bg);border:none;border-radius:50%;width:36px;height:36px;font-size:1em;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;margin-left:4px}
+.grid-btn:active{transform:scale(0.9);background:var(--teal-light)}
+
+.course-tabs,.set-tabs{display:none!important}
+
+.word-list{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;padding:6px 12px 12px}
+.word-btn{height:clamp(58px,10vw,68px);border:none;background:var(--bg);border-radius:var(--radius-md);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;font-size:clamp(1.3em,3.5vw,1.55em);color:var(--text-dark);position:relative;transition:all .2s;font-weight:700;min-height:54px}
+.word-btn .wp{font-size:.32em;color:var(--text-light);margin-top:1px;font-weight:700}
+.word-btn.active{background:var(--card-yellow);transform:scale(1.05);box-shadow:0 4px 16px rgba(249,232,71,0.5)}
+.word-btn::before{content:'';position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:transparent}
+.word-btn.status-seen::before{background:#93C5FD}
+.word-btn.status-practiced::before{background:#FCD34D}
+.word-btn.status-mastered::before{background:var(--correct)}
+.word-btn.done::after{content:'✓';position:absolute;top:-3px;right:-3px;background:var(--correct);color:white;border-radius:50%;width:16px;height:16px;font-size:.36em;line-height:16px;text-align:center;font-weight:900}
+
+/* All chars sheet */
+.all-chars-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:4px 0}
+.all-chars-progress{margin-top:14px;padding:10px 12px;background:var(--bg);border-radius:var(--radius-sm);font-size:.78em;font-weight:800;color:var(--text-mid);text-align:center}
+.all-chars-progress-bar{margin-top:6px;height:6px;background:#E0E0E0;border-radius:3px;overflow:hidden}
+.all-chars-progress-fill{height:100%;background:var(--correct);border-radius:3px;transition:width .3s}
+
+/* SHEETS / POPUPS */
+.category-sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:500;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.category-sheet-overlay.open{opacity:1;pointer-events:all}
+.category-sheet{background:var(--white);border-radius:var(--radius-lg) var(--radius-lg) 0 0;width:100%;max-width:500px;max-height:75vh;padding:20px 16px 32px;padding-bottom:calc(32px + var(--safe-bottom));transform:translateY(100%);transition:transform .35s cubic-bezier(0.32,0.72,0,1);overflow-y:auto}
+.category-sheet-overlay.open .category-sheet{transform:translateY(0)}
+.category-sheet-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--bg)}
+.category-sheet-title{font-size:1.1em;font-weight:900;color:var(--text-dark)}
+.category-sheet-close{background:var(--bg);border:none;border-radius:50%;width:44px;height:44px;font-size:1.1em;color:var(--text-light);cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:800;transition:all .2s}
+.category-sheet-close:active{transform:scale(0.9);background:#e0e0e0}
+.category-sheet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.category-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px 8px;background:var(--bg);border:3px solid transparent;border-radius:var(--radius-md);cursor:pointer;transition:all .2s;min-height:80px;font-family:'Nunito',sans-serif}
+.category-card:active{transform:scale(0.95)}
+.category-card.active{background:var(--card-yellow-light);border-color:var(--card-yellow);box-shadow:0 2px 12px rgba(249,232,71,0.4)}
+.category-card-emoji{font-size:2em}
+.category-card-label{font-size:.75em;font-weight:800;color:var(--text-dark);text-align:center;line-height:1.2}
+.course-sheet-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.course-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:18px 12px;background:var(--bg);border:3px solid transparent;border-radius:var(--radius-md);cursor:pointer;transition:all .2s;min-height:90px;font-family:'Nunito',sans-serif;position:relative}
+.course-card:active{transform:scale(0.95)}
+.course-card.active{background:var(--teal-light);border-color:var(--teal);box-shadow:0 2px 12px rgba(27,123,94,0.2)}
+.course-card.locked{opacity:.5;cursor:not-allowed}
+.course-card.locked:active{transform:none}
+.course-card-emoji{font-size:2.2em}
+.course-card-label{font-size:1em;font-weight:900;color:var(--text-dark);text-align:center}
+.course-card-sub{font-size:.65em;font-weight:700;color:var(--text-light);text-align:center}
+.course-card-lock{position:absolute;top:8px;right:8px;font-size:.9em}
+.course-card-progress{width:80%;height:4px;background:#e0e0e0;border-radius:2px;overflow:hidden;margin-top:4px}
+.course-card-progress-fill{height:100%;background:var(--teal);border-radius:2px;transition:width .3s}
+.badge-popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;z-index:1000;opacity:0;pointer-events:none;transition:opacity .3s}
+.badge-popup-overlay.visible{opacity:1;pointer-events:all}
+.badge-popup{background:var(--white);border-radius:var(--radius-lg);padding:32px 28px;text-align:center;max-width:300px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.2);transform:scale(0.8);transition:transform .3s}
+.badge-popup-overlay.visible .badge-popup{transform:scale(1)}
+.badge-popup-emoji{font-size:3.5em;margin-bottom:12px}
+.badge-popup-title{font-size:1.2em;font-weight:900;color:var(--text-dark);margin-bottom:6px}
+.badge-popup-sub{font-size:.85em;color:var(--text-light);margin-bottom:20px;font-weight:700}
+.badge-popup-btn{background:var(--teal);color:var(--white);border:none;border-radius:var(--radius-pill);padding:12px 28px;font-size:.95em;font-weight:800;cursor:pointer;box-shadow:var(--shadow-btn);min-height:48px;transition:transform .15s}
+.badge-popup-btn:active{transform:scale(0.95)}
+.unlock-popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1001;opacity:0;pointer-events:none;transition:opacity .3s}
+.unlock-popup-overlay.visible{opacity:1;pointer-events:all}
+.unlock-popup{background:var(--white);border-radius:var(--radius-lg);padding:36px 28px;text-align:center;max-width:340px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.25);transform:scale(0.8);transition:transform .3s;border:3px solid var(--card-yellow)}
+.unlock-popup-overlay.visible .unlock-popup{transform:scale(1)}
+.unlock-popup-emoji{font-size:4em;margin-bottom:12px;animation:bounce .6s ease infinite alternate}
+@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-10px)}}
+.unlock-popup-title{font-size:1.4em;font-weight:900;color:var(--text-dark);margin-bottom:8px}
+.unlock-popup-sub{font-size:.92em;color:var(--text-mid);margin-bottom:12px;line-height:1.5;font-weight:700}
+.unlock-popup-progress{font-size:.82em;color:var(--text-light);margin-bottom:16px;padding:10px;background:var(--bg);border-radius:var(--radius-sm);font-weight:700}
+.unlock-popup-btn{background:var(--teal);color:var(--white);border:none;border-radius:var(--radius-pill);padding:14px 32px;font-size:1em;font-weight:800;cursor:pointer;box-shadow:var(--shadow-btn);min-height:52px;transition:transform .15s}
+.unlock-popup-btn:active{transform:scale(0.95)}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.shake{animation:shake .3s ease}
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+.pop{animation:pop .35s ease}
+
+/* RESPONSIVE — MOBILE */
+@media (max-width:600px){
+.mobile-tabs{display:flex}
+.main-content{padding:8px;gap:8px;align-items:stretch}
+.info-strip{padding:10px;gap:10px;border-radius:var(--radius-md);flex-wrap:wrap;justify-content:center}
+.info-strip > .info-strip-thumb{width:min(165px,42vw);height:min(165px,42vw);order:1}
+.info-strip-info{flex:1 1 100%;order:2}
+.replay-btn{order:3;margin:0 auto}
+.pinyin-text{font-size:1.2em}
+.meaning-text{font-size:.92em}
+.canvas-stage{padding:14px;border-radius:var(--radius-lg)}
+.canvas-stage .char-box-wrapper{width:min(220px,55vw);height:min(220px,55vw)}
+.sentence-card{padding:8px 12px}
+.word-list-section{max-height:none}
+.word-list{grid-template-columns:repeat(6,1fr)}
+.picker-row{gap:6px;padding:8px 10px 4px}
+.picker-btn{padding:6px 10px;font-size:.78em;min-height:38px}
+.picker-pos{font-size:.72em;min-width:32px}
+.page-btn,.grid-btn{width:32px;height:32px}
+.all-chars-grid{grid-template-columns:repeat(4,1fr)}
 }
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: var(--theme-color-pale);
-    height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    transition: background 0.4s;
+
+/* RESPONSIVE — TABLET */
+@media (min-width:601px) and (max-width:1024px){
+.main-content{padding:14px;gap:10px}
+.canvas-stage{padding:18px}
+.canvas-stage .char-box-wrapper{width:min(280px,32vmin);height:min(280px,32vmin)}
+.word-list{grid-template-columns:repeat(8,1fr)}
+.category-sheet-grid{grid-template-columns:repeat(4,1fr)}
+.course-sheet-grid{grid-template-columns:repeat(3,1fr)}
+.category-sheet{max-width:600px;border-radius:var(--radius-lg);margin-bottom:10vh}
+.all-chars-grid{grid-template-columns:repeat(5,1fr)}
 }
-.loading-screen {
-    position: fixed; inset: 0;
-    background: #FFF9F0;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    z-index: 999; gap: 16px;
-    font-size: 1em; color: #aaa;
-}
-.loading-spinner {
-    width: 40px; height: 40px;
-    border: 4px solid #FFD9A0;
-    border-top-color: #FFB347;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-.mobile-tabs {
-    display: none;
-    background: white;
-    padding: 8px 12px;
-    gap: 8px;
-    border-bottom: 2px solid var(--theme-color-light);
-    z-index: 10;
-}
-.m-tab-btn {
-    flex: 1;
-    padding: 10px;
-    border-radius: 12px;
-    border: 2px solid #eee;
-    font-weight: bold;
-    font-size: 0.85em;
-    background: #f9f9f9;
-    cursor: pointer;
-}
-.m-tab-btn.active { background: var(--theme-color); color: white; border-color: var(--theme-color); }
-.main-content {
-    display: flex;
-    flex: 1;
-    padding: 6px;
-    gap: 8px;
-    overflow: hidden;
-    min-height: 0;
-}
-.panel {
-    background: var(--paper-bg);
-    background-image: var(--paper-texture);
-    border: 2px solid #e0d5b7;
-    border-radius: 14px;
-    padding: 12px;
-    box-shadow: inset 0 0 40px rgba(0,0,0,0.03), 0 4px 15px rgba(0,0,0,0.05);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
-    overflow: auto;
-    min-width: 0;
-    position: relative;
-}
-.panel-title {
-    font-size: 0.75em; color: #8d7a5d;
-    font-weight: bold; text-transform: uppercase;
-    letter-spacing: 1.5px; margin-bottom: 8px;
-    flex-shrink: 0;
-}
-.left-panel { border-left: 6px solid var(--theme-color); }
-.char-box-wrapper {
-    position: relative;
-    width: min(180px, 40vmin);
-    height: min(180px, 40vmin);
-    flex-shrink: 0;
-    margin-bottom: 8px;
-}
-.char-box {
-    width: 100%; height: 100%;
-    border-radius: 12px;
-    background: white;
-    border: 3px solid #eee;
-}
-#anim-box { border-color: var(--theme-color-light); }
-#quiz-box { border: 3px solid #B8E8D8; }
-.crosshair {
-    position: absolute; top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
-    border-radius: 12px; overflow: hidden;
-    z-index: 1;
-}
-.crosshair::before, .crosshair::after {
-    content: ''; position: absolute;
-    background: rgba(180,180,180,0.5);
-}
-.crosshair::before { top: 50%; left: 0; width: 100%; height: 1px; }
-.crosshair::after { left: 50%; top: 0; width: 1px; height: 100%; }
-#handwriting-canvas {
-    position: absolute;
-    top: 3px; left: 3px;
-    width: calc(100% - 6px);
-    height: calc(100% - 6px);
-    border-radius: 9px;
-    pointer-events: none;
-    z-index: 2;
-}
-.pinyin-row {
-    display: flex; align-items: center;
-    justify-content: center; gap: 8px;
-    margin-bottom: 6px; flex-shrink: 0;
-}
-.pinyin-text { font-size: clamp(1.2em, 2.5vmin, 1em); color: var(--theme-color); font-weight: bold; }
-.tone-badge {
-    display: inline-flex;
-    align-items: center; justify-content: center;
-    width: 20px; height: 20px;
-    border-radius: 50%;
-    font-size: 0.62em; font-weight: bold;
-    flex-shrink: 0;
-    transition: background 0.3s, color 0.3s;
-}
-.tone-1 { background: #E3F2FD; color: #1565C0; }
-.tone-2 { background: #E8F5E9; color: #2E7D32; }
-.tone-3 { background: #FFF8E1; color: #F57F17; }
-.tone-4 { background: #FCE4EC; color: #C62828; }
-.tone-0 { background: #F5F5F5; color: #9E9E9E; }
-.icon-btn {
-    background: var(--theme-color-light);
-    border: none; border-radius: 50%;
-    width: 32px; height: 32px;
-    font-size: 1em; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.2s, transform 0.15s;
-    flex-shrink: 0;
-}
-.icon-btn:active { transform: scale(0.9); }
-.icon-btn.speaking { background: var(--theme-color); animation: pulse 0.6s infinite alternate; }
-.icon-btn.recording { background: #FF6B6B; animation: pulse 0.6s infinite alternate; }
-@keyframes pulse {
-    from { transform: scale(1); box-shadow: 0 0 0 rgba(255,100,66,0.4); }
-    to { transform: scale(1.15); box-shadow: 0 0 6px rgba(255,100,66,0.7); }
-}
-.meaning-text {
-    font-size: clamp(1.2em, 5vmin, 2em);
-    color: #555; margin-bottom: 6px;
-    text-align: center; flex-shrink: 0;
-    font-weight: 600; line-height: 1.2;
-}
-.mic-result {
-    width: 100%;
-    background: #F0FFF4; border-radius: 8px;
-    padding: 3px 6px;
-    font-size: clamp(0.62em, 1.8vmin, 0.74em);
-    color: #555; text-align: center;
-    border: 2px solid transparent;
-    transition: all 0.3s;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; margin-top: 2px; min-height: 26px;
-}
-.mic-result.correct { background:#E8F5E9; border-color:#66BB6A; color:#2E7D32; font-weight:bold; }
-.mic-result.wrong { background:#FFF0F0; border-color:#FF6B6B; color:#C62828; font-weight:bold; }
-.mic-result.listening { background:#FFF3E0; border-color:var(--theme-color); color:#E65100; }
-.replay-row { display: flex; align-items: center; justify-content: center; flex-shrink: 0; min-height: 20px; margin-top: 2px; }
-.replay-btn {
-    background: #B2EBF2; border: none;
-    border-radius: 12px; padding: 2px 8px;
-    font-size: 0.68em; font-weight: bold; color: #00838F;
-    cursor: pointer; display: none;
-    align-items: center; gap: 3px; transition: background 0.2s;
-}
-.replay-btn.visible { display: flex; }
-.replay-btn.playing { background: #80DEEA; animation: pulse 0.6s infinite alternate; }
-.sentence-block { background: #FFF5E6; border-radius: 8px; padding: 4px 6px; width: 100%; margin-top: 2px; flex-shrink: 0; }
-.sentence-zh-row { display: flex; align-items: center; gap: 4px; margin-bottom: 1px; }
-.sentence-zh { font-size: clamp(0.7em, 2vmin, 0.84em); color: #333; font-weight: bold; }
-.sentence-tr { font-size: clamp(0.62em, 1.7vmin, 0.72em); color: #888; }
-.right-panel { background: linear-gradient(135deg,#F0FFF8,#F5FAFF); }
-.right-header { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 4px; flex-shrink: 0; }
-.mode-toggle { display: flex; gap: 4px; }
-.mode-btn {
-    padding: 3px 7px; border: 2px solid #98D8C8;
-    background: transparent; color: #98D8C8;
-    border-radius: 10px; font-size: 0.65em;
-    font-weight: bold; cursor: pointer; transition: all 0.2s;
-}
-.mode-btn.active { background: #98D8C8; color: white; }
-.score-area { margin-top: 4px; text-align: center; width: 100%; flex-shrink: 0; }
-.stars-display { font-size: clamp(1.1em, 3.5vmin, 1.5em); min-height: 1.4em; }
-.score-label { font-size: 0.6em; color: #bbb; font-weight: bold; letter-spacing: 1px; }
-.score-msg { font-size: clamp(0.65em, 1.8vmin, 0.78em); font-weight: bold; color: #66BB6A; min-height: 1em; margin-top: 1px; }
-.stats-row { display: flex; justify-content: center; gap: 10px; margin-top: 3px; }
-.stat-item { text-align: center; }
-.stat-val { font-size: clamp(0.85em, 2.5vmin, 1em); font-weight: bold; color: var(--theme-color); }
-.stat-lbl { font-size: 0.55em; color: #bbb; }
-.word-list-section { background: white; border-top: 2px solid var(--theme-color-light); flex-shrink: 0; transition: border-color 0.4s; max-height: 180px; overflow-y: auto; }
-.course-tabs, .set-tabs { display: flex; flex-wrap: wrap; gap: 3px; padding: 4px 6px 0; }
-.course-tabs { border-bottom: 1px solid #f0f0f0; }
-.course-tab, .set-tab {
-    flex-shrink: 0; padding: 3px 10px;
-    border: 2px solid #eee;
-    background: #f9f9f9; border-radius: 7px 7px 0 0;
-    font-size: 0.65em; font-weight: bold; color: #aaa;
-    cursor: pointer; transition: all 0.2s; white-space: nowrap;
-    position: relative;
-}
-.set-tab { padding: 3px 9px; border-bottom: none; }
-.course-tab.active, .set-tab.active { background: white; color: #333; border-color: var(--theme-color-light); border-bottom-color: white; }
-.course-tab.locked { color: #ccc; cursor: not-allowed; }
-.course-tab.locked::after { content: '🔒'; font-size: 0.75em; margin-left: 3px; }
-.word-list { display: flex; flex-wrap: wrap; gap: 5px; padding: 4px 6px 6px; }
-.word-btn {
-    flex-shrink: 0;
-    width: clamp(60px, 11vw, 54px);
-    height: clamp(70px, 13vw, 60px);
-    border: 2px solid var(--theme-color-light);
-    background: var(--theme-color-pale);
-    border-radius: 10px; display: flex;
-    flex-direction: column; align-items: center;
-    justify-content: center; cursor: pointer;
-    font-size: clamp(1.4em, 4vw, 1.3em); color: #333;
-    position: relative; transition: all 0.2s;
-}
-.word-btn .wp { font-size: 0.26em; color: var(--theme-color); margin-top: 1px; }
-.word-btn.active { background: var(--theme-color-light); border-color: var(--theme-color); transform: scale(1.07); box-shadow: 0 3px 8px rgba(0,0,0,0.15); }
-.word-btn::before { content: ''; position: absolute; bottom: 3px; left: 3px; width: 6px; height: 6px; border-radius: 50%; background: transparent; }
-.word-btn.status-seen::before { background: #90CAF9; }
-.word-btn.status-practiced::before { background: #FFB347; }
-.word-btn.status-mastered::before { background: #66BB6A; }
-.word-btn.done::after { content: '✓'; position: absolute; top: -4px; right: -4px; background: #66BB6A; color: white; border-radius: 50%; width: 13px; height: 13px; font-size: 0.34em; line-height: 13px; text-align: center; }
-.guest-banner { background: #FFF3E0; border-top: 2px solid #FFB347; padding: 6px 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 0.72em; color: #E65100; flex-shrink: 0; }
-.guest-banner button { background: #FFB347; color: white; border: none; border-radius: 8px; padding: 3px 10px; font-size: 0.9em; cursor: pointer; white-space: nowrap; }
-.guest-banner .dismiss { background: transparent; color: #aaa; font-size: 1.1em; padding: 0 4px; }
-.badge-popup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
-.badge-popup-overlay.visible { opacity: 1; pointer-events: all; }
-.badge-popup { background: white; border-radius: 20px; padding: 28px 24px; text-align: center; max-width: 280px; width: 90%; box-shadow: 0 10px 40px rgba(0,0,0,0.2); transform: scale(0.8); transition: transform 0.3s; }
-.badge-popup-overlay.visible .badge-popup { transform: scale(1); }
-.badge-popup-emoji { font-size: 3.5em; margin-bottom: 8px; }
-.badge-popup-title { font-size: 1.1em; font-weight: bold; color: #333; margin-bottom: 4px; }
-.badge-popup-sub { font-size: 0.8em; color: #888; margin-bottom: 16px; }
-.badge-popup-btn { background: var(--theme-color); color: white; border: none; border-radius: 12px; padding: 8px 20px; font-size: 0.9em; font-weight: bold; cursor: pointer; transition: transform 0.15s; }
-.badge-popup-btn:active { transform: scale(0.95); }
-.unlock-popup-overlay {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.5);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 1001;
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.3s;
-}
-.unlock-popup-overlay.visible { opacity: 1; pointer-events: all; }
-.unlock-popup {
-    background: linear-gradient(135deg, #FFF9E6, #FFFFFF);
-    border-radius: 24px;
-    padding: 32px 28px;
-    text-align: center;
-    max-width: 320px; width: 90%;
-    box-shadow: 0 15px 50px rgba(0,0,0,0.25);
-    transform: scale(0.8);
-    transition: transform 0.3s;
-    border: 3px solid #FFD700;
-}
-.unlock-popup-overlay.visible .unlock-popup { transform: scale(1); }
-.unlock-popup-emoji { font-size: 4em; margin-bottom: 12px; animation: bounce 0.6s ease infinite alternate; }
-@keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-10px); } }
-.unlock-popup-title { font-size: 1.3em; font-weight: bold; color: #333; margin-bottom: 8px; }
-.unlock-popup-sub { font-size: 0.9em; color: #666; margin-bottom: 12px; line-height: 1.4; }
-.unlock-popup-progress { font-size: 0.8em; color: #888; margin-bottom: 16px; padding: 8px; background: #f5f5f5; border-radius: 8px; }
-.unlock-popup-btn {
-    background: linear-gradient(135deg, #FFD700, #FFA500);
-    color: white; border: none; border-radius: 14px;
-    padding: 12px 28px; font-size: 1em;
-    font-weight: bold; cursor: pointer;
-    transition: transform 0.15s;
-    box-shadow: 0 4px 15px rgba(255,165,0,0.4);
-}
-.unlock-popup-btn:active { transform: scale(0.95); }
-@keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
-.shake { animation: shake 0.3s ease; }
-@keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
-.pop { animation: pop 0.35s ease; }
-.no-mic-msg { font-size: 0.62em; color: #ccc; text-align: center; margin-top: 2px; flex-shrink: 0; }
-@media (max-width: 600px) {
-    .mobile-tabs { display: flex; }
-    .main-content { flex-direction: column; }
-    .left-panel.mobile-hidden, .right-panel.mobile-hidden { display: none; }
-    .char-box-wrapper { width: min(260px, 70vw); height: min(260px, 70vw); }
+
+/* RESPONSIVE — DESKTOP */
+@media (min-width:1025px){
+.mobile-tabs{display:none!important}
+.main-content{padding:18px;gap:12px}
+.canvas-stage{padding:22px}
+.canvas-stage .char-box-wrapper{width:min(300px,32vmin);height:min(300px,32vmin)}
+.section-hidden{display:flex!important}
+.word-list{grid-template-columns:repeat(11,1fr)}
+.word-btn{height:80px}
+.all-chars-grid{grid-template-columns:repeat(6,1fr)}
+.category-sheet-overlay{align-items:center}
+.category-sheet{max-width:650px;border-radius:var(--radius-lg);max-height:60vh}
+.category-sheet-grid{grid-template-columns:repeat(5,1fr)}
+.course-sheet-grid{grid-template-columns:repeat(4,1fr)}
 }
 </style>
 </head>
 <body>
-<div class="loading-screen" id="loading-screen">
-    <div class="loading-spinner"></div>
-    <span id="loading-msg">Loading...</span>
-</div>
+<div class="loading-screen" id="loading-screen"><div class="loading-spinner"></div><span id="loading-msg">Loading...</span></div>
 <div id="app-nav"></div>
-<div class="mobile-tabs" id="mobile-tabs">
-    <button class="m-tab-btn active" id="m-tab-watch" onclick="switchTab('watch')">👁️ WATCH</button>
-    <button class="m-tab-btn" id="m-tab-write" onclick="switchTab('write')">✍️ PRACTICE</button>
-</div>
-<div class="guest-banner" id="guest-banner" style="display:none;">
-    <span>Progress is saved on this device for now. Cloud saving is coming soon! Sign up for free and we will tell you when it's available.</span>
-    <button class="banner-btn" data-i18n="save_my_progress" onclick="window.location.href='signup.html'"></button>
-    <button class="dismiss" onclick="dismissGuestBanner()">✕</button>
-</div>
+<div class="mobile-tabs" id="mobile-tabs"><button class="m-tab-btn active" id="m-tab-watch" onclick="switchTab('watch')">📖 STUDY</button><button class="m-tab-btn" id="m-tab-write" onclick="switchTab('write')">✍️ PRACTICE</button></div>
+<div class="guest-banner" id="guest-banner" style="display:none;"><span>Progress saved on this device. Cloud sync coming soon!</span><button class="banner-btn" data-i18n="save_my_progress" onclick="window.location.href='signup.html'"></button><button class="dismiss" onclick="dismissGuestBanner()">✕</button></div>
+
 <div class="main-content">
-    <div class="panel left-panel" id="panel-watch">
-        <div class="panel-title">✏️ Watch &amp; Learn</div>
-        <div class="char-box-wrapper">
-            <div id="anim-box" class="char-box"></div>
-            <div class="crosshair"></div>
-        </div>
-        <div class="pinyin-row">
-            <span id="char-pinyin" class="pinyin-text"></span>
-            <span id="tone-badge" class="tone-badge tone-0"></span>
-            <button class="icon-btn" id="pinyin-speaker-btn" onclick="speakWord()">🔊</button>
-            <button class="icon-btn" id="mic-btn" onclick="toggleListening()">🎤</button>
-        </div>
-        <div id="char-meaning" class="meaning-text"></div>
-        <div class="mic-result" id="mic-result">Tap 🎤 and speak!</div>
-        <div class="replay-row">
-            <button class="replay-btn" id="replay-btn" onclick="playbackRecording()">🔁 Hear yourself</button>
-        </div>
-        <div class="sentence-block" style="background:#f9f3e6; padding:10px; border-radius:10px; width:100%;">
-            <div class="sentence-zh-row" style="display:flex; align-items:center; gap:10px;">
-                <button class="icon-btn" style="width:35px; height:35px; font-size:0.9em;" onclick="speakSentence()">🔊</button>
-                <span id="sent-zh" style="font-weight:bold; font-size:1.1em;"></span>
-            </div>
-            <div id="sent-tr" class="sentence-tr" style="color:#888; font-size:0.9em; margin-top:4px;"></div>
-        </div>
-        <div class="no-mic-msg" id="no-mic-msg" style="display:none;">🎤 Not supported in this browser.</div>
+
+  <div class="info-strip" id="section-study">
+    <div class="info-strip-thumb">
+      <div id="anim-box" class="char-box"></div>
+      <div class="crosshair"></div>
     </div>
-    <div class="panel right-panel mobile-hidden" id="panel-write">
-        <div class="right-header" style="width:100%; display:flex; justify-content:space-between; align-items:center;">
-            <div class="panel-title">✍️ Practice</div>
-            <div class="mode-toggle" style="display:flex; gap:5px;">
-                <button class="mode-btn active" id="btn-beginner" onclick="setMode('beginner')" style="padding:4px 8px; font-size:0.7em; border-radius:8px;">🌟 Beginner</button>
-                <button class="mode-btn" id="btn-challenge" onclick="setMode('challenge')" style="padding:4px 8px; font-size:0.7em; border-radius:8px;">🔥 Challenge</button>
-            </div>
-        </div>
-        <div class="char-box-wrapper" id="quiz-wrapper">
-            <div id="quiz-box" class="char-box"></div>
-            <div class="crosshair"></div>
-            <canvas id="handwriting-canvas"></canvas>
-        </div>
-        <div class="score-area">
-            <div class="stars-display" id="stars-display" style="font-size:1.8em;">⭐⭐⭐</div>
-            <div class="score-label">SCORE</div>
-            <div class="score-msg" id="score-msg" style="font-weight:bold; height:1.2em;" data-i18n="trace_prompt"></div>
-            <div class="stats-row" style="display:flex; gap:20px; justify-content:center; margin-top:10px;">
-                <div class="stat-item"><div class="stat-val" id="s-correct">0</div><div class="stat-lbl">Correct</div></div>
-                <div class="stat-item"><div class="stat-val" id="s-mistakes">0</div><div class="stat-lbl">Mistakes</div></div>
-                <div class="stat-item"><div class="stat-val" id="s-stars">0</div><div class="stat-lbl">Today ⭐</div></div>
-            </div>
-        </div>
+    <div class="info-strip-info">
+      <div class="info-strip-row1">
+        <span id="char-pinyin" class="pinyin-text"></span>
+        <span id="tone-badge" class="tone-badge tone-0"></span>
+        <button class="icon-btn" id="pinyin-speaker-btn" onclick="speakWord()">🔊</button>
+        <button class="icon-btn" id="mic-btn" onclick="toggleListening()">🎤</button>
+        <span id="char-meaning" class="meaning-text"></span>
+      </div>
+      <div class="mic-result" id="mic-result">Tap 🎤 and say the word!</div>
     </div>
+    <button class="replay-btn" id="replay-btn" onclick="playbackRecording()">🔁 Hear yourself</button>
+  </div>
+
+  <div class="canvas-stage" id="section-practice">
+    <div class="canvas-stage-header">
+      <div class="mode-toggle">
+        <button class="mode-btn active" id="btn-beginner" onclick="setMode('beginner')" data-tooltip="Beginner">🌟</button>
+        <button class="mode-btn" id="btn-challenge" onclick="setMode('challenge')" data-tooltip="Challenge">🔥</button>
+      </div>
+    </div>
+    <div class="char-box-wrapper" id="quiz-wrapper">
+      <div id="quiz-box" class="char-box"></div>
+      <div class="crosshair"></div>
+      <canvas id="handwriting-canvas"></canvas>
+    </div>
+    <div class="score-bar">
+      <div class="stars-display" id="stars-display"></div>
+      <div class="score-msg" id="score-msg" data-i18n="trace_prompt"></div>
+      <div class="stats-row">
+        <div class="stat-item"><span class="stat-val" id="s-correct">0</span><span class="stat-lbl">Correct</span></div>
+        <div class="stat-item"><span class="stat-val" id="s-mistakes">0</span><span class="stat-lbl">Mistakes</span></div>
+        <div class="stat-item"><span class="stat-val" id="s-stars">0</span><span class="stat-lbl">Today ⭐</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sentence-card" id="section-sentence">
+    <button class="icon-btn" onclick="speakSentence()">🔊</button>
+    <div class="sentence-card-text">
+      <span id="sent-zh" class="sentence-zh"></span>
+      <span id="sent-tr" class="sentence-tr"></span>
+    </div>
+  </div>
+
+  <div class="no-mic-msg" id="no-mic-msg" style="display:none;">🎤 Not supported in this browser.</div>
+
 </div>
+
 <div class="word-list-section">
-    <div class="course-tabs" id="course-tabs"></div>
-    <div class="set-tabs" id="set-tabs"></div>
-    <div class="word-list" id="word-list"></div>
-</div>
-<div class="badge-popup-overlay" id="badge-popup-overlay">
-    <div class="badge-popup">
-        <div class="badge-popup-emoji" id="badge-popup-emoji">🏅</div>
-        <div class="badge-popup-title" id="badge-popup-title">New Badge!</div>
-        <div class="badge-popup-sub" id="badge-popup-sub"></div>
-        <button class="badge-popup-btn" onclick="closeBadgePopup()">Keep going! 🐼</button>
+  <div class="picker-row">
+    <button class="picker-btn picker-btn-course" id="course-picker-btn" onclick="openCoursePicker()">
+      <span class="picker-btn-emoji" id="course-picker-emoji">📘</span>
+      <span class="picker-btn-label" id="course-picker-label">1A</span>
+      <span class="picker-btn-arrow">▾</span>
+    </button>
+    <button class="picker-btn picker-btn-category" id="category-picker-btn" onclick="openCategoryPicker()">
+      <span class="picker-btn-emoji" id="picker-emoji">🏃</span>
+      <span class="picker-btn-label" id="picker-label">Actions</span>
+      <span class="picker-btn-arrow">▾</span>
+    </button>
+    <div class="picker-nav" id="picker-nav">
+      <span class="picker-pos" id="picker-pos">1/1</span>
+      <button class="page-btn" id="page-prev-btn" onclick="changePage(-1)">‹</button>
+      <div class="page-dots" id="page-dots"></div>
+      <button class="page-btn" id="page-next-btn" onclick="changePage(1)">›</button>
+      <button class="grid-btn" id="grid-btn" onclick="openAllCharsSheet()" title="Show all">⊞</button>
     </div>
+  </div>
+  <div class="course-tabs" id="course-tabs"></div>
+  <div class="set-tabs" id="set-tabs"></div>
+  <div class="word-list" id="word-list"></div>
 </div>
-<div class="unlock-popup-overlay" id="unlock-popup-overlay">
-    <div class="unlock-popup">
-        <div class="unlock-popup-emoji" id="unlock-popup-emoji">🎊</div>
-        <div class="unlock-popup-title" id="unlock-popup-title">Course Unlocked!</div>
-        <div class="unlock-popup-sub" id="unlock-popup-sub"></div>
-        <div class="unlock-popup-progress" id="unlock-popup-progress"></div>
-        <button class="unlock-popup-btn" id="unlock-popup-btn">Let's Go! 🚀</button>
+
+<div class="category-sheet-overlay" id="course-sheet-overlay" onclick="closeCoursePicker()"><div class="category-sheet" onclick="event.stopPropagation()"><div class="category-sheet-header"><span class="category-sheet-title">📚 Pick a Level</span><button class="category-sheet-close" onclick="closeCoursePicker()">✕</button></div><div class="course-sheet-grid" id="course-sheet-grid"></div></div></div>
+<div class="category-sheet-overlay" id="category-sheet-overlay" onclick="closeCategoryPicker()"><div class="category-sheet" onclick="event.stopPropagation()"><div class="category-sheet-header"><span class="category-sheet-title">🎯 Pick a Category</span><button class="category-sheet-close" onclick="closeCategoryPicker()">✕</button></div><div class="category-sheet-grid" id="category-sheet-grid"></div></div></div>
+<div class="category-sheet-overlay" id="all-chars-sheet-overlay" onclick="closeAllCharsSheet()">
+  <div class="category-sheet" onclick="event.stopPropagation()">
+    <div class="category-sheet-header">
+      <span class="category-sheet-title" id="all-chars-title">All characters</span>
+      <button class="category-sheet-close" onclick="closeAllCharsSheet()">✕</button>
     </div>
+    <div class="all-chars-grid" id="all-chars-grid"></div>
+    <div class="all-chars-progress">
+      <div id="all-chars-progress-text">0 / 0 mastered</div>
+      <div class="all-chars-progress-bar"><div class="all-chars-progress-fill" id="all-chars-progress-fill" style="width:0%"></div></div>
+    </div>
+  </div>
 </div>
+<div class="badge-popup-overlay" id="badge-popup-overlay"><div class="badge-popup"><div class="badge-popup-emoji" id="badge-popup-emoji">🏅</div><div class="badge-popup-title" id="badge-popup-title">New Badge!</div><div class="badge-popup-sub" id="badge-popup-sub"></div><button class="badge-popup-btn" onclick="closeBadgePopup()">Keep going! 🐼</button></div></div>
+<div class="unlock-popup-overlay" id="unlock-popup-overlay"><div class="unlock-popup"><div class="unlock-popup-emoji" id="unlock-popup-emoji">🎊</div><div class="unlock-popup-title" id="unlock-popup-title">Course Unlocked!</div><div class="unlock-popup-sub" id="unlock-popup-sub"></div><div class="unlock-popup-progress" id="unlock-popup-progress"></div><button class="unlock-popup-btn" id="unlock-popup-btn">Let's Go! 🚀</button></div></div>
+
 <script>
-var COURSES=[], COURSE_DATA={}, currentCourse=null, THEMES=[], WORDS=[], currentTheme=0, idx=0, mode='beginner';
-var animW=null, quizW=null, mistakes=0, corrects=0, doneSet={};
-var recognition=null, recognitionTimeout=null, mediaRecorder=null, audioChunks=[], audioBlob=null, audioURL=null, audioPlayer=null, isListening=false, recognitionDone=false, micResultTimer=null;
-var canvas=null, ctx=null, isDrawing=false, currentPoints=[], canvasStrokes=[];
-var voicesReady=false, pendingSpeak=null;
-var previouslyLockedCourses={};
+var COURSES=[],COURSE_DATA={},currentCourse=null,THEMES=[],WORDS=[],currentTheme=0,idx=0,mode='beginner';
+var animW=null,quizW=null,mistakes=0,corrects=0,doneSet={};
+var recognition=null,recognitionTimeout=null,mediaRecorder=null,audioChunks=[],audioBlob=null,audioURL=null,audioPlayer=null,isListening=false,recognitionDone=false,micResultTimer=null;
+var canvas=null,ctx=null,isDrawing=false,currentPoints=[],canvasStrokes=[],previouslyLockedCourses={};
+var currentPage=0, pageSize=12;
 
-window.onload = function() {
-    XHZ.requireActive();
-    checkMicSupport();
-    initCanvas();
-    showGuestWarningIfNeeded();
-    loadCourses();
-    initVoices();
-    var unlockAudio = function() {
-        if (window.speechSynthesis) {
-            var u = new SpeechSynthesisUtterance(' ');
-            u.volume = 0.01; u.rate = 10;
+function computePageSize(){
+  var w=window.innerWidth;
+  if(w<=600)return 12;       // 6 cols × 2 rows
+  if(w<=1024)return 16;      // 8 cols × 2 rows
+  return 22;                 // 11 cols × 2 rows
+}
+
+// ============================================
+// SPEECH ENGINE
+// ============================================
+var speechReady=false,speechUnlocked=false,voiceCache=null,speechQueue=[];
+
+function initSpeechEngine(){
+    if(!window.speechSynthesis)return;
+    var attempts=0,maxAttempts=50;
+    function tryLoadVoices(){
+        var voices=window.speechSynthesis.getVoices();
+        if(voices.length>0){voiceCache=findChineseVoice(voices);speechReady=true;flushSpeechQueue();return;}
+        attempts++;if(attempts<maxAttempts)setTimeout(tryLoadVoices,100);
+    }
+    window.speechSynthesis.onvoiceschanged=function(){
+        var voices=window.speechSynthesis.getVoices();
+        if(voices.length>0){voiceCache=findChineseVoice(voices);speechReady=true;flushSpeechQueue();}
+    };
+    tryLoadVoices();
+    var unlockSpeech=function(){
+        if(speechUnlocked)return;speechUnlocked=true;
+        try{
+            window.speechSynthesis.cancel();
+            var silence=new SpeechSynthesisUtterance('');
+            silence.volume=0.01;silence.rate=10;silence.lang='zh-CN';
+            if(voiceCache)silence.voice=voiceCache;
+            window.speechSynthesis.speak(silence);
+        }catch(e){}
+        setTimeout(flushSpeechQueue,200);
+        document.removeEventListener('touchstart',unlockSpeech);
+        document.removeEventListener('touchend',unlockSpeech);
+        document.removeEventListener('click',unlockSpeech);
+    };
+    document.addEventListener('touchstart',unlockSpeech,{passive:true});
+    document.addEventListener('touchend',unlockSpeech,{passive:true});
+    document.addEventListener('click',unlockSpeech,{passive:true});
+}
+
+function findChineseVoice(voices){
+    return voices.find(function(v){return v.lang==='zh-CN';})
+        ||voices.find(function(v){return v.lang==='zh-TW';})
+        ||voices.find(function(v){return v.lang.startsWith('zh');})
+        ||null;
+}
+
+function flushSpeechQueue(){
+    if(!speechReady)return;
+    while(speechQueue.length>0){var job=speechQueue.shift();doSpeak(job.text,job.rate,job.btnSelector);}
+}
+
+function doSpeak(text,rate,btnSelector){
+    if(!window.speechSynthesis)return;
+    if(!speechReady){speechQueue.push({text:text,rate:rate,btnSelector:btnSelector});return;}
+    window.speechSynthesis.cancel();
+    setTimeout(function(){
+        try{
+            var u=new SpeechSynthesisUtterance(text);
+            u.lang='zh-CN';u.rate=rate||0.7;u.volume=1.0;
+            if(voiceCache)u.voice=voiceCache;
+            var btn=btnSelector?(document.querySelector(btnSelector)||document.getElementById(btnSelector)):null;
+            if(btn)btn.classList.add('speaking');
+            var watchdog=setTimeout(function(){if(btn)btn.classList.remove('speaking');},Math.max(3000,text.length*800));
+            u.onend=function(){clearTimeout(watchdog);if(btn)btn.classList.remove('speaking');};
+            u.onerror=function(){clearTimeout(watchdog);if(btn)btn.classList.remove('speaking');};
             window.speechSynthesis.speak(u);
-        }
-        document.body.removeEventListener('touchstart', unlockAudio);
-        document.body.removeEventListener('click', unlockAudio);
-    };
-    document.body.addEventListener('touchstart', unlockAudio, { passive: true });
-    document.body.addEventListener('click', unlockAudio, { passive: true });
-    onLangChange(function() { updateLeftPanel(idx); });
-};
-
-function initVoices() {
-    if (!window.speechSynthesis) return;
-    var loadVoices = function() {
-        var voices = window.speechSynthesis.getVoices();
-        if (voices.length > 0) {
-            voicesReady = true;
-            if (pendingSpeak) { var fn = pendingSpeak; pendingSpeak = null; fn(); }
-        }
-    };
-    loadVoices();
-    window.speechSynthesis.onvoiceschanged = loadVoices;
-    setTimeout(loadVoices, 100);
-    setTimeout(loadVoices, 500);
+            var resumeInterval=setInterval(function(){
+                if(!window.speechSynthesis.speaking){clearInterval(resumeInterval);return;}
+                window.speechSynthesis.resume();
+            },300);
+            setTimeout(function(){clearInterval(resumeInterval);},10000);
+        }catch(e){console.warn('Speech error:',e);if(btn)btn.classList.remove('speaking');}
+    },50);
 }
 
-function switchTab(target) {
-    var pWatch=document.getElementById('panel-watch'), pWrite=document.getElementById('panel-write');
-    var bWatch=document.getElementById('m-tab-watch'), bWrite=document.getElementById('m-tab-write');
-    if (target === 'watch') {
-        pWatch.classList.remove('mobile-hidden'); pWrite.classList.add('mobile-hidden');
-        bWatch.classList.add('active'); bWrite.classList.remove('active');
-    } else {
-        pWrite.classList.remove('mobile-hidden'); pWatch.classList.add('mobile-hidden');
-        bWrite.classList.add('active'); bWatch.classList.remove('active');
+function speakWord(){var word=getThemeWords()[idx];if(!word)return;doSpeak(word.ch,0.6,'#pinyin-speaker-btn');}
+function speakSentence(){var word=getThemeWords()[idx];if(!word)return;doSpeak(word.zh,0.8,'.sentence-card .icon-btn');}
+
+function posKey(){return 'xhz_write_position_'+XHZ.getActiveProfile().id;}
+function savePosition(){if(!currentCourse)return;try{localStorage.setItem(posKey(),JSON.stringify({courseId:currentCourse.id,themeIdx:currentTheme,wordIdx:idx}));}catch(e){}}
+function restorePosition(){try{var d=JSON.parse(localStorage.getItem(posKey()));return d&&d.courseId?d:null;}catch(e){return null;}}
+window.onload=function(){XHZ.requireActive();checkMicSupport();initCanvas();showGuestWarningIfNeeded();loadCourses();initSpeechEngine();onLangChange(function(){updateLeftPanel(idx);});};
+
+function switchTab(t){
+  var sStudy=document.getElementById('section-study'),
+      sPractice=document.getElementById('section-practice'),
+      sSentence=document.getElementById('section-sentence'),
+      bw=document.getElementById('m-tab-watch'),
+      bwr=document.getElementById('m-tab-write');
+  if(t==='watch'){
+    sStudy.classList.remove('section-hidden');
+    sSentence.classList.remove('section-hidden');
+    sPractice.classList.add('section-hidden');
+    bw.classList.add('active');bwr.classList.remove('active');
+  }else{
+    sPractice.classList.remove('section-hidden');
+    sStudy.classList.add('section-hidden');
+    sSentence.classList.add('section-hidden');
+    bwr.classList.add('active');bw.classList.remove('active');
+  }
+  setTimeout(function(){
+    t==='watch'?initAnimWriter(idx):(clearCanvas(),initQuizWriter(idx));
+  },100);
+}
+
+function getLang(){return getNavLang();}
+function getThemeWords(){return !currentCourse||!THEMES.length?[]:WORDS.filter(function(w){return w.theme===THEMES[currentTheme].id;});}
+function showGuestWarningIfNeeded(){var wl=localStorage.getItem('xhz_waitlisted')==='true';if(!wl&&XHZ.shouldWarnGuest()){document.getElementById('guest-banner').style.display='flex';XHZ.markGuestWarned();}}
+function dismissGuestBanner(){document.getElementById('guest-banner').style.display='none';}
+function loadCourses(){setLoadingMsg('Loading courses...');Promise.all([fetch('courses.json').then(function(r){if(!r.ok)throw new Error();return r.json();}),fetch('rewards.json').then(function(r){return r.ok?r.json():null;}).catch(function(){return null;})]).then(function(rs){var cD=rs[0],rD=rs[1];COURSES=cD.courses;if(rD&&rD.effort_items)XHZ.setEffortItems(rD.effort_items);if(!COURSES||COURSES.length===0){showLoadError('No courses found');return;}setLoadingMsg('Loading word data...');preloadAllCourseData(function(){document.getElementById('loading-screen').style.display='none';initLockedCoursesState();var first=getFirstAccessibleCourse();if(!first)first=COURSES[0];buildCourseTabs();selectCourse(first.id);});}).catch(function(e){console.error(e);showLoadError('Could not load courses.json');});}
+function preloadAllCourseData(cb){var tl=COURSES.filter(function(c){return !COURSE_DATA[c.id]&&c.data_file;});if(tl.length===0){if(cb)cb();return;}var l=0,t=tl.length;function cd(){l++;setLoadingMsg('Loading word data... ('+l+'/'+t+')');if(l>=t&&cb)cb();}tl.forEach(function(c){fetch(c.data_file).then(function(r){return r.ok?r.json():null;}).then(function(d){if(d)COURSE_DATA[c.id]=d;cd();}).catch(function(){cd();});});setTimeout(function(){if(l<t&&cb)cb();},10000);}
+function loadCourseData(id,cb){if(COURSE_DATA[id]){cb(COURSE_DATA[id]);return;}var c=getCourseById(id);if(!c)return;setLoadingMsg('Loading '+id+' words...');document.getElementById('loading-screen').style.display='flex';fetch(c.data_file).then(function(r){if(!r.ok)throw new Error();return r.json();}).then(function(d){COURSE_DATA[id]=d;document.getElementById('loading-screen').style.display='none';cb(d);}).catch(function(e){console.error(e);showLoadError('Could not load '+c.data_file);});}
+function setLoadingMsg(m){var el=document.getElementById('loading-msg');if(el)el.textContent=m;}
+function showLoadError(h){document.getElementById('loading-screen').innerHTML='<div style="color:#F44336;text-align:center;padding:20px;font-weight:800;">❌ '+h+'</div>';}
+function canAccessCourse(id){var c=getCourseById(id);if(!c)return {allowed:false,reason:'Course not found'};if(c.is_free||!c.unlock)return {allowed:true};var s=c.unlock.source,cd=c.unlock.condition,p;if(cd==='seen_100'){p=XHZ.getCourseSeenPercent(s);return {allowed:p>=100,reason:'See all words in '+s+' first',progress:p};}if(cd==='mastered_80'){p=XHZ.getYearMasteredPercent(s);return {allowed:p>=80,reason:'Master 80% of '+s+' words first',progress:p};}return {allowed:false,reason:'Not yet unlocked'};}
+function getFirstAccessibleCourse(){for(var i=0;i<COURSES.length;i++)if(canAccessCourse(COURSES[i].id).allowed)return COURSES[i];return null;}
+function getCourseById(id){return COURSES.find(function(c){return c.id===id;})||null;}
+function initLockedCoursesState(){COURSES.forEach(function(c){previouslyLockedCourses[c.id]=!canAccessCourse(c.id).allowed;});}
+function checkForNewUnlocks(){for(var i=0;i<COURSES.length;i++){var c=COURSES[i],wl=previouslyLockedCourses[c.id],ac=canAccessCourse(c.id);if(wl===true&&ac.allowed===true){previouslyLockedCourses[c.id]=false;showUnlockPopup(c);buildCourseTabs();return;}}}
+function showUnlockPopup(c){var o=document.getElementById('unlock-popup-overlay');if(!o){alert('🎉 Course Unlocked: '+c.name);return;}var sp=c.unlock?XHZ.getCourseProgress(c.unlock.source):null;document.getElementById('unlock-popup-emoji').textContent='🎊';document.getElementById('unlock-popup-title').textContent='🔓 New Course Unlocked!';document.getElementById('unlock-popup-sub').innerHTML="Congratulations! You've unlocked<br><strong>"+c.name+"</strong>";if(sp&&sp.total>0){document.getElementById('unlock-popup-progress').innerHTML='✅ '+sp.seen+'/'+sp.total+' words seen';}else{document.getElementById('unlock-popup-progress').innerHTML='';}document.getElementById('unlock-popup-btn').onclick=function(){closeUnlockPopup();selectCourse(c.id);};o.classList.add('visible');}
+function closeUnlockPopup(){var o=document.getElementById('unlock-popup-overlay');if(o)o.classList.remove('visible');}
+var COURSE_EMOJIS={'1A':'📗','1B':'📘','2A':'📕','2B':'📙','3A':'📓','3B':'📔','4A':'📗','4B':'📘','5A':'📕','5B':'📙','6A':'📓','6B':'📔'};
+function getCourseEmoji(id){return COURSE_EMOJIS[id]||'📖';}
+function buildCourseTabs(){var g=document.getElementById('course-sheet-grid');if(!g)return;g.innerHTML='';COURSES.forEach(function(c){var a=canAccessCourse(c.id),ia=currentCourse&&currentCourse.id===c.id,cd=document.createElement('div');cd.id='course-card-'+c.id;if(a.allowed){cd.className='course-card'+(ia?' active':'');cd.onclick=(function(id){return function(){selectCourse(id);closeCoursePicker();};})(c.id);}else{cd.className='course-card locked';cd.onclick=(function(c2,a2){return function(){showLockedHint(c2,a2);};})(c,a);}var pH='';if(!a.allowed&&a.progress!==undefined){pH='<div class="course-card-progress"><div class="course-card-progress-fill" style="width:'+Math.round(a.progress)+'%"></div></div>';}cd.innerHTML=(a.allowed?'':'<span class="course-card-lock">🔒</span>')+'<span class="course-card-emoji">'+getCourseEmoji(c.id)+'</span><span class="course-card-label">'+c.id+'</span><span class="course-card-sub">'+(c.name||c.id)+'</span>'+pH;g.appendChild(cd);});if(currentCourse)updateCoursePickerButton(currentCourse.id);}
+function updateCoursePickerButton(id){var e=document.getElementById('course-picker-emoji'),l=document.getElementById('course-picker-label');if(e)e.textContent=getCourseEmoji(id);if(l)l.textContent=id;}
+function updateCourseTabsProgress(){COURSES.forEach(function(c){var cd=document.getElementById('course-card-'+c.id);if(!cd)return;var a=canAccessCourse(c.id),ia=currentCourse&&currentCourse.id===c.id;cd.className=a.allowed?'course-card'+(ia?' active':''):'course-card locked'+(ia?' active':'');});}
+function selectCourse(id){if(currentCourse&&currentCourse.id===id)return;COURSES.forEach(function(c){var cd=document.getElementById('course-card-'+c.id);if(cd&&!cd.classList.contains('locked'))cd.className='course-card'+(c.id===id?' active':'');});currentCourse=getCourseById(id);updateCoursePickerButton(id);loadCourseData(id,function(d){WORDS=d.words;THEMES=currentCourse.themes;buildSetTabs();var saved=restorePosition();var themeIdx=0,wordIdx=0;if(saved&&saved.courseId===id){themeIdx=saved.themeIdx;wordIdx=saved.wordIdx;}selectTheme(themeIdx);if(getThemeWords().length>0)loadChar(wordIdx);});}
+function showLockedHint(c,a){var m='🔒 '+c.name+'\n\n'+a.reason;if(c.unlock&&c.unlock.source){var p=XHZ.getCourseProgress(c.unlock.source);if(p&&p.total>0){var r=p.total-p.seen;m+='\n\n📊 Progress: '+p.seen+' / '+p.total+' words seen\n('+Math.round((p.seen/p.total)*100)+'%)';if(r>0)m+='\n\n👉 '+r+' more word'+(r>1?'s':'')+' to go!';}}alert(m);}
+function openCoursePicker(){var o=document.getElementById('course-sheet-overlay');if(o)o.classList.add('open');}
+function closeCoursePicker(){var o=document.getElementById('course-sheet-overlay');if(o)o.classList.remove('open');}
+function buildSetTabs(){var g=document.getElementById('category-sheet-grid');if(g)g.innerHTML='';THEMES.forEach(function(t,i){if(g){var c=document.createElement('div');c.className='category-card'+(i===0?' active':'');c.id='cat-card-'+i;c.innerHTML='<span class="category-card-emoji">'+t.emoji+'</span><span class="category-card-label">'+t.name+'</span>';c.onclick=(function(ix){return function(){selectTheme(ix);closeCategoryPicker();};})(i);g.appendChild(c);}});if(THEMES.length>0)updatePickerButton(0);}
+function selectTheme(i){if(i===currentTheme)return;currentTheme=i;idx=0;currentPage=0;THEMES.forEach(function(_,j){var c=document.getElementById('cat-card-'+j);if(c)c.className='category-card'+(j===i?' active':'');});updatePickerButton(i);applyThemeColor(THEMES[i].color);buildWordList();if(getThemeWords().length>0)loadChar(0);}
+function updatePickerButton(i){var t=THEMES[i];if(!t)return;var e=document.getElementById('picker-emoji'),l=document.getElementById('picker-label');if(e)e.textContent=t.emoji;if(l)l.textContent=t.name;}
+function openCategoryPicker(){var o=document.getElementById('category-sheet-overlay');if(o)o.classList.add('open');}
+function closeCategoryPicker(){var o=document.getElementById('category-sheet-overlay');if(o)o.classList.remove('open');}
+function applyThemeColor(h){var r=document.documentElement;r.style.setProperty('--theme-color',h);r.style.setProperty('--theme-color-light',h+'55');r.style.setProperty('--theme-color-pale',h+'18');setNavTheme(h);}
+
+// ============================================
+// PAGINATED WORD LIST
+// ============================================
+function buildWordList(){
+  pageSize=computePageSize();
+  currentPage=Math.floor(idx/pageSize);
+  renderCurrentPage();
+  renderPaginationControls();
+}
+
+function renderCurrentPage(){
+  var wl=document.getElementById('word-list');
+  if(!wl)return;
+  wl.innerHTML='';
+  var w=getThemeWords();
+  var start=currentPage*pageSize;
+  var end=Math.min(start+pageSize,w.length);
+  for(var i=start;i<end;i++){
+    var wd=w[i];
+    var b=document.createElement('div');
+    var dk=currentCourse.id+'_'+wd.word_id;
+    var m=XHZ.getWordMastery(wd.word_id);
+    var sc=m?' status-'+m.status:'';
+    b.className='word-btn'+(i===idx?' active':'')+(doneSet[dk]?' done':'')+sc;
+    b.id='wb-'+i;
+    b.innerHTML=wd.ch+'<span class="wp">'+wd.py+'</span>';
+    b.onclick=(function(ix){return function(){loadChar(ix);};})(i);
+    wl.appendChild(b);
+  }
+}
+
+function renderPaginationControls(){
+  var w=getThemeWords();
+  var totalPages=Math.max(1,Math.ceil(w.length/pageSize));
+  var posEl=document.getElementById('picker-pos');
+  var dotsEl=document.getElementById('page-dots');
+  var prevBtn=document.getElementById('page-prev-btn');
+  var nextBtn=document.getElementById('page-next-btn');
+
+  if(posEl)posEl.textContent=(idx+1)+'/'+w.length;
+
+  if(totalPages<=1){
+    if(prevBtn)prevBtn.style.display='none';
+    if(nextBtn)nextBtn.style.display='none';
+    if(dotsEl)dotsEl.style.display='none';
+  }else{
+    if(prevBtn){prevBtn.style.display='';prevBtn.disabled=(currentPage===0);}
+    if(nextBtn){nextBtn.style.display='';nextBtn.disabled=(currentPage>=totalPages-1);}
+    if(dotsEl){
+      dotsEl.style.display='flex';
+      dotsEl.innerHTML='';
+      for(var p=0;p<totalPages;p++){
+        var d=document.createElement('div');
+        d.className='page-dot'+(p===currentPage?' active':'');
+        d.onclick=(function(pg){return function(){goToPage(pg);};})(p);
+        dotsEl.appendChild(d);
+      }
     }
-    setTimeout(function() { target === 'watch' ? initAnimWriter(idx) : (clearCanvas(), initQuizWriter(idx)); }, 100);
+  }
 }
 
-function getLang() { return getNavLang(); }
-function getThemeWords() { return !currentCourse || !THEMES.length ? [] : WORDS.filter(function(w) { return w.theme === THEMES[currentTheme].id; }); }
-function showGuestWarningIfNeeded() {
-    var waitlisted = localStorage.getItem('xhz_waitlisted') === 'true';
-    if (!waitlisted && XHZ.shouldWarnGuest()) {
-        document.getElementById('guest-banner').style.display = 'flex';
-        XHZ.markGuestWarned();
-    }
-}
-function dismissGuestBanner() { document.getElementById('guest-banner').style.display = 'none'; }
-
-function loadCourses() {
-    setLoadingMsg('Loading courses...');
-    Promise.all([
-        fetch('courses.json').then(function(r) { if (!r.ok) throw new Error(); return r.json(); }),
-        fetch('rewards.json').then(function(r) { return r.ok ? r.json() : null; }).catch(function(){ return null; })
-    ])
-    .then(function(results) {
-        var courseData  = results[0];
-        var rewardsData = results[1];
-        COURSES = courseData.courses;
-
-        // Register effort items so addScore() can fire item unlocks
-        if (rewardsData && rewardsData.effort_items) {
-            XHZ.setEffortItems(rewardsData.effort_items);
-        }
-
-        if (!COURSES || COURSES.length === 0) {
-            showLoadError('No courses found in courses.json');
-            return;
-        }
-        setLoadingMsg('Loading word data...');
-        preloadAllCourseData(function() {
-            document.getElementById('loading-screen').style.display = 'none';
-            initLockedCoursesState();
-            var first = getFirstAccessibleCourse();
-            if (!first) first = COURSES[0];
-            buildCourseTabs();
-            selectCourse(first.id);
-        });
-    }).catch(function(e) {
-        console.error('Failed to load courses:', e);
-        showLoadError('Could not load courses.json<br><small>Make sure courses.json is in the same folder.</small>');
-    });
+function changePage(delta){
+  var w=getThemeWords();
+  var totalPages=Math.max(1,Math.ceil(w.length/pageSize));
+  var newPage=currentPage+delta;
+  if(newPage<0||newPage>=totalPages)return;
+  goToPage(newPage);
 }
 
-function preloadAllCourseData(callback) {
-    var toLoad = COURSES.filter(function(c) { return !COURSE_DATA[c.id] && c.data_file; });
-    if (toLoad.length === 0) { if (callback) callback(); return; }
-    var loaded = 0;
-    var total = toLoad.length;
-    function checkDone() {
-        loaded++;
-        setLoadingMsg('Loading word data... (' + loaded + '/' + total + ')');
-        if (loaded >= total && callback) callback();
-    }
-    toLoad.forEach(function(course) {
-        fetch(course.data_file)
-            .then(function(r) { return r.ok ? r.json() : null; })
-            .then(function(data) {
-                if (data) COURSE_DATA[course.id] = data;
-                checkDone();
-            })
-            .catch(function() { checkDone(); });
-    });
-    setTimeout(function() {
-        if (loaded < total && callback) callback();
-    }, 10000);
+function goToPage(p){
+  currentPage=p;
+  renderCurrentPage();
+  renderPaginationControls();
 }
 
-function loadCourseData(courseId, callback) {
-    if (COURSE_DATA[courseId]) { callback(COURSE_DATA[courseId]); return; }
-    var course = getCourseById(courseId);
-    if (!course) return;
-    setLoadingMsg('Loading ' + courseId + ' words...');
-    document.getElementById('loading-screen').style.display = 'flex';
-    fetch(course.data_file).then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
-    .then(function(data) {
-        COURSE_DATA[courseId] = data;
-        document.getElementById('loading-screen').style.display = 'none';
-        callback(data);
-    }).catch(function(e) { 
-        console.error('Failed to load course data:', e);
-        showLoadError('Could not load ' + course.data_file); 
-    });
+// ============================================
+// ALL CHARS BOTTOM SHEET
+// ============================================
+function openAllCharsSheet(){
+  var o=document.getElementById('all-chars-sheet-overlay');
+  if(!o)return;
+  buildAllCharsGrid();
+  o.classList.add('open');
 }
 
-function setLoadingMsg(msg) { var el = document.getElementById('loading-msg'); if (el) el.textContent = msg; }
-function showLoadError(html) { document.getElementById('loading-screen').innerHTML = '<div style="color:#FF6B6B;text-align:center;padding:20px;">❌ ' + html + '</div>'; }
-
-function canAccessCourse(courseId) {
-    var course = getCourseById(courseId);
-    if (!course) return { allowed: false, reason: 'Course not found' };
-    if (course.is_free || !course.unlock) return { allowed: true };
-    var source = course.unlock.source, condition = course.unlock.condition, pct;
-    if (condition === 'seen_100') { 
-        pct = XHZ.getCourseSeenPercent(source); 
-        return { allowed: pct >= 100, reason: 'See all words in ' + source + ' first', progress: pct }; 
-    }
-    if (condition === 'mastered_80') { 
-        pct = XHZ.getYearMasteredPercent(source); 
-        return { allowed: pct >= 80, reason: 'Master 80% of ' + source + ' words first', progress: pct }; 
-    }
-    return { allowed: false, reason: 'Not yet unlocked' };
+function closeAllCharsSheet(){
+  var o=document.getElementById('all-chars-sheet-overlay');
+  if(o)o.classList.remove('open');
 }
 
-function getFirstAccessibleCourse() { for (var i = 0; i < COURSES.length; i++) if (canAccessCourse(COURSES[i].id).allowed) return COURSES[i]; return null; }
-function getCourseById(id) { return COURSES.find(function(c) { return c.id === id; }) || null; }
-
-function initLockedCoursesState() {
-    COURSES.forEach(function(course) {
-        var access = canAccessCourse(course.id);
-        previouslyLockedCourses[course.id] = !access.allowed;
-    });
+function buildAllCharsGrid(){
+  var g=document.getElementById('all-chars-grid');
+  var titleEl=document.getElementById('all-chars-title');
+  var w=getThemeWords();
+  if(!g)return;
+  g.innerHTML='';
+  if(titleEl){
+    var themeName=THEMES[currentTheme]?THEMES[currentTheme].name:'';
+    titleEl.textContent=themeName+' · '+w.length+' characters';
+  }
+  var mastered=0;
+  w.forEach(function(wd,i){
+    var b=document.createElement('div');
+    var dk=currentCourse.id+'_'+wd.word_id;
+    var m=XHZ.getWordMastery(wd.word_id);
+    var sc=m?' status-'+m.status:'';
+    if(m&&m.status==='mastered')mastered++;
+    b.className='word-btn'+(i===idx?' active':'')+(doneSet[dk]?' done':'')+sc;
+    b.innerHTML=wd.ch+'<span class="wp">'+wd.py+'</span>';
+    b.onclick=(function(ix){return function(){closeAllCharsSheet();loadChar(ix);};})(i);
+    g.appendChild(b);
+  });
+  var pct=w.length>0?Math.round((mastered/w.length)*100):0;
+  var txt=document.getElementById('all-chars-progress-text');
+  var fill=document.getElementById('all-chars-progress-fill');
+  if(txt)txt.textContent=mastered+' / '+w.length+' mastered ('+pct+'%)';
+  if(fill)fill.style.width=pct+'%';
 }
 
-function checkForNewUnlocks() {
-    for (var i = 0; i < COURSES.length; i++) {
-        var course = COURSES[i];
-        var wasLocked = previouslyLockedCourses[course.id];
-        var access = canAccessCourse(course.id);
-        if (wasLocked === true && access.allowed === true) {
-            previouslyLockedCourses[course.id] = false;
-            showUnlockPopup(course);
-            buildCourseTabs();
-            return;
-        }
-    }
+// ============================================
+// LOAD CHAR
+// ============================================
+function loadChar(i){
+  idx=i;
+  savePosition();
+  var newPage=Math.floor(i/pageSize);
+  if(newPage!==currentPage){
+    currentPage=newPage;
+    renderCurrentPage();
+  }
+  renderPaginationControls();
+  stopListening();clearRecording();resetMicResult();clearCanvas();
+  if(quizW){try{quizW.cancelQuiz();}catch(e){}quizW=null;}
+  if(animW){try{animW.cancelAnimation();}catch(e){}animW=null;}
+  var ab=document.getElementById('anim-box'),qb=document.getElementById('quiz-box');
+  if(ab)ab.innerHTML='';if(qb)qb.innerHTML='';
+  mistakes=0;corrects=0;resetScore();
+  var wds=getThemeWords();
+  wds.forEach(function(wd,j){var wb=document.getElementById('wb-'+j);if(!wb)return;var dk=currentCourse.id+'_'+wd.word_id;var m=XHZ.getWordMastery(wd.word_id);wb.className='word-btn'+(j===i?' active':'')+(doneSet[dk]?' done':'')+(m?' status-'+m.status:'');});
+  var wd=wds[i];if(!wd)return;
+  var r=XHZ.markSeen(wd.word_id);
+  if(r&&r.statusChanged){refreshWordButton(i);updateCourseTabsProgress();checkForNewUnlocks();}
+  updateLeftPanel(i);
+  setTimeout(function(){
+    if(idx!==i)return;
+    var studyHidden=document.getElementById('section-study').classList.contains('section-hidden'),
+        practiceHidden=document.getElementById('section-practice').classList.contains('section-hidden');
+    if(window.innerWidth>600){initAnimWriter(i);initQuizWriter(i);}
+    else{if(!studyHidden)initAnimWriter(i);if(!practiceHidden)initQuizWriter(i);}
+  },50);
 }
 
-function showUnlockPopup(course) {
-    var overlay = document.getElementById('unlock-popup-overlay');
-    if (!overlay) {
-        alert('🎉 Course Unlocked: ' + course.name);
-        return;
-    }
-    var sourceProgress = course.unlock ? XHZ.getCourseProgress(course.unlock.source) : null;
-    document.getElementById('unlock-popup-emoji').textContent = '🎊';
-    document.getElementById('unlock-popup-title').textContent = '🔓 New Course Unlocked!';
-    document.getElementById('unlock-popup-sub').innerHTML = 'Congratulations! You\'ve unlocked<br><strong>' + course.name + '</strong>';
-    if (sourceProgress && sourceProgress.total > 0) {
-        document.getElementById('unlock-popup-progress').innerHTML = '✅ ' + sourceProgress.seen + '/' + sourceProgress.total + ' words seen';
-    } else {
-        document.getElementById('unlock-popup-progress').innerHTML = '';
-    }
-    document.getElementById('unlock-popup-btn').onclick = function() { closeUnlockPopup(); selectCourse(course.id); };
-    overlay.classList.add('visible');
+function refreshWordButton(i){var wds=getThemeWords(),wd=wds[i];if(!wd)return;var wb=document.getElementById('wb-'+i),dk=currentCourse.id+'_'+wd.word_id,m=XHZ.getWordMastery(wd.word_id);if(wb)wb.className='word-btn'+(i===idx?' active':'')+(doneSet[dk]?' done':'')+(m?' status-'+m.status:'');}
+function updateLeftPanel(i){var wd=getThemeWords()[i];if(!wd)return;var l=getLang();document.getElementById('char-pinyin').textContent=wd.py;document.getElementById('char-meaning').textContent=l==='th'?wd.th:wd.en;document.getElementById('sent-zh').textContent=wd.zh;document.getElementById('sent-tr').textContent=l==='th'?wd.sent_th:wd.sent_en;updateToneBadge(wd.py);}
+function initAnimWriter(i){var wd=getThemeWords()[i];if(!wd)return;var bx=document.getElementById('anim-box');if(!bx)return;var bw=bx.clientWidth||bx.offsetWidth;if(bw<=0){setTimeout(function(){if(idx===i)initAnimWriter(i);},100);return;}if(animW){try{animW.cancelAnimation();}catch(e){}animW=null;}bx.innerHTML='';var sz=bw-4;try{animW=HanziWriter.create('anim-box',wd.ch,{width:sz,height:sz,padding:4,strokeColor:'#1B7B5E',outlineColor:'#D0F0E4',showCharacter:false,showOutline:true,strokeAnimationSpeed:0.8,delayBetweenStrokes:500,delayBetweenLoops:1200});animW.loopCharacterAnimation();}catch(e){console.error(e);}}
+function initQuizWriter(i){var wd=getThemeWords()[i];if(!wd)return;var bx=document.getElementById('quiz-box');if(!bx)return;var bw=bx.clientWidth||bx.offsetWidth;if(bw<=0){setTimeout(function(){if(idx===i)initQuizWriter(i);},100);return;}if(quizW){try{quizW.cancelQuiz();}catch(e){}quizW=null;}bx.innerHTML='';clearCanvas();var ib=(mode==='beginner'),sz=bw-6,ca=XHZ.canAwardWriteStars(wd.word_id);if(ca.reason==='already_cleared'){setMsg('✅ Mastered! Practice for fun 🎉','#888');}else{setMsg(t('trace_prompt')||'Trace the character!','#888');}try{quizW=HanziWriter.create('quiz-box',wd.ch,{width:sz,height:sz,padding:8,showCharacter:ib,charColor:'#CCCCCC',showOutline:ib,outlineColor:'#DDDDDD',strokeColor:'#222222',drawingColor:'rgba(0,0,0,0.15)',drawingWidth:2,highlightColor:'#4CAF50',highlightCompleteColor:'#4CAF50',leniency:1.2});quizW.quiz({onMistake:function(){mistakes++;document.getElementById('s-mistakes').textContent=mistakes;setMsg(t('stroke_retry')||'Try again!','#F44336');shake();markLastStroke('wrong');},onCorrectStroke:function(){corrects++;document.getElementById('s-correct').textContent=corrects;setMsg(t('stroke_good')||'Good!','#4CAF50');markLastStroke('correct');},onComplete:function(sm){if(idx!==i)return;handleQuizComplete(sm,wd,i);}});}catch(e){console.error(e);}}
+function handleQuizComplete(sm,wd,i){if(idx!==i)return;XHZ.markPracticed(wd.word_id);var m=sm.totalMistakes,st=m===0?3:m<=2?2:1,msg=m===0?(t('score_perfect')||'Perfect!'):m<=2?(t('score_great')||'Great!'):(t('score_keep_trying')||'Keep trying!');var dk=currentCourse.id+'_'+wd.word_id;doneSet[dk]=true;var sr=XHZ.addScore('write',st,[wd.word_id]),ts=XHZ.getTodayScore();document.getElementById('s-stars').textContent=ts?(ts.write_score+ts.study_score):'0';if(st===3)XHZ.markWriteCleared(wd.word_id);refreshWordButton(i);showStars(st);var ma=XHZ.getWordMastery(wd.word_id);if(ma&&ma.status==='mastered'){setMsg('✅ '+msg+' Keep it up! 🎉',st===3?'#1B7B5E':'#4CAF50');}else{setMsg(msg,st===3?'#1B7B5E':'#4CAF50');}var wb=document.getElementById('wb-'+i);if(wb)wb.className='word-btn active done'+(ma?' status-'+ma.status:'');if(sr&&sr.newBadgeUnlocked){setTimeout(function(){showBadgePopup(sr.badgeInfo);},800);}if(sr&&sr.newItemUnlocked){setTimeout(function(){showItemPopup(sr.newItemUnlocked);},1400);}setTimeout(function(){if(idx===i){clearCanvas();initQuizWriter(i);}},2500);}
+function showBadgePopup(b){if(!b)return;document.getElementById('badge-popup-emoji').textContent=b.emoji;document.getElementById('badge-popup-title').textContent='🎉 New Badge: '+b.label+'!';document.getElementById('badge-popup-sub').textContent='You earned this today. Keep it up! 🐼';document.getElementById('badge-popup-overlay').classList.add('visible');}
+function closeBadgePopup(){document.getElementById('badge-popup-overlay').classList.remove('visible');}
+function showItemPopup(it){if(!it)return;document.getElementById('badge-popup-emoji').textContent=it.emoji||'🎁';document.getElementById('badge-popup-title').textContent='🎁 New Item Unlocked!';document.getElementById('badge-popup-sub').textContent=it.message||('You unlocked '+it.label+'!');document.getElementById('badge-popup-overlay').classList.add('visible');}
+function resetScore(){document.getElementById('stars-display').textContent='';setMsg(t('trace_prompt')||'Trace the character!','#888');document.getElementById('s-correct').textContent='0';document.getElementById('s-mistakes').textContent='0';var ts=XHZ.getTodayScore();document.getElementById('s-stars').textContent=ts?(ts.write_score+ts.study_score):'0';}
+function showStars(n){var el=document.getElementById('stars-display');el.textContent='⭐'.repeat(n)+'☆'.repeat(3-n);el.classList.remove('pop');void el.offsetWidth;el.classList.add('pop');}
+function setMsg(txt,c){var el=document.getElementById('score-msg');el.textContent=txt;el.style.color=c;}
+function shake(){var el=document.getElementById('quiz-box');el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake');}
+function setMode(m){mode=m;document.getElementById('btn-beginner').className='mode-btn'+(m==='beginner'?' active':'');document.getElementById('btn-challenge').className='mode-btn'+(m==='challenge'?' active':'');if(quizW){try{quizW.cancelQuiz();}catch(e){}quizW=null;}var qb=document.getElementById('quiz-box');if(qb)qb.innerHTML='';clearCanvas();mistakes=0;corrects=0;resetScore();setTimeout(function(){initQuizWriter(idx);},50);}
+function getToneNumber(p){if(/[āēīōūǖ]/.test(p))return 1;if(/[áéíóúǘ]/.test(p))return 2;if(/[ǎěǐǒǔǚ]/.test(p))return 3;if(/[àèìòùǜ]/.test(p))return 4;return 0;}
+var TONE_LABELS={0:{symbol:'·',cls:'tone-0'},1:{symbol:'—',cls:'tone-1'},2:{symbol:'↗',cls:'tone-2'},3:{symbol:'↙↗',cls:'tone-3'},4:{symbol:'↘',cls:'tone-4'}};
+function updateToneBadge(p){var n=getToneNumber(p),i=TONE_LABELS[n],el=document.getElementById('tone-badge');if(!el)return;el.textContent=i.symbol;el.className='tone-badge '+i.cls;}
+function stripTones(py){return py.replace(/[āáǎà]/g,'a').replace(/[ēéěè]/g,'e').replace(/[īíǐì]/g,'i').replace(/[ōóǒò]/g,'o').replace(/[ūúǔù]/g,'u').replace(/[ǖǘǚǜ]/g,'v').toLowerCase().trim();}
+function normalizeChinese(s){return s.replace(/[\s,。！？、：；""''·]/g,'').trim();}
+function levenshteinDistance(s1,s2){var l1=s1.length,l2=s2.length,m=[];for(var i=0;i<=l1;i++)m[i]=[i];for(var j=0;j<=l2;j++)m[0][j]=j;for(var i=1;i<=l1;i++)for(var j=1;j<=l2;j++){var c=s1[i-1]===s2[j-1]?0:1;m[i][j]=Math.min(m[i-1][j]+1,m[i][j-1]+1,m[i-1][j-1]+c);}return m[l1][l2];}
+function isSimilarPinyin(h,t){var hh=stripTones(h),tt=stripTones(t);return hh===tt||(hh.length>1&&tt.length>1&&levenshteinDistance(hh,tt)<=1);}
+function gradeRecognitionResult(rs,tc,tp){var bg=0,bh='',tn=normalizeChinese(tc),tpp=stripTones(tp);for(var i=0;i<rs.length;i++){var t=rs[i].transcript,h=normalizeChinese(t),hl=h.toLowerCase();if(h.indexOf(tn)!==-1)return{grade:3,heard:t};if(hl===tp.toLowerCase()||hl===tpp||isSimilarPinyin(hl,tp)){if(bg<2){bg=2;bh=t;}}if(h.length>0&&bg<1){bg=1;bh=t;}}return{grade:bg,heard:bh};}
+
+function initCanvas(){canvas=document.getElementById('handwriting-canvas');ctx=canvas.getContext('2d');resizeCanvas();window.addEventListener('resize',resizeCanvas);var w=document.getElementById('quiz-wrapper');w.addEventListener('mousedown',onDrawStart);w.addEventListener('mousemove',onDrawMove);w.addEventListener('mouseup',onDrawEnd);w.addEventListener('mouseleave',onDrawEnd);w.addEventListener('touchstart',onTouchStart,{passive:true});w.addEventListener('touchmove',onTouchMove,{passive:true});w.addEventListener('touchend',onTouchEnd,{passive:true});}
+function resizeCanvas(){if(!canvas)return;var w=document.getElementById('quiz-wrapper');if(!w)return;var s=w.clientWidth-6;if(s<=0)return;if(canvas.width!==s||canvas.height!==s){canvas.width=s;canvas.height=s;}redrawCanvas();}
+function getCanvasPos(cx,cy){var r=canvas.getBoundingClientRect(),sx=canvas.width/r.width,sy=canvas.height/r.height;return{x:(cx-r.left)*sx,y:(cy-r.top)*sy};}
+function onTouchStart(e){var p=getCanvasPos(e.touches[0].clientX,e.touches[0].clientY);startDraw(p.x,p.y);}
+function onTouchMove(e){if(!isDrawing)return;var p=getCanvasPos(e.touches[0].clientX,e.touches[0].clientY);moveDraw(p.x,p.y);}
+function onTouchEnd(){endDraw();}
+function onDrawStart(e){var p=getCanvasPos(e.clientX,e.clientY);startDraw(p.x,p.y);}
+function onDrawMove(e){if(!isDrawing)return;var p=getCanvasPos(e.clientX,e.clientY);moveDraw(p.x,p.y);}
+function onDrawEnd(){endDraw();}
+function startDraw(x,y){isDrawing=true;currentPoints=[{x:x,y:y}];}
+function moveDraw(x,y){if(!isDrawing)return;currentPoints.push({x:x,y:y});redrawCanvas();drawSmoothPath(currentPoints,'#1a1a1a',3.5,1.0);}
+function endDraw(){if(!isDrawing)return;isDrawing=false;if(currentPoints.length<3){currentPoints=[];return;}canvasStrokes.push({points:currentPoints.slice(),color:'#1a1a1a',alpha:1.0,status:'pending'});currentPoints=[];redrawCanvas();}
+function drawSmoothPath(pts,c,lw,a){if(!ctx||pts.length<2)return;ctx.save();ctx.globalAlpha=a;ctx.strokeStyle=c;ctx.lineWidth=lw;ctx.lineCap='round';ctx.lineJoin='round';ctx.shadowColor=c;ctx.shadowBlur=1.5;ctx.beginPath();ctx.moveTo(pts[0].x,pts[0].y);for(var i=1;i<pts.length-1;i++){var mx=(pts[i].x+pts[i+1].x)/2,my=(pts[i].y+pts[i+1].y)/2;ctx.quadraticCurveTo(pts[i].x,pts[i].y,mx,my);}ctx.lineTo(pts[pts.length-1].x,pts[pts.length-1].y);ctx.stroke();ctx.restore();}
+function redrawCanvas(){if(!ctx)return;ctx.clearRect(0,0,canvas.width,canvas.height);canvasStrokes.forEach(function(s){drawSmoothPath(s.points,s.color,3.5,s.alpha);});if(currentPoints.length>1)drawSmoothPath(currentPoints,'#1a1a1a',3.5,1.0);}
+function markLastStroke(r){var c=r==='correct'?'#4CAF50':'#F44336';for(var i=canvasStrokes.length-1;i>=0;i--){if(canvasStrokes[i].status==='pending'){canvasStrokes[i].status=r;canvasStrokes[i].color=c;redrawCanvas();fadeStroke(canvasStrokes[i],r==='correct'?700:500);break;}}}
+function fadeStroke(s,d){setTimeout(function(){var st=function(){s.alpha-=0.05;if(s.alpha<=0){s.alpha=0;var p=canvasStrokes.indexOf(s);if(p>-1)canvasStrokes.splice(p,1);}redrawCanvas();if(s.alpha>0)requestAnimationFrame(st);};requestAnimationFrame(st);},d);}
+function clearCanvas(){canvasStrokes=[];currentPoints=[];isDrawing=false;if(ctx&&canvas)ctx.clearRect(0,0,canvas.width,canvas.height);resizeCanvas();}
+
+// ============================================
+// MICROPHONE / SPEECH RECOGNITION
+// ============================================
+function setMicResult(text,state){var el=document.getElementById('mic-result');el.textContent=text;el.className='mic-result'+(state?' '+state:'');}
+function resetMicResult(){if(micResultTimer){clearTimeout(micResultTimer);micResultTimer=null;}setMicResult('Tap 🎤 and say the word!','');}
+function scheduleMicReset(ms){if(micResultTimer)clearTimeout(micResultTimer);micResultTimer=setTimeout(resetMicResult,ms||6000);}
+
+function clearRecording(){
+    if(audioURL){URL.revokeObjectURL(audioURL);audioURL=null;audioBlob=null;}
+    audioChunks=[];if(audioPlayer){audioPlayer.pause();audioPlayer=null;}
+    var rb=document.getElementById('replay-btn');if(rb)rb.classList.remove('visible','playing');
 }
 
-function closeUnlockPopup() {
-    var overlay = document.getElementById('unlock-popup-overlay');
-    if (overlay) overlay.classList.remove('visible');
+function checkMicSupport(){
+    var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!SR){var btn=document.getElementById('mic-btn');if(btn)btn.style.display='none';document.getElementById('no-mic-msg').style.display='block';}
 }
 
-function updateCourseTabsProgress() {
-    COURSES.forEach(function(course) {
-        var tab = document.getElementById('ctab-' + course.id);
-        if (!tab) return;
-        var access = canAccessCourse(course.id);
-        var isActive = currentCourse && currentCourse.id === course.id;
-        if (access.allowed) {
-            tab.className = 'course-tab' + (isActive ? ' active' : '');
-            tab.title = course.name;
-        } else {
-            tab.className = 'course-tab locked' + (isActive ? ' active' : '');
-            tab.title = access.reason + ' (' + Math.round(access.progress || 0) + '%)';
-        }
-    });
-}
+function toggleListening(){isListening?stopListening():startListening();}
 
-function buildCourseTabs() {
-    var bar = document.getElementById('course-tabs'); bar.innerHTML = '';
-    COURSES.forEach(function(course) {
-        var access = canAccessCourse(course.id), tab = document.createElement('div');
-        tab.id = 'ctab-' + course.id;
-        if (access.allowed) {
-            tab.className = 'course-tab'; tab.textContent = course.id; tab.title = course.name;
-            tab.onclick = (function(id) { return function() { selectCourse(id); }; })(course.id);
-        } else {
-            tab.className = 'course-tab locked'; tab.textContent = course.id; tab.title = access.reason || 'Locked';
-            tab.onclick = (function(c, a) { return function() { showLockedHint(c, a); }; })(course, access);
-        }
-        bar.appendChild(tab);
-    });
-}
-
-function showLockedHint(course, access) {
-    var msg = '🔒 ' + course.name + '\n\n' + access.reason;
-    if (course.unlock && course.unlock.source) {
-        var progress = XHZ.getCourseProgress(course.unlock.source);
-        if (progress && progress.total > 0) {
-            var remaining = progress.total - progress.seen;
-            msg += '\n\n📊 Progress: ' + progress.seen + ' / ' + progress.total + ' words seen';
-            msg += '\n(' + Math.round((progress.seen / progress.total) * 100) + '%)';
-            if (remaining > 0) msg += '\n\n👉 ' + remaining + ' more word' + (remaining > 1 ? 's' : '') + ' to go!';
-        }
-    }
-    alert(msg);
-}
-
-function selectCourse(courseId) {
-    COURSES.forEach(function(c) {
-        var tab = document.getElementById('ctab-' + c.id);
-        if (tab) tab.className = 'course-tab' + (c.id === courseId ? ' active' : '') + (!canAccessCourse(c.id).allowed ? ' locked' : '');
-    });
-    currentCourse = getCourseById(courseId);
-    loadCourseData(courseId, function(data) { WORDS = data.words; THEMES = currentCourse.themes; buildSetTabs(); selectTheme(0); });
-}
-
-function buildSetTabs() {
-    var bar = document.getElementById('set-tabs'); bar.innerHTML = '';
-    THEMES.forEach(function(theme, i) {
-        var tab = document.createElement('div');
-        tab.className = 'set-tab' + (i === 0 ? ' active' : '');
-        tab.id = 'tab-' + i; tab.textContent = theme.emoji + ' ' + theme.name;
-        tab.onclick = (function(i) { return function() { selectTheme(i); }; })(i);
-        bar.appendChild(tab);
-    });
-}
-
-function selectTheme(i) {
-    currentTheme = i; idx = 0;
-    THEMES.forEach(function(_, j) { var t = document.getElementById('tab-' + j); if (t) t.className = 'set-tab' + (j === i ? ' active' : ''); });
-    applyThemeColor(THEMES[i].color); buildWordList();
-    if (getThemeWords().length > 0) loadChar(0);
-}
-
-function applyThemeColor(hex) {
-    var r = document.documentElement;
-    r.style.setProperty('--theme-color', hex);
-    r.style.setProperty('--theme-color-light', hex + '55');
-    r.style.setProperty('--theme-color-pale', hex + '18');
-    setNavTheme(hex);
-}
-
-function buildWordList() {
-    var wl = document.getElementById('word-list'), words = getThemeWords(); wl.innerHTML = '';
-    words.forEach(function(word, i) {
-        var btn = document.createElement('div'), doneKey = currentCourse.id + '_' + word.word_id;
-        var mastery = XHZ.getWordMastery(word.word_id), statusClass = mastery ? ' status-' + mastery.status : '';
-        btn.className = 'word-btn' + (i === idx ? ' active' : '') + (doneSet[doneKey] ? ' done' : '') + statusClass;
-        btn.id = 'wb-' + i; btn.innerHTML = word.ch + '<span class="wp">' + word.py + '</span>';
-        btn.onclick = (function(i) { return function() { loadChar(i); }; })(i);
-        wl.appendChild(btn);
-    });
-}
-
-function loadChar(i) {
-    idx = i; stopListening(); clearRecording(); resetMicResult(); clearCanvas();
-    if (quizW) { try { quizW.cancelQuiz(); } catch(e) {} quizW = null; }
-    if (animW) { try { animW.cancelAnimation(); } catch(e) {} animW = null; }
-    var animBox = document.getElementById('anim-box'), quizBox = document.getElementById('quiz-box');
-    if (animBox) animBox.innerHTML = ''; if (quizBox) quizBox.innerHTML = '';
-    mistakes = 0; corrects = 0; resetScore();
-    var words = getThemeWords();
-    words.forEach(function(word, j) {
-        var wb = document.getElementById('wb-' + j); if (!wb) return;
-        var doneKey = currentCourse.id + '_' + word.word_id, mastery = XHZ.getWordMastery(word.word_id);
-        wb.className = 'word-btn' + (j === i ? ' active' : '') + (doneSet[doneKey] ? ' done' : '') + (mastery ? ' status-' + mastery.status : '');
-    });
-    var word = words[i]; if (!word) return;
-    var result = XHZ.markSeen(word.word_id);
-    if (result && result.statusChanged) {
-        refreshWordButton(i);
-        updateCourseTabsProgress();
-        checkForNewUnlocks();
-    }
-    updateLeftPanel(i);
-    setTimeout(function() {
-        if (idx !== i) return;
-        var watchHidden = document.getElementById('panel-watch').classList.contains('mobile-hidden');
-        var writeHidden = document.getElementById('panel-write').classList.contains('mobile-hidden');
-        if (window.innerWidth > 600) { initAnimWriter(i); initQuizWriter(i); }
-        else { if (!watchHidden) initAnimWriter(i); if (!writeHidden) initQuizWriter(i); }
-    }, 50);
-}
-
-function refreshWordButton(i) {
-    var words = getThemeWords(), word = words[i]; if (!word) return;
-    var wb = document.getElementById('wb-' + i), doneKey = currentCourse.id + '_' + word.word_id;
-    var mastery = XHZ.getWordMastery(word.word_id);
-    if (wb) wb.className = 'word-btn' + (i === idx ? ' active' : '') + (doneSet[doneKey] ? ' done' : '') + (mastery ? ' status-' + mastery.status : '');
-}
-
-function updateLeftPanel(i) {
-    var word = getThemeWords()[i]; if (!word) return;
-    var lang = getLang();
-    document.getElementById('char-pinyin').textContent = word.py;
-    document.getElementById('char-meaning').textContent = lang === 'th' ? word.th : word.en;
-    document.getElementById('sent-zh').textContent = word.zh;
-    document.getElementById('sent-tr').textContent = lang === 'th' ? word.sent_th : word.sent_en;
-    updateToneBadge(word.py);
-}
-
-function initAnimWriter(i) {
-    var word = getThemeWords()[i]; if (!word) return;
-    var box = document.getElementById('anim-box'); if (!box) return;
-    var boxWidth = box.clientWidth || box.offsetWidth;
-    if (boxWidth <= 0) { setTimeout(function() { if (idx === i) initAnimWriter(i); }, 100); return; }
-    if (animW) { try { animW.cancelAnimation(); } catch(e) {} animW = null; }
-    box.innerHTML = '';
-    var size = boxWidth - 6;
-    try {
-        animW = HanziWriter.create('anim-box', word.ch, {
-            width: size, height: size, padding: 8,
-            strokeColor: getComputedStyle(document.documentElement).getPropertyValue('--theme-color').trim() || '#FF8C42',
-            outlineColor: '#FFD9A0', showCharacter: false, showOutline: true,
-            strokeAnimationSpeed: 0.8, delayBetweenStrokes: 500, delayBetweenLoops: 1200
-        });
-        animW.loopCharacterAnimation();
-    } catch(e) { console.error('Error creating anim writer:', e); }
-}
-
-function initQuizWriter(i) {
-    var word = getThemeWords()[i]; if (!word) return;
-    var box = document.getElementById('quiz-box'); if (!box) return;
-    var boxWidth = box.clientWidth || box.offsetWidth;
-    if (boxWidth <= 0) { setTimeout(function() { if (idx === i) initQuizWriter(i); }, 100); return; }
-    if (quizW) { try { quizW.cancelQuiz(); } catch(e) {} quizW = null; }
-    box.innerHTML = ''; clearCanvas();
-    var isBeginner = (mode === 'beginner'), size = boxWidth - 6;
-    
-    // Show hint - only special message for mastered words
-    var canAward = XHZ.canAwardWriteStars(word.word_id);
-    if (canAward.reason === 'already_cleared') {
-        setMsg('✅ Mastered! Practice for fun 🎉', '#888');
-    } else {
-        setMsg(t('trace_prompt') || 'Trace the character!', '#888');
-    }
-    
-    try {
-        quizW = HanziWriter.create('quiz-box', word.ch, {
-            width: size, height: size, padding: 8,
-            showCharacter: isBeginner, charColor: '#CCCCCC',
-            showOutline: isBeginner, outlineColor: '#DDDDDD',
-            strokeColor: '#222222', drawingColor: 'rgba(0,0,0,0.15)',
-            drawingWidth: 2, highlightColor: '#4CAF50', highlightCompleteColor: '#4CAF50', leniency: 1.2
-        });
-        quizW.quiz({
-            onMistake: function() {
-                mistakes++; document.getElementById('s-mistakes').textContent = mistakes;
-                setMsg(t('stroke_retry') || 'Try again!', '#F44336'); shake(); markLastStroke('wrong');
-            },
-            onCorrectStroke: function() {
-                corrects++; document.getElementById('s-correct').textContent = corrects;
-                setMsg(t('stroke_good') || 'Good!', '#4CAF50'); markLastStroke('correct');
-            },
-            onComplete: function(summary) { if (idx !== i) return; handleQuizComplete(summary, word, i); }
-        });
-    } catch(e) { console.error('Error creating quiz writer:', e); }
-}
-
-function handleQuizComplete(summary, word, i) {
-    if (idx !== i) return;
-    XHZ.markPracticed(word.word_id);
-    
-    var m = summary.totalMistakes, stars = m === 0 ? 3 : m <= 2 ? 2 : 1;
-    var msg = m === 0 ? (t('score_perfect') || 'Perfect!') : m <= 2 ? (t('score_great') || 'Great!') : (t('score_keep_trying') || 'Keep trying!');
-    var doneKey = currentCourse.id + '_' + word.word_id; doneSet[doneKey] = true;
-    
-    // Add score (anti-farming is handled silently internally)
-    var scoreResult = XHZ.addScore('write', stars, [word.word_id]);
-    var todayScore = XHZ.getTodayScore();
-    document.getElementById('s-stars').textContent = todayScore ? (todayScore.write_score + todayScore.study_score) : '0';
-    
-    if (stars === 3) { XHZ.markWriteCleared(word.word_id); }
-    refreshWordButton(i);
-    showStars(stars);
-    
-    // Show encouraging message - special note only for mastered words
-    var mastery = XHZ.getWordMastery(word.word_id);
-    if (mastery && mastery.status === 'mastered') {
-        setMsg('✅ ' + msg + ' Keep it up! 🎉', stars === 3 ? '#FF8C42' : '#66BB6A');
-    } else {
-        setMsg(msg, stars === 3 ? '#FF8C42' : '#66BB6A');
-    }
-    
-    var wb = document.getElementById('wb-' + i);
-    if (wb) wb.className = 'word-btn active done' + (mastery ? ' status-' + mastery.status : '');
-    if (scoreResult && scoreResult.newBadgeUnlocked) {
-    setTimeout(function() { showBadgePopup(scoreResult.badgeInfo); }, 800);
-}
-if (scoreResult && scoreResult.newItemUnlocked) {
-    setTimeout(function() { showItemPopup(scoreResult.newItemUnlocked); }, 1400);
-}
-    setTimeout(function() { if (idx === i) { clearCanvas(); initQuizWriter(i); } }, 2500);
-}
-function showBadgePopup(badgeInfo) {
-    if (!badgeInfo) return;
-    document.getElementById('badge-popup-emoji').textContent = badgeInfo.emoji;
-    document.getElementById('badge-popup-title').textContent = '🎉 New Badge: ' + badgeInfo.label + '!';
-    document.getElementById('badge-popup-sub').textContent = 'You earned this today. Keep it up! 🐼';
-    document.getElementById('badge-popup-overlay').classList.add('visible');
-}
-function closeBadgePopup() { document.getElementById('badge-popup-overlay').classList.remove('visible'); }
-function showItemPopup(item) {
-    if (!item) return;
-    document.getElementById('badge-popup-emoji').textContent = item.emoji || '🎁';
-    document.getElementById('badge-popup-title').textContent = '🎁 New Item Unlocked!';
-    document.getElementById('badge-popup-sub').textContent   = item.message || ('You unlocked ' + item.label + '!');
-    document.getElementById('badge-popup-overlay').classList.add('visible');
-}
-
-function resetScore() {
-    document.getElementById('stars-display').textContent = '';
-    setMsg(t('trace_prompt') || 'Trace the character!', '#888');
-    document.getElementById('s-correct').textContent = '0';
-    document.getElementById('s-mistakes').textContent = '0';
-    var todayScore = XHZ.getTodayScore();
-    document.getElementById('s-stars').textContent = todayScore ? (todayScore.write_score + todayScore.study_score) : '0';
-}
-function showStars(n) { var el = document.getElementById('stars-display'); el.textContent = '⭐'.repeat(n) + '☆'.repeat(3 - n); el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop'); }
-function setMsg(text, color) { var el = document.getElementById('score-msg'); el.textContent = text; el.style.color = color; }
-function shake() { var el = document.getElementById('quiz-box'); el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); }
-
-function setMode(m) {
-    mode = m;
-    document.getElementById('btn-beginner').className = 'mode-btn' + (m === 'beginner' ? ' active' : '');
-    document.getElementById('btn-challenge').className = 'mode-btn' + (m === 'challenge' ? ' active' : '');
-    if (quizW) { try { quizW.cancelQuiz(); } catch(e) {} quizW = null; }
-    var quizBox = document.getElementById('quiz-box'); if (quizBox) quizBox.innerHTML = '';
-    clearCanvas(); mistakes = 0; corrects = 0; resetScore();
-    setTimeout(function() { initQuizWriter(idx); }, 50);
-}
-
-function getToneNumber(pinyin) { if (/[āēīōūǖ]/.test(pinyin)) return 1; if (/[áéíóúǘ]/.test(pinyin)) return 2; if (/[ǎěǐǒǔǚ]/.test(pinyin)) return 3; if (/[àèìòùǜ]/.test(pinyin)) return 4; return 0; }
-var TONE_LABELS = { 0: { symbol: '·', cls: 'tone-0' }, 1: { symbol: '—', cls: 'tone-1' }, 2: { symbol: '↗', cls: 'tone-2' }, 3: { symbol: '↙↗', cls: 'tone-3' }, 4: { symbol: '↘', cls: 'tone-4' } };
-function updateToneBadge(pinyin) { var n = getToneNumber(pinyin), info = TONE_LABELS[n], el = document.getElementById('tone-badge'); if (!el) return; el.textContent = info.symbol; el.className = 'tone-badge ' + info.cls; }
-function stripTones(py) { return py.replace(/[āáǎà]/g, 'a').replace(/[ēéěè]/g, 'e').replace(/[īíǐì]/g, 'i').replace(/[ōóǒò]/g, 'o').replace(/[ūúǔù]/g, 'u').replace(/[ǖǘǚǜ]/g, 'v').toLowerCase().trim(); }
-function normalizeChinese(str) { return str.replace(/[\s，。！？、：；""''·]/g, '').trim(); }
-function levenshteinDistance(s1, s2) { var len1 = s1.length, len2 = s2.length, matrix = []; for (var i = 0; i <= len1; i++) matrix[i] = [i]; for (var j = 0; j <= len2; j++) matrix[0][j] = j; for (var i = 1; i <= len1; i++) for (var j = 1; j <= len2; j++) { var cost = s1[i-1] === s2[j-1] ? 0 : 1; matrix[i][j] = Math.min(matrix[i-1][j] + 1, matrix[i][j-1] + 1, matrix[i-1][j-1] + cost); } return matrix[len1][len2]; }
-function isSimilarPinyin(heard, target) { var h = stripTones(heard), t = stripTones(target); return h === t || (h.length > 1 && t.length > 1 && levenshteinDistance(h, t) <= 1); }
-
-function gradeRecognitionResult(results, targetChar, targetPinyin) {
-    var bestGrade = 0, bestHeard = '', targetNorm = normalizeChinese(targetChar), targetPyPlain = stripTones(targetPinyin);
-    for (var i = 0; i < results.length; i++) {
-        var transcript = results[i].transcript, heard = normalizeChinese(transcript), heardLow = heard.toLowerCase();
-        if (heard.indexOf(targetNorm) !== -1) return { grade: 3, heard: transcript };
-        if (heardLow === targetPinyin.toLowerCase() || heardLow === targetPyPlain || isSimilarPinyin(heardLow, targetPinyin)) { if (bestGrade < 2) { bestGrade = 2; bestHeard = transcript; } }
-        if (heard.length > 0 && bestGrade < 1) { bestGrade = 1; bestHeard = transcript; }
-    }
-    return { grade: bestGrade, heard: bestHeard };
-}
-
-function initCanvas() {
-    canvas = document.getElementById('handwriting-canvas'); ctx = canvas.getContext('2d');
-    resizeCanvas(); window.addEventListener('resize', resizeCanvas);
-    var wrapper = document.getElementById('quiz-wrapper');
-    wrapper.addEventListener('mousedown', onDrawStart); wrapper.addEventListener('mousemove', onDrawMove);
-    wrapper.addEventListener('mouseup', onDrawEnd); wrapper.addEventListener('mouseleave', onDrawEnd);
-    wrapper.addEventListener('touchstart', onTouchStart, { passive: true });
-    wrapper.addEventListener('touchmove', onTouchMove, { passive: true });
-    wrapper.addEventListener('touchend', onTouchEnd, { passive: true });
-}
-
-function resizeCanvas() {
-    if (!canvas) return;
-    var wrapper = document.getElementById('quiz-wrapper'); if (!wrapper) return;
-    var size = wrapper.clientWidth - 6; if (size <= 0) return;
-    if (canvas.width !== size || canvas.height !== size) { canvas.width = size; canvas.height = size; }
-    redrawCanvas();
-}
-
-function getCanvasPos(clientX, clientY) { var rect = canvas.getBoundingClientRect(), scaleX = canvas.width / rect.width, scaleY = canvas.height / rect.height; return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY }; }
-function onTouchStart(e) { var p = getCanvasPos(e.touches[0].clientX, e.touches[0].clientY); startDraw(p.x, p.y); }
-function onTouchMove(e) { if (!isDrawing) return; var p = getCanvasPos(e.touches[0].clientX, e.touches[0].clientY); moveDraw(p.x, p.y); }
-function onTouchEnd() { endDraw(); }
-function onDrawStart(e) { var p = getCanvasPos(e.clientX, e.clientY); startDraw(p.x, p.y); }
-function onDrawMove(e) { if (!isDrawing) return; var p = getCanvasPos(e.clientX, e.clientY); moveDraw(p.x, p.y); }
-function onDrawEnd() { endDraw(); }
-function startDraw(x, y) { isDrawing = true; currentPoints = [{ x:x, y:y }]; }
-
-function moveDraw(x, y) {
-    if (!isDrawing) return;
-    currentPoints.push({ x:x, y:y }); redrawCanvas();
-    drawSmoothPath(currentPoints, '#1a1a1a', 3.5, 1.0);
-}
-
-function endDraw() {
-    if (!isDrawing) return; isDrawing = false;
-    if (currentPoints.length < 3) { currentPoints = []; return; }
-    canvasStrokes.push({ points: currentPoints.slice(), color: '#1a1a1a', alpha: 1.0, status: 'pending' });
-    currentPoints = []; redrawCanvas();
-}
-
-function drawSmoothPath(points, color, lineWidth, alpha) {
-    if (!ctx || points.length < 2) return;
-    ctx.save(); ctx.globalAlpha = alpha; ctx.strokeStyle = color; ctx.lineWidth = lineWidth;
-    ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.shadowColor = color; ctx.shadowBlur = 1.5;
-    ctx.beginPath(); ctx.moveTo(points[0].x, points[0].y);
-    for (var i = 1; i < points.length - 1; i++) { var mx = (points[i].x + points[i+1].x) / 2, my = (points[i].y + points[i+1].y) / 2; ctx.quadraticCurveTo(points[i].x, points[i].y, mx, my); }
-    ctx.lineTo(points[points.length-1].x, points[points.length-1].y); ctx.stroke(); ctx.restore();
-}
-
-function redrawCanvas() {
-    if (!ctx) return; ctx.clearRect(0, 0, canvas.width, canvas.height);
-    canvasStrokes.forEach(function(s) { drawSmoothPath(s.points, s.color, 3.5, s.alpha); });
-    if (currentPoints.length > 1) drawSmoothPath(currentPoints, '#1a1a1a', 3.5, 1.0);
-}
-
-function markLastStroke(result) {
-    var color = result === 'correct' ? '#4CAF50' : '#F44336';
-    for (var i = canvasStrokes.length - 1; i >= 0; i--) {
-        if (canvasStrokes[i].status === 'pending') {
-            canvasStrokes[i].status = result; canvasStrokes[i].color = color;
-            redrawCanvas(); fadeStroke(canvasStrokes[i], result === 'correct' ? 700 : 500); break;
-        }
-    }
-}
-
-function fadeStroke(stroke, delayMs) {
-    setTimeout(function() {
-        var step = function() {
-            stroke.alpha -= 0.05;
-            if (stroke.alpha <= 0) { stroke.alpha = 0; var pos = canvasStrokes.indexOf(stroke); if (pos > -1) canvasStrokes.splice(pos, 1); }            redrawCanvas(); if (stroke.alpha > 0) requestAnimationFrame(step);
-        };
-        requestAnimationFrame(step);
-    }, delayMs);
-}
-
-function clearCanvas() { canvasStrokes = []; currentPoints = []; isDrawing = false; if (ctx && canvas) ctx.clearRect(0, 0, canvas.width, canvas.height); resizeCanvas(); }
-
-function setMicResult(text, state) { var el = document.getElementById('mic-result'); el.textContent = text; el.className = 'mic-result' + (state ? ' ' + state : ''); }
-function resetMicResult() { if (micResultTimer) { clearTimeout(micResultTimer); micResultTimer = null; } setMicResult('Tap 🎤 and say the word!', ''); }
-function scheduleMicReset(ms) { if (micResultTimer) clearTimeout(micResultTimer); micResultTimer = setTimeout(resetMicResult, ms || 6000); }
-
-function clearRecording() {
-    if (audioURL) { URL.revokeObjectURL(audioURL); audioURL = null; audioBlob = null; }
-    audioChunks = []; if (audioPlayer) { audioPlayer.pause(); audioPlayer = null; }
-    var rb = document.getElementById('replay-btn'); if (rb) rb.classList.remove('visible', 'playing');
-}
-
-function checkMicSupport() {
-    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SR) { var btn = document.getElementById('mic-btn'); if (btn) btn.style.display = 'none'; document.getElementById('no-mic-msg').style.display = 'block'; }
-}
-
-function toggleListening() { isListening ? stopListening() : startListening(); }
-
-function startListening() {
-    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SR) { setMicResult('⚠️ Speech recognition not supported', 'wrong'); return; }
-    clearRecording(); recognitionDone = false; isListening = true;
-    if (recognitionTimeout) { clearTimeout(recognitionTimeout); recognitionTimeout = null; }
-    var micBtn = document.getElementById('mic-btn');
-    if (micBtn) { micBtn.classList.add('recording'); micBtn.textContent = '⏹'; }
-    setMicResult('🎤 Listening... say the character!', 'listening');
+function startListening(){
+    var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!SR){setMicResult('⚠️ Speech recognition not supported','wrong');return;}
+    clearRecording();recognitionDone=false;isListening=true;
+    if(recognitionTimeout){clearTimeout(recognitionTimeout);recognitionTimeout=null;}
+    var micBtn=document.getElementById('mic-btn');
+    if(micBtn){micBtn.classList.add('recording');micBtn.textContent='⏹';}
+    setMicResult('🎤 Listening... say the character!','listening');
     startRecognition();
-    setTimeout(function() {
-        if (!isListening) return;
-        navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
-            if (!isListening) { stream.getTracks().forEach(function(t) { t.stop(); }); return; }
-            window._micStream = stream;
-            var mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus') ? 'audio/webm;codecs=opus' : MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : '';
-            try { mediaRecorder = new MediaRecorder(stream, mimeType ? { mimeType: mimeType } : {}); } catch(e) { console.warn('MediaRecorder error:', e); return; }
-            audioChunks = [];
-            mediaRecorder.ondataavailable = function(e) { if (e.data && e.data.size > 0) audioChunks.push(e.data); };
-            mediaRecorder.onstop = function() {
-                if (audioChunks.length > 0) {
-                    audioBlob = new Blob(audioChunks, { type: mimeType || 'audio/webm' });
-                    audioURL = URL.createObjectURL(audioBlob);
-                    audioPlayer = new Audio(audioURL);
-                    audioPlayer.onended = function() { var rb = document.getElementById('replay-btn'); if (rb) rb.classList.remove('playing'); };
-                    var rb = document.getElementById('replay-btn'); if (rb) rb.classList.add('visible');
+    setTimeout(function(){
+        if(!isListening)return;
+        navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+            if(!isListening){stream.getTracks().forEach(function(t){t.stop();});return;}
+            window._micStream=stream;
+            var mimeType=MediaRecorder.isTypeSupported('audio/webm;codecs=opus')?'audio/webm;codecs=opus':MediaRecorder.isTypeSupported('audio/webm')?'audio/webm':MediaRecorder.isTypeSupported('audio/mp4')?'audio/mp4':'';
+            try{mediaRecorder=new MediaRecorder(stream,mimeType?{mimeType:mimeType}:{});}catch(e){console.warn('MediaRecorder error:',e);return;}
+            audioChunks=[];
+            mediaRecorder.ondataavailable=function(e){if(e.data&&e.data.size>0)audioChunks.push(e.data);};
+            mediaRecorder.onstop=function(){
+                if(audioChunks.length>0){
+                    audioBlob=new Blob(audioChunks,{type:mimeType||'audio/webm'});
+                    audioURL=URL.createObjectURL(audioBlob);
+                    audioPlayer=new Audio(audioURL);
+                    audioPlayer.onended=function(){var rb=document.getElementById('replay-btn');if(rb)rb.classList.remove('playing');};
+                    var rb=document.getElementById('replay-btn');if(rb)rb.classList.add('visible');
                 }
-                if (window._micStream) window._micStream.getTracks().forEach(function(t) { t.stop(); });
+                if(window._micStream)window._micStream.getTracks().forEach(function(t){t.stop();});
             };
             mediaRecorder.start();
-        }).catch(function(err) { console.warn('MediaRecorder setup failed:', err.message); });
-    }, 150);
+        }).catch(function(err){console.warn('MediaRecorder setup failed:',err.message);});
+    },150);
 }
 
-function startRecognition() {
-    var SR = window.SpeechRecognition || window.webkitSpeechRecognition; if (!SR) return;
-    recognition = new SR(); recognition.lang = 'zh-CN'; recognition.continuous = false;
-    recognition.interimResults = true; recognition.maxAlternatives = 10;
-    var hasProcessedFinal = false, speechDetected = false;
-    recognition.onspeechstart = function() { speechDetected = true; if (recognitionTimeout) { clearTimeout(recognitionTimeout); recognitionTimeout = null; } setMicResult('🎤 Hearing you...', 'listening'); };
-    recognition.onresult = function(event) {
-        var word = getThemeWords()[idx]; if (!word) return;
-        speechDetected = true; if (recognitionTimeout) { clearTimeout(recognitionTimeout); recognitionTimeout = null; }
-        var finalResults = [], interimText = '';
-        for (var i = event.resultIndex; i < event.results.length; i++) {
-            var result = event.results[i];
-            if (result.isFinal) { for (var j = 0; j < result.length; j++) finalResults.push({ transcript: result[j].transcript, confidence: result[j].confidence }); }
-            else interimText += result[0].transcript;
+function startRecognition(){
+    var SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return;
+    recognition=new SR();recognition.lang='zh-CN';recognition.continuous=false;
+    recognition.interimResults=true;recognition.maxAlternatives=10;
+    var hasProcessedFinal=false,speechDetected=false;
+    recognition.onspeechstart=function(){speechDetected=true;if(recognitionTimeout){clearTimeout(recognitionTimeout);recognitionTimeout=null;}setMicResult('🎤 Hearing you...','listening');};
+    recognition.onresult=function(event){
+        var word=getThemeWords()[idx];if(!word)return;
+        speechDetected=true;if(recognitionTimeout){clearTimeout(recognitionTimeout);recognitionTimeout=null;}
+        var finalResults=[],interimText='';
+        for(var i=event.resultIndex;i<event.results.length;i++){
+            var result=event.results[i];
+            if(result.isFinal){for(var j=0;j<result.length;j++)finalResults.push({transcript:result[j].transcript,confidence:result[j].confidence});}
+            else interimText+=result[0].transcript;
         }
-        if (interimText && !hasProcessedFinal) setMicResult('🎤 Hearing: "' + interimText + '"...', 'listening');
-        if (finalResults.length > 0 && !hasProcessedFinal) {
-            hasProcessedFinal = true; recognitionDone = true;
-            var gradeResult = gradeRecognitionResult(finalResults, word.ch, word.py);
-            showMicGrade(gradeResult.grade, gradeResult.heard, word.ch); stopListening();
+        if(interimText&&!hasProcessedFinal)setMicResult('🎤 Hearing: "'+interimText+'"...','listening');
+        if(finalResults.length>0&&!hasProcessedFinal){
+            hasProcessedFinal=true;recognitionDone=true;
+            var gradeResult=gradeRecognitionResult(finalResults,word.ch,word.py);
+            showMicGrade(gradeResult.grade,gradeResult.heard,word.ch);stopListening();
         }
     };
-    recognition.onend = function() {
-        if (recognitionTimeout) { clearTimeout(recognitionTimeout); recognitionTimeout = null; }
-        setTimeout(function() {
-            if (!recognitionDone && isListening) { setMicResult(speechDetected ? "🤔 Couldn't understand. Tap 🎤 and try again!" : "🤔 No speech heard. Tap 🎤 and speak!", 'wrong'); scheduleMicReset(6000); }
+    recognition.onend=function(){
+        if(recognitionTimeout){clearTimeout(recognitionTimeout);recognitionTimeout=null;}
+        setTimeout(function(){
+            if(!recognitionDone&&isListening){setMicResult(speechDetected?"🤔 Couldn't understand. Tap 🎤 and try again!":"🤔 No speech heard. Tap 🎤 and speak!",'wrong');scheduleMicReset(6000);}
             stopListening();
-        }, 200);
+        },200);
     };
-    recognition.onnomatch = function() { if (!recognitionDone) { setMicResult("🤔 No match found. Try speaking more clearly!", 'wrong'); scheduleMicReset(6000); } stopListening(); };
-    recognition.onerror = function(e) {
-        if (recognitionTimeout) { clearTimeout(recognitionTimeout); recognitionTimeout = null; }
-        if (recognitionDone) return;
+    recognition.onnomatch=function(){if(!recognitionDone){setMicResult("🤔 No match found. Try speaking more clearly!",'wrong');scheduleMicReset(6000);}stopListening();};
+    recognition.onerror=function(e){
+        if(recognitionTimeout){clearTimeout(recognitionTimeout);recognitionTimeout=null;}
+        if(recognitionDone)return;
         var msg;
-        switch(e.error) {
-            case 'not-allowed': msg = '🚫 Microphone access denied. Please allow in Settings.'; break;
-            case 'no-speech': msg = '🤔 No speech detected. Tap 🎤 and speak clearly!'; break;
-            case 'network': msg = '⚠️ Network error. Speech recognition needs internet.'; break;
-            case 'audio-capture': msg = '🎤 No microphone found. Check your device.'; break;
-            case 'aborted': stopListening(); return;
-            default: msg = '⚠️ Error: ' + e.error;
+        switch(e.error){
+            case 'not-allowed':msg='🚫 Microphone access denied.';break;
+            case 'no-speech':msg='🤔 No speech detected. Tap 🎤 and speak!';break;
+            case 'network':msg='⚠️ Network error. Speech recognition needs internet.';break;
+            case 'audio-capture':msg='🎤 No microphone found.';break;
+            case 'aborted':stopListening();return;
+            default:msg='⚠️ Error: '+e.error;
         }
-        setMicResult(msg, 'wrong'); scheduleMicReset(6000); stopListening();
+        setMicResult(msg,'wrong');scheduleMicReset(6000);stopListening();
     };
-    recognition.onspeechend = function() { setTimeout(function() { if (recognition && !recognitionDone) { try { recognition.stop(); } catch(e) {} } }, 1500); };
-    try {
+    recognition.onspeechend=function(){setTimeout(function(){if(recognition&&!recognitionDone){try{recognition.stop();}catch(e){}}},1500);};
+    try{
         recognition.start();
-        recognitionTimeout = setTimeout(function() { if (isListening && !recognitionDone && !speechDetected) { setMicResult('⏱️ No speech detected. Tap 🎤 to try again.', 'wrong'); scheduleMicReset(5000); stopListening(); } }, 8000);
-    } catch(e) { setMicResult('⚠️ Could not start microphone: ' + e.message, 'wrong'); stopListening(); }
+        recognitionTimeout=setTimeout(function(){if(isListening&&!recognitionDone&&!speechDetected){setMicResult('⏱️ No speech detected. Tap 🎤 to try again.','wrong');scheduleMicReset(5000);stopListening();}},8000);
+    }catch(e){setMicResult('⚠️ Could not start microphone: '+e.message,'wrong');stopListening();}
 }
 
-function stopListening() {
-    if (recognitionTimeout) { clearTimeout(recognitionTimeout); recognitionTimeout = null; }
-    if (recognition) { try { recognition.stop(); } catch(e) {} recognition = null; }
-    if (mediaRecorder && mediaRecorder.state !== 'inactive') { try { mediaRecorder.stop(); } catch(e) {} }
-    isListening = false;
-    var micBtn = document.getElementById('mic-btn');
-    if (micBtn) { micBtn.classList.remove('recording'); micBtn.textContent = '🎤'; }
+function stopListening(){
+    if(recognitionTimeout){clearTimeout(recognitionTimeout);recognitionTimeout=null;}
+    if(recognition){try{recognition.stop();}catch(e){}recognition=null;}
+    if(mediaRecorder&&mediaRecorder.state!=='inactive'){try{mediaRecorder.stop();}catch(e){}}
+    isListening=false;
+    var micBtn=document.getElementById('mic-btn');
+    if(micBtn){micBtn.classList.remove('recording');micBtn.textContent='🎤';}
 }
 
-function playbackRecording() {
-    if (!audioPlayer) return;
-    var rb = document.getElementById('replay-btn');
-    audioPlayer.pause(); audioPlayer.currentTime = 0; rb.classList.add('playing');
-    audioPlayer.play().catch(function() { rb.classList.remove('playing'); setMicResult('⚠️ Could not play recording.', 'wrong'); });
+function playbackRecording(){
+    if(!audioPlayer)return;
+    var rb=document.getElementById('replay-btn');
+    audioPlayer.pause();audioPlayer.currentTime=0;rb.classList.add('playing');
+    audioPlayer.play().catch(function(){rb.classList.remove('playing');setMicResult('⚠️ Could not play recording.','wrong');});
 }
 
-function showMicGrade(grade, heard, target) {
-    var word = getThemeWords()[idx]; if (!word) return;
-    var pinyin = word.py, meaning = getLang() === 'th' ? word.th : word.en;
-    switch(grade) {
+function showMicGrade(grade,heard,target){
+    var word=getThemeWords()[idx];if(!word)return;
+    var pinyin=word.py,meaning=getLang()==='th'?word.th:word.en;
+    switch(grade){
         case 3:
-            setMicResult('🎉 Perfect! "' + target + '" (' + pinyin + ') = ' + meaning, 'correct');
-            var py = document.getElementById('char-pinyin');
-            if (py) { py.classList.remove('pop'); void py.offsetWidth; py.classList.add('pop'); }
-            setTimeout(speakWord, 400);
-            var micResult = XHZ.addScore('study', 1, [word.word_id]);
-              if (micResult && micResult.newItemUnlocked) {
-             setTimeout(function() { showItemPopup(micResult.newItemUnlocked); }, 1000);
-            }
-break;
+            setMicResult('🎉 Perfect! "'+target+'" ('+pinyin+') = '+meaning,'correct');
+            var py=document.getElementById('char-pinyin');
+            if(py){py.classList.remove('pop');void py.offsetWidth;py.classList.add('pop');}
+            setTimeout(speakWord,400);
+            var micResult=XHZ.addScore('study',1,[word.word_id]);
+            if(micResult&&micResult.newItemUnlocked){setTimeout(function(){showItemPopup(micResult.newItemUnlocked);},1000);}
+            break;
         case 2:
-            setMicResult('👍 Close! I heard "' + heard + '" - try matching the tone of "' + target + '"', 'correct');
-            setTimeout(speakWord, 600); break;
-        case 1: setMicResult('❌ I heard "' + heard + '" — say "' + target + '" (' + pinyin + ')', 'wrong'); break;
-        default: setMicResult('🤔 No speech heard. Tap 🎤 and say "' + target + '" (' + pinyin + ')', 'wrong');
+            setMicResult('👍 Close! I heard "'+heard+'" - try matching the tone of "'+target+'"','correct');
+            setTimeout(speakWord,600);break;
+        case 1:setMicResult('❌ I heard "'+heard+'" — say "'+target+'" ('+pinyin+')','wrong');break;
+        default:setMicResult('🤔 No speech heard. Tap 🎤 and say "'+target+'" ('+pinyin+')','wrong');
     }
     scheduleMicReset(8000);
 }
 
-function getChineseVoice() {
-    if (!window.speechSynthesis) return null;
-    var voices = window.speechSynthesis.getVoices();
-    return voices.find(function(v) { return v.lang === 'zh-CN'; }) 
-        || voices.find(function(v) { return v.lang.startsWith('zh'); }) 
-        || null;
-}
-
-function speakWord() {
-    if (!window.speechSynthesis) return;
-    var word = getThemeWords()[idx]; 
-    if (!word) return;
-    
-    var doSpeak = function() {
-        window.speechSynthesis.cancel();
-        var u = new SpeechSynthesisUtterance(word.ch);
-        u.lang = 'zh-CN'; 
-        u.rate = 0.6;
-        var voice = getChineseVoice(); 
-        if (voice) u.voice = voice;
-        var btn = document.getElementById('pinyin-speaker-btn');
-        if (btn) btn.classList.add('speaking');
-        u.onend = function() { if (btn) btn.classList.remove('speaking'); };
-        u.onerror = function() { if (btn) btn.classList.remove('speaking'); };
-        window.speechSynthesis.speak(u);
-    };
-    
-    if (!voicesReady && window.speechSynthesis.getVoices().length === 0) {
-        pendingSpeak = doSpeak;
-        window.speechSynthesis.getVoices();
-        setTimeout(function() {
-            if (pendingSpeak) { pendingSpeak(); pendingSpeak = null; }
-        }, 150);
-    } else {
-        doSpeak();
+document.addEventListener('DOMContentLoaded',function(){initNav('write');refreshStrings();});
+var resizeTimer;window.addEventListener('resize',function(){
+  resizeCanvas();
+  clearTimeout(resizeTimer);
+  resizeTimer=setTimeout(function(){
+    // If leaving mobile width, clear any section-hidden classes so all sections show
+    if(window.innerWidth>600){
+      document.getElementById('section-study').classList.remove('section-hidden');
+      document.getElementById('section-practice').classList.remove('section-hidden');
+      document.getElementById('section-sentence').classList.remove('section-hidden');
     }
-}
-
-function speakSentence() {
-    if (!window.speechSynthesis) return;
-    var word = getThemeWords()[idx]; 
-    if (!word) return;
-    
-    var doSpeak = function() {
-        window.speechSynthesis.cancel();
-        var u = new SpeechSynthesisUtterance(word.zh);
-        u.lang = 'zh-CN'; 
-        u.rate = 0.8;
-        var voice = getChineseVoice(); 
-        if (voice) u.voice = voice;
-        var btn = document.querySelector('.sentence-zh-row .icon-btn');
-        if (btn) btn.classList.add('speaking');
-        u.onend = function() { if (btn) btn.classList.remove('speaking'); };
-        u.onerror = function() { if (btn) btn.classList.remove('speaking'); };
-        window.speechSynthesis.speak(u);
-    };
-    
-    if (!voicesReady && window.speechSynthesis.getVoices().length === 0) {
-        pendingSpeak = doSpeak;
-        window.speechSynthesis.getVoices();
-        setTimeout(function() {
-            if (pendingSpeak) { pendingSpeak(); pendingSpeak = null; }
-        }, 150);
-    } else {
-        doSpeak();
+    // Recompute page size if breakpoint changed
+    var newPageSize=computePageSize();
+    if(newPageSize!==pageSize){
+      pageSize=newPageSize;
+      currentPage=Math.floor(idx/pageSize);
+      renderCurrentPage();
+      renderPaginationControls();
     }
-}
-</script>
-<script>
-document.addEventListener('DOMContentLoaded', function() { initNav('write'); refreshStrings(); });
-var resizeTimer;
-window.addEventListener('resize', function() {
-    resizeCanvas();
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(function() {
-        var watchHidden = document.getElementById('panel-watch').classList.contains('mobile-hidden');
-        var writeHidden = document.getElementById('panel-write').classList.contains('mobile-hidden');
-        if (window.innerWidth > 768) { initAnimWriter(idx); initQuizWriter(idx); }
-        else { if (!watchHidden) initAnimWriter(idx); if (!writeHidden) initQuizWriter(idx); }
-    }, 50);
+    var studyHidden=document.getElementById('section-study').classList.contains('section-hidden'),
+        practiceHidden=document.getElementById('section-practice').classList.contains('section-hidden');
+    if(window.innerWidth>768){initAnimWriter(idx);initQuizWriter(idx);}
+    else{if(!studyHidden)initAnimWriter(idx);if(!practiceHidden)initQuizWriter(idx);}
+  },50);
 });
 </script>
 </body>

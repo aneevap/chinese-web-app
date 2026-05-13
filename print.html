@@ -8,281 +8,34 @@
 <script src="nav.js"></script>
 <script src="profiles.js"></script>
 <script src="strings.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;600;700&family=Mali:wght@400;700&family=Nunito:wght@400;700;800;900&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+
+<!-- 🎨 Universal Design System -->
+<link rel="stylesheet" href="shared/design-system.css">
+
 <style>
-
 /* ══════════════════════════════════════
-   SCREEN STYLES
-══════════════════════════════════════ */
-:root {
-    --theme-color:       #FFB347;
-    --theme-color-light: #FFE0B255;
-    --theme-color-pale:  #FFB34718;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background: var(--theme-color-pale);
-    min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
-    transition: background 0.4s;
-}
-.page-body {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    padding-bottom: 20px;
-}
-.section {
-    background: white;
-    margin: 12px 12px 0;
-    border-radius: 16px;
-    padding: 14px 16px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-}
-.section-title {
-    font-size: 0.75em;
-    font-weight: bold;
-    color: #bbb;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
-}
-
-/* ── COURSE TABS ── */
-.course-tabs {
-    display: flex;
-    gap: 4px;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
-}
-.course-tab {
-    padding: 5px 14px;
-    border: 2px solid #eee;
-    background: #f9f9f9;
-    border-radius: 20px;
-    font-size: 0.75em;
-    font-weight: bold;
-    color: #aaa;
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
-    position: relative;
-}
-.course-tab:hover { border-color: var(--theme-color); }
-.course-tab.active {
-    border-color: var(--theme-color);
-    background: var(--theme-color-light);
-    color: #333;
-}
-.course-tab.locked {
-    color: #ccc;
-    cursor: not-allowed;
-}
-.course-tab.locked::after {
-    content: ' 🔒';
-    font-size: 0.85em;
-}
-
-/* ── THEME TABS ── */
-.theme-tabs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 10px;
-}
-.theme-tab {
-    padding: 5px 12px;
-    border: 2px solid #eee;
-    background: #f9f9f9;
-    border-radius: 20px;
-    font-size: 0.75em;
-    font-weight: bold;
-    color: #aaa;
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
-}
-.theme-tab.active {
-    border-color: var(--theme-color);
-    background: var(--theme-color-light);
-    color: #333;
-}
-
-/* ── CHARACTER GRID ── */
-.char-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 7px;
-    max-height: 200px;
-    overflow-y: auto;
-    padding: 2px;
-}
-.char-chip {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 52px; height: 58px;
-    border: 2px solid #eee;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.15s;
-    background: white;
-    position: relative;
-    justify-content: center;
-    gap: 1px;
-}
-.char-chip:hover { border-color: var(--theme-color); }
-.char-chip.selected {
-    border-color: var(--theme-color);
-    background: var(--theme-color-light);
-}
-.char-chip.selected::after {
-    content: '✓';
-    position: absolute;
-    top: -5px; right: -5px;
-    width: 14px; height: 14px;
-    background: var(--theme-color);
-    color: white;
-    border-radius: 50%;
-    font-size: 0.5em;
-    line-height: 14px;
-    text-align: center;
-    font-weight: bold;
-}
-.char-chip-ch { font-size: 1.4em; color: #333; line-height: 1; }
-.char-chip-py { font-size: 0.45em; color: #aaa; }
-
-.select-row {
-    display: flex;
-    gap: 8px;
-    margin-top: 10px;
-    align-items: center;
-    flex-wrap: wrap;
-}
-.select-count { font-size: 0.78em; color: #aaa; flex: 1; }
-.text-btn {
-    padding: 5px 14px;
-    border-radius: 20px;
-    border: 2px solid var(--theme-color);
-    background: transparent;
-    color: var(--theme-color);
-    font-size: 0.75em;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-.text-btn:hover { background: var(--theme-color); color: white; }
-.text-btn.danger { border-color: #FF6B6B; color: #FF6B6B; }
-.text-btn.danger:hover { background: #FF6B6B; color: white; }
-
-/* ── OPTIONS ── */
-.options-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-}
-@media (max-width: 480px) {
-    .options-grid { grid-template-columns: 1fr; }
-}
-.option-row { display: flex; flex-direction: column; gap: 5px; }
-.option-label { font-size: 0.72em; color: #888; font-weight: bold; }
-.option-btns  { display: flex; gap: 5px; flex-wrap: wrap; }
-.opt-btn {
-    padding: 4px 11px;
-    border: 2px solid #eee;
-    background: #f9f9f9;
-    border-radius: 12px;
-    font-size: 0.72em;
-    font-weight: bold;
-    color: #aaa;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-.opt-btn.active {
-    border-color: var(--theme-color);
-    background: var(--theme-color-light);
-    color: #333;
-}
-
-/* ── PRINT BUTTON ── */
-.print-bar { margin: 12px 12px 0; }
-.print-btn {
-    width: 100%;
-    padding: 14px 20px;
-    background: var(--theme-color);
-    color: white;
-    border: none;
-    border-radius: 14px;
-    font-size: 1em;
-    font-weight: bold;
-    cursor: pointer;
-    transition: opacity 0.2s, transform 0.15s, background 0.4s;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-.print-btn:hover  { opacity: 0.9; }
-.print-btn:active { transform: scale(0.98); }
-.print-btn:disabled {
-    background: #ddd; color: #aaa;
-    box-shadow: none; cursor: not-allowed;
-}
-
-/* ── PREVIEW ── */
-.preview-section {
-    margin: 12px 12px 0;
-    background: white;
-    border-radius: 16px;
-    padding: 14px 16px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-}
-.preview-label {
-    font-size: 0.75em;
-    font-weight: bold;
-    color: #bbb;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.preview-empty {
-    text-align: center;
-    color: #ddd;
-    padding: 30px;
-    font-size: 0.85em;
-}
-.preview-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 0;
-    border-bottom: 1px solid #f5f5f5;
-}
-.preview-row:last-child { border-bottom: none; }
-.preview-ch   { font-size: 2em; color: #333; min-width: 40px; }
-.preview-info { font-size: 0.72em; color: #aaa; line-height: 1.6; }
-.preview-info b { color: var(--theme-color); }
-
-/* ══════════════════════════════════════
-   PRINT STYLES  — unchanged from original
+   PRINT STYLES — Physical Paper Layout
+   (Overrides the screen design system strictly for paper)
 ══════════════════════════════════════ */
 @media print {
-    * {
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
+    @page {
+        size: A4;
+        margin: 0;
     }
-
-    html, body {
-        background: white !important;
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    
+    /* 🔥 FIX: Aggressively reset the screen layout locks so the printer sees all pages! */
+    html, body { 
+        background: white !important; 
+        height: auto !important; 
+        min-height: auto !important; 
+        overflow: visible !important; 
     }
-
+    
     body > * { display: none !important; }
 
     #printable-area {
@@ -301,10 +54,9 @@ body {
         display: flex;
         flex-direction: column;
         overflow: hidden;
+        page-break-inside: avoid; /* Ensures pages don't clip */
     }
-    .ws-page + .ws-page {
-        page-break-before: always;
-    }
+    .ws-page + .ws-page { page-break-before: always; }
 
     .ws-header {
         display: flex;
@@ -318,246 +70,127 @@ body {
     }
     .ws-title    { font-size: 13pt; font-weight: bold; color: #222; }
     .ws-subtitle { font-size: 7pt; color: #999; margin-top: 1pt; }
-    .ws-fields {
-        font-size: 8pt; color: #555;
-        text-align: right; line-height: 2.2;
-        flex-shrink: 0;
-    }
-    .ws-field-line {
-        display: inline-block;
-        width: 80pt;
-        border-bottom: 0.8pt solid #999;
-        margin-left: 4pt;
-        vertical-align: bottom;
-    }
+    .ws-fields { font-size: 8pt; color: #555; text-align: right; line-height: 2.2; flex-shrink: 0; }
+    .ws-field-line { display: inline-block; width: 80pt; border-bottom: 0.8pt solid #999; margin-left: 4pt; vertical-align: bottom; }
 
-    .ws-rows {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        overflow: hidden;
-        justify-content: flex-start;
-    }
-
-    .ws-char-block {
-        display: flex;
-        flex-direction: column;
-        flex-shrink: 0;
-        margin-bottom: 3mm;
-    }
+    .ws-rows { display: flex; flex-direction: column; flex: 1; overflow: hidden; justify-content: flex-start; }
+    .ws-char-block { display: flex; flex-direction: column; flex-shrink: 0; margin-bottom: 3mm; }
 
     .ws-stroke-line {
-        display: flex;
-        align-items: center;
-        gap: 2pt;
-        margin-bottom: 1mm;
-        overflow: hidden;
-        flex-wrap: nowrap;
-        width: 100%;
-        box-sizing: border-box;
-        flex-shrink: 0;
+        display: flex; align-items: center; gap: 2pt; margin-bottom: 1mm;
+        overflow: hidden; flex-wrap: nowrap; width: 100%; box-sizing: border-box; flex-shrink: 0;
     }
-
-    .ws-pinyin {
-        font-size: 8pt;
-        color: #444;
-        flex-shrink: 0;
-        min-width: 20pt;
-        font-weight: bold;
-    }
-
-    .ws-stroke-sep {
-        width: 0;
-        height: 10pt;
-        border-left: 0.8pt solid #ccc;
-        flex-shrink: 0;
-        margin: 0 2pt;
-    }
-
-    .ws-stroke-thumb {
-        width:  10pt;
-        height: 10pt;
-        flex-shrink: 0;
-        display: inline-block;
-    }
-    .ws-stroke-thumb svg {
-        width: 100%; height: 100%; display: block;
-    }
+    .ws-pinyin { font-size: 8pt; color: #444; flex-shrink: 0; min-width: 20pt; font-weight: bold; }
+    .ws-stroke-sep { width: 0; height: 10pt; border-left: 0.8pt solid #ccc; flex-shrink: 0; margin: 0 2pt; }
+    .ws-stroke-thumb { width: 10pt; height: 10pt; flex-shrink: 0; display: inline-block; }
+    .ws-stroke-thumb svg { width: 100%; height: 100%; display: block; }
 
     .ws-meaning-label {
-        font-size: 7.5pt;
-        color: #333;
-        flex: 1;
-        min-width: 0;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        margin-left: 3pt;
-        padding-left: 4pt;
-        border-left: 0.8pt solid #ccc;
+        font-size: 7.5pt; color: #333; flex: 1; min-width: 0; overflow: hidden;
+        white-space: nowrap; text-overflow: ellipsis; margin-left: 3pt;
+        padding-left: 4pt; border-left: 0.8pt solid #ccc;
     }
     .ws-meaning-char { font-weight: bold; color: #111; }
     .ws-meaning-text { color: #555; }
     .ws-sentence-text { color: #888; font-style: italic; }
 
-    .ws-box-rows {
-        display: flex;
-        flex-direction: column;
-        gap: 1mm;
-    }
-
-    .ws-boxes {
-        display: flex;
-        gap: 1.2mm;
-        width: 100%;
-        box-sizing: border-box;
-        flex-wrap: nowrap;
-    }
+    .ws-box-rows { display: flex; flex-direction: column; gap: 1mm; }
+    .ws-boxes { display: flex; gap: 1.2mm; width: 100%; box-sizing: border-box; flex-wrap: nowrap; }
 
     .ws-box {
-        width:  16mm;
-        height: 16mm;
-        flex-shrink: 0;
-        border: 0.8pt solid #bbb;
-        position: relative;
-        box-sizing: border-box;
-        background: white;
-        overflow: hidden;
+        width: 16mm; height: 16mm; flex-shrink: 0; border: 0.8pt solid #bbb;
+        position: relative; box-sizing: border-box; background: white; overflow: hidden;
     }
-
-    .ws-box::before {
-        content: '';
-        position: absolute;
-        top: 50%; left: 8%; width: 84%; height: 0;
-        border-top: 0.4pt dashed #ccc;
-        transform: translateY(-50%);
-    }
-    .ws-box::after {
-        content: '';
-        position: absolute;
-        left: 50%; top: 8%; width: 0; height: 84%;
-        border-left: 0.4pt dashed #ccc;
-        transform: translateX(-50%);
-    }
+    .ws-box::before { content: ''; position: absolute; top: 50%; left: 8%; width: 84%; height: 0; border-top: 0.4pt dashed #ccc; transform: translateY(-50%); }
+    .ws-box::after { content: ''; position: absolute; left: 50%; top: 8%; width: 0; height: 84%; border-left: 0.4pt dashed #ccc; transform: translateX(-50%); }
 
     .ws-box.trace { background: white; }
-    .ws-box.trace svg {
-        position: absolute;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        display: block;
-        z-index: 0;
-    }
-    .ws-box.trace::before,
-    .ws-box.trace::after { z-index: 1; }
+    .ws-box.trace svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block; z-index: 0; }
+    .ws-box.trace::before, .ws-box.trace::after { z-index: 1; }
 
     .ws-footer {
-        margin-top: auto;
-        padding-top: 3pt;
-        display: flex;
-        justify-content: space-between;
-        font-size: 6.5pt;
-        color: #bbb;
-        border-top: 0.4pt solid #eee;
-        flex-shrink: 0;
+        margin-top: auto; padding-top: 3pt; display: flex; justify-content: space-between;
+        font-size: 6.5pt; color: #bbb; border-top: 0.4pt solid #eee; flex-shrink: 0;
     }
 }
-
 #printable-area { display: none; }
-
 </style>
 </head>
 <body>
 
 <!-- LOADING -->
 <div id="loading-screen" style="
-    position:fixed;inset:0;background:#FFF9F0;
+    position:fixed;inset:0;background:var(--paper-cream);
     display:flex;flex-direction:column;
     align-items:center;justify-content:center;
-    z-index:999;gap:16px;color:#aaa;">
-    <div style="width:40px;height:40px;
-        border:4px solid #FFD9A0;border-top-color:#FFB347;
-        border-radius:50%;animation:spin 0.8s linear infinite;"></div>
-    <div id="loading-msg">Loading courses...</div>
-    <style>@keyframes spin{to{transform:rotate(360deg);}}</style>
+    z-index:999;gap:16px;color:var(--ink-medium);">
+    <div id="loading-panda" style="width: 80px; height: 80px; background-image: url('assets/mascot/panda-wave.png'); background-size: contain; background-repeat: no-repeat; animation: pandaBob 1s infinite alternate;"></div>
+    <div id="loading-msg" style="font-family: var(--font-main); font-weight: 700; font-size: 1.1rem;">Loading courses...</div>
+    <style>@keyframes pandaBob { from { transform: translateY(0); } to { transform: translateY(-10px); } }</style>
 </div>
 
 <!-- NAV -->
 <div id="app-nav"></div>
 
 <!-- PAGE BODY -->
-<div class="page-body" id="page-body" style="display:none;">
+<div class="page-content" id="page-body" style="display:none; gap: var(--space-lg); padding-bottom: 40px; display: flex; flex-direction: column;">
 
     <!-- STEP 1: COURSE + THEME + CHARACTERS -->
-    <div class="section">
+    <div class="card">
+        <h3 class="section-title">① Choose a course</h3>
+        <div id="course-tabs" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;"></div>
 
-        <div class="section-title">① Choose a course</div>
-        <div class="course-tabs" id="course-tabs"></div>
+        <h3 class="section-title">② Choose a theme</h3>
+        <div id="theme-tabs" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;"></div>
 
-        <div class="section-title">② Choose a theme</div>
-        <div class="theme-tabs" id="theme-tabs"></div>
+        <h3 class="section-title">③ Select characters</h3>
+        <div id="char-grid" style="display: flex; flex-wrap: wrap; gap: 10px; max-height: 240px; overflow-y: auto; padding: 4px;"></div>
 
-        <div class="section-title">③ Select characters</div>
-        <div class="char-grid" id="char-grid"></div>
-
-        <div class="select-row">
-            <div class="select-count" id="select-count">0 selected</div>
-            <button class="text-btn" onclick="selectAll()">Select All</button>
-            <button class="text-btn danger" onclick="clearAll()">Clear</button>
+        <div style="display: flex; gap: 12px; margin-top: 16px; align-items: center; flex-wrap: wrap; border-top: 2px dashed var(--paper-deep); padding-top: 16px;">
+            <div id="select-count" style="font-size: .85rem; color: var(--ink-soft); font-weight: 700; flex: 1;">0 selected</div>
+            <button class="btn-secondary" style="padding: 8px 16px; font-size: .8rem;" onclick="selectAll()">Select All</button>
+            <button class="btn-secondary danger" style="padding: 8px 16px; font-size: .8rem;" onclick="clearAll()">Clear</button>
         </div>
     </div>
 
     <!-- STEP 2: OPTIONS -->
-    <div class="section">
-        <div class="section-title">④ Options</div>
-        <div class="options-grid">
-
-            <div class="option-row">
-                <div class="option-label">Practice rows per character</div>
-                <div class="option-btns" id="opt-rows">
-                    <button class="opt-btn active"
-                            onclick="setOpt('rows',1)">1</button>
-                    <button class="opt-btn"
-                            onclick="setOpt('rows',2)">2</button>
-                    <button class="opt-btn"
-                            onclick="setOpt('rows',3)">3</button>
-                    <button class="opt-btn"
-                            onclick="setOpt('rows',4)">4</button>
-                    <button class="opt-btn"
-                            onclick="setOpt('rows',5)">5</button>
+    <div class="card">
+        <h3 class="section-title">④ Options</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div style="font-size: .8rem; color: var(--ink-soft); font-weight: 700;">Practice rows per character</div>
+                <div id="opt-rows" style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button class="pill active" onclick="setOpt('rows',1)">1</button>
+                    <button class="pill" onclick="setOpt('rows',2)">2</button>
+                    <button class="pill" onclick="setOpt('rows',3)">3</button>
+                    <button class="pill" onclick="setOpt('rows',4)">4</button>
+                    <button class="pill" onclick="setOpt('rows',5)">5</button>
                 </div>
             </div>
 
-            <div class="option-row">
-                <div class="option-label">Show example sentence</div>
-                <div class="option-btns" id="opt-sentence">
-                    <button class="opt-btn"
-                            onclick="setOpt('sentence','yes')">Yes</button>
-                    <button class="opt-btn active"
-                            onclick="setOpt('sentence','no')">No</button>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div style="font-size: .8rem; color: var(--ink-soft); font-weight: 700;">Show example sentence</div>
+                <div id="opt-sentence" style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button class="pill" onclick="setOpt('sentence','yes')">Yes</button>
+                    <button class="pill active" onclick="setOpt('sentence','no')">No</button>
                 </div>
             </div>
-
         </div>
     </div>
 
     <!-- PRINT BUTTON -->
-    <div class="print-bar">
-        <button class="print-btn" id="print-btn"
-                onclick="doPrint()" disabled>
-            🖨️ Print / Save as PDF
-        </button>
-    </div>
+    <button class="btn-primary" id="print-btn" onclick="doPrint()" disabled style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 1.1rem; padding: 18px;">
+        🖨️ Print / Save as PDF
+    </button>
 
     <!-- PREVIEW -->
-    <div class="preview-section">
-        <div class="preview-label">
-            <span>Preview</span>
-            <span id="preview-page-count"
-                  style="color:#aaa;font-weight:normal;"></span>
+    <div class="card card-large">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h3 class="section-title" style="margin: 0;">Preview</h3>
+            <span id="preview-page-count" style="color: var(--ink-light); font-weight: 600; font-size: .85rem;"></span>
         </div>
         <div id="preview-area">
-            <div class="preview-empty">
+            <div style="text-align: center; color: var(--ink-light); padding: 40px 20px; font-weight: 600;">
                 Select characters above to see a preview
             </div>
         </div>
@@ -565,83 +198,76 @@ body {
 
 </div>
 
-<!-- PRINTABLE OUTPUT (hidden on screen, shown on print) -->
+<!-- PRINTABLE OUTPUT -->
 <div id="printable-area"></div>
 
 <script>
-/* =====================================================
-   CONSTANTS — unchanged
-===================================================== */
+/* === BOTES THEME COLOR PALETTE === */
+var BOTES_PALETTE=[
+  {color:'#E8C547',deep:'#C9A82F'}, {color:'#A4C2D9',deep:'#7FA3BD'},
+  {color:'#E8836F',deep:'#C9624E'}, {color:'#94A88E',deep:'#6F8A68'},
+  {color:'#C97B5C',deep:'#A65A3D'}, {color:'#D4A574',deep:'#B8854F'},
+  {color:'#D89B9B',deep:'#B47272'}, {color:'#B8A05C',deep:'#8F7B40'}
+];
+function hashThemeId(s){var h=0;for(var i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h|=0;}return Math.abs(h);}
+function getBotesColor(themeId){return BOTES_PALETTE[hashThemeId(themeId)%BOTES_PALETTE.length];}
+
+/* === TONE COLORING === */
+var TONE_MAP={1:'āēīōūǖĀĒĪŌŪǕ',2:'áéíóúǘÁÉÍÓÚǗ',3:'ǎěǐǒǔǚǍĚǏǑǓǙ',4:'àèìòùǜÀÈÌÒÙǛ'};
+function detectTone(syllable){for(var tone=1;tone<=4;tone++){var marks=TONE_MAP[tone];for(var i=0;i<syllable.length;i++){if(marks.indexOf(syllable[i])!==-1)return tone;}}return 0;}
+function colorPinyin(py){if(!py)return '';var parts=py.split(/(\s+|['\-])/);var html='';for(var i=0;i<parts.length;i++){var p=parts[i];if(/^\s+$/.test(p)||p==="'"||p==='-'){html+=p;}else if(p.length){var t=detectTone(p);html+='<span class="t'+t+'">'+escapeHtml(p)+'</span>';}}return html;}
+function escapeHtml(s){return s.replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+
+
 var TOTAL_BOXES   = 11;
 var TRACE_BOXES   = 3;
 var TRACE_OPACITY = 0.18;
 var MAX_PER_PAGE  = 10;
 
-/* =====================================================
-   STATE
-===================================================== */
-var COURSES      = [];      // from courses.json
-var COURSE_DATA  = {};      // loaded character files, keyed by course id
-var currentCourse= null;    // active course object
-var THEMES       = [];      // themes[] for active course
-var WORDS        = [];      // all words in active course
-var activeTheme  = 0;       // index into THEMES
+var COURSES      = [];
+var COURSE_DATA  = {};
+var currentCourse= null;
+var THEMES       = [];
+var WORDS        = [];
+var activeTheme  = 0;
 
-// selected: keyed by word_id → word object
-// e.g. { "1A_001": { word_id, ch, py, en, th, zh, sent_en, sent_th, theme } }
 var selected  = {};
-var charData  = {};         // stroke data cache: ch → hanzi-writer data
+var charData  = {};
 
-var opts = {
-    rows:     1,
-    sentence: 'no'
-};
+var opts = { rows: 1, sentence: 'no' };
 
-/* =====================================================
-   COMPUTED: words in active theme
-===================================================== */
 function getThemeWords() {
     if (!currentCourse || !THEMES.length) return [];
     var themeId = THEMES[activeTheme].id;
     return WORDS.filter(function(w) { return w.theme === themeId; });
 }
 
-/* =====================================================
-   PAGE CAPACITY — unchanged logic
-===================================================== */
 function charsPerPage(isFirst) {
     var pageH     = 277;
     var headerH   = isFirst ? 18 : 10;
     var footerH   = 6;
     var available = pageH - headerH - footerH;
-
-    var blockH = 7
-               + (opts.rows * 16)
-               + Math.max(0, opts.rows - 1)
-               + 3;
-
+    var blockH = 7 + (opts.rows * 16) + Math.max(0, opts.rows - 1) + 3;
     var n = Math.floor(available / blockH);
     return Math.min(n, MAX_PER_PAGE);
 }
 
-/* =====================================================
-   INIT
-===================================================== */
 window.onload = function() {
-    // Guard: must have active profile
     XHZ.requireActive();
+    
+    // Attempt fallback for Panda image
+    var panda = document.getElementById('loading-panda');
+    var img = new Image();
+    img.onload = function() { panda.style.backgroundImage = "url('assets/mascot/panda-wave.png')"; };
+    img.onerror = function() { panda.textContent = '🐼'; panda.style.fontSize = '3rem'; panda.style.display = 'flex'; panda.style.alignItems = 'center'; panda.style.justifyContent = 'center'; panda.style.backgroundImage = 'none'; };
+    img.src = 'assets/mascot/panda-wave.png';
+    
     loadCourses();
     onLangChange(function() { buildPreview(); });
 };
 
-/* =====================================================
-   DATA LOADING
-   Step 1: courses.json
-   Step 2: characters_XX.json for selected course
-===================================================== */
 function loadCourses() {
     setLoadingMsg('Loading courses...');
-
     fetch('courses.json')
         .then(function(r) {
             if (!r.ok) throw new Error('courses.json not found');
@@ -650,31 +276,16 @@ function loadCourses() {
         .then(function(data) {
             COURSES = data.courses;
             var first = getFirstAccessibleCourse();
-            if (!first) {
-                showLoadError('No courses available.');
-                return;
-            }
-            // Show page body before course data loads
-            // so the user sees the UI structure immediately
+            if (!first) { showLoadError('No courses available.'); return; }
             document.getElementById('page-body').style.display = 'flex';
             buildCourseTabs();
             selectCourse(first.id);
         })
-        .catch(function() {
-            showLoadError(
-                'Could not load courses.json<br>' +
-                '<small>Make sure courses.json is in the same folder.</small>'
-            );
-        });
+        .catch(function() { showLoadError('Could not load courses.json'); });
 }
 
 function loadCourseData(courseId, callback) {
-    // Use cache if already loaded
-    if (COURSE_DATA[courseId]) {
-        callback(COURSE_DATA[courseId]);
-        return;
-    }
-
+    if (COURSE_DATA[courseId]) { callback(COURSE_DATA[courseId]); return; }
     var course = getCourseById(courseId);
     if (!course) return;
 
@@ -691,9 +302,7 @@ function loadCourseData(courseId, callback) {
             document.getElementById('loading-screen').style.display = 'none';
             callback(data);
         })
-        .catch(function() {
-            showLoadError('Could not load ' + course.data_file);
-        });
+        .catch(function() { showLoadError('Could not load ' + course.data_file); });
 }
 
 function setLoadingMsg(msg) {
@@ -704,42 +313,25 @@ function setLoadingMsg(msg) {
 function showLoadError(html) {
     var el = document.getElementById('loading-screen');
     el.style.display = 'flex';
-    el.innerHTML =
-        '<div style="color:#FF6B6B;text-align:center;padding:20px;">' +
-        '❌ ' + html + '</div>';
+    el.innerHTML = '<div style="color:var(--danger);text-align:center;padding:20px;font-weight:700;">❌ ' + html + '</div>';
 }
 
-/* =====================================================
-   COURSE ACCESS CHECK — mirrors write.html
-===================================================== */
 function canAccessCourse(courseId) {
     var course = getCourseById(courseId);
     if (!course) return { allowed: false, reason: 'Course not found' };
+    if (course.is_free || !course.unlock) return { allowed: true };
 
-    if (course.is_free) return { allowed: true };
-    if (!course.unlock) return { allowed: true };
-
-    var source    = course.unlock.source;
+    var source = course.unlock.source;
     var condition = course.unlock.condition;
 
     if (condition === 'seen_100') {
         var pct = XHZ.getCourseSeenPercent(source);
-        return {
-            allowed:  pct >= 100,
-            reason:   'See all words in ' + source + ' first',
-            progress: pct
-        };
+        return { allowed: pct >= 100, reason: 'See all words in ' + source + ' first', progress: pct };
     }
-
     if (condition === 'mastered_80') {
         var pct = XHZ.getYearMasteredPercent(source);
-        return {
-            allowed:  pct >= 80,
-            reason:   'Master 80% of Year ' + source.replace('year_', '') + ' words first',
-            progress: pct
-        };
+        return { allowed: pct >= 80, reason: 'Master 80% of Year ' + source.replace('year_', '') + ' words first', progress: pct };
     }
-
     return { allowed: false, reason: 'Not yet unlocked' };
 }
 
@@ -750,162 +342,110 @@ function getFirstAccessibleCourse() {
     return null;
 }
 
-function getCourseById(id) {
-    return COURSES.find(function(c) { return c.id === id; }) || null;
-}
+function getCourseById(id) { return COURSES.find(function(c) { return c.id === id; }) || null; }
 
-/* =====================================================
-   COURSE TABS
-===================================================== */
 function buildCourseTabs() {
     var bar = document.getElementById('course-tabs');
     bar.innerHTML = '';
-
     COURSES.forEach(function(course) {
         var access = canAccessCourse(course.id);
-        var tab    = document.createElement('div');
-        tab.id     = 'ctab-' + course.id;
-
+        var tab = document.createElement('button');
+        tab.id = 'ctab-' + course.id;
+        
         if (access.allowed) {
-            tab.className   = 'course-tab';
+            tab.className = 'pill';
             tab.textContent = course.id;
-            tab.title       = course.name;
-            tab.onclick = (function(id) {
-                return function() { selectCourse(id); };
-            })(course.id);
+            tab.title = course.name;
+            tab.onclick = (function(id) { return function() { selectCourse(id); }; })(course.id);
         } else {
-            tab.className   = 'course-tab locked';
+            tab.className = 'pill locked';
             tab.textContent = course.id;
-            tab.title       = access.reason || 'Locked';
-            tab.onclick = (function(c, a) {
-                return function() { showLockedHint(c, a); };
-            })(course, access);
+            tab.title = access.reason || 'Locked';
+            tab.onclick = (function(c, a) { return function() { showLockedHint(c, a); }; })(course, access);
         }
-
         bar.appendChild(tab);
     });
 }
 
 function showLockedHint(course, access) {
     var msg = '🔒 ' + course.name + '\n\n' + access.reason;
-    if (access.progress !== undefined) {
-        msg += '\n\nYour progress: ' + Math.round(access.progress) + '%';
-    }
+    if (access.progress !== undefined) msg += '\n\nYour progress: ' + Math.round(access.progress) + '%';
     alert(msg);
 }
 
 function selectCourse(courseId) {
-    // Update tab styling
     COURSES.forEach(function(c) {
         var tab = document.getElementById('ctab-' + c.id);
-        if (tab) {
-            tab.className = 'course-tab' +
-                (c.id === courseId ? ' active' : '') +
-                (!canAccessCourse(c.id).allowed ? ' locked' : '');
-        }
+        if (tab) tab.className = 'pill' + (c.id === courseId ? ' active' : '') + (!canAccessCourse(c.id).allowed ? ' locked' : '');
     });
 
     currentCourse = getCourseById(courseId);
-
-    // Switching course clears current selection
     selected = {};
     updateCount();
     buildPreview();
 
     loadCourseData(courseId, function(data) {
-        WORDS  = data.words;
+        WORDS = data.words;
         THEMES = currentCourse.themes;
-
         activeTheme = 0;
         buildThemeTabs();
         selectTheme(0);
     });
 }
 
-/* =====================================================
-   THEME TABS
-===================================================== */
 function buildThemeTabs() {
     var bar = document.getElementById('theme-tabs');
     bar.innerHTML = '';
-
     THEMES.forEach(function(theme, i) {
-        var tab         = document.createElement('div');
-        tab.className   = 'theme-tab' + (i === 0 ? ' active' : '');
-        tab.id          = 'ttab-' + i;
+        var tab = document.createElement('button');
+        tab.className = 'pill' + (i === 0 ? ' active' : '');
+        tab.id = 'ttab-' + i;
         tab.textContent = theme.emoji + ' ' + theme.name;
-        tab.onclick = (function(i) {
-            return function() { selectTheme(i); };
-        })(i);
+        tab.onclick = (function(i) { return function() { selectTheme(i); }; })(i);
         bar.appendChild(tab);
     });
 }
 
 function selectTheme(i) {
     activeTheme = i;
-
     THEMES.forEach(function(_, j) {
         var t = document.getElementById('ttab-' + j);
-        if (t) t.className = 'theme-tab' + (j === i ? ' active' : '');
+        if (t) t.className = 'pill' + (j === i ? ' active' : '');
     });
-
-    applyThemeColor(THEMES[i].color);
+    
+    var bc = getBotesColor(THEMES[i].id);
+    document.documentElement.style.setProperty('--theme-color', bc.color);
+    document.documentElement.style.setProperty('--theme-color-deep', bc.deep);
+    
     buildCharGrid();
 }
 
-/* =====================================================
-   THEME COLOR
-===================================================== */
-function applyThemeColor(hex) {
-    var r = document.documentElement;
-    r.style.setProperty('--theme-color',       hex);
-    r.style.setProperty('--theme-color-light',  hex + '55');
-    r.style.setProperty('--theme-color-pale',   hex + '18');
-    if (typeof setNavTheme === 'function') setNavTheme(hex);
-}
-
-/* =====================================================
-   CHARACTER GRID
-   Key: word.word_id (e.g. "1A_001")
-   Value: word object
-===================================================== */
 function buildCharGrid() {
-    var grid  = document.getElementById('char-grid');
+    var grid = document.getElementById('char-grid');
     var words = getThemeWords();
     grid.innerHTML = '';
 
     if (words.length === 0) {
-        grid.innerHTML =
-            '<div style="color:#ddd;padding:20px;font-size:0.8em;">' +
-            'No characters in this theme yet.</div>';
+        grid.innerHTML = '<div style="color:var(--ink-light);padding:20px;font-size:.9rem;font-weight:600;">No characters in this theme yet.</div>';
         return;
     }
 
     words.forEach(function(word) {
-        var key  = word.word_id;
-        var chip = document.createElement('div');
-        chip.className = 'char-chip' + (selected[key] ? ' selected' : '');
-        chip.id        = 'chip-' + key;
-        chip.innerHTML =
-            '<span class="char-chip-ch">' + word.ch + '</span>' +
-            '<span class="char-chip-py">' + word.py + '</span>';
-        chip.onclick = (function(key, word) {
-            return function() { toggleChar(key, word); };
-        })(key, word);
+        var key = word.word_id;
+        var chip = document.createElement('button');
+        chip.className = 'char-tile' + (selected[key] ? ' active' : '');
+        chip.id = 'chip-' + key;
+        chip.innerHTML = '<span class="ch">' + word.ch + '</span><span class="py">' + colorPinyin(word.py) + '</span>';
+        chip.onclick = (function(key, word) { return function() { toggleChar(key, word); }; })(key, word);
         grid.appendChild(chip);
     });
-
     updateCount();
 }
 
 function toggleChar(key, word) {
-    if (selected[key]) { delete selected[key]; }
-    else               { selected[key] = word;  }
-
+    if (selected[key]) { delete selected[key]; } else { selected[key] = word; }
     var chip = document.getElementById('chip-' + key);
-    if (chip) chip.className =
-        'char-chip' + (selected[key] ? ' selected' : '');
-
+    if (chip) chip.className = 'char-tile' + (selected[key] ? ' active' : '');
     updateCount();
     buildPreview();
 }
@@ -915,19 +455,18 @@ function selectAll() {
         var key = word.word_id;
         selected[key] = word;
         var chip = document.getElementById('chip-' + key);
-        if (chip) chip.className = 'char-chip selected';
+        if (chip) chip.className = 'char-tile active';
     });
     updateCount();
     buildPreview();
 }
 
 function clearAll() {
-    // Only clear chips visible in current theme
     getThemeWords().forEach(function(word) {
         var key = word.word_id;
         delete selected[key];
         var chip = document.getElementById('chip-' + key);
-        if (chip) chip.className = 'char-chip';
+        if (chip) chip.className = 'char-tile';
     });
     updateCount();
     buildPreview();
@@ -935,165 +474,106 @@ function clearAll() {
 
 function updateCount() {
     var n = Object.keys(selected).length;
-    document.getElementById('select-count').textContent =
-        n + ' character' + (n !== 1 ? 's' : '') + ' selected';
+    document.getElementById('select-count').textContent = n + ' character' + (n !== 1 ? 's' : '') + ' selected';
     document.getElementById('print-btn').disabled = (n === 0);
 }
 
-/* =====================================================
-   OPTIONS — unchanged logic
-===================================================== */
 function setOpt(key, val) {
     opts[key] = val;
     var group = document.getElementById('opt-' + key);
     if (group) {
-        var map = {
-            lang:     ['en', 'th'],
-            rows:     [1, 2, 3, 4, 5],
-            sentence: ['yes', 'no']
-        };
+        var map = { lang: ['en', 'th'], rows: [1, 2, 3, 4, 5], sentence: ['yes', 'no'] };
         var vals = map[key];
-        group.querySelectorAll('.opt-btn').forEach(function(b, idx) {
-            b.className =
-                'opt-btn' + (vals && vals[idx] == val ? ' active' : '');
+        group.querySelectorAll('.pill').forEach(function(b, idx) {
+            b.className = 'pill' + (vals && vals[idx] == val ? ' active' : '');
         });
     }
     buildPreview();
 }
 
-/* =====================================================
-   HELPERS — same field names as old structure
-===================================================== */
-function getMeaning(word)  { return getNavLang() === 'th' ? word.th     : word.en;      }
+function getMeaning(word)  { return getNavLang() === 'th' ? word.th : word.en; }
 function getSentence(word) { return getNavLang() === 'th' ? word.sent_th : word.sent_en; }
 
-/* =====================================================
-   PREVIEW
-===================================================== */
 function buildPreview() {
     var area = document.getElementById('preview-area');
     var keys = Object.keys(selected);
 
     if (keys.length === 0) {
-        area.innerHTML =
-            '<div class="preview-empty">' +
-            'Select characters above to see a preview</div>';
+        area.innerHTML = '<div style="text-align:center; color:var(--ink-light); padding:40px 20px; font-weight:600;">Select characters above to see a preview</div>';
         document.getElementById('preview-page-count').textContent = '';
         return;
     }
 
     var pages = paginateKeys(keys);
-    document.getElementById('preview-page-count').textContent =
-        '≈ ' + pages.length + ' page' +
-        (pages.length !== 1 ? 's' : '') +
-        ' (' + opts.rows + ' row' +
-        (opts.rows !== 1 ? 's' : '') + ' per character)';
+    document.getElementById('preview-page-count').textContent = '≈ ' + pages.length + ' page' + (pages.length !== 1 ? 's' : '') + ' (' + opts.rows + ' row' + (opts.rows !== 1 ? 's' : '') + ' per character)';
 
     var html = '';
-    keys.forEach(function(key) {
+    keys.forEach(function(key, index) {
         var word = selected[key];
         var mean = getMeaning(word);
         var sent = getSentence(word);
 
-        html += '<div class="preview-row">';
-        html += '<div class="preview-ch">' + word.ch + '</div>';
-        html += '<div class="preview-info">';
-        html += '<b>' + word.py + '</b>　' + mean;
+        html += '<div style="display:flex; align-items:center; gap:20px; padding:16px 0; border-bottom: ' + (index === keys.length - 1 ? 'none' : '2px dashed var(--paper-deep)') + ';">';
+        html += '<div style="font-size:3rem; color:var(--ink-dark); font-family:var(--font-hanzi); min-width:50px; text-align:center;">' + word.ch + '</div>';
+        html += '<div style="font-family:var(--font-main); color:var(--ink-medium);">';
+        html += '<div style="font-size:1.15rem; font-family:var(--font-pinyin); font-weight:800; margin-bottom:4px;">' + colorPinyin(word.py) + '</div>';
+        html += '<div style="font-size:.95rem; font-weight:700;" class="' + (getNavLang() === 'th' ? 'th' : '') + '">' + mean + '</div>';
         if (opts.sentence === 'yes' && word.zh) {
-            html +=
-                '<br><span style="color:#bbb;">' +
-                word.zh + '　' + sent +
-                '</span>';
+            var zhHighlighted = word.zh.split(word.ch).join('<span style="color:var(--highlight-red);">' + word.ch + '</span>');
+            html += '<div style="margin-top:6px; font-size:.85rem; color:var(--ink-soft);">';
+            html += '<span style="font-family:var(--font-hanzi); font-size:1.1em; color:var(--ink-dark);">' + zhHighlighted + '</span>　';
+            html += '<span style="font-style:italic;">' + sent + '</span></div>';
         }
-        html += '</div>';
-        html += '</div>';
+        html += '</div></div>';
     });
-
     area.innerHTML = html;
 }
 
-/* =====================================================
-   PAGINATION — unchanged logic
-===================================================== */
 function paginateKeys(keys) {
-    var pages   = [];
-    var i       = 0;
-    var isFirst = true;
+    var pages = [], i = 0, isFirst = true;
     while (i < keys.length) {
         var n = charsPerPage(isFirst);
         pages.push(keys.slice(i, i + n));
-        i      += n;
-        isFirst  = false;
+        i += n;
+        isFirst = false;
     }
     return pages;
 }
 
-/* =====================================================
-   HANZIWRITER STROKE DATA — unchanged
-===================================================== */
 var DATA_CDN = 'https://cdn.jsdelivr.net/npm/hanzi-writer-data@2/';
-
 function fetchCharData(ch) {
     if (charData[ch] !== undefined) return Promise.resolve(charData[ch]);
     return fetch(DATA_CDN + encodeURIComponent(ch) + '.json')
-        .then(function(r) {
-            if (!r.ok) throw new Error('No data for ' + ch);
-            return r.json();
-        })
-        .then(function(data) {
-            charData[ch] = data;
-            return data;
-        })
-        .catch(function() {
-            charData[ch] = null;
-            return null;
-        });
+        .then(function(r) { if (!r.ok) throw new Error('No data'); return r.json(); })
+        .then(function(data) { charData[ch] = data; return data; })
+        .catch(function() { charData[ch] = null; return null; });
 }
 
 function fetchAllSelectedData() {
-    var chars = Object.keys(selected).map(function(k) {
-        return selected[k].ch;
-    });
-    var unique = chars.filter(function(c, i) {
-        return chars.indexOf(c) === i;
-    });
+    var chars = Object.keys(selected).map(function(k) { return selected[k].ch; });
+    var unique = chars.filter(function(c, i) { return chars.indexOf(c) === i; });
     return Promise.all(unique.map(fetchCharData));
 }
 
-/* =====================================================
-   SVG BUILDERS — unchanged
-===================================================== */
 function makeTraceSVG(data) {
     if (!data || !data.strokes || !data.strokes.length) return '';
-    var svg =
-        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">' +
-        '<g transform="scale(1,-1) translate(0,-900)">';
-    data.strokes.forEach(function(path) {
-        svg += '<path d="' + path + '" ' +
-               'fill="rgba(0,0,0,' + TRACE_OPACITY + ')"/>';
-    });
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><g transform="scale(1,-1) translate(0,-900)">';
+    data.strokes.forEach(function(path) { svg += '<path d="' + path + '" fill="rgba(0,0,0,' + TRACE_OPACITY + ')"/>'; });
     svg += '</g></svg>';
     return svg;
 }
 
 function makeStrokeThumbSVG(data, upToIndex) {
     if (!data || !data.strokes || !data.strokes.length) return '';
-    var svg =
-        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">' +
-        '<g transform="scale(1,-1) translate(0,-900)">';
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><g transform="scale(1,-1) translate(0,-900)">';
     data.strokes.forEach(function(path, i) {
-        var fill = i <= upToIndex
-            ? 'rgba(0,0,0,0.88)'
-            : 'rgba(0,0,0,0.10)';
+        var fill = i <= upToIndex ? 'rgba(0,0,0,0.88)' : 'rgba(0,0,0,0.10)';
         svg += '<path d="' + path + '" fill="' + fill + '"/>';
     });
     svg += '</g></svg>';
     return svg;
 }
 
-/* =====================================================
-   BOX ROW HTML — unchanged
-===================================================== */
 function makeBoxRowHTML(data) {
     var html = '<div class="ws-boxes">';
     for (var b = 0; b < TOTAL_BOXES; b++) {
@@ -1109,132 +589,62 @@ function makeBoxRowHTML(data) {
     return html;
 }
 
-/* =====================================================
-   BUILD PRINTABLE HTML
-   Uses word objects from selected (keyed by word_id)
-===================================================== */
 function buildPrintable() {
-    var keys  = Object.keys(selected);
-    var pa    = document.getElementById('printable-area');
+    var keys = Object.keys(selected);
+    var pa = document.getElementById('printable-area');
     var pages = paginateKeys(keys);
-    var html  = '';
+    var html = '';
 
     pages.forEach(function(pageKeys, pageIdx) {
         html += '<div class="ws-page">';
-
-        /* ── page header ── */
         if (pageIdx === 0) {
-            html +=
-                '<div class="ws-header">' +
-                  '<div>' +
-                    '<div class="ws-title">🐼 学汉字 — Chinese Practice</div>' +
-                    '<div class="ws-subtitle">Hanzi writing worksheet</div>' +
-                  '</div>' +
-                  '<div class="ws-fields">' +
-                    'Name:&nbsp;<span class="ws-field-line"></span><br>' +
-                    'Date:&nbsp;&nbsp;<span class="ws-field-line"></span>' +
-                  '</div>' +
-                '</div>';
+            html += '<div class="ws-header"><div><div class="ws-title">🐼 学汉字 — Chinese Practice</div><div class="ws-subtitle">Hanzi writing worksheet</div></div><div class="ws-fields">Name:&nbsp;<span class="ws-field-line"></span><br>Date:&nbsp;&nbsp;<span class="ws-field-line"></span></div></div>';
         } else {
-            html +=
-                '<div class="ws-header">' +
-                  '<div class="ws-title" style="font-size:10pt;color:#aaa;">' +
-                  '🐼 学汉字 (continued)</div>' +
-                  '<div class="ws-fields">' +
-                    'Name:&nbsp;<span class="ws-field-line"></span>' +
-                  '</div>' +
-                '</div>';
+            html += '<div class="ws-header"><div class="ws-title" style="font-size:10pt;color:#aaa;">🐼 学汉字 (continued)</div><div class="ws-fields">Name:&nbsp;<span class="ws-field-line"></span></div></div>';
         }
 
         html += '<div class="ws-rows">';
-
         pageKeys.forEach(function(key) {
             var word = selected[key];
             var data = charData[word.ch];
             var mean = getMeaning(word);
             var sent = getSentence(word);
 
-            html += '<div class="ws-char-block">';
-
-            /* ── stroke order + info line ── */
-            html += '<div class="ws-stroke-line">';
-            html += '<span class="ws-pinyin">' + word.py + '</span>';
-            html += '<span class="ws-stroke-sep"></span>';
+            html += '<div class="ws-char-block"><div class="ws-stroke-line"><span class="ws-pinyin">' + word.py + '</span><span class="ws-stroke-sep"></span>';
 
             if (data && data.strokes && data.strokes.length) {
-                data.strokes.forEach(function(_, i) {
-                    html +=
-                        '<span class="ws-stroke-thumb">' +
-                        makeStrokeThumbSVG(data, i) +
-                        '</span>';
-                });
+                data.strokes.forEach(function(_, i) { html += '<span class="ws-stroke-thumb">' + makeStrokeThumbSVG(data, i) + '</span>'; });
                 html += '<span class="ws-stroke-sep"></span>';
             }
 
-            html += '<span class="ws-meaning-label">';
-            html += '<span class="ws-meaning-char">' + word.ch + '</span>: ';
-            html += '<span class="ws-meaning-text">' + mean + '</span>';
-            if (opts.sentence === 'yes' && word.zh) {
-                html +=
-                    '　<span class="ws-sentence-text">' +
-                    word.zh + '　' + sent +
-                    '</span>';
-            }
-            html += '</span>';
-            html += '</div>'; /* ws-stroke-line */
-
-            /* ── box rows ── */
-            html += '<div class="ws-box-rows">';
-            for (var r = 0; r < opts.rows; r++) {
-                html += makeBoxRowHTML(data);
-            }
-            html += '</div>'; /* ws-box-rows */
-
-            html += '</div>'; /* ws-char-block */
+            html += '<span class="ws-meaning-label"><span class="ws-meaning-char">' + word.ch + '</span>: <span class="ws-meaning-text">' + mean + '</span>';
+            if (opts.sentence === 'yes' && word.zh) html += '　<span class="ws-sentence-text">' + word.zh + '　' + sent + '</span>';
+            html += '</span></div><div class="ws-box-rows">';
+            for (var r = 0; r < opts.rows; r++) { html += makeBoxRowHTML(data); }
+            html += '</div></div>';
         });
+        html += '</div>';
 
-        html += '</div>'; /* ws-rows */
-
-        /* ── footer ── */
-        html +=
-            '<div class="ws-footer">' +
-              '<span>🐼 学汉字</span>' +
-              '<span>Page ' + (pageIdx + 1) +
-              ' of ' + pages.length + '</span>' +
-              '<span>' + new Date().toLocaleDateString() + '</span>' +
-            '</div>';
-
-        html += '</div>'; /* ws-page */
+        html += '<div class="ws-footer"><span>🐼 学汉字</span><span>Page ' + (pageIdx + 1) + ' of ' + pages.length + '</span><span>' + new Date().toLocaleDateString() + '</span></div></div>';
     });
 
     pa.innerHTML = html;
 }
 
-/* =====================================================
-   PRINT — unchanged logic
-===================================================== */
 function doPrint() {
     var keys = Object.keys(selected);
     if (keys.length === 0) return;
 
     var btn = document.getElementById('print-btn');
     btn.innerHTML = '⏳ Loading stroke data...';
-    btn.disabled  = true;
+    btn.disabled = true;
 
-    fetchAllSelectedData()
-        .then(function() {
-            buildPrintable();
-            btn.innerHTML = '🖨️ Print / Save as PDF';
-            btn.disabled  = false;
-            setTimeout(function() { window.print(); }, 200);
-        })
-        .catch(function() {
-            // Print anyway even if some stroke data failed
-            buildPrintable();
-            btn.innerHTML = '🖨️ Print / Save as PDF';
-            btn.disabled  = false;
-            setTimeout(function() { window.print(); }, 200);
-        });
+    fetchAllSelectedData().finally(function() {
+        buildPrintable();
+        btn.innerHTML = '🖨️ Print / Save as PDF';
+        btn.disabled = false;
+        setTimeout(function() { window.print(); }, 200);
+    });
 }
 </script>
 

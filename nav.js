@@ -1,17 +1,9 @@
 /* =====================================================
-   SHARED NAVIGATION BAR
+   SHARED NAVIGATION BAR — UNIFIED STYLE
    Usage:
    <div id="app-nav"></div>
    <script src="nav.js"></script>
    <script>initNav('write')</script>
-
-   Options (second argument):
-   initNav('index', { hideLinks: true })
-     → hides page links, keeps brand + language toggle
-
-   Language:
-   getNavLang()       → 'en' | 'th'
-   onLangChange(fn)   → register callback, fired on toggle
 ===================================================== */
 
 /* ── Language state ── */
@@ -28,7 +20,7 @@ function _setLang(lang) {
     _navLang = lang;
     localStorage.setItem('xhz_lang', lang);
 
-    document.querySelectorAll('.nav-lang-btn, .bottom-lang-btn')
+    document.querySelectorAll('.nav-lang-btn')
         .forEach(function(btn) {
             btn.querySelector('.lang-en').classList.toggle('lang-active', lang === 'en');
             btn.querySelector('.lang-th').classList.toggle('lang-active', lang === 'th');
@@ -48,201 +40,188 @@ function initNav(activePage, options) {
         { id: 'study', href: 'study.html', icon: '📖', label: 'Study' },
         { id: 'write', href: 'write.html', icon: '✍️',  label: 'Write' },
         { id: 'print', href: 'print.html', icon: '🖨️', label: 'Print' },
-        { id: 'dojo', href: 'dojo.html', icon: '🥋', label: 'Dojo' },
+        { id: 'dojo',  href: 'dojo.html',  icon: '🥋', label: 'Dojo' },
         { id: 'progress', href: 'progress.html', icon: '🏆', label: 'Progress' }
     ];
 
     /* ── inject CSS ── */
     var style = document.createElement('style');
     style.textContent = `
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
         :root {
-            --theme-color:       #FFB347;
-            --theme-color-light: #FFE0B255;
-            --theme-color-pale:  #FFB34718;
+            --nav-teal:        #1B7B5E;
+            --nav-teal-dark:   #145C47;
+            --nav-teal-light:  #D0F0E4;
+            --nav-bg:          #F2F1EC;
+            --nav-white:       #FFFFFF;
+            --nav-text-light:  #999999;
+            --nav-radius-pill: 999px;
+            --nav-shadow:      0 2px 8px rgba(0,0,0,0.1);
         }
 
         /* ════════════════════════════
-           TOP NAV
+           TOP NAV BAR (all screen sizes)
         ════════════════════════════ */
         .app-nav {
-            background: var(--theme-color);
-            padding: 0 16px;
+            background: var(--nav-teal);
+            padding: 0 12px;
             padding-top: env(safe-area-inset-top);
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-shrink: 0;
-            transition: background 0.4s;
-            height: 48px;
+            height: 52px;
             z-index: 100;
+            font-family: 'Nunito', 'Segoe UI', Tahoma, sans-serif;
+            gap: 8px;
         }
 
         .nav-brand {
-            font-size: 1.1em;
-            font-weight: bold;
+            font-size: 1.05em;
+            font-weight: 900;
             color: white;
             text-decoration: none;
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .nav-right {
             display: flex;
             align-items: center;
             gap: 4px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
         }
+        .nav-right::-webkit-scrollbar { display: none; }
 
-        /* top nav links */
+        /* ── Nav links ── */
         .nav-links {
             display: flex;
-            gap: 4px;
+            gap: 3px;
             align-items: center;
         }
         .nav-link {
             display: flex;
             align-items: center;
-            gap: 5px;
-            padding: 6px 14px;
-            border-radius: 20px;
+            gap: 4px;
+            padding: 6px 12px;
+            border-radius: var(--nav-radius-pill);
             text-decoration: none;
-            font-size: 0.85em;
-            font-weight: bold;
-            color: rgba(255,255,255,0.85);
-            transition: background 0.2s, color 0.2s;
+            font-size: 0.8em;
+            font-weight: 800;
+            color: rgba(255,255,255,0.7);
+            transition: all 0.2s;
             white-space: nowrap;
+            min-height: 36px;
+            flex-shrink: 0;
         }
         .nav-link:hover {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.15);
             color: white;
         }
         .nav-link.active {
-            background: white;
-            color: var(--theme-color);
+            background: var(--nav-white);
+            color: var(--nav-teal);
+            box-shadow: var(--nav-shadow);
         }
         .nav-link .nav-icon  { font-size: 1em; }
-        .nav-link .nav-label { font-size: 0.9em; }
+        .nav-link .nav-label { font-size: 0.88em; }
 
-        /* ── language toggle (top nav) ── */
+        /* ── Language toggle ── */
         .nav-lang-btn {
             display: flex;
             align-items: center;
             background: rgba(255,255,255,0.15);
             border: none;
-            border-radius: 20px;
+            border-radius: var(--nav-radius-pill);
             padding: 4px 5px;
             cursor: pointer;
             gap: 2px;
-            margin-left: 6px;
+            margin-left: 4px;
             transition: background 0.2s;
+            min-height: 36px;
+            flex-shrink: 0;
         }
         .nav-lang-btn:hover { background: rgba(255,255,255,0.25); }
         .nav-lang-btn span {
-            font-size: 0.72em;
-            font-weight: bold;
-            color: rgba(255,255,255,0.6);
-            padding: 2px 6px;
-            border-radius: 12px;
-            transition: background 0.2s, color 0.2s;
+            font-size: 0.7em;
+            font-weight: 800;
+            color: rgba(255,255,255,0.5);
+            padding: 3px 7px;
+            border-radius: var(--nav-radius-pill);
+            transition: all 0.2s;
             line-height: 1.4;
         }
         .nav-lang-btn span.lang-active {
             background: white;
-            color: var(--theme-color);
+            color: var(--nav-teal);
         }
 
         /* ════════════════════════════
-           BOTTOM NAV
+           NO BOTTOM NAV — removed entirely
         ════════════════════════════ */
-        .bottom-nav {
-            display: none;
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            height: calc(56px + env(safe-area-inset-bottom));
-            padding-bottom: env(safe-area-inset-bottom);
-            background: white;
-            border-top: 2px solid var(--theme-color-light);
-            z-index: 200;
-            justify-content: space-around;
-            align-items: center;
-            box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
-            transition: border-color 0.4s;
-        }
-        .bottom-nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 2px;
-            text-decoration: none;
-            flex: 1;
-            height: 100%;
-            color: #bbb;
-            transition: color 0.2s;
-            padding-top: 6px;
-        }
-        .bottom-nav-item.active   { color: var(--theme-color); }
-        .bottom-nav-icon  { font-size: 1.4em; line-height: 1; }
-        .bottom-nav-label { font-size: 0.6em; font-weight: bold; }
-
-        /* ── language toggle (bottom nav) ── */
-        .bottom-lang-btn {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            flex: 1;
-            height: 100%;
-            padding-top: 6px;
-            gap: 3px;
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-        .bottom-lang-inner {
-            display: flex;
-            gap: 2px;
-            background: #f5f5f5;
-            border-radius: 10px;
-            padding: 2px 4px;
-        }
-        .bottom-lang-btn span {
-            font-size: 0.62em;
-            font-weight: bold;
-            color: #bbb;
-            padding: 1px 5px;
-            border-radius: 8px;
-            transition: background 0.2s, color 0.2s;
-            line-height: 1.5;
-        }
-        .bottom-lang-btn span.lang-active {
-            background: var(--theme-color);
-            color: white;
-        }
-        .bottom-lang-label {
-            font-size: 0.6em;
-            font-weight: bold;
-            color: #bbb;
-        }
 
         /* ════════════════════════════
-           RESPONSIVE
+           RESPONSIVE — MOBILE
         ════════════════════════════ */
-        @media (max-width: 600px) and (orientation: portrait) {
-            .nav-links    { display: none; }
-            .nav-lang-btn { display: none; }
-            .bottom-nav   { display: flex; }
-            body { padding-bottom: calc(56px + env(safe-area-inset-bottom)); }
+        @media (max-width: 600px) {
+            .app-nav {
+                height: 48px;
+                padding: 0 8px;
+                padding-top: env(safe-area-inset-top);
+                gap: 6px;
+            }
+
+            .nav-brand {
+                font-size: 0.92em;
+            }
+
+            /* Show links on mobile too — same style, just compact */
+            .nav-links {
+                display: flex;
+                gap: 2px;
+            }
+
+            /* Hide labels on mobile, show only icons */
+            .nav-link .nav-label {
+                display: none;
+            }
+            .nav-link {
+                padding: 6px 10px;
+                min-height: 34px;
+                font-size: 0.9em;
+            }
+
+            /* Active item: show label */
+            .nav-link.active .nav-label {
+                display: inline;
+                font-size: 0.82em;
+            }
+            .nav-link.active {
+                padding: 6px 12px;
+            }
+
+            /* Smaller lang toggle */
+            .nav-lang-btn {
+                padding: 3px 4px;
+                margin-left: 2px;
+                min-height: 32px;
+            }
+            .nav-lang-btn span {
+                font-size: 0.62em;
+                padding: 2px 6px;
+            }
         }
 
         @media (max-width: 900px) and (orientation: landscape) {
             .nav-link .nav-label { display: none; }
             .nav-link { padding: 6px 10px; }
+            .nav-link.active .nav-label { display: inline; }
         }
     `;
     document.head.appendChild(style);
 
-    /* ── language toggle HTML (shared) ── */
+    /* ── language toggle HTML ── */
     var langHTML =
         '<button class="nav-lang-btn" ' +
         'onclick="_setLang(getNavLang()===\'en\'?\'th\':\'en\')">' +
@@ -255,7 +234,6 @@ function initNav(activePage, options) {
     if (topNav) {
         topNav.className = 'app-nav';
 
-        /* Brand always links to ?picker so it never auto-redirects */
         var brandHTML =
             '<a class="nav-brand" href="index.html">🐼 学汉字</a>';
 
@@ -281,38 +259,7 @@ function initNav(activePage, options) {
             '</div>';
     }
 
-    /* ── build bottom nav ── */
-    var bottomNav    = document.createElement('div');
-    bottomNav.className = 'bottom-nav';
-    bottomNav.id        = 'bottom-nav';
-
-    var botLangHTML =
-        '<button class="bottom-lang-btn" ' +
-        'onclick="_setLang(getNavLang()===\'en\'?\'th\':\'en\')">' +
-        '<div class="bottom-lang-inner">' +
-          '<span class="lang-en' + (_navLang === 'en' ? ' lang-active' : '') + '">EN</span>' +
-          '<span class="lang-th' + (_navLang === 'th' ? ' lang-active' : '') + '">TH</span>' +
-        '</div>' +
-        '<span class="bottom-lang-label">Lang</span>' +
-        '</button>';
-
-    if (!hideLinks) {
-        /* normal pages: show all nav items + lang toggle */
-        bottomNav.innerHTML =
-            pages.map(function(p) {
-                return '<a href="' + p.href + '" class="bottom-nav-item' +
-                    (p.id === activePage ? ' active' : '') + '">' +
-                    '<span class="bottom-nav-icon">'  + p.icon  + '</span>' +
-                    '<span class="bottom-nav-label">' + p.label + '</span>' +
-                    '</a>';
-            }).join('') +
-            botLangHTML;
-    } else {
-        /* index page: lang toggle only in bottom nav */
-        bottomNav.innerHTML = botLangHTML;
-    }
-
-    document.body.appendChild(bottomNav);
+    /* ── NO bottom nav created ── */
 }
 
 /* ── theme color sync ── */
