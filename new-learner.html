@@ -7,17 +7,15 @@
 <script src="nav.js"></script>
 <script src="profiles.js"></script>
 <script src="strings.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;600;700&family=Mali:wght@400;700&family=Nunito:wght@400;700;800;900&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+
+<!-- 🎨 Universal Design System -->
+<link rel="stylesheet" href="shared/design-system.css">
+
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #FFF8EE 0%, #F0FFF8 100%);
-    min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
-}
-
 /* ── HEADER ── */
 .page-header {
     text-align: center;
@@ -26,11 +24,11 @@ body {
 .page-header .emoji { font-size: 2.5em; }
 .page-header h1 {
     font-size: clamp(1.2em, 4vw, 1.6em);
-    color: #333; margin-top: 8px;
+    color: var(--ink-dark); margin-top: 8px;
 }
 .page-header p {
     font-size: clamp(0.75em, 2vw, 0.88em);
-    color: #aaa; margin-top: 4px;
+    color: var(--ink-light); margin-top: 4px;
 }
 
 /* ── FORM ── */
@@ -48,16 +46,18 @@ body {
 
 /* ── SECTION BLOCKS ── */
 .form-section {
-    background: white;
-    border-radius: 16px;
+    background: var(--paper-warm);
+    background-image: url('assets/textures/paper-grain.png');
+    background-blend-mode: multiply;
+    border-radius: var(--card-radius);
     padding: 16px;
     width: 100%;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+    box-shadow: var(--shadow-card);
 }
 .section-label {
     font-size: 0.72em;
-    font-weight: bold;
-    color: #bbb;
+    font-weight: 800;
+    color: var(--ink-light);
     text-transform: uppercase;
     letter-spacing: 1.2px;
     margin-bottom: 10px;
@@ -67,22 +67,24 @@ body {
 .nickname-input {
     width: 100%;
     padding: 10px 14px;
-    border: 2px solid #eee;
+    border: 2px solid var(--paper-deep);
     border-radius: 10px;
     font-size: 1em;
-    color: #333;
+    font-family: var(--font-main);
+    color: var(--ink-dark);
     outline: none;
     transition: border-color 0.2s;
+    background: #fff;
 }
-.nickname-input:focus { border-color: #FFB347; }
+.nickname-input:focus { border-color: var(--botes-ochre); }
 .nickname-hint {
     font-size: 0.72em;
-    color: #aaa;
+    color: var(--ink-light);
     margin-top: 5px;
 }
 .nickname-warn {
     font-size: 0.72em;
-    color: #FF8C42;
+    color: var(--botes-ochre-deep);
     margin-top: 5px;
     min-height: 1em;
 }
@@ -99,18 +101,18 @@ body {
     height: clamp(40px, 10vw, 52px);
     border-radius: 50%;
     border: 3px solid transparent;
-    background: #f9f9f9;
+    background: var(--paper-cool);
     font-size: clamp(1.2em, 3.5vw, 1.6em);
     display: flex; align-items: center; justify-content: center;
     cursor: pointer;
     transition: all 0.2s;
 }
-.avatar-btn:hover  { border-color: #FFD9A0; background: #FFF8EE; }
+.avatar-btn:hover  { border-color: var(--botes-ochre); background: var(--paper-warm); }
 .avatar-btn.active {
-    border-color: #FFB347;
-    background: #FFF3E0;
+    border-color: var(--botes-ochre);
+    background: var(--paper-warm);
     transform: scale(1.15);
-    box-shadow: 0 3px 10px rgba(255,179,71,0.4);
+    box-shadow: var(--shadow-card);
 }
 
 /* ── COLOR PICKER ── */
@@ -131,7 +133,7 @@ body {
 }
 .color-btn:hover  { transform: scale(1.12); }
 .color-btn.active {
-    border-color: #333;
+    border-color: var(--ink-dark);
     transform: scale(1.2);
     box-shadow: 0 3px 10px rgba(0,0,0,0.2);
 }
@@ -147,36 +149,37 @@ body {
 .preview-avatar {
     width:  72px; height: 72px;
     border-radius: 50%;
-    border: 3px solid #eee;
-    background: white;
+    border: 3px solid var(--paper-deep);
+    background: var(--paper-warm);
     display: flex; align-items: center; justify-content: center;
     font-size: 2.2em;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+    box-shadow: var(--shadow-soft);
     transition: border-color 0.3s;
 }
 .preview-name {
     font-size: 0.95em;
-    font-weight: bold;
-    color: #333;
+    font-weight: 800;
+    color: var(--ink-dark);
 }
 .preview-title {
     font-size: 0.7em;
-    color: #aaa;
+    color: var(--ink-light);
 }
 
 /* ── SUBMIT BUTTON ── */
 .submit-btn {
     width: 100%;
     padding: 14px;
-    background: #FFB347;
-    color: white;
+    background: var(--botes-ochre);
+    color: var(--paper-cream);
     border: none;
     border-radius: 14px;
     font-size: 1em;
-    font-weight: bold;
+    font-weight: 800;
     cursor: pointer;
     transition: opacity 0.2s, transform 0.15s;
-    box-shadow: 0 4px 14px rgba(255,179,71,0.4);
+    box-shadow: var(--shadow-card);
+    font-family: var(--font-main);
 }
 .submit-btn:disabled {
     opacity: 0.4;
@@ -188,22 +191,22 @@ body {
 /* ── BACK LINK ── */
 .back-link {
     font-size: 0.8em;
-    color: #bbb;
+    color: var(--ink-light);
     text-align: center;
     cursor: pointer;
     text-decoration: underline;
     padding-bottom: 8px;
 }
-.back-link:hover { color: #999; }
+.back-link:hover { color: var(--ink-soft); }
 
 /* ── DUPLICATE WARNING ── */
 .dup-warning {
-    background: #FFF3E0;
-    border: 2px solid #FFB347;
+    background: var(--highlight-green);
+    border: 2px solid var(--botes-ochre);
     border-radius: 10px;
     padding: 8px 12px;
     font-size: 0.78em;
-    color: #E65100;
+    color: var(--ink-dark);
     display: none;
     line-height: 1.5;
 }

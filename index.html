@@ -7,19 +7,16 @@
 <script src="nav.js"></script>
 <script src="profiles.js"></script>
 <script src="strings.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;600;700&family=Mali:wght@400;700&family=Nunito:wght@400;700;800;900&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+
+<!-- 🎨 Universal Design System -->
+<link rel="stylesheet" href="shared/design-system.css">
+
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #FFF8EE 0%, #F0FFF8 100%);
-    min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
-}
-
-/* ── MAIN AREA ── */
+/* ── PAGE LAYOUT ── */
 .main {
     flex: 1;
     display: flex;
@@ -29,13 +26,7 @@ body {
     gap: 20px;
 }
 
-/* ── WHO'S LEARNING SECTION ── */
 .section-title {
-    font-size: clamp(0.8em, 2.5vw, 1em);
-    font-weight: bold;
-    color: #bbb;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
     text-align: center;
 }
 
@@ -69,16 +60,16 @@ body {
 .profile-avatar {
     width: 100%; height: 100%;
     border-radius: 50%;
-    border: 3px solid #eee;
-    background: white;
+    border: 3px solid var(--paper-deep);
+    background: var(--paper-warm);
     display: flex; align-items: center; justify-content: center;
     font-size: clamp(2em, 6vw, 2.8em);
-    box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+    box-shadow: var(--shadow-soft);
     transition: border-color 0.2s, box-shadow 0.2s;
     overflow: hidden;
 }
 .profile-card:hover .profile-avatar {
-    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+    box-shadow: var(--shadow-card);
 }
 
 /* Equipped item badge */
@@ -88,11 +79,11 @@ body {
     width:  clamp(22px, 5vw, 28px);
     height: clamp(22px, 5vw, 28px);
     border-radius: 50%;
-    background: white;
-    border: 2px solid #eee;
+    background: var(--paper-warm);
+    border: 2px solid var(--paper-deep);
     display: flex; align-items: center; justify-content: center;
     font-size: clamp(0.7em, 1.8vw, 0.9em);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    box-shadow: var(--shadow-soft);
 }
 
 /* Guest dot */
@@ -101,14 +92,14 @@ body {
     top: 2px; right: 2px;
     width: 12px; height: 12px;
     border-radius: 50%;
-    background: #FFB347;
-    border: 2px solid white;
+    background: var(--botes-ochre);
+    border: 2px solid var(--paper-warm);
 }
 
 .profile-name {
     font-size: clamp(0.82em, 2.2vw, 0.95em);
-    font-weight: bold;
-    color: #333;
+    font-weight: 800;
+    color: var(--ink-dark);
     text-align: center;
     max-width: 100%;
     overflow: hidden;
@@ -134,48 +125,48 @@ body {
     width:  clamp(70px, 18vw, 90px);
     height: clamp(70px, 18vw, 90px);
     border-radius: 50%;
-    border: 3px dashed #ccc;
-    background: white;
+    border: 3px dashed var(--ink-light);
+    background: var(--paper-warm);
     display: flex; align-items: center; justify-content: center;
     font-size: clamp(1.8em, 5vw, 2.4em);
-    color: #ccc;
+    color: var(--ink-light);
     transition: border-color 0.2s, color 0.2s;
 }
-.add-card:hover .add-avatar { border-color: #FFB347; color: #FFB347; }
+.add-card:hover .add-avatar { border-color: var(--botes-ochre); color: var(--botes-ochre); }
 .add-label {
     font-size: clamp(0.72em, 1.8vw, 0.82em);
-    color: #bbb;
+    color: var(--ink-light);
     text-align: center;
 }
 
 /* ── EMPTY STATE ── */
 .first-launch {
-    background: #FFF3E0;
-    border: 2px solid #FFB347;
+    background: var(--highlight-green);
+    border: 2px solid var(--botes-ochre);
     border-radius: 14px;
     padding: 14px 18px;
     max-width: 360px;
     width: 100%;
     text-align: center;
     font-size: 0.82em;
-    color: #E65100;
+    color: var(--ink-dark);
     line-height: 1.6;
 }
 
 /* ── PARENT SETTINGS BUTTON ── */
 .parent-btn {
     background: transparent;
-    border: 2px solid #eee;
-    border-radius: 20px;
+    border: 2px solid var(--paper-deep);
+    border-radius: var(--radius-pill);
     padding: 7px 20px;
     font-size: 0.8em;
-    color: #565454;
+    color: var(--ink-soft);
     cursor: pointer;
     display: flex; align-items: center; gap: 6px;
     transition: all 0.2s;
     margin-top: 4px;
 }
-.parent-btn:hover { border-color: #ccc; color: #999; }
+.parent-btn:hover { border-color: var(--ink-light); color: var(--ink-light); }
 
 /* ── MODALS ── */
 .modal-overlay {
@@ -189,13 +180,15 @@ body {
 .modal-overlay.visible { opacity: 1; pointer-events: all; }
 
 .modal {
-    background: white;
-    border-radius: 20px;
+    background: var(--paper-warm);
+    background-image: url('assets/textures/paper-grain.png');
+    background-blend-mode: multiply;
+    border-radius: var(--card-radius);
     padding: 24px 20px;
     width: min(360px, 92vw);
     max-height: 80dvh;
     overflow-y: auto;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+    box-shadow: var(--shadow-lifted);
     transform: scale(0.9);
     transition: transform 0.25s;
 }
@@ -203,15 +196,15 @@ body {
 
 .modal-title {
     font-size: 1.05em;
-    font-weight: bold;
-    color: #333;
+    font-weight: 800;
+    color: var(--ink-dark);
     margin-bottom: 16px;
     display: flex; align-items: center; gap: 8px;
 }
 .modal-close {
     margin-left: auto;
     background: none; border: none;
-    font-size: 1.2em; color: #aaa;
+    font-size: 1.2em; color: var(--ink-light);
     cursor: pointer; padding: 0 4px;
 }
 
@@ -222,7 +215,7 @@ body {
     gap: 12px;
     margin-bottom: 16px;
 }
-.pin-label { font-size: 0.82em; color: #666; }
+.pin-label { font-size: 0.82em; color: var(--ink-soft); }
 .pin-row {
     display: flex;
     gap: 8px;
@@ -230,9 +223,10 @@ body {
 }
 .pin-digit {
     width: 44px; height: 52px;
-    border: 2px solid #eee;
+    border: 2px solid var(--paper-deep);
     border-radius: 10px;
     font-size: 1.3em;
+    font-family: var(--font-main);
     text-align: center;
     outline: none;
     transition: border-color 0.2s;
@@ -242,10 +236,10 @@ body {
 }
 .pin-digit::-webkit-outer-spin-button,
 .pin-digit::-webkit-inner-spin-button { -webkit-appearance: none; }
-.pin-digit:focus { border-color: #FFB347; }
+.pin-digit:focus { border-color: var(--botes-ochre); }
 .pin-error {
     font-size: 0.75em;
-    color: #F44336;
+    color: var(--danger);
     text-align: center;
     min-height: 1em;
 }
@@ -262,30 +256,30 @@ body {
     align-items: center;
     gap: 12px;
     padding: 8px 10px;
-    border: 2px solid #f0f0f0;
-    border-radius: 12px;
-    background: #fafafa;
+    border: 2px solid var(--paper-deep);
+    border-radius: var(--radius-sm);
+    background: var(--paper-cool);
 }
 .modal-profile-row .av {
     font-size: 1.5em;
     width: 36px; height: 36px;
     border-radius: 50%;
-    background: white;
+    background: var(--paper-warm);
     display: flex; align-items: center; justify-content: center;
-    border: 2px solid #eee;
+    border: 2px solid var(--paper-deep);
     flex-shrink: 0;
 }
 .modal-profile-row .info { flex: 1; min-width: 0; }
 .modal-profile-row .info .name {
-    font-weight: bold; font-size: 0.88em; color: #333;
+    font-weight: 800; font-size: 0.88em; color: var(--ink-dark);
 }
 .modal-profile-row .info .sub {
-    font-size: 0.72em; color: #aaa; margin-top: 1px;
+    font-size: 0.72em; color: var(--ink-light); margin-top: 1px;
 }
 .modal-del-btn {
-    background: #FFF0F0; border: none;
+    background: var(--danger-bg); border: none;
     border-radius: 8px; padding: 5px 10px;
-    color: #F44336; font-size: 0.75em;
+    color: var(--danger); font-size: 0.75em;
     cursor: pointer; flex-shrink: 0;
     transition: background 0.2s;
 }
@@ -298,16 +292,17 @@ body {
     border: none;
     border-radius: 12px;
     font-size: 0.88em;
-    font-weight: bold;
+    font-weight: 800;
     cursor: pointer;
     transition: opacity 0.2s;
     margin-top: 6px;
+    font-family: var(--font-main);
 }
 .modal-btn:active      { opacity: 0.8; }
-.modal-btn-primary     { background: #FFB347; color: white; }
-.modal-btn-secondary   { background: #f0f0f0; color: #666; }
+.modal-btn-primary     { background: var(--botes-ochre); color: var(--paper-cream); }
+.modal-btn-secondary   { background: var(--paper-deep); color: var(--ink-soft); }
 .modal-divider {
-    border: none; border-top: 2px solid #f0f0f0;
+    border: none; border-top: 2px solid var(--paper-deep);
     margin: 14px 0;
 }
 
@@ -322,25 +317,27 @@ body {
 }
 .confirm-overlay.visible { opacity: 1; pointer-events: all; }
 .confirm-box {
-    background: white;
-    border-radius: 16px;
+    background: var(--paper-warm);
+    background-image: url('assets/textures/paper-grain.png');
+    background-blend-mode: multiply;
+    border-radius: var(--card-radius);
     padding: 24px 20px;
     width: min(300px, 88vw);
     text-align: center;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    box-shadow: var(--shadow-lifted);
 }
 .confirm-box p {
-    font-size: 0.88em; color: #555;
+    font-size: 0.88em; color: var(--ink-soft);
     margin-bottom: 16px; line-height: 1.5;
 }
 .confirm-btns { display: flex; gap: 10px; }
 .confirm-btns button {
     flex: 1; padding: 9px;
     border: none; border-radius: 10px;
-    font-size: 0.85em; font-weight: bold; cursor: pointer;
+    font-size: 0.85em; font-weight: 800; cursor: pointer;
 }
-.confirm-btns .btn-cancel  { background: #f0f0f0; color: #666; }
-.confirm-btns .btn-confirm { background: #F44336; color: white; }
+.confirm-btns .btn-cancel  { background: var(--paper-deep); color: var(--ink-soft); }
+.confirm-btns .btn-confirm { background: var(--danger); color: white; }
 </style>
 </head>
 <body>
@@ -364,7 +361,7 @@ body {
 <button class="parent-btn" onclick="openParentGate()" data-i18n="parent_settings">
     ⚙️ Parent settings
 </button>
-<div style="font-size:0.72em;color:#000000;text-align:center;max-width:280px;line-height:1.5;" data-i18n="pin_protect_tip">
+<div style="font-size:0.72em;color:var(--ink-light);text-align:center;max-width:280px;line-height:1.5;" data-i18n="pin_protect_tip">
     🔒 Set a PIN to protect learner profiles from being deleted
 </div>
 
@@ -408,7 +405,7 @@ body {
             ⚙️ Parent Settings
             <button class="modal-close" onclick="closeSettings()">✕</button>
         </div>
-        <div style="font-size:0.78em;color:#aaa;margin-bottom:12px;">
+        <div style="font-size:0.78em;color:var(--ink-light);margin-bottom:12px;">
             Manage learner profiles
         </div>
 
@@ -416,7 +413,7 @@ body {
 
         <hr class="modal-divider">
 
-        <div style="font-size:0.82em;font-weight:bold;color:#666;margin-bottom:8px;">
+        <div style="font-size:0.82em;font-weight:800;color:var(--ink-soft);margin-bottom:8px;">
             🔑 Change Parent PIN
         </div>
         <div class="pin-row"
@@ -656,7 +653,7 @@ function renderSettingsProfiles() {
 
     if (profiles.length === 0) {
         list.innerHTML =
-            '<div style="font-size:0.8em;color:#aaa;text-align:center;padding:8px;">' +
+            '<div style="font-size:0.8em;color:var(--ink-light);text-align:center;padding:8px;">' +
             'No learners yet.</div>';
         return;
     }
@@ -672,7 +669,7 @@ function renderSettingsProfiles() {
             '<div class="info">' +
                 '<div class="name">' + escapeHtml(profile.nickname) +
                     (profile.is_guest
-                        ? ' <span style="color:#FFB347;font-size:0.8em;">⚠️ guest</span>'
+                        ? ' <span style="color:var(--botes-ochre);font-size:0.8em;">⚠️ guest</span>'
                         : '') +
                 '</div>' +
                 '<div class="sub">' +
@@ -695,7 +692,7 @@ function renderSettingsProfiles() {
 function promptDeleteProfile(profile) {
     document.getElementById('confirm-msg').innerHTML =
         'Delete <strong>' + escapeHtml(profile.nickname) + '</strong>?<br>' +
-        '<span style="color:#F44336;">All progress will be lost forever.</span>';
+        '<span style="color:var(--danger);">All progress will be lost forever.</span>';
 
     confirmCallback = function() {
         XHZ.deleteProfile(profile.id);
@@ -736,7 +733,7 @@ function clearNewPin() {
         document.getElementById(id).value = '';
     });
     document.getElementById('new-pin-error').textContent = '';
-    document.getElementById('new-pin-error').style.color = '#F44336';
+    document.getElementById('new-pin-error').style.color = 'var(--danger)';
 }
 
 function changePin() {
@@ -754,7 +751,7 @@ function changePin() {
     errEl.textContent   = '✅ PIN saved!';
     setTimeout(function() {
         errEl.textContent = '';
-        errEl.style.color = '#F44336';
+        errEl.style.color = 'var(--danger)';
     }, 2000);
 }
 
@@ -763,10 +760,10 @@ function changePin() {
 ===================================================== */
 function escapeHtml(str) {
     return String(str)
-        .replace(/&/g,  '&amp;')
-        .replace(/</g,  '&lt;')
-        .replace(/>/g,  '&gt;')
-        .replace(/"/g,  '&quot;');
+        .replace(/&/g,  '&')
+        .replace(/</g,  '<')
+        .replace(/>/g,  '>')
+        .replace(/"/g,  '"');
 }
 </script>
 
@@ -781,7 +778,7 @@ function escapeHtml(str) {
         <div class="modal-title" style="justify-content:center;">
             <span id="picker-name"></span>
         </div>
-        <div style="font-size:0.82em;color:#aaa;margin-bottom:16px;" data-i18n="what_to_do">
+        <div style="font-size:0.82em;color:var(--ink-light);margin-bottom:16px;" data-i18n="what_to_do">
         </div>
         <div style="display:flex;flex-direction:column;gap:10px;">
             <a href="write.html" style="text-decoration:none;">
@@ -790,13 +787,13 @@ function escapeHtml(str) {
             </a>
             <a href="study.html" style="text-decoration:none;" >
                 <button class="modal-btn modal-btn-primary"
-                        style="font-size:1em;background:#98D8C8;" data-i18n="activity_study">
+                        style="font-size:1em;background:var(--botes-sage);" data-i18n="activity_study">
                     📖 Study
                 </button>
             </a>
             <a href="print.html" style="text-decoration:none;">
                 <button class="modal-btn modal-btn-primary"
-                        style="font-size:1em;background:#B0BEC5;" data-i18n="activity_print">
+                        style="font-size:1em;background:var(--ink-light);" data-i18n="activity_print">
                     🖨️ Print Worksheet
                 </button>
             </a>
