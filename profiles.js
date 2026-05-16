@@ -84,7 +84,13 @@ const XHZ = {
    */
   _triggerSync(action, payload) {
     var sync = window.__SUPABASE_SYNC;
-    if (!sync || !sync.ready) return;
+    if (!sync) return; // sync module not loaded
+
+    if (!sync.ready) {
+      // Module still initializing — queue for later
+      sync.enqueue(action, payload);
+      return;
+    }
 
     switch (action) {
       case 'all_profiles':

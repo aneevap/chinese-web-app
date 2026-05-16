@@ -11,6 +11,56 @@
 
   var SYNC = window.__SUPABASE_SYNC = {
     ready: false,
+    _pending: [],
+
+    /**
+     * Queue a sync operation for when the connection is ready.
+     * Used by XHZ._triggerSync when sync hasn't initialized yet.
+     */
+    enqueue: function (action, payload) {
+      this._pending.push({ action: action, payload: payload, ts: Date.now() });
+    },
+
+    /**
+     * Flush all queued operations in dependency order:
+     * 1. Profile operations first (so FK references exist)
+     * 2. Scores
+     * 3. Mastery
+     * 4. Items
+     */
+    _flushPending: function () {
+      if (!this._pending.length) return;
+      var order = { all_profiles: 0, profile_delete: 0, scores: 1, mastery: 2, items: 3 };
+      this._pending.sort(function (a, b) {
+        return (order[a.action] || 99) - (order[b.action] || 99);
+      });
+      var pending = this._pending;
+      this._pending = [];
+      var self = this;
+      pending.forEach(function (item) {
+        self._processAction(item.action, item.payload);
+      });
+    },
+
+    _processAction: function (action, payload) {
+      switch (action) {
+        case 'all_profiles':
+          this.pushAllProfiles(payload);
+          break;
+        case 'profile_delete':
+          this.deleteProfile(payload);
+          break;
+        case 'scores':
+          this.pushAllScores(payload.profileId, payload.days);
+          break;
+        case 'mastery':
+          this.pushMastery(payload.profileId, payload.words);
+          break;
+        case 'items':
+          this.pushItems(payload.profileId, payload.itemData);
+          break;
+      }
+    },
 
     async init() {
       await window.__supabaseReady;
@@ -20,6 +70,9 @@
       }
       this.ready = true;
       console.log('📡 Supabase sync: ready');
+
+      // Flush any writes that were queued while initializing
+      this._flushPending();
 
       // On first init, merge remote data with local
       var activeId = XHZ.getActiveId();
