@@ -906,7 +906,7 @@ body {
 <div class="unlock-popup-overlay" id="unlock-popup-overlay"><div class="unlock-popup"><div class="unlock-popup-emoji" id="unlock-popup-emoji">🎊</div><div class="unlock-popup-title" id="unlock-popup-title">Course Unlocked!</div><div class="unlock-popup-sub" id="unlock-popup-sub"></div><div class="unlock-popup-progress" id="unlock-popup-progress"></div><button class="unlock-popup-btn" id="unlock-popup-btn">Let's Go! 🚀</button></div></div>
 
 <script>
-var COURSES=[],COURSE_DATA={},currentCourse=null,THEMES=[],WORDS=[],currentTheme=0,idx=0,mode='beginner';
+var COURSES=[],COURSE_DATA={},currentCourse=null,THEMES=[],WORDS=[],currentTheme=-1,idx=0,mode='beginner';
 var animW=null,quizW=null,mistakes=0,corrects=0,doneSet={};
 var recognition=null,recognitionTimeout=null,mediaRecorder=null,audioChunks=[],audioBlob=null,audioURL=null,audioPlayer=null,isListening=false,recognitionDone=false,micResultTimer=null;
 var canvas=null,ctx=null,isDrawing=false,currentPoints=[],canvasStrokes=[],previouslyLockedCourses={};
