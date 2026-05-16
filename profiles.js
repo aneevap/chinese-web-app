@@ -75,6 +75,40 @@ const XHZ = {
 
 
   // ----------------------------------------------------------
+  //  SUPABASE SYNC HOOK
+  // ----------------------------------------------------------
+
+  /**
+   * Forward local data changes to Supabase (fire-and-forget).
+   * Silently no-ops if Supabase is not available.
+   */
+  _triggerSync(action, payload) {
+    var sync = window.__SUPABASE_SYNC;
+    if (!sync || !sync.ready) return;
+
+    switch (action) {
+      case 'all_profiles':
+        sync.pushAllProfiles(payload);
+        break;
+      case 'profile_delete':
+        sync.deleteProfile(payload);
+        break;
+      case 'scores':
+        sync.pushAllScores(payload.profileId, payload.days);
+        break;
+      case 'mastery':
+        sync.pushMastery(payload.profileId, payload.words);
+        break;
+      case 'items':
+        sync.pushItems(payload.profileId, payload.itemData);
+        break;
+      default:
+        break;
+    }
+  },
+
+
+  // ----------------------------------------------------------
   //  STORAGE — profiles index
   // ----------------------------------------------------------
 
@@ -92,6 +126,7 @@ const XHZ = {
     } catch (e) {
       console.error('profiles.js: failed to save', e);
     }
+    this._triggerSync('all_profiles', data.profiles);
   },
 
 
@@ -138,6 +173,7 @@ const XHZ = {
     const data = this._load();
     data.profiles = data.profiles.filter(p => p.id !== id);
     this._save(data);
+    this._triggerSync('profile_delete', id);
     [this._scoresKey, this._masteryKey, this._itemsKey].forEach(fn => {
       localStorage.removeItem(fn.call(this, id));
     });
@@ -211,6 +247,7 @@ const XHZ = {
     } catch (e) {
       console.error('profiles.js: failed to save scores', e);
     }
+    this._triggerSync('scores', { profileId, days: data.days });
   },
 
   /**
@@ -424,6 +461,7 @@ const XHZ = {
     } catch (e) {
       console.error('profiles.js: failed to save mastery', e);
     }
+    this._triggerSync('mastery', { profileId, words: data.words });
   },
 
   getWordMastery(wordId) {
@@ -726,6 +764,7 @@ const XHZ = {
     } catch (e) {
       console.error('profiles.js: failed to save items', e);
     }
+    this._triggerSync('items', { profileId, itemData: data });
   },
 
 _checkEffortItemUnlock(profileId, totalStars) {
