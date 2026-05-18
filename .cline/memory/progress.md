@@ -30,9 +30,30 @@
 - Preserved all HanziWriter functionality
 - Fixed `currentTheme=0` bug (initialized to 0, matching first theme index → `selectTheme(0)` exited early skipping `buildWordList()` and `loadChar(0)`)
 
+### Session 8 — Account Upgrade Flow (Anonymous → Email/Password)
+- Created `shared/auth-modal.js` — full inline modal UI for upgrade and sign-in
+  - Upgrade form (email, password, confirm, name fields) with validation
+  - Sign-in form (email, password) with validation
+  - Success view after account creation
+  - Design system styling with paper tones and ochre accent
+  - i18n support via `strings.js`
+  - Auto-sets `is_guest: false` on successful upgrade
+- Enhanced `shared/supabase-client.js` with auth APIs:
+  - Auth state tracking: `__supabaseAuthUser`, `__supabaseIsAnon`, `__supabaseEmail`, `__supabaseSession`
+  - `__supabaseUpgrade(email, password)` — upgrade anonymous session
+  - `__supabaseSignIn(email, password)` — sign in with credentials
+  - `__supabaseSignOut()` — sign out
+  - `__supabaseOnAuth()` — register auth state change listeners
+  - Session restoration via `getSession()` on init
+  - `onAuthStateChange` listener for real-time auth state updates
+- Added auth i18n strings (EN + TH) to `strings.js`
+- Integrated auth modal into 4 pages: `index.html`, `progress.html`, `study.html`, `write.html`
+  - All guest banners now call `showAuthModal('upgrade')` instead of redirecting to `signup.html`
+- Added `is_guest` to `profiles.js` `updateProfile()` allowed fields
+
 ## Pending
 - [ ] Migrate `write.html` speech recognition improvements
 - [ ] Migrate React game CSS (`games/`) to design system (Phase 3)
 - [ ] Enhance progress tracking with detailed analytics
-- [ ] Add account upgrade flow (anonymous → real auth)
 - [ ] Add data export/backup feature
+- [ ] Remove deprecated `signup.html` if no longer needed

@@ -10,6 +10,7 @@
     <script src="shared/supabase-client.js"></script>
     <script src="shared/supabase-sync.js"></script>
     <script src="strings.js"></script>
+    <script src="shared/auth-modal.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,7 +24,7 @@
     <div id="app-nav"></div>
     <div class="guest-banner" id="guest-banner" style="display:none;">
         <span>Progress is saved on this device for now. Sign up and we'll tell you when cloud saving is ready!</span>
-        <button onclick="window.location.href='signup.html'" data-i18n="save_my_progress">Save My Progress</button>
+        <button onclick="showAuthModal('upgrade')" data-i18n="save_my_progress">Save My Progress</button>
         <button class="dismiss" onclick="dismissGuestBanner()">✕</button>
     </div>
     <div id="main-content">

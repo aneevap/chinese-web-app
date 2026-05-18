@@ -9,6 +9,7 @@
 <script src="shared/supabase-client.js"></script>
 <script src="shared/supabase-sync.js"></script>
 <script src="strings.js"></script>
+<script src="shared/auth-modal.js"></script>
 <link rel="stylesheet" href="shared/design-system.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -532,7 +533,7 @@
         <span class="guest-banner-text" data-i18n="guest_banner"></span>
         <button class="guest-banner-btn"
                 data-i18n="save_my_progress"
-                onclick="window.location.href='signup.html'"></button>
+                onclick="showAuthModal('upgrade')"></button>
     </div>
 
     <!-- PROFILE HEADER -->
@@ -1285,7 +1286,7 @@ function showSettings() {
         '<div class="modal-title" data-i18n="settings_title"></div>' +
 
         '<button class="settings-btn settings-btn-accent" ' +
-        'onclick="window.location.href=\'signup.html\'">' +
+        'onclick="showAuthModal(\'upgrade\')">' +
         '<span data-i18n="create_account"></span>' +
         '</button>' +
 

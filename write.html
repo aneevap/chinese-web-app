@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>学汉字 Learn Chinese</title>
-<script src="nav.js"></script><script src="profiles.js"></script><script src="shared/supabase-client.js"></script><script src="shared/supabase-sync.js"></script><script src="strings.js"></script><script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+<script src="nav.js"></script><script src="profiles.js"></script><script src="shared/supabase-client.js"></script><script src="shared/supabase-sync.js"></script><script src="strings.js"></script>
+<script src="shared/auth-modal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
 <link rel="stylesheet" href="shared/design-system.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -805,7 +807,7 @@ body {
 <div class="loading-screen" id="loading-screen"><div class="loading-spinner"></div><span id="loading-msg">Loading...</span></div>
 <div id="app-nav"></div>
 <div class="mobile-tabs" id="mobile-tabs"><button class="m-tab-btn active" id="m-tab-watch" onclick="switchTab('watch')">📖 STUDY</button><button class="m-tab-btn" id="m-tab-write" onclick="switchTab('write')">✍️ PRACTICE</button></div>
-<div class="guest-banner" id="guest-banner" style="display:none;"><span>Progress saved on this device. Cloud sync coming soon!</span><button class="banner-btn" data-i18n="save_my_progress" onclick="window.location.href='signup.html'"></button><button class="dismiss" onclick="dismissGuestBanner()">✕</button></div>
+<div class="guest-banner" id="guest-banner" style="display:none;"><span>Progress saved on this device. Cloud sync coming soon!</span><button class="banner-btn" data-i18n="save_my_progress" onclick="showAuthModal('upgrade')"></button><button class="dismiss" onclick="dismissGuestBanner()">✕</button></div>
 
 <div class="main-content">
 

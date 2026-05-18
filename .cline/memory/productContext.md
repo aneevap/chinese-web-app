@@ -24,11 +24,13 @@
 - **Course unlocking:** Sequential — courses lock until previous words are "seen 100%" or "mastered 80%"
 - **Mastery levels:** unseen → seen → practiced → mastered (per word_id per profile)
 - **Scoring:** Stars (1–3) based on mistakes in writing quiz; streak tracking
-- **Guest profiles:** Created without account; upgrade prompt to signup
+- **Guest profiles:** Created without account; upgrade prompt via inline auth modal (`showAuthModal('upgrade')`)
 - **Sync:** Local-first; every `_save` in `profiles.js` triggers fire-and-forget Supabase push with pending queue for writes during init
 
 ## Supabase Architecture
-- **Auth:** Anonymous sign-in (upgradeable to real auth later)
+- **Auth:** Anonymous sign-in with upgrade to email/password; session restoration on page load
+- **Auth APIs:** `__supabaseUpgrade()`, `__supabaseSignIn()`, `__supabaseSignOut()`, `__supabaseOnAuth()`
+- **Auth Modal:** `shared/auth-modal.js` — inline modal with upgrade & sign-in forms, validation, i18n, design system styling
 - **Tables:** `profiles`, `scores`, `mastery`, `items` with RLS policies
 - **Sync:** Push on every write, pull + merge on page load
 - **Offline:** Graceful — if Supabase unavailable, app works exactly as before

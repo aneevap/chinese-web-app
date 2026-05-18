@@ -168,7 +168,7 @@ const XHZ = {
     const data = this._load();
     const i = data.profiles.findIndex(p => p.id === id);
     if (i === -1) return false;
-    ['nickname', 'avatar', 'color', 'equipped_items'].forEach(field => {
+    ['nickname', 'avatar', 'color', 'equipped_items', 'is_guest'].forEach(field => {
       if (changes[field] !== undefined) data.profiles[i][field] = changes[field];
     });
     this._save(data);

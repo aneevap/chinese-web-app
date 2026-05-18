@@ -9,6 +9,7 @@
 <script src="shared/supabase-client.js"></script>
 <script src="shared/supabase-sync.js"></script>
 <script src="strings.js"></script>
+<script src="shared/auth-modal.js"></script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -569,6 +570,14 @@ function selectProfile(profile) {
 function showActivityPicker(profile) {
     document.getElementById('picker-name').textContent = 'Hi ' + profile.nickname + '! 👋';
     document.getElementById('activity-overlay').classList.add('visible');
+
+    // Show guest upgrade banner for guest profiles
+    var banner = document.getElementById('guest-upgrade-banner');
+    if (profile.is_guest) {
+      banner.style.display = 'block';
+    } else {
+      banner.style.display = 'none';
+    }
 }
 
 function closeActivityPicker() {
@@ -782,6 +791,13 @@ function escapeHtml(str) {
         </div>
         <div style="font-size:0.82em;color:var(--ink-light);margin-bottom:16px;" data-i18n="what_to_do">
         </div>
+
+        <!-- Guest upgrade banner -->
+        <div id="guest-upgrade-banner" style="display:none;background:var(--paper-cool);border:1.5px solid var(--botes-ochre);border-radius:12px;padding:10px 14px;margin-bottom:12px;font-size:0.78em;color:var(--ink-medium);line-height:1.4;text-align:center;">
+            <span data-i18n="guest_banner"></span>
+            <button onclick="closeActivityPicker();showAuthModal('upgrade')" style="display:block;margin:8px auto 0;background:var(--botes-ochre);color:white;border:none;border-radius:var(--radius-pill,999px);padding:6px 14px;font-size:0.95em;font-weight:bold;cursor:pointer;" data-i18n="save_my_progress"></button>
+        </div>
+
         <div style="display:flex;flex-direction:column;gap:10px;">
             <a href="write.html" style="text-decoration:none;">
                 <button class="modal-btn modal-btn-primary" style="font-size:1em;" data-i18n="activity_write">

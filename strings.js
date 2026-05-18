@@ -87,6 +87,41 @@ var STRINGS = {
     signup_privacy:       "Your details are stored securely and never shared.",
     signup_already:       "Already using the app?",
     signup_go_back:       "← Back to app",
+
+    // ── Auth / Account upgrade ────────────────────────────────
+    upgrade_title:        "Save your progress",
+    upgrade_sub:          "Create an account to keep your progress safe across devices.",
+    upgrade_email_label:  "Email",
+    upgrade_email_ph:     "e.g. sarah@email.com",
+    upgrade_password_label: "Password",
+    upgrade_password_ph:  "At least 6 characters",
+    upgrade_confirm_label: "Confirm password",
+    upgrade_name_label:   "Learner name (optional)",
+    upgrade_name_ph:      "e.g. Sarah",
+    upgrade_submit:       "Create Account & Save",
+    upgrade_submitting:   "Creating account…",
+    upgrade_success_title: "Account created! 🎉",
+    upgrade_success_body:  "Your progress is now saved. Check your email to confirm your account.",
+    upgrade_continue:     "Go to app →",
+
+    signin_title:         "Welcome back!",
+    signin_sub:           "Sign in to continue your progress.",
+    signin_email_label:   "Email",
+    signin_email_ph:      "e.g. sarah@email.com",
+    signin_password_label: "Password",
+    signin_password_ph:   "Enter your password",
+    signin_submit:        "Sign In",
+    signin_submitting:    "Signing in…",
+    signin_error:         "Invalid email or password.",
+
+    upgrade_banner:       "🔒 Your progress is saved on this device only. Create an account to keep it safe!",
+    upgrade_banner_cta:   "Save My Progress",
+
+    // ── Auth validation errors ────────────────────────────────
+    auth_error_email:     "Please enter a valid email address.",
+    auth_error_password:  "Password must be at least 6 characters.",
+    auth_error_confirm:   "Passwords do not match.",
+    auth_error_generic:   "Something went wrong. Please try again.",
   },
 
   th: {
@@ -166,6 +201,41 @@ var STRINGS = {
     signup_privacy:       "ข้อมูลของคุณถูกเก็บอย่างปลอดภัยและไม่ถูกแชร์",
     signup_already:       "ใช้งานแอปอยู่แล้ว?",
     signup_go_back:       "← กลับไปยังแอป",
+
+    // ── Auth / Account upgrade ────────────────────────────────
+    upgrade_title:        "บันทึกความก้าวหน้าของคุณ",
+    upgrade_sub:          "สร้างบัญชีเพื่อบันทึกความก้าวหน้าของคุณให้ปลอดภัยในทุกอุปกรณ์",
+    upgrade_email_label:  "อีเมล",
+    upgrade_email_ph:     "เช่น somsri@email.com",
+    upgrade_password_label: "รหัสผ่าน",
+    upgrade_password_ph:  "อย่างน้อย 6 ตัวอักษร",
+    upgrade_confirm_label: "ยืนยันรหัสผ่าน",
+    upgrade_name_label:   "ชื่อผู้เรียน (ไม่จำเป็น)",
+    upgrade_name_ph:      "เช่น สมศรี",
+    upgrade_submit:       "สร้างบัญชีและบันทึกข้อมูล",
+    upgrade_submitting:   "กำลังสร้างบัญชี…",
+    upgrade_success_title: "สร้างบัญชีสำเร็จ! 🎉",
+    upgrade_success_body:  "ความก้าวหน้าของคุณถูกบันทึกแล้ว กรุณายืนยันอีเมลของคุณ",
+    upgrade_continue:     "ไปที่แอป →",
+
+    signin_title:         "ยินดีต้อนรับกลับ!",
+    signin_sub:           "ลงชื่อเข้าใช้เพื่อดูความก้าวหน้าของคุณ",
+    signin_email_label:   "อีเมล",
+    signin_email_ph:      "เช่น somsri@email.com",
+    signin_password_label: "รหัสผ่าน",
+    signin_password_ph:   "ป้อนรหัสผ่านของคุณ",
+    signin_submit:        "ลงชื่อเข้าใช้",
+    signin_submitting:    "กำลังลงชื่อเข้าใช้…",
+    signin_error:         "อีเมลหรือรหัสผ่านไม่ถูกต้อง",
+
+    upgrade_banner:       "🔒 ข้อมูลการเรียนของคุณถูกบันทึกบนอุปกรณ์นี้เท่านั้น สร้างบัญชีเพื่อปกป้องข้อมูล!",
+    upgrade_banner_cta:   "บันทึกข้อมูล",
+
+    // ── Auth validation errors ────────────────────────────────
+    auth_error_email:     "กรุณากรอกอีเมลที่ถูกต้อง",
+    auth_error_password:  "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร",
+    auth_error_confirm:   "รหัสผ่านไม่ตรงกัน",
+    auth_error_generic:   "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
   }
 
 };
