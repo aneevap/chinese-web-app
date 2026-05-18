@@ -1281,14 +1281,21 @@ function showPinSetup() {
 /* ── SETTINGS PANEL ── */
 function showSettings() {
     _modalMode = 'settings';
+
+    // Only show Create Account button if user is still anonymous
+    var isSignedIn = window.__supabaseIsAnon === false;
+    var createAccountBtn = isSignedIn
+        ? ''
+        : '<button class="settings-btn settings-btn-accent" ' +
+          'onclick="showAuthModal(\'upgrade\')">' +
+          '<span data-i18n="create_account"></span>' +
+          '</button>';
+
     renderModalBox(
         '<button class="modal-close" onclick="closeParentModal()">✕</button>' +
         '<div class="modal-title" data-i18n="settings_title"></div>' +
 
-        '<button class="settings-btn settings-btn-accent" ' +
-        'onclick="showAuthModal(\'upgrade\')">' +
-        '<span data-i18n="create_account"></span>' +
-        '</button>' +
+        createAccountBtn +
 
         '<button class="settings-btn" onclick="showManageProfiles()">' +
         '<span data-i18n="manage_profiles"></span>' +

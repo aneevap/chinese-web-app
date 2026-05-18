@@ -50,7 +50,17 @@
   function showModal(mode) {
     ensureModal();
     var body = document.getElementById('auth-modal-body');
-    body.innerHTML = mode === 'signin' ? buildSignInForm() : buildUpgradeForm();
+
+    if (mode === 'reset') {
+      body.innerHTML = buildResetPasswordForm();
+    } else if (mode === 'signin') {
+      body.innerHTML = buildSignInForm();
+    } else if (mode === 'set-password') {
+      body.innerHTML = buildSetNewPasswordForm();
+    } else {
+      body.innerHTML = buildUpgradeForm();
+    }
+
     document.getElementById(OVERLAY_ID).classList.add('visible');
     document.body.style.overflow = 'hidden';
 
@@ -67,6 +77,37 @@
 
   window.showAuthModal = showModal;
   window.closeAuthModal = closeModal;
+
+  // -- Build set-new-password form (after password reset) --
+  function buildSetNewPasswordForm() {
+    return [
+      '<div class="auth-modal-icon">\uD83D\uDD10</div>',
+      '<h2 class="auth-modal-title" data-i18n="set_new_password_title"></h2>',
+      '<p class="auth-modal-sub" data-i18n="set_new_password_sub"></p>',
+      '<div class="auth-modal-error" id="auth-error" style="display:none;"></div>',
+      '<form id="auth-form" novalidate>',
+      '  <div class="auth-form-group">',
+      '    <label data-i18n="upgrade_password_label"></label>',
+      '    <input type="password" id="auth-pass" name="password" autocomplete="new-password" minlength="6" data-i18n-placeholder="upgrade_password_ph" required />',
+      '  </div>',
+      '  <div class="auth-form-group">',
+      '    <label data-i18n="upgrade_confirm_label"></label>',
+      '    <input type="password" id="auth-pass-confirm" name="confirm" autocomplete="new-password" minlength="6" data-i18n-placeholder="upgrade_password_ph" required />',
+      '  </div>',
+      '  <button type="submit" class="auth-modal-btn" id="auth-submit"><span data-i18n="set_new_password_submit"></span></button>',
+      '</form>',
+    ].join('\n');
+  }
+
+  // -- Build password updated success view --
+  function buildPasswordUpdatedView() {
+    return [
+      '<div class="auth-modal-icon" style="font-size:3.5rem;">\u2705</div>',
+      '<h2 class="auth-modal-title" data-i18n="set_new_password_success_title"></h2>',
+      '<p class="auth-modal-sub" data-i18n="set_new_password_success_body"></p>',
+      '<button class="auth-modal-btn" onclick="window.closeAuthModal();window.location.href=\'index.html\'"><span data-i18n="set_new_password_continue"></span></button>',
+    ].join('\n');
+  }
 
   // -- Build upgrade form --
   function buildUpgradeForm() {
@@ -115,7 +156,8 @@
       '  </div>',
       '  <button type="submit" class="auth-modal-btn" id="auth-submit"><span data-i18n="signin_submit"></span></button>',
       '</form>',
-      '<p class="auth-switch"><a href="#" onclick="window.showAuthModal(\'upgrade\');return false;" data-i18n="switch_to_upgrade">Don\'t have an account? Sign up to save your progress</a></p>',
+      '<p class="auth-switch"><a href="#" onclick="window.showAuthModal(\'reset\');return false;" data-i18n="forgot_password">Forgot password?</a></p>',
+      '<p class="auth-switch" style="margin-top:4px;"><a href="#" onclick="window.showAuthModal(\'upgrade\');return false;" data-i18n="switch_to_upgrade">Don\'t have an account? Sign up to save your progress</a></p>',
     ].join('\n');
   }
 
@@ -125,6 +167,34 @@
       '<h2 class="auth-modal-title" data-i18n="upgrade_success_title"></h2>',
       '<p class="auth-modal-sub" data-i18n="upgrade_success_body"></p>',
       '<button class="auth-modal-btn" onclick="window.closeAuthModal();window.location.href=\'progress.html\'"><span data-i18n="upgrade_continue"></span></button>',
+    ].join('\n');
+  }
+
+  // -- Build password reset form --
+  function buildResetPasswordForm() {
+    return [
+      '<div class="auth-modal-icon">\uD83D\uDD11</div>',
+      '<h2 class="auth-modal-title" data-i18n="reset_password_title"></h2>',
+      '<p class="auth-modal-sub" data-i18n="reset_password_sub"></p>',
+      '<div class="auth-modal-error" id="auth-error" style="display:none;"></div>',
+      '<form id="auth-form" novalidate>',
+      '  <div class="auth-form-group">',
+      '    <label data-i18n="signin_email_label"></label>',
+      '    <input type="email" id="auth-email" name="email" autocomplete="email" inputmode="email" spellcheck="false" data-i18n-placeholder="signin_email_ph" required />',
+      '  </div>',
+      '  <button type="submit" class="auth-modal-btn" id="auth-submit"><span data-i18n="reset_password_submit"></span></button>',
+      '</form>',
+      '<p class="auth-switch"><a href="#" onclick="window.showAuthModal(\'signin\');return false;" data-i18n="reset_password_back">Back to Sign In</a></p>',
+    ].join('\n');
+  }
+
+  // -- Build password reset sent confirmation --
+  function buildResetSentView() {
+    return [
+      '<div class="auth-modal-icon" style="font-size:3.5rem;">\uD83D\uDCE7</div>',
+      '<h2 class="auth-modal-title" data-i18n="reset_password_sent_title"></h2>',
+      '<p class="auth-modal-sub" data-i18n="reset_password_sent_body"></p>',
+      '<button class="auth-modal-btn" onclick="window.showAuthModal(\'signin\');"><span data-i18n="reset_password_back">Back to Sign In</span></button>',
     ].join('\n');
   }
 
@@ -141,7 +211,13 @@
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      handleSubmit(mode);
+      if (mode === 'reset') {
+        handlePasswordReset();
+      } else if (mode === 'set-password') {
+        handleSetNewPassword();
+      } else {
+        handleSubmit(mode);
+      }
     });
   }
 
@@ -196,13 +272,68 @@
         }
       })
       .catch(function (err) {
-        showError(errorEl, err.message || _t('auth_error_generic', 'Something went wrong. Please try again.'));
+        var msg = err.message || '';
+
+        // Handle duplicate email on upgrade — offer to sign in instead
+        if (mode === 'upgrade' && (
+          msg.toLowerCase().indexOf('already registered') !== -1 ||
+          msg.toLowerCase().indexOf('email already in use') !== -1
+        )) {
+          if (errorEl) {
+            errorEl.innerHTML =
+              _t('auth_email_exists', 'This email is already registered. Sign in instead?') +
+              ' <a href="#" onclick="window.showAuthModal(\'signin\');return false;" ' +
+              'style="color:var(--botes-ochre);text-decoration:underline;font-weight:bold;">' +
+              _t('signin_submit', 'Sign In') + '</a>';
+            errorEl.style.display = 'block';
+          }
+        } else {
+          showError(errorEl, msg || _t('auth_error_generic', 'Something went wrong. Please try again.'));
+        }
+
         submitBtn.disabled = false;
         submitBtn.querySelector('span').textContent =
           mode === 'upgrade'
             ? _t('upgrade_submit', 'Create Account & Save')
             : _t('signin_submit', 'Sign In');
       });
+  }
+
+  // -- Handle password reset submission --
+  function handlePasswordReset() {
+    var email    = (document.getElementById('auth-email').value || '').trim();
+    var errorEl  = document.getElementById('auth-error');
+    var submitBtn = document.getElementById('auth-submit');
+
+    if (!email || !isValidEmail(email)) {
+      showError(errorEl, _t('auth_error_email', 'Please enter a valid email address.'));
+      return;
+    }
+
+    hideError(errorEl);
+    submitBtn.disabled = true;
+    submitBtn.querySelector('span').textContent =
+      _t('reset_password_submitting', 'Sending...');
+
+    doResetPassword(email)
+      .then(function () {
+        var body = document.getElementById('auth-modal-body');
+        body.innerHTML = buildResetSentView();
+        if (typeof refreshStrings === 'function') refreshStrings();
+      })
+      .catch(function (err) {
+        // Don't reveal whether the email exists (privacy)
+        var body = document.getElementById('auth-modal-body');
+        body.innerHTML = buildResetSentView();
+        if (typeof refreshStrings === 'function') refreshStrings();
+      });
+  }
+
+  function doResetPassword(email) {
+    if (typeof window.__supabaseResetPassword === 'function') {
+      return window.__supabaseResetPassword(email);
+    }
+    return Promise.reject(new Error('Supabase auth not available'));
   }
 
   function doUpgrade(email, password) {
@@ -216,6 +347,48 @@
   function doSignIn(email, password) {
     if (typeof window.__supabaseSignIn === 'function') {
       return window.__supabaseSignIn(email, password);
+    }
+    return Promise.reject(new Error('Supabase auth not available'));
+  }
+
+  // -- Handle set-new-password submission --
+  function handleSetNewPassword() {
+    var password  = document.getElementById('auth-pass').value || '';
+    var confirmVal = (document.getElementById('auth-pass-confirm').value || '');
+    var errorEl   = document.getElementById('auth-error');
+    var submitBtn = document.getElementById('auth-submit');
+
+    if (!password || password.length < 6) {
+      showError(errorEl, _t('auth_error_password', 'Password must be at least 6 characters.'));
+      return;
+    }
+    if (password !== confirmVal) {
+      showError(errorEl, _t('auth_error_confirm', 'Passwords do not match.'));
+      return;
+    }
+
+    hideError(errorEl);
+    submitBtn.disabled = true;
+    submitBtn.querySelector('span').textContent =
+      _t('set_new_password_submitting', 'Updating...');
+
+    doUpdatePassword(password)
+      .then(function () {
+        var body = document.getElementById('auth-modal-body');
+        body.innerHTML = buildPasswordUpdatedView();
+        if (typeof refreshStrings === 'function') refreshStrings();
+      })
+      .catch(function (err) {
+        showError(errorEl, err.message || _t('auth_error_generic', 'Something went wrong. Please try again.'));
+        submitBtn.disabled = false;
+        submitBtn.querySelector('span').textContent =
+          _t('set_new_password_submit', 'Update Password');
+      });
+  }
+
+  function doUpdatePassword(newPassword) {
+    if (typeof window.__supabaseUpdatePassword === 'function') {
+      return window.__supabaseUpdatePassword(newPassword);
     }
     return Promise.reject(new Error('Supabase auth not available'));
   }
@@ -343,6 +516,33 @@
       '  text-decoration: underline; cursor: pointer;',
       '}',
     ].join('\n');
+  }
+
+  // -- Auto-detect password recovery flow from email link --
+  function checkRecoveryFlow() {
+    if (!window.__supabaseIsRecovery) return;
+
+    // Wait for Supabase to be ready (with timeout)
+    var waitFor = window.__supabaseReady || Promise.resolve();
+    Promise.race([
+      waitFor,
+      new Promise(function (_, reject) {
+        setTimeout(reject, 5000);
+      })
+    ]).then(function () {
+      showModal('set-password');
+    }).catch(function () {
+      // Supabase not available — silently ignore
+    });
+  }
+
+  // Run recovery check after DOM is ready
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    setTimeout(checkRecoveryFlow, 500);
+  } else {
+    document.addEventListener('DOMContentLoaded', function () {
+      setTimeout(checkRecoveryFlow, 500);
+    });
   }
 
 })();

@@ -121,6 +121,28 @@ var STRINGS = {
     switch_to_signin:     "Already have an account? Sign In",
     switch_to_upgrade:    "Don\'t have an account? Sign up to save your progress",
 
+    // ── Duplicate email handling ─────────────────────────────
+    auth_email_exists:    "This email is already registered. Sign in instead?",
+
+    // ── Password reset ─────────────────────────────────────────
+    forgot_password:          "Forgot password?",
+    reset_password_title:     "Reset your password",
+    reset_password_sub:       "Enter your email and we'll send you a reset link.",
+    reset_password_sent_title: "Check your email \uD83D\uDCE7",
+    reset_password_sent_body: "If an account exists with this email, you'll receive a password reset link shortly.",
+    reset_password_submit:    "Send Reset Link",
+    reset_password_submitting: "Sending…",
+    reset_password_back:      "Back to Sign In",
+
+    // ── Set new password (after recovery) ──────────────────────
+    set_new_password_title:       "Set a new password",
+    set_new_password_sub:         "Enter your new password below.",
+    set_new_password_submit:      "Update Password",
+    set_new_password_submitting:  "Updating…",
+    set_new_password_success_title: "Password updated! \u2705",
+    set_new_password_success_body:  "Your password has been changed. You can now sign in with your new password.",
+    set_new_password_continue:    "Go to app \u2192",
+
     // ── Auth validation errors ────────────────────────────────
     auth_error_email:     "Please enter a valid email address.",
     auth_error_password:  "Password must be at least 6 characters.",
@@ -238,6 +260,28 @@ var STRINGS = {
     // ── Auth switch links ──────────────────────────────────
     switch_to_signin:     "มีบัญชีอยู่แล้ว? เข้าสู่ระบบ",
     switch_to_upgrade:    "ยังไม่มีบัญชี? สมัครเพื่อบันทึกข้อมูล",
+
+    // ── Duplicate email handling ─────────────────────────────
+    auth_email_exists:    "อีเมลนี้สมัครใช้งานแล้ว เข้าสู่ระบบแทนไหม?",
+
+    // ── Password reset ─────────────────────────────────────────
+    forgot_password:          "ลืมรหัสผ่าน?",
+    reset_password_title:     "รีเซ็ตรหัสผ่าน",
+    reset_password_sub:       "ป้อนอีเมลของคุณ เราจะส่งลิงก์รีเซ็ตรหัสผ่านให้คุณ",
+    reset_password_sent_title: "ตรวจสอบอีเมลของคุณ \uD83D\uDCE7",
+    reset_password_sent_body: "หากมีบัญชีที่ใช้อีเมลนี้ คุณจะได้รับลิงก์รีเซ็ตรหัสผ่านเร็ว ๆ นี้",
+    reset_password_submit:    "ส่งลิงก์รีเซ็ต",
+    reset_password_submitting: "กำลังส่ง…",
+    reset_password_back:      "กลับไปที่เข้าสู่ระบบ",
+
+    // ── Set new password (after recovery) ──────────────────────
+    set_new_password_title:       "ตั้งรหัสผ่านใหม่",
+    set_new_password_sub:         "ป้อนรหัสผ่านใหม่ของคุณด้านล่าง",
+    set_new_password_submit:      "อัปเดตรหัสผ่าน",
+    set_new_password_submitting:  "กำลังอัปเดต…",
+    set_new_password_success_title: "อัปเดตรหัสผ่านสำเร็จ! \u2705",
+    set_new_password_success_body:  "รหัสผ่านของคุณถูกเปลี่ยนแล้ว คุณสามารถเข้าสู่ระบบด้วยรหัสผ่านใหม่ได้",
+    set_new_password_continue:    "ไปที่แอป \u2192",
 
     // ── Auth validation errors ────────────────────────────────
     auth_error_email:     "กรุณากรอกอีเมลที่ถูกต้อง",

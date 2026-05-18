@@ -14,6 +14,9 @@
 //    window.__supabaseUpgrade()     — upgrade anonymous to email/password
 //    window.__supabaseSignIn()      — sign in with email/password
 //    window.__supabaseSignOut()     — sign out
+//    window.__supabaseResetPassword() — send password reset email
+//    window.__supabaseUpdatePassword() — set new password after recovery
+//    window.__supabaseIsRecovery    — boolean, true if `type=recovery` in URL
 //    window.__supabaseOnAuth()      — register auth state change listener
 // ============================================================
 
@@ -21,6 +24,11 @@
   'use strict';
 
   if (window.__supabaseReady) return;
+
+  // ── Detect password recovery flow from URL hash ────────────
+  // Must run BEFORE Supabase client initializes (may consume the hash).
+  window.__supabaseIsRecovery =
+    window.location.hash.indexOf('type=recovery') !== -1;
 
   var SUPABASE_URL = 'https://zbvrzibbacuphqllfqix.supabase.co';
   var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpidnJ6aWJiYWN1cGhxbGxmcWl4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NTA5NTcsImV4cCI6MjA5NDIyNjk1N30.rFWGI7f5YedAcSdEjaVFJYEY9wxZcWTHT9-39XdFlKo';
@@ -56,6 +64,27 @@
     var sb = window.__supabase;
     if (!sb) throw new Error('Supabase not initialized');
     var { data, error } = await sb.auth.signInWithPassword({ email: email, password: password });
+    if (error) throw error;
+    return data;
+  };
+
+    // ── Password reset ───────────────────────────────────────────
+  // Sends a password reset email via Supabase.
+  window.__supabaseResetPassword = async function (email) {
+    var sb = window.__supabase;
+    if (!sb) throw new Error('Supabase not initialized');
+    var { data, error } = await sb.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + '/index.html'
+    });
+    if (error) throw error;
+    return data;
+  };
+
+  // ── Update password (after recovery) ───────────────────────
+  window.__supabaseUpdatePassword = async function (newPassword) {
+    var sb = window.__supabase;
+    if (!sb) throw new Error('Supabase not initialized');
+    var { data, error } = await sb.auth.updateUser({ password: newPassword });
     if (error) throw error;
     return data;
   };
