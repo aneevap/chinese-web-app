@@ -99,7 +99,6 @@ The app uses a "Botes Paper Palette" — a warm, tactile aesthetic inspired by p
 ├── dojo.html            # Games hub
 ├── progress.html        # Progress tracking dashboard
 ├── print.html           # Printable worksheets
-├── signup.html          # (deprecated — auth modal handles upgrade/sign-in)
 ├── profiles.js          # Data layer (localStorage + sync hooks)
 ├── strings.js           # Internationalization (EN/TH)
 ├── nav.js               # Navigation & shared utilities

@@ -51,8 +51,31 @@
   - All guest banners now call `showAuthModal('upgrade')` instead of redirecting to `signup.html`
 - Added `is_guest` to `profiles.js` `updateProfile()` allowed fields
 
+### Session 9 — Password Reset Callback Flow & Auth Improvements
+- **Password reset flow (3 new forms in auth modal):**
+  - "Forgot password?" link on sign-in form → triggers password reset email
+  - Password reset form (enter email → "Send Reset Link")
+  - "Check your email" confirmation view (privacy-safe: same message regardless of whether email exists)
+  - Email sent via `__supabaseResetPassword(email)` — Supabase's built-in `resetPasswordForEmail()`
+- **Password reset callback handling:**
+  - `__supabaseIsRecovery` — detects `type=recovery` in URL hash **before** Supabase client initializes
+  - `__supabaseUpdatePassword(newPassword)` — calls `auth.updateUser({ password })`
+  - Auto-detection via `checkRecoveryFlow()` on page load — waits for Supabase ready (5s timeout), then opens modal in set-password mode
+  - Set-new-password form (password + confirm fields)
+  - Success view ("Password updated! ✅" → "Go to app")
+- **Duplicate email handling:**
+  - Catches "already registered" / "email already in use" error during upgrade
+  - Shows inline link: "This email is already registered. Sign in instead? [Sign In]"
+- **Label updates:**
+  - `upgrade_title` → "Create Account" (was "Save your progress")
+  - `upgrade_sub` → updated explanation text
+  - Added proper i18n keys for switch links (`switch_to_signin`, `switch_to_upgrade`)
+- **UX fixes:**
+  - `progress.html`: "Create Account" button hidden when `__supabaseIsAnon === false` (already signed in)
+  - `README.md`: `signup.html` marked as deprecated
+- **Commits:** `8345677` (Session 8), `ec1afbc` (label updates), `988d311` (password reset callback)
+
 ## Pending
-- [ ] Migrate `write.html` speech recognition improvements
 - [ ] Migrate React game CSS (`games/`) to design system (Phase 3)
 - [ ] Enhance progress tracking with detailed analytics
 - [ ] Add data export/backup feature

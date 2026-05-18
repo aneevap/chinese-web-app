@@ -458,6 +458,41 @@
     color: white;
 }
 
+/* Account email display */
+.settings-account-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    background: var(--theme-color-pale);
+    border-radius: 12px;
+    font-size: 0.8em;
+    color: var(--ink-soft);
+}
+.settings-account-row .email {
+    flex: 1;
+    font-weight: bold;
+    color: var(--ink-dark);
+    word-break: break-all;
+}
+.settings-signout-btn {
+    background: none;
+    border: 1.5px solid var(--botes-coral);
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-size: 0.78em;
+    font-weight: bold;
+    color: var(--botes-coral);
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    font-family: var(--font-main);
+}
+.settings-signout-btn:hover {
+    background: var(--danger-bg);
+}
+
 /* Profile list in settings */
 .settings-profile-list { margin-bottom: 12px; }
 .settings-profile-row {
@@ -1258,9 +1293,56 @@ function showPinEntry() {
         '<div class="pin-dots" id="pin-dots">' + pinDotsHTML(0) + '</div>' +
         '<div class="pin-error" id="pin-error"></div>' +
         '<div class="pin-keypad">' + pinKeypadHTML() + '</div>' +
+        '<p style="text-align:center;margin:-4px 0 8px;">' +
+        '<a href="#" onclick="handleForgotPin();return false;" ' +
+        'style="font-size:0.72em;color:var(--botes-ochre);text-decoration:underline;cursor:pointer;" ' +
+        'data-i18n="forgot_pin"></a></p>' +
         '<button class="settings-btn" style="margin-top:4px;" onclick="closeParentModal()" data-i18n="cancel"></button>'
     );
     refreshStrings();
+}
+
+function handleForgotPin() {
+    // Must be signed in to use PIN recovery
+    if (window.__supabaseIsAnon !== false || !window.__supabaseEmail) {
+        showToast(t('forgot_pin_not_signed_in'));
+        return;
+    }
+
+    // Send password reset email
+    var email = window.__supabaseEmail;
+    var btn = document.querySelector('[data-i18n="forgot_pin"]');
+    if (btn) btn.textContent = t('reset_password_submitting') || 'Sending...';
+
+    window.__supabaseResetPassword(email)
+        .then(function () {
+            // Set flag so auth-modal knows to clear PIN after password reset
+            try { localStorage.setItem('xhz_pin_reset_pending', 'true'); } catch(e) {}
+
+            // Show confirmation view in the modal
+            renderModalBox(
+                '<button class="modal-close" onclick="closeParentModal()">✕</button>' +
+                '<div class="modal-title">' + t('forgot_pin_sent_title') + '</div>' +
+                '<p class="pin-tip" style="font-size:0.82em;margin-bottom:16px;">' +
+                    t('forgot_pin_sent_body') +
+                '</p>' +
+                '<button class="settings-btn" onclick="closeParentModal()" data-i18n="close"></button>'
+            );
+            refreshStrings();
+        })
+        .catch(function (err) {
+            // Privacy-safe: show same confirmation regardless
+            try { localStorage.setItem('xhz_pin_reset_pending', 'true'); } catch(e) {}
+            renderModalBox(
+                '<button class="modal-close" onclick="closeParentModal()">✕</button>' +
+                '<div class="modal-title">' + t('forgot_pin_sent_title') + '</div>' +
+                '<p class="pin-tip" style="font-size:0.82em;margin-bottom:16px;">' +
+                    t('forgot_pin_sent_body') +
+                '</p>' +
+                '<button class="settings-btn" onclick="closeParentModal()" data-i18n="close"></button>'
+            );
+            refreshStrings();
+        });
 }
 
 /* ── PIN SETUP (no PIN set yet) ── */
@@ -1282,20 +1364,40 @@ function showPinSetup() {
 function showSettings() {
     _modalMode = 'settings';
 
-    // Only show Create Account button if user is still anonymous
-    var isSignedIn = window.__supabaseIsAnon === false;
-    var createAccountBtn = isSignedIn
-        ? ''
-        : '<button class="settings-btn settings-btn-accent" ' +
+    // Show panel immediately with current session state
+    renderSettingsPanel(window.__supabaseIsAnon === false);
+
+    // __supabaseIsAnon defaults to `true` and gets updated asynchronously
+    // when Supabase restores the session. If it's still `true` but Supabase
+    // hasn't finished init yet, wait and re-check once ready.
+    if (window.__supabaseIsAnon === true && window.__supabaseReady) {
+        window.__supabaseReady.then(function () {
+            if (window.__supabaseIsAnon === false) {
+                var container = document.getElementById('create-account-btn-container');
+                if (container) container.style.display = 'none';
+            }
+        }).catch(function () {});
+    }
+}
+
+function renderSettingsPanel(isSignedIn) {
+    var accountRow = isSignedIn
+        ? '<div class="settings-account-row">' +
+          '<span style="font-size:1.1em;">📧</span>' +
+          '<span class="email">' + (window.__supabaseEmail || '') + '</span>' +
+          '<button class="settings-signout-btn" onclick="doSignOut()" data-i18n="sign_out"></button>' +
+          '</div>'
+        : '<div id="create-account-btn-container">' +
+          '<button class="settings-btn settings-btn-accent" ' +
           'onclick="showAuthModal(\'upgrade\')">' +
           '<span data-i18n="create_account"></span>' +
-          '</button>';
+          '</button></div>';
 
     renderModalBox(
         '<button class="modal-close" onclick="closeParentModal()">✕</button>' +
         '<div class="modal-title" data-i18n="settings_title"></div>' +
 
-        createAccountBtn +
+        accountRow +
 
         '<button class="settings-btn" onclick="showManageProfiles()">' +
         '<span data-i18n="manage_profiles"></span>' +
@@ -1312,6 +1414,17 @@ function showSettings() {
 '</a></div>'
     );
     refreshStrings();
+}
+
+function doSignOut() {
+    if (typeof window.__supabaseSignOut === 'function') {
+        window.__supabaseSignOut().then(function () {
+            closeParentModal();
+            window.location.reload();
+        }).catch(function (err) {
+            console.error('Sign out error:', err);
+        });
+    }
 }
 
 /* ── MANAGE PROFILES ── */

@@ -11,6 +11,8 @@
   'use strict';
 
   var OVERLAY_ID = 'auth-modal-overlay';
+  var CURRENT_MODE = null;  // Tracks current modal mode for close prevention
+  var _pinWasCleared = false;  // PIN reset pending was detected after password update
 
   // -- Helper: translate or fallback --
   function _t(key, fallback) {
@@ -34,10 +36,12 @@
     document.body.appendChild(div);
 
     div.addEventListener('click', function (e) {
-      if (e.target === div) closeModal();
+      if (e.target === div && CURRENT_MODE !== 'set-password') closeModal();
     });
 
-    document.getElementById('auth-modal-close').addEventListener('click', closeModal);
+    document.getElementById('auth-modal-close').addEventListener('click', function () {
+      if (CURRENT_MODE !== 'set-password') closeModal();
+    });
 
     if (!document.getElementById('auth-modal-style')) {
       var style = document.createElement('style');
@@ -49,7 +53,14 @@
 
   function showModal(mode) {
     ensureModal();
+    CURRENT_MODE = mode;
     var body = document.getElementById('auth-modal-body');
+    var closeBtn = document.getElementById('auth-modal-close');
+
+    // Hide close button when in set-password mode (can't dismiss)
+    if (closeBtn) {
+      closeBtn.style.display = (mode === 'set-password') ? 'none' : '';
+    }
 
     if (mode === 'reset') {
       body.innerHTML = buildResetPasswordForm();
@@ -70,6 +81,21 @@
   }
 
   function closeModal() {
+    if (CURRENT_MODE === 'set-password') {
+      // Cannot close modal while in password recovery — user must set a password
+      // Give gentle visual feedback by briefly emphasizing the form
+      var box = document.getElementById('auth-modal-box');
+      if (box) {
+        box.style.transform = 'scale(1) translateY(0)';
+        box.style.transition = 'transform 0.08s';
+        box.style.transform = 'scale(0.98)';
+        setTimeout(function () {
+          box.style.transform = 'scale(1)';
+        }, 80);
+      }
+      return;
+    }
+    CURRENT_MODE = null;
     var overlay = document.getElementById(OVERLAY_ID);
     if (overlay) overlay.classList.remove('visible');
     document.body.style.overflow = '';
@@ -84,6 +110,9 @@
       '<div class="auth-modal-icon">\uD83D\uDD10</div>',
       '<h2 class="auth-modal-title" data-i18n="set_new_password_title"></h2>',
       '<p class="auth-modal-sub" data-i18n="set_new_password_sub"></p>',
+      '<p style="text-align:center;font-size:0.72em;color:var(--ink-soft,#8C7A6A);margin:-8px 0 14px;line-height:1.4;">',
+      '  <em>' + _t('set_new_password_required', 'You must set a new password to continue.') + '</em>',
+      '</p>',
       '<div class="auth-modal-error" id="auth-error" style="display:none;"></div>',
       '<form id="auth-form" novalidate>',
       '  <div class="auth-form-group">',
@@ -101,10 +130,16 @@
 
   // -- Build password updated success view --
   function buildPasswordUpdatedView() {
+    var pinNote = _pinWasCleared
+      ? '<p class="auth-modal-sub" style="margin-top:8px;font-size:0.85em;color:var(--botes-sage,#81C784);font-weight:bold;" data-i18n="pin_was_cleared">\uD83D\uDD13 Parent PIN has been cleared. Set a new one in Parent Settings.</p>'
+      : '';
+    _pinWasCleared = false; // reset
+
     return [
       '<div class="auth-modal-icon" style="font-size:3.5rem;">\u2705</div>',
       '<h2 class="auth-modal-title" data-i18n="set_new_password_success_title"></h2>',
       '<p class="auth-modal-sub" data-i18n="set_new_password_success_body"></p>',
+      pinNote,
       '<button class="auth-modal-btn" onclick="window.closeAuthModal();window.location.href=\'index.html\'"><span data-i18n="set_new_password_continue"></span></button>',
     ].join('\n');
   }
@@ -374,6 +409,17 @@
 
     doUpdatePassword(password)
       .then(function () {
+        // If PIN reset was pending, clear the parent PIN
+        try {
+          if (localStorage.getItem('xhz_pin_reset_pending') === 'true') {
+            localStorage.removeItem('xhz_parent_pin');
+            localStorage.removeItem('xhz_pin_reset_pending');
+            _pinWasCleared = true;
+          }
+        } catch(e) {}
+
+        // Reset mode so the success view's close button works
+        CURRENT_MODE = null;
         var body = document.getElementById('auth-modal-body');
         body.innerHTML = buildPasswordUpdatedView();
         if (typeof refreshStrings === 'function') refreshStrings();
