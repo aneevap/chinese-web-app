@@ -94,7 +94,7 @@
       '  </div>',
       '  <button type="submit" class="auth-modal-btn" id="auth-submit"><span data-i18n="upgrade_submit"></span></button>',
       '</form>',
-      '<p class="auth-switch"><a href="#" onclick="window.showAuthModal(\'signin\');return false;" data-i18n="signin_title">Already have an account? Sign In</a></p>',
+      '<p class="auth-switch"><a href="#" onclick="window.showAuthModal(\'signin\');return false;" data-i18n="switch_to_signin">Already have an account? Sign In</a></p>',
     ].join('\n');
   }
 
@@ -115,7 +115,7 @@
       '  </div>',
       '  <button type="submit" class="auth-modal-btn" id="auth-submit"><span data-i18n="signin_submit"></span></button>',
       '</form>',
-      '<p class="auth-switch"><a href="#" onclick="window.showAuthModal(\'upgrade\');return false;" data-i18n="upgrade_title">Don\'t have an account? Save your progress</a></p>',
+      '<p class="auth-switch"><a href="#" onclick="window.showAuthModal(\'upgrade\');return false;" data-i18n="switch_to_upgrade">Don\'t have an account? Sign up to save your progress</a></p>',
     ].join('\n');
   }
 

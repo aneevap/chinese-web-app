@@ -89,8 +89,8 @@ var STRINGS = {
     signup_go_back:       "← Back to app",
 
     // ── Auth / Account upgrade ────────────────────────────────
-    upgrade_title:        "Save your progress",
-    upgrade_sub:          "Create an account to keep your progress safe across devices.",
+    upgrade_title:        "Create Account",
+    upgrade_sub:          "Enter your details to keep your progress safe across devices.",
     upgrade_email_label:  "Email",
     upgrade_email_ph:     "e.g. sarah@email.com",
     upgrade_password_label: "Password",
@@ -116,6 +116,10 @@ var STRINGS = {
 
     upgrade_banner:       "🔒 Your progress is saved on this device only. Create an account to keep it safe!",
     upgrade_banner_cta:   "Save My Progress",
+
+    // ── Auth switch links ──────────────────────────────────
+    switch_to_signin:     "Already have an account? Sign In",
+    switch_to_upgrade:    "Don\'t have an account? Sign up to save your progress",
 
     // ── Auth validation errors ────────────────────────────────
     auth_error_email:     "Please enter a valid email address.",
@@ -203,8 +207,8 @@ var STRINGS = {
     signup_go_back:       "← กลับไปยังแอป",
 
     // ── Auth / Account upgrade ────────────────────────────────
-    upgrade_title:        "บันทึกความก้าวหน้าของคุณ",
-    upgrade_sub:          "สร้างบัญชีเพื่อบันทึกความก้าวหน้าของคุณให้ปลอดภัยในทุกอุปกรณ์",
+    upgrade_title:        "สร้างบัญชี",
+    upgrade_sub:          "ป้อนรายละเอียดของคุณเพื่อบันทึกความก้าวหน้าของคุณให้ปลอดภัยในทุกอุปกรณ์",
     upgrade_email_label:  "อีเมล",
     upgrade_email_ph:     "เช่น somsri@email.com",
     upgrade_password_label: "รหัสผ่าน",
@@ -230,6 +234,10 @@ var STRINGS = {
 
     upgrade_banner:       "🔒 ข้อมูลการเรียนของคุณถูกบันทึกบนอุปกรณ์นี้เท่านั้น สร้างบัญชีเพื่อปกป้องข้อมูล!",
     upgrade_banner_cta:   "บันทึกข้อมูล",
+
+    // ── Auth switch links ──────────────────────────────────
+    switch_to_signin:     "มีบัญชีอยู่แล้ว? เข้าสู่ระบบ",
+    switch_to_upgrade:    "ยังไม่มีบัญชี? สมัครเพื่อบันทึกข้อมูล",
 
     // ── Auth validation errors ────────────────────────────────
     auth_error_email:     "กรุณากรอกอีเมลที่ถูกต้อง",
