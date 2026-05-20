@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
 import { GameStateProvider } from '../core/state/gameState';
 import { initVoices } from '../core/systems/audio';
-import { loadPlayableWords } from '../data/vocab';
+import { loadPlayableWords, loadCourseThemes } from '../data/vocab';
+import type { CourseMeta } from '../data/vocab';
 import type { DisplayLanguage, VocabItem } from '../core/types';
 import { getDisplayLang } from '../profile/profileBridge';
+import { ErrorBoundary } from '../core/ErrorBoundary';
 import { SushiMode } from '../modes/sushi/SushiMode';
-import { MatchingPlaceholder } from '../modes/matching/MatchingPlaceholder';
+import { MatchingMode } from '../modes/matching/MatchingMode';
 
 export function App() {
   const [words, setWords] = useState<VocabItem[]>([]);
+  const [courseThemes, setCourseThemes] = useState<Record<string, CourseMeta>>({});
   const [language, setLanguage] = useState<DisplayLanguage>(getDisplayLang());
   const [mode, setMode] = useState<'sushi' | 'matching'>('sushi');
   const [error, setError] = useState<string | null>(null);
@@ -16,11 +19,15 @@ export function App() {
 
   useEffect(() => {
     initVoices();
-    loadPlayableWords()
-      .then(setWords)
-      .catch((err: Error) => {
-        setError(err.message);
-      });
+    Promise.all([
+      loadPlayableWords(),
+      loadCourseThemes(),
+    ]).then(([words, themes]) => {
+      setWords(words);
+      setCourseThemes(themes);
+    }).catch((err: Error) => {
+      setError(err.message);
+    });
     const onLang = () => setLanguage(getDisplayLang());
     const onMount = (e: Event) => {
       const detail = (e as CustomEvent).detail;
@@ -54,8 +61,12 @@ export function App() {
         </div>
         {error && <div className="error">{error}</div>}
         {!error && words.length === 0 && <div className="loading">Loading words...</div>}
-        {!error && words.length > 0 && mode === 'sushi' && <SushiMode words={words} language={language} />}
-        {!error && mode === 'matching' && <MatchingPlaceholder />}
+        {!error && words.length > 0 && (
+          <ErrorBoundary>
+            {mode === 'sushi' && <SushiMode words={words} courseThemes={courseThemes} language={language} />}
+            {mode === 'matching' && <MatchingMode words={words} courseThemes={courseThemes} language={language} />}
+          </ErrorBoundary>
+        )}
       </div>
     </GameStateProvider>
   );

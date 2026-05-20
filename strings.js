@@ -65,34 +65,7 @@ var STRINGS = {
 
     // ── Guest banner ────────────────────────────────────────────
     guest_banner:       "Progress is saved on this device only. Sign up to keep it safe!",
-    sign_up:            "Sign up",
     save_my_progress:  "Save My Progress",
-
-    // ── Sign-up page ─────────────────────────────────────────
-    signup_hero_title:    "Every stroke counts.\nEvery day, a little better.",
-    signup_hero_sub:      "A Chinese character learning app built around daily practice.",
-    signup_feat1_title:   "Stroke-by-stroke Writing",
-    signup_feat1_desc:    "Follow guided animations and practise each character with instant feedback.",
-    signup_feat2_title:   "Streaks & Progress",
-    signup_feat2_desc:    "Daily streaks, badges, and mastery tracking keep learners coming back.",
-    signup_feat3_title:   "Flashcards, Quizzes & Minigames",
-    signup_feat3_desc:    "More ways to practise — coming soon.",
-    signup_coming_soon:   "Coming Soon",
-    signup_form_title:    "Get early access",
-    signup_form_sub:      "Be the first to know when accounts go live. Your details are stored securely and never shared.",
-    signup_name_label:    "Your name",
-    signup_name_ph:       "e.g. Sarah",
-    signup_email_label:   "Email address",
-    signup_email_ph:      "e.g. sarah@email.com",
-    signup_submit:        "Join the Waitlist",
-    signup_submitting:    "Sending…",
-    signup_thanks_title:  "You're on the list! 🐼",
-    signup_thanks_body:   "We'll email you as soon as accounts are ready. Meanwhile, try the app — your guest progress can be transferred later.",
-    signup_try_guest:     "Try the app as a guest →",
-    signup_open_app:      "Open the app →",
-    signup_privacy:       "Your details are stored securely and never shared.",
-    signup_already:       "Already using the app?",
-    signup_go_back:       "← Back to app",
 
     // ── Auth / Account upgrade ────────────────────────────────
     upgrade_title:        "Create Account",
@@ -210,34 +183,7 @@ var STRINGS = {
 
     // ── Guest banner ────────────────────────────────────────────
     guest_banner:       "ข้อมูลการเรียนจะถูกบันทึกบนอุปกรณ์นี้เท่านั้น สมัครสมาชิกเพื่อป้องกันข้อมูลสูญหาย",
-    sign_up:            "สมัครสมาชิก",
     save_my_progress: "บันทึกความก้าวหน้า",
-
-    // ── Sign-up page ─────────────────────────────────────────
-    signup_hero_title:    "ทุกเส้นมีความหมาย\nฝึกทุกวัน ก้าวหน้าทุกวัน",
-    signup_hero_sub:      "แอปฝึกอักษรจีนที่เน้นการฝึกฝนในชีวิตประจำวัน",
-    signup_feat1_title:   "ฝึกเขียนทีละเส้น",
-    signup_feat1_desc:    "ตามภาพเคลื่อนไหวและฝึกเขียนแต่ละตัวอักษรพร้อมรับ feedback ทันที",
-    signup_feat2_title:   "สถิติและความก้าวหน้า",
-    signup_feat2_desc:    "ฝึกต่อเนื่องทุกวัน รับป้าย และติดตามความก้าวหน้าอยู่เสมอ",
-    signup_feat3_title:   "แฟลชการ์ด แบบทดสอบ และมินิเกม",
-    signup_feat3_desc:    "วิธีฝึกเพิ่มเติม — เร็ว ๆ นี้",
-    signup_coming_soon:   "เร็ว ๆ นี้",
-    signup_form_title:    "รับสิทธิ์เข้าใช้งานก่อนใคร",
-    signup_form_sub:      "รับการแจ้งเตือนเมื่อระบบบัญชีพร้อมใช้งาน ข้อมูลของคุณถูกเก็บอย่างปลอดภัย",
-    signup_name_label:    "ชื่อของคุณ",
-    signup_name_ph:       "เช่น สมศรี",
-    signup_email_label:   "อีเมล",
-    signup_email_ph:      "เช่น somsri@email.com",
-    signup_submit:        "ลงทะเบียน",
-    signup_submitting:    "กำลังส่ง…",
-    signup_thanks_title:  "คุณอยู่ในรายชื่อแล้ว! 🐼",
-    signup_thanks_body:   "เราจะแจ้งให้ทราบทางอีเมลเมื่อระบบบัญชีพร้อม ระหว่างนี้ลองใช้แอปในโหมดผู้เยี่ยมชมได้เลย",
-    signup_try_guest:     "ทดลองใช้แบบผู้เยี่ยมชม →",
-    signup_open_app:      "เปิดแอป →",
-    signup_privacy:       "ข้อมูลของคุณถูกเก็บอย่างปลอดภัยและไม่ถูกแชร์",
-    signup_already:       "ใช้งานแอปอยู่แล้ว?",
-    signup_go_back:       "← กลับไปยังแอป",
 
     // ── Auth / Account upgrade ────────────────────────────────
     upgrade_title:        "สร้างบัญชี",

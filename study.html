@@ -14,7 +14,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;600;700&family=Mali:wght@400;700&family=Nunito:wght@400;700;800;900&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;600;700;800&family=ZCOOL+KuaiLe&family=Nunito:wght@400;700;800&family=Mali:wght@400;600;700&display=swap" rel="stylesheet">
     
     <!-- 🎨 Universal Design System -->
     <link rel="stylesheet" href="shared/design-system.css">
@@ -155,7 +155,27 @@ function escapeHtml(s){return s.replace(/[&<>"']/g,function(c){return {'&':'&amp
 
 document.addEventListener('DOMContentLoaded',async function(){
     XHZ.requireActive();var profile=XHZ.getActiveProfile();if(!profile){location.href='index.html';return;}
-    if(profile.is_guest&&localStorage.getItem('xhz_waitlisted')!=='true')document.getElementById('guest-banner').style.display='flex';
+    // Guest banner: cross-reference Supabase auth state
+    if(window.__supabaseIsAnon !== false && profile.is_guest && localStorage.getItem('xhz_waitlisted')!=='true')document.getElementById('guest-banner').style.display='flex';
+    // Listen for auth changes to update banner and auto-repair profile
+    function refreshGuestBanner() {
+        var banner = document.getElementById('guest-banner');
+        var curProfile = XHZ.getActiveProfile();
+        if (window.__supabaseIsAnon === false) {
+            banner.style.display = 'none';
+            // Auto-repair ALL stale profiles (not just active)
+            XHZ.repairAllProfilesFromSupabase();
+        } else if (curProfile && curProfile.is_guest && !localStorage.getItem('xhz_waitlisted')) {
+            banner.style.display = 'flex';
+        }
+    }
+    if(typeof window.__supabaseOnAuth === 'function') {
+        window.__supabaseOnAuth(refreshGuestBanner);
+    }
+    // Also re-check once Supabase is fully initialized (prevents flash)
+    if (window.__supabaseReady) {
+        window.__supabaseReady.then(refreshGuestBanner);
+    }
     var unlockAudio=function(){if(window.speechSynthesis){var u=new SpeechSynthesisUtterance(' ');u.volume=0.01;u.rate=10;window.speechSynthesis.speak(u);}document.body.removeEventListener('touchstart',unlockAudio);document.body.removeEventListener('click',unlockAudio);};
     document.body.addEventListener('touchstart',unlockAudio,{passive:true});document.body.addEventListener('click',unlockAudio,{passive:true});
     

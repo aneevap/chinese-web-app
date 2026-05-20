@@ -15,231 +15,493 @@
 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;600;700;800&family=ZCOOL+KuaiLe&family=Nunito:wght@400;700;800&family=Mali:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="games/dist/assets/index.css">
 <style>
-/* ── DOJO PAGE-SPECIFIC LAYOUT ── */
+/* ── DOJO PAGE — Neo-Brutalism Board-Game Aesthetic ── */
+
+/* ── LAYOUT ── */
 #main-content { flex: 1; padding: 12px 12px 80px; }
 
 /* ── DOJO HEADER ── */
 .dojo-header {
   text-align: center;
-  padding: 20px 12px 16px;
+  padding: 24px 12px 20px;
 }
 .dojo-header h1 {
-  font-size: 1.6rem;
-  color: var(--ink-dark);
+  font-family: 'ZCOOL KuaiLe', 'Bai Jamjuree', sans-serif;
+  font-size: 2rem;
+  color: #111827;
   margin-bottom: 4px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  text-shadow: 3px 3px 0px rgba(30, 64, 175, 0.12);
 }
-.dojo-header h1 span { font-size: 1.8rem; }
+.dojo-header h1 span { font-size: 2rem; }
 .dojo-header p {
-  font-size: 0.85rem;
-  color: var(--ink-light);
+  font-size: 0.9rem;
+  color: #6B5544;
   margin: 0;
+  font-weight: 700;
 }
 
-/* ── GAME CARDS GRID ── */
+/* ── GAME CARDS — Centered flex, 2 cards max ── */
 .games-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 12px;
-  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 0 8px;
 }
 
 .game-card {
-  background: #FAFAF5;
-  border: 1px solid var(--paper-deep);
-  border-radius: var(--card-radius);
-  padding: 16px 12px;
+  background: #FAF8F5;
+  border: 3px solid #111827;
+  border-radius: 20px;
+  padding: 24px 20px 20px;
   text-align: center;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, background 0.2s;
+  transition: all 0.12s ease;
   text-decoration: none;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   position: relative;
   overflow: hidden;
-  box-shadow: var(--shadow-soft);
+  box-shadow: 5px 5px 0px 0px #111827;
+  width: 220px;
+  flex-shrink: 0;
 }
 .game-card:hover {
   transform: translateY(-3px);
-  box-shadow: var(--shadow-lifted);
-  border-color: var(--theme-color);
+  box-shadow: 5px 8px 0px 0px #111827;
 }
 .game-card:active {
-  transform: translateY(-1px);
+  transform: translateY(2px);
+  box-shadow: 1px 1px 0px 0px #111827;
+}
+
+/* Per-game color accent stripe at top */
+.game-card[data-game="sushi"]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: #FF6B35;
+  z-index: 1;
+}
+.game-card[data-game="matching"]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: #7E57C2;
+  z-index: 1;
 }
 
 .game-card-icon {
-  font-size: 2.8rem;
+  font-size: 3.2rem;
   line-height: 1;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
+  filter: drop-shadow(2px 2px 0px rgba(17, 24, 39, 0.15));
 }
 
 .game-card-title {
-  font-size: 0.95rem;
-  font-weight: bold;
-  color: var(--ink-dark);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.02em;
 }
 
 .game-card-desc {
-  font-size: 0.72rem;
-  color: var(--ink-light);
-  line-height: 1.3;
-  max-width: 140px;
+  font-size: 0.75rem;
+  color: #6B5544;
+  line-height: 1.4;
+  font-weight: 600;
+  max-width: 160px;
 }
 
 .game-card-highscore {
   margin-top: auto;
-  padding-top: 6px;
-  font-size: 0.75rem;
-  color: var(--ink-soft);
+  padding-top: 8px;
+  font-size: 0.78rem;
+  color: #6B5544;
   display: flex;
   align-items: center;
   gap: 4px;
+  font-weight: 700;
 }
 .game-card-highscore .score-value {
-  font-weight: bold;
-  color: var(--theme-color);
+  font-weight: 800;
+  color: #1E40AF;
+  font-size: 0.9rem;
 }
 
 .game-card-play {
-  margin-top: 4px;
-  background: var(--theme-color);
-  color: white;
-  border: none;
-  border-radius: var(--radius-pill);
-  padding: 6px 18px;
-  font-size: 0.78rem;
-  font-weight: bold;
+  margin-top: 6px;
+  background: #FCD34D;
+  color: #111827;
+  border: 3px solid #111827;
+  border-radius: 12px;
+  padding: 8px 22px;
+  font-size: 0.82rem;
+  font-weight: 800;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: all 0.12s ease;
+  box-shadow: 3px 3px 0px 0px #111827;
+  font-family: inherit;
 }
-.game-card-play:hover { opacity: 0.85; }
+.game-card-play:hover {
+  transform: translateY(-2px);
+  box-shadow: 3px 5px 0px 0px #111827;
+}
+.game-card-play:active {
+  transform: translateY(1px);
+  box-shadow: 0px 0px 0px 0px #111827;
+}
 
-/* Inline game container (for sushi) */
+/* Inline game container */
 #dojo-game-root {
-  background: #FAFAF5;
-  border: 1px solid var(--paper-deep);
-  border-radius: var(--card-radius);
+  background: #FAF8F5;
+  border: 3px solid #111827;
+  border-radius: 20px;
   overflow: hidden;
   margin-bottom: 12px;
   display: none;
-  box-shadow: var(--shadow-card);
+  box-shadow: 5px 5px 0px 0px #111827;
 }
 #dojo-game-root.visible { display: block; }
 
 .game-back-bar {
-  display: flex;
+  display: none;
   align-items: center;
-  padding: 8px 12px;
-  background: var(--paper-cool);
-  border-bottom: 1px solid var(--paper-deep);
+  gap: 8px;
+  padding: 10px 16px;
+  background: #FCD34D;
+  border-bottom: 3px solid #111827;
 }
 .game-back-btn {
   background: none;
-  border: none;
+  border: 3px solid #111827;
   font-size: 0.85rem;
-  color: var(--ink-soft);
+  color: #111827;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 4px 8px;
-  border-radius: 8px;
-  transition: background 0.2s;
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  transition: all 0.1s ease;
+  box-shadow: 2px 2px 0px 0px #111827;
+  font-family: inherit;
 }
-.game-back-btn:hover { background: var(--paper-deep); color: var(--ink-dark); }
+.game-back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 2px 4px 0px 0px #111827;
+  background: white;
+}
+.game-back-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0px 0px 0px 0px #111827;
+}
 
-/* ── HALL OF FAME ── */
+/* ── HALL OF FAME — Neo-Brutalism Board ── */
 .hall {
-  background: #FAFAF5;
-  border-radius: var(--card-radius);
-  border: 1px solid var(--paper-deep);
-  padding: 16px;
-  box-shadow: var(--shadow-card);
+  background: #FAF8F5;
+  border-radius: 20px;
+  border: 4px solid #111827;
+  padding: 24px;
+  box-shadow: 8px 8px 0px 0px #111827;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
 }
+
+/* Decorative corner brackets */
+.hall::before,
+.hall::after {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 3px solid #FCD34D;
+  opacity: 0.5;
+  border-radius: 4px;
+  pointer-events: none;
+}
+.hall::before {
+  top: 8px;
+  left: 8px;
+  border-right: none;
+  border-bottom: none;
+}
+.hall::after {
+  bottom: 8px;
+  right: 8px;
+  border-left: none;
+  border-top: none;
+}
+
 .hall-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
+  justify-content: center;
+  margin-bottom: 20px;
+  position: relative;
 }
 .hall-header h2 {
-  font-size: 1rem;
-  color: var(--ink-dark);
+  font-family: 'ZCOOL KuaiLe', 'Bai Jamjuree', sans-serif;
+  font-size: 1.35rem;
+  color: #111827;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  text-shadow: 2px 2px 0px rgba(30, 64, 175, 0.1);
 }
-.hall-header h2 span { font-size: 1.2rem; }
+.hall-header h2 span { font-size: 1.6rem; }
 
-.hall-list { display: grid; gap: 8px; }
+/* Decorative line under header */
+.hall-header::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 20%;
+  right: 20%;
+  height: 3px;
+  background: #111827;
+  border-radius: 2px;
+}
 
+.hall-list { display: grid; gap: 10px; }
+
+/* ---- Achievement Card ---- */
 .hall-item {
   display: grid;
-  grid-template-columns: 34px 1fr auto;
+  grid-template-columns: 48px 38px 1fr auto;
   align-items: center;
-  gap: 8px;
-  border: 1px solid var(--paper-deep);
-  border-radius: 10px;
-  padding: 8px 10px;
-  transition: border-color 0.2s;
+  gap: 10px;
+  border-radius: 14px;
+  padding: 10px 14px;
+  background: #FAF8F5;
+  border: 3px solid #111827;
+  box-shadow: 3px 3px 0px 0px #111827;
+  transition: all 0.12s ease;
+  position: relative;
+  overflow: hidden;
+  animation: hallEntry 0.5s ease both;
 }
-.hall-item:hover { border-color: var(--botes-ochre); }
+.hall-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 3px 5px 0px 0px #111827;
+}
+.hall-item:active {
+  transform: translateY(1px);
+  box-shadow: 1px 1px 0px 0px #111827;
+}
 
+@keyframes hallEntry {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ---- Podium styling for top 3 (achievement cards) ---- */
+.hall-item.podium {
+  padding: 14px 18px;
+}
+.hall-item.podium-1 {
+  background: linear-gradient(135deg, #FFF9E6, #FFF3CC);
+  border-color: #E6B800;
+  box-shadow: 4px 4px 0px 0px #111827;
+}
+.hall-item.podium-2 {
+  background: linear-gradient(135deg, #F0F2F5, #E4E7EB);
+  border-color: #9CA3AF;
+  box-shadow: 4px 4px 0px 0px #111827;
+}
+.hall-item.podium-3 {
+  background: linear-gradient(135deg, #FDF0E6, #FCE4D4);
+  border-color: #CD8D5E;
+  box-shadow: 4px 4px 0px 0px #111827;
+}
+
+/* Thick accent stripe on left for podium */
+.hall-item.podium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 100%;
+}
+.hall-item.podium-1::before { background: linear-gradient(180deg, #FFD700, #E6B800); }
+.hall-item.podium-2::before { background: linear-gradient(180deg, #CDD5E0, #9CA3AF); }
+.hall-item.podium-3::before { background: linear-gradient(180deg, #E8A86A, #CD8D5E); }
+
+/* Rank badge — metallic medal with 3px border */
 .hall-rank {
-  font-size: 0.75rem;
-  font-weight: bold;
-  color: var(--ink-light);
-  text-align: center;
-  width: 24px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 900;
+  background: #E5E7EB;
+  color: #9CA3AF;
+  flex-shrink: 0;
+  border: 3px solid #111827;
+  box-shadow: 2px 2px 0px 0px #111827;
 }
-.hall-rank.gold { color: #ffd700; }
-.hall-rank.silver { color: #b0bec5; }
-.hall-rank.bronze { color: #cd7f32; }
+.hall-rank.gold {
+  background: linear-gradient(135deg, #FFD700, #E6B800);
+  color: #fff;
+  border-color: #111827;
+  box-shadow: 2px 2px 0px 0px #111827;
+  text-shadow: 1px 1px 0px rgba(0,0,0,0.2);
+}
+.hall-rank.silver {
+  background: linear-gradient(135deg, #D0D8E0, #B0B8C4);
+  color: #fff;
+  border-color: #111827;
+  box-shadow: 2px 2px 0px 0px #111827;
+  text-shadow: 1px 1px 0px rgba(0,0,0,0.15);
+}
+.hall-rank.bronze {
+  background: linear-gradient(135deg, #E8A86A, #CD8D5E);
+  color: #fff;
+  border-color: #111827;
+  box-shadow: 2px 2px 0px 0px #111827;
+  text-shadow: 1px 1px 0px rgba(0,0,0,0.15);
+}
 
-.hall-avatar { font-size: 1.4rem; text-align: center; }
+.hall-item.podium .hall-rank {
+  width: 50px;
+  height: 50px;
+  font-size: 1.4rem;
+}
 
-.hall-meta { line-height: 1.3; min-width: 0; }
-.hall-meta .hall-game-icon { font-size: 0.8rem; margin-right: 3px; }
-.hall-meta b { display: block; font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink-dark); }
+/* Avatar */
+.hall-avatar {
+  font-size: 1.6rem;
+  text-align: center;
+  flex-shrink: 0;
+  filter: drop-shadow(1px 1px 0px rgba(17, 24, 39, 0.15));
+}
+.hall-item.podium .hall-avatar {
+  font-size: 2rem;
+}
+
+/* Meta info */
+.hall-meta {
+  line-height: 1.4;
+  min-width: 0;
+}
+.hall-meta .hall-game-icon {
+  font-size: 0.9rem;
+  margin-right: 4px;
+  display: inline-block;
+}
+.hall-meta .hall-name {
+  display: block;
+  font-size: 0.92rem;
+  font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #111827;
+}
+.hall-meta .hall-game-label {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #fff;
+  background: #111827;
+  padding: 2px 10px;
+  border-radius: 8px;
+  margin-right: 4px;
+  letter-spacing: 0.03em;
+  border: 2px solid #111827;
+}
 .hall-meta .hall-sub {
   font-size: 0.72rem;
-  color: var(--ink-light);
+  color: #6B5544;
+  margin-top: 2px;
+  font-weight: 700;
 }
 
+/* Score display */
 .hall-score {
-  font-size: 0.82rem;
-  color: var(--ink-soft);
   text-align: right;
   white-space: nowrap;
+  flex-shrink: 0;
 }
-.hall-score .score-stars { color: #ffd700; }
+.hall-score .score-stars {
+  font-size: 0.88rem;
+  color: #1E40AF;
+  font-weight: 900;
+}
+.hall-score .score-points {
+  display: block;
+  font-size: 0.75rem;
+  color: #6B5544;
+  font-weight: 700;
+  margin-top: 1px;
+}
+.hall-score .score-points b {
+  font-size: 0.9rem;
+  color: #F43F5E;
+}
 
+/* Empty state */
 .hall-empty {
-  color: var(--ink-light);
+  color: #9CA3AF;
   font-size: 0.9rem;
   text-align: center;
-  padding: 20px 0;
-  line-height: 1.5;
+  padding: 30px 0;
+  line-height: 1.6;
+  font-weight: 700;
 }
+
+/* Game icon badges set by JS */
+.hall-item[data-game="sushi"] .hall-game-label { background: #FF6B35; border-color: #111827; color: #fff; }
+.hall-item[data-game="matching"] .hall-game-label { background: #1E40AF; border-color: #111827; color: #fff; }
+
 
 /* ── RESPONSIVE ── */
-@media (max-width: 480px) {
+@media (max-width: 520px) {
   .games-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
   }
-  .game-card { padding: 12px 8px; }
-  .game-card-icon { font-size: 2.2rem; }
-  .game-card-title { font-size: 0.85rem; }
-  .game-card-desc { font-size: 0.68rem; }
-}
-
-@media (min-width: 768px) {
-  .games-grid {
-    grid-template-columns: repeat(4, 1fr);
+  .game-card {
+    width: 100%;
+    max-width: 280px;
+    padding: 20px 16px;
   }
+  .game-card-icon { font-size: 2.6rem; }
+  .game-card-title { font-size: 0.95rem; }
+  .game-card-desc { font-size: 0.72rem; }
+  
+  .hall { padding: 16px; box-shadow: 6px 6px 0px 0px #111827; }
+  .hall-item { grid-template-columns: 36px 30px 1fr auto; gap: 8px; padding: 8px 10px; }
+  .hall-rank { width: 34px; height: 34px; font-size: 0.9rem; }
+  .hall-item.podium .hall-rank { width: 42px; height: 42px; font-size: 1.2rem; }
+  .hall-avatar { font-size: 1.3rem; }
+  .hall-meta .hall-name { font-size: 0.82rem; }
 }
 </style>
 </head>
@@ -267,7 +529,6 @@
       <section class="hall">
         <div class="hall-header">
           <h2><span>🏆</span> Hall of Fame</h2>
-          <button onclick="testHallOfFame()" style="background:#e63946;color:white;border:none;border-radius:8px;padding:4px 10px;font-size:11px;cursor:pointer;">Test Add Score</button>
         </div>
 
         <div id="hall-list" class="hall-list"></div>
@@ -276,7 +537,7 @@
     </main>
   </div>
 
-  <script type="module" src="games/dist/assets/game.js?v=5"></script>
+  <script type="module" src="games/dist/assets/game.js?v=24"></script>
 
   <script>
     /* =====================================================
@@ -295,30 +556,13 @@
       {
         id: 'matching',
         icon: '🔤',
-        title: 'Matching Game',
-        desc: 'Match Chinese characters with their pinyin and meanings.',
+        title: 'Grid Buster',
+        desc: 'Tap matching character-meaning pairs to clear the grid!',
         color: '#7E57C2',
-        inline: false,
+        inline: true,
         route: null
       },
-      {
-        id: 'write',
-        icon: '✍️',
-        title: 'Write Practice',
-        desc: 'Practice writing Chinese characters stroke by stroke.',
-        color: '#43A047',
-        inline: false,
-        route: 'write.html'
-      },
-      {
-        id: 'study',
-        icon: '📖',
-        title: 'Study Cards',
-        desc: 'Review flashcards with characters, pinyin and meanings.',
-        color: '#00ACC1',
-        inline: false,
-        route: 'study.html'
-      }
+
     ];
 
     /* =====================================================
@@ -333,6 +577,7 @@
         card.className = 'game-card';
         card.href = game.inline ? 'javascript:void(0)' : (game.route || '#');
         card.style.setProperty('--theme-color', game.color);
+        card.setAttribute('data-game', game.id);
 
         // Get high score for this game
         var highScore = getGameHighScore(game.id);
@@ -376,14 +621,16 @@
         }
       });
 
-      // Also check the dojo hall of fame for this game
+      // Also check the dojo hall of fame — iterate ALL entries to find the highest score
       try {
         var hof = JSON.parse(localStorage.getItem('xhz_dojo_hall_of_fame') || '[]');
-        var myEntry = hof.find(function(e) {
-          return e.profileId === profile.id && e.gameId === gameId;
-        });
-        if (myEntry && (best === null || myEntry.bestScore > best)) {
-          best = myEntry.bestScore;
+        for (var j = 0; j < hof.length; j++) {
+          var e = hof[j];
+          if (e.profileId === profile.id && e.gameId === gameId) {
+            if (best === null || e.bestScore > best) {
+              best = e.bestScore;
+            }
+          }
         }
       } catch(_) {}
 
@@ -467,23 +714,45 @@
         var icon = gameIconMap[gid] || '🎮';
         var rank = i + 1;
 
+        var itemClass = 'hall-item';
         var rankClass = 'hall-rank';
         var rankLabel = '#' + rank;
-        if (rank === 1) { rankClass += ' gold'; rankLabel = '🥇'; }
-        else if (rank === 2) { rankClass += ' silver'; rankLabel = '🥈'; }
-        else if (rank === 3) { rankClass += ' bronze'; rankLabel = '🥉'; }
+
+        if (rank === 1) {
+          itemClass += ' podium podium-1';
+          rankClass += ' gold';
+          rankLabel = '🥇';
+        } else if (rank === 2) {
+          itemClass += ' podium podium-2';
+          rankClass += ' silver';
+          rankLabel = '🥈';
+        } else if (rank === 3) {
+          itemClass += ' podium podium-3';
+          rankClass += ' bronze';
+          rankLabel = '🥉';
+        }
+
+        // Stagger animation delay
+        var animDelay = (i * 0.06) + 's';
+
+        // Game display name
+        var gameNames = { sushi: 'Sushi', matching: 'Match' };
+        var gameLabel = gameNames[gid] || gid;
 
         html +=
-          '<div class="hall-item">' +
+          '<div class="' + itemClass + '" data-game="' + gid + '" style="animation-delay:' + animDelay + '">' +
             '<div class="' + rankClass + '">' + rankLabel + '</div>' +
             '<div class="hall-avatar">' + (entry.avatar || '🐼') + '</div>' +
             '<div class="hall-meta">' +
-              '<b><span class="hall-game-icon">' + icon + '</span>' + escapeHtml(entry.nickname) + '</b>' +
-              '<div class="hall-sub">Stage ' + entry.bestStage + ' · ' + formatDate(entry.updatedAt) + '</div>' +
+              '<span class="hall-name"><span class="hall-game-icon">' + icon + '</span>' + escapeHtml(entry.nickname) + '</span>' +
+              '<div class="hall-sub">' +
+                '<span class="hall-game-label">' + gameLabel + '</span>' +
+                'Stage ' + entry.bestStage + ' · ' + formatDate(entry.updatedAt) +
+              '</div>' +
             '</div>' +
             '<div class="hall-score">' +
-              '<span class="score-stars">' + entry.bestStars + '⭐</span><br>' +
-              'Score ' + entry.bestScore +
+              '<span class="score-stars">' + entry.bestStars + ' ⭐</span>' +
+              '<span class="score-points">Score <b>' + entry.bestScore + '</b></span>' +
             '</div>' +
           '</div>';
       }
@@ -503,35 +772,7 @@
         .replace(/"/g, '"');
     }
 
-    /* =====================================================
-       TEST HALL OF FAME — Adds a dummy score for testing
-    ===================================================== */
-    function testHallOfFame() {
-      var profile = XHZ.getActiveProfile();
-      if (!profile) {
-        alert('No active profile found!');
-        return;
-      }
-      var entries = [];
-      try {
-        entries = JSON.parse(localStorage.getItem('xhz_dojo_hall_of_fame') || '[]');
-      } catch(_) {}
-      // Always push a new test entry (don't overwrite old ones)
-      var testEntry = {
-        profileId: profile.id,
-        gameId: 'sushi',
-        nickname: profile.nickname,
-        avatar: profile.avatar,
-        bestStars: Math.floor(Math.random() * 10) + 1,
-        bestScore: Math.floor(Math.random() * 50) + 10,
-        bestStage: Math.floor(Math.random() * 5) + 1,
-        updatedAt: Date.now()
-      };
-      entries.push(testEntry);
-      localStorage.setItem('xhz_dojo_hall_of_fame', JSON.stringify(entries));
-      console.log('[Dojo] Test entry saved:', JSON.stringify(testEntry));
-      renderHallOfFame();
-    }
+
 
 
     /* =====================================================
@@ -540,7 +781,7 @@
     document.addEventListener('DOMContentLoaded', function() {
 
       XHZ.requireActive();
-      initNav('study');
+      initNav('dojo');
       renderGameCards();
       renderHallOfFame();
 
@@ -549,7 +790,10 @@
         window.dispatchEvent(new CustomEvent('xhz:lang-changed'));
       });
 
-      window.addEventListener('xhz:dojo-hof-updated', renderHallOfFame);
+      window.addEventListener('xhz:dojo-hof-updated', function() {
+        renderHallOfFame();
+        renderGameCards();
+      });
     });
   </script>
 </body>

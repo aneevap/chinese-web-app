@@ -3,7 +3,9 @@ import { useGameDispatch, useGameState } from '../../core/state/gameState';
 import type { CustomerOrder, DisplayLanguage, VocabItem } from '../../core/types';
 import { speakChinese } from '../../core/systems/audio';
 import { addStudyStars, getActiveProfile } from '../../profile/profileBridge';
-import { saveSessionResult } from '../../core/systems/hallOfFame';
+import type { CourseMeta } from '../../data/vocab';
+import { saveSessionResult, getLeaderboard, getPersonalBest } from '../../core/systems/hallOfFame';
+import type { HallOfFameEntry } from '../../core/types';
 import { getSpawnInterval } from '../../core/systems/scoring';
 
 const MAX_CUSTOMERS = 3;
@@ -13,11 +15,28 @@ const BELT_ITEMS_COUNT = 12;
 const FIRST_SPAWN_DELAY = 3000; // 3 seconds for first customer
 const MAX_WORD_APPEARANCES = 2; // Max times a word can appear per session
 
+
+
+function buildShuffledDeck<T>(items: T[], copies: number): T[] {
+  // Per-round shuffle: each "round" contains every item exactly once.
+  // This guarantees every word appears in the first `items.length` customers.
+  const deck: T[] = [];
+  for (let c = 0; c < copies; c++) {
+    const round = [...items];
+    for (let i = round.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [round[i], round[j]] = [round[j], round[i]];
+    }
+    deck.push(...round);
+  }
+  return deck;
+}
+
 const rid = () => Math.random().toString(36).slice(2, 9);
-const pick = <T,>(arr: T[]) => arr[Math.floor(Math.random() * arr.length)];
 
 type Props = {
   words: VocabItem[];
+  courseThemes: Record<string, CourseMeta>;
   language: DisplayLanguage;
 };
 
@@ -26,6 +45,7 @@ type CustomerAnimPhase = 'entering' | 'seated' | 'exiting' | 'exiting-wrong';
 
 interface CustomerWithAnim extends CustomerOrder {
   animPhase: CustomerAnimPhase;
+  slotIndex: number;
 }
 
 // 🎊 Confetti particles
@@ -50,7 +70,7 @@ interface CoinAnim {
   value: number;
 }
 
-export function SushiMode({ words, language }: Props) {
+export function SushiMode({ words, courseThemes, language }: Props) {
   const state = useGameState();
   const dispatch = useGameDispatch();
   const [selectedWordId, setSelectedWordId] = useState<string | null>(null);
@@ -71,8 +91,26 @@ export function SushiMode({ words, language }: Props) {
   const [correctCustomerId, setCorrectCustomerId] = useState<string | null>(null);
   const [shakeEffect, setShakeEffect] = useState(false);
   const [scorePopup, setScorePopup] = useState<{ value: number; x: number; y: number } | null>(null);
-  // Word frequency tracking: map wordId -> count of appearances this session
-  const [wordUsageCount, setWordUsageCount] = useState<Map<string, number>>(new Map());
+  // Which course the user selected on the start screen
+  const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
+  // Which themes within the course the user selected (empty = all themes)
+  const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
+  // Compute words filtered by selected course (and optionally themes)
+  const activeWords = useMemo(() => {
+    if (!selectedCourse) return words;
+    const byCourse = words.filter(w => w.course === selectedCourse);
+    if (selectedThemes.length === 0) return byCourse;
+    return byCourse.filter(w => selectedThemes.includes(w.category));
+  }, [words, selectedCourse, selectedThemes]);
+  // Themes available for the selected course
+  const metaForCourse = selectedCourse ? courseThemes[selectedCourse] : null;
+  const themesForCourse = metaForCourse?.themes || [];
+  // Shuffled deck of words for customer orders (guarantees maximum variety)
+  const wordDeckRef = useRef<VocabItem[]>([]);
+  // Leaderboard state for result screen
+  const [leaderboard, setLeaderboard] = useState<{ rank: number; top: HallOfFameEntry[] } | null>(null);
+  // Personal best score for this profile
+  const [personalBest, setPersonalBest] = useState<number>(0);
 
   const belt = useMemo(() => [...beltItems], [beltItems]);
   const selectedWord = words.find((word) => word.id === selectedWordId) || null;
@@ -80,6 +118,8 @@ export function SushiMode({ words, language }: Props) {
   const confettiRef = useRef<number>(0);
   const lastTickRef = useRef<number>(Date.now());
   const accumulatedTimeRef = useRef<number>(0);
+  // Ref to track whether the current game session has been saved to Hall of Fame
+  const sessionSavedRef = useRef(false);
 
   // 🎊 Spawn confetti
   const spawnConfetti = useCallback((centerX: number, centerY: number) => {
@@ -191,7 +231,7 @@ export function SushiMode({ words, language }: Props) {
     }
   }, []);
 
-  // ✅ FIXED: Real-time clock using Date.now() delta
+  // ✅ Real-time clock using Date.now() delta
   useEffect(() => {
     if (!gameStarted || ended || showStartScreen || countdown > 0) return;
     
@@ -209,49 +249,81 @@ export function SushiMode({ words, language }: Props) {
         accumulatedTimeRef.current -= 1000;
         dispatch({ type: 'TICK' });
       }
-    }, 100); // Check every 100ms for accuracy
+    }, 100);
     
     return () => clearInterval(timer);
   }, [dispatch, gameStarted, ended, showStartScreen, countdown]);
 
-  // Helper to create a new customer with entrance animation
-  const createCustomer = useCallback((wordPool: VocabItem[]): CustomerWithAnim => {
-    return { id: rid(), target: pick(wordPool), attempts: 0, animPhase: 'entering' };
-  }, []);
+  // ✅ Save result to Hall of Fame when the game ends
+  useEffect(() => {
+    if (state.secondsLeft <= 0 && !ended && !sessionSavedRef.current) {
+      sessionSavedRef.current = true;
+      const profile = getActiveProfile();
+      if (!profile) return;
+      const now = Date.now();
+      saveSessionResult({
+        profileId: profile.id,
+        gameId: 'sushi',
+        nickname: profile.nickname,
+        avatar: profile.avatar,
+        bestStars: state.stars,
+        bestScore: state.score,
+        bestStage: state.stage,
+        updatedAt: now,
+      });
+      // Load leaderboard for result screen
+      const allEntries = getLeaderboard();
+      const entryIdx = allEntries.findIndex(e => e.updatedAt === now);
+      const rank = entryIdx >= 0 ? entryIdx + 1 : allEntries.length;
+      setLeaderboard({
+        rank,
+        top: allEntries.slice(0, 5),
+      });
+      setEnded(true);
+    }
+  }, [state.secondsLeft, ended, state.score, state.stars, state.stage]);
 
-  // Handle animation end for a customer (entering -> seated)
+  // Handle animation end for a customer:
+  //   entering -> seated
+  //   exiting/exiting-wrong -> remove from DOM
   const handleAnimEnd = useCallback((customerId: string) => {
-    setCustomers(prev => prev.map(c =>
-      c.id === customerId && c.animPhase === 'entering' ? { ...c, animPhase: 'seated' } : c
-    ));
+    setCustomers(prev => {
+      const customer = prev.find(c => c.id === customerId);
+      if (!customer) return prev;
+      if (customer.animPhase === 'entering') {
+        return prev.map(c => c.id === customerId ? { ...c, animPhase: 'seated' } : c);
+      }
+      if (customer.animPhase === 'exiting' || customer.animPhase === 'exiting-wrong') {
+        return prev.filter(c => c.id !== customerId);
+      }
+      return prev;
+    });
   }, []);
 
-  // ✅ FIXED: First customer spawns after exactly 3 seconds
+  // ✅ First customer spawns after exactly 3 seconds
   useEffect(() => {
     if (!gameStarted || ended || showStartScreen || countdown > 0 || firstSpawned) return;
     
     const firstSpawnTimer = setTimeout(() => {
       setFirstSpawned(true);
       setSpawnTick(SPAWN_SECONDS);
-      if (beltItems.length > 0) {
-        const newCustomer = createCustomer(beltItems);
-        setWordUsageCount(prevMap => {
-          const next = new Map(prevMap);
-          next.set(newCustomer.target.id, (next.get(newCustomer.target.id) || 0) + 1);
-          return next;
-        });
+      // Draw from deck and find free slot
+      const card = wordDeckRef.current.shift();
+      if (card) {
         setCustomers(prev => {
-          if (prev.length >= MAX_CUSTOMERS) return prev;
-          return [...prev, newCustomer];
+          const usedSlots = new Set(prev.map(c => c.slotIndex));
+          const freeSlot = [0, 1, 2].find(i => !usedSlots.has(i));
+          if (freeSlot === undefined || prev.length >= MAX_CUSTOMERS) return prev;
+          return [...prev, { id: rid(), target: card, attempts: 0, animPhase: 'entering', slotIndex: freeSlot }];
         });
       }
     }, FIRST_SPAWN_DELAY);
     
     return () => clearTimeout(firstSpawnTimer);
-  }, [gameStarted, ended, showStartScreen, countdown, firstSpawned, beltItems, createCustomer]);
+  }, [gameStarted, ended, showStartScreen, countdown, firstSpawned, beltItems]);
 
 
-  // ✅ FIXED: Customer spawn timer - uses Date.now() delta, stage-based interval
+  // ✅ Customer spawn timer - stage-based interval
   useEffect(() => {
     if (!gameStarted || ended || showStartScreen || countdown > 0 || !firstSpawned) return;
     
@@ -260,26 +332,16 @@ export function SushiMode({ words, language }: Props) {
     const timer = setInterval(() => {
       setSpawnTick(prev => {
         if (prev <= 1) {
-          // Time to spawn new customer
-          setCustomers(c => {
-            if (c.length >= MAX_CUSTOMERS || beltItems.length === 0) return c;
-            // Pick a word that hasn't been used too many times
-            const availableWords = beltItems.filter(w => {
-              const count = wordUsageCount.get(w.id) || 0;
-              return count < MAX_WORD_APPEARANCES;
+          // Time to spawn new customer — draw from shuffled deck
+          const card = wordDeckRef.current.shift();
+          if (card) {
+            setCustomers(c => {
+              const usedSlots = new Set(c.map(cust => cust.slotIndex));
+              const freeSlot = [0, 1, 2].find(i => !usedSlots.has(i));
+              if (freeSlot === undefined || c.length >= MAX_CUSTOMERS) return c;
+              return [...c, { id: rid(), target: card, attempts: 0, animPhase: 'entering', slotIndex: freeSlot }];
             });
-            const pool = availableWords.length > 0 ? availableWords : beltItems;
-            const newCustomer: CustomerWithAnim = { id: rid(), target: pick(pool), attempts: 0, animPhase: 'entering' };
-            // Track word usage
-            setWordUsageCount(prevMap => {
-              const next = new Map(prevMap);
-              next.set(newCustomer.target.id, (next.get(newCustomer.target.id) || 0) + 1);
-              return next;
-            });
-            // Entrance animation handled by onAnimationEnd on the customer-slot div
-            return [...c, newCustomer];
-
-          });
+          }
           return currentInterval;
         }
         return prev - 1;
@@ -287,10 +349,29 @@ export function SushiMode({ words, language }: Props) {
     }, 1000);
     
     return () => clearInterval(timer);
-  }, [gameStarted, ended, beltItems, showStartScreen, countdown, firstSpawned, wordUsageCount, state.stage]);
+  }, [gameStarted, ended, showStartScreen, countdown, firstSpawned, state.stage]);
+
+  // Load personal best from hall of fame on mount
+  useEffect(() => {
+    const profile = getActiveProfile();
+    if (profile) {
+      setPersonalBest(getPersonalBest(profile.id, 'sushi'));
+    }
+  }, []);
+
+  // After game ends, update personal best if current score is higher
+  useEffect(() => {
+    if (ended) {
+      const profile = getActiveProfile();
+      if (profile) {
+        const allTimeBest = getPersonalBest(profile.id, 'sushi');
+        setPersonalBest(allTimeBest);
+      }
+    }
+  }, [ended]);
 
   useEffect(() => {
-    if (words.length > 0 && !showStartScreen && countdown === 0) {
+    if (activeWords.length > 0 && !showStartScreen && countdown === 0) {
       // Prioritize learned words for belt items
       const profile = getActiveProfile();
       let learnedWordIds: Set<string> = new Set();
@@ -309,38 +390,19 @@ export function SushiMode({ words, language }: Props) {
       }
       
       // Sort: learned words first, then shuffle within each group
-      const learned = words.filter(w => learnedWordIds.has(w.id));
-      const unlearned = words.filter(w => !learnedWordIds.has(w.id));
+      const learned = activeWords.filter(w => learnedWordIds.has(w.id));
+      const unlearned = activeWords.filter(w => !learnedWordIds.has(w.id));
       const shuffledLearned = [...learned].sort(() => Math.random() - 0.5);
       const shuffledUnlearned = [...unlearned].sort(() => Math.random() - 0.5);
       const combined = [...shuffledLearned, ...shuffledUnlearned];
       
-      setBeltItems(combined.slice(0, BELT_ITEMS_COUNT));
-      setWordUsageCount(new Map());
+      const selected = combined.slice(0, BELT_ITEMS_COUNT);
+      setBeltItems(selected);
+      wordDeckRef.current = buildShuffledDeck(selected, MAX_WORD_APPEARANCES);
     }
-  }, [words, showStartScreen, countdown]);
+  }, [activeWords, showStartScreen, countdown]);
 
-  useEffect(() => {
-    console.log('[SushiMode] save effect check - secondsLeft:', state.secondsLeft, 'ended:', ended, 'score:', state.score, 'stars:', state.stars, 'stage:', state.stage);
-    if (state.secondsLeft <= 0 && !ended) {
-      console.log('[SushiMode] Game ended! Saving result...');
-      setEnded(true);
-      const profile = getActiveProfile();
-      console.log('[SushiMode] Active profile:', profile ? JSON.stringify({id: profile.id, nickname: profile.nickname}) : 'null');
-      if (profile) {
-      saveSessionResult({
-          profileId: profile.id,
-          gameId: 'sushi',
-          nickname: profile.nickname,
-          avatar: profile.avatar,
-          bestStars: state.stars,
-          bestScore: state.score,
-          bestStage: state.stage,
-          updatedAt: Date.now(),
-        });
-      }
-    }
-  }, [ended, state.score, state.secondsLeft, state.stage, state.stars]);
+
 
   // 🎊 Confetti animation loop
   useEffect(() => {
@@ -435,15 +497,10 @@ export function SushiMode({ words, language }: Props) {
       // Clear selected plate after successful delivery
       setSelectedWordId(null);
       
-      // Start exit animation for correct answer
+      // Start exit animation for correct answer (removed via onAnimationEnd)
       setCustomers((prev) => prev.map(c => 
         c.id === customerId ? { ...c, animPhase: 'exiting' } : c
       ));
-      
-      // Remove after animation completes
-      setTimeout(() => {
-        setCustomers((prev) => prev.filter(c => c.id !== customerId));
-      }, 600);
       
       return;
     }
@@ -454,14 +511,10 @@ export function SushiMode({ words, language }: Props) {
     
     if (attempts >= 3) {
       setResolvedCount((count) => count + 1);
-      // Start exit animation for wrong answer (sad slouch)
+      // Start exit animation for wrong answer (sad slouch) — removed via onAnimationEnd
       setCustomers((prev) => prev.map(c => 
         c.id === customerId ? { ...c, animPhase: 'exiting-wrong' } : c
       ));
-      // Remove after animation completes
-      setTimeout(() => {
-        setCustomers((prev) => prev.filter(c => c.id !== customerId));
-      }, 700);
       return;
     }
     
@@ -472,6 +525,7 @@ export function SushiMode({ words, language }: Props) {
 
   // Handle start button click
   const handleStartClick = () => {
+    if (!selectedCourse) return;
     setShowStartScreen(false);
     const countdownInterval = setInterval(() => {
       setCountdown((prev) => {
@@ -504,7 +558,10 @@ export function SushiMode({ words, language }: Props) {
     setScorePopup(null);
     setShowStartScreen(true);
     setCountdown(3);
-    setWordUsageCount(new Map());
+    setLeaderboard(null);
+    setSelectedCourse(null);
+    setSelectedThemes([]);
+    sessionSavedRef.current = false;
   };
 
   // 🖱️ Drag & Drop handlers
@@ -587,14 +644,87 @@ export function SushiMode({ words, language }: Props) {
 
       {/* Start Screen Overlay */}
       {showStartScreen && (
-        <div className="overlay">
-          <div className="start-screen">
+        <div className="overlay">            <div className="start-screen matching-start">
             <div className="start-sushi-icon">🍣</div>
             <h2>Sushi Match</h2>
             <p>Drag the correct sushi plate to the waiting customer!</p>
-            <button className="start-button" onClick={handleStartClick}>
+
+            {/* Course selection */}
+            <div className="selection-section">
+              <div className="section-label">Select Course</div>
+              <div className="course-list">
+                {Array.from(new Set(words.map(w => w.course))).map(courseId => {
+                  const meta = courseThemes[courseId];
+                  const active = selectedCourse === courseId;
+                  return (
+                    <button
+                      key={courseId}
+                      className={`course-btn${active ? ' active' : ''}`}
+                      onClick={() => {
+                        setSelectedCourse(courseId);
+                        setSelectedThemes([]);
+                      }}
+                    >
+                      <span>{meta?.name || courseId}</span>
+                      <span className="course-count">
+                        {words.filter(w => w.course === courseId).length} words
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Theme selection (multi-select) */}
+            {selectedCourse && themesForCourse.length > 0 && (
+              <div className="selection-section">
+                <div className="section-label">Pick Themes</div>
+                <div className="theme-list">
+                  <button
+                    className={`theme-chip${selectedThemes.length === 0 ? ' active' : ''}`}
+                    onClick={() => setSelectedThemes([])}
+                  >
+                    🌐 All
+                  </button>
+                  {themesForCourse.map(theme => {
+                    const selected = selectedThemes.includes(theme.id);
+                    return (
+                      <button
+                        key={theme.id}
+                        className={`theme-chip${selected ? ' active' : ''}`}
+                        onClick={() => {
+                          setSelectedThemes(prev =>
+                            prev.includes(theme.id)
+                              ? prev.filter(t => t !== theme.id)
+                              : [...prev, theme.id]
+                          );
+                        }}
+                      >
+                        {theme.emoji} {theme.name}
+                      </button>
+                    );
+                  })}
+                </div>
+                <div className="theme-count">
+                  {selectedThemes.length === 0
+                    ? `All themes — ${activeWords.length} words`
+                    : `${selectedThemes.length} theme${selectedThemes.length > 1 ? 's' : ''} — ${activeWords.length} words`}
+                </div>
+              </div>
+            )}
+
+            <button
+              className="start-button"
+              onClick={handleStartClick}
+              disabled={!selectedCourse}
+            >
               Start Playing
             </button>
+            {!selectedCourse && (
+              <div className="hint-text">
+                Select a course above to begin
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -619,6 +749,10 @@ export function SushiMode({ words, language }: Props) {
           <span className="hud-icon">💰</span>
           <span className="hud-value">{state.score}</span>
         </div>
+          <div className="hud-item personal-best">
+            <span className="hud-icon">👑</span>
+            <span className="hud-value">{personalBest > 0 ? personalBest : '-'}</span>
+          </div>
         <div className="hud-item">
           <span className="hud-icon">🔥</span>
           <span className="hud-value">{state.combo}x</span>
@@ -641,12 +775,12 @@ export function SushiMode({ words, language }: Props) {
             <div className="door-label">ENTRANCE</div>
           </div>
 
-          {/* Customer Slots */}
+          {/* Customer Slots — slotIndex-based so positions never shift */}
           <div className="customer-row">
             {Array.from({ length: MAX_CUSTOMERS }).map((_, index) => {
-              const customer = customers[index];
+              const customer = customers.find(c => c.slotIndex === index);
               if (!customer) return (
-                <div key={index} className="customer-slot empty">
+                <div key={index} className="customer-slot empty" data-slot={index}>
                   <div className="empty-customer-icon">🪑</div>
                   <div className="empty-customer-text">Waiting...</div>
                 </div>
@@ -657,6 +791,7 @@ export function SushiMode({ words, language }: Props) {
                 <div
                   key={customer.id}
                   id={`customer-${customer.id}`}
+                  data-slot={customer.slotIndex}
                   className={`customer-slot ${animClass} ${dragOverCustomer === customer.id ? 'drag-over' : ''} ${isCorrectEffect ? 'correct-flash' : ''}`}
                   onDragOver={(e) => handleDragOver(e, customer.id)}
                   onDragLeave={handleDragLeave}
@@ -752,7 +887,7 @@ export function SushiMode({ words, language }: Props) {
       {/* Result Screen */}
       {ended && (
         <div className="overlay">
-          <div className="result-card">
+          <div className="result-card" style={{ maxHeight: '90vh', overflowY: 'auto' }}>
             <div className="result-icon">🏆</div>
             <h2>Round Complete!</h2>
             <div className="result-stats">
@@ -777,6 +912,36 @@ export function SushiMode({ words, language }: Props) {
                 <span className="result-stat-value">{state.combo}x</span>
               </div>
             </div>
+
+            {/* Leaderboard preview */}
+            {leaderboard && leaderboard.top.length > 0 && (
+              <div className="leaderboard-divider">
+                <div className="leaderboard-title">🏆 Leaderboard</div>
+                <div className="leaderboard-list">
+                  {leaderboard.top.map((entry, i) => {
+                    const rank = i + 1;
+                    const isYou = entry.profileId === getActiveProfile()?.id && entry.gameId === 'sushi';
+                    let rankEmoji = '#' + rank;
+                    if (rank === 1) rankEmoji = '🥇';
+                    else if (rank === 2) rankEmoji = '🥈';
+                    else if (rank === 3) rankEmoji = '🥉';
+                    return (
+                      <div key={entry.profileId + '-' + i} className={`leaderboard-item${isYou ? ' you' : ''}`}>
+                        <span className="leaderboard-rank">{rankEmoji}</span>
+                        <span className="leaderboard-avatar">{entry.avatar || '🐼'}</span>
+                        <span className={`leaderboard-name${isYou ? ' you' : ''}`}>
+                          {entry.nickname}{isYou ? ' (you)' : ''}
+                        </span>
+                        <span className="leaderboard-score">
+                          {entry.bestScore}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
             <div className="result-buttons">
               <button className="play-again-button" onClick={handlePlayAgain}>
                 Play Again

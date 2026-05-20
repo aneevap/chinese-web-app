@@ -12,8 +12,37 @@ type RawWord = {
 
 type CourseData = { course: string; words: RawWord[] };
 type CoursesFile = {
-  courses: Array<{ id: string; data_file: string }>;
+  courses: Array<{ id: string; data_file: string; name: string; themes: Array<{ id: string; name: string; emoji: string; color: string }> }>;
 };
+
+export type CourseTheme = {
+  id: string;
+  name: string;
+  emoji: string;
+  color: string;
+};
+
+export type CourseMeta = {
+  name: string;
+  themes: CourseTheme[];
+};
+
+export async function loadCourseThemes(): Promise<Record<string, CourseMeta>> {
+  const courses = await loadJson<CoursesFile>('/courses.json');
+  const result: Record<string, CourseMeta> = {};
+  for (const course of courses.courses) {
+    result[course.id] = {
+      name: course.name,
+      themes: course.themes.map(t => ({
+        id: t.id,
+        name: t.name,
+        emoji: t.emoji,
+        color: t.color,
+      })),
+    };
+  }
+  return result;
+}
 
 async function loadJson<T>(path: string): Promise<T> {
   // #region agent log

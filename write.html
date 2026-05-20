@@ -1026,8 +1026,45 @@ function switchTab(t){
 
 function getLang(){return getNavLang();}
 function getThemeWords(){return !currentCourse||!THEMES.length?[]:WORDS.filter(function(w){return w.theme===THEMES[currentTheme].id;});}
-function showGuestWarningIfNeeded(){var wl=localStorage.getItem('xhz_waitlisted')==='true';if(!wl&&XHZ.shouldWarnGuest()){document.getElementById('guest-banner').style.display='flex';XHZ.markGuestWarned();}}
+function showGuestWarningIfNeeded(){
+    var wl=localStorage.getItem('xhz_waitlisted')==='true';
+    // Supabase is the authoritative source: if signed in (not anon), hide banner
+    if (window.__supabaseIsAnon === false) {
+        // Auto-repair ALL stale profiles (not just active)
+        if (typeof XHZ.repairAllProfilesFromSupabase === 'function') {
+            XHZ.repairAllProfilesFromSupabase();
+        } else {
+            // Fallback for older profiles.js
+            var profile = XHZ.getActiveProfile();
+            if (profile && profile.is_guest) {
+                XHZ.updateProfile(profile.id, { is_guest: false });
+            }
+        }
+        return;
+    }
+    if(!wl&&XHZ.shouldWarnGuest()){document.getElementById('guest-banner').style.display='flex';XHZ.markGuestWarned();}
+}
 function dismissGuestBanner(){document.getElementById('guest-banner').style.display='none';}
+
+function refreshGuestBanner() {
+    var banner = document.getElementById('guest-banner');
+    var waitlisted = localStorage.getItem('xhz_waitlisted') === 'true';
+    if (window.__supabaseIsAnon === false) {
+        banner.style.display = 'none';
+        // Auto-repair ALL stale profiles (not just active)
+        XHZ.repairAllProfilesFromSupabase();
+    } else if (!waitlisted && XHZ.shouldWarnGuest()) {
+        banner.style.display = 'flex';
+    }
+}
+// Listen for auth state changes
+if(typeof window.__supabaseOnAuth === 'function') {
+    window.__supabaseOnAuth(refreshGuestBanner);
+}
+// Also re-check once Supabase is fully initialized (prevents flash)
+if (window.__supabaseReady) {
+    window.__supabaseReady.then(refreshGuestBanner);
+}
 function loadCourses(){setLoadingMsg('Loading courses...');Promise.all([fetch('courses.json').then(function(r){if(!r.ok)throw new Error();return r.json();}),fetch('rewards.json').then(function(r){return r.ok?r.json():null;}).catch(function(){return null;})]).then(function(rs){var cD=rs[0],rD=rs[1];COURSES=cD.courses;if(rD&&rD.effort_items)XHZ.setEffortItems(rD.effort_items);if(!COURSES||COURSES.length===0){showLoadError('No courses found');return;}setLoadingMsg('Loading word data...');preloadAllCourseData(function(){document.getElementById('loading-screen').style.display='none';initLockedCoursesState();var first=getFirstAccessibleCourse();if(!first)first=COURSES[0];buildCourseTabs();selectCourse(first.id);});}).catch(function(e){console.error(e);showLoadError('Could not load courses.json');});}
 function preloadAllCourseData(cb){var tl=COURSES.filter(function(c){return !COURSE_DATA[c.id]&&c.data_file;});if(tl.length===0){if(cb)cb();return;}var l=0,t=tl.length;function cd(){l++;setLoadingMsg('Loading word data... ('+l+'/'+t+')');if(l>=t&&cb)cb();}tl.forEach(function(c){fetch(c.data_file).then(function(r){return r.ok?r.json():null;}).then(function(d){if(d)COURSE_DATA[c.id]=d;cd();}).catch(function(){cd();});});setTimeout(function(){if(l<t&&cb)cb();},10000);}
 function loadCourseData(id,cb){if(COURSE_DATA[id]){cb(COURSE_DATA[id]);return;}var c=getCourseById(id);if(!c)return;setLoadingMsg('Loading '+id+' words...');document.getElementById('loading-screen').style.display='flex';fetch(c.data_file).then(function(r){if(!r.ok)throw new Error();return r.json();}).then(function(d){COURSE_DATA[id]=d;document.getElementById('loading-screen').style.display='none';cb(d);}).catch(function(e){console.error(e);showLoadError('Could not load '+c.data_file);});}

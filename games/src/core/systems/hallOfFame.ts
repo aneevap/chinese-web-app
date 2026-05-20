@@ -34,3 +34,20 @@ export function getLeaderboard(): HallOfFameEntry[] {
     return b.updatedAt - a.updatedAt;
   });
 }
+
+/**
+ * Get the personal best score for a given profile and game.
+ * Returns the highest `bestScore` across all entries, or 0 if no entries exist.
+ */
+export function getPersonalBest(profileId: string, gameId: string): number {
+  const entries = loadEntries();
+  let best = 0;
+  for (const entry of entries) {
+    if (entry.profileId === profileId && entry.gameId === gameId) {
+      if (entry.bestScore > best) {
+        best = entry.bestScore;
+      }
+    }
+  }
+  return best;
+}

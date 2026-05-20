@@ -752,6 +752,22 @@ function renderAll(attempted) {
 
     initNav('progress');
     refreshStrings();
+
+    // Listen for auth state changes and re-render banner dynamically
+    if (typeof window.__supabaseOnAuth === 'function') {
+        window.__supabaseOnAuth(function (event, session) {
+            // Refresh profile from storage (may have changed)
+            profile = XHZ.getActiveProfile();
+            renderGuestBanner();
+        });
+    }
+    // Also re-check once Supabase is fully initialized (prevents flash)
+    if (window.__supabaseReady) {
+        window.__supabaseReady.then(function () {
+            profile = XHZ.getActiveProfile();
+            renderGuestBanner();
+        });
+    }
 }
 
 /* =====================================================
@@ -760,6 +776,17 @@ function renderAll(attempted) {
 function renderGuestBanner() {
     var banner = document.getElementById('guest-banner');
     var waitlisted = localStorage.getItem('xhz_waitlisted') === 'true';
+
+    // Supabase is the authoritative source: if signed in (not anon), hide banner
+    if (window.__supabaseIsAnon === false) {
+        banner.style.display = 'none';
+        // Auto-repair ALL stale profiles (not just active)
+        XHZ.repairAllProfilesFromSupabase();
+        // Refresh local reference
+        profile = XHZ.getActiveProfile();
+        return;
+    }
+
     if (profile && profile.is_guest && !waitlisted) {
         banner.style.display = 'flex';
     } else {

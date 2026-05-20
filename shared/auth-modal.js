@@ -289,10 +289,18 @@
 
     promise
       .then(function () {
-        var profile = (typeof XHZ !== 'undefined') ? XHZ.getActiveProfile() : null;
-        if (profile && profile.is_guest) {
-          XHZ.updateProfile(profile.id, { is_guest: false });
+        // Auto-repair ALL stale profiles after sign-in/upgrade
+        if (typeof XHZ.repairAllProfilesFromSupabase === 'function') {
+          XHZ.repairAllProfilesFromSupabase();
+        } else {
+          // Fallback for older profiles.js
+          var p = (typeof XHZ !== 'undefined') ? XHZ.getActiveProfile() : null;
+          if (p && p.is_guest) {
+            XHZ.updateProfile(p.id, { is_guest: false });
+          }
         }
+        // Fresh profile reference for sync trigger
+        var freshProfile = (typeof XHZ !== 'undefined') ? XHZ.getActiveProfile() : null;
 
         if (mode === 'upgrade') {
           var body = document.getElementById('auth-modal-body');
@@ -301,7 +309,7 @@
         } else {
           closeModal();
           // Trigger cloud sync after sign-in
-          if (window.__SUPABASE_SYNC && profile) {
+          if (window.__SUPABASE_SYNC && freshProfile) {
             window.__SUPABASE_SYNC.pushAll();
           }
         }

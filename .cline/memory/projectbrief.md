@@ -5,16 +5,18 @@
 **Goal:** A gamified, offline-first web app for children (ages 5–12) to learn Chinese characters through flashcards, writing practice (HanziWriter.js), games, and progress tracking.
 
 **Tech Stack:**
-- Vanilla HTML/CSS/JS (core pages)
-- React + TypeScript + Vite (game sub-app in `games/`)
-- HanziWriter.js v3 (stroke animation & quiz)
-- Supabase (cloud sync — anonymous auth, upgradeable)
-- localStorage (primary data store via `XHZ` namespace)
+- Vanilla HTML/CSS/JS (core pages: index, study, write, dojo, progress, print, new-learner)
+- React + TypeScript + Vite (game sub-app in `games/` — matching + sushi modes)
+- HanziWriter.js v3 (stroke animation & quiz in write.html)
+- Supabase (cloud sync — anonymous auth with email/password upgrade)
+- localStorage (primary data store via `XHZ` namespace in profiles.js)
 
-**Design:** "Botes paper palette" — warm cream/tan paper textures, soft brown shadows, custom font stack (Bai Jamjuree, ZCOOL KuaiLe, Nunito, Mali).
+**Design:** "Botes paper palette" — warm cream/tan paper textures (`paper-grain.png`), soft brown shadows, custom font stack (Bai Jamjuree, ZCOOL KuaiLe, Nunito, Mali). CSS custom properties defined in `shared/design-system.css`.
 
 **Data:** `courses.json` (course structure), `characters_1A.json`/`characters_1B.json` (vocabulary), `rewards.json` (badges & items). All data read from local JSON files with offline caching via `COURSE_DATA`.
 
-**Persistence:** Local-first with optional Supabase sync. All writes go to localStorage via `profiles.js` and are synced to Supabase asynchronously.
+**Persistence:** Local-first with optional Supabase sync. All writes go to localStorage via `profiles.js` and are synced to Supabase asynchronously via `shared/supabase-sync.js`.
+
+**Auth:** Inline auth modal (`shared/auth-modal.js`) with upgrade (anon→email/password), sign-in, password reset, and set-new-password flows. No longer uses a separate `signup.html` page (now deleted).
 
 **Repository:** https://github.com/aneevap/chinese-web-app.git

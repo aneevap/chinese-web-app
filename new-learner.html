@@ -12,7 +12,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;600;700&family=Mali:wght@400;700&family=Nunito:wght@400;700;800;900&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;600;700;800&family=ZCOOL+KuaiLe&family=Nunito:wght@400;700;800&family=Mali:wght@400;600;700&display=swap" rel="stylesheet">
 
 <!-- 🎨 Universal Design System -->
 <link rel="stylesheet" href="shared/design-system.css">
@@ -255,8 +255,8 @@
         <div class="nickname-hint">Up to 16 characters</div>
         <div class="nickname-warn" id="nickname-warn"></div>
         <div class="dup-warning" id="dup-warning">
-            ⚠️ A learner with this name and avatar already exists.
-            You can still continue — they will be separate profiles.
+            ⚠️ A learner with this name already exists.
+            Please choose a different name to continue.
         </div>
     </div>
 
@@ -290,6 +290,7 @@
 ===================================================== */
 var selectedAvatar = XHZ.AVATARS[0];   // default first avatar
 var selectedColor  = XHZ.COLORS[0].hex; // default first color
+var _isDuplicate = false;
 
 /* =====================================================
    INIT
@@ -393,7 +394,8 @@ function checkDuplicate() {
     var nickname = document.getElementById('nickname-input').value.trim();
     var dupWarn  = document.getElementById('dup-warning');
 
-    if (nickname.length > 0 && XHZ.isDuplicate(nickname, selectedAvatar)) {
+    _isDuplicate = nickname.length > 0 && XHZ.isDuplicate(nickname);
+    if (_isDuplicate) {
         dupWarn.classList.add('visible');
     } else {
         dupWarn.classList.remove('visible');
@@ -419,7 +421,7 @@ function updatePreview() {
 function validateForm() {
     var nickname = document.getElementById('nickname-input').value.trim();
     var btn      = document.getElementById('submit-btn');
-    btn.disabled = nickname.length === 0;
+    btn.disabled = nickname.length === 0 || _isDuplicate;
 }
 
 /* =====================================================
@@ -428,7 +430,10 @@ function validateForm() {
 function createLearner() {
     var nickname = document.getElementById('nickname-input').value.trim();
 
-    if (!nickname) return;
+    if (!nickname || _isDuplicate) return;
+
+    // Defense-in-depth: check again in case state got stale
+    if (XHZ.isDuplicate(nickname)) return;
 
     // Create profile in localStorage
     var profile = XHZ.createProfile({

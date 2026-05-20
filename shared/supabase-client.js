@@ -74,7 +74,7 @@
     var sb = window.__supabase;
     if (!sb) throw new Error('Supabase not initialized');
     var { data, error } = await sb.auth.resetPasswordForEmail(email, {
-      redirectTo: window.location.origin + '/index.html'
+      redirectTo: window.location.origin + '/recovery.html'
     });
     if (error) throw error;
     return data;

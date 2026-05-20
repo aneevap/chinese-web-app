@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>学汉字 — Reset Password</title>
+<script src="shared/supabase-client.js"></script>
+<script src="strings.js"></script>
+<script src="nav.js"></script>
+<link rel="stylesheet" href="shared/design-system.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;600;700;800&family=ZCOOL+KuaiLe&family=Nunito:wght@400;700;800&family=Mali:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --theme-color:       var(--botes-ochre);
+    --theme-color-light: #D4A57433;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Bai Jamjuree', sans-serif;
+    background: var(--paper-cream);
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+}
+.page-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px 40px;
+}
+.recovery-card {
+    background: var(--paper-warm);
+    background-image: url('../assets/textures/paper-grain.png');
+    background-blend-mode: multiply;
+    border-radius: 20px;
+    padding: 32px 24px 24px;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: var(--shadow-lifted);
+    text-align: center;
+}
+.recovery-icon { font-size: 3rem; margin-bottom: 8px; }
+.recovery-title {
+    font-size: 1.15em; font-weight: 800;
+    color: var(--ink-dark); margin-bottom: 4px;
+}
+.recovery-sub {
+    font-size: 0.78em; color: var(--ink-soft);
+    margin-bottom: 20px; line-height: 1.5;
+}
+.form-group {
+    margin-bottom: 14px;
+    text-align: left;
+}
+.form-group label {
+    display: block; font-size: 0.72em;
+    font-weight: bold; color: var(--ink-soft);
+    margin-bottom: 4px; text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.password-wrap {
+    position: relative;
+}
+.password-wrap input {
+    width: 100%; padding: 10px 40px 10px 12px;
+    border: 2px solid var(--paper-deep);
+    border-radius: 10px; font-size: 0.88em;
+    font-family: inherit;
+    background: var(--paper-cool);
+    color: var(--ink-dark);
+    outline: none;
+    transition: border-color 0.2s;
+}
+.password-wrap input:focus {
+    border-color: var(--botes-ochre);
+}
+.password-toggle {
+    position: absolute;
+    right: 10px; top: 50%; transform: translateY(-50%);
+    background: none; border: none;
+    cursor: pointer; font-size: 1.1em;
+    color: var(--ink-light); padding: 4px;
+    line-height: 1;
+}
+.password-toggle:hover { color: var(--ink-soft); }
+.strength-bar {
+    height: 4px; border-radius: 2px;
+    margin-top: 6px; background: var(--paper-deep);
+    overflow: hidden; transition: all 0.2s;
+}
+.strength-bar .fill {
+    height: 100%; border-radius: 2px;
+    width: 0; transition: width 0.3s, background 0.3s;
+}
+.strength-label {
+    font-size: 0.6em; color: var(--ink-light);
+    margin-top: 3px; text-align: right;
+    min-height: 16px;
+}
+.submit-btn {
+    width: 100%; padding: 12px; margin-top: 6px;
+    background: var(--botes-ochre); color: white;
+    border: none; border-radius: 12px;
+    font-size: 0.92em; font-weight: 800;
+    cursor: pointer; font-family: inherit;
+    transition: background 0.2s;
+}
+.submit-btn:hover:not(:disabled) { background: var(--botes-ochre-deep); }
+.submit-btn:disabled { opacity: 0.6; cursor: default; }
+.error-msg {
+    background: var(--danger-bg);
+    color: var(--danger);
+    border-radius: 10px; padding: 8px 12px;
+    font-size: 0.72em; margin-bottom: 12px;
+    display: none; line-height: 1.4;
+}
+.loading-spinner {
+    width: 40px; height: 40px;
+    border: 4px solid var(--botes-ochre-deep);
+    border-top-color: var(--botes-ochre);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 20px auto;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.hidden { display: none !important; }
+.success-note {
+    font-size: 0.78em; color: var(--botes-sage);
+    font-weight: bold; margin-top: 10px;
+    padding: 8px 12px;
+    background: #E8F5E9; border-radius: 8px;
+    line-height: 1.4;
+}
+.back-link {
+    display: inline-block; margin-top: 16px;
+    font-size: 0.78em; color: var(--botes-ochre);
+    text-decoration: underline; cursor: pointer;
+}
+@media (max-width: 480px) {
+    .recovery-card { padding: 24px 16px 20px; }
+}
+</style>
+</head>
+<body>
+<div id="app-nav"></div>
+<div class="page-content">
+<div class="recovery-card" id="recovery-card">
+
+    <!-- LOADING -->
+    <div id="view-loading">
+        <div class="recovery-icon">🔐</div>
+        <div class="recovery-title" data-i18n="set_new_password_title"></div>
+        <div class="loading-spinner"></div>
+        <p style="font-size:0.75em;color:var(--ink-light);">Verifying recovery link...</p>
+    </div>
+
+    <!-- SET PASSWORD FORM -->
+    <div id="view-form" class="hidden">
+        <div class="recovery-icon">🔑</div>
+        <div class="recovery-title" data-i18n="set_new_password_title"></div>
+        <div class="recovery-sub" data-i18n="set_new_password_sub"></div>
+        <div class="error-msg" id="error-msg"></div>
+        <form id="password-form" novalidate>
+            <div class="form-group">
+                <label data-i18n="upgrade_password_label"></label>
+                <div class="password-wrap">
+                    <input type="password" id="pass" name="password" autocomplete="new-password" minlength="6" data-i18n-placeholder="upgrade_password_ph" required />
+                    <button type="button" class="password-toggle" id="pass-toggle" onclick="togglePass()" tabindex="-1">👁️</button>
+                </div>
+                <div class="strength-bar" id="strength-bar"><div class="fill" id="strength-fill"></div></div>
+                <div class="strength-label" id="strength-label"></div>
+            </div>
+            <div class="form-group">
+                <label data-i18n="upgrade_confirm_label"></label>
+                <div class="password-wrap">
+                    <input type="password" id="pass-confirm" name="confirm" autocomplete="new-password" minlength="6" data-i18n-placeholder="upgrade_password_ph" required />
+                    <button type="button" class="password-toggle" id="pass-confirm-toggle" onclick="togglePassConfirm()" tabindex="-1">👁️</button>
+                </div>
+            </div>
+            <button type="submit" class="submit-btn" id="submit-btn"><span data-i18n="set_new_password_submit"></span></button>
+        </form>
+        <a class="back-link" href="index.html" data-i18n="reset_password_back"></a>
+    </div>
+
+    <!-- SUCCESS -->
+    <div id="view-success" class="hidden">
+        <div class="recovery-icon" style="font-size:3.5rem;">✅</div>
+        <div class="recovery-title" data-i18n="set_new_password_success_title"></div>
+        <div class="recovery-sub" data-i18n="set_new_password_success_body"></div>
+        <div id="pin-cleared-note" class="hidden success-note">🔓 Parent PIN has been cleared. Set a new one in Parent Settings.</div>
+        <button class="submit-btn" onclick="window.location.href='index.html'"><span data-i18n="set_new_password_continue"></span></button>
+    </div>
+
+    <!-- NO RECOVERY -->
+    <div id="view-no-recovery" class="hidden">
+        <div class="recovery-icon">🔍</div>
+        <div class="recovery-title" data-i18n="set_new_password_title"></div>
+        <p class="recovery-sub" id="no-recovery-msg">No password reset request detected.</p>
+        <a class="back-link" href="index.html" data-i18n="set_new_password_continue"></a>
+    </div>
+
+</div>
+</div>
+
+<script>
+(function() {
+    'use strict';
+
+    var passInput = document.getElementById('pass');
+    var passConfirm = document.getElementById('pass-confirm');
+    var form = document.getElementById('password-form');
+    var errorEl = document.getElementById('error-msg');
+    var submitBtn = document.getElementById('submit-btn');
+    var hasRecovery = false;
+    var resolved = false;
+
+    function showView(id) {
+        ['view-loadin

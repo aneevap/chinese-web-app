@@ -141,8 +141,32 @@ const XHZ = {
   // ----------------------------------------------------------
 
   getAllProfiles() {
-    return this._load().profiles;
+    var data = this._load();
+    // Auto-merge duplicate profiles silently
+    // Guard against re-entry from findDuplicateGroups() calling back into getAllProfiles()
+    if (!this._merging && data.profiles.length > 0) {
+      this._merging = true;
+      try {
+        var totalMerged = 0;
+        for (var pass = 0; pass < 5; pass++) {
+          var groups = this.findDuplicateGroups();
+          if (!groups.length) break;
+          totalMerged += this._mergeGroups(groups);
+        }
+        if (totalMerged > 0) {
+          console.log('profiles.js: auto-merged ' + totalMerged + ' duplicate name group(s)');
+          data = this._load();
+        }
+      } catch (e) {
+        console.warn('profiles.js: auto-merge error', e);
+      } finally {
+        this._merging = false;
+      }
+    }
+    return data.profiles;
   },
+
+  _merging: false,
 
   getProfile(id) {
     return this.getAllProfiles().find(p => p.id === id) || null;
@@ -186,10 +210,138 @@ const XHZ = {
     if (this.getActiveId() === id) this.clearActive();
   },
 
-  isDuplicate(nickname, avatar) {
+  isDuplicate(nickname) {
     return this.getAllProfiles().some(
-      p => p.nickname.toLowerCase() === nickname.trim().toLowerCase() && p.avatar === avatar
+      p => p.nickname.toLowerCase() === nickname.trim().toLowerCase()
     );
+  },
+
+  /**
+   * Find groups of profiles with the same nickname (case-insensitive).
+   * Returns an array of groups, each with { name, profiles, keeper, extras }.
+   * keeper = the profile with the most total stars.
+   * Only returns groups with 2+ profiles.
+   */
+  findDuplicateGroups() {
+    var groups = {};
+    this.getAllProfiles().forEach(function (p) {
+      var key = p.nickname.toLowerCase().trim();
+      if (!groups[key]) groups[key] = [];
+      groups[key].push(p);
+    });
+
+    return Object.keys(groups)
+      .filter(function (key) { return groups[key].length > 1; })
+      .map(function (key) {
+        var profiles = groups[key];
+        // Sort by total stars descending — keeper is the first (most progress)
+        profiles.sort(function (a, b) {
+          return XHZ.getTotalStars(b.id) - XHZ.getTotalStars(a.id);
+        });
+        return {
+          name: profiles[0].nickname,
+          profiles: profiles,
+          keeper: profiles[0],
+          extras: profiles.slice(1)
+        };
+      });
+  },
+
+  /**
+   * Group-level merge logic (extracted so getAllProfiles can loop it).
+   * @private
+   */
+  _mergeGroups(groups) {
+    var self = this;
+    groups.forEach(function (group) {
+      var keeper = group.keeper;
+      var extras = group.extras;
+
+      // Merge scores from each extra into keeper
+      var keeperScores = self._loadScores(keeper.id);
+      extras.forEach(function (extra) {
+        var extraScores = self._loadScores(extra.id);
+        Object.keys(extraScores.days).forEach(function (date) {
+          if (!keeperScores.days[date]) {
+            keeperScores.days[date] = extraScores.days[date];
+          } else {
+            var k = keeperScores.days[date];
+            var e = extraScores.days[date];
+            k.write_score = Math.max(k.write_score || 0, e.write_score || 0);
+            k.study_score = Math.max(k.study_score || 0, e.study_score || 0);
+            if (e.chars_practiced) {
+              e.chars_practiced.forEach(function (wid) {
+                if (k.chars_practiced.indexOf(wid) === -1) k.chars_practiced.push(wid);
+              });
+            }
+            if (e.cards_studied) {
+              e.cards_studied.forEach(function (wid) {
+                if (k.cards_studied.indexOf(wid) === -1) k.cards_studied.push(wid);
+              });
+            }
+          }
+        });
+      });
+      self._saveScores(keeper.id, keeperScores);
+
+      // Merge mastery from each extra into keeper
+      var keeperMastery = self._loadMastery(keeper.id);
+      extras.forEach(function (extra) {
+        var extraMastery = self._loadMastery(extra.id);
+        Object.keys(extraMastery.words).forEach(function (wordId) {
+          var k = keeperMastery.words[wordId];
+          var e = extraMastery.words[wordId];
+          if (!k) {
+            keeperMastery.words[wordId] = e;
+          } else if (self.MASTERY_ORDER.indexOf(e.status) > self.MASTERY_ORDER.indexOf(k.status)) {
+            keeperMastery.words[wordId] = e;
+          }
+        });
+      });
+      self._saveMastery(keeper.id, keeperMastery);
+
+      // Merge items from each extra
+      var keeperItems = self._loadItems(keeper.id);
+      extras.forEach(function (extra) {
+        var extraItems = self._loadItems(extra.id);
+        if (extraItems.earned) {
+          extraItems.earned.forEach(function (itemId) {
+            if (keeperItems.earned.indexOf(itemId) === -1) keeperItems.earned.push(itemId);
+          });
+        }
+      });
+      self._saveItems(keeper.id, keeperItems);
+
+      // Delete extra profiles
+      extras.forEach(function (extra) {
+        self.deleteProfile(extra.id);
+      });
+    });
+    return groups.length;
+  },
+
+  /**
+   * Merge duplicate profiles: consolidate scores, mastery, and items
+   * from extras into the keeper, then delete extras.
+   * Returns a summary object describing what was merged.
+   */
+  mergeDuplicates() {
+    var groups = this.findDuplicateGroups();
+    if (!groups.length) return { merged: 0, summary: [] };
+
+    var summary = [];
+    this._mergeGroups(groups);
+
+    groups.forEach(function (g) {
+      summary.push({
+        name: g.name,
+        keeper: g.keeper.avatar + ' ' + g.keeper.nickname,
+        extrasMerged: g.extras.length,
+        extras: g.extras.map(function (e) { return e.avatar + ' ' + e.nickname; })
+      });
+    });
+
+    return { merged: groups.length, summary: summary };
   },
 
 
@@ -891,4 +1043,84 @@ checkEffortItems(profileId, effortItems) {
     sessionStorage.setItem(this.WARNED_KEY, 'true');
   },
 
+
+  // ----------------------------------------------------------
+  //  SUPABASE AUTO-REPAIR
+  // ----------------------------------------------------------
+
+  /**
+   * Repair ALL local profiles after Supabase sign-in.
+   * Called from guest-banner checks on each page.
+   *
+   * Phase 1 (sync): Sets is_guest → false on all local profiles.
+   * Phase 2 (async): Pulls nickname, avatar, color from Supabase
+   *   profiles table and updates any local profiles that mismatch.
+   *
+   * @returns {Promise<number>} Number of profiles that were repaired.
+   */
+  async repairAllProfilesFromSupabase() {
+    if (window.__supabaseIsAnon !== false) return 0;
+
+    const data = this._load();
+    let count = 0;
+
+    // Phase 1: Repair is_guest synchronously (so guest banner hides immediately)
+    data.profiles.forEach(p => {
+      if (p.is_guest !== false) {
+        p.is_guest = false;
+        count++;
+      }
+    });
+
+    // Phase 2: Sync nickname, avatar, color from Supabase (async)
+    if (data.profiles.length > 0 && window.__supabase) {
+      try {
+        var ids = data.profiles.map(function(p) { return p.id; });
+        var { data: remoteProfiles, error } = await window.__supabase
+          .from('profiles')
+          .select('id, nickname, avatar, color')
+          .in('id', ids);
+
+        if (!error && remoteProfiles && remoteProfiles.length) {
+          var remoteMap = {};
+          remoteProfiles.forEach(function(rp) {
+            remoteMap[rp.id] = rp;
+          });
+
+          data.profiles.forEach(function(p) {
+            var rp = remoteMap[p.id];
+            if (rp) {
+              var changed = false;
+              if (rp.nickname !== undefined && p.nickname !== rp.nickname) {
+                p.nickname = rp.nickname;
+                changed = true;
+              }
+              if (rp.avatar !== undefined && p.avatar !== rp.avatar) {
+                p.avatar = rp.avatar;
+                changed = true;
+              }
+              if (rp.color !== undefined && p.color !== rp.color) {
+                p.color = rp.color;
+                changed = true;
+              }
+              if (changed) count++;
+            }
+          });
+        }
+      } catch (e) {
+        console.warn('profiles.js: repairAllProfilesFromSupabase metadata sync failed', e.message);
+      }
+    }
+
+    if (count > 0) {
+      this._save(data);
+      console.log('profiles.js: repairAllProfilesFromSupabase fixed ' + count + ' profile(s)');
+    }
+
+    return count;
+  },
+
 };
+
+// Expose to window so module-based code (e.g. React game) can access via window.XHZ
+window.XHZ = XHZ;
