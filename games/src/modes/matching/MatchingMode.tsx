@@ -343,36 +343,66 @@ export function MatchingMode({ words, courseThemes, language }: Props) {
     } catch (_) {}
   }, []);
 
-  // 🌩️ Play lightning/thunder roar sound
+  // ⚡ Play celebratory power-up chime (reward, not punishment!)
   const playLightningSound = useCallback(() => {
     try {
       const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
-      // Deep rumble using noise-like oscillator
+      // Bright ascending sparkle — two quick ascending notes
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
-      osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(80, audioCtx.currentTime);
-      osc.frequency.linearRampToValueAtTime(40, audioCtx.currentTime + 0.4);
-      osc.frequency.linearRampToValueAtTime(20, audioCtx.currentTime + 0.8);
-      gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.8);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(784, audioCtx.currentTime);
+      osc.frequency.setValueAtTime(988, audioCtx.currentTime + 0.08);
+      osc.frequency.setValueAtTime(1245, audioCtx.currentTime + 0.16);
+      osc.frequency.setValueAtTime(1568, audioCtx.currentTime + 0.24);
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
       osc.connect(gain);
       gain.connect(audioCtx.destination);
       osc.start(audioCtx.currentTime);
-      osc.stop(audioCtx.currentTime + 0.8);
+      osc.stop(audioCtx.currentTime + 0.5);
 
-      // Add a secondary high crackle
+      // Add a shimmering high overtone
       const osc2 = audioCtx.createOscillator();
       const gain2 = audioCtx.createGain();
-      osc2.type = 'sawtooth';
-      osc2.frequency.setValueAtTime(2000, audioCtx.currentTime);
-      osc2.frequency.linearRampToValueAtTime(100, audioCtx.currentTime + 0.15);
-      gain2.gain.setValueAtTime(0.15, audioCtx.currentTime);
-      gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+      osc2.type = 'sine';
+      osc2.frequency.setValueAtTime(1760, audioCtx.currentTime);
+      osc2.frequency.linearRampToValueAtTime(2640, audioCtx.currentTime + 0.3);
+      gain2.gain.setValueAtTime(0.06, audioCtx.currentTime);
+      gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
       osc2.connect(gain2);
       gain2.connect(audioCtx.destination);
       osc2.start(audioCtx.currentTime);
-      osc2.stop(audioCtx.currentTime + 0.15);
+      osc2.stop(audioCtx.currentTime + 0.3);
+    } catch (_) {}
+  }, []);
+
+  // 🎵 Play lightning passing-by whoosh
+  const playLightningWhoosh = useCallback(() => {
+    try {
+      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const bufferSize = audioCtx.sampleRate * 0.6;
+      const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        const t = i / audioCtx.sampleRate;
+        data[i] = (Math.random() * 2 - 1) * Math.max(0, 1 - t / 0.6);
+      }
+      const noise = audioCtx.createBufferSource();
+      noise.buffer = buffer;
+      const bandpass = audioCtx.createBiquadFilter();
+      bandpass.type = 'bandpass';
+      bandpass.frequency.setValueAtTime(3000, audioCtx.currentTime);
+      bandpass.frequency.linearRampToValueAtTime(300, audioCtx.currentTime + 0.5);
+      bandpass.Q.value = 1.5;
+      const gain = audioCtx.createGain();
+      gain.gain.setValueAtTime(0.07, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+      noise.connect(bandpass);
+      bandpass.connect(gain);
+      gain.connect(audioCtx.destination);
+      noise.start(audioCtx.currentTime);
+      noise.stop(audioCtx.currentTime + 0.6);
     } catch (_) {}
   }, []);
 
@@ -461,10 +491,11 @@ export function MatchingMode({ words, courseThemes, language }: Props) {
             playComboSound();
           }
 
-          // 🌩️ Lightning + roar at combo 5+
-          if (isCombo && comboValue >= 5) {
+          // ⚡ Lightning reward every 5 combos (5, 10, 15…)
+          if (isCombo && comboValue >= 5 && comboValue % 5 === 0) {
             setFlashEffect(true);
             playLightningSound();
+            playLightningWhoosh();
           }
 
           // Popup effects
@@ -742,11 +773,12 @@ export function MatchingMode({ words, courseThemes, language }: Props) {
         </div>
       )}
 
-      {/* 🌩️ Lightning effect at combo 5+ */}
+      {/* 🌩️ Lightning sweep — celebratory bolt passing through! */}
       {flashEffect && (
         <div className="lightning-overlay">
+          <div className="lightning-glow"></div>
+          <div className="lightning-sparkles"></div>
           <div className="lightning-bolt">⚡</div>
-          <div className="lightning-flash"></div>
           <div className="lightning-text">⚡ FLASH COMBO! ⚡</div>
         </div>
       )}
