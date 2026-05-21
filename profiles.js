@@ -108,6 +108,9 @@ const XHZ = {
       case 'items':
         sync.pushItems(payload.profileId, payload.itemData);
         break;
+      case 'notebook':
+        sync.pushNotebook(payload.profileId, payload.entries);
+        break;
       default:
         break;
     }
@@ -507,14 +510,14 @@ const XHZ = {
    * Check if write stars can be awarded for a word
    * 
    * Rule 1: Max 3 times per day per word
-   * Rule 2: No stars if write_cleared === true
+   * Rule 2: No stars if word is mastered (3 stars × 2 times)
    * 
    * @private
    */
   _canAwardWriteStars(profileId, wordId, todayEntry) {
-    // Rule 2: Check if word is already write_cleared
+    // Rule 2: Check if word is already mastered (needs 2 perfect scores now)
     const mastery = this.getWordMasteryForProfile(profileId, wordId);
-    if (mastery && mastery.write_cleared) {
+    if (mastery && mastery.status === 'mastered') {
       return false;
     }
 
@@ -531,9 +534,9 @@ const XHZ = {
     const profile = this.getActiveProfile();
     if (!profile) return { canAward: false, reason: 'no_profile' };
 
-    // Check write_cleared
+    // Check if mastered (now requires 2 perfect scores)
     const mastery = this.getWordMastery(wordId);
-    if (mastery && mastery.write_cleared) {
+    if (mastery && mastery.status === 'mastered') {
       return { 
         canAward: false, 
         reason: 'already_cleared',
@@ -636,6 +639,20 @@ const XHZ = {
     return this._loadMastery(profileId).words;
   },
 
+  /**
+   * Get the effective perfect write count for a word.
+   * Handles backward compatibility: if write_cleared is true but write_cleared_count
+   * is undefined/missing, treat it as count 1.
+   */
+  _getWriteClearedCount(entry) {
+    if (entry.write_cleared_count !== undefined && entry.write_cleared_count > 0) {
+      return entry.write_cleared_count;
+    }
+    // Backward compat: old data has write_cleared: true but no counter
+    if (entry.write_cleared === true) return 1;
+    return 0;
+  },
+
   _updateWordMastery(wordId, changes) {
     const profile = this.getActiveProfile();
     if (!profile) return { statusChanged: false, becameMastered: false };
@@ -647,6 +664,7 @@ const XHZ = {
         word_id: wordId,
         status: 'unseen',
         write_cleared: false,
+        write_cleared_count: 0,
         quiz_cleared: false,
         mastered_date: null,
       };
@@ -659,11 +677,19 @@ const XHZ = {
     if (changes.status && this._isMasteryHigher(entry.status, changes.status)) {
       entry.status = changes.status;
     }
-    if (changes.write_cleared === true) entry.write_cleared = true;
+    if (changes.write_cleared === true) {
+      entry.write_cleared = true;
+      entry.write_cleared_count = (entry.write_cleared_count || 0) + 1;
+      // Auto-set quiz_cleared when reaching the required perfect score count
+      if (entry.write_cleared_count >= 2) {
+        entry.quiz_cleared = true;
+      }
+    }
     if (changes.quiz_cleared === true) entry.quiz_cleared = true;
 
-    // Check mastery conditions
-    const nowMastered = entry.write_cleared && entry.quiz_cleared;
+    // Check mastery conditions — need 2 perfect scores (3 stars) + quiz cleared
+    const perfectCount = this._getWriteClearedCount(entry);
+    const nowMastered = perfectCount >= 2 && entry.quiz_cleared;
     const wasMastered = prevStatus === 'mastered';
 
     if (nowMastered && !wasMastered) {
@@ -701,6 +727,76 @@ const XHZ = {
 
   markQuizCleared(wordId) {
     return this._updateWordMastery(wordId, { quiz_cleared: true });
+  },
+
+  /**
+   * Migrate old word mastery data to the new 2-perfect-scores system.
+   *
+   * In the old system, a single perfect score (write_cleared=true) was enough
+   * (combined with quiz_cleared). After changing to require 2 perfect scores,
+   * existing words with write_cleared=true but no write_cleared_count may
+   * never reach "mastered" status.
+   *
+   * This migration bumps those words to write_cleared_count=2 (treating their
+   * existing progress as meeting the new threshold) so they become mastered.
+   *
+   * Run from the browser console:  XHZ.migrateOldMasteryData()
+   *
+   * @param {string} [profileId] - Optional profile ID (defaults to active profile)
+   * @returns {{ migrated: number, alreadyMastered: number, summary: object[] }}
+   */
+  migrateOldMasteryData(profileId) {
+    const profile = profileId ? { id: profileId } : this.getActiveProfile();
+    if (!profile) return { migrated: 0, alreadyMastered: 0, summary: [] };
+
+    const data = this._loadMastery(profile.id);
+    let migrated = 0;
+    let alreadyMastered = 0;
+    const summary = [];
+
+    Object.keys(data.words).forEach(wordId => {
+      const entry = data.words[wordId];
+
+      // Already mastered — skip
+      if (entry.status === 'mastered') {
+        alreadyMastered++;
+        return;
+      }
+
+      // Has write_cleared from old system (or already has write_cleared_count)
+      // but hasn't reached mastered yet
+      const hasOldWriteCleared = entry.write_cleared === true;
+      const currentCount = this._getWriteClearedCount(entry);
+
+      if (hasOldWriteCleared && currentCount < 2) {
+        // Capture previous status BEFORE changing anything
+        const prevStatus = entry.status;
+
+        // Bump to count 2 and set quiz_cleared for the new criteria
+        entry.write_cleared_count = 2;
+        entry.quiz_cleared = true;
+
+        // Re-check mastery — it should pass now
+        const perfectCount = this._getWriteClearedCount(entry);
+        if (perfectCount >= 2 && entry.quiz_cleared) {
+          entry.status = 'mastered';
+          entry.mastered_date = this.today();
+        }
+
+        migrated++;
+        summary.push({
+          word_id: wordId,
+          previous_status: prevStatus
+        });
+      }
+    });
+
+    if (migrated > 0) {
+      this._saveMastery(profile.id, data);
+      console.log(`profiles.js: migrated ${migrated} word(s) to new mastery system`);
+    }
+
+    return { migrated, alreadyMastered, summary };
   },
 
 
@@ -1041,6 +1137,128 @@ checkEffortItems(profileId, effortItems) {
 
   markGuestWarned() {
     sessionStorage.setItem(this.WARNED_KEY, 'true');
+  },
+
+
+  // ----------------------------------------------------------
+  //  NOTEBOOK
+  // ----------------------------------------------------------
+
+  _notebookKey(id) { return 'xhz_notebook_' + id; },
+
+  _loadNotebook(profileId) {
+    try {
+      return JSON.parse(localStorage.getItem(this._notebookKey(profileId))) || { entries: {} };
+    } catch { return { entries: {} }; }
+  },
+
+  _saveNotebook(profileId, data) {
+    try {
+      localStorage.setItem(this._notebookKey(profileId), JSON.stringify(data));
+    } catch (e) {
+      console.error('profiles.js: failed to save notebook', e);
+    }
+    this._triggerSync('notebook', { profileId, entries: data.entries });
+  },
+
+  /**
+   * Add a word to the notebook (or update its note).
+   * @param {object} wordData - { word_id, char, pinyin, meaning }
+   * @param {string} [note] - Optional user note
+   * @returns {object} updated entry
+   */
+  addNotebookEntry(wordData, note) {
+    const profile = this.getActiveProfile();
+    if (!profile) return null;
+
+    const data = this._loadNotebook(profile.id);
+    const wordId = wordData.word_id;
+
+    if (data.entries[wordId]) {
+      // Already exists — update note if provided
+      if (note !== undefined) {
+        data.entries[wordId].note = note;
+      }
+      // Update meaning_th if provided (for language toggle compatibility)
+      if (wordData.meaning_th !== undefined) {
+        data.entries[wordId].meaning_th = wordData.meaning_th;
+      }
+      data.entries[wordId].updated_at = this.today();
+    } else {
+      // New entry
+      data.entries[wordId] = {
+        word_id: wordId,
+        char: wordData.char || '',
+        pinyin: wordData.pinyin || '',
+        meaning: wordData.meaning || '',
+        meaning_th: wordData.meaning_th || '',
+        note: note || '',
+        added_at: this.today(),
+        updated_at: this.today()
+      };
+    }
+
+    this._saveNotebook(profile.id, data);
+    return data.entries[wordId];
+  },
+
+  /**
+   * Remove a word from the notebook.
+   * @param {string} wordId
+   * @returns {boolean} true if removed
+   */
+  removeNotebookEntry(wordId) {
+    const profile = this.getActiveProfile();
+    if (!profile) return false;
+
+    const data = this._loadNotebook(profile.id);
+    if (!data.entries[wordId]) return false;
+
+    delete data.entries[wordId];
+    this._saveNotebook(profile.id, data);
+    return true;
+  },
+
+  /**
+   * Update the note for a notebook entry.
+   * @param {string} wordId
+   * @param {string} note
+   * @returns {object|null} updated entry or null
+   */
+  updateNotebookNote(wordId, note) {
+    const profile = this.getActiveProfile();
+    if (!profile) return null;
+
+    const data = this._loadNotebook(profile.id);
+    if (!data.entries[wordId]) return null;
+
+    data.entries[wordId].note = note || '';
+    data.entries[wordId].updated_at = this.today();
+    this._saveNotebook(profile.id, data);
+    return data.entries[wordId];
+  },
+
+  /**
+   * Get all notebook entries for the active profile.
+   * @param {string} [profileId]
+   * @returns {object} entries keyed by word_id
+   */
+  getNotebook(profileId) {
+    const pid = profileId || (this.getActiveProfile() && this.getActiveProfile().id);
+    if (!pid) return {};
+    return this._loadNotebook(pid).entries;
+  },
+
+  /**
+   * Check if a word is in the notebook.
+   * @param {string} wordId
+   * @returns {boolean}
+   */
+  isInNotebook(wordId) {
+    const profile = this.getActiveProfile();
+    if (!profile) return false;
+    const data = this._loadNotebook(profile.id);
+    return !!data.entries[wordId];
   },
 
 

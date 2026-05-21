@@ -59,6 +59,9 @@
         case 'items':
           this.pushItems(payload.profileId, payload.itemData);
           break;
+      case 'notebook':
+          this.pushNotebook(payload.profileId, payload.entries);
+          break;
       }
     },
 
@@ -134,6 +137,7 @@
         await sb.from('scores').delete().eq('profile_id', id);
         await sb.from('mastery').delete().eq('profile_id', id);
         await sb.from('items').delete().eq('profile_id', id);
+        await sb.from('notebook').delete().eq('profile_id', id);
       } catch (e) {
         console.warn('Supabase deleteProfile failed:', e.message);
       }
@@ -332,7 +336,8 @@
           profiles: await this.pullProfiles(),
           scores: await this.pullScores(profileId),
           mastery: await this.pullMastery(profileId),
-          items: await this.pullItems(profileId)
+          items: await this.pullItems(profileId),
+          notebook: await this.pullNotebook(profileId)
         };
         return remote;
       } catch (e) {
@@ -412,6 +417,73 @@
           });
         }
         if (merged) XHZ._saveItems(profileId, localItems);
+      }
+
+      // Merge notebook (union)
+      if (remote.notebook && remote.notebook.entries) {
+        var localNotebook = XHZ._loadNotebook(profileId);
+        var merged = false;
+        Object.keys(remote.notebook.entries).forEach(function (wordId) {
+          if (!localNotebook.entries[wordId]) {
+            localNotebook.entries[wordId] = remote.notebook.entries[wordId];
+            merged = true;
+          }
+        });
+        if (merged) XHZ._saveNotebook(profileId, localNotebook);
+      }
+    },
+
+    // ---------- NOTEBOOK ----------
+
+    pushNotebook: async function (profileId, entries) {
+      if (!this.ready) return;
+      if (!entries || !Object.keys(entries).length) return;
+
+      try {
+        var sb = window.__supabase;
+        var records = Object.values(entries).map(function (e) {
+          return {
+            profile_id: profileId,
+            word_id: e.word_id,
+            char: e.char || '',
+            pinyin: e.pinyin || '',
+            meaning: e.meaning || '',
+            note: e.note || '',
+            added_at: e.added_at || null,
+            updated_at: e.updated_at || null
+          };
+        });
+        var { error } = await sb.from('notebook').upsert(records, { onConflict: 'profile_id,word_id' });
+        if (error) console.warn('Supabase pushNotebook:', error.message);
+      } catch (e) {
+        console.warn('Supabase pushNotebook failed:', e.message);
+      }
+    },
+
+    pullNotebook: async function (profileId) {
+      if (!this.ready) return null;
+      try {
+        var sb = window.__supabase;
+        var { data, error } = await sb.from('notebook').select('*').eq('profile_id', profileId);
+        if (error) { console.warn('Supabase pullNotebook:', error.message); return null; }
+        if (!data || !data.length) return null;
+
+        var entries = {};
+        data.forEach(function (row) {
+          entries[row.word_id] = {
+            word_id: row.word_id,
+            char: row.char,
+            pinyin: row.pinyin,
+            meaning: row.meaning,
+            note: row.note,
+            added_at: row.added_at,
+            updated_at: row.updated_at
+          };
+        });
+        return { entries: entries };
+      } catch (e) {
+        console.warn('Supabase pullNotebook failed:', e.message);
+        return null;
       }
     }
   };

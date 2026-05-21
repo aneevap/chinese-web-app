@@ -323,6 +323,40 @@ body {
 .stat-val { font-size: 1.05em; font-weight: 900; color: var(--theme-color); }
 .stat-lbl { font-size: .65em; color: var(--ink-light); font-weight: 700; text-transform: uppercase; letter-spacing: .5px; }
 
+/* AUTO SCROLL TOGGLE */
+.auto-scroll-btn {
+  background: var(--paper-cool);
+  border: 2px solid var(--paper-deep);
+  border-radius: var(--radius-pill);
+  padding: 4px 10px;
+  font-size: .68em; font-weight: 800;
+  color: var(--ink-light);
+  cursor: pointer;
+  display: flex; align-items: center; gap: 4px;
+  transition: all .2s;
+  min-height: 28px;
+  font-family: var(--font-main);
+  white-space: nowrap;
+}
+.auto-scroll-btn:active { transform: scale(0.95); }
+.auto-scroll-btn.active {
+  background: var(--theme-color);
+  border-color: var(--theme-color);
+  color: var(--cream);
+  box-shadow: 0 2px 8px var(--theme-color)44;
+}
+.auto-scroll-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--ink-light);
+  transition: all .2s;
+}
+.auto-scroll-btn.active .auto-scroll-dot {
+  background: var(--cream);
+  box-shadow: 0 0 4px rgba(255,255,255,0.5);
+}
+
 /* SENTENCE CARD */
 .sentence-card {
   width: 100%; max-width: 880px;
@@ -821,6 +855,7 @@ body {
         <span id="char-pinyin" class="pinyin-text"></span>
         <span id="tone-badge" class="tone-badge tone-0"></span>
         <button class="icon-btn" id="pinyin-speaker-btn" onclick="speakWord()">🔊</button>
+        <button class="icon-btn" id="memo-btn" onclick="memoCurrentWord()" title="Save to notebook">📝</button>
         <button class="icon-btn" id="mic-btn" onclick="toggleListening()">🎤</button>
         <span id="char-meaning" class="meaning-text"></span>
       </div>
@@ -848,6 +883,12 @@ body {
         <div class="stat-item"><span class="stat-val" id="s-correct">0</span><span class="stat-lbl">Correct</span></div>
         <div class="stat-item"><span class="stat-val" id="s-mistakes">0</span><span class="stat-lbl">Mistakes</span></div>
         <div class="stat-item"><span class="stat-val" id="s-stars">0</span><span class="stat-lbl">Today ⭐</span></div>
+        <div class="stat-item">
+          <button class="auto-scroll-btn" id="auto-scroll-btn" onclick="toggleAutoScroll()" title="Auto advance on mastery">
+            <span class="auto-scroll-dot"></span>
+            Auto
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -901,6 +942,7 @@ body {
     <div class="all-chars-progress">
       <div id="all-chars-progress-text">0 / 0 mastered</div>
       <div class="all-chars-progress-bar"><div class="all-chars-progress-fill" id="all-chars-progress-fill" style="width:0%"></div></div>
+      <button id="migrate-mastery-btn" onclick="runMasteryMigration()" style="margin-top:10px;background:var(--paper-cool);border:1px solid var(--paper-deep);border-radius:var(--radius-pill);padding:6px 14px;font-size:.75em;font-weight:800;color:var(--ink-light);cursor:pointer;font-family:var(--font-main);transition:all .2s;" title="Fix old word mastery data to match the new 2-perfect-scores system">🔄 Fix old mastery data</button>
     </div>
   </div>
 </div>
@@ -1000,7 +1042,7 @@ function speakSentence(){var word=getThemeWords()[idx];if(!word)return;doSpeak(w
 function posKey(){return 'xhz_write_position_'+XHZ.getActiveProfile().id;}
 function savePosition(){if(!currentCourse)return;try{localStorage.setItem(posKey(),JSON.stringify({courseId:currentCourse.id,themeIdx:currentTheme,wordIdx:idx}));}catch(e){}}
 function restorePosition(){try{var d=JSON.parse(localStorage.getItem(posKey()));return d&&d.courseId?d:null;}catch(e){return null;}}
-window.onload=function(){XHZ.requireActive();checkMicSupport();initCanvas();showGuestWarningIfNeeded();loadCourses();initSpeechEngine();onLangChange(function(){updateLeftPanel(idx);});};
+window.onload=function(){XHZ.requireActive();checkMicSupport();initCanvas();showGuestWarningIfNeeded();updateAutoScrollUI();loadCourses();initSpeechEngine();onLangChange(function(){updateLeftPanel(idx);});};
 
 function switchTab(t){
   var sStudy=document.getElementById('section-study'),
@@ -1026,6 +1068,37 @@ function switchTab(t){
 
 function getLang(){return getNavLang();}
 function getThemeWords(){return !currentCourse||!THEMES.length?[]:WORDS.filter(function(w){return w.theme===THEMES[currentTheme].id;});}
+
+// ============================================
+// NOTEBOOK (memo)
+// ============================================
+function memoCurrentWord(){
+  var wd=getThemeWords()[idx];
+  if(!wd)return;
+  var btn=document.getElementById('memo-btn');
+  var isInNotebook=XHZ.isInNotebook && XHZ.isInNotebook(wd.word_id);
+  
+  // Flash checkmark briefly, then revert
+  btn.textContent='✓';
+  btn.style.background='var(--correct)';
+  btn.style.color='white';
+  
+  if(!isInNotebook){
+    XHZ.addNotebookEntry({
+      word_id: wd.word_id,
+      char: wd.ch,
+      pinyin: wd.py,
+      meaning: wd.en,
+      meaning_th: wd.th
+    });
+  }
+  
+  setTimeout(function(){
+    btn.textContent='📝';
+    btn.style.background='';
+    btn.style.color='';
+  },1500);
+}
 function showGuestWarningIfNeeded(){
     var wl=localStorage.getItem('xhz_waitlisted')==='true';
     // Supabase is the authoritative source: if signed in (not anon), hide banner
@@ -1186,6 +1259,31 @@ function closeAllCharsSheet(){
   if(o)o.classList.remove('open');
 }
 
+function _getCssVar(name){return getComputedStyle(document.documentElement).getPropertyValue(name).trim();}
+function runMasteryMigration(){
+  var result=XHZ.migrateOldMasteryData();
+  var btn=document.getElementById('migrate-mastery-btn');
+  var doneColor=_getCssVar('--correct')||'#1B7B5E';
+  if(!result||result.migrated===0){
+    btn.textContent='✅ No old data to fix';
+    btn.style.borderColor=doneColor;
+    btn.style.color=doneColor;
+    btn.disabled=true;
+    setTimeout(function(){btn.textContent='🔄 Fix old mastery data';btn.style.borderColor='';btn.style.color='';btn.disabled=false;},3000);
+    return;
+  }
+  btn.textContent='✅ Fixed '+result.migrated+' word(s)!';
+  btn.style.borderColor=doneColor;
+  btn.style.color=doneColor;
+  setTimeout(function(){
+    btn.textContent='🔄 Fix old mastery data';
+    btn.style.borderColor='';
+    btn.style.color='';
+    buildAllCharsGrid();
+    buildWordList();
+  },2500);
+}
+
 function buildAllCharsGrid(){
   var g=document.getElementById('all-chars-grid');
   var titleEl=document.getElementById('all-chars-title');
@@ -1252,10 +1350,20 @@ function refreshWordButton(i){var wds=getThemeWords(),wd=wds[i];if(!wd)return;va
 function updateLeftPanel(i){var wd=getThemeWords()[i];if(!wd)return;var l=getLang();document.getElementById('char-pinyin').textContent=wd.py;document.getElementById('char-meaning').textContent=l==='th'?wd.th:wd.en;document.getElementById('sent-zh').textContent=wd.zh;document.getElementById('sent-tr').textContent=l==='th'?wd.sent_th:wd.sent_en;updateToneBadge(wd.py);}
 function initAnimWriter(i){var wd=getThemeWords()[i];if(!wd)return;var bx=document.getElementById('anim-box');if(!bx)return;var bw=bx.clientWidth||bx.offsetWidth;if(bw<=0){setTimeout(function(){if(idx===i)initAnimWriter(i);},100);return;}if(animW){try{animW.cancelAnimation();}catch(e){}animW=null;}bx.innerHTML='';var sz=bw-4;try{animW=HanziWriter.create('anim-box',wd.ch,{width:sz,height:sz,padding:4,strokeColor:'#1B7B5E',outlineColor:'#D0F0E4',showCharacter:false,showOutline:true,strokeAnimationSpeed:0.8,delayBetweenStrokes:500,delayBetweenLoops:1200});animW.loopCharacterAnimation();}catch(e){console.error(e);}}
 function initQuizWriter(i){var wd=getThemeWords()[i];if(!wd)return;var bx=document.getElementById('quiz-box');if(!bx)return;var bw=bx.clientWidth||bx.offsetWidth;if(bw<=0){setTimeout(function(){if(idx===i)initQuizWriter(i);},100);return;}if(quizW){try{quizW.cancelQuiz();}catch(e){}quizW=null;}bx.innerHTML='';clearCanvas();var ib=(mode==='beginner'),sz=bw-6,ca=XHZ.canAwardWriteStars(wd.word_id);if(ca.reason==='already_cleared'){setMsg('✅ Mastered! Practice for fun 🎉','#888');}else{setMsg(t('trace_prompt')||'Trace the character!','#888');}try{quizW=HanziWriter.create('quiz-box',wd.ch,{width:sz,height:sz,padding:8,showCharacter:ib,charColor:'#CCCCCC',showOutline:ib,outlineColor:'#DDDDDD',strokeColor:'#222222',drawingColor:'rgba(0,0,0,0.15)',drawingWidth:2,highlightColor:'#4CAF50',highlightCompleteColor:'#4CAF50',leniency:1.2});quizW.quiz({onMistake:function(){mistakes++;document.getElementById('s-mistakes').textContent=mistakes;setMsg(t('stroke_retry')||'Try again!','#F44336');shake();markLastStroke('wrong');},onCorrectStroke:function(){corrects++;document.getElementById('s-correct').textContent=corrects;setMsg(t('stroke_good')||'Good!','#4CAF50');markLastStroke('correct');},onComplete:function(sm){if(idx!==i)return;handleQuizComplete(sm,wd,i);}});}catch(e){console.error(e);}}
-function handleQuizComplete(sm,wd,i){if(idx!==i)return;XHZ.markPracticed(wd.word_id);var m=sm.totalMistakes,st=m===0?3:m<=2?2:1,msg=m===0?(t('score_perfect')||'Perfect!'):m<=2?(t('score_great')||'Great!'):(t('score_keep_trying')||'Keep trying!');var dk=currentCourse.id+'_'+wd.word_id;doneSet[dk]=true;var sr=XHZ.addScore('write',st,[wd.word_id]),ts=XHZ.getTodayScore();document.getElementById('s-stars').textContent=ts?(ts.write_score+ts.study_score):'0';if(st===3)XHZ.markWriteCleared(wd.word_id);refreshWordButton(i);showStars(st);var ma=XHZ.getWordMastery(wd.word_id);if(ma&&ma.status==='mastered'){setMsg('✅ '+msg+' Keep it up! 🎉',st===3?'#1B7B5E':'#4CAF50');}else{setMsg(msg,st===3?'#1B7B5E':'#4CAF50');}var wb=document.getElementById('wb-'+i);if(wb)wb.className='word-btn active done'+(ma?' status-'+ma.status:'');if(sr&&sr.newBadgeUnlocked){setTimeout(function(){showBadgePopup(sr.badgeInfo);},800);}if(sr&&sr.newItemUnlocked){setTimeout(function(){showItemPopup(sr.newItemUnlocked);},1400);}setTimeout(function(){if(idx===i){clearCanvas();initQuizWriter(i);}},2500);}
+function handleQuizComplete(sm,wd,i){if(idx!==i)return;XHZ.markPracticed(wd.word_id);var m=sm.totalMistakes,st=m===0?3:m<=2?2:1,msg=m===0?(t('score_perfect')||'Perfect!'):m<=2?(t('score_great')||'Great!'):(t('score_keep_trying')||'Keep trying!');var dk=currentCourse.id+'_'+wd.word_id;doneSet[dk]=true;var sr=XHZ.addScore('write',st,[wd.word_id]),ts=XHZ.getTodayScore();document.getElementById('s-stars').textContent=ts?(ts.write_score+ts.study_score):'0';if(st===3)XHZ.markWriteCleared(wd.word_id);refreshWordButton(i);showStars(st);var ma=XHZ.getWordMastery(wd.word_id);if(ma&&ma.status==='mastered'){setMsg('✅ '+msg+' Keep it up! 🎉',st===3?'#1B7B5E':'#4CAF50');}else{setMsg(msg,st===3?'#1B7B5E':'#4CAF50');}var wb=document.getElementById('wb-'+i);if(wb)wb.className='word-btn active done'+(ma?' status-'+ma.status:'');if(sr&&sr.newBadgeUnlocked){setTimeout(function(){showBadgePopup(sr.badgeInfo);},800);}if(sr&&sr.newItemUnlocked){setTimeout(function(){showItemPopup(sr.newItemUnlocked);},1400);}// Auto-scroll: advance immediately if mastered with no mistakes
+var shouldAutoScroll=getAutoScroll()&&ma&&ma.status==='mastered'&&st===3;
+if(shouldAutoScroll){clearCanvas();var wds=getThemeWords();var nextIdx=i+1;if(nextIdx<wds.length){loadChar(nextIdx);return;}else{setMsg('🎉 All words mastered in this set!','#1B7B5E');}}
+setTimeout(function(){if(idx===i){clearCanvas();initQuizWriter(i);}},2500);}
 function showBadgePopup(b){if(!b)return;document.getElementById('badge-popup-emoji').textContent=b.emoji;document.getElementById('badge-popup-title').textContent='🎉 New Badge: '+b.label+'!';document.getElementById('badge-popup-sub').textContent='You earned this today. Keep it up! 🐼';document.getElementById('badge-popup-overlay').classList.add('visible');}
 function closeBadgePopup(){document.getElementById('badge-popup-overlay').classList.remove('visible');}
 function showItemPopup(it){if(!it)return;document.getElementById('badge-popup-emoji').textContent=it.emoji||'🎁';document.getElementById('badge-popup-title').textContent='🎁 New Item Unlocked!';document.getElementById('badge-popup-sub').textContent=it.message||('You unlocked '+it.label+'!');document.getElementById('badge-popup-overlay').classList.add('visible');}
+// ============================================
+// AUTO SCROLL
+// ============================================
+function getAutoScroll(){return localStorage.getItem('xhz_auto_scroll')==='true';}
+function toggleAutoScroll(){var on=!getAutoScroll();localStorage.setItem('xhz_auto_scroll',on?'true':'false');updateAutoScrollUI();}
+function updateAutoScrollUI(){var btn=document.getElementById('auto-scroll-btn');if(!btn)return;btn.classList.toggle('active',getAutoScroll());}
+
 function resetScore(){document.getElementById('stars-display').textContent='';setMsg(t('trace_prompt')||'Trace the character!','#888');document.getElementById('s-correct').textContent='0';document.getElementById('s-mistakes').textContent='0';var ts=XHZ.getTodayScore();document.getElementById('s-stars').textContent=ts?(ts.write_score+ts.study_score):'0';}
 function showStars(n){var el=document.getElementById('stars-display');el.textContent='⭐'.repeat(n)+'☆'.repeat(3-n);el.classList.remove('pop');void el.offsetWidth;el.classList.add('pop');}
 function setMsg(txt,c){var el=document.getElementById('score-msg');el.textContent=txt;el.style.color=c;}
@@ -1434,11 +1542,17 @@ var resizeTimer;window.addEventListener('resize',function(){
   resizeCanvas();
   clearTimeout(resizeTimer);
   resizeTimer=setTimeout(function(){
-    // If leaving mobile width, clear any section-hidden classes so all sections show
     if(window.innerWidth>600){
       document.getElementById('section-study').classList.remove('section-hidden');
       document.getElementById('section-practice').classList.remove('section-hidden');
       document.getElementById('section-sentence').classList.remove('section-hidden');
+    } else {
+      // Shrinking to mobile: default to study tab, hide practice & sentence
+      document.getElementById('section-study').classList.remove('section-hidden');
+      document.getElementById('section-practice').classList.add('section-hidden');
+      document.getElementById('section-sentence').classList.add('section-hidden');
+      document.getElementById('m-tab-watch').classList.add('active');
+      document.getElementById('m-tab-write').classList.remove('active');
     }
     // Recompute page size if breakpoint changed
     var newPageSize=computePageSize();

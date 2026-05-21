@@ -144,6 +144,37 @@
 - **Fixed auth-modal.js bug:** `profile` variable was trapped inside an `else` block (only ran when `repairAllProfilesFromSupabase` didn't exist), causing `window.__SUPABASE_SYNC && profile` to evaluate `undefined` and silently skip the post-sign-in sync trigger. Now declared at function scope.
 - **Defensive typeof guards** on auth-modal.js and write.html's `showGuestWarningIfNeeded()` for backward compatibility
 
+### Session 23 — Progress page: Notebook compact card & bottom sheet
+- **Notebook now shows top 5 entries** in compact format (char, pinyin, meaning, date on one row)
+- **Compact entry layout:** smaller char (1.1em), py+meaning on same row with separator, date right-aligned
+- **"See all N →" button** appears when >5 entries, opens a bottom sheet overlay
+- **Bottom sheet** has full notebook with inline note editing (click to edit, save), remove button, escape-key-to-close
+- **Cleanup:** removed dead functions (old editNotebookNote/saveNotebookNote/removeNotebookEntry)
+- **Escape key** fixed: overlay gets focus() on open via tabindex and keydown listener
+
+### Session 24 — Print page: Notebook source & bug fixes
+- **Source selector tabs** (Course / My Notebook) added to print page header
+- **Course+theme section** wrapped in show/hide div, controlled by selectSource()
+- **renderNotebookCharGrid()** loads notebook entries and renders as selectable char tiles
+- **Missing charsPerPage()** was lost during refactor — preview and print both broke. Added back: 8 chars first page, 10 for subsequent.
+- **findWordInCourseData()** helper searches COURSE_DATA for word enrichment
+- **Notebook char enrichment:** word objects now include zh, sent_en, sent_th, and th fallback from course data
+- **Notebook char toggle fixed:** closure uses `this` (DOM element) for classList + captured word for data
+- **selectAll()** returns early for notebook source; clearAll() uses Object.keys(selected)
+- **Course loading functions** added: loadCourses, buildCourseTabs, selectCourse, loadCourseData, buildThemeTabs, selectTheme, buildCharGrid, getThemeWords
+- **Supabase sync:** notebook table sync support added (pushNotebook, pullNotebook)
+
+### Session 25 — EN/TH i18n fixes + notebook TH meaning enrichment
+- **Progress page:** all dynamic content now uses t() — stats labels, journey, badges, calendar, mastery summary, items, notebook
+- **onLangChange** registered once in window.onload (fixed exponential callback growth bug)
+- **MONTH_NAMES** replaced with dynamic getMonthNames() for live lang updates
+- **Remaining hardcoded strings translated:** legend (unseen/seen/practiced/mastered), tooltip status labels, month names (jan-dec), calendar alert labels, streak day/days
+- **Write/Study:** memoCurrentWord() now passes meaning: wd.en, meaning_th: wd.th
+- **Profiles.js:** addNotebookEntry stores and updates meaning_th field
+- **Progress page notebook:** findInCourseData() provides TH fallback for old entries without meaning_th
+- **Print page notebook:** same course data fallback for TH meanings in notebook chars
+- **strings.js:** added 40+ new EN/TH string pairs for all new translations
+
 ## Pending
 - [x] Standardize font weight loading across all pages (completed in Sessions 3-4)
 - [x] Clean up unused `signup_*` i18n keys from `strings.js` (completed in Session 14)

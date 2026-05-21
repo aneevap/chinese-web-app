@@ -73,8 +73,15 @@
   window.__supabaseResetPassword = async function (email) {
     var sb = window.__supabase;
     if (!sb) throw new Error('Supabase not initialized');
+    // Build the redirect URL from the current page's base path
+    // This handles subdirectory deployments like GitHub Pages (e.g. /chinese-web-app/)
+    var basePath = window.location.pathname || '/';
+    if (!basePath.endsWith('/')) {
+      basePath = basePath.substring(0, basePath.lastIndexOf('/') + 1);
+    }
+    var redirectTo = window.location.origin + basePath + 'recovery.html';
     var { data, error } = await sb.auth.resetPasswordForEmail(email, {
-      redirectTo: window.location.origin + '/recovery.html'
+      redirectTo: redirectTo
     });
     if (error) throw error;
     return data;

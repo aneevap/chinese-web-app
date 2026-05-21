@@ -137,27 +137,37 @@
 <!-- PAGE BODY -->
 <div class="page-content" id="page-body" style="display:none; gap: var(--space-lg); padding-bottom: 40px; display: flex; flex-direction: column;">
 
-    <!-- STEP 1: COURSE + THEME + CHARACTERS -->
+    <!-- STEP 1: SOURCE + COURSE + THEME + CHARACTERS -->
     <div class="card">
-        <h3 class="section-title">① Choose a course</h3>
-        <div id="course-tabs" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;"></div>
+        <h3 class="section-title">① Choose source</h3>
+        <div id="source-tabs" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;">
+            <button class="pill active" id="src-course" onclick="selectSource('course')">📚 Course</button>
+            <button class="pill" id="src-notebook" onclick="selectSource('notebook')">📓 My Notebook</button>
+        </div>
 
-        <h3 class="section-title">② Choose a theme</h3>
-        <div id="theme-tabs" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;"></div>
+        <div id="course-theme-section">
+            <h3 class="section-title">② Choose a course</h3>
+            <div id="course-tabs" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;"></div>
 
-        <h3 class="section-title">③ Select characters</h3>
+            <h3 class="section-title">③ Choose a theme</h3>
+            <div id="theme-tabs" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;"></div>
+        </div>
+
+        <h3 class="section-title">④ Select characters</h3>
         <div id="char-grid" style="display: flex; flex-wrap: wrap; gap: 10px; max-height: 240px; overflow-y: auto; padding: 4px;"></div>
+
+        <div class="notebook-source-hint" id="notebook-source-hint" style="display:none; color: var(--ink-light); font-size:.8rem; font-weight:600; padding:8px 0;"></div>
 
         <div style="display: flex; gap: 12px; margin-top: 16px; align-items: center; flex-wrap: wrap; border-top: 2px dashed var(--paper-deep); padding-top: 16px;">
             <div id="select-count" style="font-size: .85rem; color: var(--ink-soft); font-weight: 700; flex: 1;">0 selected</div>
-            <button class="btn-secondary" style="padding: 8px 16px; font-size: .8rem;" onclick="selectAll()">Select All</button>
+            <button class="btn-secondary" id="select-all-btn" style="padding: 8px 16px; font-size: .8rem;" onclick="selectAll()">Select All</button>
             <button class="btn-secondary danger" style="padding: 8px 16px; font-size: .8rem;" onclick="clearAll()">Clear</button>
         </div>
     </div>
 
     <!-- STEP 2: OPTIONS -->
     <div class="card">
-        <h3 class="section-title">④ Options</h3>
+        <h3 class="section-title">⑤ Options</h3>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
             <div style="display: flex; flex-direction: column; gap: 8px;">
                 <div style="font-size: .8rem; color: var(--ink-soft); font-weight: 700;">Practice rows per character</div>
@@ -238,221 +248,252 @@ var charData  = {};
 
 var opts = { rows: 1, sentence: 'no' };
 
-function getThemeWords() {
-    if (!currentCourse || !THEMES.length) return [];
-    var themeId = THEMES[activeTheme].id;
-    return WORDS.filter(function(w) { return w.theme === themeId; });
-}
+var source = 'course'; // 'course' | 'notebook'
 
-function charsPerPage(isFirst) {
-    var pageH     = 277;
-    var headerH   = isFirst ? 18 : 10;
-    var footerH   = 6;
-    var available = pageH - headerH - footerH;
-    var blockH = 7 + (opts.rows * 16) + Math.max(0, opts.rows - 1) + 3;
-    var n = Math.floor(available / blockH);
-    return Math.min(n, MAX_PER_PAGE);
-}
-
-window.onload = function() {
-    XHZ.requireActive();
-    
-    // Attempt fallback for Panda image
-    var panda = document.getElementById('loading-panda');
-    var img = new Image();
-    img.onload = function() { panda.style.backgroundImage = "url('assets/mascot/panda-wave.png')"; };
-    img.onerror = function() { panda.textContent = '🐼'; panda.style.fontSize = '3rem'; panda.style.display = 'flex'; panda.style.alignItems = 'center'; panda.style.justifyContent = 'center'; panda.style.backgroundImage = 'none'; };
-    img.src = 'assets/mascot/panda-wave.png';
-    
-    loadCourses();
-    onLangChange(function() { buildPreview(); });
-};
+/* ══════════════════════════════════════
+   COURSE LOADING
+══════════════════════════════════════ */
 
 function loadCourses() {
-    setLoadingMsg('Loading courses...');
     fetch('courses.json')
-        .then(function(r) {
-            if (!r.ok) throw new Error('courses.json not found');
-            return r.json();
-        })
+        .then(function(r) { return r.json(); })
         .then(function(data) {
             COURSES = data.courses;
-            var first = getFirstAccessibleCourse();
-            if (!first) { showLoadError('No courses available.'); return; }
-            document.getElementById('page-body').style.display = 'flex';
             buildCourseTabs();
-            selectCourse(first.id);
+            if (COURSES.length) selectCourse(COURSES[0].id);
         })
-        .catch(function() { showLoadError('Could not load courses.json'); });
+        .catch(function(err) {
+            document.getElementById('loading-screen').innerHTML =
+                '<div style="color:#FF6B6B;text-align:center;padding:40px 20px;font-weight:bold;">' +
+                '❌ Could not load courses. Make sure courses.json exists.</div>';
+        });
 }
-
-function loadCourseData(courseId, callback) {
-    if (COURSE_DATA[courseId]) { callback(COURSE_DATA[courseId]); return; }
-    var course = getCourseById(courseId);
-    if (!course) return;
-
-    setLoadingMsg('Loading ' + courseId + ' words...');
-    document.getElementById('loading-screen').style.display = 'flex';
-
-    fetch(course.data_file)
-        .then(function(r) {
-            if (!r.ok) throw new Error(course.data_file + ' not found');
-            return r.json();
-        })
-        .then(function(data) {
-            COURSE_DATA[courseId] = data;
-            document.getElementById('loading-screen').style.display = 'none';
-            callback(data);
-        })
-        .catch(function() { showLoadError('Could not load ' + course.data_file); });
-}
-
-function setLoadingMsg(msg) {
-    var el = document.getElementById('loading-msg');
-    if (el) el.textContent = msg;
-}
-
-function showLoadError(html) {
-    var el = document.getElementById('loading-screen');
-    el.style.display = 'flex';
-    el.innerHTML = '<div style="color:var(--danger);text-align:center;padding:20px;font-weight:700;">❌ ' + html + '</div>';
-}
-
-function canAccessCourse(courseId) {
-    var course = getCourseById(courseId);
-    if (!course) return { allowed: false, reason: 'Course not found' };
-    if (course.is_free || !course.unlock) return { allowed: true };
-
-    var source = course.unlock.source;
-    var condition = course.unlock.condition;
-
-    if (condition === 'seen_100') {
-        var pct = XHZ.getCourseSeenPercent(source);
-        return { allowed: pct >= 100, reason: 'See all words in ' + source + ' first', progress: pct };
-    }
-    if (condition === 'mastered_80') {
-        var pct = XHZ.getYearMasteredPercent(source);
-        return { allowed: pct >= 80, reason: 'Master 80% of Year ' + source.replace('year_', '') + ' words first', progress: pct };
-    }
-    return { allowed: false, reason: 'Not yet unlocked' };
-}
-
-function getFirstAccessibleCourse() {
-    for (var i = 0; i < COURSES.length; i++) {
-        if (canAccessCourse(COURSES[i].id).allowed) return COURSES[i];
-    }
-    return null;
-}
-
-function getCourseById(id) { return COURSES.find(function(c) { return c.id === id; }) || null; }
 
 function buildCourseTabs() {
-    var bar = document.getElementById('course-tabs');
-    bar.innerHTML = '';
-    COURSES.forEach(function(course) {
-        var access = canAccessCourse(course.id);
-        var tab = document.createElement('button');
-        tab.id = 'ctab-' + course.id;
-        
-        if (access.allowed) {
-            tab.className = 'pill';
-            tab.textContent = course.id;
-            tab.title = course.name;
-            tab.onclick = (function(id) { return function() { selectCourse(id); }; })(course.id);
-        } else {
-            tab.className = 'pill locked';
-            tab.textContent = course.id;
-            tab.title = access.reason || 'Locked';
-            tab.onclick = (function(c, a) { return function() { showLockedHint(c, a); }; })(course, access);
-        }
-        bar.appendChild(tab);
-    });
+    var container = document.getElementById('course-tabs');
+    container.innerHTML = COURSES.map(function(c) {
+        return '<button class="pill" id="ctab-' + c.id + '" ' +
+            'onclick="selectCourse(\'' + c.id + '\')">' +
+            c.emoji + ' ' + c.name +
+            '</button>';
+    }).join('');
 }
 
-function showLockedHint(course, access) {
-    var msg = '🔒 ' + course.name + '\n\n' + access.reason;
-    if (access.progress !== undefined) msg += '\n\nYour progress: ' + Math.round(access.progress) + '%';
-    alert(msg);
-}
-
-function selectCourse(courseId) {
-    COURSES.forEach(function(c) {
-        var tab = document.getElementById('ctab-' + c.id);
-        if (tab) tab.className = 'pill' + (c.id === courseId ? ' active' : '') + (!canAccessCourse(c.id).allowed ? ' locked' : '');
+function selectCourse(id) {
+    currentCourse = null;
+    document.querySelectorAll('#course-tabs .pill').forEach(function(el) {
+        el.className = 'pill' + (el.id === 'ctab-' + id ? ' active' : '');
     });
 
-    currentCourse = getCourseById(courseId);
-    selected = {};
-    updateCount();
-    buildPreview();
+    document.getElementById('loading-msg').textContent = 'Loading course data...';
 
-    loadCourseData(courseId, function(data) {
+    loadCourseData(id, function(data) {
+        currentCourse = { id: id, name: getCourseName(id), themes: getCourseThemes(id), data_file: getCourseDataFile(id) };
         WORDS = data.words;
         THEMES = currentCourse.themes;
-        activeTheme = 0;
         buildThemeTabs();
         selectTheme(0);
+
+        document.getElementById('loading-screen').style.display = 'none';
+        document.getElementById('page-body').style.display = 'flex';
     });
+}
+
+function getCourseName(id) {
+    var c = COURSES.find(function(c) { return c.id === id; });
+    return c ? c.name : id;
+}
+
+function getCourseThemes(id) {
+    var c = COURSES.find(function(c) { return c.id === id; });
+    return c ? (c.themes || []) : [];
+}
+
+function getCourseDataFile(id) {
+    var c = COURSES.find(function(c) { return c.id === id; });
+    return c ? c.data_file : '';
+}
+
+function loadCourseData(id, callback) {
+    fetch(getCourseDataFile(id))
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            COURSE_DATA[id] = data;
+            if (callback) callback(data);
+        })
+        .catch(function(err) {
+            console.error('Failed to load course data:', err);
+            document.getElementById('loading-msg').textContent = '❌ Failed to load course data';
+        });
 }
 
 function buildThemeTabs() {
-    var bar = document.getElementById('theme-tabs');
-    bar.innerHTML = '';
-    THEMES.forEach(function(theme, i) {
-        var tab = document.createElement('button');
-        tab.className = 'pill' + (i === 0 ? ' active' : '');
-        tab.id = 'ttab-' + i;
-        tab.textContent = theme.emoji + ' ' + theme.name;
-        tab.onclick = (function(i) { return function() { selectTheme(i); }; })(i);
-        bar.appendChild(tab);
-    });
+    var container = document.getElementById('theme-tabs');
+    if (!THEMES.length) {
+        container.innerHTML = '';
+        return;
+    }
+    container.innerHTML = THEMES.map(function(t, i) {
+        return '<button class="pill" id="ttab-' + t.id + '" ' +
+            'onclick="selectTheme(' + i + ')">' +
+            (t.emoji || '📂') + ' ' + (t.name || t.id) +
+            '</button>';
+    }).join('');
 }
 
-function selectTheme(i) {
-    activeTheme = i;
-    THEMES.forEach(function(_, j) {
-        var t = document.getElementById('ttab-' + j);
-        if (t) t.className = 'pill' + (j === i ? ' active' : '');
+function selectTheme(idx) {
+    activeTheme = idx;
+    document.querySelectorAll('#theme-tabs .pill').forEach(function(el) {
+        el.className = 'pill' + (el.id === 'ttab-' + THEMES[idx].id ? ' active' : '');
     });
-    
-    var bc = getBotesColor(THEMES[i].id);
-    document.documentElement.style.setProperty('--theme-color', bc.color);
-    document.documentElement.style.setProperty('--theme-color-deep', bc.deep);
-    
+
+    selected = {};
+    charData = {};
     buildCharGrid();
+    updateCount();
+    buildPreview();
 }
 
 function buildCharGrid() {
     var grid = document.getElementById('char-grid');
-    var words = getThemeWords();
-    grid.innerHTML = '';
+    var themeWords = getThemeWords();
 
-    if (words.length === 0) {
-        grid.innerHTML = '<div style="color:var(--ink-light);padding:20px;font-size:.9rem;font-weight:600;">No characters in this theme yet.</div>';
+    grid.innerHTML = themeWords.map(function(w) {
+        return '<button class="char-tile" id="chip-' + w.word_id + '" ' +
+            'onclick="toggleChar(\'' + w.word_id + '\', this)">' +
+            '<span class="ch">' + w.ch + '</span>' +
+            '<span class="py">' + colorPinyin(w.py) + '</span>' +
+            '</button>';
+    }).join('');
+}
+
+function getThemeWords() {
+    if (activeTheme === undefined || activeTheme === null || !THEMES.length) {
+        return WORDS;
+    }
+    var themeId = THEMES[activeTheme].id;
+    return WORDS.filter(function(w) { return w.theme === themeId; });
+}
+
+function toggleChar(key, el) {
+    if (el && el.classList.contains('active')) {
+        delete selected[key];
+        el.classList.remove('active');
+    } else {
+        var word = findWord(key);
+        if (word) selected[key] = word;
+        if (el) el.classList.add('active');
+    }
+    updateCount();
+    buildPreview();
+}
+
+function findWordInCourseData(wordId) {
+    var cids = Object.keys(COURSE_DATA);
+    for (var i = 0; i < cids.length; i++) {
+        var data = COURSE_DATA[cids[i]];
+        if (data && data.words) {
+            for (var j = 0; j < data.words.length; j++) {
+                if (data.words[j].word_id === wordId) return data.words[j];
+            }
+        }
+    }
+    return null;
+}
+
+function findWord(wordId) {
+    return WORDS.find(function(w) { return w.word_id === wordId; }) || null;
+}
+
+function selectSource(s) {
+    source = s;
+    document.getElementById('src-course').className = 'pill' + (s === 'course' ? ' active' : '');
+    document.getElementById('src-notebook').className = 'pill' + (s === 'notebook' ? ' active' : '');
+
+    var courseSection = document.getElementById('course-theme-section');
+    var selectAllBtn = document.getElementById('select-all-btn');
+    var hint = document.getElementById('notebook-source-hint');
+
+    selected = {};
+    charData = {};
+
+    if (s === 'course') {
+        courseSection.style.display = '';
+        selectAllBtn.style.display = '';
+        hint.style.display = 'none';
+        // Re-select current course if one exists
+        if (currentCourse) {
+            loadCourseData(currentCourse.id, function(data) {
+                WORDS = data.words;
+                THEMES = currentCourse.themes;
+                buildThemeTabs();
+                selectTheme(activeTheme || 0);
+            });
+        }
+    } else {
+        courseSection.style.display = 'none';
+        selectAllBtn.style.display = 'none';
+        hint.style.display = '';
+        renderNotebookCharGrid();
+    }
+    updateCount();
+    buildPreview();
+}
+
+function renderNotebookCharGrid() {
+    var grid = document.getElementById('char-grid');
+    var hint = document.getElementById('notebook-source-hint');
+
+    var profile = XHZ.getActiveProfile();
+    if (!profile) {
+        grid.innerHTML = '<div style="color:var(--ink-light);padding:20px;font-size:.9rem;font-weight:600;">Please create a profile first.</div>';
+        hint.textContent = '';
         return;
     }
 
-    words.forEach(function(word) {
-        var key = word.word_id;
+    var notebook = XHZ.getNotebook(profile.id);
+    var entries = Object.values(notebook);
+
+    if (!entries.length) {
+        grid.innerHTML = '<div style="color:var(--ink-light);padding:20px;font-size:.9rem;font-weight:600;">Your notebook is empty — save characters from Write or Study mode first!</div>';
+        hint.textContent = '';
+        return;
+    }
+
+    // Sort by most recently added first
+    entries.sort(function (a, b) {
+        return (b.added_at || '').localeCompare(a.added_at || '');
+    });
+
+    hint.textContent = '📓 ' + entries.length + ' characters in your notebook';
+
+    grid.innerHTML = '';
+    entries.forEach(function(entry) {
+        var key = entry.word_id;
         var chip = document.createElement('button');
         chip.className = 'char-tile' + (selected[key] ? ' active' : '');
         chip.id = 'chip-' + key;
+        // Create a word-like object for the print flow
+        var courseWord = findWordInCourseData(entry.word_id);
+        var word = {
+            word_id: entry.word_id,
+            ch: entry.char,
+            py: entry.pinyin,
+            en: entry.meaning || (courseWord && courseWord.en) || '',
+            th: entry.meaning_th || (courseWord && courseWord.th) || '',
+            zh: (courseWord && courseWord.zh) || '',
+            sent_en: (courseWord && courseWord.sent_en) || '',
+            sent_th: (courseWord && courseWord.sent_th) || ''
+        };
         chip.innerHTML = '<span class="ch">' + word.ch + '</span><span class="py">' + colorPinyin(word.py) + '</span>';
-        chip.onclick = (function(key, word) { return function() { toggleChar(key, word); }; })(key, word);
+        chip.onclick = (function(key, word) { return function() { if (this.classList.contains('active')) { delete selected[key]; this.classList.remove('active'); } else { selected[key] = word; this.classList.add('active'); } updateCount(); buildPreview(); }; })(key, word);
         grid.appendChild(chip);
     });
     updateCount();
 }
 
-function toggleChar(key, word) {
-    if (selected[key]) { delete selected[key]; } else { selected[key] = word; }
-    var chip = document.getElementById('chip-' + key);
-    if (chip) chip.className = 'char-tile' + (selected[key] ? ' active' : '');
-    updateCount();
-    buildPreview();
-}
-
 function selectAll() {
+    if (source === 'notebook') return; // Select All disabled for notebook
     getThemeWords().forEach(function(word) {
         var key = word.word_id;
         selected[key] = word;
@@ -464,8 +505,8 @@ function selectAll() {
 }
 
 function clearAll() {
-    getThemeWords().forEach(function(word) {
-        var key = word.word_id;
+    var keys = Object.keys(selected);
+    keys.forEach(function(key) {
         delete selected[key];
         var chip = document.getElementById('chip-' + key);
         if (chip) chip.className = 'char-tile';
@@ -529,6 +570,10 @@ function buildPreview() {
         html += '</div></div>';
     });
     area.innerHTML = html;
+}
+
+function charsPerPage(isFirst) {
+    return isFirst ? 8 : MAX_PER_PAGE;
 }
 
 function paginateKeys(keys) {
@@ -654,6 +699,7 @@ function doPrint() {
     document.addEventListener('DOMContentLoaded', function() {
         initNav('print');
         refreshStrings();
+        loadCourses();
     });
 </script>
 </body>

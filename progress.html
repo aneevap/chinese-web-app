@@ -347,6 +347,217 @@
 }
 .item-empty { font-size: 0.75em; color: var(--ink-light); padding: 8px 0; }
 
+/* ── NOTEBOOK ── */
+.nb-compact {
+  display: flex; flex-direction: column; gap: 6px;
+}
+.nb-compact-entry {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 10px;
+  background: var(--theme-color-pale);
+  border-radius: 10px;
+  cursor: default;
+  transition: background 0.15s;
+}
+.nb-compact-entry .cce-char {
+  font-size: 1.1em; font-weight: 800;
+  color: var(--ink-dark); min-width: 24px;
+  text-align: center; line-height: 1;
+}
+.nb-compact-entry .cce-info {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: row;
+  align-items: center; gap: 5px;
+}
+.nb-compact-entry .cce-py {
+  font-size: 0.65em; font-weight: 800; color: var(--theme-color);
+  flex-shrink: 0;
+}
+.nb-compact-entry .cce-py::after {
+  content: '·'; margin: 0 4px;
+  color: var(--ink-light); font-weight: 400;
+}
+.nb-compact-entry .cce-meaning {
+  font-size: 0.6em; color: var(--ink-medium); font-weight: 700;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.nb-compact-entry .cce-date {
+  font-size: 0.5em; color: var(--ink-light); font-weight: 700;
+  flex-shrink: 0; white-space: nowrap;
+}
+.nb-see-all {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 6px 14px; margin-top: 6px;
+  border: 2px solid var(--paper-deep);
+  border-radius: var(--radius-pill);
+  background: var(--paper-cool);
+  color: var(--ink-medium);
+  font-size: 0.72em; font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font-main);
+  align-self: flex-start;
+}
+.nb-see-all:active { transform: scale(0.95); }
+.nb-see-all:hover { background: var(--theme-color-pale); border-color: var(--theme-color); color: var(--theme-color); }
+
+/* Full notebook entry (used in both compact + sheet) */
+.nb-entry {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--paper-cool);
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+  transition: background 0.2s;
+}
+.nb-entry:last-child { margin-bottom: 0; }
+.nb-char {
+  font-size: 1.8em;
+  font-weight: 800;
+  color: var(--ink-dark);
+  min-width: 48px;
+  text-align: center;
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+.nb-info { flex: 1; min-width: 0; }
+.nb-py {
+  font-size: 0.82em;
+  font-weight: 800;
+  color: var(--theme-color);
+}
+.nb-meaning {
+  font-size: 0.72em;
+  color: var(--ink-medium);
+  font-weight: 700;
+  margin-top: 1px;
+}
+.nb-note-area {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nb-note-input {
+  flex: 1;
+  border: 2px solid var(--paper-deep);
+  border-radius: 8px;
+  padding: 5px 8px;
+  font-size: 0.72em;
+  font-weight: 700;
+  color: var(--ink-dark);
+  background: var(--paper-cream);
+  font-family: var(--font-main);
+  min-height: 30px;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+.nb-note-input:focus {
+  outline: none;
+  border-color: var(--theme-color);
+}
+.nb-note-display {
+  font-size: 0.72em;
+  color: var(--ink-soft);
+  font-weight: 700;
+  line-height: 1.3;
+  cursor: pointer;
+  padding: 2px 0;
+  min-height: 1.2em;
+}
+.nb-note-display:hover { color: var(--theme-color); }
+.nb-note-display.empty {
+  color: var(--ink-light);
+  font-style: italic;
+}
+.nb-date {
+  font-size: 0.58em;
+  color: var(--ink-light);
+  margin-top: 3px;
+  font-weight: 700;
+}
+.nb-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.nb-btn {
+  width: 30px; height: 30px;
+  border: none;
+  border-radius: 50%;
+  font-size: 0.7em;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+  background: transparent;
+  color: var(--ink-light);
+}
+.nb-btn:active { transform: scale(0.9); }
+.nb-btn-edit { color: var(--theme-color); }
+.nb-btn-edit:hover { background: var(--theme-color-pale); }
+.nb-btn-del { color: var(--botes-coral); }
+.nb-btn-del:hover { background: #ffcdd2; }
+.nb-btn-save {
+  background: var(--botes-sage);
+  color: white;
+  font-size: 0.65em;
+  width: 30px; height: 30px;
+}
+.nb-btn-save:hover { opacity: 0.85; }
+.nb-empty {
+  font-size: 0.75em; color: var(--ink-light);
+  padding: 8px 0;
+}
+
+/* Notebook bottom sheet */
+.nb-sheet-overlay {
+  position: fixed; inset: 0;
+  background: rgba(74, 56, 40, 0.4);
+  z-index: 500;
+  display: flex; align-items: flex-end; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+.nb-sheet-overlay.open { opacity: 1; pointer-events: all; }
+.nb-sheet {
+  background: var(--paper-cream);
+  border-radius: var(--card-radius) var(--card-radius) 0 0;
+  width: 100%; max-width: 600px;
+  max-height: 80vh;
+  padding: 20px 16px 32px;
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.32,0.72,0,1);
+  overflow-y: auto;
+}
+.nb-sheet-overlay.open .nb-sheet { transform: translateY(0); }
+.nb-sheet-header {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--paper-deep);
+}
+.nb-sheet-title {
+  font-size: 1.1em; font-weight: 900;
+  color: var(--ink-dark);
+}
+.nb-sheet-close {
+  background: var(--paper-cool);
+  border: none; border-radius: 50%;
+  width: 44px; height: 44px;
+  font-size: 1.1em; color: var(--ink-light);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; transition: all 0.2s;
+}
+.nb-sheet-close:active {
+  transform: scale(0.9);
+  background: var(--paper-deep);
+}
+
 /* ════════════════════════════════════════════════
    PARENT SETTINGS MODAL
 ════════════════════════════════════════════════ */
@@ -554,7 +765,7 @@
 <!-- LOADING -->
 <div class="loading-screen" id="loading-screen">
     <div class="loading-spinner"></div>
-    <span>Loading progress...</span>
+    <span id="loading-text">Loading progress...</span>
 </div>
 
 <!-- NAV -->
@@ -596,6 +807,15 @@
         <div class="badge-shelf" id="badge-shelf"></div>
     </div>
 
+    <!-- NOTEBOOK -->
+    <div class="card">
+        <div class="card-title">📓 Notebook</div>
+        <div id="notebook-content">
+            <div class="badge-empty" id="notebook-empty" data-i18n="notebook_empty"></div>
+        </div>
+        <div id="notebook-list" style="display:none;"></div>
+    </div>
+
     <!-- CALENDAR -->
     <div class="card">
         <div class="card-title">📅 Activity</div>
@@ -613,10 +833,10 @@
         <div class="mastery-course-tabs" id="mastery-course-tabs"></div>
         <div class="mastery-theme-tabs"  id="mastery-theme-tabs"></div>
         <div class="mastery-legend">
-            <div class="legend-item"><div class="legend-dot dot-unseen"></div>Not seen</div>
-            <div class="legend-item"><div class="legend-dot dot-seen"></div>Seen</div>
-            <div class="legend-item"><div class="legend-dot dot-practiced"></div>Practiced</div>
-            <div class="legend-item"><div class="legend-dot dot-mastered"></div>Mastered</div>
+        <div class="legend-item"><div class="legend-dot dot-unseen"></div><span data-i18n="legend_unseen">Not seen</span></div>
+            <div class="legend-item"><div class="legend-dot dot-seen"></div><span data-i18n="legend_seen">Seen</span></div>
+            <div class="legend-item"><div class="legend-dot dot-practiced"></div><span data-i18n="legend_practiced">Practiced</span></div>
+            <div class="legend-item"><div class="legend-dot dot-mastered"></div><span data-i18n="legend_mastered">Mastered</span></div>
         </div>
         <div class="mastery-word-grid" id="mastery-word-grid"></div>
     </div>
@@ -661,6 +881,7 @@ var calMonth            = 0;
 var activeMasteryCourse = null;
 var activeThemeId       = null;
 var tooltipTimer        = null;
+var _attemptedCourseIds = [];
 
 /* =====================================================
    INIT
@@ -682,22 +903,31 @@ window.onload = function() {
         rewards = results[0];
         COURSES = results[1].courses;
 
-        var attempted = getAttemptedCourseIds();
+        _attemptedCourseIds = getAttemptedCourseIds();
 
-        if (!attempted.length) {
+        if (!_attemptedCourseIds.length) {
             renderAll([]);
             return;
         }
 
         return Promise.all(
-            attempted.map(function(id) {
+            _attemptedCourseIds.map(function(id) {
                 var course = getCourseById(id);
                 return fetch(course.data_file)
                     .then(function(r) { return r.json(); })
                     .then(function(data) { COURSE_DATA[id] = data; });
             })
         ).then(function() {
-            renderAll(attempted);
+            renderAll(_attemptedCourseIds);
+
+            // Listen for language toggle — re-render all dynamic content
+            // (registered once here, NOT inside renderAll, to avoid exponential callbacks)
+            if (typeof onLangChange === 'function') {
+                onLangChange(function() {
+                    document.getElementById('loading-text').textContent = t('loading_progress');
+                    renderAll(_attemptedCourseIds);
+                });
+            }
         });
     })
     .catch(function(err) {
@@ -746,6 +976,7 @@ function renderAll(attempted) {
     renderCalendar();
     renderMasteryGrid(attempted);
     renderItemShelf();
+    renderNotebook();
 
     document.getElementById('loading-screen').style.display = 'none';
     document.getElementById('page-content').style.display   = 'flex';
@@ -804,7 +1035,7 @@ function renderProfileHeader() {
     /* keep the tap hint and onclick — inject content around it */
     var header = document.getElementById('profile-header');
     header.innerHTML =
-        '<span class="profile-header-tap-hint">⚙️ Settings</span>' +
+        '<span class="profile-header-tap-hint">' + t('settings_tap_hint') + '</span>' +
         '<div class="profile-avatar">' + profile.avatar + '</div>' +
         '<div class="profile-info">' +
             '<div class="profile-name">' + profile.nickname + '</div>' +
@@ -814,7 +1045,7 @@ function renderProfileHeader() {
             ? '<div style="text-align:center;">' +
                 '<div style="font-size:1.4em;">🔥</div>' +
                 '<div style="font-size:0.65em;font-weight:bold;color:#FF8C42;">' +
-                    streak + ' day' + (streak !== 1 ? 's' : '') +
+                    streak + ' ' + (streak === 1 ? t('streak_day') : t('streak_days')) +
                 '</div>' +
               '</div>'
             : '');
@@ -838,12 +1069,12 @@ function renderStats() {
     var attemptedCount = Object.keys(allMastery).length;
 
     var items = [
-        { val: total,          lbl: 'Total ⭐' },
-        { val: streak + ' 🔥', lbl: 'Streak' },
-        { val: longest,        lbl: 'Best Streak' },
-        { val: best + ' ⭐',   lbl: 'Best Day' },
-        { val: masteredCount,  lbl: 'Mastered' },
-        { val: attemptedCount, lbl: 'Attempted' }
+        { val: total,          lbl: t('stats_total') },
+        { val: streak + ' 🔥', lbl: t('stats_streak') },
+        { val: longest,        lbl: t('stats_best_streak') },
+        { val: best + ' ⭐',   lbl: t('stats_best_day') },
+        { val: masteredCount,  lbl: t('stats_mastered') },
+        { val: attemptedCount, lbl: t('stats_attempted') }
     ];
 
     document.getElementById('stats-grid').innerHTML = items.map(function(s) {
@@ -914,9 +1145,8 @@ function renderTitleProgress() {
     var pct  = info.pct || 0;
 
     var nextHtml = info.next
-        ? '<div class="title-next">Next: ' + info.next.emoji + ' ' +
-          info.next.title + ' at ' + info.next.min_pct + '%</div>'
-        : '<div class="title-next">🎉 Maximum title reached!</div>';
+        ? '<div class="title-next">' + tFormat('journey_next', { emoji: info.next.emoji, title: info.next.title, pct: info.next.min_pct }) + '</div>'
+        : '<div class="title-next">' + t('journey_max') + '</div>';
 
     document.getElementById('title-content').innerHTML =
         '<div class="title-row">' +
@@ -964,7 +1194,7 @@ function renderBadges() {
     var earned    = allBadges.filter(function(b) { return counts[b.id] > 0; });
 
     if (!earned.length) {
-        shelf.innerHTML = '<div class="badge-empty">No badges yet — keep practising! 🐼</div>';
+        shelf.innerHTML = '<div class="badge-empty">' + t('badges_empty') + '</div>';
         return;
     }
 
@@ -980,11 +1210,15 @@ function renderBadges() {
 /* =====================================================
    5. CALENDAR
 ===================================================== */
-var MONTH_NAMES = [
-    'January','February','March','April','May','June',
-    'July','August','September','October','November','December'
-];
-var DAY_LABELS = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+function getMonthNames() {
+    return [
+        t('cal_jan'), t('cal_feb'), t('cal_mar'), t('cal_apr'), t('cal_may'), t('cal_jun'),
+        t('cal_jul'), t('cal_aug'), t('cal_sep'), t('cal_oct'), t('cal_nov'), t('cal_dec')
+    ];
+}
+function getDayLabels() {
+    return [t('cal_su'), t('cal_mo'), t('cal_tu'), t('cal_we'), t('cal_th'), t('cal_fr'), t('cal_sa')];
+}
 
 function calPrev() {
     calMonth--;
@@ -1001,8 +1235,9 @@ function calNext() {
 }
 
 function renderCalendar() {
+    var monthNames = getMonthNames();
     document.getElementById('cal-month').textContent =
-        MONTH_NAMES[calMonth] + ' ' + calYear;
+        monthNames[calMonth] + ' ' + calYear;
 
     var stored = localStorage.getItem('xhz_scores_' + profile.id);
     var days   = {};
@@ -1022,7 +1257,8 @@ function renderCalendar() {
     }
     var maxScore = Math.max.apply(null, scores.concat([1]));
 
-    var html = DAY_LABELS.map(function(l) {
+    var dayLabels = getDayLabels();
+    var html = dayLabels.map(function(l) {
         return '<div class="cal-day-label">' + l + '</div>';
     }).join('');
 
@@ -1072,10 +1308,10 @@ function showCalDay(dateKey) {
         var score = (rec.write_score||0) + (rec.study_score||0);
         alert(
             '📅 ' + dateKey + '\n' +
-            '⭐ Score: '  + score + '\n' +
-            '✍️  Write: ' + (rec.write_score||0) + '\n' +
-            '📚 Study: '  + (rec.study_score||0) + '\n' +
-            '📝 Chars: '  + (rec.chars_practiced||[]).length
+            tFormat('cal_score', { score: score }) + '\n' +
+            tFormat('cal_write', { count: rec.write_score || 0 }) + '\n' +
+            tFormat('cal_study', { count: rec.study_score || 0 }) + '\n' +
+            tFormat('cal_chars', { count: (rec.chars_practiced || []).length })
         );
     } catch(e) {}
 }
@@ -1092,7 +1328,7 @@ function renderMasteryGrid(attempted) {
         courseTabsEl.innerHTML = '';
         themeTabsEl.innerHTML  = '';
         gridEl.innerHTML =
-            '<div class="mastery-empty">No words attempted yet. Start practising! 🐼</div>';
+            '<div class="mastery-empty">' + t('mastery_empty') + '</div>';
         return;
     }
 
@@ -1160,7 +1396,7 @@ function renderMasteryWords(courseId, themeId) {
         : all;
 
     if (!words.length) {
-        gridEl.innerHTML = '<div class="mastery-empty">No words in this theme yet.</div>';
+        gridEl.innerHTML = '<div class="mastery-empty">' + t('mastery_theme_empty') + '</div>';
         return;
     }
 
@@ -1189,10 +1425,7 @@ function renderMasteryWords(courseId, themeId) {
 
     gridEl.innerHTML =
         '<div style="width:100%;font-size:0.65em;color:var(--ink-light);margin-bottom:6px;">' +
-            words.length + ' words · ' +
-            masteredCount + ' mastered · ' +
-            practicedCount + ' practiced · ' +
-            seenCount + ' seen' +
+            tFormat('mastery_summary', { total: words.length, mastered: masteredCount, practiced: practicedCount, seen: seenCount }) +
         '</div>' + html;
 }
 
@@ -1212,19 +1445,19 @@ function showWordTooltip(e, wordId) {
     if (!wordData) return;
 
     var statusLabels = {
-        unseen:    '⬜ Not seen',
-        seen:      '🔵 Seen',
-        practiced: '🟠 Practiced',
-        mastered:  '✅ Mastered'
+        unseen:    '⬜ ' + t('tooltip_status_unseen'),
+        seen:      '🔵 ' + t('tooltip_status_seen'),
+        practiced: '🟠 ' + t('tooltip_status_practiced'),
+        mastered:  '✅ ' + t('tooltip_status_mastered')
     };
     var status = m ? m.status : 'unseen';
 
     document.getElementById('tt-ch').textContent     = wordData.ch;
     document.getElementById('tt-py').textContent     = wordData.py;
-    document.getElementById('tt-en').textContent     = wordData.en;
+    document.getElementById('tt-en').textContent     = getNavLang() === 'th' ? (wordData.th || wordData.en) : wordData.en;
     document.getElementById('tt-status').textContent = statusLabels[status] || status;
     document.getElementById('tt-date').textContent   =
-        m && m.mastered_date ? 'Mastered: ' + m.mastered_date : '';
+        m && m.mastered_date ? tFormat('mastered_on', { date: m.mastered_date }) : '';
 
     var x = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
     var y = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
@@ -1253,7 +1486,7 @@ function renderItemShelf() {
 
     if (!earned.length) {
         shelf.innerHTML =
-            '<div class="item-empty">No items yet — earn ⭐ to unlock collectibles! 🎁</div>';
+            '<div class="item-empty">' + t('items_empty') + '</div>';
         return;
     }
 
@@ -1639,7 +1872,206 @@ function showToast(msg) {
         setTimeout(function() { toast.remove(); }, 250);
     }, 2000);
 }
+
+/* =====================================================
+   8. NOTEBOOK
+===================================================== */
+function renderNotebook() {
+    var notebook = XHZ.getNotebook(profile.id);
+    var entries = Object.values(notebook);
+    var countEl = document.getElementById('notebook-count');
+    var emptyEl = document.getElementById('notebook-empty');
+    var listEl = document.getElementById('notebook-list');
+
+    if (countEl) countEl.textContent = entries.length ? '(' + entries.length + ')' : '';
+
+    if (!entries.length) {
+        if (emptyEl) emptyEl.style.display = '';
+        if (listEl) listEl.style.display = 'none';
+        return;
+    }
+
+    if (emptyEl) emptyEl.style.display = 'none';
+    if (listEl) listEl.style.display = '';
+
+    // Sort by most recently added first
+    entries.sort(function (a, b) {
+        return (b.added_at || '').localeCompare(a.added_at || '');
+    });
+
+    // Show only first 5 in compact view
+    var showCount = Math.min(5, entries.length);
+    var compactEntries = entries.slice(0, showCount);
+
+    listEl.innerHTML = '<div class="nb-compact">' +
+        compactEntries.map(function (e) {
+            var dateStr = e.added_at ? e.added_at.slice(0, 10) : '';
+            var nbLang  = typeof getNavLang === 'function' ? getNavLang() : 'en';
+            var courseWord = nbLang === 'th' && !e.meaning_th ? findInCourseData(e.word_id) : null;
+            var nbMeaning = nbLang === 'th'
+                ? (e.meaning_th || (courseWord && courseWord.th) || e.meaning)
+                : e.meaning;
+            return '<div class="nb-compact-entry">' +
+                '<div class="cce-char">' + escapeHtml(e.char) + '</div>' +
+                '<div class="cce-info">' +
+                    '<div class="cce-py">' + escapeHtml(e.pinyin) + '</div>' +
+                    '<div class="cce-meaning">' + escapeHtml(nbMeaning) + '</div>' +
+                '</div>' +
+                (dateStr ? '<div class="cce-date">' + dateStr + '</div>' : '') +
+            '</div>';
+        }).join('') +
+        (entries.length > 5
+            ? '<button class="nb-see-all" onclick="openNotebookSheet()">' + tFormat('notebook_see_all', { count: entries.length }) + '</button>'
+            : '') +
+    '</div>';
+}
+
+/* ── NOTEBOOK BOTTOM SHEET ── */
+function openNotebookSheet() {
+    var overlay = document.getElementById('nb-sheet-overlay');
+    overlay.classList.add('open');
+    document.getElementById('nb-sheet-title').textContent = t('notebook_sheet_title');
+    renderFullNotebook();
+    // Focus for keyboard events (escape to close)
+    setTimeout(function() { overlay.focus(); }, 100);
+}
+
+function closeNotebookSheet() {
+    document.getElementById('nb-sheet-overlay').classList.remove('open');
+    document.getElementById('nb-sheet-body').innerHTML = '';
+}
+
+// Close notebook sheet on escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && document.getElementById('nb-sheet-overlay').classList.contains('open')) {
+        closeNotebookSheet();
+    }
+});
+
+function renderFullNotebook() {
+    var notebook = XHZ.getNotebook(profile.id);
+    var entries = Object.values(notebook);
+    var bodyEl = document.getElementById('nb-sheet-body');
+
+    if (!entries.length) {
+        bodyEl.innerHTML = '<div class="nb-empty">' + t('notebook_empty') + '</div>';
+        return;
+    }
+
+    // Sort by most recently added first
+    entries.sort(function (a, b) {
+        return (b.added_at || '').localeCompare(a.added_at || '');
+    });
+
+    var addNoteLabel = t('notebook_add_note');
+    var nbLang  = typeof getNavLang === 'function' ? getNavLang() : 'en';
+    bodyEl.innerHTML = entries.map(function (e) {
+        var courseWord = nbLang === 'th' && !e.meaning_th ? findInCourseData(e.word_id) : null;
+        var nbMeaning = nbLang === 'th'
+            ? (e.meaning_th || (courseWord && courseWord.th) || e.meaning)
+            : e.meaning;
+        var noteHtml = e.note
+            ? '<div class="nb-note-display" onclick="editSheetNotebookNote(\'' + e.word_id + '\')" id="nb-sheet-display-' + e.word_id + '">' + escapeHtml(e.note) + '</div>'
+            : '<div class="nb-note-display empty" onclick="editSheetNotebookNote(\'' + e.word_id + '\')" id="nb-sheet-display-' + e.word_id + '">' + addNoteLabel + '</div>';
+
+        return '<div class="nb-entry" id="nb-sheet-entry-' + e.word_id + '">' +
+            '<div class="nb-char">' + escapeHtml(e.char) + '</div>' +
+            '<div class="nb-info">' +
+                '<div class="nb-py">' + escapeHtml(e.pinyin) + '</div>' +
+                '<div class="nb-meaning">' + escapeHtml(nbMeaning) + '</div>' +
+                '<div id="nb-sheet-note-row-' + e.word_id + '">' +
+                    noteHtml +
+                '</div>' +
+                '<div class="nb-date">📅 ' + (e.added_at || '') + '</div>' +
+            '</div>' +
+            '<div class="nb-actions">' +
+                '<button class="nb-btn nb-btn-edit" onclick="editSheetNotebookNote(\'' + e.word_id + '\')" title="Edit note">✏️</button>' +
+                '<button class="nb-btn nb-btn-del" onclick="removeSheetNotebookEntry(\'' + e.word_id + '\')" title="Remove from notebook">🗑️</button>' +
+            '</div>' +
+        '</div>';
+    }).join('');
+}
+
+var _notebookEditing = {};
+
+function editSheetNotebookNote(wordId) {
+    if (_notebookEditing[wordId]) return;
+    _notebookEditing[wordId] = true;
+
+    var notebook = XHZ.getNotebook(profile.id);
+    var entry = notebook[wordId];
+    if (!entry) return;
+
+    var row = document.getElementById('nb-sheet-note-row-' + wordId);
+    if (!row) return;
+
+    row.innerHTML = '<div class="nb-note-area">' +
+        '<input class="nb-note-input" id="nb-sheet-input-' + wordId + '" type="text" maxlength="200" ' +
+        'value="' + escapeHtml(entry.note || '') + '" placeholder="' + t('notebook_note_placeholder') + '" />' +
+        '<button class="nb-btn nb-btn-save" onclick="saveSheetNotebookNote(\'' + wordId + '\')">✓</button>' +
+        '</div>';
+
+    var input = document.getElementById('nb-sheet-input-' + wordId);
+    if (input) {
+        input.focus();
+        input.select();
+    }
+}
+
+function saveSheetNotebookNote(wordId) {
+    var input = document.getElementById('nb-sheet-input-' + wordId);
+    if (!input) return;
+    var note = input.value.trim();
+    XHZ.updateNotebookNote(wordId, note);
+    _notebookEditing[wordId] = false;
+    renderFullNotebook();
+}
+
+function removeSheetNotebookEntry(wordId) {
+    if (!confirm(t('notebook_remove_confirm'))) return;
+    XHZ.removeNotebookEntry(wordId);
+    renderFullNotebook();
+    renderNotebook();
+}
+
+/* ── Look up a word's data (including Thai translation) from loaded course data ── */
+function findInCourseData(wordId) {
+    if (!COURSE_DATA) return null;
+    var cids = Object.keys(COURSE_DATA);
+    for (var i = 0; i < cids.length; i++) {
+        var data = COURSE_DATA[cids[i]];
+        if (data && data.words) {
+            for (var j = 0; j < data.words.length; j++) {
+                if (data.words[j].word_id === wordId) return data.words[j];
+            }
+        }
+    }
+    return null;
+}
+
+function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
 </script>
+
+<!-- ════════════════════════════════════════════════
+     NOTEBOOK BOTTOM SHEET
+════════════════════════════════════════════════ -->
+<div class="nb-sheet-overlay" id="nb-sheet-overlay" tabindex="-1" onclick="if(event.target===this)closeNotebookSheet()">
+    <div class="nb-sheet">
+        <div class="nb-sheet-header">
+            <span class="nb-sheet-title" id="nb-sheet-title">📓 Notebook</span>
+            <button class="nb-sheet-close" onclick="closeNotebookSheet()">✕</button>
+        </div>
+        <div id="nb-sheet-body"></div>
+    </div>
+</div>
 
 </body>
 </html>

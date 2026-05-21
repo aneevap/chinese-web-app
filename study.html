@@ -18,6 +18,31 @@
     
     <!-- 🎨 Universal Design System -->
     <link rel="stylesheet" href="shared/design-system.css">
+
+    <!-- 🎯 Memo / Notebook button on flash card -->
+    <style>
+    .card-memo-btn {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 6px 14px;
+      border: 2px solid var(--paper-deep, #E0DDD3);
+      border-radius: var(--radius-pill, 999px);
+      background: var(--paper-cream, #FAFAF5);
+      color: var(--ink-medium, #6B5E52);
+      font-size: .78em; font-weight: 800;
+      cursor: pointer;
+      transition: all .2s;
+      margin: 0 auto; flex-shrink: 0;
+      font-family: var(--font-main, 'Nunito', sans-serif);
+      min-height: 36px;
+      pointer-events: auto;
+    }
+    .card-memo-btn:active { transform: scale(0.92); }
+    .card-memo-btn.saved {
+      background: var(--botes-sage, #1B7B5E);
+      color: white;
+      border-color: var(--botes-sage, #1B7B5E);
+    }
+    </style>
 </head>
 <body>
 <div id="page-wrap">
@@ -319,6 +344,9 @@ function renderCard(index){
   }
   if(word.story)back+='<div class="card-story">📖 '+word.story+'</div>';
   
+  // Notebook memo button on the back face
+  back+='<button class="card-memo-btn" onclick="event.stopPropagation();memoCurrentWord('+index+')" title="Save to notebook">📝 Memo</button>';
+  
   var old=area.querySelector('.flash-card');if(old)old.remove();
   var card=document.createElement('div');
   card.className='flash-card';
@@ -438,6 +466,35 @@ function handleScoreResult(result,stars){if(!result)return;if(stars>0)showToast(
 function showBadgePopup(info){if(!info)return;document.getElementById('badge-popup-emoji').textContent=info.emoji||'🏅';document.getElementById('badge-popup-title').textContent='🎉 '+(info.label||'New Badge!');document.getElementById('badge-popup-sub').textContent='Keep it up! 🐼';document.getElementById('badge-popup-overlay').classList.add('visible');}
 function closeBadgePopup(){document.getElementById('badge-popup-overlay').classList.remove('visible');}
 function showToast(msg,type,duration){var c=document.getElementById('toast-container');var toast=document.createElement('div');toast.className='toast '+(type||'');toast.textContent=msg;c.appendChild(toast);setTimeout(function(){toast.style.animation='toastOut .3s ease forwards';setTimeout(function(){if(toast.parentNode)toast.parentNode.removeChild(toast);},300);},duration||2000);}
+// ============================================
+// NOTEBOOK (memo)
+// ============================================
+function memoCurrentWord(cardIndex){
+  var word=S.currentBatch[cardIndex];
+  if(!word||word._isPadding)return;
+  var btn=document.querySelectorAll('.flash-card .card-memo-btn')[0];
+  if(!btn)return;
+  var isInNotebook=XHZ.isInNotebook && XHZ.isInNotebook(word.word_id);
+  
+  btn.textContent='✓ Saved!';
+  btn.classList.add('saved');
+  
+  if(!isInNotebook){
+    XHZ.addNotebookEntry({
+      word_id: word.word_id,
+      char: word.ch,
+      pinyin: word.py,
+      meaning: word.en,
+      meaning_th: word.th
+    });
+  }
+  
+  setTimeout(function(){
+    btn.textContent='📝 Memo';
+    btn.classList.remove('saved');
+  },2000);
+}
+
 function initVoices(){if(!window.speechSynthesis)return;var load=function(){var v=window.speechSynthesis.getVoices();if(v.length){voicesReady=true;if(pendingSpeak){var fn=pendingSpeak;pendingSpeak=null;fn();}}};load();window.speechSynthesis.onvoiceschanged=load;setTimeout(load,100);setTimeout(load,500);}
 function speakChinese(text){if(!window.speechSynthesis)return;var doSpeak=function(){window.speechSynthesis.cancel();var utt=new SpeechSynthesisUtterance(text);utt.lang='zh-CN';utt.rate=0.85;var voices=window.speechSynthesis.getVoices();var voice=voices.find(function(v){return v.lang==='zh-CN';})||voices.find(function(v){return v.lang.startsWith('zh');});if(voice)utt.voice=voice;window.speechSynthesis.speak(utt);};if(!voicesReady){pendingSpeak=doSpeak;window.speechSynthesis.getVoices();setTimeout(function(){if(pendingSpeak){pendingSpeak();pendingSpeak=null;}},150);}else{doSpeak();}}
 function getAudioCtx(){if(!_audioCtx)_audioCtx=new (window.AudioContext||window.webkitAudioContext)();if(_audioCtx.state==='suspended')_audioCtx.resume();return _audioCtx;}

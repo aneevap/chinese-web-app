@@ -127,6 +127,64 @@ var STRINGS = {
     auth_error_password:  "Password must be at least 6 characters.",
     auth_error_confirm:   "Passwords do not match.",
     auth_error_generic:   "Something went wrong. Please try again.",
+
+    // ── Notebook ────────────────────────────────────────────────
+    notebook_title:       "📓 Notebook",
+    notebook_empty:       "No saved words yet. Tap 📝 in the Write page to save characters!",
+    notebook_add_note:    "+ Add note",
+    notebook_edit_note:   "Edit note",
+    notebook_remove:      "Remove from notebook",
+    notebook_remove_confirm: "Remove this word from your notebook?",
+    notebook_note_placeholder: "Add a note...",
+    notebook_see_all:     "See all {count} →",
+    notebook_sheet_title: "📓 Notebook",
+
+    // ── progress.html ──────────────────────────────────────────
+    loading_progress:       "Loading progress...",
+    stats_total:            "Total ⭐",
+    stats_streak:           "Streak",
+    stats_best_streak:      "Best Streak",
+    stats_best_day:         "Best Day",
+    stats_mastered:         "Mastered",
+    stats_attempted:        "Attempted",
+    journey_next:           "Next: {emoji} {title} at {pct}%",
+    journey_max:            "🎉 Maximum title reached!",
+    badges_empty:           "No badges yet — keep practising! 🐼",
+    mastery_summary:        "{total} words · {mastered} mastered · {practiced} practiced · {seen} seen",
+    mastery_empty:          "No words attempted yet. Start practising! 🐼",
+    mastery_theme_empty:    "No words in this theme yet.",
+    items_empty:            "No items yet — earn ⭐ to unlock collectibles! 🎁",
+    settings_tap_hint:      "⚙️ Settings",
+    cal_su: "Su", cal_mo: "Mo", cal_tu: "Tu", cal_we: "We", cal_th: "Th", cal_fr: "Fr", cal_sa: "Sa",
+
+    // ── Legend ──
+    legend_unseen:      "Not seen",
+    legend_seen:        "Seen",
+    legend_practiced:   "Practiced",
+    legend_mastered:    "Mastered",
+
+    // ── Tooltip ──
+    tooltip_status_unseen:    "Not seen",
+    tooltip_status_seen:      "Seen",
+    tooltip_status_practiced: "Practiced",
+    tooltip_status_mastered:  "Mastered",
+    mastered_on:              "Mastered: {date}",
+
+    // ── Calendar months ──
+    cal_jan: "January", cal_feb: "February", cal_mar: "March",
+    cal_apr: "April",   cal_may: "May",      cal_jun: "June",
+    cal_jul: "July",    cal_aug: "August",    cal_sep: "September",
+    cal_oct: "October", cal_nov: "November",  cal_dec: "December",
+
+    // ── Calendar day alert ──
+    cal_score: "⭐ Score: {score}",
+    cal_write: "✍️  Write: {count}",
+    cal_study: "📚 Study: {count}",
+    cal_chars: "📝 Chars: {count}",
+
+    // ── Streak ──
+    streak_day:  "day",
+    streak_days: "days",
   },
 
   th: {
@@ -245,6 +303,64 @@ var STRINGS = {
     auth_error_password:  "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร",
     auth_error_confirm:   "รหัสผ่านไม่ตรงกัน",
     auth_error_generic:   "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
+
+    // ── Notebook ────────────────────────────────────────────────
+    notebook_title:       "📓 สมุดบันทึก",
+    notebook_empty:       "ยังไม่มีคำที่บันทึก แตะ 📝 ในหน้าเขียนเพื่อบันทึกคำศัพท์!",
+    notebook_add_note:    "+ เพิ่มบันทึก",
+    notebook_edit_note:   "แก้ไขบันทึก",
+    notebook_remove:      "ลบออกจากสมุดบันทึก",
+    notebook_remove_confirm: "ลบคำนี้ออกจากสมุดบันทึก?",
+    notebook_note_placeholder: "เพิ่มบันทึก...",
+    notebook_see_all:     "ดูทั้งหมด {count} →",
+    notebook_sheet_title: "📓 สมุดบันทึก",
+
+    // ── progress.html ──────────────────────────────────────────
+    loading_progress:       "กำลังโหลด...",
+    stats_total:            "รวม ⭐",
+    stats_streak:           "ติดต่อกัน",
+    stats_best_streak:      "ติดต่อกันสูงสุด",
+    stats_best_day:         "วันที่ดีที่สุด",
+    stats_mastered:         "เชี่ยวชาญแล้ว",
+    stats_attempted:        "ที่ลองแล้ว",
+    journey_next:           "ต่อไป: {emoji} {title} ที่ {pct}%",
+    journey_max:            "🎉 ถึงตำแหน่งสูงสุดแล้ว!",
+    badges_empty:           "ยังไม่มี badges — ฝึกต่อไป! 🐼",
+    mastery_summary:        "{total} คำ · เชี่ยวชาญ {mastered} · ฝึก {practiced} · เห็น {seen}",
+    mastery_empty:          "ยังไม่มีคำที่ลองเรียน เริ่มฝึกได้เลย! 🐼",
+    mastery_theme_empty:    "ยังไม่มีคำในหัวข้อนี้",
+    items_empty:            "ยังไม่มีไอเทม — หา ⭐ เพื่อปลดล็อค! 🎁",
+    settings_tap_hint:      "⚙️ ตั้งค่า",
+    cal_su: "อา", cal_mo: "จ", cal_tu: "อ", cal_we: "พ", cal_th: "พฤ", cal_fr: "ศ", cal_sa: "ส",
+
+    // ── Legend ──
+    legend_unseen:      "ยังไม่เห็น",
+    legend_seen:        "เห็นแล้ว",
+    legend_practiced:   "ฝึกแล้ว",
+    legend_mastered:    "เชี่ยวชาญแล้ว",
+
+    // ── Tooltip ──
+    tooltip_status_unseen:    "ยังไม่เห็น",
+    tooltip_status_seen:      "เห็นแล้ว",
+    tooltip_status_practiced: "ฝึกแล้ว",
+    tooltip_status_mastered:  "เชี่ยวชาญแล้ว",
+    mastered_on:              "เชี่ยวชาญเมื่อ: {date}",
+
+    // ── Calendar months ──
+    cal_jan: "มกราคม", cal_feb: "กุมภาพันธ์", cal_mar: "มีนาคม",
+    cal_apr: "เมษายน",   cal_may: "พฤษภาคม",    cal_jun: "มิถุนายน",
+    cal_jul: "กรกฎาคม",    cal_aug: "สิงหาคม",    cal_sep: "กันยายน",
+    cal_oct: "ตุลาคม", cal_nov: "พฤศจิกายน",  cal_dec: "ธันวาคม",
+
+    // ── Calendar day alert ──
+    cal_score: "⭐ คะแนน: {score}",
+    cal_write: "✍️  เขียน: {count}",
+    cal_study: "📚 เรียน: {count}",
+    cal_chars: "📝 ตัวอักษร: {count}",
+
+    // ── Streak ──
+    streak_day:  "วัน",
+    streak_days: "วัน",
   }
 
 };
