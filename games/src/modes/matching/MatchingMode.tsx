@@ -48,6 +48,7 @@ export function MatchingMode({ words, courseThemes, language }: Props) {
   const [round, setRound] = useState(1);
   const [totalMatched, setTotalMatched] = useState(0);
   const [newSetFlash, setNewSetFlash] = useState(false);
+  const [flashEffect, setFlashEffect] = useState(false);
 
   // Course/theme selection
   const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
@@ -244,6 +245,13 @@ export function MatchingMode({ words, courseThemes, language }: Props) {
     return () => clearTimeout(timer);
   }, [comboPopup]);
 
+  // ✅ Flash effect cleanup
+  useEffect(() => {
+    if (!flashEffect) return;
+    const timer = setTimeout(() => setFlashEffect(false), 1000);
+    return () => clearTimeout(timer);
+  }, [flashEffect]);
+
   // 🎵 Play success sound
   const playSuccessSound = useCallback(() => {
     try {
@@ -281,6 +289,93 @@ export function MatchingMode({ words, courseThemes, language }: Props) {
     } catch (_) {}
   }, []);
 
+  // 🎵 Play click sound (tile tap)
+  const playClickSound = useCallback(() => {
+    try {
+      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.06);
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 0.06);
+    } catch (_) {}
+  }, []);
+
+  // 🎵 Play countdown beep
+  const playCountdownBeep = useCallback(() => {
+    try {
+      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(660, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 0.25);
+    } catch (_) {}
+  }, []);
+
+  // 🎵 Play go sound (countdown finished)
+  const playGoSound = useCallback(() => {
+    try {
+      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+      osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.08);
+      osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.16);
+      osc.frequency.setValueAtTime(1046.5, audioCtx.currentTime + 0.24);
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 0.5);
+    } catch (_) {}
+  }, []);
+
+  // 🌩️ Play lightning/thunder roar sound
+  const playLightningSound = useCallback(() => {
+    try {
+      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      // Deep rumble using noise-like oscillator
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(80, audioCtx.currentTime);
+      osc.frequency.linearRampToValueAtTime(40, audioCtx.currentTime + 0.4);
+      osc.frequency.linearRampToValueAtTime(20, audioCtx.currentTime + 0.8);
+      gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.8);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 0.8);
+
+      // Add a secondary high crackle
+      const osc2 = audioCtx.createOscillator();
+      const gain2 = audioCtx.createGain();
+      osc2.type = 'sawtooth';
+      osc2.frequency.setValueAtTime(2000, audioCtx.currentTime);
+      osc2.frequency.linearRampToValueAtTime(100, audioCtx.currentTime + 0.15);
+      gain2.gain.setValueAtTime(0.15, audioCtx.currentTime);
+      gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+      osc2.connect(gain2);
+      gain2.connect(audioCtx.destination);
+      osc2.start(audioCtx.currentTime);
+      osc2.stop(audioCtx.currentTime + 0.15);
+    } catch (_) {}
+  }, []);
+
   // 🎵 Play combo sound
   const playComboSound = useCallback(() => {
     try {
@@ -306,6 +401,9 @@ export function MatchingMode({ words, courseThemes, language }: Props) {
 
     const tile = tiles.find(t => t.id === tileId);
     if (!tile || tile.status !== 'default') return;
+
+    // Play click sound on tile selection
+    playClickSound();
 
     // Prevent selecting two tiles of the same type
     if (selectedIds.length === 1) {
@@ -363,6 +461,12 @@ export function MatchingMode({ words, courseThemes, language }: Props) {
             playComboSound();
           }
 
+          // 🌩️ Lightning + roar at combo 5+
+          if (isCombo && comboValue >= 5) {
+            setFlashEffect(true);
+            playLightningSound();
+          }
+
           // Popup effects
           const el = document.getElementById(`tile-${tileId}`);
           if (el) {
@@ -407,14 +511,19 @@ export function MatchingMode({ words, courseThemes, language }: Props) {
   const handleStartClick = () => {
     if (!selectedCourse) return;
     setShowStartScreen(false);
+    // Play first countdown beep immediately
+    playCountdownBeep();
     const countdownInterval = setInterval(() => {
       setCountdown(prev => {
         if (prev <= 1) {
           clearInterval(countdownInterval);
+          playGoSound();
           dispatch({ type: 'RESET', seconds: ROUND_SECONDS });
           setGameStarted(true);
           return 0;
         }
+        // Play beep for next number
+        playCountdownBeep();
         return prev - 1;
       });
     }, 1000);
@@ -434,6 +543,7 @@ export function MatchingMode({ words, courseThemes, language }: Props) {
     setRound(1);
     setTotalMatched(0);
     setNewSetFlash(false);
+    setFlashEffect(false);
     setShowStartScreen(true);
     setCountdown(3);
     setLeaderboard(null);
@@ -451,8 +561,8 @@ export function MatchingMode({ words, courseThemes, language }: Props) {
         <div className="overlay">
           <div className="start-screen matching-start">
             <div className="start-sushi-icon">🔤</div>
-            <h2>Grid Buster</h2>
-            <p>Tap character and meaning tiles to match them!</p>
+            <h2>⚡ Flash Match</h2>
+            <p>Match characters to meanings at lightning speed!</p>
 
             {/* Course selection */}
             <div className="selection-section">
@@ -629,6 +739,15 @@ export function MatchingMode({ words, courseThemes, language }: Props) {
           style={{ left: comboPopup.x, top: comboPopup.y }}
         >
           🔥 {comboPopup.combo}x Combo!
+        </div>
+      )}
+
+      {/* 🌩️ Lightning effect at combo 5+ */}
+      {flashEffect && (
+        <div className="lightning-overlay">
+          <div className="lightning-bolt">⚡</div>
+          <div className="lightning-flash"></div>
+          <div className="lightning-text">⚡ FLASH COMBO! ⚡</div>
         </div>
       )}
 
