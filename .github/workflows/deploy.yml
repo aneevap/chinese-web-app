@@ -35,17 +35,17 @@ jobs:
 
       - name: Prepare deployment
         run: |
-          mkdir -p /tmp/deployment
-          # Copy everything from repo root, excluding .git and node_modules
-          rsync -a --exclude='.git' --exclude='node_modules' . /tmp/deployment/
+          mkdir -p deployment
+          # Copy everything from repo root, excluding .git, node_modules, and the deployment dir itself
+          rsync -a --exclude='.git' --exclude='node_modules' --exclude='deployment' . deployment/
           # Remove .gitignore files so upload-pages-artifact doesn't filter out dist/
-          find /tmp/deployment -name '.gitignore' -delete
+          find deployment -name '.gitignore' -delete
         working-directory: ./
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: /tmp/deployment
+          path: ./deployment
 
   deploy:
     needs: build
