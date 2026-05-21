@@ -4,7 +4,7 @@ import type { CustomerOrder, DisplayLanguage, VocabItem } from '../../core/types
 import { speakChinese } from '../../core/systems/audio';
 import { addStudyStars, getActiveProfile } from '../../profile/profileBridge';
 import type { CourseMeta } from '../../data/vocab';
-import { saveSessionResult, getLeaderboard, getPersonalBest } from '../../core/systems/hallOfFame';
+import { saveSessionResult, getGameLeaderboard, getPersonalBest } from '../../core/systems/hallOfFame';
 import type { HallOfFameEntry } from '../../core/types';
 import { getSpawnInterval } from '../../core/systems/scoring';
 
@@ -109,8 +109,20 @@ export function SushiMode({ words, courseThemes, language }: Props) {
   const wordDeckRef = useRef<VocabItem[]>([]);
   // Leaderboard state for result screen
   const [leaderboard, setLeaderboard] = useState<{ rank: number; top: HallOfFameEntry[] } | null>(null);
+  const [matchingLeaderboard, setMatchingLeaderboard] = useState<{ rank: number; top: HallOfFameEntry[] } | null>(null);
   // Personal best score for this profile
   const [personalBest, setPersonalBest] = useState<number>(0);
+
+  // Build category → color map from all course themes
+  const categoryColorMap = useMemo(() => {
+    const map: Record<string, string> = {};
+    for (const meta of Object.values(courseThemes)) {
+      for (const theme of meta.themes) {
+        map[theme.id] = theme.color;
+      }
+    }
+    return map;
+  }, [courseThemes]);
 
   const belt = useMemo(() => [...beltItems], [beltItems]);
   const selectedWord = words.find((word) => word.id === selectedWordId) || null;
@@ -207,6 +219,81 @@ export function SushiMode({ words, courseThemes, language }: Props) {
     }
   }, []);
 
+  // 🎵 Play click sound (plate selection)
+  const playClickSound = useCallback(() => {
+    try {
+      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.06);
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 0.06);
+    } catch (_) {}
+  }, []);
+
+  // 🎵 Play countdown beep (square wave, matching game style)
+  const playCountdownBeep = useCallback(() => {
+    try {
+      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(660, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 0.25);
+    } catch (_) {}
+  }, []);
+
+  // 🎵 Play go sound (countdown finished — celebratory ascending chime)
+  const playGoSound = useCallback(() => {
+    try {
+      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+      osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.08);
+      osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.16);
+      osc.frequency.setValueAtTime(1046.5, audioCtx.currentTime + 0.24);
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 0.5);
+    } catch (_) {}
+  }, []);
+
+  // 🎵 Play round complete sound (triumphant fanfare)
+  const playRoundCompleteSound = useCallback(() => {
+    try {
+      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      // Bright triumphant arpeggio
+      const notes = [523.25, 659.25, 783.99, 1046.5, 783.99, 1046.5];
+      notes.forEach((freq, i) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime + i * 0.1);
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime + i * 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + i * 0.1 + 0.35);
+        osc.start(audioCtx.currentTime + i * 0.1);
+        osc.stop(audioCtx.currentTime + i * 0.1 + 0.35);
+      });
+    } catch (_) {}
+  }, []);
+
   // 🎵 Play wrong sound
   const playWrongSound = useCallback(() => {
     try {
@@ -254,6 +341,13 @@ export function SushiMode({ words, courseThemes, language }: Props) {
     return () => clearInterval(timer);
   }, [dispatch, gameStarted, ended, showStartScreen, countdown]);
 
+  // 🎵 Play round complete sound when game ends
+  useEffect(() => {
+    if (ended) {
+      playRoundCompleteSound();
+    }
+  }, [ended]);
+
   // ✅ Save result to Hall of Fame when the game ends
   useEffect(() => {
     if (state.secondsLeft <= 0 && !ended && !sessionSavedRef.current) {
@@ -271,13 +365,17 @@ export function SushiMode({ words, courseThemes, language }: Props) {
         bestStage: state.stage,
         updatedAt: now,
       });
-      // Load leaderboard for result screen
-      const allEntries = getLeaderboard();
-      const entryIdx = allEntries.findIndex(e => e.updatedAt === now);
-      const rank = entryIdx >= 0 ? entryIdx + 1 : allEntries.length;
+      // Load leaderboard for result screen — split by game
+      const sushiEntries = getGameLeaderboard('sushi');
+      const sushiIdx = sushiEntries.findIndex(e => e.updatedAt === now);
       setLeaderboard({
-        rank,
-        top: allEntries.slice(0, 5),
+        rank: sushiIdx >= 0 ? sushiIdx + 1 : sushiEntries.length,
+        top: sushiEntries.slice(0, 5),
+      });
+      const matchingEntries = getGameLeaderboard('matching');
+      setMatchingLeaderboard({
+        rank: 0,
+        top: matchingEntries.slice(0, 5),
       });
       setEnded(true);
     }
@@ -370,9 +468,10 @@ export function SushiMode({ words, courseThemes, language }: Props) {
     }
   }, [ended]);
 
+  // Populate belt items when activeWords changes (theme filter, course selection, or game start)
   useEffect(() => {
-    if (activeWords.length > 0 && !showStartScreen && countdown === 0) {
-      // Prioritize learned words for belt items
+    if (activeWords.length === 0) return;
+    if (showStartScreen || countdown === 0) {
       const profile = getActiveProfile();
       let learnedWordIds: Set<string> = new Set();
       if (profile) {
@@ -389,7 +488,6 @@ export function SushiMode({ words, courseThemes, language }: Props) {
         }
       }
       
-      // Sort: learned words first, then shuffle within each group
       const learned = activeWords.filter(w => learnedWordIds.has(w.id));
       const unlearned = activeWords.filter(w => !learnedWordIds.has(w.id));
       const shuffledLearned = [...learned].sort(() => Math.random() - 0.5);
@@ -400,9 +498,7 @@ export function SushiMode({ words, courseThemes, language }: Props) {
       setBeltItems(selected);
       wordDeckRef.current = buildShuffledDeck(selected, MAX_WORD_APPEARANCES);
     }
-  }, [activeWords, showStartScreen, countdown]);
-
-
+  }, [activeWords]);
 
   // 🎊 Confetti animation loop
   useEffect(() => {
@@ -527,14 +623,17 @@ export function SushiMode({ words, courseThemes, language }: Props) {
   const handleStartClick = () => {
     if (!selectedCourse) return;
     setShowStartScreen(false);
+    playCountdownBeep();
     const countdownInterval = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
           clearInterval(countdownInterval);
+          playGoSound();
           dispatch({ type: 'RESET', seconds: ROUND_SECONDS });
           setGameStarted(true);
           return 0;
         }
+        playCountdownBeep();
         return prev - 1;
       });
     }, 1000);
@@ -559,6 +658,7 @@ export function SushiMode({ words, courseThemes, language }: Props) {
     setShowStartScreen(true);
     setCountdown(3);
     setLeaderboard(null);
+    setMatchingLeaderboard(null);
     setSelectedCourse(null);
     setSelectedThemes([]);
     sessionSavedRef.current = false;
@@ -644,7 +744,18 @@ export function SushiMode({ words, courseThemes, language }: Props) {
 
       {/* Start Screen Overlay */}
       {showStartScreen && (
-        <div className="overlay">            <div className="start-screen matching-start">
+        <div className="overlay">
+          <button
+            className="back-button"
+            onClick={() => {
+              const root = document.getElementById('dojo-game-root');
+              if (root) root.classList.remove('visible');
+              window.location.href = 'dojo.html';
+            }}
+          >
+            ← Back to Dojo
+          </button>
+          <div className="start-screen matching-start">
             <div className="start-sushi-icon">🍣</div>
             <h2>Sushi Match</h2>
             <p>Drag the correct sushi plate to the waiting customer!</p>
@@ -767,6 +878,7 @@ export function SushiMode({ words, courseThemes, language }: Props) {
         </div>
       </div>
 
+
       {/* 👤 CUSTOMER AREA - With doors and entrance/exit animations */}
       <div className="customer-area">
         <div className="door-area">
@@ -830,6 +942,7 @@ export function SushiMode({ words, courseThemes, language }: Props) {
           <div className="selected-plate-wrapper">
             <div
               className="plate selected-plate"
+              style={{ borderColor: categoryColorMap[selectedWord.category] || undefined }}
               draggable
               onDragStart={(e) => handleDragStart(e, selectedWord.id)}
               onDragEnd={handleDragEnd}
@@ -861,8 +974,10 @@ export function SushiMode({ words, courseThemes, language }: Props) {
             <div
               key={`${word.id}-${index}`}
               className={`plate ${selectedWordId === word.id ? 'active hidden' : ''} ${isDragging ? 'belt-dragging' : ''}`}
+              style={{ borderColor: categoryColorMap[word.category] || undefined }}
               onClick={() => {
                 if (!showStartScreen && countdown === 0 && !ended) {
+                  playClickSound();
                   setSelectedWordId(word.id);
                 }
               }}
@@ -913,10 +1028,10 @@ export function SushiMode({ words, courseThemes, language }: Props) {
               </div>
             </div>
 
-            {/* Leaderboard preview */}
+            {/* 🍣 Sushi Leaderboard */}
             {leaderboard && leaderboard.top.length > 0 && (
               <div className="leaderboard-divider">
-                <div className="leaderboard-title">🏆 Leaderboard</div>
+                <div className="leaderboard-title">🍣 Sushi</div>
                 <div className="leaderboard-list">
                   {leaderboard.top.map((entry, i) => {
                     const rank = i + 1;
@@ -932,9 +1047,33 @@ export function SushiMode({ words, courseThemes, language }: Props) {
                         <span className={`leaderboard-name${isYou ? ' you' : ''}`}>
                           {entry.nickname}{isYou ? ' (you)' : ''}
                         </span>
-                        <span className="leaderboard-score">
-                          {entry.bestScore}
+                        <span className="leaderboard-score">{entry.bestScore}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+            {/* ⚡ Matching Leaderboard */}
+            {matchingLeaderboard && matchingLeaderboard.top.length > 0 && (
+              <div className="leaderboard-divider">
+                <div className="leaderboard-title">⚡ Matching</div>
+                <div className="leaderboard-list">
+                  {matchingLeaderboard.top.map((entry, i) => {
+                    const rank = i + 1;
+                    const isYou = entry.profileId === getActiveProfile()?.id && entry.gameId === 'matching';
+                    let rankEmoji = '#' + rank;
+                    if (rank === 1) rankEmoji = '🥇';
+                    else if (rank === 2) rankEmoji = '🥈';
+                    else if (rank === 3) rankEmoji = '🥉';
+                    return (
+                      <div key={entry.profileId + '-' + i} className={`leaderboard-item${isYou ? ' you' : ''}`}>
+                        <span className="leaderboard-rank">{rankEmoji}</span>
+                        <span className="leaderboard-avatar">{entry.avatar || '🐼'}</span>
+                        <span className={`leaderboard-name${isYou ? ' you' : ''}`}>
+                          {entry.nickname}{isYou ? ' (you)' : ''}
                         </span>
+                        <span className="leaderboard-score">{entry.bestScore}</span>
                       </div>
                     );
                   })}

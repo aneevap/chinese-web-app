@@ -416,25 +416,14 @@
 }
 .hall-meta .hall-name {
   display: block;
-  font-size: 0.92rem;
+  font-size: 1.1rem;
   font-weight: 800;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   color: #111827;
 }
-.hall-meta .hall-game-label {
-  display: inline-block;
-  font-size: 0.65rem;
-  font-weight: 800;
-  color: #fff;
-  background: #111827;
-  padding: 2px 10px;
-  border-radius: 8px;
-  margin-right: 4px;
-  letter-spacing: 0.03em;
-  border: 2px solid #111827;
-}
+
 .hall-meta .hall-sub {
   font-size: 0.72rem;
   color: #6B5544;
@@ -476,8 +465,7 @@
 }
 
 /* Game icon badges set by JS */
-.hall-item[data-game="sushi"] .hall-game-label { background: #FF6B35; border-color: #111827; color: #fff; }
-.hall-item[data-game="matching"] .hall-game-label { background: #1E40AF; border-color: #111827; color: #fff; }
+
 
 
 /* ── RESPONSIVE ── */
@@ -678,40 +666,33 @@
       return month + '/' + day + ' ' + hours + ':' + minutes + ' ' + ampm;
     }
 
-    function renderHallOfFame() {
-      var listEl = document.getElementById('hall-list');
+    function renderGameLeaderboard(gameId, maxRank) {
       var entries = [];
-
       try {
         entries = JSON.parse(localStorage.getItem('xhz_dojo_hall_of_fame') || '[]');
       } catch (_) {
         entries = [];
       }
 
-      if (!entries.length) {
-        listEl.innerHTML = '<div class="hall-empty">🏆 No records yet.<br>Play a game to appear on the leaderboard!</div>';
-        return;
-      }
+      // Filter by gameId
+      var filtered = entries.filter(function(e) { return e.gameId === gameId; });
 
-      // Sort all entries by score descending (highest score first)
-      var sorted = entries.slice().sort(function(a, b) {
+      // Sort by score descending
+      var sorted = filtered.slice().sort(function(a, b) {
         if (b.bestScore !== a.bestScore) return b.bestScore - a.bestScore;
         if (b.bestStars !== a.bestStars) return b.bestStars - a.bestStars;
         return b.updatedAt - a.updatedAt;
       });
 
-      // Get game icon map
-      var gameIconMap = {};
-      GAMES.forEach(function(g) { gameIconMap[g.id] = g.icon; });
+      if (sorted.length === 0) {
+        return '<div class="hall-empty">No ' + (gameId === 'sushi' ? 'Sushi' : 'Flash') + ' records yet</div>';
+      }
 
-      // Show top 10
-      var maxRank = Math.min(10, sorted.length);
+      var count = Math.min(maxRank, sorted.length);
       var html = '';
 
-      for (var i = 0; i < maxRank; i++) {
+      for (var i = 0; i < count; i++) {
         var entry = sorted[i];
-        var gid = entry.gameId || 'sushi';
-        var icon = gameIconMap[gid] || '🎮';
         var rank = i + 1;
 
         var itemClass = 'hall-item';
@@ -732,21 +713,15 @@
           rankLabel = '🥉';
         }
 
-        // Stagger animation delay
         var animDelay = (i * 0.06) + 's';
 
-        // Game display name
-        var gameNames = { sushi: 'Sushi', matching: 'Flash' };
-        var gameLabel = gameNames[gid] || gid;
-
         html +=
-          '<div class="' + itemClass + '" data-game="' + gid + '" style="animation-delay:' + animDelay + '">' +
+          '<div class="' + itemClass + '" data-game="' + gameId + '" style="animation-delay:' + animDelay + '">' +
             '<div class="' + rankClass + '">' + rankLabel + '</div>' +
             '<div class="hall-avatar">' + (entry.avatar || '🐼') + '</div>' +
             '<div class="hall-meta">' +
-              '<span class="hall-name"><span class="hall-game-icon">' + icon + '</span>' + escapeHtml(entry.nickname) + '</span>' +
+              '<span class="hall-name">' + escapeHtml(entry.nickname) + '</span>' +
               '<div class="hall-sub">' +
-                '<span class="hall-game-label">' + gameLabel + '</span>' +
                 'Stage ' + entry.bestStage + ' · ' + formatDate(entry.updatedAt) +
               '</div>' +
             '</div>' +
@@ -757,7 +732,25 @@
           '</div>';
       }
 
-      listEl.innerHTML = html;
+      return html;
+    }
+
+    function renderHallOfFame() {
+      var listEl = document.getElementById('hall-list');
+
+      var sushiHtml = renderGameLeaderboard('sushi', 5);
+      var matchingHtml = renderGameLeaderboard('matching', 5);
+
+      listEl.innerHTML =
+        '<div>' +
+          '<div class="section-label" style="font-size:0.85rem;font-weight:800;margin-bottom:10px;text-align:center;">🍣 Sushi Conveyor</div>' +
+          sushiHtml +
+        '</div>' +
+        '<div style="border-top:2px dashed #D1D5DB;margin:14px 0;"></div>' +
+        '<div>' +
+          '<div class="section-label" style="font-size:0.85rem;font-weight:800;margin-bottom:10px;text-align:center;">⚡ Flash Match</div>' +
+          matchingHtml +
+        '</div>';
     }
 
 

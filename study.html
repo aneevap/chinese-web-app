@@ -259,7 +259,7 @@ function startSession(courseId,theme,themeWords,allWords){
   S.inSession=true;S.sessionStarsEarned=0;
   var bc=getBotesColor(theme.id);
   applyThemeColor(bc.color,bc.deep);
-  S.batches=makeBatches(shuffle(themeWords.slice()),4,allWords);
+  S.batches=makeBatches(shuffle(themeWords.slice()),4);
   S.batchIndex=0;
   showView('session');
   document.getElementById('session-title').textContent=theme.emoji+' '+theme.name;
@@ -267,7 +267,7 @@ function startSession(courseId,theme,themeWords,allWords){
   startBatch(0);
 }
 
-function makeBatches(words,size,allWords){var batches=[];for(var i=0;i<words.length;i+=size){var batch=words.slice(i,i+size);if(batch.length<size){var others=allWords.filter(function(w){return !words.find(function(x){return x.word_id===w.word_id;});});var padding=shuffle(others.slice()).slice(0,size-batch.length).map(function(w){return Object.assign({},w,{_isPadding:true});});batch=batch.concat(padding);}batches.push(batch);}return batches.length?batches:[words];}
+function makeBatches(words,size){var batches=[];for(var i=0;i<words.length;i+=size){var batch=words.slice(i,i+size);if(batch.length<size){var padding=shuffle(words.slice()).slice(0,size-batch.length).map(function(w){return Object.assign({},w,{_isPadding:true});});batch=batch.concat(padding);}batches.push(batch);}return batches.length?batches:[words];}
 
 function updateSessionProgress(){
   var total=S.batches.reduce(function(s,b){return s+b.length;},0);
@@ -341,7 +341,7 @@ function animateCardExit(dir,cb){var card=document.querySelector('.flash-card');
 function updateNavButtons(){var onLast=(S.cardIndex===S.currentBatch.length-1);var allSeen=S.allFlipped;var hint=document.getElementById('flip-hint');document.getElementById('btn-prev-card').disabled=(S.cardIndex===0);if(allSeen&&onLast){document.getElementById('btn-next-card').style.display='none';document.getElementById('btn-to-quiz').style.display='block';hint.style.display='none';}else if(allSeen){document.getElementById('btn-next-card').style.display='block';document.getElementById('btn-next-card').disabled=false;document.getElementById('btn-to-quiz').style.display='none';hint.style.display='none';}else if(onLast){document.getElementById('btn-next-card').style.display='block';document.getElementById('btn-next-card').disabled=true;document.getElementById('btn-to-quiz').style.display='none';hint.style.display='block';hint.style.animation='none';void hint.offsetHeight;hint.style.animation='hintFade2 .3s ease';highlightUnflippedDots();}else{document.getElementById('btn-next-card').style.display='block';document.getElementById('btn-next-card').disabled=onLast;document.getElementById('btn-to-quiz').style.display='none';hint.style.display='none';}}
 function updateDots(){var el=document.getElementById('flash-dots');el.innerHTML='';S.currentBatch.forEach(function(_,i){var dot=document.createElement('div');dot.className='flash-dot'+(i===S.cardIndex?' current':'')+(S.seenCards.has(i)&&i!==S.cardIndex?' done':'');dot.onclick=function(i){return function(){animateCardExit(i>S.cardIndex?'left':'right',function(){renderCard(i);updateDots();});};}(i);el.appendChild(dot);});}
 function highlightUnflippedDots(){document.querySelectorAll('.flash-dot').forEach(function(dot,i){dot.classList.remove('unflipped');if(!S.seenCards.has(i)&&i!==S.cardIndex)dot.classList.add('unflipped');});}
-function startQuiz(){S.quizWords=S.currentBatch.slice();S.quizIndex=0;S.quizTries=0;S.quizResults=[];S.roundScore=0;showPhase('quiz');renderQuizQuestion();}
+function startQuiz(){S.quizWords=shuffle(S.currentBatch.slice());S.quizIndex=0;S.quizTries=0;S.quizResults=[];S.roundScore=0;showPhase('quiz');renderQuizQuestion();}
 
 function renderQuizQuestion(){
   var word=S.quizWords[S.quizIndex];
@@ -350,9 +350,7 @@ function renderQuizQuestion(){
   document.getElementById('try-dot-2').classList.remove('used');
   S.quizTries=0;
   document.getElementById('quiz-char-display').textContent=word.ch;
-  document.getElementById('quiz-prompt').textContent=lang==='th'?'คำนี้แปลว่าอะไร?':'What does this character mean?';
-  var allWords=S.courseWordMap[S.activeCourse]||[];
-  var distractors=shuffle(allWords.filter(function(w){return w.word_id!==word.word_id;})).slice(0,3);
+  document.getElementById('quiz-prompt').textContent=lang==='th'?'คำนี้แปลว่าอะไร?':'What does this character mean?';var allWords=S.courseWordMap[S.activeCourse]||[];var distractors=shuffle(allWords.filter(function(w){return w.word_id!==word.word_id && w.theme===word.theme;})).slice(0,3);
   var options=shuffle([word].concat(distractors));
   var grid=document.getElementById('quiz-options');
   grid.innerHTML='';

@@ -144,7 +144,7 @@ body {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 8px;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   position: relative;
   z-index: 1;
 }
@@ -453,7 +453,7 @@ body {
   width: 100%;
   text-align: center;
   color: #111827;
-  font-size: 13px;
+  font-size: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -742,7 +742,7 @@ body {
 
 .hanzi {
   display: block;
-  font-size: 28px;
+  font-size: 34px;
   font-weight: bold;
   color: #111827;
   font-family: var(--font-hanzi, 'ZCOOL KuaiLe', sans-serif);
@@ -751,7 +751,7 @@ body {
 
 .pinyin {
   display: block;
-  font-size: 11px;
+  font-size: 13px;
   color: #6B5544;
   font-family: var(--font-pinyin, 'Nunito', sans-serif);
   margin-top: 2px;
@@ -772,6 +772,36 @@ body {
   position: relative;
   z-index: 1;
   box-shadow: 2px 2px 0px 0px #111827;
+}
+
+/* ── Back button on start screen */
+.back-button {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 1001;
+  border: 3px solid #111827;
+  background: white;
+  color: #111827;
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  box-shadow: 3px 3px 0px 0px #111827;
+  font-family: inherit;
+}
+
+.back-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 3px 5px 0px 0px #111827;
+  background: #FAF8F5;
+}
+
+.back-button:active {
+  transform: translateY(1px);
+  box-shadow: 1px 1px 0px 0px #111827;
 }
 
 /* ── Overlay ── */
