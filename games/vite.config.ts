@@ -2,7 +2,9 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import fs from 'node:fs';
 import path from 'node:path';
+import type { Connect } from 'vite';
 import { fileURLToPath } from 'node:url';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, '..');
@@ -10,8 +12,8 @@ const rootDir = path.resolve(__dirname, '..');
 function dataFilesPlugin() {
   return {
     name: 'root-data-files',
-    configureServer(server) {
-      server.middlewares.use((req, res, next) => {
+    configureServer(server: { middlewares: Connect.Server }) {
+      server.middlewares.use((req: IncomingMessage, res: ServerResponse, next: Connect.NextFunction) => {
         const url = req.url || '';
         if (/^\/(courses\.json|characters_.*\.json)(\?.*)?$/.test(url)) {
           const filePath = path.join(rootDir, path.basename(url.split('?')[0]));
