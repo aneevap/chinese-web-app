@@ -10,10 +10,12 @@ A gamified web app for children (ages 5–12) to learn Chinese characters throug
   - **🍣 Sushi Drop** — Drag characters from conveyor belt to match customer orders. Features walking entrance/exit animations, slot-based customer positioning, and combo scoring
   - **🔤 Grid Buster** — Match character tiles to meaning tiles on a 4×4 grid. Multi-round gameplay with combo detection, course/theme selection, and neo-brutalism board-game aesthetic
 - **📊 Progress** — Journey stats, mastery matrix, activity calendar, badges & unlockable items, parent settings
-- **🔐 Auth** — Inline auth modal with upgrade (anonymous → email/password), sign-in, password reset flow
+- **🔐 Auth** — Inline auth modal with upgrade (anonymous → email/password), sign-in, password reset flow, recovery page with password strength meter
+- **🔑 Sign-in on all devices** — Profile picker includes a "Sign In" button for returning users on a new device
 - **☁️ Cloud Sync** — Optional Supabase integration to save progress across devices
 - **🌐 Bilingual** — English and Thai interface support via `strings.js`
 - **🧸 Kid-friendly** — Duplicate profile detection with auto-merge; playful Botes paper design
+- **📱 Guest dot indicator** — Profiles created without an account show a guest dot; disappears after signing in
 
 ## 🚀 Getting Started
 

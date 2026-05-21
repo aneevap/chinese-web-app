@@ -290,8 +290,9 @@
     promise
       .then(function () {
         // Auto-repair ALL stale profiles after sign-in/upgrade
+        var repairPromise = null;
         if (typeof XHZ.repairAllProfilesFromSupabase === 'function') {
-          XHZ.repairAllProfilesFromSupabase();
+          repairPromise = XHZ.repairAllProfilesFromSupabase();
         } else {
           // Fallback for older profiles.js
           var p = (typeof XHZ !== 'undefined') ? XHZ.getActiveProfile() : null;
@@ -308,6 +309,15 @@
           if (typeof refreshStrings === 'function') refreshStrings();
         } else {
           closeModal();
+          // After repair completes, re-render profile cards on index page
+          // so guest dot disappears without needing a page refresh
+          if (repairPromise) {
+            repairPromise.then(function () {
+              if (typeof renderProfiles === 'function') renderProfiles();
+            });
+          } else if (typeof renderProfiles === 'function') {
+            renderProfiles();
+          }
           // Trigger cloud sync after sign-in
           if (window.__SUPABASE_SYNC && freshProfile) {
             window.__SUPABASE_SYNC.pushAll();

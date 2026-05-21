@@ -33,7 +33,7 @@ body {
 }
 .recovery-card {
     background: var(--paper-warm);
-    background-image: url('../assets/textures/paper-grain.png');
+    background-image: url('assets/textures/paper-grain.png');
     background-blend-mode: multiply;
     border-radius: 20px;
     padding: 32px 24px 24px;
@@ -154,7 +154,7 @@ body {
         <div class="recovery-icon">🔐</div>
         <div class="recovery-title" data-i18n="set_new_password_title"></div>
         <div class="loading-spinner"></div>
-        <p style="font-size:0.75em;color:var(--ink-light);">Verifying recovery link...</p>
+        <p style="font-size:0.75em;color:var(--ink-light);" data-i18n="recovery_verifying"></p>
     </div>
 
     <!-- SET PASSWORD FORM -->
@@ -190,7 +190,7 @@ body {
         <div class="recovery-icon" style="font-size:3.5rem;">✅</div>
         <div class="recovery-title" data-i18n="set_new_password_success_title"></div>
         <div class="recovery-sub" data-i18n="set_new_password_success_body"></div>
-        <div id="pin-cleared-note" class="hidden success-note">🔓 Parent PIN has been cleared. Set a new one in Parent Settings.</div>
+        <div id="pin-cleared-note" class="hidden success-note" data-i18n="pin_was_cleared"></div>
         <button class="submit-btn" onclick="window.location.href='index.html'"><span data-i18n="set_new_password_continue"></span></button>
     </div>
 
@@ -198,7 +198,7 @@ body {
     <div id="view-no-recovery" class="hidden">
         <div class="recovery-icon">🔍</div>
         <div class="recovery-title" data-i18n="set_new_password_title"></div>
-        <p class="recovery-sub" id="no-recovery-msg">No password reset request detected.</p>
+        <p class="recovery-sub" id="no-recovery-msg"></p>
         <a class="back-link" href="index.html" data-i18n="set_new_password_continue"></a>
     </div>
 
@@ -217,5 +217,191 @@ body {
     var hasRecovery = false;
     var resolved = false;
 
+    /* ── Show one view, hide others ── */
     function showView(id) {
-        ['view-loadin
+        ['view-loading', 'view-form', 'view-success', 'view-no-recovery'].forEach(function(v) {
+            var el = document.getElementById(v);
+            if (el) el.classList.toggle('hidden', v !== id);
+        });
+    }
+
+    /* ── Password visibility toggles ── */
+    window.togglePass = function() {
+        var inp = document.getElementById('pass');
+        var btn = document.getElementById('pass-toggle');
+        if (inp.type === 'password') {
+            inp.type = 'text';
+            btn.textContent = '🙈';
+        } else {
+            inp.type = 'password';
+            btn.textContent = '👁️';
+        }
+    };
+
+    window.togglePassConfirm = function() {
+        var inp = document.getElementById('pass-confirm');
+        var btn = document.getElementById('pass-confirm-toggle');
+        if (inp.type === 'password') {
+            inp.type = 'text';
+            btn.textContent = '🙈';
+        } else {
+            inp.type = 'password';
+            btn.textContent = '👁️';
+        }
+    };
+
+    /* ── Password strength meter ── */
+    function updateStrength() {
+        var val = passInput.value || '';
+        var fill = document.getElementById('strength-fill');
+        var label = document.getElementById('strength-label');
+        var score = 0;
+
+        if (val.length >= 6) score += 1;
+        if (val.length >= 10) score += 1;
+        if (/[a-z]/.test(val) && /[A-Z]/.test(val)) score += 1;
+        if (/[0-9]/.test(val)) score += 1;
+        if (/[^a-zA-Z0-9]/.test(val)) score += 1;
+
+        var pct = (score / 5) * 100;
+        var colors = ['#D32F2F', '#FF7043', '#FFA726', '#66BB6A', '#43A047'];
+        var labels = [
+            typeof t === 'function' ? t('password_strength_weak') : 'Weak',
+            typeof t === 'function' ? t('password_strength_fair') : 'Fair',
+            typeof t === 'function' ? t('password_strength_good') : 'Good',
+            typeof t === 'function' ? t('password_strength_strong') : 'Strong',
+            typeof t === 'function' ? t('password_strength_very_strong') : 'Very Strong'
+        ];
+
+        fill.style.width = pct + '%';
+        fill.style.background = colors[Math.min(score, 4)];
+        label.textContent = score > 0 ? labels[Math.min(score - 1, 4)] : '';
+    }
+
+    passInput.addEventListener('input', updateStrength);
+    passConfirm.addEventListener('input', function() {
+        var match = passConfirm.value.length > 0 && passConfirm.value === passInput.value;
+        passConfirm.style.borderColor = match ? 'var(--botes-sage)' : '';
+    });
+
+    /* ── Form submission ── */
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        var password = passInput.value || '';
+        var confirm = passConfirm.value || '';
+        var errMsg = '';
+
+        if (password.length < 6) {
+            errMsg = typeof t === 'function' ? t('auth_error_password') : 'Password must be at least 6 characters.';
+        } else if (password !== confirm) {
+            errMsg = typeof t === 'function' ? t('auth_error_confirm') : 'Passwords do not match.';
+        }
+
+        if (errMsg) {
+            errorEl.textContent = errMsg;
+            errorEl.style.display = 'block';
+            return;
+        }
+
+        errorEl.style.display = 'none';
+        submitBtn.disabled = true;
+        submitBtn.querySelector('span').textContent =
+            typeof t === 'function' ? t('set_new_password_submitting') : 'Updating...';
+
+        doUpdatePassword(password)
+            .then(function() {
+                // Check if parent PIN should be cleared
+                try {
+                    if (localStorage.getItem('xhz_pin_reset_pending') === 'true') {
+                        localStorage.removeItem('xhz_parent_pin');
+                        localStorage.removeItem('xhz_pin_reset_pending');
+                        document.getElementById('pin-cleared-note').classList.remove('hidden');
+                    }
+                } catch(e) {}
+                resolved = true;
+                showView('view-success');
+                if (typeof refreshStrings === 'function') refreshStrings();
+            })
+            .catch(function(err) {
+                errorEl.textContent = err.message || (typeof t === 'function' ? t('auth_error_generic') : 'Something went wrong. Please try again.');
+                errorEl.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.querySelector('span').textContent =
+                    typeof t === 'function' ? t('set_new_password_submit') : 'Update Password';
+            });
+    });
+
+    function doUpdatePassword(newPassword) {
+        if (typeof window.__supabaseUpdatePassword === 'function') {
+            return window.__supabaseUpdatePassword(newPassword);
+        }
+        return Promise.reject(new Error('Supabase auth not available'));
+    }
+
+    /* ── Detect recovery flow ── */
+    function detectRecovery() {
+        // Check if URL hash contains type=recovery
+        if (window.location.hash.indexOf('type=recovery') !== -1) {
+            hasRecovery = true;
+        }
+
+        // Also check the flag set by supabase-client.js
+        if (window.__supabaseIsRecovery) {
+            hasRecovery = true;
+        }
+
+        // Wait for Supabase to be ready
+        var waitFor = window.__supabaseReady || Promise.resolve();
+
+        Promise.race([
+            waitFor,
+            new Promise(function(_, reject) {
+                setTimeout(reject, 8000);
+            })
+        ]).then(function() {
+            if (hasRecovery || window.__supabaseIsRecovery) {
+                // Recovery detected — show the form
+                showView('view-form');
+                if (typeof refreshStrings === 'function') refreshStrings();
+            } else {
+                // No recovery — show message
+                document.getElementById('no-recovery-msg').textContent =
+                    typeof t === 'function' ? t('recovery_invalid_link') : 'This link is not a valid password reset request. Please request a new reset email.';
+                showView('view-no-recovery');
+                if (typeof refreshStrings === 'function') refreshStrings();
+            }
+        }).catch(function() {
+            // Timed out waiting for Supabase — check hash directly as fallback
+            if (window.location.hash.indexOf('type=recovery') !== -1) {
+                showView('view-form');
+                if (typeof refreshStrings === 'function') refreshStrings();
+            } else {
+                document.getElementById('no-recovery-msg').textContent =
+                    typeof t === 'function' ? t('recovery_verify_failed') : 'Could not verify this link. Please request a new password reset email.';
+                showView('view-no-recovery');
+                if (typeof refreshStrings === 'function') refreshStrings();
+            }
+        });
+    }
+
+    /* ── Init ── */
+    function init() {
+        initNav('recovery');
+        // Set default text for no-recovery message
+        document.getElementById('no-recovery-msg').textContent =
+            typeof t === 'function' ? t('recovery_no_request') : 'No password reset request detected.';
+        if (typeof refreshStrings === 'function') refreshStrings();
+        // Start recovery detection after a small delay to let supabase-client initialize
+        setTimeout(detectRecovery, 800);
+    }
+
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        init();
+    } else {
+        document.addEventListener('DOMContentLoaded', init);
+    }
+})();
+</script>
+</body>
+</html>

@@ -175,6 +175,19 @@
 - **Print page notebook:** same course data fallback for TH meanings in notebook chars
 - **strings.js:** added 40+ new EN/TH string pairs for all new translations
 
+### Session 26 — Index page: Sign-in option & Recovery page fix
+- **Added "Sign In" card** to index.html profile picker grid (alongside "Add New Learner")
+- **Fixed recovery.html:** JavaScript was truncated at line 221 causing infinite loading spinner. Reconstructed the full script (~150 lines) with complete recovery flow: view toggling, password strength meter, visibility toggles, form validation, PIN-cleared detection, and fallback for invalid links. Fixed background image path.
+- **Recovery page i18n:** Added 9 new EN/TH string keys to strings.js. Replaced all hardcoded English text with data-i18n/t() calls. Fixed refreshStrings() overwriting dynamic text on no-recovery-msg.
+
+### Session 27 — Progress page: Font size audit
+- First pass: Bumped ~25+ selectors by 0.05–0.1em (stats labels, badges, calendar, mastery grid, items, notebook compact entries)
+- Second pass: Added `font-size: 112%` to `.page-content` for a proportional 12% base boost; increased mastery word button sizes with overflow hidden
+
+### Session 28 — Guest dot fix after sign-in
+- **Bug:** After signing in on index.html, renderProfiles() was never called again so guest dots persisted in the DOM
+- **Fix:** In auth-modal.js, captured the repairAllProfilesFromSupabase() promise and chained .then() to call renderProfiles() on completion
+
 ## Pending
 - [x] Standardize font weight loading across all pages (completed in Sessions 3-4)
 - [x] Clean up unused `signup_*` i18n keys from `strings.js` (completed in Session 14)
@@ -182,3 +195,4 @@
 - [x] Apply neo-brutalism aesthetic to dojo page (completed in Session 21)
 - [ ] Enhance progress tracking with detailed analytics
 - [ ] Add data export/backup feature
+- [ ] Fix `window.__SUPABASE_SYNC.pushAll()` called in auth-modal.js but method doesn't exist (silent no-op)

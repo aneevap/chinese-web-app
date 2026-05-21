@@ -541,6 +541,27 @@ function renderProfiles() {
         window.location.href = 'new-learner.html';
     };
     grid.appendChild(addCard);
+
+    /* Sign in card — for returning users on a new device */
+    var signInCard = document.createElement('div');
+    signInCard.className = 'add-card';
+    signInCard.style.opacity = '0.7';
+    signInCard.title = 'Sign in to restore your progress';
+    signInCard.innerHTML =
+        '<div class="add-avatar" style="border-style:solid;border-color:var(--botes-ochre);color:var(--botes-ochre);font-size:1.4em;">\uD83D\uDD10</div>' +
+        '<div class="add-label" style="color:var(--botes-ochre);font-weight:700;">' +
+        'Sign In' +
+        '</div>';
+    signInCard.onclick = function() {
+        showAuthModal('signin');
+    };
+    grid.appendChild(signInCard);
+
+    /* Small divider / or text below the grid to explain */
+    var signInHint = document.createElement('div');
+    signInHint.style.cssText = 'width:100%;text-align:center;font-size:0.72em;color:var(--ink-light);margin-top:-4px;padding-bottom:4px;';
+    signInHint.textContent = 'Already have an account? Sign in to access your saved progress.';
+    grid.appendChild(signInHint);
 }
 
 /* ── Get first equipped item emoji from rewards ── */

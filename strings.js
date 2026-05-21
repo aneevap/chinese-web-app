@@ -182,6 +182,19 @@ var STRINGS = {
     cal_study: "📚 Study: {count}",
     cal_chars: "📝 Chars: {count}",
 
+    // ── Recovery page ─────────────────────────────────────────
+    recovery_verifying:     "Verifying recovery link...",
+    recovery_no_request:    "No password reset request detected.",
+    recovery_invalid_link:  "This link is not a valid password reset request. Please request a new reset email.",
+    recovery_verify_failed: "Could not verify this link. Please request a new password reset email.",
+
+    // ── Password strength ────────────────────────────────────────
+    password_strength_weak:       "Weak",
+    password_strength_fair:       "Fair",
+    password_strength_good:       "Good",
+    password_strength_strong:     "Strong",
+    password_strength_very_strong: "Very Strong",
+
     // ── Streak ──
     streak_day:  "day",
     streak_days: "days",
@@ -357,6 +370,19 @@ var STRINGS = {
     cal_write: "✍️  เขียน: {count}",
     cal_study: "📚 เรียน: {count}",
     cal_chars: "📝 ตัวอักษร: {count}",
+
+    // ── Recovery page ─────────────────────────────────────────
+    recovery_verifying:     "กำลังตรวจสอบลิงก์กู้คืน...",
+    recovery_no_request:    "ไม่พบคำขอกู้คืนรหัสผ่าน",
+    recovery_invalid_link:  "ลิงก์นี้ไม่ใช่คำขอกู้คืนรหัสผ่านที่ถูกต้อง กรุณาขออีเมลรีเซ็ตใหม่",
+    recovery_verify_failed: "ไม่สามารถยืนยันลิงก์นี้ได้ กรุณาขออีเมลรีเซ็ตรหัสผ่านใหม่",
+
+    // ── Password strength ────────────────────────────────────────
+    password_strength_weak:       "อ่อน",
+    password_strength_fair:       "พอใช้",
+    password_strength_good:       "ดี",
+    password_strength_strong:     "แข็งแรง",
+    password_strength_very_strong: "แข็งแรงมาก",
 
     // ── Streak ──
     streak_day:  "วัน",
