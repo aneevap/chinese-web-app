@@ -36,9 +36,11 @@ jobs:
       - name: Prepare deployment
         run: |
           mkdir -p deployment
-          # Copy everything from repo root, excluding .git, node_modules, and the deployment dir itself
-          rsync -a --exclude='.git' --exclude='node_modules' --exclude='deployment' . deployment/
-          # Remove .gitignore files so upload-pages-artifact doesn't filter out dist/
+          # Copy all tracked files (git ls-files respects .gitignore, but we only need the repo files)
+          tar cf - $(git ls-files) | tar xf - -C deployment
+          # Now copy the built game assets (games/dist/) into the deployment
+          cp -r games/dist deployment/games/
+          # Delete .gitignore files so upload-pages-artifact doesn't filter out dist/
           find deployment -name '.gitignore' -delete
         working-directory: ./
 
