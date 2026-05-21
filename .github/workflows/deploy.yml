@@ -34,15 +34,14 @@ jobs:
         run: npm run build
 
       - name: Prepare deployment
+        # Override the job-level working-directory: ./games by using explicit workspace path
+        working-directory: ${{ github.workspace }}
         run: |
           mkdir -p deployment
-          # Copy all tracked files (git ls-files respects .gitignore, but we only need the repo files)
-          tar cf - $(git ls-files) | tar xf - -C deployment
-          # Now copy the built game assets (games/dist/) into the deployment
-          cp -r games/dist deployment/games/
-          # Delete .gitignore files so upload-pages-artifact doesn't filter out dist/
+          # Copy all tracked files from the repo root into deployment
+          rsync -a --exclude='.git' --exclude='node_modules' --exclude='deployment' . deployment/
+          # Remove .gitignore files so upload-pages-artifact doesn't filter out dist/
           find deployment -name '.gitignore' -delete
-        working-directory: ./
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
