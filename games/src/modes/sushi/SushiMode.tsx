@@ -125,6 +125,22 @@ export function SushiMode({ words, courseThemes, language }: Props) {
   }, [courseThemes]);
 
   const belt = useMemo(() => [...beltItems], [beltItems]);
+
+// Detect mobile for two-row belt
+const [isMobile, setIsMobile] = useState(false);
+useEffect(() => {
+  const check = () => setIsMobile(window.innerWidth <= 400);
+  check();
+  window.addEventListener('resize', check);
+  return () => window.removeEventListener('resize', check);
+}, []);
+
+// Split belt into rows: single row on desktop, two rows on mobile (snake pattern)
+const beltRows = useMemo(() => {
+  if (!isMobile || belt.length === 0) return [belt];
+  const half = Math.ceil(belt.length / 2);
+  return [belt.slice(0, half), belt.slice(half)];
+}, [belt, isMobile]);
   const selectedWord = words.find((word) => word.id === selectedWordId) || null;
   const gameAreaRef = useRef<HTMLDivElement>(null);
   const confettiRef = useRef<number>(0);
@@ -969,27 +985,32 @@ export function SushiMode({ words, courseThemes, language }: Props) {
       {/* 🍣 SUSHI CONVEYOR BELT - Bottom */}
       <div className="belt">
         <div className="belt-fade-left" />
-        <div className="belt-track">
-          {[...belt, ...belt].map((word, index) => (
-            <div
-              key={`${word.id}-${index}`}
-              className={`plate ${selectedWordId === word.id ? 'active hidden' : ''} ${isDragging ? 'belt-dragging' : ''}`}
-              style={{ borderColor: categoryColorMap[word.category] || undefined }}
-              onClick={() => {
-                if (!showStartScreen && countdown === 0 && !ended) {
-                  playClickSound();
-                  setSelectedWordId(word.id);
-                }
-              }}
-              draggable
-              onDragStart={(e) => handleDragStart(e, word.id)}
-              onDragEnd={handleDragEnd}
-            >
-              <span className="hanzi">{word.hanzi}</span>
-              <span className="pinyin">{word.pinyin}</span>
-            </div>
-          ))}
-        </div>
+        {beltRows.map((row, rowIndex) => (
+          <div
+            key={rowIndex}
+            className={`belt-track${isMobile ? (rowIndex === 0 ? ' top-row' : ' bottom-row') : ''}`}
+          >
+            {[...row, ...row].map((word, index) => (
+              <div
+                key={`${word.id}-${rowIndex}-${index}`}
+                className={`plate ${selectedWordId === word.id ? 'active hidden' : ''} ${isDragging ? 'belt-dragging' : ''}`}
+                style={{ borderColor: categoryColorMap[word.category] || undefined }}
+                onClick={() => {
+                  if (!showStartScreen && countdown === 0 && !ended) {
+                    playClickSound();
+                    setSelectedWordId(word.id);
+                  }
+                }}
+                draggable
+                onDragStart={(e) => handleDragStart(e, word.id)}
+                onDragEnd={handleDragEnd}
+              >
+                <span className="hanzi">{word.hanzi}</span>
+                <span className="pinyin">{word.pinyin}</span>
+              </div>
+            ))}
+          </div>
+        ))}
       </div>
 
       {/* Spawn timer */}
