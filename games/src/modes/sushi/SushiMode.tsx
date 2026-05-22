@@ -536,6 +536,36 @@ const beltRows = useMemo(() => {
     }
   }, [activeWords]);
 
+  // 🏃 Mobile belt auto-scroll via requestAnimationFrame
+  // Uses scrollLeft instead of CSS animation to preserve native DOM hit-testing.
+  useEffect(() => {
+    if (!isMobile || !gameStarted || ended || showStartScreen || countdown > 0) return;
+    let animFrame: number;
+    let lastTime = performance.now();
+    const PX_PER_SECOND = 18;
+    const scroll = (now: number) => {
+      const dt = now - lastTime;
+      lastTime = now;
+      const px = PX_PER_SECOND * (dt / 1000);
+      const tracks = document.querySelectorAll('.belt-track');
+      tracks.forEach((track, i) => {
+        const el = track as HTMLElement;
+        if (!el || el.scrollWidth <= el.clientWidth) return;
+        if (i === 0) {
+          el.scrollLeft += px;
+          if (el.scrollLeft >= el.scrollWidth / 2) el.scrollLeft = 0;
+        } else {
+          if (el.scrollLeft === 0) el.scrollLeft = el.scrollWidth / 2;
+          el.scrollLeft -= px;
+          if (el.scrollLeft <= 0) el.scrollLeft = el.scrollWidth / 2;
+        }
+      });
+      animFrame = requestAnimationFrame(scroll);
+    };
+    animFrame = requestAnimationFrame(scroll);
+    return () => cancelAnimationFrame(animFrame);
+  }, [isMobile, gameStarted, ended, showStartScreen, countdown]);
+
   // 🎊 Confetti animation loop
   useEffect(() => {
     if (confetti.length === 0) return;
@@ -1010,7 +1040,7 @@ const beltRows = useMemo(() => {
             key={rowIndex}
             className={`belt-track${isMobile ? (rowIndex === 0 ? ' top-row' : ' bottom-row') : ''}`}
           >
-            {(isMobile ? row : [...row, ...row]).map((word, index) => (
+            {[...row, ...row].map((word, index) => (
               <div
                 key={`${word.id}-${rowIndex}-${index}`}
                 data-word-id={word.id}
