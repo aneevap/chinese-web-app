@@ -188,6 +188,11 @@
 - **Bug:** After signing in on index.html, renderProfiles() was never called again so guest dots persisted in the DOM
 - **Fix:** In auth-modal.js, captured the repairAllProfilesFromSupabase() promise and chained .then() to call renderProfiles() on completion
 
+### Session 29 — Sushi game iPhone fixes: tap-to-deliver, hide doors, belt edge-to-edge
+- **Tap-to-deliver:** Added onClick to occupied customer slots calling resolveAttempt() when a word is selected — fixes drag & drop not working on iPhone touch devices
+- **Doors hidden on mobile:** Added display:none to .door-row at max-width:400px breakpoint
+- **Belt edge-to-edge:** Negative margins (-6px) counteract container padding, side borders removed, edge fades hidden, track padding/gaps reduced — ~6 plates visible instead of ~5
+
 ## Pending
 - [x] Standardize font weight loading across all pages (completed in Sessions 3-4)
 - [x] Clean up unused `signup_*` i18n keys from `strings.js` (completed in Session 14)

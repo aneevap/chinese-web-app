@@ -1,6 +1,58 @@
 # Active Context
 
-## Current Session (Sessions 26–28) — Index page sign-in, recovery fix, i18n, font sizes, guest dot fix
+# Active Context
+
+## Current Session (Session 29) — Sushi game iPhone fixes: tap-to-deliver, hide doors, belt edge-to-edge
+
+### Tap-to-deliver on iPhone (HTML5 drag fallback)
+- **Bug:** HTML5 Drag & Drop API doesn't work on touch devices — iPhone users could select a plate but couldn't deliver it to a customer
+- **Fix:** Added `onClick` to occupied customer slots that calls `resolveAttempt(customer.id)` when a word is selected. Flow: tap plate on belt → plate appears in drop zone → tap customer → delivery!
+- Desktop drag & drop unaffected (onClick doesn't fire after drag-drop)
+
+### Doors hidden on mobile
+- Added `display: none` to `.door-row` at the `max-width: 400px` breakpoint
+- Customers no longer spawn from doors, so doors just waste space on small screens
+
+### Belt edge-to-edge on mobile
+- On mobile, belt uses `margin-left: -6px; margin-right: -6px` to counteract container padding
+- Side borders removed (`border-left: none; border-right: none; border-radius: 0`)
+- Edge fade gradients hidden (`.belt::after, .belt-fade-left { display: none }`)
+- Belt-track padding reduced: 5px → 3px, gap: 5px → 4px
+- Result: **~6 plates visible** instead of ~5
+
+## ✅ Working Correctly
+- **Design system migration:** All 8 pages use design system CSS variables
+- **paper-grain.png:** Exists at `assets/textures/paper-grain.png` (788 bytes)
+- **signup.html:** Deleted
+- **Hall of Fame:** Auto-saves scores, leaderboard in result screens, live refresh on dojo.html
+- **Duplicate profiles:** Name-only check, auto-merge on `getAllProfiles()`
+- **Auth flow:** Upgrade, sign-in, password reset, set-new-password, recovery detection
+- **Font weights:** All pages identical (Bai 400-800, Nunito 400-800, Mali 400-700)
+- **Sushi mode:** Walking entrance/exit animations, slot-based positioning, bigger hanzi
+- **Grid Buster:** 4×4 matching game, multi-round, neo-brutalism board-game aesthetic
+- **Sushi mode:** Neo-brutalism redesign matching the board-game aesthetic
+- **Error Boundary:** Catches render errors gracefully with fallback UI
+- **Dojo page:** Neo-brutalism redesign with centered games grid, accent stripes, achievement card HOF
+- **Print page:** Dual source (Course/Notebook), missing charsPerPage restored, notebook char enrichment
+- **Progress page:** Full EN/TH i18n support for all dynamic content, improved font sizes
+- **Notebook entries:** meaning_th stored alongside meaning, course data fallback for old entries
+- **Supabase sync:** Notebook data sync support added
+- **Guest dot:** Now hides immediately after sign-in on index page
+- **Recovery page:** Fully functional with i18n support
+- **Index page:** Sign-in option available alongside Add New Learner
+- **Sushi iPhone:** Tap-to-deliver works (onClick on customer slots), doors hidden on mobile, belt extends edge-to-edge for more plates visible
+
+## Known Issues
+- Dojo cards background still lighter than page (user preference: match paper-warm with grain)
+- User could close recovery modal without setting password (leaves recovery-limited session)
+- `window.__SUPABASE_SYNC.pushAll()` called in auth-modal.js on sign-in success but method doesn't exist in supabase-sync.js (silent no-op)
+- Sushi game changes deployed but user reports not seeing them on iPhone Safari (may need cache clear or build re-deploy)
+
+## Next Steps
+- Investigate why sushi game changes aren't appearing on live site (cache? build failure?)
+- Check matching game for same iPhone touch interaction issues
+- Enhance progress tracking with detailed analytics
+- Apply neo-brutalism to remaining core pages (study, write, progress) — Index page sign-in, recovery fix, i18n, font sizes, guest dot fix
 
 ### Index page: Sign-in option added
 - **"Sign In" card** added to the profile picker grid on `index.html`, positioned after the "Add New Learner" card
