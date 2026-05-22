@@ -1009,6 +1009,11 @@ const beltRows = useMemo(() => {
           <div
             key={rowIndex}
             className={`belt-track${isMobile ? (rowIndex === 0 ? ' top-row' : ' bottom-row') : ''}`}
+            style={isMobile ? {
+              animation: rowIndex === 0
+                ? 'beltScroll 28s linear infinite'
+                : 'beltScrollRight 28s linear infinite',
+            } : undefined}
           >
             {[...row, ...row].map((word, index) => (
               <div
