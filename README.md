@@ -16,7 +16,7 @@ A gamified web app for children (ages 5–12) to learn Chinese characters throug
 - **🌐 Bilingual** — English and Thai interface support via `strings.js`
 - **🧸 Kid-friendly** — Duplicate profile detection with auto-merge; playful Botes paper design
 - **📱 Guest dot indicator** — Profiles created without an account show a guest dot; disappears after signing in
-- **🍣 Sushi game mobile fixes** — Tap-to-deliver on iPhone (touch fallback for HTML5 drag), doors hidden on small screens, belt extends edge-to-edge for more visible plates
+- **🍣 Sushi game mobile fixes** — Tap-to-deliver on iPhone (onPointerUp on customer slots), coordinate-based plate matching (getBoundingClientRect bypasses Safari's unreliable hit-testing on animated elements), doors hidden on small screens, belt extends edge-to-edge for more visible plates, single-row belt (two-row serpentine layout had iOS Safari animation bugs on the top row)
 
 ## 🚀 Getting Started
 

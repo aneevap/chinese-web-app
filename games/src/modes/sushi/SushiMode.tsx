@@ -126,21 +126,7 @@ export function SushiMode({ words, courseThemes, language }: Props) {
 
   const belt = useMemo(() => [...beltItems], [beltItems]);
 
-// Detect mobile for two-row belt
-const [isMobile, setIsMobile] = useState(false);
-useEffect(() => {
-  const check = () => setIsMobile(window.innerWidth <= 400);
-  check();
-  window.addEventListener('resize', check);
-  return () => window.removeEventListener('resize', check);
-}, []);
-
-// Split belt into rows: single row on desktop, two rows on mobile (snake pattern)
-const beltRows = useMemo(() => {
-  if (!isMobile || belt.length === 0) return [belt];
-  const half = Math.ceil(belt.length / 2);
-  return [belt.slice(0, half), belt.slice(half)];
-}, [belt, isMobile]);
+const beltRows = useMemo(() => [belt], [belt]);
   const selectedWord = words.find((word) => word.id === selectedWordId) || null;
   const gameAreaRef = useRef<HTMLDivElement>(null);
   const confettiRef = useRef<number>(0);
@@ -1008,7 +994,7 @@ const beltRows = useMemo(() => {
         {beltRows.map((row, rowIndex) => (
           <div
             key={rowIndex}
-            className={`belt-track${isMobile ? (rowIndex === 0 ? ' top-row' : ' bottom-row') : ''}`}
+            className="belt-track"
           >
             {[...row, ...row].map((word, index) => (
               <div

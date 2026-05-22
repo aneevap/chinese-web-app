@@ -2,12 +2,33 @@
 
 # Active Context
 
-## Current Session (Session 29) — Sushi game iPhone fixes: tap-to-deliver, hide doors, belt edge-to-edge
+## Current Session (Session 30) — Revert sushi belt to single row after iOS Safari animation failures
+
+### Background: The Great Belt Animation Saga
+We attempted to split the sushi conveyor belt into TWO rows on mobile (≤400px) to fit more characters (serpentine: top row scrolls left, bottom scrolls right). This broke the top row animation on iOS Safari. Multiple approaches were tried and failed:
+
+1. **CSS animation on `.belt-track.top-row`** — top row didn't animate on iPhone
+2. **Inline `style={{ animation: ... }}` via React** — same result, top row static
+3. **`animation: none` on mobile `.belt-track`** to clear base cascade — still broken
+4. **`will-change: transform`** hypothesis — not tested, user wanted revert
+
+**Root cause (suspected):** iOS Safari has a bug where CSS `transform`-based animations on `flex-direction: column` children with `width: max-content` fail when the element is the first flex child. The bottom row (second flex child) always animated correctly. This may relate to Safari's compositing layer assignment for the first child in a flex column.
+
+### Resolution: Single row belt for all screen sizes
+- Removed `isMobile` state, `useEffect` for mobile detection, and `beltRows` splitting from SushiMode.tsx
+- Belt always renders as a single `.belt-track` with the base `beltScroll` animation
+- CSS: removed mobile two-row overrides (`height: 130px`, `flex-direction: column`, `.top-row`/`.bottom-row`, `animation: none` on `.belt-track`)
+- Kept useful mobile improvements: edge-to-edge margins, smaller plates (54px), hidden door row, hidden belt fades
+- `beltScrollRight` keyframe retained for future use if needed
 
 ### Tap-to-deliver on iPhone (HTML5 drag fallback)
 - **Bug:** HTML5 Drag & Drop API doesn't work on touch devices — iPhone users could select a plate but couldn't deliver it to a customer
-- **Fix:** Added `onClick` to occupied customer slots that calls `resolveAttempt(customer.id)` when a word is selected. Flow: tap plate on belt → plate appears in drop zone → tap customer → delivery!
-- Desktop drag & drop unaffected (onClick doesn't fire after drag-drop)
+- **Fix:** Added `onPointerUp` to occupied customer slots that calls `resolveAttempt(customer.id)` when a word is selected. Flow: tap plate on belt → plate appears in drop zone → tap customer → delivery!
+- Desktop drag & drop unaffected (onPointerUp doesn't fire after drag-drop)
+
+### Coordinate-based plate matching for tap targeting
+- **Bug:** On the CSS-animated belt, Safari's hit-testing sometimes selects the wrong plate (especially when few characters)
+- **Fix:** Replaced `e.currentTarget` event-based word ID lookup with `getBoundingClientRect()` coordinate matching. On tap/pointerdown, the finger's `clientX`/`clientY` is compared to the center of all visible plates. The closest plate is selected.
 
 ### Doors hidden on mobile
 - Added `display: none` to `.door-row` at the `max-width: 400px` breakpoint
@@ -17,7 +38,7 @@
 - On mobile, belt uses `margin-left: -6px; margin-right: -6px` to counteract container padding
 - Side borders removed (`border-left: none; border-right: none; border-radius: 0`)
 - Edge fade gradients hidden (`.belt::after, .belt-fade-left { display: none }`)
-- Belt-track padding reduced: 5px → 3px, gap: 5px → 4px
+- Belt-track padding reduced, gap reduced
 - Result: **~6 plates visible** instead of ~5
 
 ## ✅ Working Correctly
@@ -40,21 +61,18 @@
 - **Guest dot:** Now hides immediately after sign-in on index page
 - **Recovery page:** Fully functional with i18n support
 - **Index page:** Sign-in option available alongside Add New Learner
-- **Sushi iPhone:** Tap-to-deliver works (onClick on customer slots), doors hidden on mobile, belt extends edge-to-edge for more plates visible
+- **Sushi iPhone:** Tap-to-deliver works, coordinate-based plate matching, doors hidden on mobile, belt edge-to-edge, single-row belt (reliable animation on all browsers)
 
 ## Known Issues
 - Dojo cards background still lighter than page (user preference: match paper-warm with grain)
 - User could close recovery modal without setting password (leaves recovery-limited session)
 - `window.__SUPABASE_SYNC.pushAll()` called in auth-modal.js on sign-in success but method doesn't exist in supabase-sync.js (silent no-op)
-- Sushi game changes deployed but user reports not seeing them on iPhone Safari (may need cache clear or build re-deploy)
 
 ## Next Steps
-- Investigate why sushi game changes aren't appearing on live site (cache? build failure?)
 - Check matching game for same iPhone touch interaction issues
 - Enhance progress tracking with detailed analytics
-- Apply neo-brutalism to remaining core pages (study, write, progress) — Index page sign-in, recovery fix, i18n, font sizes, guest dot fix
+- Fix `pushAll()` missing method or replace with proper sync trigger after sign-in
 
-### Index page: Sign-in option added
 - **"Sign In" card** added to the profile picker grid on `index.html`, positioned after the "Add New Learner" card
 - Uses a 🔐 lock icon with ochre styling, consistent with the existing `add-card` design
 - Calls `showAuthModal('signin')` to open the auth sign-in modal for returning users on a new device

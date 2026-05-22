@@ -734,27 +734,15 @@ body {
     display: none;
   }
   .belt {
-    height: 130px;
     margin-left: -6px;
     margin-right: -6px;
     border-radius: 0;
     border-left: none;
     border-right: none;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
   }
   .belt-track {
-    animation: none;
     gap: 4px;
     padding: 8px 3px 3px;
-    height: calc(50% - 1px);
-  }
-  .belt-track.top-row {
-    animation: beltScroll 28s linear infinite;
-  }
-  .belt-track.bottom-row {
-    animation: beltScrollRight 28s linear infinite;
   }
   .belt::after,
   .belt-fade-left {
