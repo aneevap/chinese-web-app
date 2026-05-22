@@ -909,6 +909,7 @@ export function SushiMode({ words, courseThemes, language }: Props) {
                 id={`customer-${customer.id}`}
                 data-slot={customer.slotIndex}
                 className={`customer-slot ${animClass} ${dragOverCustomer === customer.id ? 'drag-over' : ''} ${isCorrectEffect ? 'correct-flash' : ''}`}
+                onClick={() => { if (selectedWordId) resolveAttempt(customer.id); }}
                 onDragOver={(e) => handleDragOver(e, customer.id)}
                 onDragLeave={handleDragLeave}
                 onDrop={(e) => handleDrop(e, customer.id)}
