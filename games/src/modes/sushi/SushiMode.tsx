@@ -414,6 +414,26 @@ const beltRows = useMemo(() => {
     });
   }, []);
 
+  // ⏰ Safari onAnimationEnd fallback — transition entering→seated after 1s
+  // Safari sometimes fails to fire animationend on dynamically added elements,
+  // leaving the customer permanently stuck in 'entering' phase and unclickable.
+  useEffect(() => {
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    for (const customer of customers) {
+      if (customer.animPhase === 'entering') {
+        const timer = setTimeout(() => {
+          setCustomers(prev => prev.map(c =>
+            c.id === customer.id && c.animPhase === 'entering'
+              ? { ...c, animPhase: 'seated' }
+              : c
+          ));
+        }, 1000); // 850ms walkIn + 150ms buffer
+        timers.push(timer);
+      }
+    }
+    return () => { for (const t of timers) clearTimeout(t); };
+  }, [customers]);
+
   // ✅ First customer spawns after exactly 3 seconds
   useEffect(() => {
     if (!gameStarted || ended || showStartScreen || countdown > 0 || firstSpawned) return;
