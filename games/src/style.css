@@ -748,11 +748,12 @@ body {
     gap: 4px;
     padding: 8px 3px 3px;
     height: calc(50% - 1px);
-    width: 100%;
-    overflow-x: auto;
-    animation: none;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+  }
+  .belt-track.top-row {
+    animation: beltScroll 28s linear infinite;
+  }
+  .belt-track.bottom-row {
+    animation: beltScrollRight 28s linear infinite;
   }
   .belt::after,
   .belt-fade-left {

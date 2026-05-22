@@ -536,36 +536,6 @@ const beltRows = useMemo(() => {
     }
   }, [activeWords]);
 
-  // 🏃 Mobile belt auto-scroll via requestAnimationFrame
-  // Uses scrollLeft instead of CSS animation to preserve native DOM hit-testing.
-  useEffect(() => {
-    if (!isMobile || !gameStarted || ended || showStartScreen || countdown > 0) return;
-    let animFrame: number;
-    let lastTime = performance.now();
-    const PX_PER_SECOND = 18;
-    const scroll = (now: number) => {
-      const dt = now - lastTime;
-      lastTime = now;
-      const px = PX_PER_SECOND * (dt / 1000);
-      const tracks = document.querySelectorAll('.belt-track');
-      tracks.forEach((track, i) => {
-        const el = track as HTMLElement;
-        if (!el || el.scrollWidth <= el.clientWidth) return;
-        if (i === 0) {
-          el.scrollLeft += px;
-          if (el.scrollLeft >= el.scrollWidth / 2) el.scrollLeft = 0;
-        } else {
-          if (el.scrollLeft === 0) el.scrollLeft = el.scrollWidth / 2;
-          el.scrollLeft -= px;
-          if (el.scrollLeft <= 0) el.scrollLeft = el.scrollWidth / 2;
-        }
-      });
-      animFrame = requestAnimationFrame(scroll);
-    };
-    animFrame = requestAnimationFrame(scroll);
-    return () => cancelAnimationFrame(animFrame);
-  }, [isMobile, gameStarted, ended, showStartScreen, countdown]);
-
   // 🎊 Confetti animation loop
   useEffect(() => {
     if (confetti.length === 0) return;
@@ -1049,8 +1019,24 @@ const beltRows = useMemo(() => {
                 onPointerDown={(e) => {
                   if (!showStartScreen && countdown === 0 && !ended) {
                     playClickSound();
-                    const id = (e.currentTarget as HTMLElement).getAttribute('data-word-id');
-                    if (id) setSelectedWordId(id);
+                    // Use finger coordinates to find the closest plate via
+                    // getBoundingClientRect, bypassing Safari's unreliable
+                    // hit-testing on CSS-animated composited layers.
+                    let closest: Element | null = null;
+                    let minDist = Infinity;
+                    const cx = e.clientX;
+                    const cy = e.clientY;
+                    document.querySelectorAll('.belt-track .plate:not(.hidden)').forEach(p => {
+                      const r = p.getBoundingClientRect();
+                      const pcx = r.left + r.width / 2;
+                      const pcy = r.top + r.height / 2;
+                      const d = Math.hypot(cx - pcx, cy - pcy);
+                      if (d < minDist) { minDist = d; closest = p; }
+                    });
+                    if (closest) {
+                      const id = (closest as Element).getAttribute('data-word-id');
+                      if (id) setSelectedWordId(id);
+                    }
                   }
                 }}
                 draggable
