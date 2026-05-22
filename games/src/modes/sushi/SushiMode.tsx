@@ -1010,7 +1010,7 @@ const beltRows = useMemo(() => {
             key={rowIndex}
             className={`belt-track${isMobile ? (rowIndex === 0 ? ' top-row' : ' bottom-row') : ''}`}
           >
-            {[...row, ...row].map((word, index) => (
+            {(isMobile ? row : [...row, ...row]).map((word, index) => (
               <div
                 key={`${word.id}-${rowIndex}-${index}`}
                 className={`plate ${selectedWordId === word.id ? 'active hidden' : ''} ${isDragging ? 'belt-dragging' : ''}`}
