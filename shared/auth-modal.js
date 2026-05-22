@@ -308,35 +308,84 @@
           closeModal();
 
           // Helper: merge remote profiles into local storage
-          // so cloud profiles appear on the new device
-          var mergeRemoteProfiles = function () {
+          // so cloud profiles appear on the new device.
+          // Retries until SYNC is ready (Safari can be slow to init),
+          // with a fallback direct query if SYNC never becomes ready.
+          var mergeRemoteProfiles = function (attempt) {
+            attempt = attempt || 1;
+
+            // Try SYNC path first
             if (window.__SUPABASE_SYNC && window.__SUPABASE_SYNC.ready) {
+              console.log('\uD83D\uDCE5 auth-modal: pulling cloud profiles via SYNC');
               window.__SUPABASE_SYNC.pullProfiles().then(function (remoteProfiles) {
-                if (!remoteProfiles || !remoteProfiles.length) return;
-                var data = XHZ._load();
-                var localIds = data.profiles.map(function (p) { return p.id; });
-                var added = 0;
-                remoteProfiles.forEach(function (rp) {
-                  if (localIds.indexOf(rp.id) === -1) {
-                    data.profiles.push({
-                      id: rp.id,
-                      nickname: rp.nickname,
-                      avatar: rp.avatar,
-                      color: rp.color,
-                      is_guest: rp.is_guest !== false,
-                      equipped_items: rp.equipped_items || {}
-                    });
-                    localIds.push(rp.id);
-                    added++;
-                  }
-                });
-                if (added && typeof renderProfiles === 'function') {
-                  XHZ._save(data);
-                  renderProfiles();
+                if (remoteProfiles && remoteProfiles.length) {
+                  mergeIntoLocal(remoteProfiles);
+                } else {
+                  console.log('\uD83D\uDCE5 auth-modal: SYNC returned no profiles, trying direct query');
+                  pullDirectly();
                 }
               });
+              return;
             }
+
+            // Retry with backoff (up to ~10 seconds)
+            if (attempt < 10) {
+              var delay = attempt * 200;
+              console.log('\uD83D\uDCE5 auth-modal: SYNC not ready (attempt ' + attempt + '), retrying in ' + delay + 'ms');
+              setTimeout(function () { mergeRemoteProfiles(attempt + 1); }, delay);
+              return;
+            }
+
+            // Fallback: query Supabase directly
+            console.log('\uD83D\uDCE5 auth-modal: SYNC not ready after retries, querying Supabase directly');
+            pullDirectly();
           };
+
+          // Direct Supabase query (fallback when SYNC is not ready)
+          function pullDirectly() {
+            var sb = window.__supabase;
+            if (!sb) {
+              console.log('\u26A0\uFE0F auth-modal: Supabase not available for direct pull');
+              return;
+            }
+            sb.from('profiles').select('*').order('created_at').then(function (result) {
+              if (result.error) {
+                console.warn('\u26A0\uFE0F auth-modal: direct pull error:', result.error.message);
+                return;
+              }
+              if (result.data && result.data.length) {
+                mergeIntoLocal(result.data);
+              }
+            });
+          }
+
+          // Merge remote profiles into localStorage (shared logic)
+          function mergeIntoLocal(remoteProfiles) {
+            var data = XHZ._load();
+            var localIds = data.profiles.map(function (p) { return p.id; });
+            var added = 0;
+            remoteProfiles.forEach(function (rp) {
+              if (localIds.indexOf(rp.id) === -1) {
+                data.profiles.push({
+                  id: rp.id,
+                  nickname: rp.nickname,
+                  avatar: rp.avatar,
+                  color: rp.color,
+                  is_guest: rp.is_guest !== false,
+                  equipped_items: rp.equipped_items || {}
+                });
+                localIds.push(rp.id);
+                added++;
+              }
+            });
+            if (added && typeof renderProfiles === 'function') {
+              XHZ._save(data);
+              console.log('\uD83D\uDCE5 auth-modal: merged ' + added + ' remote profile(s)');
+              renderProfiles();
+            } else {
+              console.log('\uD83D\uDCE5 auth-modal: no new profiles to merge');
+            }
+          }
 
           // After repair completes, re-render profile cards
           // so guest dot disappears, then pull cloud profiles

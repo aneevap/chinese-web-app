@@ -110,7 +110,9 @@
 
     var script = document.createElement('script');
     script.type = 'module';
-    script.textContent = [
+    // Use Blob URL for Safari compatibility (Safari doesn't execute textContent
+    // on dynamically created <script type="module"> elements prior to Safari 17)
+    var scriptCode = [
       "import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.48.1';",
       "var SUPABASE_URL = '" + SUPABASE_URL + "';",
       "var SUPABASE_ANON_KEY = '" + SUPABASE_ANON_KEY + "';",
@@ -159,6 +161,13 @@
       "}",
     ].join('\n');
 
+    try {
+      var blob = new Blob([scriptCode], { type: 'text/javascript' });
+      script.src = URL.createObjectURL(blob);
+    } catch(e) {
+      // Fallback for browsers that don't support Blob URLs
+      script.textContent = scriptCode;
+    }
     document.head.appendChild(script);
 
     // Timeout fallback
