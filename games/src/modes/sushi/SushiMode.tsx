@@ -11,7 +11,7 @@ import { getSpawnInterval } from '../../core/systems/scoring';
 const MAX_CUSTOMERS = 3;
 const SPAWN_SECONDS = 6;
 const ROUND_SECONDS = 75;
-const BELT_ITEMS_COUNT = 12;
+const BELT_ITEMS_COUNT = 18;
 const FIRST_SPAWN_DELAY = 3000; // 3 seconds for first customer
 const MAX_WORD_APPEARANCES = 2; // Max times a word can appear per session
 
@@ -879,59 +879,58 @@ export function SushiMode({ words, courseThemes, language }: Props) {
       </div>
 
 
-      {/* 👤 CUSTOMER AREA - With doors and entrance/exit animations */}
+      {/* 👤 CUSTOMER AREA — Doors above, customers below */}
       <div className="customer-area">
-        <div className="door-area">
-          {/* Entrance Door (upper-left) */}
+        {/* Door row — side by side */}
+        <div className="door-row">
           <div className="door entrance">
-            <div className="door-label">ENTRANCE</div>
+            <div className="door-label">入口</div>
           </div>
-
-          {/* Customer Slots — slotIndex-based so positions never shift */}
-          <div className="customer-row">
-            {Array.from({ length: MAX_CUSTOMERS }).map((_, index) => {
-              const customer = customers.find(c => c.slotIndex === index);
-              if (!customer) return (
-                <div key={index} className="customer-slot empty" data-slot={index}>
-                  <div className="empty-customer-icon">🪑</div>
-                  <div className="empty-customer-text">Waiting...</div>
-                </div>
-              );
-              const isCorrectEffect = showCorrectEffect && correctCustomerId === customer.id;
-              const animClass = getAnimClass(customer);
-              return (
-                <div
-                  key={customer.id}
-                  id={`customer-${customer.id}`}
-                  data-slot={customer.slotIndex}
-                  className={`customer-slot ${animClass} ${dragOverCustomer === customer.id ? 'drag-over' : ''} ${isCorrectEffect ? 'correct-flash' : ''}`}
-                  onDragOver={(e) => handleDragOver(e, customer.id)}
-                  onDragLeave={handleDragLeave}
-                  onDrop={(e) => handleDrop(e, customer.id)}
-                  onAnimationEnd={() => handleAnimEnd(customer.id)}
-                >
-
-                  {/* 🗨️ Speech balloon ABOVE the customer, tail points DOWN at them */}
-                  <div className="bubble">
-                    {language === 'th' ? customer.target.meaningTh : customer.target.meaningEn}
-                  </div>
-                  <div className="avatar">{['😊', '😄', '🤓', '😎', '🙂'][index % 5]}</div>
-                  <div className="attempt-indicator">
-                    {[0, 1, 2].map(i => (
-                      <span key={i} className={`attempt-dot ${i < customer.attempts ? 'used' : ''}`} />
-                    ))}
-                  </div>
-                  {isCorrectEffect && <div className="correct-check">✓</div>}
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Exit Door (upper-right) */}
           <div className="door exit">
-            <div className="door-label">EXIT</div>
+            <div className="door-label">出口</div>
           </div>
         </div>
+
+        {/* Customer Slots — below the doors */}
+        <div className="customer-row">
+          {Array.from({ length: MAX_CUSTOMERS }).map((_, index) => {
+            const customer = customers.find(c => c.slotIndex === index);
+            if (!customer) return (
+              <div key={index} className="customer-slot empty" data-slot={index}>
+                <div className="empty-customer-icon">🪑</div>
+                <div className="empty-customer-text">Waiting...</div>
+              </div>
+            );
+            const isCorrectEffect = showCorrectEffect && correctCustomerId === customer.id;
+            const animClass = getAnimClass(customer);
+            return (
+              <div
+                key={customer.id}
+                id={`customer-${customer.id}`}
+                data-slot={customer.slotIndex}
+                className={`customer-slot ${animClass} ${dragOverCustomer === customer.id ? 'drag-over' : ''} ${isCorrectEffect ? 'correct-flash' : ''}`}
+                onDragOver={(e) => handleDragOver(e, customer.id)}
+                onDragLeave={handleDragLeave}
+                onDrop={(e) => handleDrop(e, customer.id)}
+                onAnimationEnd={() => handleAnimEnd(customer.id)}
+              >
+
+                {/* 🗨️ Speech balloon ABOVE the customer, tail points DOWN at them */}
+                <div className="bubble">
+                  {language === 'th' ? customer.target.meaningTh : customer.target.meaningEn}
+                </div>
+                <div className="avatar">{['😊', '😄', '🤓', '😎', '🙂'][index % 5]}</div>
+                <div className="attempt-indicator">
+                  {[0, 1, 2].map(i => (
+                    <span key={i} className={`attempt-dot ${i < customer.attempts ? 'used' : ''}`} />
+                  ))}
+                </div>
+                {isCorrectEffect && <div className="correct-check">✓</div>}
+              </div>
+            );
+          })}
+        </div>
+
         {/* Noren curtain divider */}
         <div className="noren" />
       </div>
