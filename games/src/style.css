@@ -254,7 +254,7 @@ body {
   align-items: center;
   position: relative;
   transition: all 0.12s ease;
-  cursor: default;
+  cursor: pointer;
   box-shadow: 3px 3px 0px 0px #111827;
 }
 
@@ -682,6 +682,7 @@ body {
   .plate {
     width: 54px;
     min-height: 50px;
+    touch-action: manipulation;
   }
   .plate .pinyin {
     display: none;
