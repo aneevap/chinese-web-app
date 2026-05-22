@@ -945,7 +945,7 @@ const beltRows = useMemo(() => {
                 id={`customer-${customer.id}`}
                 data-slot={customer.slotIndex}
                 className={`customer-slot ${animClass} ${dragOverCustomer === customer.id ? 'drag-over' : ''} ${isCorrectEffect ? 'correct-flash' : ''}`}
-                onClick={() => { if (selectedWordId) resolveAttempt(customer.id); }}
+                onPointerUp={() => { if (selectedWordId) resolveAttempt(customer.id); }}
                 onDragOver={(e) => handleDragOver(e, customer.id)}
                 onDragLeave={handleDragLeave}
                 onDrop={(e) => handleDrop(e, customer.id)}
@@ -1015,7 +1015,7 @@ const beltRows = useMemo(() => {
                 key={`${word.id}-${rowIndex}-${index}`}
                 className={`plate ${selectedWordId === word.id ? 'active hidden' : ''} ${isDragging ? 'belt-dragging' : ''}`}
                 style={{ borderColor: categoryColorMap[word.category] || undefined }}
-                onClick={() => {
+                onPointerUp={() => {
                   if (!showStartScreen && countdown === 0 && !ended) {
                     playClickSound();
                     setSelectedWordId(word.id);
