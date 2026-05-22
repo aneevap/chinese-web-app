@@ -1,6 +1,6 @@
 # Active Context
 
-## Current Session (Sessions 27–28) — Index page sign-in, recovery page fix, i18n, font sizes, guest dot fix
+## Current Session (Sessions 26–28) — Index page sign-in, recovery fix, i18n, font sizes, guest dot fix
 
 ### Index page: Sign-in option added
 - **"Sign In" card** added to the profile picker grid on `index.html`, positioned after the "Add New Learner" card

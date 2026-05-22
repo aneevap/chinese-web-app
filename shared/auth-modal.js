@@ -300,27 +300,55 @@
             XHZ.updateProfile(p.id, { is_guest: false });
           }
         }
-        // Fresh profile reference for sync trigger
-        var freshProfile = (typeof XHZ !== 'undefined') ? XHZ.getActiveProfile() : null;
-
         if (mode === 'upgrade') {
           var body = document.getElementById('auth-modal-body');
           body.innerHTML = buildSuccessView();
           if (typeof refreshStrings === 'function') refreshStrings();
         } else {
           closeModal();
-          // After repair completes, re-render profile cards on index page
-          // so guest dot disappears without needing a page refresh
+
+          // Helper: merge remote profiles into local storage
+          // so cloud profiles appear on the new device
+          var mergeRemoteProfiles = function () {
+            if (window.__SUPABASE_SYNC && window.__SUPABASE_SYNC.ready) {
+              window.__SUPABASE_SYNC.pullProfiles().then(function (remoteProfiles) {
+                if (!remoteProfiles || !remoteProfiles.length) return;
+                var data = XHZ._load();
+                var localIds = data.profiles.map(function (p) { return p.id; });
+                var added = 0;
+                remoteProfiles.forEach(function (rp) {
+                  if (localIds.indexOf(rp.id) === -1) {
+                    data.profiles.push({
+                      id: rp.id,
+                      nickname: rp.nickname,
+                      avatar: rp.avatar,
+                      color: rp.color,
+                      is_guest: rp.is_guest !== false,
+                      equipped_items: rp.equipped_items || {}
+                    });
+                    localIds.push(rp.id);
+                    added++;
+                  }
+                });
+                if (added && typeof renderProfiles === 'function') {
+                  XHZ._save(data);
+                  renderProfiles();
+                }
+              });
+            }
+          };
+
+          // After repair completes, re-render profile cards
+          // so guest dot disappears, then pull cloud profiles
+          var afterRepair = function () {
+            if (typeof renderProfiles === 'function') renderProfiles();
+            mergeRemoteProfiles();
+          };
+
           if (repairPromise) {
-            repairPromise.then(function () {
-              if (typeof renderProfiles === 'function') renderProfiles();
-            });
-          } else if (typeof renderProfiles === 'function') {
-            renderProfiles();
-          }
-          // Trigger cloud sync after sign-in
-          if (window.__SUPABASE_SYNC && freshProfile) {
-            window.__SUPABASE_SYNC.pushAll();
+            repairPromise.then(afterRepair);
+          } else {
+            afterRepair();
           }
         }
       })
