@@ -1013,12 +1013,14 @@ const beltRows = useMemo(() => {
             {(isMobile ? row : [...row, ...row]).map((word, index) => (
               <div
                 key={`${word.id}-${rowIndex}-${index}`}
+                data-word-id={word.id}
                 className={`plate ${selectedWordId === word.id ? 'active hidden' : ''} ${isDragging ? 'belt-dragging' : ''}`}
                 style={{ borderColor: categoryColorMap[word.category] || undefined }}
-                onPointerDown={() => {
+                onPointerDown={(e) => {
                   if (!showStartScreen && countdown === 0 && !ended) {
                     playClickSound();
-                    setSelectedWordId(word.id);
+                    const id = (e.currentTarget as HTMLElement).getAttribute('data-word-id');
+                    if (id) setSelectedWordId(id);
                   }
                 }}
                 draggable
