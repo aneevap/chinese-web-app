@@ -193,6 +193,14 @@
 - **Doors hidden on mobile:** Added display:none to .door-row at max-width:400px breakpoint
 - **Belt edge-to-edge:** Negative margins (-6px) counteract container padding, side borders removed, edge fades hidden, track padding/gaps reduced — ~6 plates visible instead of ~5
 
+### Session 30 — Mode tab hiding during gameplay (abandoned — all approaches failed on iPhone)
+- **Attempt 1:** Custom events (`xhz:game-playing`/`xhz:game-idle`) dispatched from game modes, App.tsx listens → `display: none` — failed
+- **Attempt 2:** CSS class toggle on `<body>` (`body.classList.toggle('game-active', ...)`) + CSS `body.game-active .mode-tabs { display: none !important; }` — failed
+- **Attempt 3:** Direct DOM manipulation: `document.querySelector('.mode-tabs').style.display = 'none'` called synchronously inside countdown callback — failed
+- **Attempt 4:** Pure React callback prop: `onGameActiveChange={setGameActive}` passed to game modes, `.mode-tabs` conditionally rendered `{!gameActive && (...)}` — failed (user reports "there is no change at all")
+- **Suspected causes (not confirmed):** Browser caching, deploy workflow not picking up latest commits, iOS Safari quirk preventing React state propagation
+- **Outcome:** Abandoned. Mode tabs remain visible during gameplay on iPhone.
+
 ## Pending
 - [x] Standardize font weight loading across all pages (completed in Sessions 3-4)
 - [x] Clean up unused `signup_*` i18n keys from `strings.js` (completed in Session 14)
