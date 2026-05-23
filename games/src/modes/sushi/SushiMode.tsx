@@ -11,7 +11,7 @@ import { getSpawnInterval } from '../../core/systems/scoring';
 const MAX_CUSTOMERS = 3;
 const SPAWN_SECONDS = 6;
 const ROUND_SECONDS = 75;
-const BELT_ITEMS_COUNT = 18;
+const BELT_ITEMS_COUNT = 20;
 const FIRST_SPAWN_DELAY = 3000; // 3 seconds for first customer
 const MAX_WORD_APPEARANCES = 2; // Max times a word can appear per session
 
@@ -516,7 +516,17 @@ const beltRows = useMemo(() => [belt], [belt]);
       const shuffledUnlearned = [...unlearned].sort(() => Math.random() - 0.5);
       const combined = [...shuffledLearned, ...shuffledUnlearned];
       
-      const selected = combined.slice(0, BELT_ITEMS_COUNT);
+      // Pad to BELT_ITEMS_COUNT if the deck is small — iOS Safari hit-testing on
+      // CSS-animated composited layers is unreliable when items are sparse. With
+      // fewer items the gap between plates is larger, so any hit-testing offset
+      // error is more likely to land on the wrong plate. Padding to >= 20 items
+      // keeps plates densely packed so the error stays within the target plate.
+      let selected = combined.slice(0, BELT_ITEMS_COUNT);
+      while (selected.length < BELT_ITEMS_COUNT) {
+        // Fill remaining slots with random picks from the available words
+        const filler = combined[Math.floor(Math.random() * combined.length)];
+        selected = [...selected, filler];
+      }
       setBeltItems(selected);
       wordDeckRef.current = buildShuffledDeck(selected, MAX_WORD_APPEARANCES);
     }
