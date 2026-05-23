@@ -52,14 +52,16 @@ export function App() {
   return (
     <GameStateProvider>
       <div className="app-shell">
-        <div className="mode-tabs" style={{ display: gameActive ? 'none' : undefined }}>
-          <button className={mode === 'sushi' ? 'active' : ''} onClick={() => setMode('sushi')}>
-            Sushi
-          </button>
-          <button className={mode === 'matching' ? 'active' : ''} onClick={() => setMode('matching')}>
-            Matching
-          </button>
-        </div>
+        {!gameActive && (
+          <div className="mode-tabs">
+            <button className={mode === 'sushi' ? 'active' : ''} onClick={() => setMode('sushi')}>
+              Sushi
+            </button>
+            <button className={mode === 'matching' ? 'active' : ''} onClick={() => setMode('matching')}>
+              Matching
+            </button>
+          </div>
+        )}
         {error && <div className="error">{error}</div>}
         {!error && words.length === 0 && <div className="loading">Loading words...</div>}
         {!error && words.length > 0 && (
