@@ -642,20 +642,11 @@ body {
   width: max-content;
   align-items: center;
   height: 100%;
-  animation: beltScroll 28s linear infinite;
   position: relative;
   z-index: 2;
-}
-
-@keyframes beltScroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(calc(-50% - 4px)); }
-}
-
-/* Bottom row scrolls right (snake/serpentine) */
-@keyframes beltScrollRight {
-  0% { transform: translateX(calc(-50% - 4px)); }
-  100% { transform: translateX(0); }
+  /* Note: belt scroll is driven by JS (position:relative + left) instead of
+     CSS transform animation. This avoids iOS Safari composited-layer hit-testing
+     bugs where getBoundingClientRect returns stale coordinates on animated elements. */
 }
 
 /* ── PLATE — Japanese style ── */
