@@ -1,12 +1,39 @@
 # Active Context
 
-## Current Session (Session 30) — Mode tab hiding abandoned (all approaches failed on iPhone)
+## Current Session (Session 31) — Mode tab hiding + scroll lock: debug checklist applied
+
+### Context
+User shared a comprehensive 19-item debug checklist about web game scroll/hiding bugs. We applied the most impactful items to fix both:
+1. **Mode tabs not hiding during gameplay** (the 4-attempt saga from Session 30)
+2. **Body scrolling during gameplay** (page could still scroll on iPhone)
+
+### Root cause identified
+**Cache buster `?v=24` had not been bumped since Session 20** (11 sessions ago). All 4 approaches from Session 30 were correctly implemented, but the user's iPhone was loading cached `game.js` that predated all of them. Bumped to `?v=31`.
+
+### Checklist items applied
+- **✅ #1 Menu removed** — Already done (conditional rendering `{!gameActive && (<div className="mode-tabs">...)}`)
+- **✅ #2 Body scroll disabled** — Added `.scroll-locked` class toggling on `<html>` + `<body>` during gameplay
+- **✅ #3/#19 Nuclear fix** — Game containers (`.sushi-mode`, `.matching-mode`) become `position: fixed; inset: 0; z-index: 100` when `html.scroll-locked` is active. This prevents any iOS Safari rubber-banding.
+- **✅ #11 Mobile viewport** — Changed `min-height: 100vh` → `min-height: 100dvh` on both game modes to handle Safari's dynamic toolbar
+- **✅ Cache busting** — `?v=24` → `?v=31` in `dojo.html`
+
+### Files changed
+- `dojo.html` — cache buster `?v=24` → `?v=31`
+- `SushiMode.tsx` — combined `onGameActiveChange` + scroll locking in one useEffect
+- `MatchingMode.tsx` — same combined effect
+- `style.css` — added `.scroll-locked` CSS rules, `position: fixed` nuclear fix, `100vh` → `100dvh`
+
+### Commit: `48e5110`
+
+---
+
+## Previous Session (Session 30) — Mode tab hiding abandoned (all approaches failed on iPhone)
 
 ### Attempted: Hiding mode tabs during gameplay
 
 **Goal:** The Sushi/Matching tab buttons in the game app should be hidden during gameplay (when the countdown finishes) so they don't clutter the screen.
 
-**All approaches failed on the user's iPhone. No root cause identified.**
+**All approaches failed on the user's iPhone. Suspected root cause was browser caching — not confirmed until Session 31.**
 
 #### Approach 1: Custom events
 - SushiMode/MatchingMode dispatch `xhz:game-playing` / `xhz:game-idle` events
@@ -30,12 +57,7 @@
 - `.mode-tabs` rendered conditionally: `{!gameActive && (<div className="mode-tabs">...)}`
 - **Result:** User reports "there is no change at all" — tabs still visible
 
-#### Suspected causes (not confirmed):
-- Browser caching — the `?v=24` cache buster on `game.js` might not have been updated after the changes
-- The deploy workflow might not have picked up the latest commits
-- Some iOS Safari quirk preventing the React state from propagating correctly
-
-#### Given up for now. User moved on.
+**Retrospective:** All 4 approaches were correct. The real issue was the stale cache buster (`?v=24`).
 
 ---
 
@@ -98,14 +120,19 @@ We attempted to split the sushi conveyor belt into TWO rows on mobile (≤480px)
 - **Recovery page:** Fully functional with i18n support
 - **Index page:** Sign-in option available alongside Add New Learner
 - **Sushi iPhone:** Tap-to-deliver works, coordinate-based plate matching, doors hidden on mobile, belt edge-to-edge, single-row belt (reliable animation on all browsers)
+- **Mode tabs conditionally rendered:** Hidden during gameplay via `onGameActiveChange` callback prop — element removed from DOM entirely
+- **Body scroll locked during gameplay:** `.scroll-locked` class toggled on `<html>` + `<body>`, game containers `position: fixed; inset: 0` for iOS bulletproof scroll prevention
+- **Mobile Safari viewport:** `100vh` → `100dvh` on game containers for dynamic toolbar
+- **Cache buster:** `?v=31` on game.js (was `?v=24` — suspected root cause of earlier mode tab failures)
 
 ## Known Issues
 - Dojo cards background still lighter than page (user preference: match paper-warm with grain)
 - User could close recovery modal without setting password (leaves recovery-limited session)
 - `window.__SUPABASE_SYNC.pushAll()` called in auth-modal.js on sign-in success but method doesn't exist in supabase-sync.js (silent no-op)
-- **Mode tabs (Sushi/Matching) not hidden during gameplay on iPhone** — all 4 approaches failed (custom events, body class toggle, DOM querySelector, React callback prop). Likely browser caching or iOS Safari quirk. Abandoned for now.
+- **Mode tabs during gameplay (pending iPhone test)** — Approach 4 (React callback prop + conditional rendering) + scroll-lock + position:fixed nuclear fix implemented. Cache buster bumped to `?v=31`. Needs testing on iPhone to confirm if the stale cache was the root cause.
 
 ## Next Steps
+- Test mode tab hiding + scroll lock on iPhone (hard refresh with `?v=31` cache buster)
 - Check matching game for same iPhone touch interaction issues
 - Enhance progress tracking with detailed analytics
 - Fix `pushAll()` missing method or replace with proper sync trigger after sign-in

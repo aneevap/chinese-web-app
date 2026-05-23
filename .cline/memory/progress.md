@@ -201,6 +201,16 @@
 - **Suspected causes (not confirmed):** Browser caching, deploy workflow not picking up latest commits, iOS Safari quirk preventing React state propagation
 - **Outcome:** Abandoned. Mode tabs remain visible during gameplay on iPhone.
 
+### Session 31 — Mode tab hiding + scroll lock: debug checklist applied
+- **Root cause identified:** Cache buster `?v=24` hadn't been bumped since Session 20 — iPhone was loading cached JS predating all 4 approaches
+- **Cache buster bumped:** `?v=24` → `?v=31` in `dojo.html`
+- **Scroll locked during gameplay:** `.scroll-locked` class toggled on `<html>` + `<body>` when game is active (#2 from checklist)
+- **Nuclear fix:** Game containers become `position: fixed; inset: 0; z-index: 100` when `.scroll-locked` is active, preventing iOS rubber-banding (#3/#19 from checklist)
+- **Mobile viewport fix:** `min-height: 100vh` → `100dvh` on both game modes for Safari dynamic toolbar (#11 from checklist)
+- **Effect combined:** `onGameActiveChange` callback + scroll locking merged into one useEffect in both SushiMode and MatchingMode
+- **Commit:** `48e5110`
+- **Status:** Needs iPhone testing with hard refresh to confirm fix
+
 ## Pending
 - [x] Standardize font weight loading across all pages (completed in Sessions 3-4)
 - [x] Clean up unused `signup_*` i18n keys from `strings.js` (completed in Session 14)
