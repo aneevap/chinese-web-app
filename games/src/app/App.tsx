@@ -16,6 +16,7 @@ export function App() {
   const [mode, setMode] = useState<'sushi' | 'matching'>('sushi');
   const [error, setError] = useState<string | null>(null);
   const [visible, setVisible] = useState(true);
+  const [modeTabsHidden, setModeTabsHidden] = useState(false);
 
   useEffect(() => {
     initVoices();
@@ -36,13 +37,19 @@ export function App() {
       setVisible(true);
     };
     const onUnmount = () => setVisible(false);
+    const onGamePlaying = () => setModeTabsHidden(true);
+    const onGameIdle = () => setModeTabsHidden(false);
     window.addEventListener('xhz:lang-changed', onLang);
     window.addEventListener('xhz:mount-game', onMount);
     window.addEventListener('xhz:unmount-game', onUnmount);
+    window.addEventListener('xhz:game-playing', onGamePlaying);
+    window.addEventListener('xhz:game-idle', onGameIdle);
     return () => {
       window.removeEventListener('xhz:lang-changed', onLang);
       window.removeEventListener('xhz:mount-game', onMount);
       window.removeEventListener('xhz:unmount-game', onUnmount);
+      window.removeEventListener('xhz:game-playing', onGamePlaying);
+      window.removeEventListener('xhz:game-idle', onGameIdle);
     };
   }, []);
 
@@ -51,7 +58,7 @@ export function App() {
   return (
     <GameStateProvider>
       <div className="app-shell">
-        <div className="mode-tabs">
+        <div className="mode-tabs" style={{ display: modeTabsHidden ? 'none' : undefined }}>
           <button className={mode === 'sushi' ? 'active' : ''} onClick={() => setMode('sushi')}>
             Sushi
           </button>
