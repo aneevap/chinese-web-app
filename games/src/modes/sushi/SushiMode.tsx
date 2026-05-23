@@ -152,18 +152,11 @@ export function SushiMode({ words, courseThemes, language }: Props) {
   const beltPositions = useRef<number[]>([]);
   const beltAnimRef = useRef<number>(0);
 
-  // 📢 Notify App when game starts/stops playing (hide mode tabs)
+  // 🚦 Toggle game-active class on body to hide mode tabs during gameplay
   useEffect(() => {
-    if (gameStarted && !ended && !showStartScreen && countdown === 0) {
-      window.dispatchEvent(new CustomEvent('xhz:game-playing'));
-    }
+    document.body.classList.toggle('game-active', gameStarted && !ended && !showStartScreen && countdown === 0);
+    return () => document.body.classList.remove('game-active');
   }, [gameStarted, ended, showStartScreen, countdown]);
-
-  useEffect(() => {
-    if (!gameStarted || showStartScreen || ended) {
-      window.dispatchEvent(new CustomEvent('xhz:game-idle'));
-    }
-  }, [gameStarted, showStartScreen, ended]);
 
   // 🎊 Spawn confetti
   const spawnConfetti = useCallback((centerX: number, centerY: number) => {

@@ -64,18 +64,11 @@ export function MatchingMode({ words, courseThemes, language }: Props) {
   const usedWordIdsRef = useRef<Set<string>>(new Set());
   const gameAreaRef = useRef<HTMLDivElement>(null);
 
-  // 📢 Notify App when game starts/stops playing (hide mode tabs)
+  // 🚦 Toggle game-active class on body to hide mode tabs during gameplay
   useEffect(() => {
-    if (gameStarted && !ended && !showStartScreen && countdown === 0) {
-      window.dispatchEvent(new CustomEvent('xhz:game-playing'));
-    }
+    document.body.classList.toggle('game-active', gameStarted && !ended && !showStartScreen && countdown === 0);
+    return () => document.body.classList.remove('game-active');
   }, [gameStarted, ended, showStartScreen, countdown]);
-
-  useEffect(() => {
-    if (!gameStarted || showStartScreen || ended) {
-      window.dispatchEvent(new CustomEvent('xhz:game-idle'));
-    }
-  }, [gameStarted, showStartScreen, ended]);
 
   // Filter words by course & themes
   const activeWords = useMemo(() => {

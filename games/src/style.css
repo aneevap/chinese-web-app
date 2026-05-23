@@ -42,6 +42,11 @@ body {
   color: #fff;
 }
 
+/* Hide mode tabs during active gameplay */
+body.game-active .mode-tabs {
+  display: none !important;
+}
+
 /* =========================================================================
    🍣 SUSHI MODE — Japanese Restaurant Theme
    ========================================================================= */
