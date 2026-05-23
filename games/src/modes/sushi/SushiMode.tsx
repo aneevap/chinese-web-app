@@ -14,8 +14,7 @@ const ROUND_SECONDS = 75;
 const BELT_ITEMS_COUNT = 20;
 const FIRST_SPAWN_DELAY = 3000; // 3 seconds for first customer
 const MAX_WORD_APPEARANCES = 2; // Max times a word can appear per session
-
-
+const MOBILE_BREAKPOINT = 480;
 
 function buildShuffledDeck<T>(items: T[], copies: number): T[] {
   // Per-round shuffle: each "round" contains every item exactly once.
@@ -124,12 +123,15 @@ export function SushiMode({ words, courseThemes, language }: Props) {
     return map;
   }, [courseThemes]);
 
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 400);
+  const [isMobile, setIsMobile] = useState(
+    () => window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches
+  );
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth <= 400);
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
+    const mq = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
   }, []);
 
   const belt = useMemo(() => [...beltItems], [beltItems]);

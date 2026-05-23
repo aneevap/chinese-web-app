@@ -669,7 +669,7 @@ body {
   font-family: var(--font-main, 'Bai Jamjuree', sans-serif);
 }
 
-@media (max-width: 400px) {
+@media (max-width: 480px) {
   .plate {
     width: 54px;
     min-height: 50px;
@@ -1536,7 +1536,7 @@ body {
 }
 
 /* ── Responsive grid ── */
-@media (max-width: 400px) {
+@media (max-width: 480px) {
   .matching-grid {
     gap: 8px;
     padding: 0 4px;
