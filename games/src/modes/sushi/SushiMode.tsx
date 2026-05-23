@@ -123,22 +123,20 @@ export function SushiMode({ words, courseThemes, language }: Props) {
     return map;
   }, [courseThemes]);
 
-  const [isMobile, setIsMobile] = useState(
-    () => window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches
-  );
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const mq = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
+    const check = () => setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
   }, []);
 
   const belt = useMemo(() => [...beltItems], [beltItems]);
 
   // On mobile, split belt into two rows (serpentine: top scrolls left, bottom scrolls right)
   const beltRows = useMemo(() => {
-    if (!isMobile) return [belt];
+    if (!isMobile || belt.length === 0) return [belt];
     const half = Math.ceil(belt.length / 2);
     return [belt.slice(0, half), belt.slice(half)];
   }, [belt, isMobile]);
@@ -1065,9 +1063,8 @@ export function SushiMode({ words, courseThemes, language }: Props) {
         {beltRows.map((row, rowIndex) => (
           <div
             key={rowIndex}
-            className="belt-track"
+            className={`belt-track${isMobile ? (rowIndex === 0 ? ' top-row' : ' bottom-row') : ''}`}
             ref={(el: HTMLDivElement | null) => { beltTrackRefs.current[rowIndex] = el; }}
-            style={{ position: 'relative' }}
           >
             {[...row, ...row].map((word, index) => (
               <div
