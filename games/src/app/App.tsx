@@ -16,6 +16,7 @@ export function App() {
   const [mode, setMode] = useState<'sushi' | 'matching'>('sushi');
   const [error, setError] = useState<string | null>(null);
   const [visible, setVisible] = useState(true);
+  const [gameActive, setGameActive] = useState(false);
 
   useEffect(() => {
     initVoices();
@@ -51,7 +52,7 @@ export function App() {
   return (
     <GameStateProvider>
       <div className="app-shell">
-        <div className="mode-tabs">
+        <div className="mode-tabs" style={{ display: gameActive ? 'none' : undefined }}>
           <button className={mode === 'sushi' ? 'active' : ''} onClick={() => setMode('sushi')}>
             Sushi
           </button>
@@ -63,8 +64,8 @@ export function App() {
         {!error && words.length === 0 && <div className="loading">Loading words...</div>}
         {!error && words.length > 0 && (
           <ErrorBoundary>
-            {mode === 'sushi' && <SushiMode words={words} courseThemes={courseThemes} language={language} />}
-            {mode === 'matching' && <MatchingMode words={words} courseThemes={courseThemes} language={language} />}
+            {mode === 'sushi' && <SushiMode words={words} courseThemes={courseThemes} language={language} onGameActiveChange={setGameActive} />}
+            {mode === 'matching' && <MatchingMode words={words} courseThemes={courseThemes} language={language} onGameActiveChange={setGameActive} />}
           </ErrorBoundary>
         )}
       </div>

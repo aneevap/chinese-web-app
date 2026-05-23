@@ -37,6 +37,7 @@ type Props = {
   words: VocabItem[];
   courseThemes: Record<string, CourseMeta>;
   language: DisplayLanguage;
+  onGameActiveChange?: (active: boolean) => void;
 };
 
 // Customer animation phase
@@ -69,7 +70,7 @@ interface CoinAnim {
   value: number;
 }
 
-export function SushiMode({ words, courseThemes, language }: Props) {
+export function SushiMode({ words, courseThemes, language, onGameActiveChange }: Props) {
   const state = useGameState();
   const dispatch = useGameDispatch();
   const [selectedWordId, setSelectedWordId] = useState<string | null>(null);
@@ -131,6 +132,13 @@ export function SushiMode({ words, courseThemes, language }: Props) {
     window.addEventListener('resize', check);
     return () => window.removeEventListener('resize', check);
   }, []);
+
+  // Tell App when game is active so it can hide the mode tabs
+  useEffect(() => {
+    if (onGameActiveChange) {
+      onGameActiveChange(gameStarted && !ended && !showStartScreen && countdown === 0);
+    }
+  }, [gameStarted, ended, showStartScreen, countdown, onGameActiveChange]);
 
   const belt = useMemo(() => [...beltItems], [beltItems]);
 
@@ -397,8 +405,6 @@ export function SushiMode({ words, courseThemes, language }: Props) {
         top: matchingEntries.slice(0, 5),
       });
       setEnded(true);
-      const tabs = document.querySelector<HTMLElement>('.mode-tabs');
-      if (tabs) tabs.style.display = '';
     }
   }, [state.secondsLeft, ended, state.score, state.stars, state.stage]);
 
@@ -724,8 +730,6 @@ export function SushiMode({ words, courseThemes, language }: Props) {
           playGoSound();
           dispatch({ type: 'RESET', seconds: ROUND_SECONDS });
           setGameStarted(true);
-          const tabs = document.querySelector<HTMLElement>('.mode-tabs');
-          if (tabs) tabs.style.display = 'none';
           return 0;
         }
         playCountdownBeep();
@@ -753,8 +757,6 @@ export function SushiMode({ words, courseThemes, language }: Props) {
     setShowStartScreen(true);
     setCountdown(3);
     setLeaderboard(null);
-    const tabs = document.querySelector<HTMLElement>('.mode-tabs');
-    if (tabs) tabs.style.display = '';
     setMatchingLeaderboard(null);
     setSelectedCourse(null);
     setSelectedThemes([]);
