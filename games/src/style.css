@@ -4,6 +4,21 @@
 
 * { box-sizing: border-box; }
 
+html.scroll-locked, body.scroll-locked {
+  overflow: hidden !important;
+  height: 100% !important;
+  width: 100% !important;
+  position: relative !important;
+}
+
+/* Nuclear fix: lock game containers to viewport during gameplay (#3/#19 from checklist) */
+html.scroll-locked .sushi-mode,
+html.scroll-locked .matching-mode {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+}
+
 body {
   margin: 0;
   font-family: var(--font-main, 'Bai Jamjuree', 'Segoe UI', system-ui, sans-serif);
@@ -48,7 +63,7 @@ body {
 
 .sushi-mode {
   position: relative;
-  min-height: 100vh;
+  min-height: 100dvh;
   background: #FAF8F5;
   border-radius: 0;
   padding: 12px;
@@ -1278,7 +1293,7 @@ body {
 
 .matching-mode {
   position: relative;
-  min-height: 100vh;
+  min-height: 100dvh;
   background: #FAF8F5;
   border-radius: 0;
   padding: 12px;

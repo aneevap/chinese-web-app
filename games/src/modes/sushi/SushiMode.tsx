@@ -133,11 +133,23 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
     return () => window.removeEventListener('resize', check);
   }, []);
 
-  // Tell App when game is active so it can hide the mode tabs
+  // Tell App when game is active (hide mode tabs) + lock body scroll during gameplay
   useEffect(() => {
-    if (onGameActiveChange) {
-      onGameActiveChange(gameStarted && !ended && !showStartScreen && countdown === 0);
+    const isActive = gameStarted && !ended && !showStartScreen && countdown === 0;
+    if (onGameActiveChange) onGameActiveChange(isActive);
+    const html = document.documentElement;
+    const body = document.body;
+    if (isActive) {
+      html.classList.add('scroll-locked');
+      body.classList.add('scroll-locked');
+    } else {
+      html.classList.remove('scroll-locked');
+      body.classList.remove('scroll-locked');
     }
+    return () => {
+      html.classList.remove('scroll-locked');
+      body.classList.remove('scroll-locked');
+    };
   }, [gameStarted, ended, showStartScreen, countdown, onGameActiveChange]);
 
   const belt = useMemo(() => [...beltItems], [beltItems]);
