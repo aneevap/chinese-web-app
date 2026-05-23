@@ -124,9 +124,22 @@ export function SushiMode({ words, courseThemes, language }: Props) {
     return map;
   }, [courseThemes]);
 
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 400);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 400);
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
   const belt = useMemo(() => [...beltItems], [beltItems]);
 
-const beltRows = useMemo(() => [belt], [belt]);
+  // On mobile, split belt into two rows (serpentine: top scrolls left, bottom scrolls right)
+  const beltRows = useMemo(() => {
+    if (!isMobile) return [belt];
+    const half = Math.ceil(belt.length / 2);
+    return [belt.slice(0, half), belt.slice(half)];
+  }, [belt, isMobile]);
   const selectedWord = words.find((word) => word.id === selectedWordId) || null;
   const gameAreaRef = useRef<HTMLDivElement>(null);
   const confettiRef = useRef<number>(0);

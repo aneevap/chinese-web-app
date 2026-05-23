@@ -730,10 +730,15 @@ body {
     border-radius: 0;
     border-left: none;
     border-right: none;
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
   }
   .belt-track {
     gap: 4px;
-    padding: 8px 3px 3px;
+    padding: 4px 3px;
+    height: calc(50% - 1px);
   }
   .belt::after,
   .belt-fade-left {
