@@ -152,12 +152,6 @@ export function SushiMode({ words, courseThemes, language }: Props) {
   const beltPositions = useRef<number[]>([]);
   const beltAnimRef = useRef<number>(0);
 
-  // 🚦 Toggle game-active class on body to hide mode tabs during gameplay
-  useEffect(() => {
-    document.body.classList.toggle('game-active', gameStarted && !ended && !showStartScreen && countdown === 0);
-    return () => document.body.classList.remove('game-active');
-  }, [gameStarted, ended, showStartScreen, countdown]);
-
   // 🎊 Spawn confetti
   const spawnConfetti = useCallback((centerX: number, centerY: number) => {
     const colors = ['#e63946', '#ffd93d', '#6bcb77', '#4d96ff', '#ff8fa3', '#c084fc', '#fb923c'];
@@ -403,6 +397,8 @@ export function SushiMode({ words, courseThemes, language }: Props) {
         top: matchingEntries.slice(0, 5),
       });
       setEnded(true);
+      const tabs = document.querySelector<HTMLElement>('.mode-tabs');
+      if (tabs) tabs.style.display = '';
     }
   }, [state.secondsLeft, ended, state.score, state.stars, state.stage]);
 
@@ -728,6 +724,8 @@ export function SushiMode({ words, courseThemes, language }: Props) {
           playGoSound();
           dispatch({ type: 'RESET', seconds: ROUND_SECONDS });
           setGameStarted(true);
+          const tabs = document.querySelector<HTMLElement>('.mode-tabs');
+          if (tabs) tabs.style.display = 'none';
           return 0;
         }
         playCountdownBeep();
@@ -755,6 +753,8 @@ export function SushiMode({ words, courseThemes, language }: Props) {
     setShowStartScreen(true);
     setCountdown(3);
     setLeaderboard(null);
+    const tabs = document.querySelector<HTMLElement>('.mode-tabs');
+    if (tabs) tabs.style.display = '';
     setMatchingLeaderboard(null);
     setSelectedCourse(null);
     setSelectedThemes([]);

@@ -64,12 +64,6 @@ export function MatchingMode({ words, courseThemes, language }: Props) {
   const usedWordIdsRef = useRef<Set<string>>(new Set());
   const gameAreaRef = useRef<HTMLDivElement>(null);
 
-  // 🚦 Toggle game-active class on body to hide mode tabs during gameplay
-  useEffect(() => {
-    document.body.classList.toggle('game-active', gameStarted && !ended && !showStartScreen && countdown === 0);
-    return () => document.body.classList.remove('game-active');
-  }, [gameStarted, ended, showStartScreen, countdown]);
-
   // Filter words by course & themes
   const activeWords = useMemo(() => {
     if (!selectedCourse) return words;
@@ -206,6 +200,8 @@ export function MatchingMode({ words, courseThemes, language }: Props) {
           });
         }
         setEnded(true);
+        const tabs = document.querySelector<HTMLElement>('.mode-tabs');
+        if (tabs) tabs.style.display = '';
       }
     }
   }, [state.secondsLeft, gameStarted, ended, matchedPairs, totalPairs, state.score, state.stars, state.stage]);
@@ -562,6 +558,8 @@ export function MatchingMode({ words, courseThemes, language }: Props) {
           playGoSound();
           dispatch({ type: 'RESET', seconds: ROUND_SECONDS });
           setGameStarted(true);
+          const tabs = document.querySelector<HTMLElement>('.mode-tabs');
+          if (tabs) tabs.style.display = 'none';
           return 0;
         }
         // Play beep for next number
@@ -595,6 +593,8 @@ export function MatchingMode({ words, courseThemes, language }: Props) {
     sessionSavedRef.current = false;
     lastMatchTimeRef.current = Date.now();
     usedWordIdsRef.current = new Set();
+    const tabs = document.querySelector<HTMLElement>('.mode-tabs');
+    if (tabs) tabs.style.display = '';
   };
 
   return (
