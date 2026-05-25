@@ -975,8 +975,9 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
             const customer = customers.find(c => c.slotIndex === index);
             if (!customer) return (
               <div key={index} className="customer-slot empty" data-slot={index}>
-                <div className="empty-customer-icon">🪑</div>
-                <div className="empty-customer-text">Waiting...</div>
+                <div className="empty-avatar-ring">
+                  <div className="empty-avatar-icon">❓</div>
+                </div>
               </div>
             );
             const isCorrectEffect = showCorrectEffect && correctCustomerId === customer.id;
@@ -994,11 +995,12 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
                 onAnimationEnd={() => handleAnimEnd(customer.id)}
               >
 
-                {/* 🗨️ Speech balloon ABOVE the customer, tail points DOWN at them */}
+                {/* 🗨️ Comic speech balloon — Thai word big, hanzi subtitle below */}
                 <div className="bubble">
-                  {language === 'th' ? customer.target.meaningTh : customer.target.meaningEn}
+                  <span className="bubble-thai">{customer.target.meaningTh}</span>
+                  <span className="bubble-hanzi">{customer.target.hanzi}</span>
                 </div>
-                <div className="avatar">{['😊', '😄', '🤓', '😎', '🙂'][index % 5]}</div>
+                <div className="avatar">{['🐱', '🐻', '🥷', '🐼', '🦊'][index % 5]}</div>
                 {isCorrectEffect && <div className="correct-check">✓</div>}
               </div>
             );
