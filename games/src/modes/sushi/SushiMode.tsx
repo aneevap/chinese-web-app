@@ -970,7 +970,7 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
                 <div className="bubble">
                   <span className="bubble-thai">{customer.target.meaningTh}</span>
                 </div>
-                <div className="avatar">{['🐱', '🐻', '🥷', '🐼', '🦊'][index % 5]}</div>
+                <div className={`avatar${isCorrectEffect ? ' correct-bounce' : ''}`}>{['🐱', '🐻', '🥷', '🐼', '🦊'][index % 5]}</div>
                 <div className="stool" />
                 {isCorrectEffect && <div className="correct-check">✓</div>}
               </div>
