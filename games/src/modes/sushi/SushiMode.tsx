@@ -999,7 +999,7 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
                 <div className="bubble">
                   <span className="bubble-thai">{customer.target.meaningTh}</span>
                 </div>
-                <div className={`avatar${isCorrectEffect ? ' correct-bounce' : ''}`}>{['🐱', '🐻', '🥷', '🐼', '🦊'][index % 5]}</div>
+                <img className={`avatar${isCorrectEffect ? ' correct-bounce' : ''}`} src={['images/characters/cat.svg', 'images/characters/bear.svg', 'images/characters/ninja.svg', 'images/characters/panda.svg', 'images/characters/fox.svg'][index % 5]} alt="customer" />
                 <div className="stool" />
                 {isCorrectEffect && <div className="correct-check">✓</div>}
               </div>

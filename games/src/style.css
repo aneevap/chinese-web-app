@@ -229,7 +229,7 @@ body {
   z-index: 1;
   margin-bottom: 0;
   border-radius: 14px;
-  padding: 12px 6px 160px;
+  padding: 12px 6px 320px;
   /* 🏮 Sushi restaurant vibe — warm wood tone fallback; image set via inline style */
   background-color: #C89D6E;
   box-shadow:
@@ -477,11 +477,15 @@ body {
   60% { background: #FCD34D; }
   100% { background: #FFF8E7;
 }}.avatar {
-  font-size: clamp(32px, 7vw, 44px);
+  width: clamp(42px, 7vw, 54px);
+  height: clamp(42px, 7vw, 54px);
+  object-fit: contain;
   margin-bottom: 2px;
-  line-height: 1;
   filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));
   transition: transform 0.15s ease;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 /* 🎉 Bounce animation on correct match — transform-only, no layout shift */
@@ -905,7 +909,8 @@ body {
     border-radius: 22px;
   }
   .customer-slot .avatar {
-    font-size: clamp(26px, 6vw, 32px);
+    width: clamp(32px, 6vw, 40px);
+    height: clamp(32px, 6vw, 40px);
   }
   .customer-slot .bubble {
     padding: 5px 4px;
