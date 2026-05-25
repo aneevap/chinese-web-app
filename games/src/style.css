@@ -162,62 +162,65 @@ body {
   80% { transform: translateX(2px); }
 }
 
-/* ── HUD — Japanese style ── */
+/* ── HUD — minimal kid-friendly: star counter left, timer right ── */
 .hud {
   display: flex;
-  gap: 8px;
+  justify-content: space-between;
+  align-items: flex-start;
   margin-bottom: 8px;
   position: relative;
   z-index: 1;
+  padding: 0 4px;
 }
 
-.hud-item {
-  background: #C84B3A;
-  border: 3px solid #2D2D2D;
-  border-radius: 12px;
-  padding: 8px 4px;
-  text-align: center;
-  color: #FFF8E7;
+/* ⭐ Star counter — left side */
+.hud-star {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 2px;
-  box-shadow: 3px 3px 0px 0px #2D2D2D;
-  transition: all 0.1s ease;
-  flex: 1;
-  min-width: 0;
+  gap: 6px;
 }
 
-.hud-item {
-  background: #C84B3A;
-  border: 3px solid #2D2D2D;
-  border-radius: 12px;
-  padding: 8px 4px;
-  text-align: center;
-  color: #FFF8E7;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  box-shadow: 3px 3px 0px 0px #2D2D2D;
-  transition: all 0.1s ease;
+.hud-star-icon {
+  font-size: 32px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 }
 
-.hud-item:active {
-  transform: translateY(1px);
-  box-shadow: 1px 1px 0px 0px #2D2D2D;
-}
-
-.hud-icon {
-  font-size: 16px;
-}
-
-.hud-value {
-  font-size: 14px;
-  font-weight: 800;
-  color: #FCD34D;
+.hud-star-value {
+  font-size: 36px;
+  font-weight: 900;
+  color: #2D2D2D;
   font-family: 'Bangers', 'Fredoka', var(--font-main, 'Bai Jamjuree'), sans-serif;
-  letter-spacing: 0.5px;
+  line-height: 1;
+  letter-spacing: 1px;
+  /* Warm gold-tinted glow for the star counter */
+  text-shadow:
+    0 0 4px rgba(255, 248, 231, 1.0),
+    0 0 10px rgba(255, 248, 231, 0.9),
+    0 0 24px rgba(252, 211, 77, 0.5),
+    0 0 40px rgba(252, 211, 77, 0.2);
+}
+
+/* ⏱️ Timer — right side */
+.hud-timer {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.hud-timer-value {
+  font-size: 36px;
+  font-weight: 900;
+  color: #2D2D2D;
+  font-family: 'Bangers', 'Fredoka', var(--font-main, 'Bai Jamjuree'), sans-serif;
+  line-height: 1;
+  letter-spacing: 1px;
+  /* Cool white glow for the timer */
+  text-shadow:
+    0 0 4px rgba(255, 248, 231, 1.0),
+    0 0 10px rgba(255, 248, 231, 0.9),
+    0 0 24px rgba(255, 255, 255, 0.5),
+    0 0 40px rgba(255, 255, 255, 0.2);
 }
 
 /* ── CUSTOMER AREA — wooden sushi counter background ── */
@@ -938,16 +941,16 @@ body {
     display: none;
   }
   .hud {
-    gap: 4px;
+    padding: 0 2px;
   }
-  .hud-item {
-    padding: 5px 2px;
+  .hud-star-icon {
+    font-size: 24px;
   }
-  .hud-icon {
-    font-size: 14px;
+  .hud-star-value {
+    font-size: 26px;
   }
-  .hud-value {
-    font-size: 12px;
+  .hud-timer-value {
+    font-size: 26px;
   }
   .door-row {
     display: none;

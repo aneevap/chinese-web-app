@@ -926,27 +926,14 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
         </div>
       )}
 
-      {/* HUD */}
+      {/* HUD — minimal: star counter left, timer right */}
       <div className="hud">
-        <div className="hud-item">
-          <span className="hud-icon">⭐</span>
-          <span className="hud-value">{state.stars}</span>
+        <div className="hud-star">
+          <span className="hud-star-icon">⭐</span>
+          <span className="hud-star-value">{state.stars}</span>
         </div>
-        <div className="hud-item">
-          <span className="hud-icon">💰</span>
-          <span className="hud-value">{state.score}</span>
-        </div>
-        <div className="hud-item">
-          <span className="hud-icon">🔥</span>
-          <span className="hud-value">{state.combo}x</span>
-        </div>
-        <div className="hud-item">
-          <span className="hud-icon">🏆</span>
-          <span className="hud-value">Stage {state.stage}</span>
-        </div>
-        <div className="hud-item">
-          <span className="hud-icon">⏱️</span>
-          <span className="hud-value">{state.secondsLeft}s</span>
+        <div className="hud-timer">
+          <span className="hud-timer-value">{state.secondsLeft}s</span>
         </div>
       </div>
 
