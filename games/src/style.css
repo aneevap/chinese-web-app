@@ -808,8 +808,8 @@ body {
 /* ── PLATE — Colorful sushi plate with emoji + flag label ── */
 .plate {
   flex-shrink: 0;
-  width: 96px;
-  min-height: 90px;
+  width: 106px;
+  min-height: 100px;
   border-radius: 50%;
   background: linear-gradient(135deg, #FFF8E7 0%, #F5EDE0 60%, #E8DDD0 100%);
   border: 3.5px solid #2D2D2D;
@@ -829,12 +829,12 @@ body {
   /* Category color ring via border-color set inline from categoryColorMap */
 }
 
-/* 🍣 Sushi emoji — semi-transparent, hanzi layers on top */
+/* 🍣 Sushi emoji — vibrant backdrop behind hanzi + pinyin */
 .plate-emoji {
-  font-size: 32px;
+  font-size: 44px;
   line-height: 1;
-  opacity: 0.3;
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.12));
+  opacity: 1;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
   pointer-events: none;
 }
 
@@ -850,7 +850,14 @@ body {
   z-index: 3;
   pointer-events: none;
   line-height: 1.1;
-  /* No background, border, or padding — bare text layered over the emoji */
+  /* Thick radial glow behind text so hanzi is readable over the vibrant emoji */
+  background: radial-gradient(
+    90% 80% at 50% 50%,
+    rgba(255, 248, 231, 0.88) 15%,
+    rgba(255, 248, 231, 0.65) 45%,
+    transparent 70%
+  );
+  border-radius: 50%;
 }
 
 .flag-hanzi {
@@ -859,7 +866,7 @@ body {
   color: #2D2D2D;
   font-family: var(--font-hanzi, 'ZCOOL KuaiLe', sans-serif);
   line-height: 1.1;
-  text-shadow: 0 0 4px rgba(255, 248, 231, 0.8), 0 0 10px rgba(255, 248, 231, 0.4);
+  text-shadow: 0 0 2px rgba(0,0,0,0.05);
 }
 
 .flag-pinyin {
@@ -870,25 +877,25 @@ body {
   line-height: 1.1;
   letter-spacing: 0.3px;
   margin-top: 1px;
-  text-shadow: 0 0 3px rgba(255, 248, 231, 0.7);
+  text-shadow: 0 0 2px rgba(0,0,0,0.05);
 }
 
 @media (max-width: 480px) {
   .plate {
-    width: 68px;
-    min-height: 64px;
+    width: 76px;
+    min-height: 72px;
     touch-action: manipulation;
   }
   .plate-emoji {
-    font-size: 24px;
-    opacity: 0.3;
+    font-size: 34px;
+    opacity: 1;
   }
   .plate-flag {
-    /* Centered, no background — same as desktop */
+    /* Radial glow inherited from desktop */
   }
   .flag-hanzi {
     font-size: clamp(18px, 4.5vw, 26px);
-    text-shadow: 0 0 3px rgba(255, 248, 231, 0.8);
+    text-shadow: 0 0 2px rgba(0,0,0,0.05);
   }
   .flag-pinyin {
     font-size: 8px;
@@ -1014,8 +1021,8 @@ body {
   position: fixed;
   pointer-events: none;
   z-index: 9999;
-  width: 96px;
-  height: 96px;
+  width: 106px;
+  height: 106px;
   border-radius: 50%;
   background: linear-gradient(135deg, #FFF8E7 0%, #F5EDE0 60%, #E8DDD0 100%);
   border: 3.5px solid #2D2D2D;
@@ -1027,14 +1034,15 @@ body {
   align-items: center;
   justify-content: center;
   transform: scale(1.1);
-  opacity: 0.9;
+  opacity: 0.95;
   transition: none;
 }
 
 .drag-ghost .ghost-emoji {
-  font-size: 32px;
+  font-size: 44px;
   line-height: 1;
-  opacity: 0.3;
+  opacity: 1;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12));
 }
 
 .drag-ghost .ghost-hanzi {
@@ -1047,7 +1055,14 @@ body {
   font-weight: 800;
   color: #2D2D2D;
   font-family: var(--font-hanzi, 'ZCOOL KuaiLe', sans-serif);
-  text-shadow: 0 0 4px rgba(255, 248, 231, 0.8);
+  text-shadow: 0 0 2px rgba(0,0,0,0.05);
+  background: radial-gradient(
+    80% 75% at 50% 50%,
+    rgba(255, 248, 231, 0.88) 15%,
+    rgba(255, 248, 231, 0.6) 45%,
+    transparent 70%
+  );
+  border-radius: 50%;
 }
 
 /* Spawn tip */

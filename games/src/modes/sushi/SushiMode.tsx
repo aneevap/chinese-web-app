@@ -1019,8 +1019,11 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
               className="plate selected-plate"
               style={{ borderColor: categoryColorMap[selectedWord.category] || undefined }}
             >
-              <span className="hanzi">{selectedWord.hanzi}</span>
-              <span className="pinyin">{selectedWord.pinyin}</span>
+              <span className="plate-emoji">{getSushiEmoji(selectedWord.id)}</span>
+              <span className="plate-flag">
+                <span className="flag-hanzi">{selectedWord.hanzi}</span>
+                <span className="flag-pinyin">{selectedWord.pinyin}</span>
+              </span>
             </div>
             <button
               className="cancel-selection"
