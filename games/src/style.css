@@ -849,14 +849,6 @@ body {
   z-index: 3;
   pointer-events: none;
   line-height: 1.1;
-  /* Thick radial glow behind text so hanzi is readable over the vibrant emoji */
-  background: radial-gradient(
-    90% 80% at 50% 50%,
-    rgba(255, 248, 231, 0.88) 15%,
-    rgba(255, 248, 231, 0.65) 45%,
-    transparent 70%
-  );
-  border-radius: 50%;
 }
 
 .flag-hanzi {
@@ -865,9 +857,11 @@ body {
   color: #2D2D2D;
   font-family: var(--font-hanzi, 'ZCOOL KuaiLe', sans-serif);
   line-height: 1.1;
-  /* Thick white outline + soft glow for crisp readability over any background */
-  -webkit-text-stroke: 2.5px #FFF8E7;
-  text-shadow: 0 0 8px rgba(255, 248, 231, 0.5);
+  /* Thin white outline + dark shadow for crisp readability over any emoji */
+  -webkit-text-stroke: 1.5px #FFF8E7;
+  text-shadow:
+    0 1px 4px rgba(0,0,0,0.2),
+    0 0 10px rgba(255, 248, 231, 0.5);
 }
 
 .flag-pinyin {
@@ -878,9 +872,11 @@ body {
   line-height: 1.1;
   letter-spacing: 0.3px;
   margin-top: 1px;
-  /* Thick white outline + soft glow for readability */
-  -webkit-text-stroke: 2px #FFF8E7;
-  text-shadow: 0 0 8px rgba(255, 248, 231, 0.4);
+  /* Thin white outline + dark shadow for readability */
+  -webkit-text-stroke: 1px #FFF8E7;
+  text-shadow:
+    0 1px 3px rgba(0,0,0,0.15),
+    0 0 8px rgba(255, 248, 231, 0.4);
 }
 
 @media (max-width: 480px) {
@@ -898,13 +894,17 @@ body {
   }
   .flag-hanzi {
     font-size: clamp(18px, 4.5vw, 26px);
-    -webkit-text-stroke: 2px #FFF8E7;
-    text-shadow: 0 0 6px rgba(255, 248, 231, 0.4);
+    -webkit-text-stroke: 1px #FFF8E7;
+    text-shadow:
+      0 1px 3px rgba(0,0,0,0.2),
+      0 0 8px rgba(255, 248, 231, 0.5);
   }
   .flag-pinyin {
     font-size: 8px;
-    -webkit-text-stroke: 1.5px #FFF8E7;
-    text-shadow: 0 0 6px rgba(255, 248, 231, 0.3);
+    -webkit-text-stroke: 0.8px #FFF8E7;
+    text-shadow:
+      0 1px 2px rgba(0,0,0,0.15),
+      0 0 6px rgba(255, 248, 231, 0.4);
   }
   .sushi-mode {
     padding: 6px;
@@ -1060,15 +1060,11 @@ body {
   font-weight: 800;
   color: #2D2D2D;
   font-family: var(--font-hanzi, 'ZCOOL KuaiLe', sans-serif);
-  -webkit-text-stroke: 2px #FFF8E7;
-  text-shadow: 0 0 8px rgba(255, 248, 231, 0.4);
-  background: radial-gradient(
-    80% 75% at 50% 50%,
-    rgba(255, 248, 231, 0.88) 15%,
-    rgba(255, 248, 231, 0.6) 45%,
-    transparent 70%
-  );
-  border-radius: 50%;
+  /* Light outline + shadow, no background block — emoji shows through */
+  -webkit-text-stroke: 1.5px #FFF8E7;
+  text-shadow:
+    0 1px 4px rgba(0,0,0,0.2),
+    0 0 10px rgba(255, 248, 231, 0.5);
 }
 
 /* Spawn tip */
