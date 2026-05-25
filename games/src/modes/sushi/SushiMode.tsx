@@ -80,6 +80,18 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
   const [spawnTick, setSpawnTick] = useState(SPAWN_SECONDS);
   const [resolvedCount, setResolvedCount] = useState(0);
   const [ended, setEnded] = useState(false);
+  const SUSHI_EMOJIS = ['🍣', '🍤', '🍙', '🍱', '🍜', '🍡', '🥟', '🍚'];
+
+  function getSushiEmoji(wordId: string): string {
+    // Deterministic assignment so each word keeps the same emoji during gameplay
+    let hash = 0;
+    for (let i = 0; i < wordId.length; i++) {
+      hash = ((hash << 5) - hash) + wordId.charCodeAt(i);
+      hash |= 0;
+    }
+    return SUSHI_EMOJIS[Math.abs(hash) % SUSHI_EMOJIS.length];
+  }
+
   const [beltItems, setBeltItems] = useState<VocabItem[]>([]);
   const [confetti, setConfetti] = useState<ConfettiParticle[]>([]);
   const [coins, setCoins] = useState<CoinAnim[]>([]);
@@ -1041,8 +1053,11 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
                 onDragStart={(e) => handleDragStart(e, word.id)}
                 onDragEnd={handleDragEnd}
               >
-                <span className="hanzi">{word.hanzi}</span>
-                <span className="pinyin">{word.pinyin}</span>
+                <span className="plate-emoji">{getSushiEmoji(word.id)}</span>
+                <span className="plate-flag" style={{ '--cat-color': categoryColorMap[word.category] || '#C84B3A' } as React.CSSProperties}>
+                  <span className="flag-hanzi">{word.hanzi}</span>
+                  <span className="flag-pinyin">{word.pinyin}</span>
+                </span>
               </div>
             ))}
           </div>

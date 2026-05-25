@@ -666,13 +666,12 @@ body {
 /* ── CONVEYOR BELT — Bamboo water canal ── */
 .belt {
   position: relative;
-  height: 100px;
+  height: 130px;
   overflow: hidden;
   background: linear-gradient(180deg, #8B7355, #A0896C 30%, #7A6548 60%, #8B7355);
   border-radius: 14px;
   border: 3px solid #2D2D2D;
   margin-bottom: 8px;
-  position: relative;
   z-index: 1;
   box-shadow: 3px 3px 0px 0px #2D2D2D;
 }
@@ -776,34 +775,99 @@ body {
   100% { transform: translateX(0); }
 }
 
-/* ── PLATE — Warm lacquer/ceramic ── */
+/* ── PLATE — Colorful sushi plate with emoji + flag label ── */
 .plate {
   flex-shrink: 0;
-  width: 80px;
-  min-height: 74px;
+  width: 96px;
+  min-height: 90px;
   border-radius: 50%;
-  background: linear-gradient(180deg, #FFF8E7, #F5EDE0);
-  border: 3px solid #2D2D2D;
-  box-shadow: 3px 3px 0px 0px #2D2D2D;
+  background: linear-gradient(135deg, #FFF8E7 0%, #F5EDE0 60%, #E8DDD0 100%);
+  border: 3.5px solid #2D2D2D;
+  box-shadow:
+    5px 5px 0px 0px #2D2D2D,
+    inset 0 -3px 6px rgba(0,0,0,0.08),
+    inset 0 3px 6px rgba(255,255,255,0.4);
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
   position: relative;
   cursor: pointer;
   transition: transform 0.12s, opacity 0.2s, box-shadow 0.12s;
-  padding: 3px;
+  padding: 0;
   font-family: 'Fredoka', var(--font-main, 'Bai Jamjuree', sans-serif);
+  /* Category color ring via border-color set inline from categoryColorMap */
+}
+
+/* 🍣 Sushi emoji — large, centered on plate */
+.plate-emoji {
+  font-size: 32px;
+  line-height: 1;
+  margin-top: -8px;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.15));
+  pointer-events: none;
+}
+
+/* 🏷️ Flag label — sits on the plate surface like a menu sticker, overlapping the sushi */
+.plate-flag {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 62px;
+  padding: 3px 4px 3px;
+  background: var(--cat-color, #C84B3A);
+  border: 2px solid #2D2D2D;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
+  z-index: 3;
+  pointer-events: none;
+  line-height: 1.1;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.flag-hanzi {
+  font-size: 15px;
+  font-weight: 800;
+  color: #FFF8E7;
+  font-family: var(--font-hanzi, 'ZCOOL KuaiLe', sans-serif);
+  line-height: 1.1;
+}
+
+.flag-pinyin {
+  font-size: 10px;
+  font-weight: 700;
+  color: #FCD34D;
+  font-family: var(--font-pinyin, 'Nunito', sans-serif);
+  line-height: 1.1;
+  letter-spacing: 0.3px;
 }
 
 @media (max-width: 480px) {
   .plate {
-    width: 54px;
-    min-height: 50px;
+    width: 68px;
+    min-height: 64px;
     touch-action: manipulation;
   }
-  .plate .pinyin {
-    display: none;
+  .plate-emoji {
+    font-size: 24px;
+    margin-top: -6px;
+  }
+  .plate-flag {
+    width: 46px;
+    bottom: 4px;
+    padding: 2px 3px 2px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+  .flag-hanzi {
+    font-size: 12px;
+  }
+  .flag-pinyin {
+    font-size: 8px;
   }
   .sushi-mode {
     padding: 6px;
@@ -857,7 +921,7 @@ body {
     border-radius: 0;
     border-left: none;
     border-right: none;
-    height: 130px;
+    height: 150px;
     display: flex;
     flex-direction: column;
     gap: 2px;
@@ -876,23 +940,13 @@ body {
   }
 }
 
-/* Warm accent ring on plates */
-.plate::before {
-  content: '';
-  position: absolute;
-  inset: 4px;
-  border-radius: 50%;
-  border: 1.5px solid transparent;
-  pointer-events: none;
-}
-
 .plate:hover {
-  transform: translateY(-3px);
-  box-shadow: 3px 6px 0px 0px #2D2D2D;
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 5px 9px 0px 0px #2D2D2D;
 }
 
 .plate:active {
-  transform: translateY(1px);
+  transform: translateY(2px) scale(0.97);
   box-shadow: 1px 1px 0px 0px #2D2D2D;
 }
 
@@ -903,8 +957,8 @@ body {
 
 .plate.active {
   border: 3px solid #C84B3A;
-  transform: translateY(-2px);
-  box-shadow: 2px 2px 0px 0px #2D2D2D;
+  transform: translateY(-3px);
+  box-shadow: 3px 3px 0px 0px #2D2D2D;
 }
 
 .plate.belt-dragging {
@@ -928,6 +982,8 @@ body {
   margin-top: 2px;
   font-weight: 800;
 }
+
+/* Category color on flag is set via inline --cat-color var on .plate-flag in TSX */
 
 /* Spawn tip */
 .spawn-tip {
