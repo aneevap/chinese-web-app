@@ -174,6 +174,14 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
   const accumulatedTimeRef = useRef<number>(0);
   // Ref to track whether the current game session has been saved to Hall of Fame
   const sessionSavedRef = useRef(false);
+  // Custom pointer-based drag (no HTML5 drag API)
+  const dragStateRef = useRef<{
+    wordId: string;
+    startX: number;
+    startY: number;
+    active: boolean;
+  } | null>(null);
+  const dragGhostRef = useRef<HTMLDivElement | null>(null);
 
   // 🎊 Spawn confetti
   const spawnConfetti = useCallback((centerX: number, centerY: number) => {
@@ -721,36 +729,26 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
     sessionSavedRef.current = false;
   };
 
-  // 🖱️ Drag & Drop handlers — NO React state updates during drag to avoid corrupting the drag ghost
-  const handleDragStart = (e: React.DragEvent, wordId: string) => {
-    if (showStartScreen || countdown > 0 || ended) return;
-    // Word ID travels via native dataTransfer — no state updates here!
-    e.dataTransfer.setData('text/plain', wordId);
-    e.dataTransfer.effectAllowed = 'move';
-  };
-
-  const handleDragEnd = () => {
-    // No state to clean up — all state is managed through dataTransfer
-  };
-
-  const handleDragOver = (e: React.DragEvent, _customerId: string) => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
-  };
-
-  const handleDragLeave = () => {
-    // No state to clean up
-  };
-
-  const handleDrop = (e: React.DragEvent, customerId: string) => {
-    e.preventDefault();
-    // Read word ID from native dataTransfer (avoids depending on React state during drag)
-    const wordId = e.dataTransfer.getData('text/plain');
+  // 🖱️ Custom pointer-based drag (no HTML5 drag API — avoids browser freeze on animated elements)
+  const createDragGhost = useCallback((wordId: string, x: number, y: number) => {
     const word = words.find(w => w.id === wordId);
-    if (word) {
-      resolveAttempt(customerId, word);
+    if (!word) return;
+    const ghost = document.createElement('div');
+    ghost.className = 'drag-ghost';
+    ghost.innerHTML =
+      '<span class="ghost-emoji">' + getSushiEmoji(wordId) + '</span>' +
+      '<span class="ghost-hanzi">' + word.hanzi + '</span>';
+    ghost.style.cssText = 'left:' + (x - 48) + 'px;top:' + (y - 48) + 'px;';
+    document.body.appendChild(ghost);
+    dragGhostRef.current = ghost;
+  }, [words, getSushiEmoji]);
+
+  const removeDragGhost = useCallback(() => {
+    if (dragGhostRef.current) {
+      dragGhostRef.current.remove();
+      dragGhostRef.current = null;
     }
-  };
+  }, []);
 
   // Get the animation class for a customer based on their phase
   const getAnimClass = (customer: CustomerWithAnim): string => {
@@ -763,7 +761,28 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
   };
 
   return (
-    <div className={`sushi-mode ${shakeEffect ? 'shake' : ''}`} ref={gameAreaRef}>
+    <div className={`sushi-mode ${shakeEffect ? 'shake' : ''}`} ref={gameAreaRef}
+      onPointerMove={(e) => {
+        const drag = dragStateRef.current;
+        if (!drag) return;
+        const dx = e.clientX - drag.startX;
+        const dy = e.clientY - drag.startY;
+        if (!drag.active && Math.hypot(dx, dy) > 5) {
+          drag.active = true;
+          setSelectedWordId(drag.wordId);
+          createDragGhost(drag.wordId, e.clientX, e.clientY);
+        }
+        if (drag.active && dragGhostRef.current) {
+          dragGhostRef.current.style.left = (e.clientX - 48) + 'px';
+          dragGhostRef.current.style.top = (e.clientY - 48) + 'px';
+        }
+      }}
+      onPointerUp={() => {
+        if (dragStateRef.current?.active) {
+          removeDragGhost();
+        }
+      }}
+    >
       {/* 🎊 Confetti overlay */}
       {confetti.map(p => (
         <div
@@ -953,8 +972,6 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
                 key={index}
                 className="customer-slot empty"
                 data-slot={index}
-                onDragOver={(e) => { e.preventDefault(); }}
-                onDrop={(e) => e.preventDefault()}
               >
                 <div className="stool" />
               </div>
@@ -967,10 +984,14 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
                 id={`customer-${customer.id}`}
                 data-slot={customer.slotIndex}
                 className={`customer-slot ${animClass} ${isCorrectEffect ? 'correct-flash' : ''}`}
-                onPointerUp={() => { if (selectedWordId) resolveAttempt(customer.id); }}
-                onDragOver={(e) => handleDragOver(e, customer.id)}
-                onDragLeave={handleDragLeave}
-                onDrop={(e) => handleDrop(e, customer.id)}
+                onPointerUp={() => {
+                  if (dragStateRef.current?.active) {
+                    const dw = words.find(w => w.id === dragStateRef.current!.wordId);
+                    if (dw) resolveAttempt(customer.id, dw);
+                  } else if (selectedWordId) {
+                    resolveAttempt(customer.id);
+                  }
+                }}
                 onAnimationEnd={() => handleAnimEnd(customer.id)}
               >
 
@@ -997,9 +1018,6 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
             <div
               className="plate selected-plate"
               style={{ borderColor: categoryColorMap[selectedWord.category] || undefined }}
-              draggable
-              onDragStart={(e) => handleDragStart(e, selectedWord.id)}
-              onDragEnd={handleDragEnd}
             >
               <span className="hanzi">{selectedWord.hanzi}</span>
               <span className="pinyin">{selectedWord.pinyin}</span>
@@ -1034,7 +1052,25 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
                 data-word-id={word.id}
                 className={`plate ${selectedWordId === word.id ? 'active hidden' : ''}`}
                 style={{ borderColor: categoryColorMap[word.category] || undefined }}
+                onPointerDown={(e) => {
+                  if (!showStartScreen && countdown === 0 && !ended) {
+                    dragStateRef.current = {
+                      wordId: word.id,
+                      startX: e.clientX,
+                      startY: e.clientY,
+                      active: false,
+                    };
+                    // Capture pointer so onPointerMove/onPointerUp fire even
+                    // when the cursor leaves the game area (no ghost leak)
+                    gameAreaRef.current?.setPointerCapture(e.pointerId);
+                  }
+                }}
                 onClick={(e) => {
+                  // If pointer moved enough to activate drag, skip the tap
+                  if (dragStateRef.current?.active) {
+                    dragStateRef.current = null;
+                    return;
+                  }
                   if (!showStartScreen && countdown === 0 && !ended) {
                     playClickSound();
                     // Use finger coordinates to find the closest plate via
