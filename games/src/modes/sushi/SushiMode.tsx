@@ -4,7 +4,7 @@ import type { CustomerOrder, DisplayLanguage, VocabItem } from '../../core/types
 import { speakChinese } from '../../core/systems/audio';
 import { addStudyStars, getActiveProfile } from '../../profile/profileBridge';
 import type { CourseMeta } from '../../data/vocab';
-import { saveSessionResult, getGameLeaderboard, getPersonalBest } from '../../core/systems/hallOfFame';
+import { saveSessionResult, getGameLeaderboard } from '../../core/systems/hallOfFame';
 import type { HallOfFameEntry } from '../../core/types';
 import { getSpawnInterval } from '../../core/systems/scoring';
 
@@ -109,9 +109,6 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
   const wordDeckRef = useRef<VocabItem[]>([]);
   // Leaderboard state for result screen
   const [leaderboard, setLeaderboard] = useState<{ rank: number; top: HallOfFameEntry[] } | null>(null);
-  // Personal best score for this profile
-  const [personalBest, setPersonalBest] = useState<number>(0);
-
   // Build category → color map from all course themes
   const categoryColorMap = useMemo(() => {
     const map: Record<string, string> = {};
@@ -501,25 +498,6 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
     
     return () => clearInterval(timer);
   }, [gameStarted, ended, showStartScreen, countdown, firstSpawned, state.stage]);
-
-  // Load personal best from hall of fame on mount
-  useEffect(() => {
-    const profile = getActiveProfile();
-    if (profile) {
-      setPersonalBest(getPersonalBest(profile.id, 'sushi'));
-    }
-  }, []);
-
-  // After game ends, update personal best if current score is higher
-  useEffect(() => {
-    if (ended) {
-      const profile = getActiveProfile();
-      if (profile) {
-        const allTimeBest = getPersonalBest(profile.id, 'sushi');
-        setPersonalBest(allTimeBest);
-      }
-    }
-  }, [ended]);
 
   // Populate belt items when activeWords changes (theme filter, course selection, or game start)
   useEffect(() => {
