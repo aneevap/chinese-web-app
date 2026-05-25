@@ -1015,7 +1015,7 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
         ) : (
           <div className="drop-zone-empty">
             <span className="drop-zone-icon">👇</span>
-            <span>Tap or drag a sushi plate to pick it up, then tap a customer</span>
+            <span>Tap a plate to pick it up, then tap or drag it to a customer</span>
           </div>
         )}
       </div>
@@ -1057,9 +1057,6 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
                     }
                   }
                 }}
-                draggable
-                onDragStart={(e) => handleDragStart(e, word.id)}
-                onDragEnd={handleDragEnd}
               >
                 <span className="plate-emoji">{getSushiEmoji(word.id)}</span>
                 <span className="plate-flag">
