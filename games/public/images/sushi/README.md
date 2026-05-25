@@ -1,51 +1,31 @@
 # Custom Sushi Images
 
-Drop your custom sushi artwork here to replace the emoji placeholders.
+Your custom sushi artwork lives here! Imported in `SushiMode.tsx` via `getSushiEmoji()`.
 
-## Location
+## Image files
 
-All images go in this directory:
-```
-games/public/images/sushi/
-```
-
-Served at runtime as /images/sushi/<filename> (Vite serves public/ as the root).
+| File | Description |
+|------|-------------|
+| `salmon_nigiri.png` | Salmon nigiri |
+| `ebi_nigiri.png` | Shrimp (ebi) nigiri |
+| `tuna_nigiri.png` | Tuna nigiri |
+| `ika_nigiri.png` | Squid (ika) nigiri |
+| `tago_nigiri.png` | Octopus (tago) nigiri |
+| `tamago_nigiri.png` | Egg (tamago) nigiri |
+| `green_maki.png` | Green maki roll |
+| `red_makii.png` | Red maki roll |
 
 ## File type
 
-PNG with transparency - best for illustrations with a rounded plate look.
+- **PNG with transparency** — keeps the rounded plate look clean
+- Recommended source size: **128×128 px** (crisp on retina at 42px display size)
 
-## Recommended size
+## Server path
 
-128 x 128 pixels (square).
+Images are served at runtime as `/images/sushi/<filename>` (Vite serves `public/` as the root).
 
-The emoji displays at 42px (desktop) / 32px (mobile). At 128px, the image is crisp on retina screens.
+## Adding new images
 
-## Naming convention
+If you add or rename images, update the `SUSHI_IMAGES` array in `SushiMode.tsx` to match.
 
-The app uses 8 sushi types mapped to words by hash:
-
-| File name   | Emoji | What it is          |
-|-------------|-------|---------------------|
-| sushi.png   | Sushi | Nigiri sushi        |
-| ebi.png     | Shrimp| Fried shrimp        |
-| onigiri.png | Rice  | Rice ball (onigiri) |
-| bento.png   | Bento | Bento box           |
-| ramen.png   | Ramen | Ramen noodles       |
-| dango.png   | Dango | Dango skewers       |
-| gyoza.png   | Gyoza | Gyoza dumplings     |
-| rice.png    | Rice  | Bowl of rice        |
-
-### Rules
-- Lowercase filenames (ebi.png, not Ebi.png)
-- Use the English food name, no spaces (hyphens ok)
-- WebP can sit alongside PNG with same name
-
-## How to switch from emojis to images
-
-When you have your images ready, update getSushiEmoji() in SushiMode.tsx to return an <img> tag:
-
-1. File -> /images/sushi/<name>.png
-2. CSS -> .sushi-img { width: 42px; height: 42px; display: block; }
-
-Happy to help with the migration when you have your images ready!
+To add more than 8 images, increase the array size — the hash-based assignment will automatically spread words across them.

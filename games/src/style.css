@@ -833,12 +833,16 @@ body {
   /* Category color ring via border-color set inline from categoryColorMap */
 }
 
-/* 🍣 Sushi emoji — lower border of the plate */
+/* 🍣 Sushi image — lower border of the plate */
 .plate-emoji {
-  font-size: 42px;
-  line-height: 1;
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  display: block;
   opacity: 1;
   pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 /* 🏷️ Hanzi + pinyin — upper border of the plate, stacked on the sushi */
@@ -890,8 +894,13 @@ body {
     padding: 4px 0 0;
   }
   .plate-emoji {
-    font-size: 32px;
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    display: block;
     opacity: 1;
+    user-select: none;
+    -webkit-user-drag: none;
   }
   .flag-hanzi {
     font-size: clamp(20px, 4.5vw, 28px);
@@ -1049,9 +1058,13 @@ body {
 }
 
 .drag-ghost .ghost-emoji {
-  font-size: 42px;
-  line-height: 1;
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  display: block;
   opacity: 1;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .drag-ghost .ghost-hanzi {

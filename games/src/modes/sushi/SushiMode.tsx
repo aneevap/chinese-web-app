@@ -80,16 +80,25 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
   const [spawnTick, setSpawnTick] = useState(SPAWN_SECONDS);
   const [resolvedCount, setResolvedCount] = useState(0);
   const [ended, setEnded] = useState(false);
-  const SUSHI_EMOJIS = ['🍣', '🍤', '🍙', '🍱', '🍜', '🍡', '🥟', '🍚'];
+  const SUSHI_IMAGES = [
+    'ebi_nigiri.png',
+    'green_maki.png',
+    'ika_nigiri.png',
+    'red_makii.png',
+    'salmon_nigiri.png',
+    'tago_nigiri.png',
+    'tamago_nigiri.png',
+    'tuna_nigiri.png',
+  ];
 
   function getSushiEmoji(wordId: string): string {
-    // Deterministic assignment so each word keeps the same emoji during gameplay
+    // Deterministic assignment so each word keeps the same image during gameplay
     let hash = 0;
     for (let i = 0; i < wordId.length; i++) {
       hash = ((hash << 5) - hash) + wordId.charCodeAt(i);
       hash |= 0;
     }
-    return SUSHI_EMOJIS[Math.abs(hash) % SUSHI_EMOJIS.length];
+    return '/images/sushi/' + SUSHI_IMAGES[Math.abs(hash) % SUSHI_IMAGES.length];
   }
 
   const [beltItems, setBeltItems] = useState<VocabItem[]>([]);
@@ -737,7 +746,7 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
     ghost.className = 'drag-ghost';
     ghost.innerHTML =
       '<span class="ghost-hanzi">' + word.hanzi + '</span>' +
-      '<span class="ghost-emoji">' + getSushiEmoji(wordId) + '</span>';
+      '<img class="ghost-emoji" src="' + getSushiEmoji(wordId) + '" alt="sushi" />';
     ghost.style.cssText = 'left:' + (x - 48) + 'px;top:' + (y - 48) + 'px;';
     document.body.appendChild(ghost);
     dragGhostRef.current = ghost;
@@ -1010,7 +1019,7 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
                 <span className="flag-hanzi">{selectedWord.hanzi}</span>
                 <span className="flag-pinyin">{selectedWord.pinyin}</span>
               </span>
-              <span className="plate-emoji">{getSushiEmoji(selectedWord.id)}</span>
+              <img className="plate-emoji" src={getSushiEmoji(selectedWord.id)} alt="sushi" />
             </div>
             <button
               className="cancel-selection"
@@ -1088,7 +1097,7 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
                   <span className="flag-hanzi">{word.hanzi}</span>
                   <span className="flag-pinyin">{word.pinyin}</span>
                 </span>
-                <span className="plate-emoji">{getSushiEmoji(word.id)}</span>
+                <img className="plate-emoji" src={getSushiEmoji(word.id)} alt="sushi" />
               </div>
             ))}
           </div>
