@@ -809,7 +809,7 @@ body {
 .plate {
   flex-shrink: 0;
   width: 106px;
-  min-height: 106px;
+  height: 106px;
   border-radius: 50%;
   background: linear-gradient(135deg, #FFF8E7 0%, #F5EDE0 60%, #E8DDD0 100%);
   border: 3.5px solid #2D2D2D;
@@ -818,39 +818,36 @@ body {
     inset 0 -3px 6px rgba(0,0,0,0.08),
     inset 0 3px 6px rgba(255,255,255,0.4);
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   align-items: center;
+  justify-content: center;
   position: relative;
   cursor: pointer;
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s, box-shadow 0.12s;
-  padding: 14px 0 10px;
   font-family: 'Fredoka', var(--font-main, 'Bai Jamjuree', sans-serif);
   touch-action: manipulation;
   /* Category color ring via border-color set inline from categoryColorMap */
 }
 
-/* 🍣 Sushi emoji — placed at bottom of plate, food on the plate */
+/* 🍣 Sushi emoji — centered on plate, visible through the overlaying text */
 .plate-emoji {
   font-size: 48px;
   line-height: 1;
   opacity: 1;
   pointer-events: none;
-  order: 2;
-  transform: translateY(2px);
 }
 
-/* 🏷️ Hanzi + pinyin — at top of plate, stacked on the sushi */
+/* 🏷️ Hanzi + pinyin — upper layer, overlapping the emoji with white glow */
 .plate-flag {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 0px;
   z-index: 3;
   pointer-events: none;
   line-height: 1.1;
-  order: 1;
 }
 
 .flag-hanzi {
@@ -859,15 +856,11 @@ body {
   color: #2D2D2D;
   font-family: var(--font-hanzi, 'ZCOOL KuaiLe', sans-serif);
   line-height: 1.1;
-  /* White border via multi-direction text-shadow (no text-stroke — it eats into the character) */
-  -webkit-text-stroke: 0;
+  /* Soft white glow — makes the character pop as an upper layer over the emoji */
   text-shadow:
-    1px 1px 0 #FFF8E7,
-    -1px -1px 0 #FFF8E7,
-    1px -1px 0 #FFF8E7,
-    -1px 1px 0 #FFF8E7,
-    0 1px 4px rgba(0,0,0,0.2),
-    0 0 10px rgba(255, 248, 231, 0.6);
+    0 0 6px rgba(255, 248, 231, 0.95),
+    0 0 14px rgba(255, 248, 231, 0.6),
+    0 0 24px rgba(255, 248, 231, 0.3);
 }
 
 .flag-pinyin {
@@ -878,53 +871,35 @@ body {
   line-height: 1.1;
   letter-spacing: 0.3px;
   margin-top: 1px;
-  /* White border via multi-direction shadow (no text-stroke) */
-  -webkit-text-stroke: 0;
+  /* Soft white glow */
   text-shadow:
-    0.5px 0.5px 0 #FFF8E7,
-    -0.5px -0.5px 0 #FFF8E7,
-    0 -0.5px 0 #FFF8E7,
-    0 0.5px 0 #FFF8E7,
-    0 1px 3px rgba(0,0,0,0.15),
-    0 0 8px rgba(255, 248, 231, 0.5);
+    0 0 5px rgba(255, 248, 231, 0.9),
+    0 0 12px rgba(255, 248, 231, 0.5);
 }
 
 @media (max-width: 480px) {
   .plate {
     width: 76px;
-    min-height: 76px;
-    padding: 10px 0 6px;
+    height: 76px;
     touch-action: manipulation;
   }
   .plate-emoji {
     font-size: 38px;
     opacity: 1;
-    order: 2;
-    transform: translateY(2px);
-  }
-  .plate-flag {
-    order: 1;
   }
   .flag-hanzi {
     font-size: clamp(20px, 4.5vw, 28px);
     font-weight: 900;
-    -webkit-text-stroke: 0;
     text-shadow:
-      0.8px 0.8px 0 #FFF8E7,
-      -0.8px -0.8px 0 #FFF8E7,
-      0.8px -0.8px 0 #FFF8E7,
-      -0.8px 0.8px 0 #FFF8E7,
-      0 1px 3px rgba(0,0,0,0.2),
-      0 0 8px rgba(255, 248, 231, 0.5);
+      0 0 5px rgba(255, 248, 231, 0.95),
+      0 0 12px rgba(255, 248, 231, 0.6),
+      0 0 20px rgba(255, 248, 231, 0.3);
   }
   .flag-pinyin {
     font-size: 8px;
-    -webkit-text-stroke: 0;
     text-shadow:
-      0.4px 0.4px 0 #FFF8E7,
-      -0.4px -0.4px 0 #FFF8E7,
-      0 1px 2px rgba(0,0,0,0.15),
-      0 0 6px rgba(255, 248, 231, 0.4);
+      0 0 4px rgba(255, 248, 231, 0.9),
+      0 0 10px rgba(255, 248, 231, 0.4);
   }
   .sushi-mode {
     padding: 6px;
@@ -1056,10 +1031,8 @@ body {
     5px 5px 0px 0px #2D2D2D,
     0 8px 24px rgba(0,0,0,0.15);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding: 14px 0 10px;
+  justify-content: center;
   transform: scale(1.1);
   opacity: 0.95;
   transition: none;
@@ -1069,11 +1042,11 @@ body {
   font-size: 48px;
   line-height: 1;
   opacity: 1;
-  order: 2;
-  transform: translateY(2px);
 }
 
 .drag-ghost .ghost-hanzi {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1081,15 +1054,11 @@ body {
   font-weight: 900;
   color: #2D2D2D;
   font-family: var(--font-hanzi, 'ZCOOL KuaiLe', sans-serif);
-  order: 1;
-  -webkit-text-stroke: 0;
+  /* White glow — matches plate-flag hanzi */
   text-shadow:
-    1px 1px 0 #FFF8E7,
-    -1px -1px 0 #FFF8E7,
-    1px -1px 0 #FFF8E7,
-    -1px 1px 0 #FFF8E7,
-    0 1px 4px rgba(0,0,0,0.2),
-    0 0 10px rgba(255, 248, 231, 0.6);
+    0 0 6px rgba(255, 248, 231, 0.95),
+    0 0 14px rgba(255, 248, 231, 0.6),
+    0 0 24px rgba(255, 248, 231, 0.3);
 }
 
 /* Spawn tip */
