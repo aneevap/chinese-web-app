@@ -1003,8 +1003,6 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
           })}
         </div>
 
-        {/* Noren curtain divider */}
-        <div className="noren" />
       </div>
 
       {/* 📦 DROP ZONE - Middle (Selected Plate) */}
