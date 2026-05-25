@@ -57,7 +57,6 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
 
   // Leaderboard state
   const [leaderboard, setLeaderboard] = useState<{ rank: number; top: HallOfFameEntry[] } | null>(null);
-  const [sushiLeaderboard, setSushiLeaderboard] = useState<{ rank: number; top: HallOfFameEntry[] } | null>(null);
   const [personalBest, setPersonalBest] = useState(0);
 
   const sessionSavedRef = useRef(false);
@@ -193,11 +192,6 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
           setLeaderboard({
             rank: matchingIdx >= 0 ? matchingIdx + 1 : matchingEntries.length,
             top: matchingEntries.slice(0, 5),
-          });
-          const sushiEntries = getGameLeaderboard('sushi');
-          setSushiLeaderboard({
-            rank: 0,
-            top: sushiEntries.slice(0, 5),
           });
         }
         setEnded(true);
@@ -603,7 +597,6 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
     setShowStartScreen(true);
     setCountdown(3);
     setLeaderboard(null);
-    setSushiLeaderboard(null);
     setSelectedCourse(null);
     setSelectedThemes([]);
     sessionSavedRef.current = false;
@@ -853,10 +846,26 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
               </div>
             </div>
 
-            {/* ⚡ Matching Leaderboard */}
+            <div className="result-buttons">
+              <button className="play-again-button" onClick={handlePlayAgain}>
+                Play Again
+              </button>
+              <button
+                className="exit-button"
+                onClick={() => {
+                  const root = document.getElementById('dojo-game-root');
+                  if (root) root.classList.remove('visible');
+                  window.location.href = 'dojo.html';
+                }}
+              >
+                Exit
+              </button>
+            </div>
+
+            {/* 🏆 Top scores for this game */}
             {leaderboard && leaderboard.top.length > 0 && (
               <div className="leaderboard-divider">
-                <div className="leaderboard-title">⚡ Matching</div>
+                <div className="leaderboard-title">🏆 Top Matching Scores</div>
                 <div className="leaderboard-list">
                   {leaderboard.top.map((entry, i) => {
                     const rank = i + 1;
@@ -879,48 +888,6 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
                 </div>
               </div>
             )}
-            {/* 🍣 Sushi Leaderboard */}
-            {sushiLeaderboard && sushiLeaderboard.top.length > 0 && (
-              <div className="leaderboard-divider">
-                <div className="leaderboard-title">🍣 Sushi</div>
-                <div className="leaderboard-list">
-                  {sushiLeaderboard.top.map((entry, i) => {
-                    const rank = i + 1;
-                    const isYou = entry.profileId === getActiveProfile()?.id && entry.gameId === 'sushi';
-                    let rankEmoji = '#' + rank;
-                    if (rank === 1) rankEmoji = '🥇';
-                    else if (rank === 2) rankEmoji = '🥈';
-                    else if (rank === 3) rankEmoji = '🥉';
-                    return (
-                      <div key={entry.profileId + '-' + i} className={`leaderboard-item${isYou ? ' you' : ''}`}>
-                        <span className="leaderboard-rank">{rankEmoji}</span>
-                        <span className="leaderboard-avatar">{entry.avatar || '🐼'}</span>
-                        <span className={`leaderboard-name${isYou ? ' you' : ''}`}>
-                          {entry.nickname}{isYou ? ' (you)' : ''}
-                        </span>
-                        <span className="leaderboard-score">{entry.bestScore}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            <div className="result-buttons">
-              <button className="play-again-button" onClick={handlePlayAgain}>
-                Play Again
-              </button>
-              <button
-                className="exit-button"
-                onClick={() => {
-                  const root = document.getElementById('dojo-game-root');
-                  if (root) root.classList.remove('visible');
-                  window.location.href = 'dojo.html';
-                }}
-              >
-                Exit
-              </button>
-            </div>
           </div>
         </div>
       )}

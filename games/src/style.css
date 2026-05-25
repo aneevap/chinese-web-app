@@ -1192,6 +1192,18 @@ body {
   border: 4px solid #111827;
 }
 
+/* Keep result card top visible on mobile (prevent it from being hidden behind browser chrome) */
+.overlay:has(> .result-card) {
+  align-items: flex-start;
+  padding-top: 10vh;
+}
+
+@media (max-height: 640px) {
+  .overlay:has(> .result-card) {
+    padding-top: 6px;
+  }
+}
+
 /* Override for matching mode result */
 
 
