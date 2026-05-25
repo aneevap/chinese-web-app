@@ -41,11 +41,11 @@ export function saveSessionResult(result: HallOfFameEntry) {
  */
 function pushToSupabase(entry: HallOfFameEntry) {
   const sync = (window as any).__SUPABASE_SYNC;
-  if (sync && sync.ready) {
+  if (sync) {
     // Attach sessionId for upsert dedup
     const toPush = { ...entry, sessionId: makeSessionId(entry) };
     sync.pushHallOfFameEntry(toPush);
-    console.log('[HallOfFame] pushed to Supabase');
+    console.log('[HallOfFame] pushed to Supabase (or queued)');
   }
 }
 

@@ -62,6 +62,9 @@
       case 'notebook':
           this.pushNotebook(payload.profileId, payload.entries);
           break;
+      case 'hall_of_fame':
+          this.pushHallOfFameEntry(payload);
+          break;
       }
     },
 
@@ -490,8 +493,11 @@
     // ---------- HALL OF FAME ----------
 
     pushHallOfFameEntry: async function (entry) {
-      if (!this.ready) return;
       if (!entry || !entry.sessionId) return;
+      if (!this.ready) {
+        this.enqueue('hall_of_fame', entry);
+        return;
+      }
       try {
         var sb = window.__supabase;
         var { error } = await sb.from('hall_of_fame').upsert({
