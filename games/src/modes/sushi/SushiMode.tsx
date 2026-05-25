@@ -964,10 +964,6 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
           <span className="hud-icon">💰</span>
           <span className="hud-value">{state.score}</span>
         </div>
-          <div className="hud-item personal-best">
-            <span className="hud-icon">👑</span>
-            <span className="hud-value">{personalBest > 0 ? personalBest : '-'}</span>
-          </div>
         <div className="hud-item">
           <span className="hud-icon">🔥</span>
           <span className="hud-value">{state.combo}x</span>
@@ -1025,11 +1021,6 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
                   {language === 'th' ? customer.target.meaningTh : customer.target.meaningEn}
                 </div>
                 <div className="avatar">{['😊', '😄', '🤓', '😎', '🙂'][index % 5]}</div>
-                <div className="attempt-indicator">
-                  {[0, 1, 2].map(i => (
-                    <span key={i} className={`attempt-dot ${i < customer.attempts ? 'used' : ''}`} />
-                  ))}
-                </div>
                 {isCorrectEffect && <div className="correct-check">✓</div>}
               </div>
             );

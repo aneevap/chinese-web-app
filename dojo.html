@@ -42,20 +42,23 @@
   font-weight: 700;
 }
 
-/* ── GAME CARDS — Centered flex, 2 cards max ── */
+/* ── GAME CARDS — 3-column grid ── */
 .games-grid {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
   margin-bottom: 24px;
   padding: 0 8px;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .game-card {
   background: #FAF8F5;
   border: 3px solid #111827;
-  border-radius: 20px;
-  padding: 24px 20px 20px;
+  border-radius: 18px;
+  padding: 16px 10px 14px;
   text-align: center;
   cursor: pointer;
   transition: all 0.12s ease;
@@ -63,20 +66,25 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   position: relative;
   overflow: hidden;
-  box-shadow: 5px 5px 0px 0px #111827;
-  width: 220px;
-  flex-shrink: 0;
+  box-shadow: 4px 4px 0px 0px #111827;
+  min-width: 0;
 }
 .game-card:hover {
   transform: translateY(-3px);
-  box-shadow: 5px 8px 0px 0px #111827;
+  box-shadow: 4px 7px 0px 0px #111827;
 }
 .game-card:active {
-  transform: translateY(2px);
+  transform: translateY(1px);
   box-shadow: 1px 1px 0px 0px #111827;
+}
+.game-card.selected {
+  transform: translateY(-2px);
+  box-shadow: 4px 6px 0px 0px #111827;
+  border-color: #1E40AF;
+  background: #F0F4FF;
 }
 
 /* Per-game color accent stripe at top */
@@ -86,7 +94,7 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 5px;
+  height: 4px;
   background: #FF6B35;
   z-index: 1;
 }
@@ -96,37 +104,38 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 5px;
+  height: 4px;
   background: #7E57C2;
   z-index: 1;
 }
 
 .game-card-icon {
-  font-size: 3.2rem;
+  font-size: 2.2rem;
   line-height: 1;
-  margin-bottom: 4px;
   filter: drop-shadow(2px 2px 0px rgba(17, 24, 39, 0.15));
 }
 
 .game-card-title {
-  font-size: 1.05rem;
+  font-size: 0.82rem;
   font-weight: 800;
   color: #111827;
   letter-spacing: -0.02em;
 }
 
-.game-card-desc {
-  font-size: 0.75rem;
-  color: #6B5544;
-  line-height: 1.4;
-  font-weight: 600;
-  max-width: 160px;
+.game-card.disabled {
+  opacity: 0.55;
+  cursor: default;
+  pointer-events: none;
+  filter: grayscale(0.6);
+}
+.game-card.disabled::before {
+  background: #9CA3AF !important;
 }
 
 .game-card-highscore {
   margin-top: auto;
-  padding-top: 8px;
-  font-size: 0.78rem;
+  padding-top: 6px;
+  font-size: 0.68rem;
   color: #6B5544;
   display: flex;
   align-items: center;
@@ -136,30 +145,51 @@
 .game-card-highscore .score-value {
   font-weight: 800;
   color: #1E40AF;
-  font-size: 0.9rem;
+  font-size: 0.78rem;
 }
 
 .game-card-play {
-  margin-top: 6px;
+  margin-top: 4px;
   background: #FCD34D;
   color: #111827;
-  border: 3px solid #111827;
-  border-radius: 12px;
-  padding: 8px 22px;
-  font-size: 0.82rem;
+  border: 2.5px solid #111827;
+  border-radius: 10px;
+  padding: 5px 14px;
+  font-size: 0.72rem;
   font-weight: 800;
   cursor: pointer;
   transition: all 0.12s ease;
-  box-shadow: 3px 3px 0px 0px #111827;
+  box-shadow: 2px 2px 0px 0px #111827;
   font-family: inherit;
 }
 .game-card-play:hover {
   transform: translateY(-2px);
-  box-shadow: 3px 5px 0px 0px #111827;
+  box-shadow: 2px 4px 0px 0px #111827;
 }
 .game-card-play:active {
   transform: translateY(1px);
   box-shadow: 0px 0px 0px 0px #111827;
+}
+
+/* Game selection description area */
+.game-selection-info {
+  display: none;
+  text-align: center;
+  padding: 10px 16px 14px;
+  margin: -16px auto 20px;
+  max-width: 480px;
+  font-size: 0.85rem;
+  color: #6B5544;
+  font-weight: 700;
+  line-height: 1.5;
+}
+.game-selection-info.visible {
+  display: block;
+  animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Inline game container */
@@ -469,20 +499,21 @@
 
 
 /* ── RESPONSIVE ── */
-@media (max-width: 520px) {
+@media (max-width: 400px) {
   .games-grid {
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
+    gap: 8px;
+    padding: 0 4px;
   }
   .game-card {
-    width: 100%;
-    max-width: 280px;
-    padding: 20px 16px;
+    padding: 12px 6px 10px;
+    border-width: 2.5px;
+    border-radius: 14px;
+    box-shadow: 3px 3px 0px 0px #111827;
   }
-  .game-card-icon { font-size: 2.6rem; }
-  .game-card-title { font-size: 0.95rem; }
-  .game-card-desc { font-size: 0.72rem; }
+  .game-card-icon { font-size: 1.8rem; }
+  .game-card-title { font-size: 0.72rem; }
+  .game-card-highscore { font-size: 0.6rem; padding-top: 4px; }
+  .game-card-play { font-size: 0.65rem; padding: 4px 10px; }
   
   .hall { padding: 16px; box-shadow: 6px 6px 0px 0px #111827; }
   .hall-item { grid-template-columns: 36px 30px 1fr auto; gap: 8px; padding: 8px 10px; }
@@ -506,6 +537,9 @@
 
       <!-- GAME CARDS -->
       <div class="games-grid" id="games-grid"></div>
+
+      <!-- GAME SELECTION DESCRIPTION -->
+      <div class="game-selection-info" id="game-selection-info"></div>
 
       <!-- INLINE GAME CONTAINER (for sushi mode) -->
       <div class="game-back-bar" id="game-back-bar" style="display:none;">
@@ -550,12 +584,48 @@
         inline: true,
         route: null
       },
-
+      {
+        id: 'coming',
+        icon: '🎮',
+        title: 'Coming Soon',
+        desc: 'A new game is on its way — stay tuned!',
+        color: '#9CA3AF',
+        inline: false,
+        route: null,
+        disabled: true
+      },
     ];
 
     /* =====================================================
        RENDER GAME CARDS
     ===================================================== */
+    var SELECTED_GAME = null;
+
+    function showGameDescription(gameId) {
+      var infoEl = document.getElementById('game-selection-info');
+      var game = GAMES.find(function(g) { return g.id === gameId; });
+      if (game && game.desc) {
+        infoEl.innerHTML = '<span style="font-size:1.1rem;margin-right:4px;">' + game.icon + '</span> ' + game.desc;
+        infoEl.classList.add('visible');
+      } else {
+        infoEl.classList.remove('visible');
+      }
+    }
+
+    function selectGame(gameId) {
+      var game = GAMES.find(function(g) { return g.id === gameId; });
+      if (!game || game.disabled) return;
+
+      // Update selected state
+      SELECTED_GAME = gameId;
+      var cards = document.querySelectorAll('.game-card');
+      cards.forEach(function(c) {
+        c.classList.toggle('selected', c.getAttribute('data-game') === gameId);
+      });
+
+      showGameDescription(gameId);
+    }
+
     function renderGameCards() {
       var grid = document.getElementById('games-grid');
       grid.innerHTML = '';
@@ -563,7 +633,8 @@
       GAMES.forEach(function(game) {
         var card = document.createElement('a');
         card.className = 'game-card';
-        card.href = game.inline ? 'javascript:void(0)' : (game.route || '#');
+        if (game.disabled) card.classList.add('disabled');
+        card.href = 'javascript:void(0)';
         card.style.setProperty('--theme-color', game.color);
         card.setAttribute('data-game', game.id);
 
@@ -573,14 +644,29 @@
         card.innerHTML =
           '<div class="game-card-icon">' + game.icon + '</div>' +
           '<div class="game-card-title">' + game.title + '</div>' +
-          '<div class="game-card-desc">' + game.desc + '</div>' +
           (highScore !== null
             ? '<div class="game-card-highscore">⭐ Best: <span class="score-value">' + highScore + '</span></div>'
-            : '<div class="game-card-highscore" style="color:var(--ink-light);">No record yet</div>') +
-          '<div class="game-card-play" style="background:' + game.color + ';">▶ Play</div>';
+            : '<div class="game-card-highscore" style="color:var(--ink-light);font-size:0.68rem;">No record yet</div>') +
+          (game.disabled
+            ? '<div class="game-card-play" style="background:#D1D5DB;cursor:default;opacity:0.6;">🔒</div>'
+            : '<div class="game-card-play" style="background:' + game.color + ';">▶ Play</div>');
 
-        if (game.inline) {
-          card.onclick = function(e) {
+        card.onclick = function(e) {
+          e.preventDefault();
+          if (game.disabled) return;
+          // If already selected, open the game; otherwise select it
+          if (SELECTED_GAME === game.id) {
+            openGame(game.id);
+          } else {
+            selectGame(game.id);
+          }
+        };
+
+        // Also handle Play button clicks via delegation
+        var playBtn = card.querySelector('.game-card-play');
+        if (playBtn && !game.disabled) {
+          playBtn.onclick = function(e) {
+            e.stopPropagation();
             e.preventDefault();
             openGame(game.id);
           };
@@ -588,6 +674,13 @@
 
         grid.appendChild(card);
       });
+
+      // Restore selection if any
+      if (SELECTED_GAME) {
+        var selectedCards = document.querySelectorAll('.game-card[data-game="' + SELECTED_GAME + '"]');
+        selectedCards.forEach(function(c) { c.classList.add('selected'); });
+        showGameDescription(SELECTED_GAME);
+      }
     }
 
     /* =====================================================
@@ -634,6 +727,10 @@
       root.classList.add('visible');
       if (backBar) backBar.style.display = 'flex';
       root.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // Clear selection description
+      var infoEl = document.getElementById('game-selection-info');
+      if (infoEl) infoEl.classList.remove('visible');
 
       // Dispatch event for the game module to mount
       window.dispatchEvent(new CustomEvent('xhz:mount-game', {

@@ -485,6 +485,53 @@
         console.warn('Supabase pullNotebook failed:', e.message);
         return null;
       }
+    },
+
+    // ---------- PUSH ALL ----------
+
+    /**
+     * Push ALL local data for a profile to Supabase.
+     * Called after sign-in to ensure the server has the latest local data.
+     */
+    pushAll: async function (profileId) {
+      if (!this.ready || !profileId) return;
+      if (!window.XHZ) return;
+
+      try {
+        // Push all profiles
+        var profiles = window.XHZ.getAllProfiles();
+        if (profiles && profiles.length) {
+          await this.pushAllProfiles(profiles);
+        }
+
+        // Push scores for this profile
+        var scoreData = window.XHZ._loadScores(profileId);
+        if (scoreData && scoreData.days) {
+          await this.pushAllScores(profileId, scoreData.days);
+        }
+
+        // Push mastery for this profile
+        var masteryData = window.XHZ._loadMastery(profileId);
+        if (masteryData && masteryData.words) {
+          await this.pushMastery(profileId, masteryData.words);
+        }
+
+        // Push items for this profile
+        var itemData = window.XHZ._loadItems(profileId);
+        if (itemData) {
+          await this.pushItems(profileId, itemData);
+        }
+
+        // Push notebook for this profile
+        var notebookData = window.XHZ._loadNotebook(profileId);
+        if (notebookData && notebookData.entries) {
+          await this.pushNotebook(profileId, notebookData.entries);
+        }
+
+        console.log('📡 Supabase sync: pushAll complete for profile ' + profileId);
+      } catch (e) {
+        console.warn('Supabase pushAll failed:', e.message);
+      }
     }
   };
 

@@ -156,12 +156,28 @@ body {
 
 /* ── HUD — Japanese style ── */
 .hud {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  display: flex;
   gap: 8px;
   margin-bottom: 8px;
   position: relative;
   z-index: 1;
+}
+
+.hud-item {
+  background: #FCD34D;
+  border: 3px solid #111827;
+  border-radius: 12px;
+  padding: 8px 4px;
+  text-align: center;
+  color: #111827;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  box-shadow: 3px 3px 0px 0px #111827;
+  transition: all 0.1s ease;
+  flex: 1;
+  min-width: 0;
 }
 
 .hud-item {
@@ -201,13 +217,14 @@ body {
   margin-bottom: 10px;
 }
 
-/* Door row — side by side, above customers */
+/* Door row — side by side, above customers (visually hidden, keeps layout space) */
 .door-row {
   display: flex;
   justify-content: center;
   gap: 12px;
   margin-bottom: 10px;
   position: relative;
+  visibility: hidden;
 }
 
 .door {
@@ -474,27 +491,6 @@ body {
   z-index: -1;
 }
 
-.attempt-indicator {
-  display: flex;
-  gap: 4px;
-  margin-top: 8px;
-}
-
-.attempt-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #E5E7EB;
-  border: 2px solid #111827;
-  transition: all 0.3s ease;
-}
-
-.attempt-dot.used {
-  background: #F43F5E;
-  border-color: #111827;
-  box-shadow: 0 0 4px rgba(244, 63, 94, 0.4);
-}
-
 .correct-check {
   position: absolute;
   top: 50%;
@@ -716,13 +712,7 @@ body {
   }
   .door-row {
     gap: 8px;
-  }
-  .door {
-    width: 40px;
-    height: 30px;
-  }
-  .door-label {
-    font-size: 11px;
+    display: none;
   }
   .hud {
     gap: 4px;

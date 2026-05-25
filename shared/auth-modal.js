@@ -392,6 +392,12 @@
           var afterRepair = function () {
             if (typeof renderProfiles === 'function') renderProfiles();
             mergeRemoteProfiles();
+            // Push local data to Supabase so cloud has the latest
+            var activeId = XHZ.getActiveId();
+            if (activeId && window.__SUPABASE_SYNC && typeof window.__SUPABASE_SYNC.pushAll === 'function') {
+              console.log('\uD83D\uDCE5 auth-modal: pushing local data to Supabase');
+              window.__SUPABASE_SYNC.pushAll(activeId);
+            }
           };
 
           if (repairPromise) {
