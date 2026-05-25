@@ -1195,7 +1195,7 @@ body {
 /* Keep result card top visible on mobile (prevent it from being hidden behind browser chrome) */
 .overlay:has(> .result-card) {
   align-items: flex-start;
-  padding-top: 10vh;
+  padding-top: 4vh;
 }
 
 @media (max-height: 640px) {
@@ -1483,13 +1483,13 @@ body {
 
 .tile-content-meaning {
   font-family: var(--font-main, 'Bai Jamjuree', sans-serif);
-  font-size: clamp(0.7rem, 2.2vw, 0.9rem);
+  font-size: clamp(1.2rem, 3.8vw, 1.6rem);
   font-weight: 700;
   color: #111827;
-  line-height: 1.3;
+  line-height: 1.2;
   text-align: center;
   word-break: break-word;
-  padding: 2px;
+  padding: 4px;
 }
 
 /* ── New Set Flash Overlay ── */
@@ -1575,7 +1575,7 @@ body {
     font-size: clamp(1.3rem, 4.5vw, 1.8rem);
   }
   .tile-content-meaning {
-    font-size: clamp(0.6rem, 2vw, 0.75rem);
+    font-size: clamp(1rem, 3.2vw, 1.3rem);
   }
 }
 
