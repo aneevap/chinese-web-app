@@ -769,7 +769,7 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
         const dy = e.clientY - drag.startY;
         if (!drag.active && Math.hypot(dx, dy) > 5) {
           drag.active = true;
-          setSelectedWordId(drag.wordId);
+          setSelectedWordId(null); // Clear drop zone — only ghost follows cursor
           createDragGhost(drag.wordId, e.clientX, e.clientY);
         }
         if (drag.active && dragGhostRef.current) {
