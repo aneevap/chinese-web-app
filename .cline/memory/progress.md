@@ -211,6 +211,28 @@
 - **Commit:** `48e5110`
 - **Status:** Needs iPhone testing with hard refresh to confirm fix
 
+### Session 32 — Global Hall of Fame, Safari grid fix, TypeScript build unblocked
+- **Global Hall of Fame:** Added `hall_of_fame` table to Supabase schema, sync methods (`pushHallOfFameEntry`, `pullHallOfFameEntries`, `pushAllHallOfFame`), wired `hallOfFame.ts` to push after local save, dojo page with "Your Rankings" / "Global Rankings" tabs, loading spinner, current user highlight, race condition guard
+- **Safari CSS Grid fix:** Changed `grid-template-columns: repeat(3, 1fr)` → `repeat(3, minmax(0, 1fr))` to fix iOS Safari's implicit `minmax(auto, 1fr)` that prevented 3-card grid from working on iPhone
+- **TypeScript build fix:** Removed dead `personalBest` state (unused variable) in `SushiMode.tsx` that was blocking `tsc` — causing GitHub Pages deploy to silently fail for weeks
+- **GitHub Pages unblocked:** After build fix, all accumulated changes (Dojo redesign, Global HOF, Safari grid) deployed to live site
+- **Commit:** `d974d0a` (Global HOF), `b8d2aa9` (Safari grid fix), `99c465a` (TypeScript build fix)
+
+### Session 33 — Global HOF race condition fix: push→pull timing
+- **Root cause:** When a game ended, `saveSessionResult()` dispatched `xhz:dojo-hof-updated` and fired `pushToSupabase()` synchronously. The event listener immediately pulled from Supabase — which beat the async push. Pull returned empty → "No global rankings yet". Push completed moments later but nothing triggered a re-render.
+- **Fix 1 (`shared/supabase-sync.js`):** `pushHallOfFameEntry()` now dispatches `xhz:dojo-hof-pushed` custom event after a successful upsert, so the Global tab re-renders when data actually arrives.
+- **Fix 2 (`dojo.html`):** New `xhz:dojo-hof-pushed` listener re-renders the Global tab. Also added a 2-second delayed retry in the `xhz:dojo-hof-updated` handler as a safety net for the race.
+- **Verification:** User confirmed "found the Test score" — Global tab working end-to-end.
+- **Commit:** `6a86025`
+
+### Session 35 — Sushi plate layout refinements, HUD simplification, custom image directory
+- **Sushi plate layout:** Fixed height (106px) for perfectly round plates, `flex-direction: column; justify-content: space-between` layout with text at upper border and emoji at lower border
+- **White glow on text:** Replaced `-webkit-text-stroke` (which ate into character strokes) with 4-layer `text-shadow` — tight bright core + layered soft halo, making characters visibly float over the emoji
+- **Character position swapped:** `.plate-flag` first (top), `.plate-emoji` last (bottom) — consistent across belt plates, selected plate, and drag ghost
+- **HUD simplified:** 5 red card-style items → 2 clean indicators (star counter left, timer right), big 36px Bangers font with 4-layer glow, no backgrounds
+- **Custom sushi image directory:** Created `games/public/images/sushi/` with README documenting 128×128px PNG conventions, 8 naming rules, and migration guide for switching from emojis to `<img>` tags
+- **Commits:** `594a572` (sushi readability), `b54dbf3` (stronger glow), `a6d35be` (text at top, emoji at bottom), `c5b22f8` (round plates + overlaying text), `6d2092c` (simplified HUD), `8de7085` (swap plate children), `f0c42a3` (custom image directory)
+
 ## Pending
 - [x] Standardize font weight loading across all pages (completed in Sessions 3-4)
 - [x] Clean up unused `signup_*` i18n keys from `strings.js` (completed in Session 14)

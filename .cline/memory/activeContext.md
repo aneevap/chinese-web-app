@@ -1,114 +1,32 @@
 # Active Context
 
-## Current Session (Session 31) — Mode tab hiding + scroll lock: debug checklist applied
+## Current Session — Sushi plate refinements & custom image directory setup
 
-### Context
-User shared a comprehensive 19-item debug checklist about web game scroll/hiding bugs. We applied the most impactful items to fix both:
-1. **Mode tabs not hiding during gameplay** (the 4-attempt saga from Session 30)
-2. **Body scrolling during gameplay** (page could still scroll on iPhone)
+### Sushi plate layout refactor (Sessions in conversation)
+- **Round plates restored:** Changed `min-height` to fixed `height: 106px` guaranteeing perfect circle with `border-radius: 50%`
+- **Text at top, emoji at bottom:** `flex-direction: column; justify-content: space-between` layout — hanzi/pinyin at upper border, sushi emoji at lower border (stacked look)
+- **White glow for text:** Replaced `-webkit-text-stroke` (which ate into character strokes) with 4-layer `text-shadow` — tight bright core (2px 100% opacity) + 3 outer glow layers, making characters visibly float as an upper layer over the emoji
+- **Character/emoji swapping:** Swapped DOM order so `.plate-flag` is first (top) and `.plate-emoji` is last (bottom) — consistent across belt plates, selected plate, and drag ghost
+- **Emoji size:** Reduced from 48px → 42px to fit edge-to-edge in the column layout
 
-### Root cause identified
-**Cache buster `?v=24` had not been bumped since Session 20** (11 sessions ago). All 4 approaches from Session 30 were correctly implemented, but the user's iPhone was loading cached `game.js` that predated all of them. Bumped to `?v=31`.
+### HUD simplification
+- **Before:** 5 red card-style items (stars, score, combo, stage, timer) with neo-brutalist backgrounds
+- **After:** 2 clean indicators — star counter (left) + timer (right), big chunky 36px Bangers font, 4-layer glowing text-shadow, no card backgrounds
 
-### Checklist items applied
-- **✅ #1 Menu removed** — Already done (conditional rendering `{!gameActive && (<div className="mode-tabs">...)}`)
-- **✅ #2 Body scroll disabled** — Added `.scroll-locked` class toggling on `<html>` + `<body>` during gameplay
-- **✅ #3/#19 Nuclear fix** — Game containers (`.sushi-mode`, `.matching-mode`) become `position: fixed; inset: 0; z-index: 100` when `html.scroll-locked` is active. This prevents any iOS Safari rubber-banding.
-- **✅ #11 Mobile viewport** — Changed `min-height: 100vh` → `min-height: 100dvh` on both game modes to handle Safari's dynamic toolbar
-- **✅ Cache busting** — `?v=24` → `?v=31` in `dojo.html`
+### Custom sushi image directory
+- **Directory created:** `games/public/images/sushi/`
+- **README conventions documented:** 128×128px PNG, 8 naming conventions matching current sushi types, lowercase filenames, migration guide for switching from emojis to `<img>` tags
 
-### Files changed
-- `dojo.html` — cache buster `?v=24` → `?v=31`
-- `SushiMode.tsx` — combined `onGameActiveChange` + scroll locking in one useEffect
-- `MatchingMode.tsx` — same combined effect
-- `style.css` — added `.scroll-locked` CSS rules, `position: fixed` nuclear fix, `100vh` → `100dvh`
-
-### Commit: `48e5110`
-
----
-
-## Previous Session (Session 30) — Mode tab hiding abandoned (all approaches failed on iPhone)
-
-### Attempted: Hiding mode tabs during gameplay
-
-**Goal:** The Sushi/Matching tab buttons in the game app should be hidden during gameplay (when the countdown finishes) so they don't clutter the screen.
-
-**All approaches failed on the user's iPhone. Suspected root cause was browser caching — not confirmed until Session 31.**
-
-#### Approach 1: Custom events
-- SushiMode/MatchingMode dispatch `xhz:game-playing` / `xhz:game-idle` events
-- App.tsx listens and sets `modeTabsHidden` state → `display: none`
-- **Result:** Tabs still visible during gameplay
-
-#### Approach 2: CSS class toggle on `<body>`
-- SushiMode/MatchingMode toggle `document.body.classList.toggle('game-active', ...)` via useEffect
-- CSS: `body.game-active .mode-tabs { display: none !important; }`
-- **Result:** Tabs still visible during gameplay
-
-#### Approach 3: Direct DOM querySelector + style.display
-- Removed all React-based approaches
-- `document.querySelector('.mode-tabs').style.display = 'none'` called synchronously inside the countdown setInterval callback
-- **Result:** Tabs still visible during gameplay
-
-#### Approach 4: Pure React callback prop
-- App.tsx: `const [gameActive, setGameActive] = useState(false)`
-- Pass `onGameActiveChange={setGameActive}` as prop to both game modes
-- Game modes call `onGameActiveChange(true)` via useEffect when actively playing
-- `.mode-tabs` rendered conditionally: `{!gameActive && (<div className="mode-tabs">...)}`
-- **Result:** User reports "there is no change at all" — tabs still visible
-
-**Retrospective:** All 4 approaches were correct. The real issue was the stale cache buster (`?v=24`).
-
----
-
-## Previous Session (Session 29) — Sushi game iPhone fixes: tap-to-deliver, two-row belt, etc.
-
-### Background: The Great Belt Animation Saga
-We attempted to split the sushi conveyor belt into TWO rows on mobile (≤480px) to fit more characters (serpentine: top row scrolls left, bottom scrolls right). This initially broke the top row animation on iOS Safari. Multiple approaches were tried and eventually fixed:
-
-1. **CSS animation on `.belt-track.top-row`** — top row didn't animate on iPhone
-2. **Inline `style={{ animation: ... }}` via React** — same result, top row static
-3. **`animation: none` on mobile `.belt-track`** to clear base cascade — still broken
-4. **`will-change: transform`** hypothesis — not tested, user wanted revert
-
-**Root cause (suspected):** iOS Safari has a bug where CSS `transform`-based animations on `flex-direction: column` children with `width: max-content` fail when the element is the first flex child. The bottom row (second flex child) always animated correctly. This may relate to Safari's compositing layer assignment for the first child in a flex column.
-
-### Resolution: Single row belt for all screen sizes
-- Removed `isMobile` state, `useEffect` for mobile detection, and `beltRows` splitting from SushiMode.tsx
-- Belt always renders as a single `.belt-track` with the base `beltScroll` animation
-- CSS: removed mobile two-row overrides (`height: 130px`, `flex-direction: column`, `.top-row`/`.bottom-row`, `animation: none` on `.belt-track`)
-- Kept useful mobile improvements: edge-to-edge margins, smaller plates (54px), hidden door row, hidden belt fades
-- `beltScrollRight` keyframe retained for future use if needed
-
-### Tap-to-deliver on iPhone (HTML5 drag fallback)
-- **Bug:** HTML5 Drag & Drop API doesn't work on touch devices — iPhone users could select a plate but couldn't deliver it to a customer
-- **Fix:** Added `onPointerUp` to occupied customer slots that calls `resolveAttempt(customer.id)` when a word is selected. Flow: tap plate on belt → plate appears in drop zone → tap customer → delivery!
-- Desktop drag & drop unaffected (onPointerUp doesn't fire after drag-drop)
-
-### Coordinate-based plate matching for tap targeting
-- **Bug:** On the CSS-animated belt, Safari's hit-testing sometimes selects the wrong plate (especially when few characters)
-- **Fix:** Replaced `e.currentTarget` event-based word ID lookup with `getBoundingClientRect()` coordinate matching. On tap/pointerdown, the finger's `clientX`/`clientY` is compared to the center of all visible plates. The closest plate is selected.
-
-### Doors hidden on mobile
-- Added `display: none` to `.door-row` at the `max-width: 400px` breakpoint
-- Customers no longer spawn from doors, so doors just waste space on small screens
-
-### Belt edge-to-edge on mobile
-- On mobile, belt uses `margin-left: -6px; margin-right: -6px` to counteract container padding
-- Side borders removed (`border-left: none; border-right: none; border-radius: 0`)
-- Edge fade gradients hidden (`.belt::after, .belt-fade-left { display: none }`)
-- Belt-track padding reduced, gap reduced
-- Result: **~6 plates visible** instead of ~5
-
-## ✅ Working Correctly
+### ✅ Working Correctly
 - **Design system migration:** All 8 pages use design system CSS variables
 - **paper-grain.png:** Exists at `assets/textures/paper-grain.png` (788 bytes)
 - **signup.html:** Deleted
-- **Hall of Fame:** Auto-saves scores, leaderboard in result screens, live refresh on dojo.html
+- **Hall of Fame:** Auto-saves scores, leaderboard in result screens, live refresh on dojo.html, **global shared leaderboard via Supabase**
+- **Global Rankings tab:** Shows all players' scores, current user highlighted, loading spinner, auto-refreshes after game finish
 - **Duplicate profiles:** Name-only check, auto-merge on `getAllProfiles()`
 - **Auth flow:** Upgrade, sign-in, password reset, set-new-password, recovery detection
 - **Font weights:** All pages identical (Bai 400-800, Nunito 400-800, Mali 400-700)
-- **Sushi mode:** Walking entrance/exit animations, slot-based positioning, bigger hanzi
+- **Sushi mode:** Walking entrance/exit animations, slot-based positioning, column layout (text top, emoji bottom), white glow on text
 - **Grid Buster:** 4×4 matching game, multi-round, neo-brutalism board-game aesthetic
 - **Error Boundary:** Catches render errors gracefully with fallback UI
 - **Dojo page:** Neo-brutalism redesign with centered games grid, accent stripes, achievement card HOF
@@ -119,20 +37,23 @@ We attempted to split the sushi conveyor belt into TWO rows on mobile (≤480px)
 - **Guest dot:** Now hides immediately after sign-in on index page
 - **Recovery page:** Fully functional with i18n support
 - **Index page:** Sign-in option available alongside Add New Learner
-- **Sushi iPhone:** Tap-to-deliver works, coordinate-based plate matching, doors hidden on mobile, belt edge-to-edge, single-row belt (reliable animation on all browsers)
-- **Mode tabs conditionally rendered:** Hidden during gameplay via `onGameActiveChange` callback prop — element removed from DOM entirely
+- **Sushi iPhone:** Tap-to-deliver works, coordinate-based plate matching, doors hidden on mobile, belt edge-to-edge, single-row belt
+- **Mode tabs conditionally rendered:** Hidden during gameplay via `onGameActiveChange` callback prop
 - **Body scroll locked during gameplay:** `.scroll-locked` class toggled on `<html>` + `<body>`, game containers `position: fixed; inset: 0` for iOS bulletproof scroll prevention
-- **Mobile Safari viewport:** `100vh` → `100dvh` on game containers for dynamic toolbar
-- **Cache buster:** `?v=31` on game.js (was `?v=24` — suspected root cause of earlier mode tab failures)
+- **Mobile Safari viewport:** `100dvh` on game containers for dynamic toolbar
+- **Cache buster:** `?v=31` on game.js
+- **Game cards on iPhone:** 3-column grid works on all iPhone viewports via `minmax(0, 1fr)` fix
+- **Global Hall of Fame:** Shared leaderboards via Supabase with tabbed UI on dojo page
+- **GitHub Pages deploy:** Fixed TypeScript build error that was silently blocking deploys for weeks
+- **Custom image directory:** `games/public/images/sushi/` ready for PNG assets
 
-## Known Issues
+### Known Issues
 - Dojo cards background still lighter than page (user preference: match paper-warm with grain)
 - User could close recovery modal without setting password (leaves recovery-limited session)
-- `window.__SUPABASE_SYNC.pushAll()` called in auth-modal.js on sign-in success but method doesn't exist in supabase-sync.js (silent no-op)
-- **Mode tabs during gameplay (pending iPhone test)** — Approach 4 (React callback prop + conditional rendering) + scroll-lock + position:fixed nuclear fix implemented. Cache buster bumped to `?v=31`. Needs testing on iPhone to confirm if the stale cache was the root cause.
+- `window.__SUPABASE_SYNC.pushAll()` called in auth-modal.js on sign-in success but method doesn't exist in silent no-op
 
-## Next Steps
-- Test mode tab hiding + scroll lock on iPhone (hard refresh with `?v=31` cache buster)
-- Check matching game for same iPhone touch interaction issues
-- Enhance progress tracking with detailed analytics
+### Next Steps
+- User plans to prepare custom sushi PNG images for `games/public/images/sushi/`
+- Migrate `getSushiEmoji()` to load `<img>` tags from `/images/sushi/` when images are ready
+- Verify matching game touch interaction on iPhone (tap-to-match needs pointer events)
 - Fix `pushAll()` missing method or replace with proper sync trigger after sign-in
