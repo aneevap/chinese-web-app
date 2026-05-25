@@ -283,11 +283,13 @@ body {
 }
 
 .customer-slot {
-  border: 3px solid #2D2D2D;
-  background: #FFF8E7;
-  border-radius: 28px;
-  padding: 8px 6px 10px;
-  min-height: 150px;
+  /* Frameless — customer sits on a wooden stool, no container box */
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  min-height: 130px;
   width: clamp(90px, 27vw, 150px);
   max-width: 150px;
   flex-shrink: 0;
@@ -297,7 +299,6 @@ body {
   position: relative;
   transition: all 0.12s ease;
   cursor: pointer;
-  box-shadow: 3px 3px 0px 0px #2D2D2D;
   overflow: visible;
 }
 
@@ -417,38 +418,52 @@ body {
 }
 
 .customer-slot.empty {
-  border: 3px dashed #A0896C;
-  background: rgba(245, 237, 224, 0.4);
+  background: transparent;
+  border: none;
+  box-shadow: none;
   justify-content: center;
   opacity: 1;
-  box-shadow: none;
-  min-height: 150px;
+  min-height: 130px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Empty slot — cute circular avatar placeholder */
-.empty-avatar-ring {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  border: 3px dashed #A0896C;
-  background: rgba(255, 248, 231, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: emptyPulse 2s ease-in-out infinite;
+/* ── Stool — wooden seat at each customer position */
+.stool {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  margin-left: -22px;
+  width: 44px;
+  height: 8px;
+  background: linear-gradient(180deg, #A0896C, #8B7355);
+  border-radius: 4px 4px 2px 2px;
+  box-shadow: 0 2px 0 0 #5D4E37;
 }
 
-.empty-avatar-icon {
-  font-size: 28px;
-  opacity: 0.6;
+/* Stool legs */
+.stool::before,
+.stool::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  width: 4px;
+  height: 14px;
+  background: #5D4E37;
+  border-radius: 0 0 2px 2px;
+}
+.stool::before { left: 7px; }
+.stool::after { right: 7px; }
+
+/* Empty stool — subtle bob to show seat is waiting */
+.customer-slot.empty .stool {
+  animation: stoolBob 2s ease-in-out infinite;
 }
 
-@keyframes emptyPulse {
-  0%, 100% { transform: scale(1); opacity: 0.6; }
-  50% { transform: scale(1.08); opacity: 1; }
+@keyframes stoolBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
 }
 
 .customer-slot.drag-over {
@@ -513,16 +528,6 @@ body {
   color: #C84B3A;
   font-family: 'Fredoka', var(--font-main, 'Bai Jamjuree'), sans-serif;
   line-height: 1.2;
-}
-
-/* Chinese hanzi subtitle — smaller below */
-.bubble-hanzi {
-  font-size: clamp(11px, 3vw, 14px);
-  font-weight: 700;
-  color: #6B5544;
-  font-family: var(--font-hanzi, 'ZCOOL KuaiLe', sans-serif);
-  line-height: 1.2;
-  opacity: 0.85;
 }
 
 /* Comic-style jagged tail pointing down toward customer avatar */
@@ -746,9 +751,29 @@ body {
   height: 100%;
   position: relative;
   z-index: 2;
-  /* Note: belt scroll is driven by JS (position:relative + left) instead of
-     CSS transform animation. This avoids iOS Safari composited-layer hit-testing
-     bugs where getBoundingClientRect returns stale coordinates on animated elements. */
+  /* Belt scroll via CSS @keyframes + transform (GPU-composited, no lag) */
+  animation: beltScrollLeft 35s linear infinite;
+  will-change: transform;
+}
+
+/* Mobile two-row layout: top row scrolls left, bottom row scrolls right */
+@media (max-width: 480px) {
+  .belt-track.top-row {
+    /* Inherits desktop animation: beltScrollLeft 35s linear infinite */
+  }
+  .belt-track.bottom-row {
+    animation: beltScrollRight 35s linear infinite;
+  }
+}
+
+@keyframes beltScrollLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes beltScrollRight {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
 }
 
 /* ── PLATE — Warm lacquer/ceramic ── */
@@ -804,18 +829,8 @@ body {
   .bubble-thai {
     font-size: clamp(14px, 3.8vw, 18px);
   }
-  .bubble-hanzi {
-    font-size: clamp(10px, 2.5vw, 12px);
-  }
   .customer-slot.empty {
     min-height: 120px;
-  }
-  .empty-avatar-ring {
-    width: 48px;
-    height: 48px;
-  }
-  .empty-avatar-icon {
-    font-size: 20px;
   }
   .door-row {
     gap: 8px;

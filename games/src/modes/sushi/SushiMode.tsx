@@ -163,10 +163,6 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
   const accumulatedTimeRef = useRef<number>(0);
   // Ref to track whether the current game session has been saved to Hall of Fame
   const sessionSavedRef = useRef(false);
-  // Belt track refs for JS-driven scroll (position:relative + left instead of CSS transform)
-  const beltTrackRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const beltPositions = useRef<number[]>([]);
-  const beltAnimRef = useRef<number>(0);
 
   // 🎊 Spawn confetti
   const spawnConfetti = useCallback((centerX: number, centerY: number) => {
@@ -541,47 +537,12 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
     }
   }, [activeWords]);
 
-  // 🏃 Belt auto-scroll via position:relative + left (NOT CSS transform)
-  // Uses a JS requestAnimationFrame loop to move belt tracks. Since `left`
-  // is a layout property (not composited), iOS Safari has correct hit-testing
-  // and getBoundingClientRect() returns accurate positions.
-  useEffect(() => {
-    if (!gameStarted || ended || showStartScreen || countdown > 0) return;
-    if (beltItems.length === 0) return;
-
-    const SPEED = 0.4; // px per frame (~24px/s at 60fps)
-    const tracks = beltTrackRefs.current;
-    const positions = beltPositions.current;
-
-    // Initialize/reset positions for each track
-    for (let i = 0; i < tracks.length; i++) {
-      const el = tracks[i];
-      positions[i] = 0;
-      if (el) el.style.left = '0px';
-    }
-
-    const animate = () => {
-      for (let i = 0; i < tracks.length; i++) {
-        const el = tracks[i];
-        if (!el) continue;
-        const halfW = el.scrollWidth / 2;
-        if (halfW <= 0) continue; // not ready yet
-        // Top track (i=0) scrolls left, bottom track (i=1) scrolls right
-        if (i === 0) {
-          positions[i] -= SPEED;
-          if (positions[i] <= -halfW) positions[i] = 0;
-        } else {
-          positions[i] += SPEED;
-          if (positions[i] >= 0) positions[i] = -halfW;
-        }
-        el.style.left = positions[i] + 'px';
-      }
-      beltAnimRef.current = requestAnimationFrame(animate);
-    };
-
-    beltAnimRef.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(beltAnimRef.current);
-  }, [gameStarted, ended, showStartScreen, countdown, beltItems]);
+  // 🏃 Belt auto-scroll via CSS @keyframes + transform (GPU-composited, no layout thrash)
+  // Belt track animation is handled entirely by CSS `transform: translateX()` with
+  // @keyframes beltScrollLeft / beltScrollRight. Items are duplicated in the track
+  // so the seamless loop works (at 50%, the visual is identical to the start).
+  // This avoids the lag from the previous JS-driven `position: relative + left` approach
+  // which triggered layout recalculations every frame.
 
   // 🎊 Confetti animation loop
   useEffect(() => {
@@ -975,9 +936,7 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
             const customer = customers.find(c => c.slotIndex === index);
             if (!customer) return (
               <div key={index} className="customer-slot empty" data-slot={index}>
-                <div className="empty-avatar-ring">
-                  <div className="empty-avatar-icon">❓</div>
-                </div>
+                <div className="stool" />
               </div>
             );
             const isCorrectEffect = showCorrectEffect && correctCustomerId === customer.id;
@@ -995,12 +954,12 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
                 onAnimationEnd={() => handleAnimEnd(customer.id)}
               >
 
-                {/* 🗨️ Comic speech balloon — Thai word big, hanzi subtitle below */}
+                {/* 🗨️ Comic speech balloon — Thai word only, no giving away the answer */}
                 <div className="bubble">
                   <span className="bubble-thai">{customer.target.meaningTh}</span>
-                  <span className="bubble-hanzi">{customer.target.hanzi}</span>
                 </div>
                 <div className="avatar">{['🐱', '🐻', '🥷', '🐼', '🦊'][index % 5]}</div>
+                <div className="stool" />
                 {isCorrectEffect && <div className="correct-check">✓</div>}
               </div>
             );
@@ -1048,7 +1007,6 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
           <div
             key={rowIndex}
             className={`belt-track${isMobile ? (rowIndex === 0 ? ' top-row' : ' bottom-row') : ''}`}
-            ref={(el: HTMLDivElement | null) => { beltTrackRefs.current[rowIndex] = el; }}
           >
             {[...row, ...row].map((word, index) => (
               <div
