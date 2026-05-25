@@ -1007,36 +1007,35 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
           })}
         </div>
 
-      </div>
-
-      {/* 📦 DROP ZONE - Middle (Selected Plate) */}
-      <div className={`drop-zone ${selectedWord ? 'has-selection' : ''}`}>
-        {selectedWord ? (
-          <div className="selected-plate-wrapper">
-            <div
-              className="plate selected-plate"
-              style={{ borderColor: categoryColorMap[selectedWord.category] || undefined }}
-            >
-              <span className="plate-flag">
-                <span className="flag-hanzi">{selectedWord.hanzi}</span>
-                <span className="flag-pinyin">{selectedWord.pinyin}</span>
-              </span>
-              <img className="plate-emoji" src={getSushiEmoji(selectedWord.id)} alt="sushi" />
+        {/* 📦 DROP ZONE - Middle (Selected Plate) - floats at the bottom edge */}
+        <div className={`drop-zone ${selectedWord ? 'has-selection' : ''}`}>
+          {selectedWord ? (
+            <div className="selected-plate-wrapper">
+              <div
+                className="plate selected-plate"
+                style={{ borderColor: categoryColorMap[selectedWord.category] || undefined }}
+              >
+                <span className="plate-flag">
+                  <span className="flag-hanzi">{selectedWord.hanzi}</span>
+                  <span className="flag-pinyin">{selectedWord.pinyin}</span>
+                </span>
+                <img className="plate-emoji" src={getSushiEmoji(selectedWord.id)} alt="sushi" />
+              </div>
+              <button
+                className="cancel-selection"
+                onClick={() => setSelectedWordId(null)}
+                title="Cancel selection"
+              >
+                ✕
+              </button>
             </div>
-            <button
-              className="cancel-selection"
-              onClick={() => setSelectedWordId(null)}
-              title="Cancel selection"
-            >
-              ✕
-            </button>
-          </div>
-        ) : (
-          <div className="drop-zone-empty">
-            <span className="drop-zone-icon">👇</span>
-            <span>Tap a plate to pick it up, then tap or drag it to a customer</span>
-          </div>
-        )}
+          ) : (
+            <div className="drop-zone-empty">
+              <span className="drop-zone-icon">👇</span>
+              <span>Tap a plate to pick it up, then tap or drag it to a customer</span>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* 🍣 SUSHI CONVEYOR BELT - Bottom */}
