@@ -95,8 +95,7 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
   const [beltItems, setBeltItems] = useState<VocabItem[]>([]);
   const [confetti, setConfetti] = useState<ConfettiParticle[]>([]);
   const [coins, setCoins] = useState<CoinAnim[]>([]);
-  const [dragOverCustomer, setDragOverCustomer] = useState<string | null>(null);
-  const [isDragging, setIsDragging] = useState(false);
+  // Drag state is stored in native dataTransfer (no React state during drag to avoid re-render freeze)
   const [gameStarted, setGameStarted] = useState(false);
   const [firstSpawned, setFirstSpawned] = useState(false);
   const [showCorrectEffect, setShowCorrectEffect] = useState(false);
@@ -614,8 +613,9 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
     return () => clearTimeout(timer);
   }, [scorePopup]);
 
-  function resolveAttempt(customerId: string) {
-    if (!selectedWord || state.secondsLeft <= 0 || showStartScreen || countdown > 0) return;
+  function resolveAttempt(customerId: string, wordOverride?: VocabItem) {
+    const word = wordOverride || selectedWord;
+    if (!word || state.secondsLeft <= 0 || showStartScreen || countdown > 0) return;
     
     const customer = customers.find(c => c.id === customerId);
     if (!customer) return;
@@ -623,7 +623,7 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
     if (customer.animPhase === 'exiting' || customer.animPhase === 'exiting-wrong') return;
     
     const attempts = customer.attempts + 1;
-    const correct = selectedWord.id === customer.target.id;
+    const correct = word.id === customer.target.id;
 
     if (correct) {
       dispatch({ type: 'CORRECT', attempts });
@@ -721,35 +721,35 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
     sessionSavedRef.current = false;
   };
 
-  // 🖱️ Drag & Drop handlers
+  // 🖱️ Drag & Drop handlers — NO React state updates during drag to avoid corrupting the drag ghost
   const handleDragStart = (e: React.DragEvent, wordId: string) => {
     if (showStartScreen || countdown > 0 || ended) return;
+    // Word ID travels via native dataTransfer — no state updates here!
     e.dataTransfer.setData('text/plain', wordId);
     e.dataTransfer.effectAllowed = 'move';
-    setIsDragging(true);
-    setSelectedWordId(wordId);
   };
 
   const handleDragEnd = () => {
-    setIsDragging(false);
-    setDragOverCustomer(null);
+    // No state to clean up — all state is managed through dataTransfer
   };
 
-  const handleDragOver = (e: React.DragEvent, customerId: string) => {
+  const handleDragOver = (e: React.DragEvent, _customerId: string) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
-    setDragOverCustomer(customerId);
   };
 
   const handleDragLeave = () => {
-    setDragOverCustomer(null);
+    // No state to clean up
   };
 
   const handleDrop = (e: React.DragEvent, customerId: string) => {
     e.preventDefault();
-    setIsDragging(false);
-    setDragOverCustomer(null);
-    resolveAttempt(customerId);
+    // Read word ID from native dataTransfer (avoids depending on React state during drag)
+    const wordId = e.dataTransfer.getData('text/plain');
+    const word = words.find(w => w.id === wordId);
+    if (word) {
+      resolveAttempt(customerId, word);
+    }
   };
 
   // Get the animation class for a customer based on their phase
@@ -949,7 +949,13 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
           {Array.from({ length: MAX_CUSTOMERS }).map((_, index) => {
             const customer = customers.find(c => c.slotIndex === index);
             if (!customer) return (
-              <div key={index} className="customer-slot empty" data-slot={index}>
+              <div
+                key={index}
+                className="customer-slot empty"
+                data-slot={index}
+                onDragOver={(e) => { e.preventDefault(); }}
+                onDrop={(e) => e.preventDefault()}
+              >
                 <div className="stool" />
               </div>
             );
@@ -960,7 +966,7 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
                 key={customer.id}
                 id={`customer-${customer.id}`}
                 data-slot={customer.slotIndex}
-                className={`customer-slot ${animClass} ${dragOverCustomer === customer.id ? 'drag-over' : ''} ${isCorrectEffect ? 'correct-flash' : ''}`}
+                className={`customer-slot ${animClass} ${isCorrectEffect ? 'correct-flash' : ''}`}
                 onPointerUp={() => { if (selectedWordId) resolveAttempt(customer.id); }}
                 onDragOver={(e) => handleDragOver(e, customer.id)}
                 onDragLeave={handleDragLeave}
@@ -1026,7 +1032,7 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
               <div
                 key={`${word.id}-${rowIndex}-${index}`}
                 data-word-id={word.id}
-                className={`plate ${selectedWordId === word.id ? 'active hidden' : ''} ${isDragging ? 'belt-dragging' : ''}`}
+                className={`plate ${selectedWordId === word.id ? 'active hidden' : ''}`}
                 style={{ borderColor: categoryColorMap[word.category] || undefined }}
                 onClick={(e) => {
                   if (!showStartScreen && countdown === 0 && !ended) {
