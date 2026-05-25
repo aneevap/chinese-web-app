@@ -959,7 +959,7 @@
 
     function renderGlobalLeaderboard(gameId, maxRank) {
       if (!window.__GLOBAL_HOF || !window.__GLOBAL_HOF.length) {
-        return '<div class="hall-empty">🌍 No global rankings yet<br><span style="font-size:0.8rem;color:#9CA3AF;">Play a game and sign in to appear here!</span></div>';
+        return '<div class="hall-empty">🌍 No global rankings yet<br><span style="font-size:0.8rem;color:#9CA3AF;">Play a game and your score will appear here for everyone to see!</span></div>';
       }
 
       var filtered = window.__GLOBAL_HOF.filter(function(e) { return e.gameId === gameId; });
