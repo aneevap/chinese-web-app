@@ -45,7 +45,7 @@
 /* ── GAME CARDS — 3-column grid ── */
 .games-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
   margin-bottom: 24px;
   padding: 0 8px;
@@ -113,6 +113,7 @@
   font-size: 2.2rem;
   line-height: 1;
   filter: drop-shadow(2px 2px 0px rgba(17, 24, 39, 0.15));
+  max-width: 100%;
 }
 
 .game-card-title {
@@ -120,6 +121,9 @@
   font-weight: 800;
   color: #111827;
   letter-spacing: -0.02em;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
 }
 
 .game-card.disabled {
@@ -141,6 +145,7 @@
   align-items: center;
   gap: 4px;
   font-weight: 700;
+  max-width: 100%;
 }
 .game-card-highscore .score-value {
   font-weight: 800;
@@ -161,6 +166,8 @@
   transition: all 0.12s ease;
   box-shadow: 2px 2px 0px 0px #111827;
   font-family: inherit;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 .game-card-play:hover {
   transform: translateY(-2px);
@@ -577,21 +584,28 @@
 
 
 /* ── RESPONSIVE ── */
-@media (max-width: 400px) {
+@media (max-width: 480px) {
   .games-grid {
-    gap: 8px;
+    gap: 6px;
     padding: 0 4px;
   }
   .game-card {
-    padding: 12px 6px 10px;
-    border-width: 2.5px;
-    border-radius: 14px;
-    box-shadow: 3px 3px 0px 0px #111827;
+    padding: 10px 4px 8px;
+    border-width: 2px;
+    border-radius: 12px;
+    box-shadow: 2px 2px 0px 0px #111827;
+    gap: 3px;
   }
-  .game-card-icon { font-size: 1.8rem; }
-  .game-card-title { font-size: 0.72rem; }
-  .game-card-highscore { font-size: 0.6rem; padding-top: 4px; }
-  .game-card-play { font-size: 0.65rem; padding: 4px 10px; }
+  .game-card-icon { font-size: 1.6rem; }
+  .game-card-title {
+    font-size: 0.65rem;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+  .game-card-highscore { font-size: 0.55rem; padding-top: 3px; gap: 2px; }
+  .game-card-highscore .score-value { font-size: 0.65rem; }
+  .game-card-play { font-size: 0.6rem; padding: 3px 8px; border-width: 2px; }
   
   .hall { padding: 16px; box-shadow: 6px 6px 0px 0px #111827; }
   .hall-item { grid-template-columns: 36px 30px 1fr auto; gap: 8px; padding: 8px 10px; }
