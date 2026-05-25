@@ -230,8 +230,7 @@ body {
   margin-bottom: 10px;
   border-radius: 14px;
   padding: 12px 6px 8px;
-  /* 🏮 Sushi restaurant vibe — warm fabric/wood texture background */
-  background: url('/images/shop_bg.png') center center / cover no-repeat;
+  /* 🏮 Sushi restaurant vibe — warm wood tone fallback; image set via inline style */
   background-color: #C89D6E;
   box-shadow:
     inset 0 3px 6px rgba(0,0,0,0.15),

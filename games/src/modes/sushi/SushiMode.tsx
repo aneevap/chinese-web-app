@@ -98,7 +98,7 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
       hash = ((hash << 5) - hash) + wordId.charCodeAt(i);
       hash |= 0;
     }
-    return '/images/sushi/' + SUSHI_IMAGES[Math.abs(hash) % SUSHI_IMAGES.length];
+    return 'images/sushi/' + SUSHI_IMAGES[Math.abs(hash) % SUSHI_IMAGES.length];
   }
 
   const [beltItems, setBeltItems] = useState<VocabItem[]>([]);
@@ -948,7 +948,7 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
 
 
       {/* 👤 CUSTOMER AREA — Doors above, customers below */}
-      <div className="customer-area">
+      <div className="customer-area" style={{ backgroundImage: 'url(images/shop_bg.png)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
         {/* Door row — side by side */}
         <div className="door-row">
           <div className="door entrance">
