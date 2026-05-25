@@ -619,6 +619,8 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
     
     const customer = customers.find(c => c.id === customerId);
     if (!customer) return;
+    // Prevent double-processing if both onDrop and onPointerUp fire for the same gesture
+    if (customer.animPhase === 'exiting' || customer.animPhase === 'exiting-wrong') return;
     
     const attempts = customer.attempts + 1;
     const correct = selectedWord.id === customer.target.id;
@@ -1007,7 +1009,7 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
         ) : (
           <div className="drop-zone-empty">
             <span className="drop-zone-icon">👇</span>
-            <span>Click a sushi plate to pick it up</span>
+            <span>Tap or drag a sushi plate to pick it up, then tap a customer</span>
           </div>
         )}
       </div>
