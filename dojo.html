@@ -1147,6 +1147,21 @@
       window.addEventListener('xhz:dojo-hof-updated', function() {
         renderHallOfFame();
         renderGameCards();
+        // If on Global tab, retry after a delay to let Supabase catch up
+        if (CURRENT_HALL_TAB === 'global') {
+          setTimeout(function() {
+            if (CURRENT_HALL_TAB === 'global') {
+              renderGlobalHallOfFame();
+            }
+          }, 2000);
+        }
+      });
+
+      // Re-render Global tab when push to Supabase completes
+      window.addEventListener('xhz:dojo-hof-pushed', function() {
+        if (CURRENT_HALL_TAB === 'global') {
+          renderGlobalHallOfFame();
+        }
       });
     });
   </script>

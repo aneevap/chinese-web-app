@@ -511,7 +511,11 @@
           best_stage: entry.bestStage || 0,
           updated_at: entry.updatedAt
         }, { onConflict: 'session_id' });
-        if (error) console.warn('Supabase pushHallOfFameEntry:', error.message);
+        if (error) {
+          console.warn('Supabase pushHallOfFameEntry:', error.message);
+        } else {
+          window.dispatchEvent(new CustomEvent('xhz:dojo-hof-pushed'));
+        }
       } catch (e) {
         console.warn('Supabase pushHallOfFameEntry failed:', e.message);
       }
