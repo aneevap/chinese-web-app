@@ -1028,7 +1028,7 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
                 data-word-id={word.id}
                 className={`plate ${selectedWordId === word.id ? 'active hidden' : ''} ${isDragging ? 'belt-dragging' : ''}`}
                 style={{ borderColor: categoryColorMap[word.category] || undefined }}
-                onPointerDown={(e) => {
+                onClick={(e) => {
                   if (!showStartScreen && countdown === 0 && !ended) {
                     playClickSound();
                     // Use finger coordinates to find the closest plate via
