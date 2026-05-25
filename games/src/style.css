@@ -810,26 +810,19 @@ body {
   /* Category color ring via border-color set inline from categoryColorMap */
 }
 
-/* 🍣 Sushi emoji — large, centered on plate */
+/* 🍣 Sushi emoji — semi-transparent, hanzi layers on top */
 .plate-emoji {
   font-size: 32px;
   line-height: 1;
-  margin-top: -8px;
-  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.15));
+  opacity: 0.3;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.12));
   pointer-events: none;
 }
 
-/* 🏷️ Flag label — sits on the plate surface like a menu sticker, overlapping the sushi */
+/* 🏷️ Hanzi + pinyin — centered over the emoji, no background */
 .plate-flag {
   position: absolute;
-  bottom: 6px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 62px;
-  padding: 3px 4px 3px;
-  background: var(--cat-color, #C84B3A);
-  border: 2px solid #2D2D2D;
-  border-radius: 8px;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -838,24 +831,27 @@ body {
   z-index: 3;
   pointer-events: none;
   line-height: 1.1;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  /* No background, border, or padding — bare text layered over the emoji */
 }
 
 .flag-hanzi {
-  font-size: 15px;
+  font-size: clamp(24px, 5vw, 36px);
   font-weight: 800;
-  color: #FFF8E7;
+  color: #2D2D2D;
   font-family: var(--font-hanzi, 'ZCOOL KuaiLe', sans-serif);
   line-height: 1.1;
+  text-shadow: 0 0 4px rgba(255, 248, 231, 0.8), 0 0 10px rgba(255, 248, 231, 0.4);
 }
 
 .flag-pinyin {
   font-size: 10px;
   font-weight: 700;
-  color: #FCD34D;
+  color: #6B5544;
   font-family: var(--font-pinyin, 'Nunito', sans-serif);
   line-height: 1.1;
   letter-spacing: 0.3px;
+  margin-top: 1px;
+  text-shadow: 0 0 3px rgba(255, 248, 231, 0.7);
 }
 
 @media (max-width: 480px) {
@@ -866,17 +862,14 @@ body {
   }
   .plate-emoji {
     font-size: 24px;
-    margin-top: -6px;
+    opacity: 0.3;
   }
   .plate-flag {
-    width: 46px;
-    bottom: 4px;
-    padding: 2px 3px 2px;
-    border-radius: 6px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    /* Centered, no background — same as desktop */
   }
   .flag-hanzi {
-    font-size: 12px;
+    font-size: clamp(18px, 4.5vw, 26px);
+    text-shadow: 0 0 3px rgba(255, 248, 231, 0.8);
   }
   .flag-pinyin {
     font-size: 8px;
@@ -995,7 +988,7 @@ body {
   font-weight: 800;
 }
 
-/* Category color on flag is set via inline --cat-color var on .plate-flag in TSX */
+/* Category color is set inline on .plate border-color from categoryColorMap in TSX */
 
 /* Spawn tip */
 .spawn-tip {

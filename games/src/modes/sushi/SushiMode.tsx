@@ -1054,7 +1054,7 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
                 onDragEnd={handleDragEnd}
               >
                 <span className="plate-emoji">{getSushiEmoji(word.id)}</span>
-                <span className="plate-flag" style={{ '--cat-color': categoryColorMap[word.category] || '#C84B3A' } as React.CSSProperties}>
+                <span className="plate-flag">
                   <span className="flag-hanzi">{word.hanzi}</span>
                   <span className="flag-pinyin">{word.pinyin}</span>
                 </span>
