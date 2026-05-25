@@ -736,8 +736,8 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
     const ghost = document.createElement('div');
     ghost.className = 'drag-ghost';
     ghost.innerHTML =
-      '<span class="ghost-emoji">' + getSushiEmoji(wordId) + '</span>' +
-      '<span class="ghost-hanzi">' + word.hanzi + '</span>';
+      '<span class="ghost-hanzi">' + word.hanzi + '</span>' +
+      '<span class="ghost-emoji">' + getSushiEmoji(wordId) + '</span>';
     ghost.style.cssText = 'left:' + (x - 48) + 'px;top:' + (y - 48) + 'px;';
     document.body.appendChild(ghost);
     dragGhostRef.current = ghost;
@@ -1006,11 +1006,11 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
               className="plate selected-plate"
               style={{ borderColor: categoryColorMap[selectedWord.category] || undefined }}
             >
-              <span className="plate-emoji">{getSushiEmoji(selectedWord.id)}</span>
               <span className="plate-flag">
                 <span className="flag-hanzi">{selectedWord.hanzi}</span>
                 <span className="flag-pinyin">{selectedWord.pinyin}</span>
               </span>
+              <span className="plate-emoji">{getSushiEmoji(selectedWord.id)}</span>
             </div>
             <button
               className="cancel-selection"
@@ -1084,11 +1084,11 @@ export function SushiMode({ words, courseThemes, language, onGameActiveChange }:
                   }
                 }}
               >
-                <span className="plate-emoji">{getSushiEmoji(word.id)}</span>
                 <span className="plate-flag">
                   <span className="flag-hanzi">{word.hanzi}</span>
                   <span className="flag-pinyin">{word.pinyin}</span>
                 </span>
+                <span className="plate-emoji">{getSushiEmoji(word.id)}</span>
               </div>
             ))}
           </div>
