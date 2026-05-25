@@ -21,9 +21,9 @@ html.scroll-locked .matching-mode {
 
 body {
   margin: 0;
-  font-family: var(--font-main, 'Bai Jamjuree', 'Segoe UI', system-ui, sans-serif);
-  background: var(--paper-cream, #F5EDD8);
-  color: var(--ink-medium, #4A3828);
+  font-family: 'Fredoka', var(--font-main, 'Bai Jamjuree', 'Segoe UI', system-ui, sans-serif);
+  background: #F5EDE0;
+  color: #2D2D2D;
   overflow-x: hidden;
 }
 
@@ -64,24 +64,32 @@ body {
 .sushi-mode {
   position: relative;
   min-height: 100dvh;
-  background: #FAF8F5;
+  background: #F0E6D3;
   border-radius: 0;
   padding: 12px;
   overflow-x: hidden;
 }
 
-/* Diagonal stripe pattern */
+/* Dojo wood plank floor pattern */
 .sushi-mode::before {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(30, 64, 175, 0.02) 0px,
-    rgba(30, 64, 175, 0.02) 20px,
-    transparent 20px,
-    transparent 40px
-  );
+  background-image: 
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 100px,
+      rgba(139, 115, 85, 0.06) 100px,
+      rgba(139, 115, 85, 0.06) 101px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 30px,
+      rgba(139, 115, 85, 0.03) 30px,
+      rgba(139, 115, 85, 0.03) 31px
+    );
   pointer-events: none;
   z-index: 0;
 }
@@ -164,40 +172,40 @@ body {
 }
 
 .hud-item {
-  background: #FCD34D;
-  border: 3px solid #111827;
+  background: #C84B3A;
+  border: 3px solid #2D2D2D;
   border-radius: 12px;
   padding: 8px 4px;
   text-align: center;
-  color: #111827;
+  color: #FFF8E7;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  box-shadow: 3px 3px 0px 0px #111827;
+  box-shadow: 3px 3px 0px 0px #2D2D2D;
   transition: all 0.1s ease;
   flex: 1;
   min-width: 0;
 }
 
 .hud-item {
-  background: #FCD34D;
-  border: 3px solid #111827;
+  background: #C84B3A;
+  border: 3px solid #2D2D2D;
   border-radius: 12px;
   padding: 8px 4px;
   text-align: center;
-  color: #111827;
+  color: #FFF8E7;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  box-shadow: 3px 3px 0px 0px #111827;
+  box-shadow: 3px 3px 0px 0px #2D2D2D;
   transition: all 0.1s ease;
 }
 
 .hud-item:active {
   transform: translateY(1px);
-  box-shadow: 1px 1px 0px 0px #111827;
+  box-shadow: 1px 1px 0px 0px #2D2D2D;
 }
 
 .hud-icon {
@@ -207,7 +215,9 @@ body {
 .hud-value {
   font-size: 14px;
   font-weight: 800;
-  color: #1E40AF;
+  color: #FCD34D;
+  font-family: 'Bangers', 'Fredoka', var(--font-main, 'Bai Jamjuree'), sans-serif;
+  letter-spacing: 0.5px;
 }
 
 /* ── CUSTOMER AREA — doors above, customers below ── */
@@ -230,34 +240,34 @@ body {
 .door {
   width: 52px;
   height: 40px;
-  background: linear-gradient(180deg, #6B5544, #4A3828);
-  border: 3px solid #111827;
+  background: linear-gradient(180deg, #8B7355, #5D4E37);
+  border: 3px solid #2D2D2D;
   border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 3px 3px 0px 0px #111827;
+  box-shadow: 3px 3px 0px 0px #2D2D2D;
 }
 
 .door-label {
   font-size: 14px;
   font-weight: 800;
-  color: #FAF8F5;
+  color: #FFF8E7;
   letter-spacing: 2px;
-  text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 
-/* Noren curtain below customers */
+/* Noren curtain — ninja headband style */
 .noren {
   margin-top: 10px;
   height: 6px;
   background: repeating-linear-gradient(
     90deg,
-    #F43F5E 0px,
-    #F43F5E 16px,
-    #FAF8F5 16px,
-    #FAF8F5 20px
+    #C84B3A 0px,
+    #C84B3A 16px,
+    #F5EDE0 16px,
+    #F5EDE0 20px
   );
   border-radius: 2px;
   position: relative;
@@ -273,8 +283,8 @@ body {
 }
 
 .customer-slot {
-  border: 3px solid #111827;
-  background: #FAF8F5;
+  border: 3px solid #2D2D2D;
+  background: #FFF8E7;
   border-radius: 14px;
   padding: 8px 6px;
   min-height: 120px;
@@ -287,7 +297,7 @@ body {
   position: relative;
   transition: all 0.12s ease;
   cursor: pointer;
-  box-shadow: 3px 3px 0px 0px #111827;
+  box-shadow: 3px 3px 0px 0px #2D2D2D;
 }
 
 /* ── Walking animations — per-slot CSS custom properties ── */
@@ -406,29 +416,28 @@ body {
 }
 
 .customer-slot.empty {
-  border-color: #9CA3AF;
-  background: #FAF8F5;
+  border-color: #8B7355;
+  background: #F5EDE0;
   justify-content: center;
   opacity: 0.5;
-  box-shadow: 2px 2px 0px 0px #9CA3AF;
+  box-shadow: 2px 2px 0px 0px #8B7355;
 }
 
 .customer-slot.drag-over {
-  border-color: #1E40AF;
-  background: #DBEAFE;
-  box-shadow: 4px 4px 0px 0px #111827;
+  border-color: #C84B3A;
+  background: #FCE4D6;
+  box-shadow: 4px 4px 0px 0px #2D2D2D;
   transform: scale(1.05);
 }
 
 .customer-slot.correct-flash {
   /* Animation handled by .exiting class — this class only provides the flash effect */
-}
-
-@keyframes correctFlash {
-  0% { background: #FAF8F5; }
+}@keyframes correctFlash {
+  0% { background: #FFF8E7; }
   30% { background: #6F8A68; }
   60% { background: #FCD34D; }
-  100% { background: #FAF8F5; }
+  100% { background: #FFF8E7;
+}
 }
 
 .avatar { font-size: clamp(22px, 5vw, 28px); margin-bottom: 2px; }
@@ -444,20 +453,20 @@ body {
 /* 🗨️ Speech Balloon — pointing at customer */
 .bubble {
   margin-top: 2px;
-  background: #ffffff;
-  border: 3px solid #111827;
+  background: #FFF8E7;
+  border: 3px solid #2D2D2D;
   border-radius: 12px;
   padding: 6px 8px;
   min-height: 36px;
   width: 100%;
   text-align: center;
-  color: #111827;
+  color: #2D2D2D;
   font-size: clamp(12px, 3.2vw, 16px);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  box-shadow: 2px 2px 0px 0px #111827;
+  box-shadow: 2px 2px 0px 0px #2D2D2D;
   line-height: 1.3;
   font-weight: 600;
 }
@@ -487,7 +496,7 @@ body {
   height: 0;
   border-left: 9px solid transparent;
   border-right: 9px solid transparent;
-  border-top: 9px solid #111827;
+  border-top: 9px solid #2D2D2D;
   z-index: -1;
 }
 
@@ -532,7 +541,7 @@ body {
   border-style: solid;
   border-width: 3px;
   background: rgba(252, 211, 77, 0.06);
-  box-shadow: 3px 3px 0px 0px #111827;
+  box-shadow: 3px 3px 0px 0px #2D2D2D;
 }
 
 .drop-zone-empty {
@@ -569,7 +578,7 @@ body {
 
 .cancel-selection {
   background: #F43F5E;
-  border: 3px solid #111827;
+  border: 3px solid #2D2D2D;
   color: white;
   border-radius: 50%;
   width: 28px;
@@ -581,35 +590,35 @@ body {
   justify-content: center;
   transition: all 0.12s ease;
   font-weight: 700;
-  box-shadow: 2px 2px 0px 0px #111827;
+  box-shadow: 2px 2px 0px 0px #2D2D2D;
 }
 
 .cancel-selection:hover {
   background: #e0314e;
   transform: translateY(-2px);
-  box-shadow: 2px 4px 0px 0px #111827;
+  box-shadow: 2px 4px 0px 0px #2D2D2D;
 }
 
 .cancel-selection:active {
   transform: translateY(1px);
-  box-shadow: 0px 0px 0px 0px #111827;
+  box-shadow: 0px 0px 0px 0px #2D2D2D;
 }
 
-/* ── CONVEYOR BELT — Wood grain theme ── */
+/* ── CONVEYOR BELT — Bamboo water canal ── */
 .belt {
   position: relative;
   height: 100px;
   overflow: hidden;
-  background: #FCD34D;
+  background: linear-gradient(180deg, #8B7355, #A0896C 30%, #7A6548 60%, #8B7355);
   border-radius: 14px;
-  border: 3px solid #111827;
+  border: 3px solid #2D2D2D;
   margin-bottom: 8px;
   position: relative;
   z-index: 1;
-  box-shadow: 3px 3px 0px 0px #111827;
+  box-shadow: 3px 3px 0px 0px #2D2D2D;
 }
 
-/* Belt stripe pattern */
+/* Bamboo slat pattern */
 .belt::before {
   content: '';
   position: absolute;
@@ -617,24 +626,52 @@ body {
   background: repeating-linear-gradient(
     90deg,
     transparent 0px,
-    transparent 30px,
-    rgba(30, 64, 175, 0.06) 30px,
-    rgba(30, 64, 175, 0.06) 31px
+    transparent 12px,
+    rgba(0,0,0,0.08) 12px,
+    rgba(0,0,0,0.08) 13px
   );
   z-index: 1;
   pointer-events: none;
 }
 
-/* Exit fade */
+/* Water reflection shimmer */
 .belt::after {
   content: '';
   position: absolute;
-  top: 0; bottom: 0;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    135deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.04) 40%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.06) 60%,
+    transparent 70%
+  );
+  animation: beltShimmer 6s ease-in-out infinite;
+}
+
+@keyframes beltShimmer {
+  0%, 100% { transform: translateX(-30%) translateY(-10%); }
+  50% { transform: translateX(10%) translateY(20%); }
+}
+
+/* Exit fade — override the shimmer position */
+/* Belt-fade-right uses the original ::after */
+.belt::after {
+  background: none;
+}
+
+.belt-fade-right {
+  position: absolute;
+  top: 0; bottom: 0; right: 0;
   width: 60px;
   z-index: 10;
   pointer-events: none;
+  background: linear-gradient(-90deg, #F0E6D3, transparent);
 }
-.belt::after { right: 0; background: linear-gradient(-90deg, #FAF8F5, transparent); }
 
 /* Left fade (entrance side) */
 .belt-fade-left {
@@ -643,7 +680,7 @@ body {
   width: 60px;
   z-index: 10;
   pointer-events: none;
-  background: linear-gradient(90deg, #FAF8F5, transparent);
+  background: linear-gradient(90deg, #F0E6D3, transparent);
 }
 
 .belt-track {
@@ -660,15 +697,15 @@ body {
      bugs where getBoundingClientRect returns stale coordinates on animated elements. */
 }
 
-/* ── PLATE — Japanese style ── */
+/* ── PLATE — Warm lacquer/ceramic ── */
 .plate {
   flex-shrink: 0;
   width: 80px;
   min-height: 74px;
   border-radius: 50%;
-  background: #ffffff;
-  border: 3px solid #111827;
-  box-shadow: 3px 3px 0px 0px #111827;
+  background: linear-gradient(180deg, #FFF8E7, #F5EDE0);
+  border: 3px solid #2D2D2D;
+  box-shadow: 3px 3px 0px 0px #2D2D2D;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -677,7 +714,7 @@ body {
   cursor: pointer;
   transition: transform 0.12s, opacity 0.2s, box-shadow 0.12s;
   padding: 3px;
-  font-family: var(--font-main, 'Bai Jamjuree', sans-serif);
+  font-family: 'Fredoka', var(--font-main, 'Bai Jamjuree', sans-serif);
 }
 
 @media (max-width: 480px) {
@@ -745,7 +782,7 @@ body {
     padding: 4px 3px;
     height: calc(50% - 1px);
   }
-  .belt::after,
+  .belt-fade-right,
   .belt-fade-left {
     display: none;
   }
@@ -754,24 +791,24 @@ body {
   }
 }
 
-/* Red accent ring on plates */
+/* Warm accent ring on plates */
 .plate::before {
   content: '';
   position: absolute;
-  inset: 3px;
+  inset: 4px;
   border-radius: 50%;
-  border: 1.5px solid #F43F5E;
+  border: 1.5px solid transparent;
   pointer-events: none;
 }
 
 .plate:hover {
   transform: translateY(-3px);
-  box-shadow: 3px 6px 0px 0px #111827;
+  box-shadow: 3px 6px 0px 0px #2D2D2D;
 }
 
 .plate:active {
   transform: translateY(1px);
-  box-shadow: 1px 1px 0px 0px #111827;
+  box-shadow: 1px 1px 0px 0px #2D2D2D;
 }
 
 .plate.hidden {
@@ -780,9 +817,9 @@ body {
 }
 
 .plate.active {
-  border: 3px solid #F43F5E;
+  border: 3px solid #C84B3A;
   transform: translateY(-2px);
-  box-shadow: 2px 2px 0px 0px #111827;
+  box-shadow: 2px 2px 0px 0px #2D2D2D;
 }
 
 .plate.belt-dragging {
@@ -793,7 +830,7 @@ body {
   display: block;
   font-size: clamp(22px, 5.5vw, 34px);
   font-weight: bold;
-  color: #111827;
+  color: #2D2D2D;
   font-family: var(--font-hanzi, 'ZCOOL KuaiLe', sans-serif);
   line-height: 1.1;
 }
@@ -810,17 +847,17 @@ body {
 /* Spawn tip */
 .spawn-tip {
   margin-top: 8px;
-  background: #FAF8F5;
+  background: #FFF8E7;
   border-radius: 10px;
-  border: 3px solid #111827;
+  border: 3px solid #2D2D2D;
   padding: 8px;
   text-align: center;
-  color: #111827;
+  color: #2D2D2D;
   font-size: 13px;
   font-weight: 800;
   position: relative;
   z-index: 1;
-  box-shadow: 2px 2px 0px 0px #111827;
+  box-shadow: 2px 2px 0px 0px #2D2D2D;
 }
 
 /* ── Back button on start screen */
@@ -829,35 +866,35 @@ body {
   top: 14px;
   left: 14px;
   z-index: 1001;
-  border: 3px solid #111827;
-  background: white;
-  color: #111827;
+  border: 3px solid #2D2D2D;
+  background: #FFF8E7;
+  color: #2D2D2D;
   border-radius: 10px;
   padding: 8px 14px;
   font-size: 13px;
   font-weight: 800;
   cursor: pointer;
   transition: all 0.12s ease;
-  box-shadow: 3px 3px 0px 0px #111827;
+  box-shadow: 3px 3px 0px 0px #2D2D2D;
   font-family: inherit;
 }
 
 .back-button:hover {
   transform: translateY(-2px);
-  box-shadow: 3px 5px 0px 0px #111827;
-  background: #FAF8F5;
+  box-shadow: 3px 5px 0px 0px #2D2D2D;
+  background: #F5EDE0;
 }
 
 .back-button:active {
   transform: translateY(1px);
-  box-shadow: 1px 1px 0px 0px #111827;
+  box-shadow: 1px 1px 0px 0px #2D2D2D;
 }
 
 /* ── Overlay ── */
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(250, 248, 245, 0.92);
+  background: rgba(240, 230, 211, 0.92);
   display: grid;
   place-items: center;
   z-index: 1000;
@@ -891,14 +928,14 @@ body {
   justify-content: space-between;
   padding: 10px 14px;
   border-radius: 12px;
-  border: 3px solid #111827;
-  background: white;
+  border: 3px solid #2D2D2D;
+  background: #FFF8E7;
   cursor: pointer;
   font-weight: 600;
   font-size: 13px;
-  color: #111827;
+  color: #2D2D2D;
   transition: all 0.12s ease;
-  box-shadow: 3px 3px 0px 0px #111827;
+  box-shadow: 3px 3px 0px 0px #2D2D2D;
   font-family: inherit;
   text-align: left;
   width: 100%;
@@ -906,27 +943,28 @@ body {
 
 .course-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 3px 5px 0px 0px #111827;
-  background: #FAF8F5;
+  box-shadow: 3px 5px 0px 0px #2D2D2D;
+  background: #F5EDE0;
 }
 
 .course-btn:active {
   transform: translateY(1px);
-  box-shadow: 1px 1px 0px 0px #111827;
+  box-shadow: 1px 1px 0px 0px #2D2D2D;
 }
 
 .course-btn.active {
-  background: #FCD34D;
+  background: #C84B3A;
+  color: #FFF8E7;
   font-weight: 800;
 }
 
 .course-btn .course-count {
   font-size: 11px;
-  color: #9CA3AF;
+  color: #A89580;
 }
 
 .course-btn.active .course-count {
-  color: #111827;
+  color: #FCD34D;
 }
 
 /* ── Theme Chips ── */
@@ -940,30 +978,31 @@ body {
 .theme-chip {
   padding: 5px 10px;
   border-radius: 999px;
-  border: 3px solid #111827;
-  background: white;
+  border: 3px solid #2D2D2D;
+  background: #FFF8E7;
   cursor: pointer;
   font-weight: 500;
   font-size: 11px;
-  color: #111827;
+  color: #2D2D2D;
   transition: all 0.12s ease;
-  box-shadow: 2px 2px 0px 0px #111827;
+  box-shadow: 2px 2px 0px 0px #2D2D2D;
   font-family: inherit;
   white-space: nowrap;
 }
 
 .theme-chip:hover {
   transform: translateY(-2px);
-  box-shadow: 2px 4px 0px 0px #111827;
+  box-shadow: 2px 4px 0px 0px #2D2D2D;
 }
 
 .theme-chip:active {
   transform: translateY(1px);
-  box-shadow: 0px 0px 0px 0px #111827;
+  box-shadow: 0px 0px 0px 0px #2D2D2D;
 }
 
 .theme-chip.active {
-  background: #FCD34D;
+  background: #C84B3A;
+  color: #FFF8E7;
   font-weight: 700;
 }
 
@@ -999,7 +1038,7 @@ body {
 /* ── Leaderboard ── */
 .leaderboard-divider {
   margin-bottom: 12px;
-  border-top: 3px solid #111827;
+  border-top: 3px solid #2D2D2D;
   padding-top: 12px;
   width: 100%;
 }
@@ -1007,7 +1046,7 @@ body {
 .leaderboard-title {
   font-size: 12px;
   font-weight: 800;
-  color: #111827;
+  color: #2D2D2D;
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 8px;
@@ -1029,18 +1068,19 @@ body {
   padding: 6px 10px;
   border-radius: 10px;
   font-size: 12px;
-  border: 3px solid #111827;
-  background: white;
-  box-shadow: 2px 2px 0px 0px #111827;
+  border: 3px solid #2D2D2D;
+  background: #FFF8E7;
+  box-shadow: 2px 2px 0px 0px #2D2D2D;
 }
 
 .leaderboard-item.you {
-  background: #FCD34D;
+  background: #C84B3A;
+  color: #FFF8E7;
 }
 
 .leaderboard-rank {
   font-weight: 800;
-  color: #9CA3AF;
+  color: #A89580;
   text-align: center;
   font-size: 11px;
 }
@@ -1052,7 +1092,7 @@ body {
 
 .leaderboard-name {
   font-weight: 600;
-  color: #111827;
+  color: #2D2D2D;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1064,18 +1104,18 @@ body {
 
 .leaderboard-score {
   font-weight: 800;
-  color: #F43F5E;
+  color: #C84B3A;
 }
 
-/* ── Start Screen — Neo-Brutalism style ── */
+/* ── Start Screen — Ninja Dojo style ── */
 .start-screen {
   width: min(92vw, 360px);
   border-radius: 20px;
-  background: #FAF8F5;
+  background: #FFF8E7;
   padding: 32px 24px;
   text-align: center;
-  box-shadow: 8px 8px 0px 0px #111827;
-  border: 4px solid #111827;
+  box-shadow: 8px 8px 0px 0px #2D2D2D;
+  border: 4px solid #2D2D2D;
 }
 
 .start-sushi-icon {
@@ -1091,71 +1131,73 @@ body {
 
 .start-screen h2 {
   margin: 0 0 12px 0;
-  color: #1E40AF;
+  color: #C84B3A;
   font-size: 28px;
-  text-shadow: 3px 3px 0px rgba(30, 64, 175, 0.15);
-  font-family: var(--font-main, 'Bai Jamjuree', sans-serif);
+  text-shadow: 3px 3px 0px rgba(200, 75, 58, 0.15);
+  font-family: 'Bangers', 'Fredoka', var(--font-main, 'Bai Jamjuree'), sans-serif;
   font-weight: 900;
-  letter-spacing: -0.5px;
+  letter-spacing: 1px;
 }
 
 .start-screen p {
   margin: 0 0 24px 0;
-  color: #111827;
+  color: #2D2D2D;
   font-size: 16px;
   line-height: 1.4;
   font-weight: 700;
+  font-family: 'Fredoka', var(--font-main, 'Bai Jamjuree'), sans-serif;
 }
 
 /* ── Start Screen — matching override ── */
 .start-screen.matching-start {
-  border: 4px solid #111827;
-  box-shadow: 8px 8px 0px 0px #111827;
-  background: #FAF8F5;
+  border: 4px solid #2D2D2D;
+  box-shadow: 8px 8px 0px 0px #2D2D2D;
+  background: #FFF8E7;
 }
 
 .start-button {
-  border: 3px solid #111827;
-  background: #1E40AF;
-  color: white;
+  border: 3px solid #2D2D2D;
+  background: #C84B3A;
+  color: #FFF8E7;
   border-radius: 12px;
   padding: 14px 32px;
   font-size: 18px;
   font-weight: 800;
   cursor: pointer;
   transition: all 0.12s ease;
-  box-shadow: 4px 4px 0px 0px #111827;
-  font-family: inherit;
+  box-shadow: 4px 4px 0px 0px #2D2D2D;
+  font-family: 'Bangers', 'Fredoka', var(--font-main, 'Bai Jamjuree'), sans-serif;
+  letter-spacing: 0.5px;
 }
 
 .start-button:hover {
   transform: translateY(-3px);
-  box-shadow: 4px 7px 0px 0px #111827;
+  box-shadow: 4px 7px 0px 0px #2D2D2D;
 }
 
 .start-button:active {
   transform: translateY(2px);
-  box-shadow: 1px 1px 0px 0px #111827;
+  box-shadow: 1px 1px 0px 0px #2D2D2D;
 }
 
 /* ── Countdown Screen ── */
 .countdown-screen {
   width: min(92vw, 360px);
   border-radius: 20px;
-  background: #FAF8F5;
+  background: #FFF8E7;
   padding: 32px 24px;
   text-align: center;
-  box-shadow: 8px 8px 0px 0px #111827;
-  border: 4px solid #111827;
+  box-shadow: 8px 8px 0px 0px #2D2D2D;
+  border: 4px solid #2D2D2D;
 }
 
 .countdown-number {
   font-size: 96px;
   font-weight: 900;
-  color: #F43F5E;
+  color: #C84B3A;
   margin: 20px 0;
   animation: pulse 1s infinite;
-  text-shadow: 4px 4px 0px rgba(244, 63, 94, 0.2);
+  text-shadow: 4px 4px 0px rgba(200, 75, 58, 0.2);
 }
 
 @keyframes pulse {
@@ -1166,7 +1208,7 @@ body {
 
 .countdown-screen p {
   margin: 0;
-  color: #111827;
+  color: #2D2D2D;
   font-size: 18px;
   font-weight: 800;
 }
@@ -1175,11 +1217,11 @@ body {
 .result-card {
   width: min(92vw, 360px);
   border-radius: 20px;
-  background: #FAF8F5;
+  background: #FFF8E7;
   padding: 24px;
   text-align: center;
-  box-shadow: 8px 8px 0px 0px #111827;
-  border: 4px solid #111827;
+  box-shadow: 8px 8px 0px 0px #2D2D2D;
+  border: 4px solid #2D2D2D;
 }
 
 /* Keep result card top visible on mobile (prevent it from being hidden behind browser chrome) */
@@ -1204,10 +1246,11 @@ body {
 
 .result-card h2 {
   margin: 0 0 16px 0;
-  color: #1E40AF;
+  color: #C84B3A;
   font-size: 24px;
-  font-family: var(--font-main, 'Bai Jamjuree', sans-serif);
+  font-family: 'Bangers', 'Fredoka', var(--font-main, 'Bai Jamjuree'), sans-serif;
   font-weight: 900;
+  letter-spacing: 1px;
 }
 
 .result-stats {
@@ -1218,20 +1261,20 @@ body {
 }
 
 .result-stat {
-  background: white;
+  background: #FFF8E7;
   border-radius: 12px;
   padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  border: 3px solid #111827;
-  box-shadow: 3px 3px 0px 0px #111827;
+  border: 3px solid #2D2D2D;
+  box-shadow: 3px 3px 0px 0px #2D2D2D;
 }
 
 .result-stat-icon { font-size: 20px; }
 .result-stat-label { font-size: 11px; color: #9CA3AF; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
-.result-stat-value { font-size: 20px; font-weight: 800; color: #1E40AF; }
+.result-stat-value { font-size: 20px; font-weight: 800; color: #C84B3A; }
 
 .result-buttons {
   display: flex;
@@ -1241,52 +1284,52 @@ body {
 }
 
 .play-again-button {
-  border: 3px solid #111827;
-  background: #F43F5E;
-  color: white;
+  border: 3px solid #2D2D2D;
+  background: #C84B3A;
+  color: #FFF8E7;
   border-radius: 12px;
   padding: 12px 28px;
   font-size: 16px;
   font-weight: 800;
   cursor: pointer;
   transition: all 0.12s ease;
-  box-shadow: 4px 4px 0px 0px #111827;
+  box-shadow: 4px 4px 0px 0px #2D2D2D;
   font-family: inherit;
 }
 
 .play-again-button:hover {
   transform: translateY(-3px);
-  box-shadow: 4px 7px 0px 0px #111827;
+  box-shadow: 4px 7px 0px 0px #2D2D2D;
 }
 
 .play-again-button:active {
   transform: translateY(2px);
-  box-shadow: 1px 1px 0px 0px #111827;
+  box-shadow: 1px 1px 0px 0px #2D2D2D;
 }
 
 .exit-button {
-  border: 3px solid #111827;
-  background: white;
-  color: #111827;
+  border: 3px solid #2D2D2D;
+  background: #FFF8E7;
+  color: #2D2D2D;
   border-radius: 12px;
   padding: 12px 28px;
   font-size: 16px;
   font-weight: 800;
   cursor: pointer;
   transition: all 0.12s ease;
-  box-shadow: 4px 4px 0px 0px #111827;
+  box-shadow: 4px 4px 0px 0px #2D2D2D;
   font-family: inherit;
 }
 
 .exit-button:hover {
   transform: translateY(-3px);
-  box-shadow: 4px 7px 0px 0px #111827;
-  background: #FAF8F5;
+  box-shadow: 4px 7px 0px 0px #2D2D2D;
+  background: #F5EDE0;
 }
 
 .exit-button:active {
   transform: translateY(2px);
-  box-shadow: 1px 1px 0px 0px #111827;
+  box-shadow: 1px 1px 0px 0px #2D2D2D;
 }
 
 /* =========================================================================
@@ -1349,7 +1392,7 @@ body {
 
 .matching-hud .hud-item:active {
   transform: translateY(1px);
-  box-shadow: 1px 1px 0px 0px #111827;
+  box-shadow: 1px 1px 0px 0px #2D2D2D;
 }
 
 .matching-hud .hud-icon {
@@ -1359,7 +1402,9 @@ body {
 .matching-hud .hud-value {
   font-size: 14px;
   font-weight: 800;
-  color: #1E40AF;
+  color: #FCD34D;
+  font-family: 'Bangers', 'Fredoka', var(--font-main, 'Bai Jamjuree'), sans-serif;
+  letter-spacing: 0.5px;
 }
 
 /* ── Grid Layout ── */
