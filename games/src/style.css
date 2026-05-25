@@ -276,6 +276,7 @@ body {
   justify-content: center;
   gap: 6px;
   position: relative;
+  top: 220px;
 }
 
 .customer-slot {
