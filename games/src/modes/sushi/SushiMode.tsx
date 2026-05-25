@@ -183,6 +183,8 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
   const accumulatedTimeRef = useRef<number>(0);
   // Ref to track whether the current game session has been saved to Hall of Fame
   const sessionSavedRef = useRef(false);
+  // Ref to track current spawn interval for the progress bar percentage
+  const spawnMaxRef = useRef(SPAWN_SECONDS);
   // Custom pointer-based drag (no HTML5 drag API)
   const dragStateRef = useRef<{
     wordId: string;
@@ -500,6 +502,7 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
     if (!gameStarted || ended || showStartScreen || countdown > 0 || !firstSpawned) return;
     
     const currentInterval = getSpawnInterval(state.stage);
+    spawnMaxRef.current = currentInterval;
     
     const timer = setInterval(() => {
       setSpawnTick(prev => {
@@ -514,6 +517,7 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
               return [...c, { id: rid(), target: card, attempts: 0, animPhase: 'entering', slotIndex: freeSlot }];
             });
           }
+          spawnMaxRef.current = currentInterval;
           return currentInterval;
         }
         return prev - 1;
@@ -1102,10 +1106,16 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
         ))}
       </div>
 
-      {/* Spawn timer */}
+      {/* ⏳ Spawn timer — green juice bar empties as time ticks down */}
       {gameStarted && !ended && firstSpawned && (
         <div className="spawn-tip">
-          Next customer in {spawnTick}s
+          <div className="spawn-tip-label">Next customer</div>
+          <div className="spawn-tip-bar">
+            <div
+              className="spawn-tip-fill"
+              style={{ width: `${(spawnTick / spawnMaxRef.current) * 100}%` }}
+            />
+          </div>
         </div>
       )}
 
