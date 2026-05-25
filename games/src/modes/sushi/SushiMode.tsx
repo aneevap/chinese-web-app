@@ -70,7 +70,7 @@ interface CoinAnim {
   value: number;
 }
 
-export function SushiMode({ words, courseThemes, language, onGameActiveChange }: Props) {
+export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
   const state = useGameState();
   const dispatch = useGameDispatch();
   const [selectedWordId, setSelectedWordId] = useState<string | null>(null);
