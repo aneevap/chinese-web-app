@@ -487,6 +487,97 @@
       }
     },
 
+    // ---------- HALL OF FAME ----------
+
+    pushHallOfFameEntry: async function (entry) {
+      if (!this.ready) return;
+      if (!entry || !entry.sessionId) return;
+      try {
+        var sb = window.__supabase;
+        var { error } = await sb.from('hall_of_fame').upsert({
+          session_id: entry.sessionId,
+          profile_id: entry.profileId,
+          game_id: entry.gameId,
+          nickname: entry.nickname,
+          avatar: entry.avatar || '\uD83D\uDC3C',
+          best_stars: entry.bestStars || 0,
+          best_score: entry.bestScore || 0,
+          best_stage: entry.bestStage || 0,
+          updated_at: entry.updatedAt
+        }, { onConflict: 'session_id' });
+        if (error) console.warn('Supabase pushHallOfFameEntry:', error.message);
+      } catch (e) {
+        console.warn('Supabase pushHallOfFameEntry failed:', e.message);
+      }
+    },
+
+    pullHallOfFameEntries: async function () {
+      if (!this.ready) return [];
+      try {
+        var sb = window.__supabase;
+        var { data, error } = await sb.from('hall_of_fame')
+          .select('*')
+          .order('best_score', { ascending: false })
+          .limit(100);
+        if (error) { console.warn('Supabase pullHallOfFameEntries:', error.message); return []; }
+        if (!data || !data.length) return [];
+
+        // Convert snake_case DB rows to camelCase HallOfFameEntry format
+        return data.map(function (row) {
+          return {
+            sessionId: row.session_id,
+            profileId: row.profile_id,
+            gameId: row.game_id,
+            nickname: row.nickname,
+            avatar: row.avatar || '\uD83D\uDC3C',
+            bestStars: row.best_stars || 0,
+            bestScore: row.best_score || 0,
+            bestStage: row.best_stage || 0,
+            updatedAt: row.updated_at
+          };
+        });
+      } catch (e) {
+        console.warn('Supabase pullHallOfFameEntries failed:', e.message);
+        return [];
+      }
+    },
+
+    pushAllHallOfFame: async function (profileId) {
+      if (!this.ready || !profileId) return;
+      try {
+        var entries = [];
+        try {
+          entries = JSON.parse(localStorage.getItem('xhz_dojo_hall_of_fame') || '[]');
+        } catch (_) { return; }
+
+        var profile = null;
+        if (window.XHZ) {
+          var allProfiles = window.XHZ.getAllProfiles();
+          for (var i = 0; i < allProfiles.length; i++) {
+            if (allProfiles[i].id === profileId) {
+              profile = allProfiles[i];
+              break;
+            }
+          }
+        }
+        if (!profile) return;
+
+        // Filter entries for this profile and push each one
+        var profileEntries = entries.filter(function (e) { return e.profileId === profileId; });
+        for (var j = 0; j < profileEntries.length; j++) {
+          var entry = profileEntries[j];
+          // Build sessionId if not present
+          if (!entry.sessionId) {
+            entry.sessionId = entry.profileId + '_' + entry.gameId + '_' + entry.updatedAt;
+          }
+          await this.pushHallOfFameEntry(entry);
+        }
+        console.log('\uD83D\uDCE5 Supabase sync: pushed ' + profileEntries.length + ' hall of fame entries for profile ' + profileId);
+      } catch (e) {
+        console.warn('Supabase pushAllHallOfFame failed:', e.message);
+      }
+    },
+
     // ---------- PUSH ALL ----------
 
     /**
@@ -527,6 +618,9 @@
         if (notebookData && notebookData.entries) {
           await this.pushNotebook(profileId, notebookData.entries);
         }
+
+        // Push hall of fame entries for this profile
+        await this.pushAllHallOfFame(profileId);
 
         console.log('📡 Supabase sync: pushAll complete for profile ' + profileId);
       } catch (e) {

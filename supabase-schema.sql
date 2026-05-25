@@ -54,6 +54,23 @@ CREATE TABLE IF NOT EXISTS public.items (
 );
 
 
+-- 5. HALL OF FAME (game leaderboards) --------------------------
+-- Each game session creates a new row. session_id is a hash of
+-- profileId + gameId + updatedAt to avoid duplicate pushes.
+CREATE TABLE IF NOT EXISTS public.hall_of_fame (
+  session_id      TEXT PRIMARY KEY,
+  profile_id      TEXT NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+  game_id         TEXT NOT NULL,
+  nickname        TEXT NOT NULL,
+  avatar          TEXT NOT NULL DEFAULT '🐼',
+  best_stars      INTEGER DEFAULT 0,
+  best_score      INTEGER DEFAULT 0,
+  best_stage      INTEGER DEFAULT 0,
+  updated_at      BIGINT NOT NULL,
+  created_at      TIMESTAMPTZ DEFAULT now()
+);
+
+
 -- ============================================================
 --  ROW LEVEL SECURITY
 --  Currently open for all operations (anonymous users).
@@ -64,12 +81,14 @@ ALTER TABLE public.profiles       ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.scores         ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.mastery        ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.items          ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.hall_of_fame   ENABLE ROW LEVEL SECURITY;
 
 -- Allow all operations for now (anonymous auth)
 CREATE POLICY "Allow all on profiles"       ON public.profiles       FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all on scores"         ON public.scores         FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all on mastery"        ON public.mastery        FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all on items"          ON public.items          FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all on hall_of_fame"   ON public.hall_of_fame   FOR ALL USING (true) WITH CHECK (true);
 
 
 -- ============================================================
@@ -79,3 +98,5 @@ CREATE POLICY "Allow all on items"          ON public.items          FOR ALL USI
 CREATE INDEX IF NOT EXISTS idx_scores_profile_date   ON public.scores(profile_id, date);
 CREATE INDEX IF NOT EXISTS idx_mastery_profile_word  ON public.mastery(profile_id, word_id);
 CREATE INDEX IF NOT EXISTS idx_items_profile         ON public.items(profile_id);
+CREATE INDEX IF NOT EXISTS idx_hof_game_score        ON public.hall_of_fame(game_id, best_score DESC);
+CREATE INDEX IF NOT EXISTS idx_hof_profile            ON public.hall_of_fame(profile_id);

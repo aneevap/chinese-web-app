@@ -14,6 +14,11 @@ function saveEntries(entries: HallOfFameEntry[]) {
   localStorage.setItem(KEY, JSON.stringify(entries));
 }
 
+/** Build a unique session ID from profile + game + timestamp */
+function makeSessionId(entry: HallOfFameEntry): string {
+  return entry.profileId + '_' + entry.gameId + '_' + entry.updatedAt;
+}
+
 export function saveSessionResult(result: HallOfFameEntry) {
   console.log('[HallOfFame] saveSessionResult called with:', JSON.stringify(result));
   const entries = loadEntries();
@@ -24,6 +29,24 @@ export function saveSessionResult(result: HallOfFameEntry) {
   saveEntries(entries);
   console.log('[HallOfFame] saved entries count:', loadEntries().length);
   window.dispatchEvent(new CustomEvent('xhz:dojo-hof-updated'));
+
+  // Push to Supabase so other players can see it
+  pushToSupabase(result);
+}
+
+/**
+ * Push a single hall of fame entry to Supabase via the sync bridge.
+ * If sync is not ready yet, the entry is queued and will be picked up
+ * by pushAll() when the user signs in.
+ */
+function pushToSupabase(entry: HallOfFameEntry) {
+  const sync = (window as any).__SUPABASE_SYNC;
+  if (sync && sync.ready) {
+    // Attach sessionId for upsert dedup
+    const toPush = { ...entry, sessionId: makeSessionId(entry) };
+    sync.pushHallOfFameEntry(toPush);
+    console.log('[HallOfFame] pushed to Supabase');
+  }
 }
 
 

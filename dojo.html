@@ -238,6 +238,78 @@
   box-shadow: 0px 0px 0px 0px #111827;
 }
 
+/* ── HALL TABS ── */
+.hall-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+  justify-content: center;
+}
+
+.hall-tab {
+  border: 3px solid #111827;
+  background: white;
+  border-radius: 12px;
+  padding: 8px 18px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  box-shadow: 3px 3px 0px 0px #111827;
+  font-family: inherit;
+  color: #111827;
+  flex: 1;
+  max-width: 200px;
+  text-align: center;
+}
+
+.hall-tab:hover {
+  transform: translateY(-2px);
+  box-shadow: 3px 5px 0px 0px #111827;
+}
+
+.hall-tab:active {
+  transform: translateY(1px);
+  box-shadow: 1px 1px 0px 0px #111827;
+}
+
+.hall-tab.active {
+  background: #FCD34D;
+  border-color: #111827;
+  box-shadow: 3px 3px 0px 0px #111827;
+}
+
+.hall-tab.active:hover {
+  transform: translateY(-2px);
+  box-shadow: 3px 5px 0px 0px #111827;
+}
+
+/* Loading spinner */
+.hall-loading {
+  text-align: center;
+  padding: 30px 0;
+  font-size: 1.2rem;
+  color: #9CA3AF;
+  font-weight: 700;
+}
+
+.hall-loading::after {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-left: 8px;
+  border: 3px solid #D1D5DB;
+  border-top-color: #111827;
+  border-radius: 50%;
+  animation: hallSpin 0.8s linear infinite;
+  vertical-align: middle;
+}
+
+@keyframes hallSpin {
+  to { transform: rotate(360deg); }
+}
+
 /* ── HALL OF FAME — Neo-Brutalism Board ── */
 .hall {
   background: #FAF8F5;
@@ -461,6 +533,12 @@
   font-weight: 700;
 }
 
+/* Highlight current user in global rankings */
+.hall-item.you {
+  border-color: #FCD34D;
+  background: #FFFDE7;
+}
+
 /* Score display */
 .hall-score {
   text-align: right;
@@ -551,6 +629,11 @@
       <section class="hall">
         <div class="hall-header">
           <h2><span>🏆</span> Hall of Fame</h2>
+        </div>
+
+        <div class="hall-tabs">
+          <button class="hall-tab active" data-tab="local" onclick="switchHallTab('local')">📋 Your Rankings</button>
+          <button class="hall-tab" data-tab="global" onclick="switchHallTab('global')">🌍 Global Rankings</button>
         </div>
 
         <div id="hall-list" class="hall-list"></div>
@@ -749,8 +832,19 @@
     }
 
     /* =====================================================
-       HALL OF FAME — Top 10 rankings with date & time
+       HALL OF FAME — Tab switching + Local & Global rankings
     ===================================================== */
+    var CURRENT_HALL_TAB = 'local';
+
+    function switchHallTab(tab) {
+      CURRENT_HALL_TAB = tab;
+      // Update tab button active state
+      document.querySelectorAll('.hall-tab').forEach(function(btn) {
+        btn.classList.toggle('active', btn.getAttribute('data-tab') === tab);
+      });
+      renderHallOfFame();
+    }
+
     function formatDate(ts) {
       var d = new Date(ts);
       var month = d.getMonth() + 1;
@@ -832,9 +926,8 @@
       return html;
     }
 
-    function renderHallOfFame() {
+    function renderLocalHallOfFame() {
       var listEl = document.getElementById('hall-list');
-
       var sushiHtml = renderGameLeaderboard('sushi', 5);
       var matchingHtml = renderGameLeaderboard('matching', 5);
 
@@ -848,6 +941,163 @@
           '<div class="section-label" style="font-size:0.85rem;font-weight:800;margin-bottom:10px;text-align:center;">⚡ Flash Match</div>' +
           matchingHtml +
         '</div>';
+    }
+
+    function renderGlobalLeaderboard(gameId, maxRank) {
+      if (!window.__GLOBAL_HOF || !window.__GLOBAL_HOF.length) {
+        return '<div class="hall-empty">🌍 No global rankings yet<br><span style="font-size:0.8rem;color:#9CA3AF;">Play a game and sign in to appear here!</span></div>';
+      }
+
+      var filtered = window.__GLOBAL_HOF.filter(function(e) { return e.gameId === gameId; });
+      var sorted = filtered.slice().sort(function(a, b) {
+        if (b.bestScore !== a.bestScore) return b.bestScore - a.bestScore;
+        if (b.bestStars !== a.bestStars) return b.bestStars - a.bestStars;
+        return b.updatedAt - a.updatedAt;
+      });
+
+      if (sorted.length === 0) {
+        return '<div class="hall-empty">No ' + (gameId === 'sushi' ? 'Sushi' : 'Flash') + ' global records yet</div>';
+      }
+
+      var count = Math.min(maxRank, sorted.length);
+      var html = '';
+
+      for (var i = 0; i < count; i++) {
+        var entry = sorted[i];
+        var rank = i + 1;
+
+        var itemClass = 'hall-item';
+        var rankClass = 'hall-rank';
+        var rankLabel = '#' + rank;
+
+        if (rank === 1) {
+          itemClass += ' podium podium-1';
+          rankClass += ' gold';
+          rankLabel = '🥇';
+        } else if (rank === 2) {
+          itemClass += ' podium podium-2';
+          rankClass += ' silver';
+          rankLabel = '🥈';
+        } else if (rank === 3) {
+          itemClass += ' podium podium-3';
+          rankClass += ' bronze';
+          rankLabel = '🥉';
+        }
+
+        // Highlight current user's entry
+        var profile = XHZ.getActiveProfile();
+        var isYou = profile && entry.profileId === profile.id;
+
+        var animDelay = (i * 0.06) + 's';
+        var youClass = isYou ? ' you' : '';
+
+        html +=
+          '<div class="' + itemClass + youClass + '" style="animation-delay:' + animDelay + '">' +
+            '<div class="' + rankClass + '">' + rankLabel + '</div>' +
+            '<div class="hall-avatar">' + (entry.avatar || '🐼') + '</div>' +
+            '<div class="hall-meta">' +
+              '<span class="hall-name">' + escapeHtml(entry.nickname) + (isYou ? ' <span style="font-size:0.7rem;color:#9CA3AF;">(you)</span>' : '') + '</span>' +
+              '<div class="hall-sub">' +
+                'Stage ' + entry.bestStage + ' · ' + formatDate(entry.updatedAt) +
+              '</div>' +
+            '</div>' +
+            '<div class="hall-score">' +
+              '<span class="score-stars">' + entry.bestStars + ' ⭐</span>' +
+              '<span class="score-points">Score <b>' + entry.bestScore + '</b></span>' +
+            '</div>' +
+          '</div>';
+      }
+
+      return html;
+    }
+
+    function renderGlobalHallOfFame() {
+      var listEl = document.getElementById('hall-list');
+
+      // Show loading state
+      listEl.innerHTML = '<div class="hall-loading">Loading global rankings...</div>';
+
+      function guard() {
+        // If the user switched tabs while we were fetching, don't render
+        if (CURRENT_HALL_TAB !== 'global') return true;
+        return false;
+      }
+
+      if (window.__SUPABASE_SYNC && window.__SUPABASE_SYNC.ready) {
+        window.__SUPABASE_SYNC.pullHallOfFameEntries().then(function(entries) {
+          if (guard()) return;
+          window.__GLOBAL_HOF = entries || [];
+          renderGlobalHallOfFameContent();
+        }).catch(function() {
+          if (guard()) return;
+          window.__GLOBAL_HOF = [];
+          renderGlobalHallOfFameContent();
+        });
+      } else {
+        // SYNC not ready - check if Supabase is available directly
+        var sb = window.__supabase;
+        if (sb) {
+          sb.from('hall_of_fame')
+            .select('*')
+            .order('best_score', { ascending: false })
+            .limit(100)
+            .then(function(result) {
+              if (guard()) return;
+              if (result.error) {
+                window.__GLOBAL_HOF = [];
+              } else if (result.data) {
+                window.__GLOBAL_HOF = result.data.map(function(row) {
+                  return {
+                    sessionId: row.session_id,
+                    profileId: row.profile_id,
+                    gameId: row.game_id,
+                    nickname: row.nickname,
+                    avatar: row.avatar || '🐼',
+                    bestStars: row.best_stars || 0,
+                    bestScore: row.best_score || 0,
+                    bestStage: row.best_stage || 0,
+                    updatedAt: row.updated_at
+                  };
+                });
+              } else {
+                window.__GLOBAL_HOF = [];
+              }
+              renderGlobalHallOfFameContent();
+            }).catch(function() {
+              if (guard()) return;
+              window.__GLOBAL_HOF = [];
+              renderGlobalHallOfFameContent();
+            });
+        } else {
+          window.__GLOBAL_HOF = [];
+          renderGlobalHallOfFameContent();
+        }
+      }
+    }
+
+    function renderGlobalHallOfFameContent() {
+      var listEl = document.getElementById('hall-list');
+      var sushiHtml = renderGlobalLeaderboard('sushi', 5);
+      var matchingHtml = renderGlobalLeaderboard('matching', 5);
+
+      listEl.innerHTML =
+        '<div>' +
+          '<div class="section-label" style="font-size:0.85rem;font-weight:800;margin-bottom:10px;text-align:center;">🍣 Sushi Conveyor — Global</div>' +
+          sushiHtml +
+        '</div>' +
+        '<div style="border-top:2px dashed #D1D5DB;margin:14px 0;"></div>' +
+        '<div>' +
+          '<div class="section-label" style="font-size:0.85rem;font-weight:800;margin-bottom:10px;text-align:center;">⚡ Flash Match — Global</div>' +
+          matchingHtml +
+        '</div>';
+    }
+
+    function renderHallOfFame() {
+      if (CURRENT_HALL_TAB === 'global') {
+        renderGlobalHallOfFame();
+      } else {
+        renderLocalHallOfFame();
+      }
     }
 
 
