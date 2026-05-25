@@ -220,11 +220,36 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* ── CUSTOMER AREA — doors above, customers below ── */
+/* ── CUSTOMER AREA — wooden sushi counter background ── */
 .customer-area {
   position: relative;
   z-index: 1;
   margin-bottom: 10px;
+  border-radius: 14px;
+  padding: 12px 6px 8px;
+  /* Warm polished wood counter surface with subtle horizontal grain */
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 28px,
+      rgba(0,0,0,0.02) 28px,
+      rgba(0,0,0,0.02) 29px
+    ),
+    linear-gradient(
+      180deg,
+      #D9B382 0%,
+      #C89D6E 15%,
+      #B8895E 35%,
+      #C4956A 55%,
+      #A67C52 75%,
+      #8B6F47 100%
+    );
+  box-shadow:
+    inset 0 3px 6px rgba(0,0,0,0.15),
+    inset 0 -2px 4px rgba(0,0,0,0.1),
+    3px 3px 0px 0px #2D2D2D;
+  border: 3px solid #2D2D2D;
 }
 
 /* Door row — side by side, above customers (visually hidden, keeps layout space) */
@@ -596,12 +621,12 @@ body {
 .drop-zone {
   margin-bottom: 12px;
   min-height: 120px;
-  border: 3px dashed #9CA3AF;
+  border: 3px solid rgba(45, 45, 45, 0.08);
   border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(250, 248, 245, 0.5);
+  background: rgba(250, 248, 245, 0.35);
   transition: all 0.12s ease;
   position: relative;
   z-index: 1;
@@ -616,15 +641,8 @@ body {
 }
 
 .drop-zone-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  color: var(--ink-light, #A89580);
-  font-size: 14px;
+  display: none;
 }
-
-.drop-zone-icon { font-size: 32px; }
 
 .selected-plate-wrapper {
   display: flex;
