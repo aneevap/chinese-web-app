@@ -99,7 +99,7 @@
           id: profile.id,
           nickname: profile.nickname,
           avatar: profile.avatar,
-          color: profile.color,
+          color: profile.color || '#FFB347',
           is_guest: profile.is_guest !== false,
           equipped_items: profile.equipped_items || {},
           updated_at: new Date().toISOString()
@@ -118,7 +118,7 @@
             id: p.id,
             nickname: p.nickname,
             avatar: p.avatar,
-            color: p.color,
+            color: p.color || '#FFB347',
             is_guest: p.is_guest !== false,
             equipped_items: p.equipped_items || {},
             updated_at: new Date().toISOString()
