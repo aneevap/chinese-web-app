@@ -924,7 +924,7 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
 
       {/* 🚀 Mascot decoration — left bottom corner */}
       <img
-        src="../assets/mascot/pandarocket.png"
+        src="assets/mascot/pandarocket.png"
         className="mascot-panda"
         alt=""
         aria-hidden="true"
@@ -938,7 +938,7 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
           <div className="victory-card">
             {/* 🐼 Flash panda appears on victory! */}
             <img
-              src="../assets/mascot/panda_flash.png"
+              src="assets/mascot/panda_flash.png"
               className="victory-panda"
               alt=""
               aria-hidden="true"
