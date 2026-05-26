@@ -1132,34 +1132,33 @@ body {
   border-radius: inherit;
 }
 
-/* ── Back button on start screen */
+/* ── Back button on start screen — text-only, no border/shadow */
 .back-button {
   position: fixed;
   top: 14px;
   left: 14px;
   z-index: 1001;
-  border: 3px solid #2D2D2D;
-  background: #FFF8E7;
-  color: #2D2D2D;
-  border-radius: 10px;
+  border: none;
+  background: none;
+  color: #6B5544;
+  border-radius: 0;
   padding: 8px 14px;
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.12s ease;
-  box-shadow: 3px 3px 0px 0px #2D2D2D;
   font-family: inherit;
+  opacity: 0.7;
 }
 
 .back-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 3px 5px 0px 0px #2D2D2D;
-  background: #F5EDE0;
+  opacity: 1;
+  color: #2D2D2D;
 }
 
 .back-button:active {
   transform: translateY(1px);
-  box-shadow: 1px 1px 0px 0px #2D2D2D;
+  opacity: 0.5;
 }
 
 /* ── Overlay ── */
@@ -1388,17 +1387,6 @@ body {
   text-align: center;
   box-shadow: 8px 8px 0px 0px #2D2D2D;
   border: 4px solid #2D2D2D;
-}
-
-.start-sushi-icon {
-  font-size: 64px;
-  margin-bottom: 12px;
-  animation: sushiSpin 3s ease-in-out infinite;
-}
-
-@keyframes sushiSpin {
-  0%, 100% { transform: rotate(-5deg) scale(1); }
-  50% { transform: rotate(5deg) scale(1.1); }
 }
 
 .start-screen h2 {
@@ -1864,6 +1852,7 @@ body {
   z-index: 1;
   flex-shrink: 1;
   min-height: 0;
+  align-self: center;
 }
 
 /* ── Tile — Playing Card Style ── */
@@ -1961,7 +1950,7 @@ body {
 /* Tile content */
 .tile-content-char {
   font-family: var(--font-hanzi, 'ZCOOL KuaiLe', sans-serif);
-  font-size: clamp(1.4rem, 4.5vw, 2.2rem);
+  font-size: clamp(1.6rem, 5vw, 2.6rem);
   font-weight: bold;
   color: #ffffff;
   line-height: 1.1;
@@ -1972,7 +1961,7 @@ body {
 
 .tile-content-meaning {
   font-family: var(--font-main, 'Bai Jamjuree', sans-serif);
-  font-size: clamp(0.8rem, 2.2vw, 1.2rem);
+  font-size: clamp(0.95rem, 2.8vw, 1.4rem);
   font-weight: 700;
   color: #ffffff;
   line-height: 1.2;
@@ -2072,10 +2061,10 @@ body {
     box-shadow: 3px 5px 0px 0px #111827;
   }
   .tile-content-char {
-    font-size: clamp(1.1rem, 4vw, 1.6rem);
+    font-size: clamp(1.35rem, 4.8vw, 1.9rem);
   }
   .tile-content-meaning {
-    font-size: clamp(0.7rem, 2vw, 1rem);
+    font-size: clamp(0.85rem, 2.8vw, 1.2rem);
   }
   .matching-hud-simple {
     padding: 2px 2px 0;
@@ -2287,6 +2276,23 @@ body {
   line-height: 1;
   margin-bottom: 8px;
   animation: victoryThunderAnim 0.8s ease-in-out infinite alternate;
+}
+
+/* 🐼 Victory panda — appears on winning all stages */
+.victory-panda {
+  width: clamp(80px, 20vw, 140px);
+  height: auto;
+  display: block;
+  margin: 0 auto 8px;
+  filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.4));
+  animation: victoryPandaPop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  image-rendering: auto;
+}
+
+@keyframes victoryPandaPop {
+  0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+  50% { transform: scale(1.3) rotate(5deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
 }
 
 @keyframes victoryThunderAnim {

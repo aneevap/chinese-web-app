@@ -719,12 +719,10 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
             ← Back to Dojo
           </button>
           <div className="start-screen matching-start">
-            <div className="start-sushi-icon">🔤</div>
             <div className="flash-match-header">
               <h2 className="flash-match-title">Flash Match</h2>
               <div className="flash-match-thunder-img">⚡</div>
             </div>
-            <p>Match characters to meanings at lightning speed!</p>
 
             {/* Course selection */}
             <div className="selection-section">
@@ -924,9 +922,9 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
         </div>
       )}
 
-      {/* 🐼 Mascot decoration — left bottom corner */}
+      {/* 🚀 Mascot decoration — left bottom corner */}
       <img
-        src="../assets/mascot/panda_flash.png"
+        src="../assets/mascot/pandarocket.png"
         className="mascot-panda"
         alt=""
         aria-hidden="true"
@@ -938,6 +936,13 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
           {/* 🎊 Confetti particles */}
           <div className="confetti-container" id="confetti-container"></div>
           <div className="victory-card">
+            {/* 🐼 Flash panda appears on victory! */}
+            <img
+              src="../assets/mascot/panda_flash.png"
+              className="victory-panda"
+              alt=""
+              aria-hidden="true"
+            />
             <div className="victory-thunder-big">⚡</div>
             <h2 className="victory-title">You are the flash!</h2>
             <div className="victory-subtitle">All stages cleared!</div>

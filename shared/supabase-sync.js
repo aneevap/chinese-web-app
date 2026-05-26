@@ -65,6 +65,9 @@
       case 'hall_of_fame':
           this.pushHallOfFameEntry(payload);
           break;
+      case 'pushAll':
+          this.pushAll(payload);
+          break;
       }
     },
 
@@ -595,7 +598,11 @@
      * Called after sign-in to ensure the server has the latest local data.
      */
     pushAll: async function (profileId) {
-      if (!this.ready || !profileId) return;
+      if (!profileId) return;
+      if (!this.ready) {
+        this.enqueue('pushAll', profileId);
+        return;
+      }
       if (!window.XHZ) return;
 
       try {
