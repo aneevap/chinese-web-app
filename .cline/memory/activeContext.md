@@ -1,30 +1,33 @@
 # Active Context
 
-## Current Session — Customer area extension & character SVG images
+## Current Session — Drop zone redesign, drag-and-drop fixes, tap-to-select fix
 
-### Spawn timer: text → juice-bar progress bar
-- **Replaced** "Next customer in {spawnTick}s" text with a green gradient progress bar
-- Added `spawnMaxRef` to track the current spawn interval for accurate percentage
-- Bar drains smoothly from 100% → ~16% over each interval, with 0.9s linear transition and shiny highlight streak
-- CSS: `.spawn-tip` flex row (label + pill bar), `.spawn-tip-fill` with green gradient + `::after` highlight
+### Drag-and-drop fixes
+- **`setPointerCapture` removed** from plate's `onPointerDown` — was stealing `pointerup` events from customer slots, breaking drag-and-drop entirely
+- **Replaced with `elementFromPoint` hit-test** — game area's `onPointerUp` now uses `document.elementFromPoint()` (after removing ghost) to find the customer slot under the pointer
+- **Document-level `pointerup` cleanup** — when drag is released outside the game area, a document event listener cleans up the ghost and clears drag state
+- **Tap-to-select fix** — game area's `onPointerUp` was unconditionally setting `dragStateRef.current = null`, wiping the ref before the `click` handler could check `dragStateRef.current?.active`. Now only clears inside the `if (active)` block. For taps, the ref persists through `pointerUp` so the click handler correctly identifies it as a non-drag interaction.
+- **Double-scoring fix** — game area's `onPointerUp` was also calling `resolveAttempt` (bubble phase), duplicating the customer slot's handler (target phase). Removed `resolveAttempt` from game area handler — customer slot already covers both drag-drop and tap-to-deliver paths.
 
-### Customer area extended downward to meet conveyor belt
-- **Restructured DOM:** `.drop-zone` moved from sibling between `customer-area` and `belt` to child inside `customer-area`
-- `.customer-area` padding-bottom: 8px → 320px (shop background extends down, belt untouched)
-- `.drop-zone` now `position: absolute; bottom: 10px` inside the padded area
-- `.belt` fully restored to original CSS (no modifications)
-- `.customer-row` uses `position: relative; top: 220px` to shift seats down visually without expanding layout height (unlike margin-top which would also push the absolute drop zone)
+### Drop zone repositioned as plain translucent square
+- **Moved from bottom (`position: absolute; bottom: 10px`)** to **top-center of customer area** (`top: 40px; left: 50%; transform: translateX(-50%)`)
+- **130×130px square** with 18px rounded corners, translucent background (`rgba(255,248,231,0.75)`), no border, soft `box-shadow`, `backdrop-filter: blur(6px)`
+- **No speech balloon tail**, no mini bubbles, no cloud texture
+- **Empty state removed** — when no plate is selected, the drop zone is an empty translucent square with no emoji or text
+- **Cancel button** overlaid at top-right corner (`top: -6px; right: -6px`), smaller at 24×24px
+- **Selected plate** appears centered inside the square with gentle bounce animation
+- **Mobile**: scaled to 100×100px square
 
-### Emoji avatars replaced with SVG character images
-- **New folder:** `images/characters/` with 5 SVG placeholder faces — cat, bear, ninja, panda, fox
-- Each SVG: 100×100 viewBox, colored circular background, expressive face features, ~30 lines
-- Customer avatars now render as `<img>` tags instead of emoji text
-- `.avatar` CSS: `font-size` → `width/height: clamp(42px, 7vw, 54px)` with `object-fit: contain`
-- Added `pointer-events: none; user-select: none; -webkit-user-drag: none` to prevent drag interference
+### Customers and stools scaled 50% larger
+- **Customer slot**: min-height 130→195px, width clamp 90-150→135-225px
+- **Avatar**: clamp 56-72→84-108px
+- **Stool**: width 44→66px, height 8→12px, legs height 14→21px
+- **Bubble**: min-height 48→72px, padding 8→12px
+- **Empty slot**: min-height 130→195px
+- **Mobile**: avatar 44-56→66-84px, bubble min-height 38→54px, slot min-height 120→180px, width 76-110→114-165px
 
-### Avatar positioned to sit on stool
-- `.avatar` added `margin-top: auto` in the flex column — pushes avatar to bottom of slot, sitting right on the stool
-- `.avatar` `margin-bottom: 2px` → `0` so there's no gap between avatar and stool
+### Customer area height extended
+- **`padding-bottom`** increased from 160px → 225px (belt is 130px tall, half ≈ 65px added on top of 160px)
 
 ### ✅ Working Correctly
 - **Design system migration:** All 8 pages use design system CSS variables
@@ -35,7 +38,9 @@
 - **Duplicate profiles:** Name-only check, auto-merge on `getAllProfiles()`
 - **Auth flow:** Upgrade, sign-in, password reset, set-new-password, recovery detection
 - **Font weights:** All pages identical (Bai 400-800, Nunito 400-800, Mali 400-700)
-- **Sushi mode:** Walking entrance/exit animations, slot-based positioning, column layout (text top, emoji bottom), white glow on text, juice-bar spawn timer, SVG character avatars
+- **Sushi mode:** Walking entrance/exit animations, slot-based positioning, column layout (text top, emoji bottom), white glow on text, juice-bar spawn timer, SVG character avatars, custom pointer-based drag-and-drop, tap-to-select
+- **Drop zone:** Plain translucent square centered above customers, 130×130px, no border/speech balloon, selected plate with cancel button
+- **Customers scaled 50% larger:** 84-108px avatars, 66px stools, 195px slots
 - **Grid Buster:** 4×4 matching game, multi-round, neo-brutalism board-game aesthetic
 - **Error Boundary:** Catches render errors gracefully with fallback UI
 - **Dojo page:** Neo-brutalism redesign with centered games grid, accent stripes, achievement card HOF
@@ -55,20 +60,19 @@
 - **Global Hall of Fame:** Shared leaderboards via Supabase with tabbed UI on dojo page
 - **GitHub Pages deploy:** Fixed TypeScript build error that was silently blocking deploys for weeks
 - **Custom image directories:** `games/public/images/sushi/` + `images/characters/` ready for assets
-- **Green juice-bar spawn timer:** Smooth drain animation, shiny highlight streak
-- **Customer area extends to belt:** 320px bottom padding, seats at bottom via relative top:220px
-- **SVG character avatars:** 5 cute faces replace emoji, sit on stools via margin-top:auto
+- **Drag-and-drop:** Custom pointer-based DnD (no HTML5 drag API), `document.elementFromPoint()` hit-testing, document-level pointerup cleanup
+- **Double-scoring prevented:** Game area handler only cleans up ghost — customer slot handler does the resolve
 
 ### Known Issues
 - Dojo cards background still lighter than page (user preference: match paper-warm with grain)
 - User could close recovery modal without setting password (leaves recovery-limited session)
 - `window.__SUPABASE_SYNC.pushAll()` called in auth-modal.js on sign-in success but method doesn't exist in silent no-op
 
-### Pending: 12 Custom Character SVGs
-- **User will prepare 12 SVG character images** (face/body only, no chairs) and place them in `images/characters/`
-- **After placing them:** Update `SushiMode.tsx` line ~956 — replace the current 5-element array with all 12 filenames, change `index % 5` to `index % 12`
-- SVG spec: 100×100 viewBox, just the character (stool is CSS-generated at 22px total), keep within ~50-60px center area
-- Avatar CSS already handles `object-fit: contain` at 42-54px clamp
+### Pending: 11 Custom Character SVGs
+- **User will prepare 11 SVG character images** (face/body only, no chairs) and place them in `images/characters/`
+- **After placing them:** Verify the already-populated `CHARACTER_AVATARS` array in `SushiMode.tsx` has all 11 filenames
+- SVG spec: 100×100 viewBox, just the character (stool is CSS-generated at 12px height), keep within ~50-60px center area
+- Avatar CSS already handles `object-fit: contain` at 84-108px clamp
 
 ### Other Next Steps
 - Verify matching game touch interaction on iPhone (tap-to-match needs pointer events)

@@ -240,11 +240,29 @@
 - **Avatar sits on stool:** Added `margin-top: auto` to `.avatar` to push it to bottom of flex column, sitting right on the stool. Removed margin-bottom gap.
 - **Commits:** `8f83344` (padding 320px + SVG chars), `8c1a8be` (top:220px), `8efe87d` (margin-top:auto)
 
-## Pending
-- [x] Standardize font weight loading across all pages (completed in Sessions 3-4)
-- [x] Clean up unused `signup_*` i18n keys from `strings.js` (completed in Session 14)
-- [x] Apply neo-brutalism aesthetic to sushi mode (completed in Session 20)
-- [x] Apply neo-brutalism aesthetic to dojo page (completed in Session 21)
-- [ ] Enhance progress tracking with detailed analytics
-- [ ] Add data export/backup feature
-- [ ] Fix `window.__SUPABASE_SYNC.pushAll()` called in auth-modal.js but method doesn't exist (silent no-op)
+### Session 37 — Drag-and-drop fixes, tap-to-select fix, drop zone redesign, customer scaling
+- **Drag-and-drop fixes:**
+  - Removed `setPointerCapture` from plate's `onPointerDown` (was stealing `pointerup` events from customer slots, breaking DnD)
+  - Replaced with `document.elementFromPoint()` hit-test in game area's `onPointerUp` to find customer slot under pointer
+  - Added document-level `pointerup` listener for cleanup when drag released outside game area
+- **Tap-to-select fix:**
+  - Game area's `onPointerUp` was unconditionally clearing `dragStateRef.current = null` before the `click` handler could check `dragStateRef.current?.active`
+  - Now only clears inside the `if (active)` block — for taps, the ref persists through `pointerUp` so `click` correctly identifies it as a non-drag
+- **Double-scoring fix:**
+  - Game area's `onPointerUp` bubble-phase handler was also calling `resolveAttempt`, duplicating the customer slot's target-phase handler
+  - Removed `resolveAttempt` from game area handler — customer slot handler already covers both drag-drop and tap-to-deliver
+- **Drop zone → plain translucent square:**
+  - Moved from bottom (`position: absolute; bottom: 10px`) to top-center (`top: 40px; left: 50%; transform: translateX(-50%)`)
+  - 130×130px square, 18px rounded corners, translucent `rgba(255,248,231,0.75)`, no border, soft `box-shadow`, `backdrop-filter: blur(6px)`
+  - No speech balloon tail, no mini bubbles, no chef emoji/text — completely minimal empty state
+  - Cancel button overlaid at top-right corner (`top: -6px; right: -6px`), 24×24px
+  - Mobile: 100×100px square
+- **Customers and stools scaled 50% larger:**
+  - Slot height 130→195px, width 90-150→135-225px
+  - Avatar clamp 56-72→84-108px
+  - Stool width 44→66px, height 8→12px, legs 14→21px
+  - Bubble min-height 48→72px
+  - Mobile: avatar 44-56→66-84px, slot 120→180px min-height
+- **Customer area height extended:**
+  - `padding-bottom` increased 160px → 225px (half belt height = ~65px added)
+- **Commits:** `5d6a55e` (drop zone + customer scaling)

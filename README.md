@@ -7,7 +7,15 @@ A gamified web app for children (ages 5–12) to learn Chinese characters throug
 - **📚 Study** — Flip flashcards with hanzi, pinyin, meaning, and audio pronunciation; quiz mode with star ratings
 - **✍️ Write** — Watch stroke-order animations, trace characters with HanziWriter.js, voice recognition
 - **🎮 Dojo** — Arcade-style games hub with Hall of Fame leaderboard:
-  - **🍣 Sushi Drop** — Drag characters from conveyor belt to match customer orders. Features walking entrance/exit animations, slot-based customer positioning, and combo scoring
+  - **🍣 Sushi Drop** — Tap a sushi plate from the conveyor belt to select it, then tap or drag it to a matching customer. Features:
+    - Customers 50% larger with wooden stools, speech balloons, and SVG character avatars
+    - Selected plate appears in a translucent square drop zone centered above customers
+    - Walking entrance/exit animations with per-slot bobbing gait
+    - Custom pointer-based drag-and-drop (no HTML5 drag API — works on iPhone)
+    - Tap-to-select and tap-to-deliver as an alternative to drag-and-drop
+    - Course/theme selection, combo scoring, coin/confetti effects
+    - Green juice-bar spawn timer with shiny highlight streak
+    - Neo-brutalism board-game aesthetic throughout
   - **🔤 Grid Buster** — Match character tiles to meaning tiles on a 4×4 grid. Multi-round gameplay with combo detection, course/theme selection, and neo-brutalism board-game aesthetic
 - **📊 Progress** — Journey stats, mastery matrix, activity calendar, badges & unlockable items, parent settings
 - **🔐 Auth** — Inline auth modal with upgrade (anonymous → email/password), sign-in, password reset flow, recovery page with password strength meter
@@ -16,7 +24,7 @@ A gamified web app for children (ages 5–12) to learn Chinese characters throug
 - **🌐 Bilingual** — English and Thai interface support via `strings.js`
 - **🧸 Kid-friendly** — Duplicate profile detection with auto-merge; playful Botes paper design
 - **📱 Guest dot indicator** — Profiles created without an account show a guest dot; disappears after signing in
-- **🍣 Sushi game mobile fixes** — Tap-to-deliver on iPhone (onPointerUp on customer slots), coordinate-based plate matching (getBoundingClientRect bypasses Safari's unreliable hit-testing on animated elements), doors hidden on small screens, belt extends edge-to-edge for more visible plates, single-row belt (two-row serpentine layout had iOS Safari animation bugs on the top row)
+- **🍣 Sushi game mobile fixes** — Tap-to-deliver on iPhone (onPointerUp on customer slots), coordinate-based plate matching (getBoundingClientRect bypasses Safari's unreliable hit-testing on animated elements), doors hidden on small screens, belt extends edge-to-edge for more visible plates, single-row belt (two-row serpentine layout had iOS Safari animation bugs on the top row), custom pointer-based drag
 
 ## 🚀 Getting Started
 
@@ -183,17 +191,21 @@ A bold, tactile board-game aesthetic applied to the dojo page and both game mode
 ## 🎮 Game Modes
 
 ### 🍣 Sushi Drop
-Drag and drop characters from the conveyor belt to match customer orders.
-- Customers walk in from entrance with bobbing gait, exit to the right when served
-- Slot-based positioning — customers stay in their assigned spot (no shifting)
-- Course/theme selection before starting
-- Combo scoring for quick consecutive matches
-- Neo-brutalism board-game aesthetic (thick borders, hard shadows, push-down interactions, yellow HUD, cream background)
-- Walking exit with correct-flash (green) and wrong-answer (sad slouch) animations
-- Uses `onAnimationEnd` for clean DOM removal
+Tap a sushi plate from the conveyor belt to select it, then tap or drag it to a customer. Customers are seated on wooden stools with speech balloons showing their order in Thai.
+
+- **Drop zone:** Selected plate appears in a plain translucent square (130×130px) centered above the customers, with a cancel button overlaid at the top-right corner
+- **Customers scaled 50% larger** — 84-108px avatars, 66px stools, 195px slots
+- **Interaction:** Tap-to-select a plate, then tap a customer or drag-and-drop to deliver. Custom pointer-based DnD works reliably on iPhone (no HTML5 drag API)
+- **Walking animations:** Customers walk in from entrance with bobbing gait, exit to the right when served. Wrong answers trigger a sad-slouch exit
+- **Slot-based positioning:** Customers stay in their assigned spot (no shifting), with per-slot CSS custom properties for walk distances
+- **Course/theme selection** before starting with mastery-aware word weighting
+- **Combo scoring** for quick consecutive matches, with confetti, coins, and score popup effects
+- **Green juice-bar spawn timer** with smooth drain and shiny highlight streak
+- **Neo-brutalism board-game aesthetic** (thick borders, hard shadows, push-down interactions, warm wood-toned belt, cream background with plank floor pattern)
 
 ### 🔤 Grid Buster
 Match character tiles to meaning tiles on a 4×4 grid.
+
 - 60-second timed rounds with multi-round support (new set releases on full match)
 - Combo detection (< 3s between matches = bonus points)
 - Course and theme selection before starting
@@ -218,7 +230,7 @@ The app is tested manually. To verify:
 
 1. Create a profile and study some flashcards
 2. Practice writing characters (check HanziWriter renders)
-3. Visit the dojo and play Sushi Drop — check leaderboard appears in result screen
+3. Visit the dojo and play Sushi Drop — try both tap-to-deliver and drag-and-drop; check leaderboard appears in result screen
 4. Play Grid Buster — verify matching, combo detection, multi-round, neo-brutalism styling
 5. Check progress dashboard for updated stats
 6. If Supabase is configured, verify data appears in Table Editor
