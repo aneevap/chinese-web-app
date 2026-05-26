@@ -176,6 +176,60 @@ A bold, tactile board-game aesthetic applied to the dojo page and both game mode
 ## 🐛 Known Issues
 
 - **Git push silently fails ~50% of the time** from the assistant (basher agent). The command outputs "Everything up-to-date" even when there are unpushed commits. Fix: always run `git push origin main` explicitly and verify by comparing `git rev-parse HEAD` vs `git rev-parse origin/main`.
+- **Stage 2 and 3 share the same 3×4 grid config** — consider adding a new config for stage 3 to increase progressive difficulty.
+- **Stage 1 (3×3) has 1 empty cell** — 9 cells with only 8 tiles (4 pairs), leaving the bottom-right cell unfilled. This is the intended layout.
+- **Dojo cards background** still lighter than page (user preference: match paper-warm with grain).
+- **Recovery modal** can be closed without setting a password, leaving a recovery-limited session.
+- **Flash Match touch interaction** on iPhone not yet fully verified.
+
+## 🔧 Troubleshooting Guide
+
+### Changes not appearing on live site
+
+This project has a **dual delivery setup**: source files are edited with Vite, but the live site loads a pre-built production bundle. If your changes don't show up:
+
+1. **Rebuild the bundle:**
+   ```bash
+   cd games
+   npm run build
+   ```
+   This writes the compiled output to `games/dist/assets/game.js`.
+
+2. **Bump the cache buster** in `dojo.html` — increment the `?v=` query parameter on the script tag:
+   ```html
+   <script src="games/dist/assets/game.js?v=38"></script>
+   ```
+
+3. **Hard refresh** the browser — Ctrl+Shift+R (Windows) or Cmd+Shift+R (Mac) to bypass the browser cache.
+
+4. **Wait for GitHub Pages deploy** (if pushed to remote) — the GitHub Actions workflow takes ~2 minutes to complete. Then do another hard refresh to clear the CDN cache.
+
+### Image paths resolve from dojo.html, not component files
+
+React components in `games/src/modes/matching/MatchingMode.tsx` reference images like:
+```tsx
+src="assets/mascot/pandarocket.png"
+```
+
+Despite the component file being nested 5 directories deep (`games/src/modes/matching/`), **the path is relative to `dojo.html` at the project root**. Using `../assets/mascot/` goes one level above the repo root → image not found.
+
+**Always use paths relative to the project root** (without `../`) for images in React game components:
+- ✅ `src="assets/mascot/pandarocket.png"`
+- ❌ `src="../assets/mascot/pandarocket.png"`
+
+### iOS Safari grid centering
+
+`align-self: center` on a flex child works in most browsers but can fail on iOS Safari, especially when the child is `display: grid`.
+
+**Fix:** Use `align-items: center` on the parent flex container, then undo with `align-self: stretch` on children that need full width (like the HUD and game header).
+
+### iPhone tap/drag interaction
+
+For games that need reliable tap and drag on iPhone:
+- Use custom pointer-based DnD (no HTML5 drag API — doesn't work on Safari)
+- Use `onPointerUp` instead of `onClick` on animated elements (Safari has unreliable hit-testing on animated items)
+- Use `getBoundingClientRect()` + `document.elementFromPoint()` for coordinate-based matching instead of relying on event targets
+- Avoid `setPointerCapture()` — it breaks DnD on iOS
 
 ## 🧠 Architecture
 
