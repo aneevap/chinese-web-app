@@ -183,10 +183,13 @@
 - Stage 2: `2×5` → `3×4` (12 cells, 6 pairs)
 - `Math.floor(totalCells / 2)` handles odd cell counts naturally
 
-### Session 43 — Documentation update
+### Session 43 — Documentation update (2 rounds)
 - Updated all `.cline/memory` files and `README.md` with complete fix history
 - Added troubleshooting guide for changes not appearing on live site
-- Documented critical lessons: build + cache buster, image path resolution, iOS Safari quirks
+- Documented critical lessons: build + cache buster, image path resolution, iOS Safari quirks, git push workaround
+- Reorganized `activeContext.md` chronologically by session with cache buster tracking per change
+- Restored critical lessons section (was accidentally removed during reorganization)
+- Fixed session numbering consistency between `activeContext.md` and `progress.md`
 
 ## Persistent Issues
 - **Git push silently fails ~50% of the time** from the assistant (basher agent). Fix: always run `git push origin main` explicitly.
