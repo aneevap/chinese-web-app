@@ -1612,77 +1612,92 @@ body {
   position: relative;
   min-height: 100dvh;
   background: #FAF8F5;
+  background-image: url('../../images/matching-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   border-radius: 0;
   padding: 12px;
   overflow: visible;
-}
-
-/* Diagonal stripe pattern */
-.matching-mode::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(30, 64, 175, 0.02) 0px,
-    rgba(30, 64, 175, 0.02) 20px,
-    transparent 20px,
-    transparent 40px
-  );
-  pointer-events: none;
-  z-index: 0;
 }
 
 .matching-mode.shake {
   animation: shakeAnim 0.4s ease-in-out;
 }
 
-/* ── Matching HUD — Board Game Style ── */
-.matching-hud {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 8px;
+/* ── Matching HUD — Sushi Game Style (Score left, Stage center, Timer right) ── */
+.matching-hud-simple {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 12px;
   position: relative;
   z-index: 1;
+  padding: 6px 4px 0;
 }
 
-.matching-hud .hud-item {
-  background: #FCD34D;
-  border: 3px solid #111827;
-  border-radius: 12px;
-  padding: 8px 4px;
-  text-align: center;
-  color: #111827;
+.matching-hud-item {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 2px;
-  box-shadow: 3px 3px 0px 0px #111827;
-  transition: all 0.1s ease;
+  gap: 6px;
+  position: relative;
 }
 
-.matching-hud .hud-item:active {
-  transform: translateY(1px);
-  box-shadow: 1px 1px 0px 0px #2D2D2D;
+.matching-hud-item-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-.matching-hud .hud-icon {
-  font-size: 16px;
+.matching-hud-icon {
+  font-size: 32px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 }
 
-.matching-hud .hud-value {
-  font-size: 14px;
-  font-weight: 800;
-  color: #FCD34D;
+.matching-hud-value {
+  font-size: 36px;
+  font-weight: 900;
+  color: #2D2D2D;
   font-family: 'Bangers', 'Fredoka', var(--font-main, 'Bai Jamjuree'), sans-serif;
-  letter-spacing: 0.5px;
+  line-height: 1;
+  letter-spacing: 1px;
+  /* Warm gold-tinted glow like sushi game star counter */
+  text-shadow:
+    0 0 4px rgba(255, 248, 231, 1.0),
+    0 0 10px rgba(255, 248, 231, 0.9),
+    0 0 24px rgba(252, 211, 77, 0.5),
+    0 0 40px rgba(252, 211, 77, 0.2);
+}
+
+/* ⏱️ Time popup — pops up near timer on +3s/+5s/-1s */
+.time-popup {
+  position: absolute;
+  right: 0;
+  top: -24px;
+  font-size: 18px;
+  font-weight: 900;
+  font-family: 'Bangers', 'Fredoka', var(--font-main, 'Bai Jamjuree'), sans-serif;
+  color: #4ADE80;
+  text-shadow:
+    0 0 6px rgba(74, 222, 128, 0.6),
+    0 0 12px rgba(74, 222, 128, 0.3),
+    0 2px 4px rgba(0,0,0,0.15);
+  white-space: nowrap;
+  pointer-events: none;
+  animation: timePopupAnim 0.85s ease-out forwards;
+}
+
+@keyframes timePopupAnim {
+  0% { transform: translateY(0) scale(0.4); opacity: 0; }
+  20% { transform: translateY(-8px) scale(1.2); opacity: 1; }
+  50% { transform: translateY(-16px) scale(1); opacity: 1; }
+  100% { transform: translateY(-32px) scale(0.85); opacity: 0; }
 }
 
 /* ── Grid Layout ── */
 .matching-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
   max-width: 480px;
   margin: 16px auto 0;
@@ -1721,38 +1736,48 @@ body {
   box-shadow: 1px 1px 0px 0px #111827;
 }
 
-/* Character tile — royal blue accent stripe */
+/* Character tile — emerald/jade gradient (#107565 → #0a2c34) */
 .matching-tile.tile-char {
-  background: linear-gradient(180deg, #FAF8F5 70%, #DBEAFE 100%);
-  border-color: #111827;
+  background: linear-gradient(135deg, #107565, #0a2c34);
+  border-color: #e5d18e;
 }
 .matching-tile.tile-char:hover:not(:disabled) {
-  background: linear-gradient(180deg, #FAF8F5 50%, #DBEAFE 100%);
+  background: linear-gradient(135deg, #128a76, #0d3a45);
 }
 
-/* Meaning tile — coral/pink accent stripe */
+/* Meaning tile — ruby/crimson gradient (#a32f2d → #402229) */
 .matching-tile.tile-meaning {
-  background: linear-gradient(180deg, #FAF8F5 70%, #FCE4EC 100%);
-  border-color: #111827;
+  background: linear-gradient(135deg, #a32f2d, #402229);
+  border-color: #fde87b;
 }
 .matching-tile.tile-meaning:hover:not(:disabled) {
-  background: linear-gradient(180deg, #FAF8F5 50%, #FCE4EC 100%);
+  background: linear-gradient(135deg, #b93432, #542d36);
 }
 
-/* Selected state — sunny yellow pop */
-.matching-tile.tile-selected {
+/* Selected state — gold glow highlight */
+.matching-tile.tile-char.tile-selected {
   transform: translateY(-3px);
-  background: #FCD34D !important;
-  border-color: #111827;
-  box-shadow: 4px 7px 0px 0px #111827;
+  border-color: #e5d18e;
+  box-shadow: 0 0 14px rgba(229, 209, 142, 0.5), 4px 7px 0px 0px #111827;
+}
+.matching-tile.tile-meaning.tile-selected {
+  transform: translateY(-3px);
+  border-color: #fde87b;
+  box-shadow: 0 0 14px rgba(253, 232, 123, 0.5), 4px 7px 0px 0px #111827;
 }
 
 /* Wrong state — coral flash + shake */
 .matching-tile.tile-wrong {
   animation: tileShake 0.4s ease;
-  background: #F43F5E !important;
-  border-color: #111827;
   box-shadow: 4px 4px 0px 0px #111827;
+}
+.matching-tile.tile-char.tile-wrong {
+  background: linear-gradient(135deg, #b93432, #5a3030) !important;
+  border-color: #e5d18e;
+}
+.matching-tile.tile-meaning.tile-wrong {
+  background: linear-gradient(135deg, #d94442, #5a3030) !important;
+  border-color: #fde87b;
 }
 
 @keyframes tileShake {
@@ -1768,12 +1793,11 @@ body {
 /* Matched state — pop + fade celebration */
 .matching-tile.tile-matched {
   animation: tileMatchPop 0.5s ease forwards;
-  border-color: #111827;
 }
 
 @keyframes tileMatchPop {
   0% { transform: scale(1); opacity: 1; }
-  30% { transform: scale(1.2) rotate(5deg); opacity: 1; background: #FCD34D; }
+  30% { transform: scale(1.2) rotate(5deg); opacity: 1; }
   100% { transform: scale(0.3) rotate(15deg); opacity: 0; }
 }
 
@@ -1782,17 +1806,18 @@ body {
   font-family: var(--font-hanzi, 'ZCOOL KuaiLe', sans-serif);
   font-size: clamp(1.6rem, 5vw, 2.4rem);
   font-weight: bold;
-  color: #111827;
+  color: #e5d18e;
   line-height: 1.1;
   text-align: center;
   word-break: break-all;
+  text-shadow: 0 0 10px rgba(229, 209, 142, 0.35);
 }
 
 .tile-content-meaning {
   font-family: var(--font-main, 'Bai Jamjuree', sans-serif);
   font-size: clamp(1.2rem, 3.8vw, 1.6rem);
   font-weight: 700;
-  color: #111827;
+  color: #fde87b;
   line-height: 1.2;
   text-align: center;
   word-break: break-word;
@@ -1883,6 +1908,15 @@ body {
   }
   .tile-content-meaning {
     font-size: clamp(1rem, 3.2vw, 1.3rem);
+  }
+  .matching-hud-simple {
+    padding: 4px 2px 0;
+  }
+  .matching-hud-icon {
+    font-size: 24px;
+  }
+  .matching-hud-value {
+    font-size: 26px;
   }
 }
 

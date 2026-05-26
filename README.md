@@ -173,6 +173,10 @@ A bold, tactile board-game aesthetic applied to the dojo page and both game mode
     └── package.json
 ```
 
+## 🐛 Known Issues
+
+- **Git push silently fails ~50% of the time** from the assistant (basher agent). The command outputs "Everything up-to-date" even when there are unpushed commits. Fix: always run `git push origin main` explicitly and verify by comparing `git rev-parse HEAD` vs `git rev-parse origin/main`.
+
 ## 🧠 Architecture
 
 **Data flow:** All data is stored in `localStorage` via `profiles.js` (`XHZ` namespace). When Supabase sync is enabled, every write triggers a fire-and-forget push to the cloud. On page load, remote data is pulled and merged with local data.

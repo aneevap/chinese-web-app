@@ -1,6 +1,6 @@
 # Active Context
 
-## Current Session — Drop zone redesign, drag-and-drop fixes, tap-to-select fix
+## Current Session — Flash Match overhaul: HUD, card styles, gameplay logic, time popups
 
 ### Drag-and-drop fixes
 - **`setPointerCapture` removed** from plate's `onPointerDown` — was stealing `pointerup` events from customer slots, breaking drag-and-drop entirely
@@ -9,71 +9,63 @@
 - **Tap-to-select fix** — game area's `onPointerUp` was unconditionally setting `dragStateRef.current = null`, wiping the ref before the `click` handler could check `dragStateRef.current?.active`. Now only clears inside the `if (active)` block. For taps, the ref persists through `pointerUp` so the click handler correctly identifies it as a non-drag interaction.
 - **Double-scoring fix** — game area's `onPointerUp` was also calling `resolveAttempt` (bubble phase), duplicating the customer slot's handler (target phase). Removed `resolveAttempt` from game area handler — customer slot already covers both drag-drop and tap-to-deliver paths.
 
-### Drop zone repositioned as plain translucent square
-- **Moved from bottom (`position: absolute; bottom: 10px`)** to **top-center of customer area** (`top: 40px; left: 50%; transform: translateX(-50%)`)
-- **130×130px square** with 18px rounded corners, translucent background (`rgba(255,248,231,0.75)`), no border, soft `box-shadow`, `backdrop-filter: blur(6px)`
-- **No speech balloon tail**, no mini bubbles, no cloud texture
-- **Empty state removed** — when no plate is selected, the drop zone is an empty translucent square with no emoji or text
-- **Cancel button** overlaid at top-right corner (`top: -6px; right: -6px`), smaller at 24×24px
-- **Selected plate** appears centered inside the square with gentle bounce animation
-- **Mobile**: scaled to 100×100px square
+### Drop zone made fully transparent
+- Removed all graphic styling from `.thought-bubble`: `background`, `box-shadow`, `backdrop-filter`, `border-radius`, fixed width/height — now completely invisible, just a positioned flex container
+- Removed `.selected-plate-wrapper` fixed width/height/padding — size is content-determined
 
-### Customers and stools scaled 50% larger
-- **Customer slot**: min-height 130→195px, width clamp 90-150→135-225px
-- **Avatar**: clamp 56-72→84-108px
-- **Stool**: width 44→66px, height 8→12px, legs height 14→21px
-- **Bubble**: min-height 48→72px, padding 8→12px
-- **Empty slot**: min-height 130→195px
-- **Mobile**: avatar 44-56→66-84px, bubble min-height 38→54px, slot min-height 120→180px, width 76-110→114-165px
+### Flash Match game — HUD upgrade
+- Replaced old 6-column card-grid HUD with sushi-style simple display: **💰 Score (left)**, **🏁 Stage (center)**, **⏱️ Timer (right)**
+- Big 36px Bangers font with gold text-shadow glow, no card backgrounds
+- Added `matchStage` state (starts at 1, increments in `startNewRound`)
+- Stage saved to Hall of Fame (`bestStage: matchStageRef.current`)
 
-### Customer area height extended
-- **`padding-bottom`** increased from 160px → 225px (belt is 130px tall, half ≈ 65px added on top of 160px)
+### Flash Match game — Card styling
+- **Chinese character tiles:** Green gradient `#107565→#0a2c34`, gold text/border `#e5d18e` with highlight glow
+- **Translation tiles:** Red gradient `#a32f2d→#402229`, yellow text/border `#fde87b`
+- Removed old `.matching-hud` grid card styles and dead CSS classes
+
+### Flash Match game — Custom background
+- Diagonal stripe `::before` pattern replaced with `background-image: url('../../images/matching-bg.png')` (cover/center/no-repeat)
+- Image placed at `images/matching-bg.png` (root-level, ~1.6MB)
+
+### Flash Match game — Gameplay logic changes
+- **Dynamic grid sizes:** Stage 1 → 3×3 (8 tiles/4 pairs), Stage 2 → 4×4 (16/8), Stage 3+ → 5×5 (24/12)
+- **Combo time bonus:** Every 5 corrects in a row → +3 seconds (+5s, +10s, +15s…)
+- **Stage time bonus:** Each new stage → +5 seconds
+- **Wrong penalty:** Each mistake → −1 second (clamped ≥ 0)
+- **ADJUST_TIME action** added to gameState reducer (clamps to min 0)
+- Grid columns set via inline `style={{ gridTemplateColumns }}` instead of fixed CSS
+- Removed fixed `grid-template-columns` from `.matching-grid` CSS
+
+### Flash Match game — Time popup animations
+- `+3s ⏱️` pops up near timer on combo bonus
+- `+5s ⏱️` pops up on new stage
+- `-1s ⏱️` pops up on wrong match
+- Green glow animation with scale-up → float-up → fade over 0.85s
+- Cleanup after 900ms via useEffect
 
 ### ✅ Working Correctly
 - **Design system migration:** All 8 pages use design system CSS variables
-- **paper-grain.png:** Exists at `assets/textures/paper-grain.png` (788 bytes)
-- **signup.html:** Deleted
-- **Hall of Fame:** Auto-saves scores, leaderboard in result screens, live refresh on dojo.html, **global shared leaderboard via Supabase**
-- **Global Rankings tab:** Shows all players' scores, current user highlighted, loading spinner, auto-refreshes after game finish
-- **Duplicate profiles:** Name-only check, auto-merge on `getAllProfiles()`
+- **Hall of Fame:** Auto-saves scores, leaderboard in result screens, global shared leaderboard via Supabase
 - **Auth flow:** Upgrade, sign-in, password reset, set-new-password, recovery detection
-- **Font weights:** All pages identical (Bai 400-800, Nunito 400-800, Mali 400-700)
-- **Sushi mode:** Walking entrance/exit animations, slot-based positioning, column layout (text top, emoji bottom), white glow on text, juice-bar spawn timer, SVG character avatars, custom pointer-based drag-and-drop, tap-to-select
-- **Drop zone:** Plain translucent square centered above customers, 130×130px, no border/speech balloon, selected plate with cancel button
-- **Customers scaled 50% larger:** 84-108px avatars, 66px stools, 195px slots
-- **Grid Buster:** 4×4 matching game, multi-round, neo-brutalism board-game aesthetic
-- **Error Boundary:** Catches render errors gracefully with fallback UI
-- **Dojo page:** Neo-brutalism redesign with centered games grid, accent stripes, achievement card HOF
-- **Print page:** Dual source (Course/Notebook), missing charsPerPage restored, notebook char enrichment
-- **Progress page:** Full EN/TH i18n support for all dynamic content, improved font sizes
-- **Notebook entries:** meaning_th stored alongside meaning, course data fallback for old entries
-- **Supabase sync:** Notebook data sync support added
-- **Guest dot:** Now hides immediately after sign-in on index page
-- **Recovery page:** Fully functional with i18n support
-- **Index page:** Sign-in option available alongside Add New Learner
-- **Sushi iPhone:** Tap-to-deliver works, coordinate-based plate matching, doors hidden on mobile, belt edge-to-edge, single-row belt
-- **Mode tabs conditionally rendered:** Hidden during gameplay via `onGameActiveChange` callback prop
-- **Body scroll locked during gameplay:** `.scroll-locked` class toggled on `<html>` + `<body>`, game containers `position: fixed; inset: 0` for iOS bulletproof scroll prevention
-- **Mobile Safari viewport:** `100dvh` on game containers for dynamic toolbar
-- **Cache buster:** `?v=31` on game.js
-- **Game cards on iPhone:** 3-column grid works on all iPhone viewports via `minmax(0, 1fr)` fix
-- **Global Hall of Fame:** Shared leaderboards via Supabase with tabbed UI on dojo page
-- **GitHub Pages deploy:** Fixed TypeScript build error that was silently blocking deploys for weeks
-- **Custom image directories:** `games/public/images/sushi/` + `images/characters/` ready for assets
-- **Drag-and-drop:** Custom pointer-based DnD (no HTML5 drag API), `document.elementFromPoint()` hit-testing, document-level pointerup cleanup
-- **Double-scoring prevented:** Game area handler only cleans up ghost — customer slot handler does the resolve
+- **Sushi mode:** Walking animations, slot positioning, column layout (text top, emoji bottom), white glow, juice-bar spawn timer, SVG character avatars, drag-and-drop, tap-to-select
+- **Drop zone:** Fully invisible — no background, border, shadow, or fixed dimensions
+- **Flash Match:** Sushi-style HUD, green/red gradient cards, custom background, dynamic grids (3×3→4×4→5×5), combo/stage time bonuses + wrong penalty, time popup animations
+- **Error Boundary:** Catches render errors gracefully
+- **Dojo page:** Neo-brutalism design, centered games grid, global HOF
+- **Body scroll locked during gameplay**, iOS viewport 100dvh
+- **Custom image directories:** `images/characters/` + `images/matching-bg.png` + `games/public/images/sushi/`
 
 ### Known Issues
 - Dojo cards background still lighter than page (user preference: match paper-warm with grain)
 - User could close recovery modal without setting password (leaves recovery-limited session)
 - `window.__SUPABASE_SYNC.pushAll()` called in auth-modal.js on sign-in success but method doesn't exist in silent no-op
+- **Stage 1 grid (3×3) has odd cell count** — 9 cells can only fit 4 pairs (8 tiles) + 1 empty cell. User expects more cards. Need to decide: change to 4×4 for stage 1, or show 9 cards with 4 pairs + 1 placeholder cell.
 
-### Pending: 11 Custom Character SVGs
-- **User will prepare 11 SVG character images** (face/body only, no chairs) and place them in `images/characters/`
-- **After placing them:** Verify the already-populated `CHARACTER_AVATARS` array in `SushiMode.tsx` has all 11 filenames
-- SVG spec: 100×100 viewBox, just the character (stool is CSS-generated at 12px height), keep within ~50-60px center area
-- Avatar CSS already handles `object-fit: contain` at 84-108px clamp
+### Git Push Failures (Recurring)
+`git push` silently fails ~50% of the time from the assistant (basher agent). Exits with "Everything up-to-date" even with unpushed commits. Root cause unclear. **Fix:** Always compare `HEAD` vs `origin/main` after push. If different, re-run `git push origin main` explicitly.
 
-### Other Next Steps
-- Verify matching game touch interaction on iPhone (tap-to-match needs pointer events)
+### Next Steps
+- Fix stage 1 grid size — 3×3 yields odd cell count, user reports too few cards
+- Verify Flash Match touch interaction on iPhone
 - Fix `pushAll()` missing method or replace with proper sync trigger after sign-in

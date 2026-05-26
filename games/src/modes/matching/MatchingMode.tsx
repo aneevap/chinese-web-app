@@ -3,17 +3,26 @@ import { useGameDispatch, useGameState } from '../../core/state/gameState';
 import type { DisplayLanguage, VocabItem, HallOfFameEntry } from '../../core/types';
 import { addStudyStars, getActiveProfile } from '../../profile/profileBridge';
 import type { CourseMeta } from '../../data/vocab';
-import { saveSessionResult, getGameLeaderboard, getPersonalBest } from '../../core/systems/hallOfFame';
+import { saveSessionResult, getGameLeaderboard } from '../../core/systems/hallOfFame';
 
-const GRID_COLS = 4;
-const GRID_ROWS = 4;
-const TOTAL_TILES = GRID_COLS * GRID_ROWS; // 16
-const PAIR_COUNT = TOTAL_TILES / 2; // 8
 const ROUND_SECONDS = 60;
 const POINTS_PER_MATCH = 10;
 const COMBO_BONUS = 5;
 
 const rid = () => Math.random().toString(36).slice(2, 9);
+
+function getGridConfig(stage: number): { cols: number; rows: number; pairCount: number } {
+  const clamped = Math.min(stage, 3);
+  const configs: { cols: number; rows: number }[] = [
+    { cols: 3, rows: 3 },  // Stage 1: 9 cells → 8 tiles (4 pairs)
+    { cols: 4, rows: 4 },  // Stage 2: 16 cells → 16 tiles (8 pairs)
+    { cols: 5, rows: 5 },  // Stage 3+: 25 cells → 24 tiles (12 pairs)
+  ];
+  const { cols, rows } = configs[clamped - 1];
+  const totalCells = cols * rows;
+  const pairCount = Math.floor(totalCells / 2);
+  return { cols, rows, pairCount };
+}
 
 interface MatchTile {
   id: string;
@@ -42,7 +51,7 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
   const [tiles, setTiles] = useState<MatchTile[]>([]);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [matchedPairs, setMatchedPairs] = useState(0);
-  const [totalPairs, setTotalPairs] = useState(PAIR_COUNT);
+  const [totalPairs, setTotalPairs] = useState(getGridConfig(1).pairCount);
   const [scorePopup, setScorePopup] = useState<{ value: number; x: number; y: number } | null>(null);
   const [comboPopup, setComboPopup] = useState<{ combo: number; x: number; y: number } | null>(null);
   const [shakeEffect, setShakeEffect] = useState(false);
@@ -50,6 +59,11 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
   const [totalMatched, setTotalMatched] = useState(0);
   const [newSetFlash, setNewSetFlash] = useState(false);
   const [flashEffect, setFlashEffect] = useState(false);
+  const [timePopup, setTimePopup] = useState<{ text: string; key: number } | null>(null);
+  const [matchStage, setMatchStage] = useState(1);
+  const gridConfig = getGridConfig(matchStage);
+  const matchStageRef = useRef(matchStage);
+  matchStageRef.current = matchStage;
 
   // Course/theme selection
   const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
@@ -57,7 +71,6 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
 
   // Leaderboard state
   const [leaderboard, setLeaderboard] = useState<{ rank: number; top: HallOfFameEntry[] } | null>(null);
-  const [personalBest, setPersonalBest] = useState(0);
 
   const sessionSavedRef = useRef(false);
   const lastMatchTimeRef = useRef(Date.now());
@@ -82,12 +95,12 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
   }, []);
 
   // Build tiles from selected words
-  const buildTiles = useCallback((wordPool: VocabItem[]) => {
-    const picked = wordPool.length >= PAIR_COUNT
-      ? pickGridWords(wordPool, PAIR_COUNT)
+  const buildTiles = useCallback((wordPool: VocabItem[], pairCount: number) => {
+    const picked = wordPool.length >= pairCount
+      ? pickGridWords(wordPool, pairCount)
       : [...wordPool];
     // If not enough words, duplicate some
-    while (picked.length < PAIR_COUNT) {
+    while (picked.length < pairCount) {
       picked.push(wordPool[picked.length % wordPool.length]);
     }
 
@@ -132,32 +145,40 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
   // ✅ Build grid when game starts
   useEffect(() => {
     if (activeWords.length > 0 && !showStartScreen && countdown === 0 && gameStarted) {
-      const built = buildTiles(activeWords);
+      const cfg = getGridConfig(1);
+      const built = buildTiles(activeWords, cfg.pairCount);
       // Track first round's words so they don't repeat in round 2
       built.forEach(tile => usedWordIdsRef.current.add(tile.wordId));
       setTiles(built);
-      setTotalPairs(Math.min(PAIR_COUNT, Math.floor(built.length / 2)));
+      setTotalPairs(cfg.pairCount);
     }
   }, [activeWords, showStartScreen, countdown, gameStarted, buildTiles]);
 
   // Start a new round when all pairs matched
   const startNewRound = useCallback(() => {
     const used = usedWordIdsRef.current;
+    const prevStage = matchStageRef.current;
+    const newStage = prevStage + 1;
+    const cfg = getGridConfig(newStage);
     let available = activeWords.filter(w => !used.has(w.id));
-    if (available.length < PAIR_COUNT) {
+    if (available.length < cfg.pairCount) {
       used.clear();
       available = activeWords;
     }
-    const built = buildTiles(available);
+    const built = buildTiles(available, cfg.pairCount);
     built.forEach(tile => used.add(tile.wordId));
     setTiles(built);
-    setTotalPairs(Math.min(PAIR_COUNT, Math.floor(built.length / 2)));
+    setTotalPairs(cfg.pairCount);
     setMatchedPairs(0);
     setSelectedIds([]);
     setRound(prev => prev + 1);
+    setMatchStage(newStage);
+    // ⏱️ Stage bonus: +5 seconds for reaching a new stage
+    dispatch({ type: 'ADJUST_TIME', seconds: 5 });
+    setTimePopup({ text: '+5s ⏱️', key: Date.now() });
     setNewSetFlash(true);
     setTimeout(() => setNewSetFlash(false), 800);
-  }, [activeWords, buildTiles]);
+  }, [activeWords, buildTiles, dispatch]);
 
   // ✅ Start new round when all pairs matched (before time runs out)
   useEffect(() => {
@@ -183,7 +204,7 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
             avatar: profile.avatar,
             bestStars: state.stars,
             bestScore: state.score,
-            bestStage: state.stage,
+            bestStage: matchStageRef.current,
             updatedAt: now,
           });
 
@@ -198,24 +219,6 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
       }
     }
   }, [state.secondsLeft, gameStarted, ended, matchedPairs, totalPairs, state.score, state.stars, state.stage]);
-
-  // ✅ Load personal best
-  useEffect(() => {
-    const profile = getActiveProfile();
-    if (profile) {
-      setPersonalBest(getPersonalBest(profile.id, 'matching'));
-    }
-  }, []);
-
-  // ✅ Update personal best after game ends
-  useEffect(() => {
-    if (ended) {
-      const profile = getActiveProfile();
-      if (profile) {
-        setPersonalBest(getPersonalBest(profile.id, 'matching'));
-      }
-    }
-  }, [ended]);
 
   // Tell App when game is active (hide mode tabs) + lock body scroll during gameplay
   useEffect(() => {
@@ -270,6 +273,13 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
     const timer = setTimeout(() => setFlashEffect(false), 1000);
     return () => clearTimeout(timer);
   }, [flashEffect]);
+
+  // ✅ Time popup cleanup
+  useEffect(() => {
+    if (!timePopup) return;
+    const timer = setTimeout(() => setTimePopup(null), 900);
+    return () => clearTimeout(timer);
+  }, [timePopup]);
 
   // 🎵 Play success sound
   const playSuccessSound = useCallback(() => {
@@ -510,11 +520,14 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
             playComboSound();
           }
 
-          // ⚡ Lightning reward every 5 combos (5, 10, 15…)
+          // ⚡ Lightning reward every 5 combos (5, 10, 15…) + time bonus
           if (isCombo && comboValue >= 5 && comboValue % 5 === 0) {
             setFlashEffect(true);
             playLightningSound();
             playLightningWhoosh();
+            // ⏱️ Combo bonus: +3 seconds for every 5 consecutive correct matches
+            dispatch({ type: 'ADJUST_TIME', seconds: 3 });
+            setTimePopup({ text: '+3s ⏱️', key: Date.now() });
           }
 
           // Popup effects
@@ -538,6 +551,9 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
       } else {
         // ❌ WRONG
         dispatch({ type: 'WRONG' });
+        // ⏱️ Wrong penalty: -1 second
+        dispatch({ type: 'ADJUST_TIME', seconds: -1 });
+        setTimePopup({ text: '-1s ⏱️', key: Date.now() });
         playWrongSound();
         setShakeEffect(true);
 
@@ -592,8 +608,10 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
     setShakeEffect(false);
     setRound(1);
     setTotalMatched(0);
+    setMatchStage(1);
     setNewSetFlash(false);
     setFlashEffect(false);
+    setTimePopup(null);
     setShowStartScreen(true);
     setCountdown(3);
     setLeaderboard(null);
@@ -713,38 +731,27 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
         </div>
       )}
 
-      {/* HUD */}
-      <div className="hud matching-hud">
-        <div className="hud-item">
-          <span className="hud-icon">⭐</span>
-          <span className="hud-value">{state.stars}</span>
+      {/* HUD — sushi game style: Score left, Stage center, Timer right */}
+      <div className="matching-hud-simple">
+        <div className="matching-hud-item">
+          <span className="matching-hud-icon">💰</span>
+          <span className="matching-hud-value">{state.score}</span>
         </div>
-        <div className="hud-item">
-          <span className="hud-icon">💰</span>
-          <span className="hud-value">{state.score}</span>
+        <div className="matching-hud-item matching-hud-item-center">
+          <span className="matching-hud-icon">🏁</span>
+          <span className="matching-hud-value">Stage {matchStage}</span>
         </div>
-        {personalBest > 0 && (
-          <div className="hud-item">
-            <span className="hud-icon">👑</span>
-            <span className="hud-value">{personalBest}</span>
-          </div>
-        )}
-        <div className="hud-item">
-          <span className="hud-icon">🔄</span>
-          <span className="hud-value">Round {round}</span>
-        </div>
-        <div className="hud-item">
-          <span className="hud-icon">🎯</span>
-          <span className="hud-value">{matchedPairs}/{totalPairs}</span>
-        </div>
-        <div className="hud-item">
-          <span className="hud-icon">⏱️</span>
-          <span className="hud-value">{state.secondsLeft}s</span>
+        <div className="matching-hud-item">
+          <span className="matching-hud-icon">⏱️</span>
+          <span className="matching-hud-value">{state.secondsLeft}s</span>
+          {timePopup && (
+            <span key={timePopup.key} className="time-popup">{timePopup.text}</span>
+          )}
         </div>
       </div>
 
       {/* Grid */}
-      <div className="matching-grid">
+      <div className="matching-grid" style={{ gridTemplateColumns: `repeat(${gridConfig.cols}, 1fr)` }}>
         {tiles.map(tile => {
           const isChar = tile.type === 'char';
           return (
@@ -817,7 +824,7 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
         <div className="overlay">
           <div className="result-card" style={{ maxHeight: '90vh', overflowY: 'auto' }}>
             <div className="result-icon">⏰</div>
-            <h2>Time\'s Up!</h2>
+            <h2>Time's Up!</h2>
             <div className="result-stats">
               <div className="result-stat">
                 <span className="result-stat-icon">⭐</span>
@@ -843,6 +850,11 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
                 <span className="result-stat-icon">🔥</span>
                 <span className="result-stat-label">Best Combo</span>
                 <span className="result-stat-value">{state.combo}x</span>
+              </div>
+              <div className="result-stat">
+                <span className="result-stat-icon">🏁</span>
+                <span className="result-stat-label">Stage</span>
+                <span className="result-stat-value">{matchStage}</span>
               </div>
             </div>
 

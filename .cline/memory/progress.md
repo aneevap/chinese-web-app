@@ -266,3 +266,19 @@
 - **Customer area height extended:**
   - `padding-bottom` increased 160px → 225px (half belt height = ~65px added)
 - **Commits:** `5d6a55e` (drop zone + customer scaling)
+
+### Session 38 — Drop zone fully invisible + git push documentation
+- **Drop zone made fully transparent:** Removed all graphic styling (background, box-shadow, backdrop-filter, border-radius, fixed dimensions). Just a positioned flex container.
+- **Git Push Failures documented:** Added to activeContext.md, progress.md, and README.md — recurring issue where `git push` silently outputs "Everything up-to-date" even with unpushed commits.
+- **Commit:** `52fc690`
+
+### Session 39 — Flash Match overhaul: HUD, card styles, background, gameplay logic, time popups
+- **HUD upgraded to sushi style:** Score left, Stage centered, Timer right. Big 36px Bangers font with gold glow, no card backgrounds. Stage +1 per deck completed.
+- **Card styling:** Chinese tiles = green gradient (#107565→#0a2c34) + gold text/border (#e5d18e). Translation tiles = red gradient (#a32f2d→#402229) + yellow text/border (#fde87b).
+- **Custom background:** Diagonal stripe pattern replaced with `images/matching-bg.png` (cover/center/no-repeat, path relative for Vite/GitHub Pages).
+- **Gameplay logic:** Dynamic grids (3×3→4×4→5×5 per stage). Combo 5x → +3s. New stage → +5s. Wrong → -1s. ADJUST_TIME action in reducer.
+- **Time popups:** +3s/+5s/-1s visual popups near timer with green glow float-up animation.
+- **Known issue:** Stage 1 (3×3) has odd cell count — only 8 tiles (4 pairs) fit in 9 cells. User reports too few cards.
+
+### Persistent Issues
+- **Git push silently fails ~50% of the time** from the assistant (basher agent). The command outputs "Everything up-to-date" even when there are unpushed commits. Fix: always run `git push origin main` explicitly and verify by comparing `git rev-parse HEAD` vs `git rev-parse origin/main`.

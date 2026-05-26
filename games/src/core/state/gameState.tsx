@@ -7,6 +7,7 @@ type GameState = ScoreState & { secondsLeft: number };
 type Action =
   | { type: 'TICK' }
   | { type: 'RESET'; seconds: number }
+  | { type: 'ADJUST_TIME'; seconds: number }
   | { type: 'CORRECT'; attempts: number }
   | { type: 'WRONG' };
 
@@ -24,6 +25,8 @@ function reducer(state: GameState, action: Action): GameState {
       return { ...state, secondsLeft: Math.max(0, state.secondsLeft - 1) };
     case 'RESET':
       return { ...initialState, secondsLeft: action.seconds };
+    case 'ADJUST_TIME':
+      return { ...state, secondsLeft: Math.max(0, state.secondsLeft + action.seconds) };
     case 'CORRECT':
       return { ...state, ...applyCorrect(state, action.attempts) };
     case 'WRONG':
