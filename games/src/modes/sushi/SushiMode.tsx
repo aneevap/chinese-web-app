@@ -46,6 +46,25 @@ type CustomerAnimPhase = 'entering' | 'seated' | 'exiting' | 'exiting-wrong';
 interface CustomerWithAnim extends CustomerOrder {
   animPhase: CustomerAnimPhase;
   slotIndex: number;
+  avatar: string;
+}
+
+const CHARACTER_AVATARS = [
+  'images/characters/boy.svg',
+  'images/characters/cat.svg',
+  'images/characters/fox.svg',
+  'images/characters/girl.svg',
+  'images/characters/granny.svg',
+  'images/characters/kabugi.svg',
+  'images/characters/man.svg',
+  'images/characters/ninja.svg',
+  'images/characters/ojisan.svg',
+  'images/characters/samurai.svg',
+  'images/characters/woman.svg',
+];
+
+function randomAvatar(): string {
+  return CHARACTER_AVATARS[Math.floor(Math.random() * CHARACTER_AVATARS.length)];
 }
 
 // 🎊 Confetti particles
@@ -409,6 +428,17 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
     }
   }, [ended]);
 
+  // Clean up drag ghost and selected plate on game end (prevents stuck plate/ghost)
+  useEffect(() => {
+    if (ended) {
+      if (dragGhostRef.current) {
+        dragGhostRef.current.remove();
+        dragGhostRef.current = null;
+      }
+      setSelectedWordId(null);
+    }
+  }, [ended]);
+
   // ✅ Save result to Hall of Fame when the game ends
   useEffect(() => {
     if (state.secondsLeft <= 0 && !ended && !sessionSavedRef.current) {
@@ -488,7 +518,7 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
           const usedSlots = new Set(prev.map(c => c.slotIndex));
           const freeSlot = [0, 1, 2].find(i => !usedSlots.has(i));
           if (freeSlot === undefined || prev.length >= MAX_CUSTOMERS) return prev;
-          return [...prev, { id: rid(), target: card, attempts: 0, animPhase: 'entering', slotIndex: freeSlot }];
+          return [...prev, { id: rid(), target: card, attempts: 0, animPhase: 'entering', slotIndex: freeSlot, avatar: randomAvatar() }];
         });
       }
     }, FIRST_SPAWN_DELAY);
@@ -514,7 +544,7 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
               const usedSlots = new Set(c.map(cust => cust.slotIndex));
               const freeSlot = [0, 1, 2].find(i => !usedSlots.has(i));
               if (freeSlot === undefined || c.length >= MAX_CUSTOMERS) return c;
-              return [...c, { id: rid(), target: card, attempts: 0, animPhase: 'entering', slotIndex: freeSlot }];
+              return [...c, { id: rid(), target: card, attempts: 0, animPhase: 'entering', slotIndex: freeSlot, avatar: randomAvatar() }];
             });
           }
           spawnMaxRef.current = currentInterval;
@@ -763,6 +793,19 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
     }
   }, []);
 
+  // Document-level pointer-up cleanup: when a drag is active and the pointer is
+  // released outside the game area, ensure ghost is removed.
+  useEffect(() => {
+    const onDocUp = () => {
+      if (dragStateRef.current?.active) {
+        removeDragGhost();
+        dragStateRef.current = null;
+      }
+    };
+    document.addEventListener('pointerup', onDocUp);
+    return () => document.removeEventListener('pointerup', onDocUp);
+  }, [removeDragGhost]);
+
   // Get the animation class for a customer based on their phase
   const getAnimClass = (customer: CustomerWithAnim): string => {
     switch (customer.animPhase) {
@@ -793,6 +836,7 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
       onPointerUp={() => {
         if (dragStateRef.current?.active) {
           removeDragGhost();
+          dragStateRef.current = null;
         }
       }}
     >
@@ -982,6 +1026,7 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
               <div
                 key={customer.id}
                 id={`customer-${customer.id}`}
+                data-customer-id={customer.id}
                 data-slot={customer.slotIndex}
                 className={`customer-slot ${animClass} ${isCorrectEffect ? 'correct-flash' : ''}`}
                 onPointerUp={() => {
@@ -999,7 +1044,7 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
                 <div className="bubble">
                   <span className="bubble-thai">{customer.target.meaningTh}</span>
                 </div>
-                <img className={`avatar${isCorrectEffect ? ' correct-bounce' : ''}`} src={['images/characters/cat.svg', 'images/characters/bear.svg', 'images/characters/ninja.svg', 'images/characters/panda.svg', 'images/characters/fox.svg'][index % 5]} alt="customer" />
+                <img className={`avatar${isCorrectEffect ? ' correct-bounce' : ''}`} src={customer.avatar} alt="customer" />
                 <div className="stool" />
                 {isCorrectEffect && <div className="correct-check">✓</div>}
               </div>
@@ -1007,8 +1052,8 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
           })}
         </div>
 
-        {/* 📦 DROP ZONE - Middle (Selected Plate) - floats at the bottom edge */}
-        <div className={`drop-zone ${selectedWord ? 'has-selection' : ''}`}>
+        {/* 🧠 DROP ZONE — Plain translucent square for selected plate */}
+        <div className="thought-bubble">
           {selectedWord ? (
             <div className="selected-plate-wrapper">
               <div
@@ -1029,12 +1074,7 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
                 ✕
               </button>
             </div>
-          ) : (
-            <div className="drop-zone-empty">
-              <span className="drop-zone-icon">👇</span>
-              <span>Tap a plate to pick it up, then tap or drag it to a customer</span>
-            </div>
-          )}
+          ) : null}
         </div>
       </div>
 
@@ -1060,9 +1100,6 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
                       startY: e.clientY,
                       active: false,
                     };
-                    // Capture pointer so onPointerMove/onPointerUp fire even
-                    // when the cursor leaves the game area (no ghost leak)
-                    gameAreaRef.current?.setPointerCapture(e.pointerId);
                   }
                 }}
                 onClick={(e) => {
@@ -1071,6 +1108,7 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
                     dragStateRef.current = null;
                     return;
                   }
+                  dragStateRef.current = null;
                   if (!showStartScreen && countdown === 0 && !ended) {
                     playClickSound();
                     // Use finger coordinates to find the closest plate via

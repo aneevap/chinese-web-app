@@ -229,7 +229,7 @@ body {
   z-index: 1;
   margin-bottom: 0;
   border-radius: 14px;
-  padding: 12px 6px 320px;
+  padding: 12px 6px 225px;
   /* 🏮 Sushi restaurant vibe — warm wood tone fallback; image set via inline style */
   background-color: #C89D6E;
   box-shadow:
@@ -286,9 +286,9 @@ body {
   box-shadow: none;
   border-radius: 0;
   padding: 0;
-  min-height: 130px;
-  width: clamp(90px, 27vw, 150px);
-  max-width: 150px;
+  min-height: 195px;
+  width: clamp(135px, 40vw, 225px);
+  max-width: 225px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -420,7 +420,7 @@ body {
   box-shadow: none;
   justify-content: center;
   opacity: 1;
-  min-height: 130px;
+  min-height: 195px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -431,12 +431,12 @@ body {
   position: absolute;
   bottom: 0;
   left: 50%;
-  margin-left: -22px;
-  width: 44px;
-  height: 8px;
+  margin-left: -33px;
+  width: 66px;
+  height: 12px;
   background: linear-gradient(180deg, #A0896C, #8B7355);
-  border-radius: 4px 4px 2px 2px;
-  box-shadow: 0 2px 0 0 #5D4E37;
+  border-radius: 6px 6px 3px 3px;
+  box-shadow: 0 3px 0 0 #5D4E37;
 }
 
 /* Stool legs */
@@ -444,14 +444,14 @@ body {
 .stool::after {
   content: '';
   position: absolute;
-  top: 8px;
-  width: 4px;
-  height: 14px;
+  top: 12px;
+  width: 6px;
+  height: 21px;
   background: #5D4E37;
-  border-radius: 0 0 2px 2px;
+  border-radius: 0 0 3px 3px;
 }
-.stool::before { left: 7px; }
-.stool::after { right: 7px; }
+.stool::before { left: 10px; }
+.stool::after { right: 10px; }
 
 /* Empty stool — subtle bob to show seat is waiting */
 .customer-slot.empty .stool {
@@ -478,8 +478,8 @@ body {
   60% { background: #FCD34D; }
   100% { background: #FFF8E7;
 }}.avatar {
-  width: clamp(42px, 7vw, 54px);
-  height: clamp(42px, 7vw, 54px);
+  width: clamp(84px, 13.5vw, 108px);
+  height: clamp(84px, 13.5vw, 108px);
   object-fit: contain;
   margin-top: auto;
   margin-bottom: 0;
@@ -518,8 +518,8 @@ body {
   background: #FFFDE7;
   border: 3px solid #2D2D2D;
   border-radius: 14px;
-  padding: 8px 6px;
-  min-height: 48px;
+  padding: 12px 9px;
+  min-height: 72px;
   width: 100%;
   text-align: center;
   color: #2D2D2D;
@@ -594,42 +594,34 @@ body {
 
 
 
-/* ── DROP ZONE ── */
-.drop-zone {
+/* ── DROP ZONE — Plain translucent square for selected plate ── */
+.thought-bubble {
   position: absolute;
-  bottom: 10px;
-  left: 12px;
-  right: 12px;
-  z-index: 5;
-  min-height: 100px;
-  border: 3px solid rgba(45, 45, 45, 0.08);
-  border-radius: 14px;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  width: 130px;
+  height: 130px;
+  background: rgba(255, 248, 231, 0.75);
+  border: none;
+  border-radius: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(250, 248, 245, 0.35);
-  transition: all 0.12s ease;
-}
-
-.drop-zone.has-selection {
-  border-color: #FCD34D;
-  border-style: solid;
-  border-width: 3px;
-  background: rgba(252, 211, 77, 0.06);
-  box-shadow:
-    3px 3px 0px 0px #2D2D2D,
-    0 0 20px rgba(252, 211, 77, 0.15);
-}
-
-.drop-zone-empty {
-  display: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  backdrop-filter: blur(6px);
 }
 
 .selected-plate-wrapper {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 8px;
 }
 
 .selected-plate {
@@ -647,26 +639,31 @@ body {
 }
 
 .cancel-selection {
+  position: absolute;
+  top: -6px;
+  right: -6px;
   background: #F43F5E;
-  border: 3px solid #2D2D2D;
+  border: 2.5px solid #2D2D2D;
   color: white;
   border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  font-size: 14px;
+  width: 24px;
+  height: 24px;
+  font-size: 11px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.12s ease;
   font-weight: 700;
-  box-shadow: 2px 2px 0px 0px #2D2D2D;
+  box-shadow: 1.5px 1.5px 0px 0px #2D2D2D;
+  z-index: 2;
+  line-height: 1;
 }
 
 .cancel-selection:hover {
   background: #e0314e;
   transform: translateY(-2px);
-  box-shadow: 2px 4px 0px 0px #2D2D2D;
+  box-shadow: 1.5px 3px 0px 0px #2D2D2D;
 }
 
 .cancel-selection:active {
@@ -903,26 +900,26 @@ body {
     gap: 4px;
   }
   .customer-slot {
-    min-height: 120px;
+    min-height: 180px;
     padding: 5px 3px 8px;
-    width: clamp(76px, 22vw, 110px);
-    max-width: 110px;
+    width: clamp(114px, 33vw, 165px);
+    max-width: 165px;
     touch-action: manipulation;
     border-radius: 22px;
   }
   .customer-slot .avatar {
-    width: clamp(32px, 6vw, 40px);
-    height: clamp(32px, 6vw, 40px);
+    width: clamp(66px, 12vw, 84px);
+    height: clamp(66px, 12vw, 84px);
   }
   .customer-slot .bubble {
-    padding: 5px 4px;
-    min-height: 38px;
+    padding: 8px 6px;
+    min-height: 54px;
   }
   .bubble-thai {
     font-size: clamp(14px, 3.8vw, 18px);
   }
   .customer-slot.empty {
-    min-height: 120px;
+    min-height: 180px;
   }
   .door-row {
     gap: 8px;
@@ -963,8 +960,10 @@ body {
   .belt-fade-left {
     display: none;
   }
-  .drop-zone {
-    min-height: 90px;
+  .thought-bubble {
+    width: 100px;
+    height: 100px;
+    top: 24px;
   }
 }
 

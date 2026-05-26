@@ -233,6 +233,13 @@
 - **Custom sushi image directory:** Created `games/public/images/sushi/` with README documenting 128×128px PNG conventions, 8 naming rules, and migration guide for switching from emojis to `<img>` tags
 - **Commits:** `594a572` (sushi readability), `b54dbf3` (stronger glow), `a6d35be` (text at top, emoji at bottom), `c5b22f8` (round plates + overlaying text), `6d2092c` (simplified HUD), `8de7085` (swap plate children), `f0c42a3` (custom image directory)
 
+### Session 36 — Spawn timer progress bar, customer area extension, SVG character avatars
+- **Spawn timer:** Replaced "Next customer in {spawnTick}s" text with green juice-bar progress bar. Added `spawnMaxRef` for percentage tracking. Smooth 0.9s linear drain with shiny highlight streak.
+- **Customer area extended to belt:** `.drop-zone` moved inside `.customer-area` DOM. `.customer-area` padding-bottom increased to 320px. `.belt` fully restored to original (no modifications). `.customer-row` uses `position: relative; top: 220px` to shift seats down without expanding layout.
+- **Character SVG images:** Created `images/characters/` with 5 SVG placeholder faces (cat, bear, ninja, panda, fox). Replaced emoji text with `<img>` tags. CSS switched from `font-size` to `width/height: clamp(42px, 7vw, 54px)` with `object-fit: contain`.
+- **Avatar sits on stool:** Added `margin-top: auto` to `.avatar` to push it to bottom of flex column, sitting right on the stool. Removed margin-bottom gap.
+- **Commits:** `8f83344` (padding 320px + SVG chars), `8c1a8be` (top:220px), `8efe87d` (margin-top:auto)
+
 ## Pending
 - [x] Standardize font weight loading across all pages (completed in Sessions 3-4)
 - [x] Clean up unused `signup_*` i18n keys from `strings.js` (completed in Session 14)
