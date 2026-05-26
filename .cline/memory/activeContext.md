@@ -62,6 +62,19 @@
 - `window.__SUPABASE_SYNC.pushAll()` called in auth-modal.js on sign-in success but method doesn't exist in silent no-op
 - **Stage 1 grid (3×3) has odd cell count** — 9 cells can only fit 4 pairs (8 tiles) + 1 empty cell. User expects more cards. Need to decide: change to 4×4 for stage 1, or show 9 cards with 4 pairs + 1 placeholder cell.
 
+### ⚠️ Critical Lesson: Production bundle must be rebuilt for game changes to appear
+
+This project has a **dual delivery setup**:
+- **Source files** (`games/src/`) — edited directly but only served by Vite dev server
+- **Production bundle** (`games/dist/assets/game.js`) — pre-built snapshot loaded by `dojo.html` via `<script src="games/dist/assets/game.js?v=XX">`
+
+**Any change to `games/src/` requires:**
+1. `cd games && npm run build` — rebuilds `dist/assets/game.js`
+2. Bump the `?v=` cache-buster in `dojo.html`'s script tag
+3. Hard refresh the browser
+
+Editing source files alone will NOT update the live game visible through `dojo.html`.
+
 ### Git Push Failures (Recurring)
 `git push` silently fails ~50% of the time from the assistant (basher agent). Exits with "Everything up-to-date" even with unpushed commits. Root cause unclear. **Fix:** Always compare `HEAD` vs `origin/main` after push. If different, re-run `git push origin main` explicitly.
 

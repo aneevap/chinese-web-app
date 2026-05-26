@@ -5,18 +5,20 @@ import { addStudyStars, getActiveProfile } from '../../profile/profileBridge';
 import type { CourseMeta } from '../../data/vocab';
 import { saveSessionResult, getGameLeaderboard } from '../../core/systems/hallOfFame';
 
-const ROUND_SECONDS = 60;
+const ROUND_SECONDS = 45;
 const POINTS_PER_MATCH = 10;
 const COMBO_BONUS = 5;
 
 const rid = () => Math.random().toString(36).slice(2, 9);
 
 function getGridConfig(stage: number): { cols: number; rows: number; pairCount: number } {
-  const clamped = Math.min(stage, 3);
+  const clamped = Math.min(stage, 5);
   const configs: { cols: number; rows: number }[] = [
-    { cols: 3, rows: 3 },  // Stage 1: 9 cells → 8 tiles (4 pairs)
-    { cols: 4, rows: 4 },  // Stage 2: 16 cells → 16 tiles (8 pairs)
-    { cols: 5, rows: 5 },  // Stage 3+: 25 cells → 24 tiles (12 pairs)
+    { cols: 2, rows: 4 },  // Stage 1: 8 tiles (4 pairs)
+    { cols: 2, rows: 5 },  // Stage 2: 10 tiles (5 pairs)
+    { cols: 3, rows: 4 },  // Stage 3: 12 tiles (6 pairs)
+    { cols: 4, rows: 4 },  // Stage 4: 16 tiles (8 pairs)
+    { cols: 4, rows: 5 },  // Stage 5: 20 tiles (10 pairs)
   ];
   const { cols, rows } = configs[clamped - 1];
   const totalCells = cols * rows;
@@ -61,6 +63,8 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
   const [flashEffect, setFlashEffect] = useState(false);
   const [timePopup, setTimePopup] = useState<{ text: string; key: number } | null>(null);
   const [matchStage, setMatchStage] = useState(1);
+  const [victory, setVictory] = useState(false);
+  const [stageTransition, setStageTransition] = useState<number | null>(null);
   const gridConfig = getGridConfig(matchStage);
   const matchStageRef = useRef(matchStage);
   matchStageRef.current = matchStage;
@@ -173,6 +177,7 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
     setSelectedIds([]);
     setRound(prev => prev + 1);
     setMatchStage(newStage);
+    setStageTransition(newStage);
     // ⏱️ Stage bonus: +5 seconds for reaching a new stage
     dispatch({ type: 'ADJUST_TIME', seconds: 5 });
     setTimePopup({ text: '+5s ⏱️', key: Date.now() });
@@ -180,14 +185,46 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
     setTimeout(() => setNewSetFlash(false), 800);
   }, [activeWords, buildTiles, dispatch]);
 
-  // ✅ Start new round when all pairs matched (before time runs out)
+  // ✅ Start new round or victory when all pairs matched (before time runs out)
   useEffect(() => {
     if (!gameStarted || ended || showStartScreen || countdown > 0 || state.secondsLeft <= 0) return;
     if (matchedPairs > 0 && matchedPairs >= totalPairs) {
-      const timer = setTimeout(() => startNewRound(), 600);
-      return () => clearTimeout(timer);
+      if (matchStage >= 5) {
+        // 🎉 Victory! All 5 stages completed
+        const timer = setTimeout(() => {
+          setVictory(true);
+          // Save session on victory too
+          if (!sessionSavedRef.current) {
+            sessionSavedRef.current = true;
+            const profile = getActiveProfile();
+            if (profile) {
+              const now = Date.now();
+              saveSessionResult({
+                profileId: profile.id,
+                gameId: 'matching',
+                nickname: profile.nickname,
+                avatar: profile.avatar,
+                bestStars: state.stars,
+                bestScore: state.score,
+                bestStage: 5,
+                updatedAt: now,
+              });
+              const matchingEntries = getGameLeaderboard('matching');
+              const matchingIdx = matchingEntries.findIndex(e => e.updatedAt === now);
+              setLeaderboard({
+                rank: matchingIdx >= 0 ? matchingIdx + 1 : matchingEntries.length,
+                top: matchingEntries.slice(0, 5),
+              });
+            }
+          }
+        }, 600);
+        return () => clearTimeout(timer);
+      } else {
+        const timer = setTimeout(() => startNewRound(), 600);
+        return () => clearTimeout(timer);
+      }
     }
-  }, [matchedPairs, totalPairs, gameStarted, ended, showStartScreen, countdown, state.secondsLeft, startNewRound]);
+  }, [matchedPairs, totalPairs, matchStage, gameStarted, ended, showStartScreen, countdown, state.secondsLeft, startNewRound, state.score, state.stars]);
 
   // ✅ Check for game end (only on time up)
   useEffect(() => {
@@ -277,9 +314,51 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
   // ✅ Time popup cleanup
   useEffect(() => {
     if (!timePopup) return;
-    const timer = setTimeout(() => setTimePopup(null), 900);
+    const timer = setTimeout(() => setTimePopup(null), 1800);
     return () => clearTimeout(timer);
   }, [timePopup]);
+
+  // ✅ Stage transition cleanup
+  useEffect(() => {
+    if (stageTransition === null) return;
+    const timer = setTimeout(() => setStageTransition(null), 1200);
+    return () => clearTimeout(timer);
+  }, [stageTransition]);
+
+  // 🎊 Confetti generation on victory
+  useEffect(() => {
+    if (!victory) return;
+    const container = document.getElementById('confetti-container');
+    if (!container) return;
+
+    const colors = ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#FF9FF3'];
+    const pieces: HTMLDivElement[] = [];
+    const count = 100;
+
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.style.left = Math.random() * 100 + '%';
+      el.style.width = (Math.random() * 8 + 4) + 'px';
+      el.style.height = (Math.random() * 8 + 4) + 'px';
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      el.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+      el.style.animationDelay = (Math.random() * 2) + 's';
+      container.appendChild(el);
+      pieces.push(el);
+    }
+
+    // Cleanup confetti after animation
+    const timer = setTimeout(() => {
+      pieces.forEach(p => p.remove());
+    }, 5000);
+
+    return () => {
+      clearTimeout(timer);
+      pieces.forEach(p => p.remove());
+    };
+  }, [victory]);
 
   // 🎵 Play success sound
   const playSuccessSound = useCallback(() => {
@@ -612,6 +691,8 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
     setNewSetFlash(false);
     setFlashEffect(false);
     setTimePopup(null);
+    setVictory(false);
+    setStageTransition(null);
     setShowStartScreen(true);
     setCountdown(3);
     setLeaderboard(null);
@@ -639,7 +720,10 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
           </button>
           <div className="start-screen matching-start">
             <div className="start-sushi-icon">🔤</div>
-            <h2>⚡ Flash Match</h2>
+            <div className="flash-match-header">
+              <h2 className="flash-match-title">Flash Match</h2>
+              <div className="flash-match-thunder-img">⚡</div>
+            </div>
             <p>Match characters to meanings at lightning speed!</p>
 
             {/* Course selection */}
@@ -731,22 +815,25 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
         </div>
       )}
 
-      {/* HUD — sushi game style: Score left, Stage center, Timer right */}
+      {/* Gameplay header — "Flash Match ⚡" above HUD */}
+      <div className="matching-game-header">
+        <span className="matching-game-title">Flash Match</span>
+        <span className="matching-game-thunder">⚡</span>
+      </div>
+
+      {/* HUD — Score left, STAGE center, Timer right */}
       <div className="matching-hud-simple">
         <div className="matching-hud-item">
           <span className="matching-hud-icon">💰</span>
           <span className="matching-hud-value">{state.score}</span>
         </div>
         <div className="matching-hud-item matching-hud-item-center">
-          <span className="matching-hud-icon">🏁</span>
-          <span className="matching-hud-value">Stage {matchStage}</span>
+          <span className="matching-hud-value">STAGE {matchStage}</span>
         </div>
         <div className="matching-hud-item">
           <span className="matching-hud-icon">⏱️</span>
           <span className="matching-hud-value">{state.secondsLeft}s</span>
-          {timePopup && (
-            <span key={timePopup.key} className="time-popup">{timePopup.text}</span>
-          )}
+          {/* Time popup moved to center of screen */}
         </div>
       </div>
 
@@ -778,6 +865,24 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
           );
         })}
       </div>
+
+      {/* ⏱️ Time popup — centered on screen, big animation */}
+      {timePopup && (
+        <div className="time-popup-center" key={timePopup.key}>
+          <span className={`time-popup-text${timePopup.text.startsWith('-') ? ' time-popup--negative' : ''}`}>{timePopup.text}</span>
+        </div>
+      )}
+
+      {/* 🏁 Stage transition — appears on advancing to next stage */}
+      {stageTransition !== null && (
+        <div className="stage-transition-overlay" key={stageTransition}>
+          <div className="stage-transition-card">
+            <div className="stage-transition-thunder">⚡</div>
+            <div className="stage-transition-label">STAGE</div>
+            <div className="stage-transition-number">{stageTransition}</div>
+          </div>
+        </div>
+      )}
 
       {/* New Set flash */}
       {newSetFlash && (
@@ -819,8 +924,66 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
         </div>
       )}
 
+      {/* 🐼 Mascot decoration — left bottom corner */}
+      <img
+        src="../assets/mascot/panda_flash.png"
+        className="mascot-panda"
+        alt=""
+        aria-hidden="true"
+      />
+
+      {/* 🎉 Victory Screen — All 5 stages cleared! */}
+      {victory && (
+        <div className="victory-overlay">
+          {/* 🎊 Confetti particles */}
+          <div className="confetti-container" id="confetti-container"></div>
+          <div className="victory-card">
+            <div className="victory-thunder-big">⚡</div>
+            <h2 className="victory-title">You are the flash!</h2>
+            <div className="victory-subtitle">All stages cleared!</div>
+            <div className="result-stats">
+              <div className="result-stat">
+                <span className="result-stat-icon">💰</span>
+                <span className="result-stat-label">Score</span>
+                <span className="result-stat-value">{state.score}</span>
+              </div>
+              <div className="result-stat">
+                <span className="result-stat-icon">⭐</span>
+                <span className="result-stat-label">Stars</span>
+                <span className="result-stat-value">{state.stars}</span>
+              </div>
+              <div className="result-stat">
+                <span className="result-stat-icon">🎯</span>
+                <span className="result-stat-label">Total Matched</span>
+                <span className="result-stat-value">{totalMatched}</span>
+              </div>
+              <div className="result-stat">
+                <span className="result-stat-icon">🔥</span>
+                <span className="result-stat-label">Best Combo</span>
+                <span className="result-stat-value">{state.combo}x</span>
+              </div>
+            </div>
+            <div className="result-buttons">
+              <button className="play-again-button" onClick={handlePlayAgain}>
+                Play Again
+              </button>
+              <button
+                className="exit-button"
+                onClick={() => {
+                  const root = document.getElementById('dojo-game-root');
+                  if (root) root.classList.remove('visible');
+                  window.location.href = 'dojo.html';
+                }}
+              >
+                Exit
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Result Screen */}
-      {ended && (
+      {ended && !victory && (
         <div className="overlay">
           <div className="result-card" style={{ maxHeight: '90vh', overflowY: 'auto' }}>
             <div className="result-icon">⏰</div>

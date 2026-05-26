@@ -1610,7 +1610,10 @@ body {
 
 .matching-mode {
   position: relative;
+  display: flex;
+  flex-direction: column;
   min-height: 100dvh;
+  max-height: 100dvh;
   background: #FAF8F5;
   background-image: url('../../images/matching-bg.png');
   background-size: cover;
@@ -1618,11 +1621,123 @@ body {
   background-repeat: no-repeat;
   border-radius: 0;
   padding: 12px;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .matching-mode.shake {
   animation: shakeAnim 0.4s ease-in-out;
+}
+
+/* ── Gameplay Header — "Flash Match ⚡" above HUD ── */
+.matching-game-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 2px;
+  padding: 4px 0 0;
+  z-index: 1;
+  position: relative;
+}
+
+.matching-game-title {
+  font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+  font-weight: 800;
+  color: #6B5544;
+  font-family: 'Bangers', 'Fredoka', var(--font-main, 'Bai Jamjuree'), sans-serif;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.matching-game-thunder {
+  font-size: clamp(0.8rem, 2.8vw, 1rem);
+  line-height: 1;
+  color: #FFD700;
+  filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.5));
+  animation: gameplayThunderPulse 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes gameplayThunderPulse {
+  0% { transform: scale(1) rotate(-5deg); filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.4)); }
+  100% { transform: scale(1.2) rotate(5deg); filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.8)); }
+}
+
+/* ── Stage Transition Overlay ── */
+.stage-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: grid;
+  place-items: center;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
+  animation: stageTransitionFade 1.2s ease-out forwards;
+  pointer-events: none;
+}
+
+.stage-transition-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border: 3px solid #FFD700;
+  border-radius: 24px;
+  padding: 28px 48px;
+  box-shadow: 0 0 60px rgba(255, 215, 0, 0.3);
+  animation: stageTransitionCardAnim 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.stage-transition-thunder {
+  font-size: 3.5rem;
+  line-height: 1;
+  animation: stageThunderAnim 0.5s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.7));
+}
+
+@keyframes stageThunderAnim {
+  0% { transform: scale(1) rotate(-8deg); }
+  100% { transform: scale(1.3) rotate(8deg); }
+}
+
+.stage-transition-label {
+  font-size: clamp(1rem, 3vw, 1.4rem);
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  margin-top: 4px;
+}
+
+.stage-transition-number {
+  font-size: clamp(4rem, 15vw, 7rem);
+  font-weight: 900;
+  color: #FFD700;
+  font-family: 'Bangers', 'Fredoka', var(--font-main, 'Bai Jamjuree'), sans-serif;
+  line-height: 1;
+  text-shadow: 0 0 30px rgba(255, 215, 0, 0.5), 0 0 60px rgba(255, 215, 0, 0.2);
+  animation: stageNumberPop 0.5s ease-out;
+}
+
+@keyframes stageNumberPop {
+  0% { transform: scale(0.3); opacity: 0; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes stageTransitionFade {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes stageTransitionCardAnim {
+  0% { transform: scale(0.3) rotate(-10deg); opacity: 0; }
+  60% { transform: scale(1.08) rotate(2deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
 }
 
 /* ── Matching HUD — Sushi Game Style (Score left, Stage center, Timer right) ── */
@@ -1670,7 +1785,7 @@ body {
     0 0 40px rgba(252, 211, 77, 0.2);
 }
 
-/* ⏱️ Time popup — pops up near timer on +3s/+5s/-1s */
+/* ⏱️ Time popup — pops up near timer on +3s/+5s/-1s (legacy, replaced by centered) */
 .time-popup {
   position: absolute;
   right: 0;
@@ -1695,15 +1810,60 @@ body {
   100% { transform: translateY(-32px) scale(0.85); opacity: 0; }
 }
 
-/* ── Grid Layout ── */
+/* ⏱️ Time popup — centered on screen, big and prominent */
+.time-popup-center {
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  pointer-events: none;
+  animation: timePopupCenterAnim 1.8s ease-out forwards;
+}
+
+.time-popup-text {
+  font-size: clamp(3rem, 12vw, 6rem);
+  font-weight: 900;
+  font-family: 'Bangers', 'Fredoka', var(--font-main, 'Bai Jamjuree'), sans-serif;
+  color: #4ADE80;
+  text-shadow:
+    0 0 20px rgba(74, 222, 128, 0.8),
+    0 0 60px rgba(74, 222, 128, 0.4),
+    0 0 100px rgba(74, 222, 128, 0.2),
+    0 4px 8px rgba(0,0,0,0.3);
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.time-popup--negative {
+  color: #F43F5E !important;
+  text-shadow:
+    0 0 20px rgba(244, 63, 94, 0.8),
+    0 0 60px rgba(244, 63, 94, 0.4),
+    0 0 100px rgba(244, 63, 94, 0.2),
+    0 4px 8px rgba(0,0,0,0.3) !important;
+}
+
+@keyframes timePopupCenterAnim {
+  0% { transform: translate(-50%, -50%) scale(0.2); opacity: 0; }
+  12% { transform: translate(-50%, calc(-50% - 10px)) scale(1.3); opacity: 1; }
+  25% { transform: translate(-50%, calc(-50% - 20px)) scale(1); opacity: 1; }
+  55% { transform: translate(-50%, calc(-50% - 25px)) scale(1); opacity: 1; }
+  75% { transform: translate(-50%, calc(-50% - 35px)) scale(0.9); opacity: 0.7; }
+  100% { transform: translate(-50%, calc(-50% - 55px)) scale(0.6); opacity: 0; }
+}
+
+/* ── Grid Layout — fully responsive, no scroll ── */
 .matching-grid {
   display: grid;
-  gap: 12px;
-  max-width: 480px;
-  margin: 16px auto 0;
-  padding: 0 8px;
+  gap: clamp(6px, 1.2vw, 12px);
+  width: min(92vw, 520px);
+  margin: clamp(6px, 1.5vh, 16px) auto 0;
+  padding: 0 clamp(4px, 1vw, 8px);
   position: relative;
   z-index: 1;
+  flex-shrink: 1;
+  min-height: 0;
 }
 
 /* ── Tile — Playing Card Style ── */
@@ -1724,6 +1884,8 @@ body {
   min-height: 0;
   min-width: 0;
   overflow: hidden;
+  /* Allow tiles to shrink on constrained screens */
+  max-height: 90%;
 }
 
 .matching-tile:hover:not(:disabled) {
@@ -1736,34 +1898,29 @@ body {
   box-shadow: 1px 1px 0px 0px #111827;
 }
 
-/* Character tile — emerald/jade gradient (#107565 → #0a2c34) */
+/* Character tile — jade gradient (#2a9484 → #1c6d60) */
 .matching-tile.tile-char {
-  background: linear-gradient(135deg, #107565, #0a2c34);
-  border-color: #e5d18e;
+  background: linear-gradient(135deg, #2a9484, #1c6d60);
+  border-color: #10483f;
 }
 .matching-tile.tile-char:hover:not(:disabled) {
-  background: linear-gradient(135deg, #128a76, #0d3a45);
+  background: linear-gradient(135deg, #30a892, #1f7a6c);
 }
 
-/* Meaning tile — ruby/crimson gradient (#a32f2d → #402229) */
+/* Meaning tile — coral/pink gradient (#f36f7b → #ee5a6b) */
 .matching-tile.tile-meaning {
-  background: linear-gradient(135deg, #a32f2d, #402229);
-  border-color: #fde87b;
+  background: linear-gradient(135deg, #f36f7b, #ee5a6b);
+  border-color: #cb384e;
 }
 .matching-tile.tile-meaning:hover:not(:disabled) {
-  background: linear-gradient(135deg, #b93432, #542d36);
+  background: linear-gradient(135deg, #f5838d, #f06a79);
 }
 
-/* Selected state — gold glow highlight */
-.matching-tile.tile-char.tile-selected {
+/* Selected state — gold glow highlight, border #fde87b */
+.matching-tile.tile-selected {
   transform: translateY(-3px);
-  border-color: #e5d18e;
-  box-shadow: 0 0 14px rgba(229, 209, 142, 0.5), 4px 7px 0px 0px #111827;
-}
-.matching-tile.tile-meaning.tile-selected {
-  transform: translateY(-3px);
-  border-color: #fde87b;
-  box-shadow: 0 0 14px rgba(253, 232, 123, 0.5), 4px 7px 0px 0px #111827;
+  border-color: #fde87b !important;
+  box-shadow: 0 0 18px rgba(253, 232, 123, 0.7), 0 0 32px rgba(253, 232, 123, 0.3), 4px 7px 0px 0px #111827;
 }
 
 /* Wrong state — coral flash + shake */
@@ -1773,11 +1930,11 @@ body {
 }
 .matching-tile.tile-char.tile-wrong {
   background: linear-gradient(135deg, #b93432, #5a3030) !important;
-  border-color: #e5d18e;
+  border-color: #10483f;
 }
 .matching-tile.tile-meaning.tile-wrong {
   background: linear-gradient(135deg, #d94442, #5a3030) !important;
-  border-color: #fde87b;
+  border-color: #cb384e;
 }
 
 @keyframes tileShake {
@@ -1804,24 +1961,26 @@ body {
 /* Tile content */
 .tile-content-char {
   font-family: var(--font-hanzi, 'ZCOOL KuaiLe', sans-serif);
-  font-size: clamp(1.6rem, 5vw, 2.4rem);
+  font-size: clamp(1.4rem, 4.5vw, 2.2rem);
   font-weight: bold;
-  color: #e5d18e;
+  color: #ffffff;
   line-height: 1.1;
   text-align: center;
   word-break: break-all;
-  text-shadow: 0 0 10px rgba(229, 209, 142, 0.35);
+  text-shadow: none;
 }
 
 .tile-content-meaning {
   font-family: var(--font-main, 'Bai Jamjuree', sans-serif);
-  font-size: clamp(1.2rem, 3.8vw, 1.6rem);
+  font-size: clamp(0.8rem, 2.2vw, 1.2rem);
   font-weight: 700;
-  color: #fde87b;
+  color: #ffffff;
   line-height: 1.2;
   text-align: center;
   word-break: break-word;
-  padding: 4px;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  padding: 2px;
 }
 
 /* ── New Set Flash Overlay ── */
@@ -1896,27 +2055,40 @@ body {
 
 /* ── Responsive grid ── */
 @media (max-width: 480px) {
+  .matching-mode {
+    padding: 8px 6px;
+  }
   .matching-grid {
-    gap: 8px;
-    padding: 0 4px;
+    gap: 6px;
+    padding: 0 2px;
+    width: 100%;
   }
   .matching-tile {
-    border-radius: 12px;
+    border-radius: 10px;
+    border-width: 2.5px;
+    box-shadow: 3px 3px 0px 0px #111827;
+  }
+  .matching-tile:hover:not(:disabled) {
+    box-shadow: 3px 5px 0px 0px #111827;
   }
   .tile-content-char {
-    font-size: clamp(1.3rem, 4.5vw, 1.8rem);
+    font-size: clamp(1.1rem, 4vw, 1.6rem);
   }
   .tile-content-meaning {
-    font-size: clamp(1rem, 3.2vw, 1.3rem);
+    font-size: clamp(0.7rem, 2vw, 1rem);
   }
   .matching-hud-simple {
-    padding: 4px 2px 0;
+    padding: 2px 2px 0;
+    margin-bottom: 6px;
   }
   .matching-hud-icon {
-    font-size: 24px;
+    font-size: 20px;
   }
   .matching-hud-value {
-    font-size: 26px;
+    font-size: 22px;
+  }
+  .mascot-panda {
+    width: clamp(60px, 10vw, 100px);
   }
 }
 
@@ -2026,6 +2198,148 @@ body {
   10% { opacity: 1; }
   55% { opacity: 1; }
   100% { opacity: 0; }
+}
+
+/* ── Flash Match Header — "Flash Match" + large yellow thunder below ── */
+.flash-match-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.flash-match-title {
+  margin: 0;
+  line-height: 1.1;
+}
+
+.flash-match-thunder-img {
+  font-size: 7em;
+  line-height: 1;
+  color: #FFD700;
+  filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.9)) drop-shadow(0 0 60px rgba(255, 200, 0, 0.4));
+  animation: thunderPulse 0.8s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+
+@keyframes thunderPulse {
+  0% { transform: scale(1) rotate(-5deg) translateY(0); filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6)); }
+  50% { transform: scale(1.3) rotate(5deg) translateY(-6px); filter: drop-shadow(0 0 40px rgba(255, 215, 0, 1)) drop-shadow(0 0 80px rgba(255, 200, 0, 0.4)); }
+  100% { transform: scale(1.1) rotate(-3deg) translateY(-3px); filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.8)); }
+}
+
+/* ── 🐼 Mascot Panda — left bottom corner ── */
+.mascot-panda {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: clamp(120px, 22vw, 260px);
+  height: auto;
+  z-index: 50;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  image-rendering: auto;
+  opacity: 0.95;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+}
+
+/* ── 🎉 Victory Overlay — All 5 stages cleared! ── */
+.victory-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(6px);
+  animation: victoryFadeIn 0.6s ease-out;
+}
+
+@keyframes victoryFadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.victory-card {
+  position: relative;
+  width: min(90vw, 380px);
+  border-radius: 24px;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  padding: 36px 24px 28px;
+  text-align: center;
+  box-shadow: 0 0 60px rgba(255, 215, 0, 0.3), 0 0 120px rgba(255, 215, 0, 0.1);
+  border: 3px solid #FFD700;
+  z-index: 2001;
+  animation: victoryCardBounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes victoryCardBounce {
+  0% { transform: scale(0.3) rotate(-10deg); opacity: 0; }
+  60% { transform: scale(1.08) rotate(2deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+.victory-thunder-big {
+  font-size: 80px;
+  line-height: 1;
+  margin-bottom: 8px;
+  animation: victoryThunderAnim 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes victoryThunderAnim {
+  0% { transform: scale(1) rotate(-5deg); filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6)); }
+  100% { transform: scale(1.2) rotate(5deg); filter: drop-shadow(0 0 30px rgba(255, 215, 0, 1)); }
+}
+
+.victory-title {
+  margin: 0 0 4px 0;
+  color: #FFD700;
+  font-size: 28px;
+  font-family: 'Bangers', 'Fredoka', var(--font-main, 'Bai Jamjuree'), sans-serif;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.victory-subtitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+}
+
+/* ── 🎊 Confetti Particles ── */
+.confetti-container {
+  position: fixed;
+  inset: 0;
+  z-index: 1999;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.confetti-piece {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  top: -10px;
+  border-radius: 2px;
+  animation: confettiFall linear forwards;
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg) scale(0.5);
+    opacity: 0;
+  }
 }
 
 /* ── Loading, Error, Placeholder ── */
