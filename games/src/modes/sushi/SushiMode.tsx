@@ -130,6 +130,8 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
   const [correctCustomerId, setCorrectCustomerId] = useState<string | null>(null);
   const [shakeEffect, setShakeEffect] = useState(false);
   const [scorePopup, setScorePopup] = useState<{ value: number; x: number; y: number } | null>(null);
+  // 😊 Customer reactions — heart for correct, sad for wrong
+  const [reactions, setReactions] = useState<Record<string, { emoji: string; key: number }>>({});
   // Which course the user selected on the start screen
   const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
   // Which themes within the course the user selected (empty = all themes)
@@ -657,6 +659,14 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
     return () => clearTimeout(timer);
   }, [shakeEffect]);
 
+  // 😊 Reaction cleanup — auto-clear after 1.5s
+  useEffect(() => {
+    const ids = Object.keys(reactions);
+    if (ids.length === 0) return;
+    const timer = setTimeout(() => setReactions({}), 1500);
+    return () => clearTimeout(timer);
+  }, [reactions]);
+
   // ✅ Score popup cleanup
   useEffect(() => {
     if (!scorePopup) return;
@@ -675,6 +685,9 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
     
     const attempts = customer.attempts + 1;
     const correct = word.id === customer.target.id;
+
+    // 😊 Show reaction emoji
+    setReactions(prev => ({ ...prev, [customerId]: { emoji: correct ? '❤️' : '😢', key: Date.now() } }));
 
     if (correct) {
       dispatch({ type: 'CORRECT', attempts });
@@ -1040,6 +1053,12 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
                 onAnimationEnd={() => handleAnimEnd(customer.id)}
               >
 
+                {/* 😊 Customer reaction emoji */}
+                {reactions[customer.id] && (
+                  <span key={reactions[customer.id].key} className="customer-reaction">
+                    {reactions[customer.id].emoji}
+                  </span>
+                )}
                 {/* 🗨️ Comic speech balloon — Thai word only, no giving away the answer */}
                 <div className="bubble">
                   <span className="bubble-thai">{customer.target.meaningTh}</span>

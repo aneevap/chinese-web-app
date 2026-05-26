@@ -592,26 +592,46 @@ body {
   100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
 }
 
+/* ── CUSTOMER REACTION EMOJIS — heart for correct, sad for wrong ── */
+.customer-reaction {
+  position: absolute;
+  top: -32px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 40px;
+  z-index: 20;
+  pointer-events: none;
+  animation: reactionPop 1.4s ease-out forwards;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.15));
+  line-height: 1;
+}
+
+@keyframes reactionPop {
+  0% { transform: translateX(-50%) scale(0) translateY(0); opacity: 0; }
+  18% { transform: translateX(-50%) scale(1.4) translateY(-6px); opacity: 1; }
+  40% { transform: translateX(-50%) scale(1) translateY(-14px); opacity: 1; }
+  70% { transform: translateX(-50%) scale(0.9) translateY(-22px); opacity: 0.8; }
+  100% { transform: translateX(-50%) scale(0.7) translateY(-36px); opacity: 0; }
+}
+
+@media (max-width: 480px) {
+  .customer-reaction {
+    font-size: 32px;
+    top: -26px;
+  }
+}
 
 
-/* ── DROP ZONE — Plain translucent square for selected plate ── */
+/* ── DROP ZONE — Invisible area where selected plate appears ── */
 .thought-bubble {
   position: absolute;
-  top: 40px;
+  top: 170px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
-  width: 130px;
-  height: 130px;
-  background: rgba(255, 248, 231, 0.75);
-  border: none;
-  border-radius: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-  backdrop-filter: blur(6px);
 }
 
 .selected-plate-wrapper {
@@ -619,9 +639,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
-  padding: 8px;
 }
 
 .selected-plate {
@@ -908,12 +925,12 @@ body {
     border-radius: 22px;
   }
   .customer-slot .avatar {
-    width: clamp(66px, 12vw, 84px);
-    height: clamp(66px, 12vw, 84px);
+    width: clamp(80px, 15vw, 100px);
+    height: clamp(80px, 15vw, 100px);
   }
   .customer-slot .bubble {
-    padding: 8px 6px;
-    min-height: 54px;
+    padding: 10px 8px;
+    min-height: 62px;
   }
   .bubble-thai {
     font-size: clamp(14px, 3.8vw, 18px);
@@ -961,9 +978,7 @@ body {
     display: none;
   }
   .thought-bubble {
-    width: 100px;
-    height: 100px;
-    top: 24px;
+    top: 124px;
   }
 }
 
