@@ -14,8 +14,8 @@ const rid = () => Math.random().toString(36).slice(2, 9);
 function getGridConfig(stage: number): { cols: number; rows: number; pairCount: number } {
   const clamped = Math.min(stage, 5);
   const configs: { cols: number; rows: number }[] = [
-    { cols: 2, rows: 4 },  // Stage 1: 8 tiles (4 pairs)
-    { cols: 2, rows: 5 },  // Stage 2: 10 tiles (5 pairs)
+    { cols: 3, rows: 3 },  // Stage 1: 9 tiles (4 pairs, 1 empty cell)
+    { cols: 3, rows: 4 },  // Stage 2: 12 tiles (6 pairs)
     { cols: 3, rows: 4 },  // Stage 3: 12 tiles (6 pairs)
     { cols: 4, rows: 4 },  // Stage 4: 16 tiles (8 pairs)
     { cols: 4, rows: 5 },  // Stage 5: 20 tiles (10 pairs)
