@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, useRef, useCallback } from 'react';
 import { useGameDispatch, useGameState } from '../../core/state/gameState';
-import type { CustomerOrder, DisplayLanguage, VocabItem } from '../../core/types';
+import type { CustomerOrder, VocabItem } from '../../core/types';
 import { speakChinese } from '../../core/systems/audio';
 import { addStudyStars, getActiveProfile } from '../../profile/profileBridge';
 import type { CourseMeta } from '../../data/vocab';
@@ -36,7 +36,6 @@ const rid = () => Math.random().toString(36).slice(2, 9);
 type Props = {
   words: VocabItem[];
   courseThemes: Record<string, CourseMeta>;
-  language: DisplayLanguage;
   onGameActiveChange?: (active: boolean) => void;
 };
 

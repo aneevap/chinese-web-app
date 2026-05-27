@@ -66,7 +66,7 @@ export function App() {
         {!error && words.length === 0 && <div className="loading">Loading words...</div>}
         {!error && words.length > 0 && (
           <ErrorBoundary>
-            {mode === 'sushi' && <SushiMode words={words} courseThemes={courseThemes} language={language} onGameActiveChange={setGameActive} />}
+            {mode === 'sushi' && <SushiMode words={words} courseThemes={courseThemes} onGameActiveChange={setGameActive} />}
             {mode === 'matching' && <MatchingMode words={words} courseThemes={courseThemes} language={language} onGameActiveChange={setGameActive} />}
           </ErrorBoundary>
         )}
