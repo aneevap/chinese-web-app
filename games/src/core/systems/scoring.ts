@@ -2,20 +2,25 @@ export interface ScoreState {
   score: number;
   combo: number;
   stage: number;
-  stars: number;
 }
 
 const STAGE_STEP = 15;
 
-export function applyCorrect(prev: ScoreState, attempts: number): ScoreState {
+/** Game-specific score multiplier to calibrate scores across different games */
+const SCORE_MULTIPLIERS: Record<string, number> = {
+  sushi: 1.0,
+  matching: 0.33,
+};
+
+export function applyCorrect(prev: ScoreState, attempts: number, gameId: string = 'sushi'): ScoreState {
   const stars = attempts === 1 ? 3 : 1;
   const combo = prev.combo + 1;
   const gained = stars + Math.min(combo, 5);
-  const score = prev.score + gained;
+  const multiplier = SCORE_MULTIPLIERS[gameId] ?? 1.0;
+  const score = prev.score + Math.round(gained * multiplier);
   return {
     score,
     combo,
-    stars: prev.stars + stars,
     stage: computeStage(score),
   };
 }

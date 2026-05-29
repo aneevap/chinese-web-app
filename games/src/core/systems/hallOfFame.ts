@@ -28,7 +28,7 @@ export function saveSessionResult(result: HallOfFameEntry) {
   console.log('[HallOfFame] pushed new entry');
   saveEntries(entries);
   console.log('[HallOfFame] saved entries count:', loadEntries().length);
-  window.dispatchEvent(new CustomEvent('xhz:dojo-hof-updated'));
+  window.dispatchEvent(new CustomEvent('xhz:arena-hof-updated'));
 
   // Push to Supabase so other players can see it
   pushToSupabase(result);
@@ -52,7 +52,6 @@ function pushToSupabase(entry: HallOfFameEntry) {
 
 export function getLeaderboard(): HallOfFameEntry[] {
   return loadEntries().sort((a, b) => {
-    if (b.bestStars !== a.bestStars) return b.bestStars - a.bestStars;
     if (b.bestScore !== a.bestScore) return b.bestScore - a.bestScore;
     return b.updatedAt - a.updatedAt;
   });
@@ -62,7 +61,6 @@ export function getGameLeaderboard(gameId: string): HallOfFameEntry[] {
   return loadEntries()
     .filter(e => e.gameId === gameId)
     .sort((a, b) => {
-      if (b.bestStars !== a.bestStars) return b.bestStars - a.bestStars;
       if (b.bestScore !== a.bestScore) return b.bestScore - a.bestScore;
       return b.updatedAt - a.updatedAt;
     });

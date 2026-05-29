@@ -21,7 +21,6 @@ export interface HallOfFameEntry {
   gameId: string;
   nickname: string;
   avatar: string;
-  bestStars: number;
   bestScore: number;
   bestStage: number;
   updatedAt: number;

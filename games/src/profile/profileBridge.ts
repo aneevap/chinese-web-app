@@ -10,6 +10,10 @@ declare global {
       getActiveProfile?: () => Profile | null;
       getCourseSeenPercent?: (courseId: string) => number;
       addScore?: (source: 'study' | 'write', points: number, wordIds?: string[]) => unknown;
+      awardGameCoin?: (gameId: string) => number;
+      addCoins?: (profileId: string, amount: number, source: string) => number;
+      spendCoins?: (profileId: string, amount: number) => boolean;
+      getCoins?: (profileId: string) => number;
     };
     getNavLang?: () => 'en' | 'th';
   }
@@ -29,6 +33,7 @@ export function canAccessCourse(courseId: string): boolean {
   return false;
 }
 
-export function addStudyStars(stars: number, wordIds: string[]) {
-  window.XHZ?.addScore?.('study', stars, wordIds);
+export function awardGameCoin(gameId: string): number {
+  return window.XHZ?.awardGameCoin?.(gameId) || 0;
 }
+

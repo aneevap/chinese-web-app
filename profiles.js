@@ -185,6 +185,9 @@ const XHZ = {
       is_guest:       true,
       created_at:     this.today(),
       equipped_items: {},
+      coins:          0,
+      coins_earned_total: 0,
+      coins_sources:  {},
     };
     data.profiles.push(profile);
     this._save(data);
@@ -224,11 +227,11 @@ const XHZ = {
    * Returns an array of groups, each with { name, profiles, keeper, extras }.
    * keeper = the profile with the most total stars.
    * Only returns groups with 2+ profiles.
-   */
-  findDuplicateGroups() {
-    var groups = {};
-    this.getAllProfiles().forEach(function (p) {
-      var key = p.nickname.toLowerCase().trim();
+   */    findDuplicateGroups() {
+      var groups = {};
+      this.getAllProfiles().forEach(function (p) {
+        if (!p || !p.nickname) return; // Skip profiles without a nickname
+        var key = p.nickname.toLowerCase().trim();
       if (!groups[key]) groups[key] = [];
       groups[key].push(p);
     });
@@ -454,6 +457,7 @@ const XHZ = {
 
     let pointsAwarded = 0;
     let pointsBlocked = 0;
+    let coinsAwarded = 0;
 
     if (source === 'write') {
       // Apply anti-farming rules per word
@@ -484,25 +488,37 @@ const XHZ = {
 
     // Recalculate badges
     const totalScore = entry.write_score + entry.study_score;
-    entry.badge = this.getBadgeTier(totalScore);
-    entry.study_badge = this.getStudyBadgeTier(entry.study_score);
+    const newBadge = this.getBadgeTier(totalScore);
+    const newStudyBadge = this.getStudyBadgeTier(entry.study_score);
+
+    const badgeChanged = newBadge !== prevBadge && newBadge !== null;
+    const studyBadgeChanged = newStudyBadge !== prevStudyBadge && newStudyBadge !== null;
+
+    entry.badge = newBadge;
+    entry.study_badge = newStudyBadge;
+
+    // Award 1 coin for the newly unlocked badge tier only
+    if (badgeChanged && newBadge) {
+      var coinAwarded = XHZ.addCoins(profile.id, 1, 'badge_' + newBadge);
+      if (coinAwarded > 0) coinsAwarded += coinAwarded;
+    }
+    if (studyBadgeChanged && newStudyBadge) {
+      var coinAwarded = XHZ.addCoins(profile.id, 1, 'badge_' + newStudyBadge);
+      if (coinAwarded > 0) coinsAwarded += coinAwarded;
+    }
 
     this._saveScores(profile.id, scoreData);
-
-    // Check effort item unlocks
-    const totalStars = this.getTotalStars(profile.id);
-    const newItemUnlocked = this._checkEffortItemUnlock(profile.id, totalStars);
 
     return {
       entry,
       totalScore,
       pointsAwarded,
       pointsBlocked,
-      newBadgeUnlocked: entry.badge !== prevBadge && entry.badge !== null,
-      newStudyUnlocked: entry.study_badge !== prevStudyBadge && entry.study_badge !== null,
+      coinsAwarded,
+      newBadgeUnlocked: badgeChanged,
+      newStudyUnlocked: studyBadgeChanged,
       badgeInfo: this.getBadgeInfo(entry.badge),
       studyBadgeInfo: this.getBadgeInfo(entry.study_badge, 'study'),
-      newItemUnlocked,
     };
   },
 
@@ -1021,45 +1037,140 @@ const XHZ = {
     this._triggerSync('items', { profileId, itemData: data });
   },
 
-_checkEffortItemUnlock(profileId, totalStars) {
-    // effortItems must be pre-loaded via setEffortItems()
-    if (!this._effortItems || !this._effortItems.length) return null;
-    const itemData = this._loadItems(profileId);
+// ── COIN ECONOMY ───────────────────────────────────────
 
-    const newItems = this._effortItems
-        .filter(item => totalStars >= item.min_stars && !itemData.earned.includes(item.id))
-        .sort((a, b) => a.min_stars - b.min_stars);
+  /**
+   * Ensure profile has coin fields initialized (backward compat).
+   * @private
+   */
+  _ensureCoinFields(profile) {
+    if (profile.coins === undefined) profile.coins = 0;
+    if (profile.coins_earned_total === undefined) profile.coins_earned_total = 0;
+    if (!profile.coins_sources) profile.coins_sources = {};
+  },
 
-    if (newItems.length) {
-        newItems.forEach(item => itemData.earned.push(item.id));
-        this._saveItems(profileId, itemData);
+  /**
+   * Award coins to a profile with daily cap enforcement.
+   * Each source (e.g. 'game_sushi', 'badge_keep_going') can be awarded
+   * at most once per day. Returns amount actually awarded (0 if capped).
+   *
+   * @param {string} profileId
+   * @param {number} amount
+   * @param {string} source - e.g. 'game_sushi', 'badge_keep_going', 'migration_bonus'
+   * @returns {number} coins actually awarded (0 if capped for this source today)
+   */
+  addCoins(profileId, amount, source) {
+    const data = this._load();
+    const profile = data.profiles.find(function(p) { return p.id === profileId; });
+    if (!profile) return 0;
+
+    this._ensureCoinFields(profile);
+
+    const today = this.today();
+
+    // Daily cap: same source can only be awarded once per day
+    if (profile.coins_sources[source] === today) return 0;
+
+    profile.coins += amount;
+    profile.coins_earned_total += amount;
+    profile.coins_sources[source] = today;
+
+    this._save(data);
+    return amount;
+  },
+
+  /**
+   * Spend coins from a profile. Returns true if successful, false if insufficient balance.
+   * @param {string} profileId
+   * @param {number} amount
+   * @returns {boolean}
+   */
+  spendCoins(profileId, amount) {
+    const data = this._load();
+    const profile = data.profiles.find(function(p) { return p.id === profileId; });
+    if (!profile) return false;
+
+    this._ensureCoinFields(profile);
+
+    if (profile.coins < amount) return false;
+
+    profile.coins -= amount;
+    this._save(data);
+    return true;
+  },
+
+  /**
+   * Get current coin balance for a profile.
+   * @param {string} profileId
+   * @returns {number}
+   */
+  getCoins(profileId) {
+    const profile = this.getProfile(profileId);
+    if (!profile) return 0;
+    return profile.coins || 0;
+  },
+
+  /**
+   * Get coin sources for a profile (for UI display of today's caps).
+   * @param {string} profileId
+   * @returns {object}
+   */
+  getCoinSources(profileId) {
+    const profile = this.getProfile(profileId);
+    if (!profile) return {};
+    return profile.coins_sources || {};
+  },
+
+  /**
+   * Get lifetime coins earned for a profile.
+   * @param {string} profileId
+   * @returns {number}
+   */
+  getCoinsEarnedTotal(profileId) {
+    const profile = this.getProfile(profileId);
+    if (!profile) return 0;
+    return profile.coins_earned_total || 0;
+  },
+
+  /**
+   * One-time migration: award 5 coins per previously earned item.
+   * Runs once per profile (checks xhz_coin_migrated_{profileId} flag).
+   * @param {string} profileId
+   * @returns {{ bonusAwarded: number, itemCount: number }}
+   */
+  migrateCoinsForExistingItems(profileId) {
+    var flagKey = 'xhz_coin_migrated_' + profileId;
+    if (localStorage.getItem(flagKey)) {
+      return { bonusAwarded: 0, itemCount: 0 };
     }
 
-    return newItems.length ? newItems[newItems.length - 1] : null;
-},
-
-// Call this once after rewards.json loads on any page
-setEffortItems(effortItems) {
-    this._effortItems = effortItems || [];
-},
-
-checkEffortItems(profileId, effortItems) {
-    if (effortItems) this.setEffortItems(effortItems);
-    if (!this._effortItems?.length) return null;
-    const totalStars = this.getTotalStars(profileId);
-    const itemData   = this._loadItems(profileId);
-
-    const newItems = this._effortItems
-        .filter(item => totalStars >= item.min_stars && !itemData.earned.includes(item.id))
-        .sort((a, b) => a.min_stars - b.min_stars);
-
-    if (newItems.length) {
-        newItems.forEach(item => itemData.earned.push(item.id));
-        this._saveItems(profileId, itemData);
+    var itemData = this._loadItems(profileId);
+    var earnedItems = itemData && itemData.earned ? itemData.earned : [];
+    if (!earnedItems.length) {
+      localStorage.setItem(flagKey, '1');
+      return { bonusAwarded: 0, itemCount: 0 };
     }
 
-    return newItems.length ? newItems[newItems.length - 1] : null;
-},
+    var itemCount = earnedItems.length;
+    var bonus = itemCount * 5;
+    this.addCoins(profileId, bonus, 'migration_bonus');
+
+    localStorage.setItem(flagKey, '1');
+    console.log('profiles.js: migrated ' + itemCount + ' items → ' + bonus + ' coins for ' + profileId);
+    return { bonusAwarded: bonus, itemCount: itemCount };
+  },
+
+  /**
+   * Award 1 coin for completing a game session.
+   * Daily-capped per game (game_matching, game_sushi) via addCoins source.
+   * @param {string} gameId - 'matching' | 'sushi'
+   * @returns {number} coins awarded (0 if already earned today)
+   */
+  awardGameCoin(gameId) {
+    var profile = this.getActiveProfile();
+    if (!profile) return 0;
+    return this.addCoins(profile.id, 1, 'game_' + gameId);
+  },
 
   equipItem(profileId, itemId, category) {
     const itemData = this._loadItems(profileId);
@@ -1073,6 +1184,56 @@ checkEffortItems(profileId, effortItems) {
     const itemData = this._loadItems(profileId);
     itemData.equipped[category] = null;
     this._saveItems(profileId, itemData);
+  },
+
+  /**
+   * Purchase an item from the shop using coins.
+   * Returns { success, reason ('ok' | 'insufficient_coins' | 'already_owned' | 'item_not_found'), item, spent }
+   */
+  purchaseItem(profileId, itemId, allItems) {
+    const profile = this.getProfile(profileId);
+    if (!profile) return { success: false, reason: 'profile_not_found' };
+
+    const item = allItems.find(function(it) { return it.id === itemId; });
+    if (!item) return { success: false, reason: 'item_not_found' };
+
+    const itemData = this._loadItems(profileId);
+    if (itemData.earned.indexOf(itemId) !== -1) {
+      return { success: false, reason: 'already_owned' };
+    }
+
+    if ((profile.coins || 0) < item.coin_cost) {
+      return { success: false, reason: 'insufficient_coins' };
+    }
+
+    const spent = this.spendCoins(profileId, item.coin_cost);
+    if (!spent) return { success: false, reason: 'insufficient_coins' };
+
+    itemData.earned.push(itemId);
+    this._saveItems(profileId, itemData);
+
+    return { success: true, reason: 'ok', item: item, spent: item.coin_cost };
+  },
+
+  // ── EFFORT ITEMS (from rewards.json) ───────────────
+
+  _effortItems: null,
+
+  /**
+   * Store the master list of all effort items (loaded from rewards.json).
+   * Called by write.html and other pages during initialization.
+   * @param {Array} items - Array of item objects from rewards.json
+   */
+  setEffortItems(items) {
+    this._effortItems = items;
+  },
+
+  /**
+   * Get the stored effort items list.
+   * @returns {Array|null}
+   */
+  getEffortItems() {
+    return this._effortItems;
   },
 
   getItems(profileId) {

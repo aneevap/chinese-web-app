@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, useRef, useCallback } from 'react';
 import { useGameDispatch, useGameState } from '../../core/state/gameState';
 import type { CustomerOrder, VocabItem } from '../../core/types';
 import { speakChinese } from '../../core/systems/audio';
-import { addStudyStars, getActiveProfile } from '../../profile/profileBridge';
+import { getActiveProfile, awardGameCoin } from '../../profile/profileBridge';
 import type { CourseMeta } from '../../data/vocab';
 import { saveSessionResult, getGameLeaderboard } from '../../core/systems/hallOfFame';
 import type { HallOfFameEntry } from '../../core/types';
@@ -446,13 +446,13 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
       sessionSavedRef.current = true;
       const profile = getActiveProfile();
       if (!profile) return;
+      if (state.score > 30) awardGameCoin('sushi');
       const now = Date.now();
       saveSessionResult({
         profileId: profile.id,
         gameId: 'sushi',
         nickname: profile.nickname,
         avatar: profile.avatar,
-        bestStars: state.stars,
         bestScore: state.score,
         bestStage: state.stage,
         updatedAt: now,
@@ -466,7 +466,7 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
       });
       setEnded(true);
     }
-  }, [state.secondsLeft, ended, state.score, state.stars, state.stage]);
+  }, [state.secondsLeft, ended, state.score, state.stage]);
 
   // Handle animation end for a customer:
   //   entering -> seated
@@ -689,10 +689,8 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
     setReactions(prev => ({ ...prev, [customerId]: { emoji: correct ? '❤️' : '😢', key: Date.now() } }));
 
     if (correct) {
-      dispatch({ type: 'CORRECT', attempts });
+      dispatch({ type: 'CORRECT', attempts, gameId: 'sushi' });
       speakChinese(customer.target.hanzi);
-      const stars = attempts === 1 ? 3 : 1;
-      addStudyStars(stars, [customer.target.id]);
       setResolvedCount((count) => count + 1);
       
       // 🎊 Show success effects
@@ -893,12 +891,12 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
           <button
             className="back-button"
             onClick={() => {
-              const root = document.getElementById('dojo-game-root');
+              const root = document.getElementById('arena-game-root');
               if (root) root.classList.remove('visible');
-              window.location.href = 'dojo.html';
+              window.location.href = 'arena.html';
             }}
           >
-            ← Back to Dojo
+            ← Back to Arena
           </button>
           <div className="start-screen matching-start">
             <div className="start-sushi-icon">🍣</div>
@@ -995,12 +993,8 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
         </div>
       )}
 
-      {/* HUD — minimal: star counter left, timer right */}
+      {/* HUD — minimal: timer right */}
       <div className="hud">
-        <div className="hud-star">
-          <span className="hud-star-icon">⭐</span>
-          <span className="hud-star-value">{state.stars}</span>
-        </div>
         <div className="hud-timer">
           <span className="hud-timer-value">{state.secondsLeft}s</span>
         </div>
@@ -1182,11 +1176,6 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
             <h2>Round Complete!</h2>
             <div className="result-stats">
               <div className="result-stat">
-                <span className="result-stat-icon">⭐</span>
-                <span className="result-stat-label">Stars</span>
-                <span className="result-stat-value">{state.stars}</span>
-              </div>
-              <div className="result-stat">
                 <span className="result-stat-icon">💰</span>
                 <span className="result-stat-label">Score</span>
                 <span className="result-stat-value">{state.score}</span>
@@ -1208,11 +1197,11 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
                 Play Again
               </button>
               <button className="exit-button" onClick={() => {
-                // Hide the game container if on dojo page
-                const root = document.getElementById('dojo-game-root');
+                // Hide the game container if on arena page
+                const root = document.getElementById('arena-game-root');
                 if (root) root.classList.remove('visible');
-                // Navigate back to Dojo page
-                window.location.href = 'dojo.html';
+                // Navigate back to Arena page
+                window.location.href = 'arena.html';
               }}>
                 Exit
               </button>

@@ -191,5 +191,186 @@
 - Restored critical lessons section (was accidentally removed during reorganization)
 - Fixed session numbering consistency between `activeContext.md` and `progress.md`
 
+### Session 44 — Score Calibration, Game Star Removal, HOF Migration
+
+**Score calibration (Phase 4):**
+- Added `gameId` param to `applyCorrect()` with multiplier lookup (sushi: 1.0, matching: 0.33)
+- Passing `gameId` through `CORRECT` dispatch from both games
+- Flash Match scores now ~1/3 of original — leaderboard fair across games
+
+**Phase 1 — Strip game stars:**
+- Removed `addStudyStars()` from `profileBridge.ts`, `SushiMode.tsx`, `MatchingMode.tsx`
+- Games produce only score (leaderboard) + coins (shop) now
+
+**Stars field removal (scope expansion):**
+- Removed `stars` from `ScoreState` (scoring.ts, gameState.tsx)
+- Removed all `state.stars` references from game HUD, result screens, and deps
+- Removed `bestStars` from `HallOfFameEntry` type, `hallOfFame.ts` sort, and `dojo.html` plain JS renderer
+- Removed `.score-stars` CSS class
+
+**HOF score migration:**
+- Added `migrateOldMatchingScores()` — localStorage: divides old Flash Match scores by 3
+- Added `migrateSupabaseMatchingScores()` — Supabase: same migration for global leaderboard
+- Both run once on page load
+
+**Dev tooling:**
+- Added `npm run watch` script (`vite build --watch`) for auto-rebuild during development
+- Documented key lesson: dojo.html has its own HOF renderer, separate from React code
+
+### Session 45 — Phase 2: Coin Economy Implementation
+
+**Coin data model (profiles.js):**
+- Added `coins`, `coins_earned_total`, `coins_sources` to profile creation
+- Added `addCoins()` with daily cap per source (once per source per day)
+- Added `spendCoins()`, `getCoins()`, `getCoinSources()`, `getCoinsEarnedTotal()`
+- Added `awardGameCoin(gameId)` for daily-capped game coin awards
+- Added `migrateCoinsForExistingItems()` — 5 coins per previously earned item
+- Added `_ensureCoinFields()` for backward compatibility
+- Modified `addScore()` — awards 1 coin for newly reached badge tier
+- Removed `getUnlockedItemsByStars()` (dead code referencing removed `min_stars`)
+
+**Game integration:**
+- MatchingMode: calls `awardGameCoin('matching')` on victory + time-up
+- SushiMode: calls `awardGameCoin('sushi')` on game end
+- profileBridge.ts: added `awardGameCoin()` bridge + coin types on window.XHZ
+
+**Item economy (rewards.json):**
+- Expanded from 14 → 22 items with `coin_cost` (6–100)
+- 8 new items added: lollipop, ice cream, sparkle aura, scroll, jade ring, festival lantern, silk scarf, moon cake, golden crown
+- All `min_stars` references removed
+
+**Bug fixes:**
+- Fixed badge coin awarding: was looping all 4 BADGE_TIERS on any badge change → now awards 1 coin for the specific newly unlocked badge only
+- Updated `items_empty` string in strings.js (EN + TH) to reference coins instead of stars
+
+### Session 46 — Phase 3: Shop Toggle (Hide items behind Enter Shop button)
+
+**Problem:** All shop items were visible at once, making the page look messy.
+
+**Solution:** `.section-hidden` pattern from write.html — shop items hidden until user clicks "🛍️ Enter Shop ▾".
+
+**Changes (progress.html):**
+- Added `.shop-hidden .shop-content { display: none !important }` CSS
+- Added `shop-enter-btn` with icon/label/arrow spans (no `data-i18n` attribute to avoid refreshStrings conflict)
+- Added `_shopOpen` state and `toggleShop()` function
+- `renderShop()` starts with `shop-hidden` class, arrow reset to ▾
+- DOMContentLoaded safety init
+
+**Strings (strings.js):**
+- Added `shop_enter` / `shop_close` in EN and TH
+
+### Session 47 — Arena Page Visual Redesign
+
+**Layout restructure:**
+- Changed from stacked column to horizontal flex top row (panda left, header "Arena" + description centered in remaining space)
+- Game cards (Sushi Conveyor, Flash Match, panda_arena.png) + Hall of Fame unchanged beneath the top row
+
+**Visual changes:**
+- "Arena" header font-size doubled (1.5rem → 3rem desktop, 2.2rem @640px, 1.8rem @480px)
+- Off-white `#F5F0EB` round circle behind the panda (profile picture style, no border, via `::before` pseudo-element)
+- Third game card replaced "Coming Soon" lock button with full-bleed `panda_arena.png` image
+- Removed duplicate `updateAuraLayer()` dead code
+
+**Files changed:** `arena.html`
+
+### Session 48 — Console Error Sweep (All 8 Pages)
+
+**Fix 1 — Aura PNG 404 (arena.html, panda-display-preview.html):**
+- Stripped `_aura` suffix from item.id when building aura PNG path
+- E.g., `sparkle_aura` → `aura_sparkle.png` (was attempting `aura_sparkle_aura.png`)
+
+**Fix 2 — Supabase notebook 404 (shared/supabase-sync.js):**
+- Silently returned on 'notebook table not found' errors
+- Restored `console.warn` after notebook SQL was prepared
+
+**Fix 3 — Auto-merge crash (profiles.js):**
+- Added `if (!p || !p.nickname) return;` guard before `p.nickname.toLowerCase()`
+- Prevents TypeError in `findDuplicateGroups()`
+
+**Fix 4 — Missing setEffortItems (profiles.js):**
+- Added `_effortItems: null`, `setEffortItems(items)`, `getEffortItems()` to XHZ object
+- Fixes "XHZ.setEffortItems is not a function" on write.html and study.html
+
+**Verification:** All 8 pages verified — zero console errors. Only `rest/v1/notebook` network 404 remains.
+
+### Session 49 — Notebook SQL for Supabase
+
+- Notebook table definition already in `supabase-schema.sql` (CREATE TABLE IF NOT EXISTS, RLS, index)
+- Dashboard instructions provided to user for manual SQL execution
+
+### Session 50 — Phase 5: Panda Mascot Display on Progress Page
+
+**HTML structure (progress.html):**
+- Added `.panda-viewport` card between Collection and Shop sections
+- 6 visual layers stacked via z-index: aura (10) → base (20) → clothing (30) → head (40) → tool (45) → food (55)
+- Status chips below the viewport showing active categories (aura, clothing, head, tool, food)
+- `.panda-empty` fallback state when no items are equipped
+
+**CSS:**
+- Viewport: 320px max-width, 1:1 aspect-ratio, warm gradient background (#FFF8E7→#FFF0D0), rounded corners
+- Aura glow: radial gradients per type (sparkle, flame, rainbow, star) with pulse animation
+- Status chips: pill-shaped with `.active` toggle styling
+
+**JavaScript (`renderPandaDisplay()`):**
+- `PANDA_CATEGORIES` + `PANDA_SLOT_MAP` mapping categories → layer/placeholder DOM IDs
+- `getPandaVariant()`: returns variant name + base emoji based on equipped food/tool combos
+  - Stand-still 🐼 (no items)
+  - Foody 🍭 (food equipped)
+  - Warrior ⚔️ (tool equipped)
+  - Foody Warrior ⚔️🍭 (both equipped)
+- Renders: toggles card/empty state, sets base emoji, handles aura glow CSS class, updates each layer emoji, toggles chip active states
+- Integrated into `renderAll()` and `toggleItem()` so display updates when items are equipped/unequipped
+- Empty-state message changed to "Equip items from your Collection to dress up the panda! 🎨"
+
+**Files changed:** `progress.html` (+~150 lines CSS + ~80 lines JS + HTML structure)
+
+### Session 50b — Panda Display Bug Fix: PNG Paths & Accessory Support
+
+**Two critical bugs fixed in progress.html:**
+
+1. **Aura PNG paths**: Items like `sparkle_aura` generated path `aura_sparkle_aura.png` but actual file is `aura_sparkle.png`. Fixed by stripping `_aura` suffix in `updatePandaLayerWithPNG()`.
+
+2. **Accessory items never rendered**: 8 items with `category: "accessory"` (dragon_cape, straw_hat, cool_glasses, magic_fan, jade_ring, hair_bow, silk_scarf, golden_crown) were stored in `equipped.accessory` but the render loop only checked `PANDA_CATEGORIES = ['aura', 'clothing', 'head', 'tool', 'food']` — all accessories were silently ignored.
+
+**Fix**: Both `getPandaVariant()` and `renderPandaDisplay()` now build a `displayMap` that resolves each equipped item's `panda_layer || category`, so accessories render on the correct visual layer and are detected for variant selection.
+
+**Files changed:** `progress.html`, `rewards.json` (already had panda_layer fields)
+
+### Session 52 — Cleaned Up Unused Pages
+
+- **Deleted `dojo.html`**: Completely replaced by `arena.html`. Its content was already a bare redirect page. No nav links or external references point to it. README references updated.
+- **Deleted `panda-display-preview.html`**: Preview/test page with zero references anywhere in the project.
+- **README cleanup**: Removed dojo.html from file tree; changed "Dojo" → "Arena" in descriptions, testing instructions, and known issues.
+
+### Session 51 — Arena Page: Badge Display, Daily Badge Emoji Integration & Polish
+
+**Problem:** Badge shelf section was hidden/invisible on arena page. Badges were not showing despite correct detection logic.
+
+**Fix:** Removed the standalone badge shelf entirely. Badge emoji are now shown inline inside the player name pill, next to the daily mission indicator.
+
+**Changes (`arena.html`):**
+- Removed `.arena-badges` HTML section, CSS, and `renderArenaBadges()` function
+- Modified `setPlayerName()` to read today's `badge` and `study_badge` from the day record, resolve to emoji via `__arenaBadges`, and append to the `daily-badge` span
+- Both games done → `🎯` + badge emoji(s) with `.complete` class (full opacity)
+- One game done → badge emoji(s) or `○` (dimmed)
+- None done → badge emoji(s) or empty
+- Fixed null-safety: `XHZ.getActiveProfile().id` → `profile.id`, added `profile` guard to badge block
+- Added 8-direction white `text-shadow` stroke to `.daily-badge` for emoji contrast against gold-to-coral gradient
+
+**Files changed:** `arena.html`
+
+### Session 53 — Arena: Dynamic Mission Text (Coin-Based)
+
+**Problem:** Mission speech bubble always showed both Sushi Shop & Flash Match, even after coins earned for one or both games.
+
+**Solution:** Added `updateMissionText()` that checks `coins_sources` + `game_scores` and builds appropriate HTML:
+- Both coins earned → "You have worked hard today! 💪"
+- Only Sushi earned → mission mentions only Flash Match
+- Only Flash Match earned → mission mentions only Sushi Shop
+- Neither earned → full mission with both games
+
+**Files changed:** `arena.html`
+
 ## Persistent Issues
 - **Git push silently fails ~50% of the time** from the assistant (basher agent). Fix: always run `git push origin main` explicitly.
+- Notebook table still needs to be applied to Supabase dashboard to eliminate remaining 404

@@ -471,7 +471,11 @@
       try {
         var sb = window.__supabase;
         var { data, error } = await sb.from('notebook').select('*').eq('profile_id', profileId);
-        if (error) { console.warn('Supabase pullNotebook:', error.message); return null; }
+        if (error) {
+          // Notebook table error — log warning and return null (still safe to ignore)
+          console.warn('Supabase pullNotebook:', error.message);
+          return null;
+        }
         if (!data || !data.length) return null;
 
         var entries = {};
@@ -517,7 +521,7 @@
         if (error) {
           console.warn('Supabase pushHallOfFameEntry:', error.message);
         } else {
-          window.dispatchEvent(new CustomEvent('xhz:dojo-hof-pushed'));
+          window.dispatchEvent(new CustomEvent('xhz:arena-hof-pushed'));
         }
       } catch (e) {
         console.warn('Supabase pushHallOfFameEntry failed:', e.message);

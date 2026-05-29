@@ -322,6 +322,177 @@
 .word-tooltip .tt-status { margin-top: 4px; font-weight: bold; }
 .word-tooltip .tt-date   { font-size: 0.85em; color: var(--ink-light); margin-top: 2px; }
 
+/* ── SHOP CONTENT HIDDEN STATE ── */
+.shop-hidden .shop-content {
+  display: none !important;
+}
+.shop-enter-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #FFF8E1, #FFF3CD);
+  border: 1.5px solid #FFD54F;
+  border-radius: 12px;
+  font-size: 0.92em;
+  font-weight: bold;
+  color: #B8860B;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font-main);
+  margin-top: 4px;
+}
+.shop-enter-btn:active { transform: scale(0.97); }
+.shop-enter-btn:hover { background: linear-gradient(135deg, #FFF3CD, #FFE082); }
+.shop-enter-btn .seb-icon { font-size: 1.2em; }
+
+/* ── COIN BAR ── */
+.coin-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: linear-gradient(135deg, #FFF8E1, #FFF3CD);
+  border: 1.5px solid #FFD54F;
+  border-radius: 12px;
+  padding: 8px 14px;
+  font-size: 0.82em;
+  margin-bottom: 6px;
+}
+.coin-bar .cb-balance {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: bold;
+  color: #B8860B;
+  font-size: 1.05em;
+}
+.coin-bar .cb-balance .cb-icon { font-size: 1.2em; }
+.coin-bar .cb-sources {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+  font-size: 0.82em;
+  color: var(--ink-light);
+}
+.coin-source-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #E8F5E9;
+  color: #2E7D32;
+  font-size: 0.75em;
+  font-weight: bold;
+}
+.coin-source-chip .csc-check { font-size: 0.85em; }
+
+/* ── SHOP ── */
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 8px;
+}
+.shop-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  background: var(--theme-color-pale);
+  border-radius: 14px;
+  padding: 10px 6px 8px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.shop-item:hover:not(.locked) {
+  border-color: var(--theme-color);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+.shop-item:active:not(.locked) { transform: scale(0.96); }
+.shop-item.owned {
+  border-color: var(--botes-sage);
+  background: #E8F5E9;
+  cursor: pointer;
+}
+.shop-item.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(0.4);
+}
+.shop-item .si-emoji    { font-size: 1.6em; line-height: 1; }
+.shop-item .si-label {
+  font-size: 0.6em;
+  color: var(--ink-soft);
+  text-align: center;
+  line-height: 1.2;
+  font-weight: bold;
+  min-height: 2.2em;
+  display: flex;
+  align-items: center;
+}
+.shop-item .si-price {
+  font-size: 0.7em;
+  color: #B8860B;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.shop-item .si-status {
+  font-size: 0.62em;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-top: 2px;
+}
+.shop-item .si-status.buy-btn {
+  background: var(--theme-color);
+  color: white;
+}
+.shop-item .si-status.owned-badge {
+  background: var(--botes-sage);
+  color: white;
+}
+.shop-item .si-status.locked-badge {
+  background: var(--paper-deep);
+  color: var(--ink-light);
+}
+
+/* ── SHOP TOAST ── */
+.shop-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--ink-dark);
+  color: var(--paper-cream);
+  padding: 12px 20px;
+  border-radius: 16px;
+  font-size: 0.92em;
+  font-weight: bold;
+  z-index: 9999;
+  box-shadow: var(--shadow-lifted);
+  opacity: 0;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+  max-width: 80vw;
+  text-align: center;
+}
+.shop-toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
 /* ── ITEM SHELF ── */
 .item-shelf { display: flex; flex-wrap: wrap; gap: 8px; }
 .item-slot {
@@ -755,6 +926,137 @@
     text-align: center; margin-bottom: 10px;
 }
 
+/* ── PANDA DISPLAY ── */
+.panda-viewport {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    aspect-ratio: 1 / 1;
+    background: linear-gradient(180deg, #FFF8E7, #FFF0D0);
+    border-radius: 20px;
+    border: 2px solid #E8DDC0;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.panda-layer {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+}
+.panda-layer .layer-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; height: 100%;
+    font-size: 5em;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+.panda-layer.active .layer-placeholder {
+    opacity: 1;
+}
+
+/* Layer PNG images — opacity 0 by default, toggled to 1 by JS */
+.panda-layer .layer-img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+}
+.panda-layer.active .layer-img {
+    opacity: 1;
+}
+
+/* Base pose image is always visible */
+.panda-layer.layer-base img {
+    display: block;
+    width: 100%; height: 100%;
+    object-fit: contain;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+.layer-aura     { z-index: 10; }
+.layer-base     { z-index: 20; }
+.layer-clothing { z-index: 30; }
+.layer-head     { z-index: 40; }
+.layer-tool     { z-index: 45; }
+.layer-food     { z-index: 55; }
+
+/* Aura glow */
+.panda-layer .aura-glow {
+    position: absolute;
+    top: -15%; left: -15%;
+    width: 130%; height: 130%;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    transform: scale(0.8);
+}
+.layer-aura.active .aura-glow {
+    opacity: 0.55;
+    transform: scale(1);
+    animation: auraPulse 2.5s ease-in-out infinite;
+}
+.aura-glow.type-sparkle { background: radial-gradient(circle, rgba(255,215,0,0.25) 0%, transparent 65%); }
+.aura-glow.type-flame   { background: radial-gradient(circle, rgba(255,107,53,0.20) 0%, rgba(255,200,50,0.15) 40%, transparent 65%); }
+.aura-glow.type-rainbow { background: radial-gradient(circle, rgba(255,0,0,0.12) 0%, rgba(255,165,0,0.12) 15%, rgba(255,255,0,0.12) 30%, rgba(0,128,0,0.12) 45%, rgba(0,0,255,0.12) 60%, rgba(75,0,130,0.12) 75%, transparent 70%); }
+.aura-glow.type-star    { background: radial-gradient(circle, rgba(100,149,237,0.20) 0%, rgba(255,255,255,0.15) 35%, transparent 65%); }
+.aura-glow.type-empty   { background: transparent; }
+
+@keyframes auraPulse {
+    0%, 100% { opacity: 0.45; transform: scale(1); }
+    50%      { opacity: 0.7;  transform: scale(1.06); }
+}
+
+/* Variant badge */
+.panda-variant {
+    text-align: center;
+    margin: 8px 0 0;
+    font-size: 0.78em;
+    color: var(--ink-soft);
+    font-weight: bold;
+    letter-spacing: 0.3px;
+}
+
+/* Status chips */
+.panda-chips {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 8px;
+    padding-top: 10px;
+    border-top: 1px solid #EDE5D0;
+}
+.panda-chips .ps-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.6em;
+    font-weight: bold;
+    color: #6B5544;
+    background: #EDE5D0;
+    border: 1.5px solid #E8DDC0;
+    transition: all 0.2s;
+}
+.panda-chips .ps-chip.active {
+    background: #FFF3E0;
+    border-color: var(--theme-color);
+    color: var(--botes-ochre-deep);
+}
+.panda-empty {
+    padding: 4px 0;
+}
+
 /* ── ANIMATIONS ── */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(6px); }
@@ -849,6 +1151,71 @@
         <div class="item-shelf" id="item-shelf"></div>
     </div>
 
+    <!-- PANDA DISPLAY -->
+    <div class="card" id="panda-card" style="display:none;">
+        <div class="card-title">🐼 Panda</div>
+        <div id="panda-content">                <div class="panda-viewport" id="panda-viewport">
+                <!-- LAYER 1: Aura (z:10) — Back glow -->
+                <div class="panda-layer layer-aura" id="panda-layer-aura">
+                    <div class="aura-glow type-empty" id="panda-aura-glow"></div>
+                    <img class="layer-img" id="panda-img-aura" src="" alt="" draggable="false"/>
+                </div>
+                <!-- LAYER 2: Base (z:20) — Character body, swaps PNG by variant -->
+                <div class="panda-layer layer-base" id="panda-layer-base">
+                    <img id="panda-base-image" src="assets/mascot/panda_stand.png" alt="Panda" draggable="false"/>
+                </div>
+                <!-- LAYER 3: Clothing (z:30) -->
+                <div class="panda-layer layer-clothing" id="panda-layer-clothing">
+                    <div class="layer-placeholder" id="panda-ph-clothing"></div>
+                    <img class="layer-img" id="panda-img-clothing" src="" alt="" draggable="false"/>
+                </div>
+                <!-- LAYER 4: Head (z:40) -->
+                <div class="panda-layer layer-head" id="panda-layer-head">
+                    <div class="layer-placeholder" id="panda-ph-head"></div>
+                    <img class="layer-img" id="panda-img-head" src="" alt="" draggable="false"/>
+                </div>
+                <!-- LAYER 5: Tool (z:45) -->
+                <div class="panda-layer layer-tool" id="panda-layer-tool">
+                    <div class="layer-placeholder" id="panda-ph-tool"></div>
+                    <img class="layer-img" id="panda-img-tool" src="" alt="" draggable="false"/>
+                </div>
+                <!-- LAYER 6: Food (z:55) -->
+                <div class="panda-layer layer-food" id="panda-layer-food">
+                    <div class="layer-placeholder" id="panda-ph-food"></div>
+                    <img class="layer-img" id="panda-img-food" src="" alt="" draggable="false"/>
+                </div>
+            </div>
+            <div class="panda-variant" id="panda-variant">
+                🎭 <span id="panda-variant-name">Stand-still 🐼</span>
+            </div>
+            <div class="panda-chips" id="panda-chips">
+                <span class="ps-chip" data-cat="aura">✨ Aura</span>
+                <span class="ps-chip" data-cat="clothing">👘 Clothing</span>
+                <span class="ps-chip" data-cat="head">🎭 Head</span>
+                <span class="ps-chip" data-cat="tool">🛠️ Tool</span>
+                <span class="ps-chip" data-cat="food">🍽️ Food</span>
+            </div>
+        </div>
+        <div class="panda-empty" id="panda-empty" style="display:none;">
+            <div class="item-empty">Equip items from your Collection to dress up the panda! 🎨</div>
+        </div>
+    </div>
+
+    <!-- SHOP -->
+    <div class="card shop-hidden" id="shop-card" style="display:none;">
+        <div class="card-title"><span data-i18n="shop_title"></span></div>
+        <div class="shop-content">
+            <div class="coin-bar" id="coin-bar"></div>
+            <div class="shop-grid" id="shop-grid"></div>
+            <div id="shop-empty" class="item-empty" style="display:none;"></div>
+        </div>
+        <button class="shop-enter-btn" id="shop-enter-btn" onclick="toggleShop()">
+            <span class="seb-icon">🛍️</span>
+            <span class="seb-label">Enter Shop</span>
+            <span class="seb-arrow">▾</span>
+        </button>
+    </div>
+
 </div>
 
 <!-- WORD TOOLTIP -->
@@ -859,6 +1226,27 @@
     <div class="tt-status" id="tt-status"></div>
     <div class="tt-date"   id="tt-date"></div>
 </div>
+
+<!-- ════════════════════════════════════════════════
+     SHOP CONFIRM OVERLAY
+════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="shop-confirm-overlay">
+    <div class="modal-box" style="max-width: 300px; text-align: center;">
+        <div style="font-size: 3em; margin-bottom: 6px;" class="shop-confirm-emoji">🎁</div>
+        <div class="shop-confirm-name" style="font-size: 1em; font-weight: bold; color: var(--ink-dark); margin-bottom: 8px;"></div>
+        <div class="modal-title" style="font-size: 1em;" data-i18n="shop_confirm_title"></div>
+        <p class="confirm-text shop-confirm-cost" style="font-size: 0.85em; margin-bottom: 18px;"></p>
+        <div class="confirm-btns" style="gap: 10px;">
+            <button class="btn-cancel-del shop-confirm-no" data-i18n="cancel"></button>
+            <button class="settings-btn-accent shop-confirm-yes" style="flex:1;padding:10px;border-radius:12px;border:none;font-size:0.88em;font-weight:bold;cursor:pointer;background:var(--theme-color);color:white;transition:all 0.15s;" data-i18n="shop_confirm_yes"></button>
+        </div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     SHOP TOAST
+════════════════════════════════════════════════ -->
+<div class="shop-toast" id="shop-toast"></div>
 
 <!-- ════════════════════════════════════════════════
      PARENT SETTINGS MODAL
@@ -930,6 +1318,9 @@ window.onload = function() {
                     renderAll(_attemptedCourseIds);
                 });
             }
+
+            // Initial i18n refresh for shop strings
+            refreshStrings();
         });
     })
     .catch(function(err) {
@@ -978,6 +1369,8 @@ function renderAll(attempted) {
     renderCalendar();
     renderMasteryGrid(attempted);
     renderItemShelf();
+    renderPandaDisplay();
+    renderShop();
     renderNotebook();
 
     document.getElementById('loading-screen').style.display = 'none';
@@ -1478,8 +1871,7 @@ function hideTooltipSoon() { tooltipTimer = setTimeout(hideTooltip, 1200); }
 function renderItemShelf() {
     if (!rewards || !rewards.effort_items) return;
 
-    // Silent catch-up — no popup on progress page
-    XHZ.checkEffortItems(profile.id, rewards.effort_items);
+    // Items are now purchased with coins (Phase 2) — no auto-unlock
 
     var shelf    = document.getElementById('item-shelf');
     var itemData = XHZ.getItems(profile.id);
@@ -1515,6 +1907,414 @@ function toggleItem(id, category) {
         XHZ.equipItem(profile.id, id, category);
     }
     renderItemShelf();
+    renderPandaDisplay();
+}
+
+/* =====================================================
+   8. PANDA DISPLAY — PNG-based paper doll system
+===================================================== */
+var PANDA_CATEGORIES = ['aura', 'clothing', 'head', 'tool', 'food'];
+var PANDA_SLOT_MAP = {
+    aura:     { layerId: 'panda-layer-aura',     phId: null,                  glowId: 'panda-aura-glow', imgId: 'panda-img-aura' },
+    clothing: { layerId: 'panda-layer-clothing',  phId: 'panda-ph-clothing',  imgId: 'panda-img-clothing' },
+    head:     { layerId: 'panda-layer-head',      phId: 'panda-ph-head',      imgId: 'panda-img-head' },
+    tool:     { layerId: 'panda-layer-tool',      phId: 'panda-ph-tool',      imgId: 'panda-img-tool' },
+    food:     { layerId: 'panda-layer-food',      phId: 'panda-ph-food',      imgId: 'panda-img-food' }
+};
+
+/* ── Base pose PNGs, swapped based on food + tool slots ── */
+var VARIANT_PNG_MAP = {
+    stand_still:   'assets/mascot/panda_stand.png',
+    foody:         'assets/mascot/panda_foody.png',
+    warrior:       'assets/mascot/panda_warrior.png',
+    foody_warrior: 'assets/mascot/panda_foody_warrior.png',
+};
+var _currentVariantId = null;
+
+function getPandaVariant() {
+    var itemData = XHZ.getItems(profile.id);
+    var equipped = itemData ? (itemData.equipped || {}) : {};
+    var hasFood = !!equipped.food;
+    var hasTool = !!equipped.tool;
+    if (hasFood && hasTool) return { name: 'Foody Warrior ⚔️🍭', id: 'foody_warrior' };
+    if (hasFood)            return { name: 'Foody 🍭',           id: 'foody' };
+    if (hasTool)            return { name: 'Warrior ⚔️',         id: 'warrior' };
+    return { name: 'Stand-still 🐼', id: 'stand_still' };
+}
+
+/* ── Swap base pose PNG based on current variant ── */
+function updatePandaBaseLayer() {
+    var img = document.getElementById('panda-base-image');
+    if (!img) return;
+    var variant = getPandaVariant();
+    if (variant.id === _currentVariantId) return; // Already showing this pose
+    _currentVariantId = variant.id;
+    var newSrc = VARIANT_PNG_MAP[variant.id] || 'assets/mascot/panda_stand.png';
+    img.src = newSrc;
+}
+
+/* ── Load PNG overlay for a layer slot, fall back to emoji ──
+   Tries assets/avatars/{slotId}_{item.id}.png.
+   Falls back to emoji placeholder if file doesn't exist. */
+function updatePandaLayerWithPNG(slotId, item, placeholderEl, layerEl) {
+    var img = document.getElementById('panda-img-' + slotId);
+    if (!img) return;
+    if (item) {
+        var cleanId = (slotId === 'aura' && item.id.endsWith('_aura'))
+            ? item.id.slice(0, -5)
+            : item.id;
+        var pngPath = 'assets/avatars/' + slotId + '_' + cleanId + '.png';
+        img.onload = function() {
+            this.style.opacity = '1';
+            if (placeholderEl) {
+                placeholderEl.style.opacity = '0';
+                placeholderEl.style.animation = 'none';
+            }
+        };
+        img.onerror = function() {
+            this.style.opacity = '0';
+            this.removeAttribute('src');
+            if (placeholderEl) placeholderEl.style.opacity = '';
+        };
+        img.style.opacity = '';
+        if (placeholderEl) {
+            placeholderEl.style.opacity = '';
+            placeholderEl.textContent = item.emoji;
+        }
+        img.src = pngPath;
+        layerEl.classList.add('active');
+    } else {
+        img.src = '';
+        img.style.opacity = '0';
+        img.onload = null;
+        img.onerror = null;
+        layerEl.classList.remove('active');
+        if (placeholderEl) {
+            placeholderEl.textContent = '';
+            placeholderEl.style.opacity = '';
+        }
+    }
+}
+
+function renderPandaDisplay() {
+    if (!profile || !rewards || !rewards.effort_items) return;
+
+    var card = document.getElementById('panda-card');
+    var empty = document.getElementById('panda-empty');
+    var content = document.getElementById('panda-content');
+    if (!card || !empty || !content) return;
+
+    var itemData = XHZ.getItems(profile.id);
+    var equipped = itemData ? (itemData.equipped || {}) : {};
+    var effortItems = XHZ.getEffortItems() || rewards.effort_items;
+
+    // Build displayMap: resolve panda_layer for accessory items (e.g. dragon_cape → clothing)
+    var displayMap = {};
+    Object.keys(equipped).forEach(function(cat) {
+        var id = equipped[cat]; if (!id) return;
+        var it = effortItems.find(function(i) { return i.id === id; });
+        if (!it) return;
+        displayMap[it.panda_layer || it.category] = id;
+    });
+
+    // Check if any items are equipped
+    var hasAny = Object.keys(displayMap).length > 0;
+    if (!hasAny) {
+        card.style.display = '';
+        content.style.display = '';
+        empty.style.display = 'none';
+        // Reset base to stand still
+        _currentVariantId = null;
+        updatePandaBaseLayer();
+        document.getElementById('panda-variant-name').textContent = 'Stand-still 🐼';
+        // Clear all item layers and hide aura
+        PANDA_CATEGORIES.forEach(function(cat) {
+            var slot = PANDA_SLOT_MAP[cat];
+            if (!slot) return;
+            var layer = document.getElementById(slot.layerId);
+            if (!layer) return;
+            layer.classList.remove('active');
+            var img = document.getElementById(slot.imgId);
+            if (img) { img.src = ''; img.style.opacity = '0'; }
+            if (slot.phId) {
+                var ph = document.getElementById(slot.phId);
+                if (ph) { ph.textContent = ''; ph.style.opacity = ''; }
+            }
+        });
+        // Hide aura glow
+        var auraGlow = document.getElementById('panda-aura-glow');
+        if (auraGlow) auraGlow.className = 'aura-glow type-empty';
+        // Deactivate all chips
+        document.querySelectorAll('.panda-chips .ps-chip').forEach(function(chip) {
+            chip.classList.remove('active');
+        });
+        return;
+    }
+
+    card.style.display = '';
+    content.style.display = '';
+    empty.style.display = 'none';
+
+    // ── Base pose ──
+    updatePandaBaseLayer();
+    document.getElementById('panda-variant-name').textContent = getPandaVariant().name;
+
+    // ── Aura layer (CSS glow + PNG overlay) ──
+    var auraItem = equipped.aura ? effortItems.find(function(it) { return it.id === equipped.aura; }) : null;
+    var auraLayer = document.getElementById('panda-layer-aura');
+    var auraGlow = document.getElementById('panda-aura-glow');
+    if (auraLayer && auraGlow) {
+        auraLayer.classList.toggle('active', !!auraItem);
+        if (auraItem) {
+            var typeClass = auraItem.type || auraItem.id.replace('_aura', '');
+            auraGlow.className = 'aura-glow type-' + typeClass;
+        } else {
+            auraGlow.className = 'aura-glow type-empty';
+        }
+    }
+    updatePandaLayerWithPNG('aura', auraItem, null, auraLayer);
+
+    // ── Other layers (clothing, head, tool, food) ──
+    PANDA_CATEGORIES.forEach(function(cat) {
+        if (cat === 'aura') return;
+        var slot = PANDA_SLOT_MAP[cat];
+        if (!slot) return;
+        var layer = document.getElementById(slot.layerId);
+        var ph = document.getElementById(slot.phId);
+        if (!layer || !ph) return;
+
+        var itemId = displayMap[cat];
+        var item = itemId ? effortItems.find(function(it) { return it.id === itemId; }) : null;
+        updatePandaLayerWithPNG(cat, item, ph, layer);
+    });
+
+    // ── Status chips ──
+    var chips = document.querySelectorAll('.panda-chips .ps-chip');
+    chips.forEach(function(chip) {
+        var cat = chip.getAttribute('data-cat');
+        chip.classList.toggle('active', !!displayMap[cat]);
+    });
+}
+
+/* =====================================================
+   REFRESH SHOP STRINGS
+===================================================== */
+function refreshStringsShop() {
+    refreshStrings();
+    var shopCard = document.getElementById('shop-card');
+    if (shopCard && shopCard.style.display !== 'none') {
+        renderShop();
+    }
+}
+
+/* =====================================================
+   SHOP / COIN BAR
+===================================================== */
+var _shopToastTimer = null;
+var _shopOpen = false;
+
+function toggleShop() {
+  _shopOpen = !_shopOpen;
+  var card = document.getElementById('shop-card');
+  var btn = document.getElementById('shop-enter-btn');
+  if (!card || !btn) return;
+  card.classList.toggle('shop-hidden', !_shopOpen);
+  btn.querySelector('.seb-arrow').textContent = _shopOpen ? '▴' : '▾';
+  btn.querySelector('.seb-label').textContent = _shopOpen ? (t('shop_close') || 'Close Shop') : (t('shop_enter') || 'Enter Shop');
+}
+
+function renderCoinBar() {
+    if (!profile) return;
+    var bar = document.getElementById('coin-bar');
+    if (!bar) return;
+
+    var balance = XHZ.getCoins(profile.id);
+    var sources = XHZ.getCoinSources(profile.id);
+    var today = XHZ.today();
+
+    // Filter sources earned today
+    var todaySources = [];
+    Object.keys(sources).forEach(function(src) {
+        if (sources[src] === today) {
+            todaySources.push(src);
+        }
+    });
+
+    var sourceLabels = {
+        'game_matching': { icon: '🎴', label: 'Matching' },
+        'game_sushi':    { icon: '🍣', label: 'Sushi' },
+        'badge_keep_going':    { icon: '🥉', label: t('shop_source_badge') },
+        'badge_practice_hero': { icon: '🏅', label: t('shop_source_badge') },
+        'badge_rising_star':   { icon: '🌟', label: t('shop_source_badge') },
+        'badge_panda_master':  { icon: '🐼', label: t('shop_source_badge') },
+        'badge_good_learner':  { icon: '📚', label: t('shop_source_badge') },
+        'badge_deep_thinker':  { icon: '🔬', label: t('shop_source_badge') },
+        'migration_bonus':     { icon: '🎁', label: t('shop_source_migration') }
+    };
+
+    var sourcesHtml = todaySources.map(function(src) {
+        var info = sourceLabels[src] || { icon: '🪙', label: src };
+        return '<span class="coin-source-chip">' +
+            '<span class="csc-check">✅</span>' +
+            info.icon + ' ' + info.label +
+            '</span>';
+    }).join('');
+
+    bar.innerHTML =
+        '<div class="cb-balance">' +
+            '<span class="cb-icon">🪙</span>' +
+            '<span>' + tFormat('shop_coin_balance', { coins: balance }) + '</span>' +
+        '</div>' +
+        (todaySources.length
+            ? '<div class="cb-sources">' +
+                '<span style="color:var(--ink-light);font-weight:bold;">' + t('shop_coins_today') + ':</span>' +
+                sourcesHtml +
+              '</div>'
+            : '<div class="cb-sources" style="color:var(--ink-light);font-size:0.75em;">' +
+                t('shop_coins_today') + ': —' +
+              '</div>');
+}
+
+function renderShop() {
+    if (!profile || !rewards || !rewards.effort_items) return;
+
+    var shopCard = document.getElementById('shop-card');
+    var grid     = document.getElementById('shop-grid');
+    var empty    = document.getElementById('shop-empty');
+    if (!shopCard || !grid) return;
+
+    var items = rewards.effort_items.slice().sort(function(a, b) {
+        return a.coin_cost - b.coin_cost;
+    });
+
+    if (!items.length) {
+        shopCard.style.display = '';
+        grid.style.display = 'none';
+        empty.style.display = '';
+        empty.textContent = t('shop_empty');
+        return;
+    }
+
+    shopCard.style.display = '';
+    shopCard.classList.add('shop-hidden');
+    _shopOpen = false;
+    var btn = document.getElementById('shop-enter-btn');
+    if (btn) btn.querySelector('.seb-arrow').textContent = '▾';
+    grid.style.display = '';
+    empty.style.display = 'none';
+
+    var balance = XHZ.getCoins(profile.id);
+    var itemData = XHZ.getItems(profile.id);
+    var earned = itemData ? (itemData.earned || []) : [];
+    var equipped = itemData ? (itemData.equipped || {}) : {};
+
+    grid.innerHTML = items.map(function(item) {
+        var owned = earned.indexOf(item.id) !== -1;
+        var canAfford = balance >= item.coin_cost;
+
+        var cls = 'shop-item';
+        if (owned)    cls += ' owned';
+        else if (!canAfford) cls += ' locked';
+
+        var statusHtml;
+        if (owned) {
+            var isEquip = equipped[item.category] === item.id;
+            statusHtml = '<div class="si-status owned-badge">' +
+                (isEquip ? '✓ ' : '') + t('shop_owned') + '</div>';
+        } else if (canAfford) {
+            statusHtml = '<div class="si-status buy-btn">' + t('shop_buy') + '</div>';
+        } else {
+            statusHtml = '<div class="si-status locked-badge">' +
+                tFormat('shop_insufficient', { cost: item.coin_cost }) + '</div>';
+        }
+
+        return '<div class="' + cls + '" ' +
+            'onclick="shopItemClick(\'' + item.id + '\',\'' + item.category + '\', ' + owned + ', ' + canAfford + ')">' +
+            '<div class="si-emoji">' + item.emoji + '</div>' +
+            '<div class="si-label">' + item.label + '</div>' +
+            '<div class="si-price">🪙 ' + item.coin_cost + '</div>' +
+            statusHtml +
+            '</div>';
+    }).join('');
+
+    renderCoinBar();
+}
+
+function shopItemClick(itemId, category, owned, canAfford) {
+    if (owned) {
+        // Toggle equip/unequip (same as collection shelf)
+        var itemData = XHZ.getItems(profile.id);
+        var equipped = itemData ? (itemData.equipped || {}) : {};
+        if (equipped[category] === itemId) {
+            XHZ.unequipItem(profile.id, category);
+        } else {
+            XHZ.equipItem(profile.id, itemId, category);
+        }
+        renderShop();
+        renderItemShelf();
+        return;
+    }
+
+    if (!canAfford) {
+        var item = rewards.effort_items.find(function(it) { return it.id === itemId; });
+        showShopToast(item ? tFormat('shop_insufficient', { cost: item.coin_cost }) : 'Not enough coins');
+        return;
+    }
+
+    // Show purchase confirmation
+    showShopConfirm(itemId);
+}
+
+function showShopConfirm(itemId) {
+    var item = rewards.effort_items.find(function(it) { return it.id === itemId; });
+    if (!item) return;
+
+    var overlay = document.getElementById('shop-confirm-overlay');
+    if (!overlay) return;
+
+    overlay.querySelector('.shop-confirm-emoji').textContent = item.emoji;
+    overlay.querySelector('.shop-confirm-name').textContent = item.label;
+    overlay.querySelector('.shop-confirm-cost').textContent = tFormat('shop_confirm_body', { cost: item.coin_cost, name: item.label });
+    overlay.querySelector('.shop-confirm-yes').onclick = function() { doPurchase(itemId); };
+    overlay.querySelector('.shop-confirm-no').onclick = function() { closeShopConfirm(); };
+    overlay.classList.add('open');
+}
+
+function closeShopConfirm() {
+    var overlay = document.getElementById('shop-confirm-overlay');
+    if (overlay) overlay.classList.remove('open');
+}
+
+function doPurchase(itemId) {
+    closeShopConfirm();
+
+    var item = rewards.effort_items.find(function(it) { return it.id === itemId; });
+    if (!item) return;
+
+    var result = XHZ.purchaseItem(profile.id, itemId, rewards.effort_items);
+    if (result.success) {
+        showShopToast(tFormat('shop_bought', { name: item.label }));
+        renderShop();
+        renderCoinBar();
+        renderItemShelf();
+    } else if (result.reason === 'insufficient_coins') {
+        showShopToast(tFormat('shop_insufficient', { cost: item.coin_cost }));
+    } else if (result.reason === 'already_owned') {
+        showShopToast(t('shop_owned'));
+    } else {
+        showShopToast('Something went wrong!');
+    }
+}
+
+function showShopToast(msg) {
+    var toast = document.getElementById('shop-toast');
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.add('visible');
+    if (_shopToastTimer) clearTimeout(_shopToastTimer);
+    _shopToastTimer = setTimeout(function() {
+        toast.classList.remove('visible');
+    }, 2000);
 }
 
 /* =====================================================
@@ -2060,6 +2860,16 @@ function escapeHtml(str) {
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
 }
+</script>
+
+<!-- ════════════════════════════════════════════════
+     INIT SHOP — default hidden
+════════════════════════════════════════════════ -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var card = document.getElementById('shop-card');
+  if (card) card.classList.add('shop-hidden');
+});
 </script>
 
 <!-- ════════════════════════════════════════════════

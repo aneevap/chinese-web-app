@@ -8,14 +8,13 @@ type Action =
   | { type: 'TICK' }
   | { type: 'RESET'; seconds: number }
   | { type: 'ADJUST_TIME'; seconds: number }
-  | { type: 'CORRECT'; attempts: number }
+  | { type: 'CORRECT'; attempts: number; gameId?: string }
   | { type: 'WRONG' };
 
 const initialState: GameState = {
   score: 0,
   combo: 0,
   stage: 1,
-  stars: 0,
   secondsLeft: 75,
 };
 
@@ -28,7 +27,7 @@ function reducer(state: GameState, action: Action): GameState {
     case 'ADJUST_TIME':
       return { ...state, secondsLeft: Math.max(0, state.secondsLeft + action.seconds) };
     case 'CORRECT':
-      return { ...state, ...applyCorrect(state, action.attempts) };
+      return { ...state, ...applyCorrect(state, action.attempts, action.gameId) };
     case 'WRONG':
       return { ...state, ...applyWrong(state) };
     default:

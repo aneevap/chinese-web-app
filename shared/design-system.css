@@ -420,7 +420,7 @@ button:active { opacity: .82; transform: scale(.98); }
 
 .card-illustration { width: 50%; max-width: 180px; aspect-ratio: 1; background-size: contain; background-repeat: no-repeat; background-position: center; margin-bottom: 4px; }
 .card-illustration.no-image { display: none; }
-.card-char { font-size: clamp(4rem, 15vw, 7rem); line-height: 1; color: var(--ink-dark); font-family: var(--font-hanzi); font-weight: 400; }
+.card-char { font-size: clamp(5rem, 20vw, 10rem); line-height: 1; color: var(--ink-dark); font-family: var(--font-hanzi); font-weight: 400; }
 .card-char-small { font-size: clamp(2.5rem, 8vw, 4rem); line-height: 1; color: var(--ink-dark); font-family: var(--font-hanzi); font-weight: 400; }
 .card-pinyin { font-size: clamp(1.2rem, 3.2vw, 1.5rem); font-weight: 800; letter-spacing: .04em; font-family: var(--font-pinyin); }
 .card-meaning { font-size: clamp(1rem, 2.6vw, 1.15rem); color: var(--ink-medium); text-align: center; line-height: 1.4; font-family: var(--font-pinyin); font-weight: 700; }
@@ -548,7 +548,7 @@ button:active { opacity: .82; transform: scale(.98); }
 }
 @media(max-height: 700px) {
   .flash-card { width: 300px; height: 400px; }
-  .card-char { font-size: clamp(3.2rem, 12vw, 5rem); }
+  .card-char { font-size: clamp(4rem, 16vw, 7rem); }
   .card-illustration { width: 42%; max-width: 140px; }
   #phase-complete { padding: 12px 20px; gap: 10px; }
   #complete-panda { width: 130px; height: 130px; }
@@ -557,6 +557,6 @@ button:active { opacity: .82; transform: scale(.98); }
 @media(max-height: 500px) {
   .flash-card { width: 280px; height: 320px; }
   .card-illustration { width: 30%; max-width: 90px; }
-  .card-char { font-size: 2.6rem; }
+  .card-char { font-size: 3.6rem; }
   .card-char-small { font-size: 2rem; }
 }

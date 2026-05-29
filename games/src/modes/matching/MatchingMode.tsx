@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState, useRef, useCallback } from 'react';
 import { useGameDispatch, useGameState } from '../../core/state/gameState';
 import type { DisplayLanguage, VocabItem, HallOfFameEntry } from '../../core/types';
-import { addStudyStars, getActiveProfile } from '../../profile/profileBridge';
+import { getActiveProfile, awardGameCoin } from '../../profile/profileBridge';
 import type { CourseMeta } from '../../data/vocab';
 import { saveSessionResult, getGameLeaderboard } from '../../core/systems/hallOfFame';
 
@@ -199,12 +199,12 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
             const profile = getActiveProfile();
             if (profile) {
               const now = Date.now();
+              if (state.score > 30) awardGameCoin('matching');
               saveSessionResult({
                 profileId: profile.id,
                 gameId: 'matching',
                 nickname: profile.nickname,
                 avatar: profile.avatar,
-                bestStars: state.stars,
                 bestScore: state.score,
                 bestStage: 5,
                 updatedAt: now,
@@ -224,7 +224,7 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
         return () => clearTimeout(timer);
       }
     }
-  }, [matchedPairs, totalPairs, matchStage, gameStarted, ended, showStartScreen, countdown, state.secondsLeft, startNewRound, state.score, state.stars]);
+  }, [matchedPairs, totalPairs, matchStage, gameStarted, ended, showStartScreen, countdown, state.secondsLeft, startNewRound, state.score]);
 
   // ✅ Check for game end (only on time up)
   useEffect(() => {
@@ -233,13 +233,13 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
         sessionSavedRef.current = true;
         const profile = getActiveProfile();
         if (profile) {
+          if (state.score > 30) awardGameCoin('matching');
           const now = Date.now();
           saveSessionResult({
             profileId: profile.id,
             gameId: 'matching',
             nickname: profile.nickname,
             avatar: profile.avatar,
-            bestStars: state.stars,
             bestScore: state.score,
             bestStage: matchStageRef.current,
             updatedAt: now,
@@ -255,7 +255,7 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
         setEnded(true);
       }
     }
-  }, [state.secondsLeft, gameStarted, ended, matchedPairs, totalPairs, state.score, state.stars, state.stage]);
+  }, [state.secondsLeft, gameStarted, ended, matchedPairs, totalPairs, state.score, state.stage]);
 
   // Tell App when game is active (hide mode tabs) + lock body scroll during gameplay
   useEffect(() => {
@@ -591,9 +591,7 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
 
           // Score
           const comboValue = isCombo ? state.combo + 1 : 0;
-          dispatch({ type: 'CORRECT', attempts: 1 });
-          const gainedStars = 3;
-          addStudyStars(gainedStars, [first.wordId, second.wordId]);
+          dispatch({ type: 'CORRECT', attempts: 1, gameId: 'matching' });
           playSuccessSound();
           if (isCombo && comboValue >= 2) {
             playComboSound();
@@ -711,12 +709,12 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
           <button
             className="back-button"
             onClick={() => {
-              const root = document.getElementById('dojo-game-root');
+              const root = document.getElementById('arena-game-root');
               if (root) root.classList.remove('visible');
-              window.location.href = 'dojo.html';
+              window.location.href = 'arena.html';
             }}
           >
-            ← Back to Dojo
+            ← Back to Arena
           </button>
           <div className="start-screen matching-start">
             <div className="flash-match-header">
@@ -953,11 +951,6 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
                 <span className="result-stat-value">{state.score}</span>
               </div>
               <div className="result-stat">
-                <span className="result-stat-icon">⭐</span>
-                <span className="result-stat-label">Stars</span>
-                <span className="result-stat-value">{state.stars}</span>
-              </div>
-              <div className="result-stat">
                 <span className="result-stat-icon">🎯</span>
                 <span className="result-stat-label">Total Matched</span>
                 <span className="result-stat-value">{totalMatched}</span>
@@ -975,9 +968,9 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
               <button
                 className="exit-button"
                 onClick={() => {
-                  const root = document.getElementById('dojo-game-root');
+                  const root = document.getElementById('arena-game-root');
                   if (root) root.classList.remove('visible');
-                  window.location.href = 'dojo.html';
+                  window.location.href = 'arena.html';
                 }}
               >
                 Exit
@@ -994,11 +987,6 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
             <div className="result-icon">⏰</div>
             <h2>Time's Up!</h2>
             <div className="result-stats">
-              <div className="result-stat">
-                <span className="result-stat-icon">⭐</span>
-                <span className="result-stat-label">Stars</span>
-                <span className="result-stat-value">{state.stars}</span>
-              </div>
               <div className="result-stat">
                 <span className="result-stat-icon">💰</span>
                 <span className="result-stat-label">Score</span>
@@ -1033,9 +1021,9 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
               <button
                 className="exit-button"
                 onClick={() => {
-                  const root = document.getElementById('dojo-game-root');
+                  const root = document.getElementById('arena-game-root');
                   if (root) root.classList.remove('visible');
-                  window.location.href = 'dojo.html';
+                  window.location.href = 'arena.html';
                 }}
               >
                 Exit

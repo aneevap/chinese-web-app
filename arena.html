@@ -1,0 +1,2044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Arena · 学汉字</title>
+<script src="nav.js"></script>
+<script src="profiles.js"></script>
+<script src="shared/supabase-client.js"></script>
+<script src="shared/supabase-sync.js"></script>
+<script src="strings.js"></script>
+<link rel="stylesheet" href="shared/design-system.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;600;700;800&family=ZCOOL+KuaiLe&family=Nunito:wght@400;700;800&family=Mali:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="games/dist/assets/index.css">
+<style>
+/* ── ARENA PAGE — Neo-Brutalism Board-Game Aesthetic ── */
+
+/* ── LAYOUT ── */
+#main-content { flex: 1; padding: 12px 12px 80px; }
+
+/* ── ARENA HEADER ── */
+.arena-header {
+  text-align: center;
+  padding: 0;
+}
+.arena-header h1 {
+  font-family: 'ZCOOL KuaiLe', 'Bai Jamjuree', sans-serif;
+  font-size: 3rem;
+  color: #111827;
+  margin-bottom: 0;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  text-shadow: 3px 3px 0px rgba(30, 64, 175, 0.12);
+}
+.arena-header p {
+  font-size: 0.78rem;
+  color: #6B5544;
+  margin: 0;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* ── GAME CARDS — 3-column grid ── */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 0 8px;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── PANDA MISSION — speech bubble after games grid ── */
+.panda-mission {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 520px;
+  margin: 0 auto 24px;
+  padding: 0 8px;
+}
+
+.mission-panda-img {
+  width: 120px;
+  flex-shrink: 0;
+  display: block;
+  border: none;
+  background: none;
+  filter: drop-shadow(2px 4px 6px rgba(17,24,39,0.12));
+}
+.mission-panda-img img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: none;
+  background: none;
+}
+
+.mission-bubble {
+  flex: 1;
+  position: relative;
+  background: #FAF8F5;
+  border: 3px solid #111827;
+  border-radius: 18px;
+  padding: 12px 16px;
+  box-shadow: 4px 4px 0px 0px #111827;
+  font-size: 0.82rem;
+  color: #6B5544;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+/* Speech bubble arrow (points left toward panda) */
+.mission-bubble::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -10px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid #111827;
+}
+.mission-bubble::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -6px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 8px solid #FAF8F5;
+}
+
+.mission-bubble .mb-highlight {
+  color: #1E40AF;
+}
+.mission-bubble .mb-game-icon {
+  font-size: 1em;
+}
+
+@media (max-width: 480px) {
+  .panda-mission {
+    flex-direction: column;
+    text-align: center;
+  }
+  .mission-panda-img {
+    width: 80px;
+  }
+  .mission-bubble::before,
+  .mission-bubble::after {
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-top: none;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #111827;
+  }
+  .mission-bubble::after {
+    top: -6px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid #FAF8F5;
+  }
+  .mission-bubble {
+    font-size: 0.76rem;
+  }
+}
+
+
+.game-card {
+  background: #FAF8F5;
+  border: 3px solid #111827;
+  border-radius: 18px;
+  padding: 16px 10px 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 4px 4px 0px 0px #111827;
+  min-width: 0;
+}
+.game-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 4px 7px 0px 0px #111827;
+}
+.game-card:active {
+  transform: translateY(1px);
+  box-shadow: 1px 1px 0px 0px #111827;
+}
+.game-card.selected {
+  transform: translateY(-2px);
+  box-shadow: 4px 6px 0px 0px #111827;
+  border-color: #1E40AF;
+  background: #F0F4FF;
+}
+
+/* Per-game color accent stripe at top */
+.game-card[data-game="sushi"]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #FF6B35;
+  z-index: 1;
+}
+.game-card[data-game="matching"]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #7E57C2;
+  z-index: 1;
+}
+
+.game-card-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+  filter: drop-shadow(2px 2px 0px rgba(17, 24, 39, 0.15));
+  max-width: 100%;
+}
+
+.game-card-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.02em;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+.game-card.disabled {
+  opacity: 0.55;
+  cursor: default;
+  pointer-events: none;
+  filter: grayscale(0.6);
+}
+.game-card.disabled::before {
+  background: #9CA3AF !important;
+}
+
+.game-card-highscore {
+  margin-top: auto;
+  padding-top: 6px;
+  font-size: 0.68rem;
+  color: #6B5544;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  max-width: 100%;
+}
+.game-card-highscore .score-value {
+  font-weight: 800;
+  color: #1E40AF;
+  font-size: 0.78rem;
+}
+
+.game-card-play {
+  margin-top: 4px;
+  background: #FCD34D;
+  color: #111827;
+  border: 2.5px solid #111827;
+  border-radius: 10px;
+  padding: 5px 14px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  box-shadow: 2px 2px 0px 0px #111827;
+  font-family: inherit;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.game-card-play:hover {
+  transform: translateY(-2px);
+  box-shadow: 2px 4px 0px 0px #111827;
+}
+.game-card-play:active {
+  transform: translateY(1px);
+  box-shadow: 0px 0px 0px 0px #111827;
+}
+
+/* Game selection description area */
+.game-selection-info {
+  display: none;
+  text-align: center;
+  padding: 10px 16px 14px;
+  margin: -16px auto 20px;
+  max-width: 480px;
+  font-size: 0.85rem;
+  color: #6B5544;
+  font-weight: 700;
+  line-height: 1.5;
+}
+.game-selection-info.visible {
+  display: block;
+  animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Inline game container */
+#arena-game-root {
+  background: #FAF8F5;
+  border: 3px solid #111827;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  display: none;
+  box-shadow: 5px 5px 0px 0px #111827;
+}
+#arena-game-root.visible { display: block; }
+
+.game-back-bar {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #FCD34D;
+  border-bottom: 3px solid #111827;
+}
+.game-back-btn {
+  background: none;
+  border: 3px solid #111827;
+  font-size: 0.85rem;
+  color: #111827;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  transition: all 0.1s ease;
+  box-shadow: 2px 2px 0px 0px #111827;
+  font-family: inherit;
+}
+.game-back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 2px 4px 0px 0px #111827;
+  background: white;
+}
+.game-back-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0px 0px 0px 0px #111827;
+}
+
+/* ── HALL TABS ── */
+.hall-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+  justify-content: center;
+}
+
+.hall-tab {
+  border: 3px solid #111827;
+  background: white;
+  border-radius: 12px;
+  padding: 8px 18px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  box-shadow: 3px 3px 0px 0px #111827;
+  font-family: inherit;
+  color: #111827;
+  flex: 1;
+  max-width: 200px;
+  text-align: center;
+}
+
+.hall-tab:hover {
+  transform: translateY(-2px);
+  box-shadow: 3px 5px 0px 0px #111827;
+}
+
+.hall-tab:active {
+  transform: translateY(1px);
+  box-shadow: 1px 1px 0px 0px #111827;
+}
+
+.hall-tab.active {
+  background: #FCD34D;
+  border-color: #111827;
+  box-shadow: 3px 3px 0px 0px #111827;
+}
+
+.hall-tab.active:hover {
+  transform: translateY(-2px);
+  box-shadow: 3px 5px 0px 0px #111827;
+}
+
+/* Loading spinner */
+.hall-loading {
+  text-align: center;
+  padding: 30px 0;    font-size: 2.2rem;
+  color: #9CA3AF;
+  font-weight: 700;
+}
+
+.hall-loading::after {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-left: 8px;
+  border: 3px solid #D1D5DB;
+  border-top-color: #111827;
+  border-radius: 50%;
+  animation: hallSpin 0.8s linear infinite;
+  vertical-align: middle;
+}
+
+@keyframes hallSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── HALL OF FAME — Neo-Brutalism Board ── */
+.hall {
+  background: #FAF8F5;
+  border-radius: 20px;
+  border: 4px solid #111827;
+  padding: 24px;
+  box-shadow: 8px 8px 0px 0px #111827;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative corner brackets */
+.hall::before,
+.hall::after {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 3px solid #FCD34D;
+  opacity: 0.5;
+  border-radius: 4px;
+  pointer-events: none;
+}
+.hall::before {
+  top: 8px;
+  left: 8px;
+  border-right: none;
+  border-bottom: none;
+}
+.hall::after {
+  bottom: 8px;
+  right: 8px;
+  border-left: none;
+  border-top: none;
+}
+
+.hall-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  position: relative;
+}
+.hall-header h2 {
+  font-family: 'ZCOOL KuaiLe', 'Bai Jamjuree', sans-serif;
+  font-size: 1.35rem;
+  color: #111827;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  text-shadow: 2px 2px 0px rgba(30, 64, 175, 0.1);
+}
+.hall-header h2 span { font-size: 1.6rem; }
+
+/* Decorative line under header */
+.hall-header::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 20%;
+  right: 20%;
+  height: 3px;
+  background: #111827;
+  border-radius: 2px;
+}
+
+.hall-list { display: grid; gap: 10px; }
+
+/* ---- Achievement Card ---- */
+.hall-item {
+  display: grid;
+  grid-template-columns: 48px 38px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  border-radius: 14px;
+  padding: 10px 14px;
+  background: #FAF8F5;
+  border: 3px solid #111827;
+  box-shadow: 3px 3px 0px 0px #111827;
+  transition: all 0.12s ease;
+  position: relative;
+  overflow: hidden;
+  animation: hallEntry 0.5s ease both;
+}
+.hall-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 3px 5px 0px 0px #111827;
+}
+.hall-item:active {
+  transform: translateY(1px);
+  box-shadow: 1px 1px 0px 0px #111827;
+}
+
+@keyframes hallEntry {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ---- Podium styling for top 3 (achievement cards) ---- */
+.hall-item.podium {
+  padding: 14px 18px;
+}
+.hall-item.podium-1 {
+  background: linear-gradient(135deg, #FFF9E6, #FFF3CC);
+  border-color: #E6B800;
+  box-shadow: 4px 4px 0px 0px #111827;
+}
+.hall-item.podium-2 {
+  background: linear-gradient(135deg, #F0F2F5, #E4E7EB);
+  border-color: #9CA3AF;
+  box-shadow: 4px 4px 0px 0px #111827;
+}
+.hall-item.podium-3 {
+  background: linear-gradient(135deg, #FDF0E6, #FCE4D4);
+  border-color: #CD8D5E;
+  box-shadow: 4px 4px 0px 0px #111827;
+}
+
+/* Thick accent stripe on left for podium */
+.hall-item.podium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 100%;
+}
+.hall-item.podium-1::before { background: linear-gradient(180deg, #FFD700, #E6B800); }
+.hall-item.podium-2::before { background: linear-gradient(180deg, #CDD5E0, #9CA3AF); }
+.hall-item.podium-3::before { background: linear-gradient(180deg, #E8A86A, #CD8D5E); }
+
+/* Rank badge — metallic medal with 3px border */
+.hall-rank {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 900;
+  background: #E5E7EB;
+  color: #9CA3AF;
+  flex-shrink: 0;
+  border: 3px solid #111827;
+  box-shadow: 2px 2px 0px 0px #111827;
+}
+.hall-rank.gold {
+  background: linear-gradient(135deg, #FFD700, #E6B800);
+  color: #fff;
+  border-color: #111827;
+  box-shadow: 2px 2px 0px 0px #111827;
+  text-shadow: 1px 1px 0px rgba(0,0,0,0.2);
+}
+.hall-rank.silver {
+  background: linear-gradient(135deg, #D0D8E0, #B0B8C4);
+  color: #fff;
+  border-color: #111827;
+  box-shadow: 2px 2px 0px 0px #111827;
+  text-shadow: 1px 1px 0px rgba(0,0,0,0.15);
+}
+.hall-rank.bronze {
+  background: linear-gradient(135deg, #E8A86A, #CD8D5E);
+  color: #fff;
+  border-color: #111827;
+  box-shadow: 2px 2px 0px 0px #111827;
+  text-shadow: 1px 1px 0px rgba(0,0,0,0.15);
+}
+
+.hall-item.podium .hall-rank {
+  width: 50px;
+  height: 50px;
+  font-size: 1.4rem;
+}
+
+/* Avatar */
+.hall-avatar {
+  font-size: 1.6rem;
+  text-align: center;
+  flex-shrink: 0;
+  filter: drop-shadow(1px 1px 0px rgba(17, 24, 39, 0.15));
+}
+.hall-item.podium .hall-avatar {
+  font-size: 2rem;
+}
+
+/* Meta info */
+.hall-meta {
+  line-height: 1.4;
+  min-width: 0;
+}
+.hall-meta .hall-game-icon {
+  font-size: 0.9rem;
+  margin-right: 4px;
+  display: inline-block;
+}
+.hall-meta .hall-name {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #111827;
+}
+
+.hall-meta .hall-sub {
+  font-size: 0.72rem;
+  color: #6B5544;
+  margin-top: 2px;
+  font-weight: 700;
+}
+
+/* Highlight current user in global rankings */
+.hall-item.you {
+  border-color: #FCD34D;
+  background: #FFFDE7;
+}
+
+/* Score display */
+.hall-score {
+  text-align: right;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.hall-score .score-points {
+  display: block;
+  font-size: 0.75rem;
+  color: #6B5544;
+  font-weight: 700;
+  margin-top: 1px;
+}
+.hall-score .score-points b {
+  font-size: 0.9rem;
+  color: #F43F5E;
+}
+
+/* Empty state */
+.hall-empty {
+  color: #9CA3AF;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 30px 0;
+  line-height: 1.6;
+  font-weight: 700;
+}
+
+/* Game icon badges set by JS */
+
+
+
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .arena-top-row {
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .arena-panda-panel {
+    width: 200px;
+    border-width: 3px;
+    box-shadow: 4px 4px 0px 0px #111827;
+  }
+  .arena-top-text {
+    padding: 6px 0;
+  }
+  .arena-header h1 {
+    font-size: 2.2rem;
+  }
+  .arena-header p {
+    font-size: 0.72rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .arena-top-row {
+    gap: 10px;
+  }
+  .arena-panda-panel {
+    width: 150px;
+    border-width: 3px;
+    box-shadow: 3px 3px 0px 0px #111827;
+  }
+  .arena-top-text {
+    padding: 4px 0;
+  }
+  .arena-header h1 {
+    font-size: 1.8rem;
+  }
+  .arena-header p {
+    font-size: 0.65rem;
+  }
+
+  .games-grid {
+    gap: 6px;
+    padding: 0 4px;
+  }
+  .avatar-name {
+    font-size: 1.2rem;
+    margin-top: -28px;
+    padding: 4px 12px;
+    gap: 6px;
+    border: none;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+  }
+  .daily-badge {
+    font-size: 0.85em;
+  }
+  .game-card {
+    padding: 10px 4px 8px;
+    border-width: 2px;
+    border-radius: 12px;
+    box-shadow: 2px 2px 0px 0px #111827;
+    gap: 3px;
+  }
+  .game-card-icon { font-size: 1.6rem; }
+  .game-card-title {
+    font-size: 0.65rem;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+  .game-card-highscore { font-size: 0.55rem; padding-top: 3px; gap: 2px; }
+  .game-card-highscore .score-value { font-size: 0.65rem; }
+  .game-card-play { font-size: 0.6rem; padding: 3px 8px; border-width: 2px; }
+  
+  .hall { padding: 16px; box-shadow: 6px 6px 0px 0px #111827; }
+  .hall-item { grid-template-columns: 36px 30px 1fr auto; gap: 8px; padding: 8px 10px; }
+  .hall-rank { width: 34px; height: 34px; font-size: 0.9rem; }
+  .hall-item.podium .hall-rank { width: 42px; height: 42px; font-size: 1.2rem; }
+  .hall-avatar { font-size: 1.3rem; }
+  .hall-meta .hall-name { font-size: 0.82rem; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   LAYOUT — Top row: Panda + Header side by side, content below
+   ══════════════════════════════════════════════════════════════ */
+.arena-layout {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 8px;
+}
+
+/* Top row: horizontal flex — panda on the far left, header centered in remaining space */
+.arena-top-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.arena-panda-panel {
+  width: 256px;
+  flex-shrink: 0;
+}
+
+.arena-top-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 12px 0;
+}
+
+.arena-content {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* ── PANDA AVATAR COLUMN — wraps circle + name ── */
+.arena-panda-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.avatar-name {
+  margin-top: -34px;
+  width: auto;
+  max-width: 72%;
+  padding: 6px 18px;
+  border-radius: 100px;
+  background: linear-gradient(135deg, #FFD93D, #FF6B6B);
+  border: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 1.64rem;
+  font-weight: 800;
+  color: #111827;
+  pointer-events: none;
+  font-family: 'Nunito', 'Bai Jamjuree', sans-serif;
+  letter-spacing: 0.02em;
+  position: relative;
+  z-index: 15;
+}
+
+.name-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+
+.daily-badge {
+  flex-shrink: 0;
+  font-size: 0.85em;
+  line-height: 1;
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+  text-shadow:
+    -1px -1px 0 #fff,
+     1px -1px 0 #fff,
+    -1px  1px 0 #fff,
+     1px  1px 0 #fff,
+    -1px  0px 0 #fff,
+     1px  0px 0 #fff,
+     0px -1px 0 #fff,
+     0px  1px 0 #fff;
+}
+.daily-badge.complete {
+  opacity: 1;
+}
+
+/* ── PANDA VIEWPORT (paper doll layers) — round off-white avatar circle with frame ── */
+.arena-panda-panel {
+  position: relative;
+  width: 300px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  border: 4px solid #111827;
+  background: #F5F0EB;
+  box-shadow: 6px 6px 0px 0px #111827;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+
+.avatar-viewport {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: none;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  z-index: 1;
+}
+
+.avatar-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.avatar-layer img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* Real overlay PNG — hidden by default, shown by JS when file exists */
+.avatar-layer .layer-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.avatar-layer.active .layer-img {
+  opacity: 1;
+}
+
+.avatar-layer .layer-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 4em;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.avatar-layer.active .layer-placeholder {
+  opacity: 1;
+}
+
+/* Z-index stack */
+.layer-aura     { z-index: 10; }
+.layer-base     { z-index: 20; }
+.layer-clothing { z-index: 30; }
+.layer-head     { z-index: 40; }
+.layer-tool     { z-index: 45; }
+.layer-food     { z-index: 55; }
+
+/* Aura glow */
+.layer-aura .aura-glow {
+  position: absolute;
+  top: -15%; left: -15%;
+  width: 130%; height: 130%;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: scale(0.8);
+}
+.layer-aura.active .aura-glow {
+  opacity: 0.55;
+  transform: scale(1);
+  animation: auraPulse 2.5s ease-in-out infinite;
+}
+.aura-glow.type-sparkle { background: radial-gradient(circle, rgba(255,215,0,0.25) 0%, transparent 65%); }
+.aura-glow.type-flame   { background: radial-gradient(circle, rgba(255,107,53,0.20) 0%, rgba(255,200,50,0.15) 40%, transparent 65%); }
+.aura-glow.type-rainbow { background: radial-gradient(circle, rgba(255,0,0,0.12) 0%, rgba(255,165,0,0.12) 15%, rgba(255,255,0,0.12) 30%, rgba(0,128,0,0.12) 45%, rgba(0,0,255,0.12) 60%, rgba(75,0,130,0.12) 75%, transparent 70%); }
+.aura-glow.type-star    { background: radial-gradient(circle, rgba(100,149,237,0.20) 0%, rgba(255,255,255,0.15) 35%, transparent 65%); }
+.aura-glow.type-empty   { background: transparent; }
+
+/* Clothing placeholder */
+.layer-clothing .clothing-vest {
+  position: absolute;
+  top: 30%; left: 20%;
+  width: 60%; height: 45%;
+  border-radius: 30% 30% 20% 20%;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.layer-clothing.active .clothing-vest {
+  opacity: 0.25;
+}
+.clothing-vest.type-cape    { background: #6B5B95; border: 2px solid rgba(107,91,149,0.3); }
+.clothing-vest.type-scarf   { background: #FF6B6B; border: 2px solid rgba(255,107,107,0.3); border-radius: 50% 50% 20% 20%; }
+.clothing-vest.type-robe    { background: #4A90D9; border: 2px solid rgba(74,144,217,0.3); }
+.clothing-vest.type-empty   { background: transparent; }
+
+/* No description overlay on the doll, no variant badge — moved to header */
+
+/* Aura pulse animation */
+@keyframes auraPulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%      { opacity: 0.75; transform: scale(1.05); }
+}
+
+/* ── RESPONSIVE: smaller panda on narrow screens ── */
+@media (max-width: 480px) {
+  .avatar-layer .layer-placeholder {
+    font-size: 3em;
+  }
+}
+</style>
+</head>
+<body>
+  <div id="page-wrap">
+    <div id="app-nav"></div>
+    <main id="main-content">
+
+      <div class="arena-layout">
+
+      <!-- ── TOP ROW: Panda + Header side by side ── -->
+      <div class="arena-top-row">
+
+        <!-- ── PANDA AVATAR COLUMN (far left) ── -->
+        <div class="arena-panda-col">
+          <div class="arena-panda-panel">
+            <div class="avatar-viewport" id="avatar-viewport">
+
+              <!-- LAYER 1: Aura (z:10) -->
+              <div class="avatar-layer layer-aura" id="layer-aura">
+                <div class="aura-glow type-empty" id="aura-glow"></div>
+                <img class="layer-img" id="img-aura" src="" alt=""
+                     onerror="this.style.opacity='0'" draggable="false"/>
+              </div>
+
+              <!-- LAYER 2: Base (z:20) — dynamic variant swap -->
+              <div class="avatar-layer layer-base">
+                <img id="base-image" src="assets/mascot/panda_dojo.png" alt="Panda"
+                     draggable="false"
+                     onerror="this.src='assets/mascot/panda_dojo.png'; this.dataset.fallback='1';"/>
+              </div>
+
+              <!-- LAYER 3: Clothing (z:30) -->
+              <div class="avatar-layer layer-clothing" id="layer-clothing">
+                <div class="clothing-vest type-empty" id="clothing-vest"></div>
+                <img class="layer-img" id="img-clothing" src="" alt=""
+                     onerror="this.style.opacity='0'" draggable="false"/>
+              </div>
+
+              <!-- LAYER 4: Head (z:40) -->
+              <div class="avatar-layer layer-head" id="layer-head">
+                <span class="layer-placeholder" id="head-placeholder"></span>
+                <img class="layer-img" id="img-head" src="" alt=""
+                     onerror="this.style.opacity='0'" draggable="false"/>
+              </div>
+
+              <!-- LAYER 5: Tool (z:45) -->
+              <div class="avatar-layer layer-tool" id="layer-tool">
+                <span class="layer-placeholder" id="tool-placeholder"></span>
+                <img class="layer-img" id="img-tool" src="" alt=""
+                     onerror="this.style.opacity='0'" draggable="false"/>
+              </div>
+
+              <!-- LAYER 6: Food (z:55) -->
+              <div class="avatar-layer layer-food" id="layer-food">
+                <span class="layer-placeholder" id="food-placeholder"></span>
+                <img class="layer-img" id="img-food" src="" alt=""
+                     onerror="this.style.opacity='0'" draggable="false"/>
+              </div>
+
+            </div>
+          </div>
+          <div class="avatar-name" id="avatar-name">
+            <span class="name-text" id="name-text"></span>
+            <span class="daily-badge" id="daily-badge"></span>
+          </div>
+        </div>
+
+        <!-- ── HEADER + DESCRIPTION CENTERED ── -->
+        <div class="arena-top-text">
+          <div class="arena-header">
+            <h1>Arena</h1>
+            <p>Choose your challenge and master Chinese characters!</p>
+          </div>
+        </div>
+
+      </div><!-- /arena-top-row -->
+
+        <!-- ── CONTENT (below top row) ── -->
+        <div class="arena-content">
+
+          <!-- GAME CARDS -->
+          <div class="games-grid" id="games-grid"></div>
+
+          <!-- PANDA MISSION -->
+          <div class="panda-mission" id="panda-mission">
+            <div class="mission-panda-img">
+              <img src="assets/mascot/panda_arena.png" alt="Panda" draggable="false">
+            </div>
+            <div class="mission-bubble" id="mission-bubble">
+              Hey <span id="mission-player">there</span>! 🐼 Today&rsquo;s mission: <strong>score over <span class="mb-highlight">30</span></strong> in
+              <span class="mb-game-icon">🍣</span> Sushi Shop &amp;
+              <span class="mb-game-icon">⚡</span> Flash Match to earn your daily coins!
+            </div>
+          </div>
+
+
+          <!-- GAME SELECTION DESCRIPTION -->
+          <div class="game-selection-info" id="game-selection-info"></div>
+
+          <!-- INLINE GAME CONTAINER (for sushi mode) -->
+          <div class="game-back-bar" id="game-back-bar" style="display:none;">
+            <button class="game-back-btn" onclick="closeGame()">← Back to Arena</button>
+          </div>
+          <div id="arena-game-root"></div>
+
+          <!-- HALL OF FAME -->
+          <section class="hall">
+            <div class="hall-header">
+              <h2><span>🏆</span> Hall of Fame</h2>
+            </div>
+
+            <div class="hall-tabs">
+              <button class="hall-tab active" data-tab="local" onclick="switchHallTab('local')">📋 Your Rankings</button>
+              <button class="hall-tab" data-tab="global" onclick="switchHallTab('global')">🌍 Global Rankings</button>
+            </div>
+
+            <div id="hall-list" class="hall-list"></div>
+          </section>
+
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script type="module" src="games/dist/assets/game.js?v=43"></script>
+
+  <script>
+    /* =====================================================
+       GAME DEFINITIONS
+    ===================================================== */
+    var GAMES = [
+      {
+        id: 'sushi',
+        icon: '🍣',
+        title: 'Sushi Conveyor',
+        desc: 'Drag & drop characters to hungry customers on the conveyor belt!',
+        color: '#FF6B35',
+        inline: true,
+        route: null
+      },
+      {
+        id: 'matching',
+        icon: '⚡',
+        title: 'Flash Match',
+        desc: 'Race against time — match characters to meanings at lightning speed!',
+        color: '#7E57C2',
+        inline: true,
+        route: null
+      },
+
+    ];
+
+    /* =====================================================
+       RENDER GAME CARDS
+    ===================================================== */
+    var SELECTED_GAME = null;
+
+    function showGameDescription(gameId) {
+      var infoEl = document.getElementById('game-selection-info');
+      var game = GAMES.find(function(g) { return g.id === gameId; });
+      if (game && game.desc) {
+        infoEl.innerHTML = '<span style="font-size:1.1rem;margin-right:4px;">' + game.icon + '</span> ' + game.desc;
+        infoEl.classList.add('visible');
+      } else {
+        infoEl.classList.remove('visible');
+      }
+    }
+
+    function selectGame(gameId) {
+      var game = GAMES.find(function(g) { return g.id === gameId; });
+      if (!game || game.disabled) return;
+
+      // Update selected state
+      SELECTED_GAME = gameId;
+      var cards = document.querySelectorAll('.game-card');
+      cards.forEach(function(c) {
+        c.classList.toggle('selected', c.getAttribute('data-game') === gameId);
+      });
+
+      showGameDescription(gameId);
+    }
+
+    function renderGameCards() {
+      var grid = document.getElementById('games-grid');
+      grid.innerHTML = '';
+
+      GAMES.forEach(function(game) {
+        var card = document.createElement('a');
+        card.className = 'game-card';
+        if (game.disabled) card.classList.add('disabled');
+        card.href = 'javascript:void(0)';
+        card.style.setProperty('--theme-color', game.color);
+        card.setAttribute('data-game', game.id);
+
+        // Get high score for this game
+        var highScore = getGameHighScore(game.id);
+
+        card.innerHTML =
+          '<div class="game-card-icon">' + game.icon + '</div>' +
+          '<div class="game-card-title">' + game.title + '</div>' +
+          (highScore !== null
+            ? '<div class="game-card-highscore">⭐ Best: <span class="score-value">' + highScore + '</span></div>'
+            : '<div class="game-card-highscore" style="color:var(--ink-light);font-size:0.68rem;">No record yet</div>') +
+          '<div class="game-card-play" style="background:' + game.color + ';">▶ Play</div>';
+
+        card.onclick = function(e) {
+          e.preventDefault();
+          if (game.disabled) return;
+          // If already selected, open the game; otherwise select it
+          if (SELECTED_GAME === game.id) {
+            openGame(game.id);
+          } else {
+            selectGame(game.id);
+          }
+        };
+
+        // Also handle Play button clicks via delegation
+        var playBtn = card.querySelector('.game-card-play');
+        if (playBtn && !game.disabled) {
+          playBtn.onclick = function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            openGame(game.id);
+          };
+        }
+
+        grid.appendChild(card);
+      });
+
+      // Restore selection if any
+      if (SELECTED_GAME) {
+        var selectedCards = document.querySelectorAll('.game-card[data-game="' + SELECTED_GAME + '"]');
+        selectedCards.forEach(function(c) { c.classList.add('selected'); });
+        showGameDescription(SELECTED_GAME);
+      }
+    }
+
+    /* =====================================================
+       GET HIGH SCORE FOR A GAME
+       Reads from profiles.js score data
+    ===================================================== */
+    function getGameHighScore(gameId) {
+      var profile = XHZ.getActiveProfile();
+      if (!profile) return null;
+
+      var allScores = XHZ.getAllScores(profile.id);
+      var best = null;
+
+      Object.values(allScores).forEach(function(day) {
+        // Check for game-specific scores stored in the day entry
+        if (day.game_scores && day.game_scores[gameId]) {
+          var score = day.game_scores[gameId];
+          if (best === null || score > best) best = score;
+        }
+      });
+
+      // Also check the arena hall of fame — iterate ALL entries to find the highest score
+      try {
+        var hof = JSON.parse(localStorage.getItem('xhz_dojo_hall_of_fame') || '[]');
+        for (var j = 0; j < hof.length; j++) {
+          var e = hof[j];
+          if (e.profileId === profile.id && e.gameId === gameId) {
+            if (best === null || e.bestScore > best) {
+              best = e.bestScore;
+            }
+          }
+        }
+      } catch(_) {}
+
+      return best;
+    }
+
+    /* =====================================================
+       OPEN / CLOSE INLINE GAME
+    ===================================================== */
+    function openGame(gameId) {
+      var root = document.getElementById('arena-game-root');
+      var backBar = document.getElementById('game-back-bar');
+      root.classList.add('visible');
+      if (backBar) backBar.style.display = 'flex';
+      root.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // Clear selection description
+      var infoEl = document.getElementById('game-selection-info');
+      if (infoEl) infoEl.classList.remove('visible');
+
+      // Dispatch event for the game module to mount
+      window.dispatchEvent(new CustomEvent('xhz:mount-game', {
+        detail: { gameId: gameId }
+      }));
+    }
+
+    function closeGame() {
+      var root = document.getElementById('arena-game-root');
+      var backBar = document.getElementById('game-back-bar');
+      root.classList.remove('visible');
+      if (backBar) backBar.style.display = 'none';
+
+      // Dispatch event to unmount
+      window.dispatchEvent(new CustomEvent('xhz:unmount-game'));
+    }
+
+    /* =====================================================
+       HALL OF FAME — Tab switching + Local & Global rankings
+    ===================================================== */
+    var CURRENT_HALL_TAB = 'local';
+
+    function switchHallTab(tab) {
+      CURRENT_HALL_TAB = tab;
+      // Update tab button active state
+      document.querySelectorAll('.hall-tab').forEach(function(btn) {
+        btn.classList.toggle('active', btn.getAttribute('data-tab') === tab);
+      });
+      renderHallOfFame();
+    }
+
+    function formatDate(ts) {
+      var d = new Date(ts);
+      var month = d.getMonth() + 1;
+      var day = d.getDate();
+      var hours = d.getHours();
+      var minutes = d.getMinutes();
+      var ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12 || 12;
+      minutes = minutes < 10 ? '0' + minutes : minutes;
+      return month + '/' + day + ' ' + hours + ':' + minutes + ' ' + ampm;
+    }
+
+    function renderGameLeaderboard(gameId, maxRank) {
+      var entries = [];
+      try {
+        entries = JSON.parse(localStorage.getItem('xhz_dojo_hall_of_fame') || '[]');
+      } catch (_) {
+        entries = [];
+      }
+
+      // Filter by gameId
+      var filtered = entries.filter(function(e) { return e.gameId === gameId; });
+
+      // Sort by score descending, then by date
+      var sorted = filtered.slice().sort(function(a, b) {
+        if (b.bestScore !== a.bestScore) return b.bestScore - a.bestScore;
+        return b.updatedAt - a.updatedAt;
+      });
+
+      if (sorted.length === 0) {
+        return '<div class="hall-empty">No ' + (gameId === 'sushi' ? 'Sushi' : 'Flash') + ' records yet</div>';
+      }
+
+      var count = Math.min(maxRank, sorted.length);
+      var html = '';
+
+      for (var i = 0; i < count; i++) {
+        var entry = sorted[i];
+        var rank = i + 1;
+
+        var itemClass = 'hall-item';
+        var rankClass = 'hall-rank';
+        var rankLabel = '#' + rank;
+
+        if (rank === 1) {
+          itemClass += ' podium podium-1';
+          rankClass += ' gold';
+          rankLabel = '🥇';
+        } else if (rank === 2) {
+          itemClass += ' podium podium-2';
+          rankClass += ' silver';
+          rankLabel = '🥈';
+        } else if (rank === 3) {
+          itemClass += ' podium podium-3';
+          rankClass += ' bronze';
+          rankLabel = '🥉';
+        }
+
+        var animDelay = (i * 0.06) + 's';
+
+        html +=
+          '<div class="' + itemClass + '" data-game="' + gameId + '" style="animation-delay:' + animDelay + '">' +
+            '<div class="' + rankClass + '">' + rankLabel + '</div>' +
+            '<div class="hall-avatar">' + (entry.avatar || '🐼') + '</div>' +
+            '<div class="hall-meta">' +
+              '<span class="hall-name">' + escapeHtml(entry.nickname) + '</span>' +
+              '<div class="hall-sub">' +
+                'Stage ' + entry.bestStage + ' · ' + formatDate(entry.updatedAt) +
+              '</div>' +
+            '</div>' +
+            '<div class="hall-score">' +
+              '<span class="score-points">Score <b>' + entry.bestScore + '</b></span>' +
+            '</div>' +
+          '</div>';
+      }
+
+      return html;
+    }
+
+    function renderLocalHallOfFame() {
+      var listEl = document.getElementById('hall-list');
+      var sushiHtml = renderGameLeaderboard('sushi', 5);
+      var matchingHtml = renderGameLeaderboard('matching', 5);
+
+      listEl.innerHTML =
+        '<div>' +
+          '<div class="section-label" style="font-size:0.85rem;font-weight:800;margin-bottom:10px;text-align:center;">🍣 Sushi Conveyor</div>' +
+          sushiHtml +
+        '</div>' +
+        '<div style="border-top:2px dashed #D1D5DB;margin:14px 0;"></div>' +
+        '<div>' +
+          '<div class="section-label" style="font-size:0.85rem;font-weight:800;margin-bottom:10px;text-align:center;">⚡ Flash Match</div>' +
+          matchingHtml +
+        '</div>';
+    }
+
+    function renderGlobalLeaderboard(gameId, maxRank) {
+      if (!window.__GLOBAL_HOF || !window.__GLOBAL_HOF.length) {
+        return '<div class="hall-empty">🌍 No global rankings yet<br><span style="font-size:0.8rem;color:#9CA3AF;">Play a game and your score will appear here for everyone to see!</span></div>';
+      }
+
+      var filtered = window.__GLOBAL_HOF.filter(function(e) { return e.gameId === gameId; });
+      var sorted = filtered.slice().sort(function(a, b) {
+        if (b.bestScore !== a.bestScore) return b.bestScore - a.bestScore;
+        return b.updatedAt - a.updatedAt;
+      });
+
+      if (sorted.length === 0) {
+        return '<div class="hall-empty">No ' + (gameId === 'sushi' ? 'Sushi' : 'Flash') + ' global records yet</div>';
+      }
+
+      var count = Math.min(maxRank, sorted.length);
+      var html = '';
+
+      for (var i = 0; i < count; i++) {
+        var entry = sorted[i];
+        var rank = i + 1;
+
+        var itemClass = 'hall-item';
+        var rankClass = 'hall-rank';
+        var rankLabel = '#' + rank;
+
+        if (rank === 1) {
+          itemClass += ' podium podium-1';
+          rankClass += ' gold';
+          rankLabel = '🥇';
+        } else if (rank === 2) {
+          itemClass += ' podium podium-2';
+          rankClass += ' silver';
+          rankLabel = '🥈';
+        } else if (rank === 3) {
+          itemClass += ' podium podium-3';
+          rankClass += ' bronze';
+          rankLabel = '🥉';
+        }
+
+        // Highlight current user's entry
+        var profile = XHZ.getActiveProfile();
+        var isYou = profile && entry.profileId === profile.id;
+
+        var animDelay = (i * 0.06) + 's';
+        var youClass = isYou ? ' you' : '';
+
+        html +=
+          '<div class="' + itemClass + youClass + '" style="animation-delay:' + animDelay + '">' +
+            '<div class="' + rankClass + '">' + rankLabel + '</div>' +
+            '<div class="hall-avatar">' + (entry.avatar || '🐼') + '</div>' +
+            '<div class="hall-meta">' +
+              '<span class="hall-name">' + escapeHtml(entry.nickname) + (isYou ? ' <span style="font-size:0.7rem;color:#9CA3AF;">(you)</span>' : '') + '</span>' +
+              '<div class="hall-sub">' +
+                'Stage ' + entry.bestStage + ' · ' + formatDate(entry.updatedAt) +
+              '</div>' +
+            '</div>' +
+            '<div class="hall-score">' +
+              '<span class="score-points">Score <b>' + entry.bestScore + '</b></span>' +
+            '</div>' +
+          '</div>';
+      }
+
+      return html;
+    }
+
+    function renderGlobalHallOfFame() {
+      var listEl = document.getElementById('hall-list');
+
+      // Show loading state
+      listEl.innerHTML = '<div class="hall-loading">Loading global rankings...</div>';
+
+      function guard() {
+        // If the user switched tabs while we were fetching, don't render
+        if (CURRENT_HALL_TAB !== 'global') return true;
+        return false;
+      }
+
+      if (window.__SUPABASE_SYNC && window.__SUPABASE_SYNC.ready) {
+        window.__SUPABASE_SYNC.pullHallOfFameEntries().then(function(entries) {
+          if (guard()) return;
+          window.__GLOBAL_HOF = entries || [];
+          renderGlobalHallOfFameContent();
+        }).catch(function() {
+          if (guard()) return;
+          window.__GLOBAL_HOF = [];
+          renderGlobalHallOfFameContent();
+        });
+      } else {
+        // SYNC not ready - check if Supabase is available directly
+        var sb = window.__supabase;
+        if (sb) {
+          sb.from('hall_of_fame')
+            .select('*')
+            .order('best_score', { ascending: false })
+            .limit(100)
+            .then(function(result) {
+              if (guard()) return;
+              if (result.error) {
+                window.__GLOBAL_HOF = [];
+              } else if (result.data) {
+                window.__GLOBAL_HOF = result.data.map(function(row) {
+                  return {
+                    sessionId: row.session_id,
+                    profileId: row.profile_id,
+                    gameId: row.game_id,
+                    nickname: row.nickname,
+                    avatar: row.avatar || '🐼',
+                    bestScore: row.best_score || 0,
+                    bestStage: row.best_stage || 0,
+                    updatedAt: row.updated_at
+                  };
+                });
+              } else {
+                window.__GLOBAL_HOF = [];
+              }
+              renderGlobalHallOfFameContent();
+            }).catch(function() {
+              if (guard()) return;
+              window.__GLOBAL_HOF = [];
+              renderGlobalHallOfFameContent();
+            });
+        } else {
+          window.__GLOBAL_HOF = [];
+          renderGlobalHallOfFameContent();
+        }
+      }
+    }
+
+    function renderGlobalHallOfFameContent() {
+      var listEl = document.getElementById('hall-list');
+      var sushiHtml = renderGlobalLeaderboard('sushi', 5);
+      var matchingHtml = renderGlobalLeaderboard('matching', 5);
+
+      listEl.innerHTML =
+        '<div>' +
+          '<div class="section-label" style="font-size:0.85rem;font-weight:800;margin-bottom:10px;text-align:center;">🍣 Sushi Conveyor — Global</div>' +
+          sushiHtml +
+        '</div>' +
+        '<div style="border-top:2px dashed #D1D5DB;margin:14px 0;"></div>' +
+        '<div>' +
+          '<div class="section-label" style="font-size:0.85rem;font-weight:800;margin-bottom:10px;text-align:center;">⚡ Flash Match — Global</div>' +
+          matchingHtml +
+        '</div>';
+    }
+
+    function renderHallOfFame() {
+      if (CURRENT_HALL_TAB === 'global') {
+        renderGlobalHallOfFame();
+      } else {
+        renderLocalHallOfFame();
+      }
+    }
+
+
+    /* =====================================================
+       UTILITY
+    ===================================================== */
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&')
+        .replace(/</g, '<')
+        .replace(/>/g, '>')
+        .replace(/"/g, '"');
+    }
+
+
+
+
+    /* =====================================================
+       INIT
+    ===================================================== */
+    /* =====================================================
+       ONE-TIME MIGRATION: Divide old Flash Match scores by 3
+       to match the new 0.33x score multiplier.
+    ===================================================== */
+    function migrateOldMatchingScores() {
+      var flag = 'xhz_hof_migrated_v1';
+      if (localStorage.getItem(flag)) return;
+      try {
+        var KEY = 'xhz_dojo_hall_of_fame';
+        var entries = JSON.parse(localStorage.getItem(KEY) || '[]');
+        var count = 0;
+        entries.forEach(function(e) {
+          if (e.gameId === 'matching') {
+            var old = e.bestScore;
+            e.bestScore = Math.round(e.bestScore / 3);
+            if (e.bestScore !== old) count++;
+          }
+        });
+        localStorage.setItem(KEY, JSON.stringify(entries));
+        localStorage.setItem(flag, '1');
+        console.log('[Migration] Adjusted ' + count + ' local Flash Match scores (divided by 3)');
+      } catch(_) {}
+    }
+
+    /* =====================================================
+       ONE-TIME MIGRATION: Divide old Flash Match scores in
+       Supabase (global leaderboard) by 3.
+       Runs once after Supabase client becomes ready.
+    ===================================================== */
+    function migrateSupabaseMatchingScores() {
+      var flag = 'xhz_supabase_hof_migrated_v1';
+      if (localStorage.getItem(flag)) return;
+
+      if (!window.__supabaseReady) {
+        // Supabase client not loaded, skip
+        return;
+      }
+
+      window.__supabaseReady.then(function(connected) {
+        if (!connected) return;
+        var sb = window.__supabase;
+        if (!sb) return;
+
+        sb.from('hall_of_fame')
+          .select('session_id, best_score')
+          .eq('game_id', 'matching')
+          .then(function(result) {
+            if (result.error) {
+              console.warn('[Migration] Supabase query error:', result.error.message);
+              return;
+            }
+            if (!result.data || !result.data.length) {
+              localStorage.setItem(flag, '1');
+              console.log('[Migration] No Supabase Flash Match scores to migrate');
+              return;
+            }
+
+            // Set flag eagerly so partial failures don't re-divide on retry
+            localStorage.setItem(flag, '1');
+
+            // Build all update promises and run in parallel
+            var promises = [];
+            result.data.forEach(function(row) {
+              var newScore = Math.round(row.best_score / 3);
+              if (newScore === row.best_score) return; // unchanged (e.g. 0)
+              promises.push(
+                sb.from('hall_of_fame')
+                  .update({ best_score: newScore })
+                  .eq('session_id', row.session_id)
+              );
+            });
+
+            Promise.all(promises).then(function() {
+              console.log('[Migration] Adjusted ' + promises.length + ' Supabase Flash Match scores (divided by 3)');
+              if (CURRENT_HALL_TAB === 'global') renderGlobalHallOfFame();
+            }).catch(function(err) {
+              console.warn('[Migration] Some Supabase updates failed:', err.message);
+            });
+          })
+          .catch(function(err) {
+            console.warn('[Migration] Supabase migration error:', err.message);
+          });
+      });
+    }
+
+    /* =====================================================
+       PAPER DOLL AVATAR SYSTEM — Shows dressed-up panda
+       Reads equipped_items from the active profile.
+    ===================================================== */
+
+    /* ── ALL Items (matching rewards.json with paper doll categories) ── */
+    var DOLL_ALL_ITEMS = [
+      // Auras
+      { id: 'sparkle_aura', label: 'Sparkle Aura', emoji: '🌟', category: 'aura', type: 'sparkle' },
+      { id: 'flame_aura',   label: 'Flame Aura',   emoji: '🔥', category: 'aura', type: 'flame' },
+      { id: 'rainbow_aura', label: 'Rainbow Aura', emoji: '🌈', category: 'aura', type: 'rainbow' },
+      { id: 'star_glow',    label: 'Star Glow',    emoji: '💫', category: 'aura', type: 'star' },
+      // Clothing (from rewards.json 'accessory' → clothing)
+      { id: 'dragon_cape',  label: 'Dragon Cape',  emoji: '🦸', category: 'clothing', type: 'cape' },
+      { id: 'silk_scarf',   label: 'Silk Scarf',   emoji: '🧣', category: 'clothing', type: 'scarf' },
+      { id: 'jade_ring',    label: 'Jade Ring',    emoji: '💍', category: 'clothing', type: 'robe' },
+      // Head (from rewards.json 'accessory' → head)
+      { id: 'straw_hat',    label: 'Straw Hat',    emoji: '👒', category: 'head' },
+      { id: 'cool_glasses', label: 'Cool Glasses', emoji: '🕶️', category: 'head' },
+      { id: 'hair_bow',     label: 'Hair Bow',     emoji: '🎀', category: 'head' },
+      { id: 'magic_fan',    label: 'Magic Fan',    emoji: '🪭', category: 'head' },
+      { id: 'golden_crown', label: 'Golden Crown', emoji: '👑', category: 'head' },
+      // Tools
+      { id: 'bamboo_stick', label: 'Bamboo Stick',   emoji: '🎋', category: 'tool' },
+      { id: 'scroll',       label: 'Ancient Scroll', emoji: '📜', category: 'tool' },
+      { id: 'lantern',      label: 'Festival Lantern', emoji: '🏮', category: 'tool' },
+      { id: 'wooden_sword', label: 'Wooden Sword',   emoji: '🗡️', category: 'tool' },
+      { id: 'ink_brush',    label: 'Ink Brush',      emoji: '🖌️', category: 'tool' },
+      { id: 'dragon_staff', label: 'Dragon Staff',   emoji: '🐉', category: 'tool' },
+      // Food
+      { id: 'candy_bag',    label: 'Candy Bag',      emoji: '🍬', category: 'food' },
+      { id: 'lollipop',     label: 'Lollipop',       emoji: '🍭', category: 'food' },
+      { id: 'ice_cream',    label: 'Ice Cream',      emoji: '🍦', category: 'food' },
+      { id: 'dumpling',     label: 'Giant Dumpling', emoji: '🥟', category: 'food' },
+      { id: 'boba_tea',     label: 'Boba Tea',       emoji: '🧋', category: 'food' },
+      { id: 'moon_cake',    label: 'Moon Cake',      emoji: '🥮', category: 'food' },
+      { id: 'golden_dumpling', label: 'Golden Dumpling', emoji: '✨', category: 'food' },
+    ];
+
+    /* ── Map rewards.json category → paper doll slot ──
+       The old system stored everything under 'aura', 'accessory', 'tool', 'food'.
+       Accessory items need per-ID mapping since they split into clothing + head. */
+    var ITEM_TO_SLOT = {
+      sparkle_aura:  'aura',
+      flame_aura:    'aura',
+      rainbow_aura:  'aura',
+      star_glow:     'aura',
+      dragon_cape:   'clothing',
+      silk_scarf:    'clothing',
+      jade_ring:     'clothing',
+      straw_hat:     'head',
+      cool_glasses:  'head',
+      hair_bow:      'head',
+      magic_fan:     'head',
+      golden_crown:  'head',
+      bamboo_stick:  'tool',
+      scroll:        'tool',
+      lantern:       'tool',
+      wooden_sword:  'tool',
+      ink_brush:     'tool',
+      dragon_staff:  'tool',
+      candy_bag:     'food',
+      lollipop:      'food',
+      ice_cream:     'food',
+      dumpling:      'food',
+      boba_tea:      'food',
+      moon_cake:     'food',
+      golden_dumpling: 'food',
+    };
+
+    /* ── Doll variants (4 base poses based on food + tool) ── */
+    var VARIANT_PNG_MAP = {
+      stand_still:   'assets/mascot/panda_stand.png',
+      foody:         'assets/mascot/panda_foody.png',
+      warrior:       'assets/mascot/panda_warrior.png',
+      foody_warrior: 'assets/mascot/panda_foody_warrior.png',
+    };
+
+    var _avatarState = { aura: null, clothing: null, head: null, tool: null, food: null };
+    var _currentVariantId = null;
+    var _rewardsItems = []; /* effort_items from rewards.json — loaded at init */
+    var __arenaBadges = []; /* daily_badges + study_badges from rewards.json — loaded at init */
+
+    function getDollVariant() {
+      var hasFood = _avatarState.food  !== null;
+      var hasTool = _avatarState.tool  !== null;
+      if (hasFood && hasTool) return { name: 'Foody Warrior ⚔️🍭', id: 'foody_warrior' };
+      if (hasFood)            return { name: 'Foody 🍭',           id: 'foody' };
+      if (hasTool)            return { name: 'Warrior ⚔️',         id: 'warrior' };
+      return { name: 'Stand-still 🐼', id: 'stand_still' };
+    }
+
+    /* ── Build avatar state from profile's equipped_items ──
+       Uses panda_layer from rewards.json to resolve accessory items to the
+       correct paper-doll slot (e.g., dragon_cape → clothing).
+       Falls back to ITEM_TO_SLOT map for backward compat. */
+    function buildAvatarFromProfile() {
+      var profile = XHZ.getActiveProfile();
+      if (!profile) {
+        _avatarState = { aura: null, clothing: null, head: null, tool: null, food: null };
+        return;
+      }
+      var itemData = XHZ.getItems(profile.id);
+      var equipped = itemData ? (itemData.equipped || {}) : {};
+      var state = { aura: null, clothing: null, head: null, tool: null, food: null };
+      Object.keys(equipped).forEach(function(oldCat) {
+        var itemId = equipped[oldCat];
+        if (!itemId) return;
+        // Resolve slot: prefer panda_layer from rewards.json, then ITEM_TO_SLOT, then raw category
+        var slot = null;
+        var rewardItem = _rewardsItems.find(function(r) { return r.id === itemId; });
+        if (rewardItem) {
+          slot = rewardItem.panda_layer || rewardItem.category;
+        } else {
+          slot = ITEM_TO_SLOT[itemId];
+        }
+        if (!slot) return;
+        var dollItem = DOLL_ALL_ITEMS.find(function(it) { return it.id === itemId; });
+        if (dollItem) state[slot] = dollItem;
+      });
+      _avatarState = state;
+    }
+
+    /* ── Render layers ── */
+    function updateBaseLayer() {
+      var img = document.getElementById('base-image');
+      if (!img) return;
+      var variant = getDollVariant();
+      if (variant.id === _currentVariantId) return;
+      _currentVariantId = variant.id;
+      var newSrc = VARIANT_PNG_MAP[variant.id] || 'assets/mascot/panda_dojo.png';
+      img.src = newSrc;
+      delete img.dataset.fallback;
+    }
+
+    /* ── Helper: load real PNG for a layer slot ──
+       Tries assets/avatars/{category}_{id}.png.
+       Falls back to emoji placeholder if file doesn't exist. */
+    function updateLayerWithPNG(slotId, item, placeholderEl, layerEl) {
+      var img = document.getElementById('img-' + slotId);
+      if (!img) return;
+
+      if (item) {
+        var cleanId = (slotId === 'aura' && item.id.endsWith('_aura'))
+          ? item.id.slice(0, -5)
+          : item.id;
+        var pngPath = 'assets/avatars/' + slotId + '_' + cleanId + '.png';
+        // On success: show PNG, hide placeholder
+        img.onload = function() {
+          this.style.opacity = '1';
+          if (placeholderEl) placeholderEl.style.opacity = '0';
+        };
+        // On failure: hide PNG, show placeholder as fallback
+        img.onerror = function() {
+          this.style.opacity = '0';
+          this.removeAttribute('src');
+          if (placeholderEl) placeholderEl.style.opacity = '';
+        };
+        // Reset state before loading
+        img.style.opacity = '';
+        if (placeholderEl) {
+          placeholderEl.style.opacity = '';
+          placeholderEl.textContent = item.emoji;
+        }
+        img.src = pngPath;
+        layerEl.classList.add('active');
+      } else {
+        img.src = '';
+        img.style.opacity = '0';
+        img.onload = null;
+        img.onerror = null;
+        layerEl.classList.remove('active');
+        if (placeholderEl) {
+          placeholderEl.textContent = '';
+          placeholderEl.style.opacity = '';
+        }
+      }
+    }
+
+    function updateAuraLayer(item) {
+      var layer = document.getElementById('layer-aura');
+      var glow  = document.getElementById('aura-glow');
+      if (!layer || !glow) return;
+      layer.classList.toggle('active', item !== null);
+      if (item) {
+        glow.className = 'aura-glow type-' + (item.type || item.id.replace('_aura', ''));
+      } else {
+        glow.className = 'aura-glow type-empty';
+      }
+      // Also load PNG overlay for aura
+      var img = document.getElementById('img-aura');
+      if (img) {
+        if (item) {
+          var auraId = item.id.replace('_aura', '');
+          var pngPath = 'assets/avatars/aura_' + auraId + '.png';
+          img.onload = function() { this.style.opacity = '1'; };
+          img.onerror = function() { this.style.opacity = '0'; this.removeAttribute('src'); };
+          img.style.opacity = '';
+          img.src = pngPath;
+        } else {
+          img.src = '';
+          img.style.opacity = '0';
+          img.onload = null;
+          img.onerror = null;
+        }
+      }
+    }
+
+    function updateClothingLayer(item) {
+      var layer = document.getElementById('layer-clothing');
+      var vest  = document.getElementById('clothing-vest');
+      if (!layer || !vest) return;
+      if (item) {
+        var typeClass = item.type || item.id.replace('clothing_', '');
+        vest.className = 'clothing-vest type-' + typeClass;
+      } else {
+        vest.className = 'clothing-vest type-empty';
+      }
+      updateLayerWithPNG('clothing', item, null, layer);
+    }
+
+    function updateHeadLayer(item) {
+      var layer = document.getElementById('layer-head');
+      var ph    = document.getElementById('head-placeholder');
+      if (!layer || !ph) return;
+      updateLayerWithPNG('head', item, ph, layer);
+    }
+
+    function updateToolLayer(item) {
+      var layer = document.getElementById('layer-tool');
+      var ph    = document.getElementById('tool-placeholder');
+      if (!layer || !ph) return;
+      updateLayerWithPNG('tool', item, ph, layer);
+    }
+
+    function updateFoodLayer(item) {
+      var layer = document.getElementById('layer-food');
+      var ph    = document.getElementById('food-placeholder');
+      if (!layer || !ph) return;
+      updateLayerWithPNG('food', item, ph, layer);
+    }
+
+    function setPlayerName() {
+      var profile = XHZ.getActiveProfile();
+      var name = profile && profile.nickname ? profile.nickname : '';
+      var nameEl = document.getElementById('name-text');
+      var greetEl = document.getElementById('mission-player');
+      var badgeEl = document.getElementById('daily-badge');
+      if (nameEl) nameEl.textContent = name;
+      if (greetEl) greetEl.textContent = name || 'there';
+
+      // Daily badge: check if both game coins earned today
+      // Also show today's earned badge emoji
+      if (badgeEl && profile) {
+        var today = XHZ.today();
+        var allDays = XHZ.getAllScores(profile.id);
+        var todayRecord = allDays[today] || {};
+        var sources = profile && profile.coins_sources || {};
+        var sushiDone = sources['game_sushi'] === today || todayRecord.game_scores && todayRecord.game_scores.sushi > 0;
+        var matchingDone = sources['game_matching'] === today || todayRecord.game_scores && todayRecord.game_scores.matching > 0;
+        // Collect today's badge emojis (score badge + study badge)
+        var todayBadges = [];
+        if (todayRecord.badge)       todayBadges.push(todayRecord.badge);
+        if (todayRecord.study_badge) todayBadges.push(todayRecord.study_badge);
+        // Look up emoji from __arenaBadges
+        var badgeEmojis = todayBadges.map(function(b) {
+          var found = __arenaBadges.find(function(x) { return x.id === b; });
+          return found ? found.emoji : '';
+        }).filter(function(e) { return e; }).join('');
+        if (sushiDone && matchingDone) {
+          badgeEl.textContent = '🎯 ' + badgeEmojis;
+          badgeEl.classList.add('complete');
+        } else if (sushiDone || matchingDone) {
+          badgeEl.textContent = badgeEmojis || '○';
+          badgeEl.classList.remove('complete');
+        } else {
+          badgeEl.textContent = badgeEmojis || '';
+          badgeEl.classList.remove('complete');
+        }
+      }
+    }
+
+    function updateMissionText() {
+      var profile = XHZ.getActiveProfile();
+      if (!profile) return;
+
+      var today = XHZ.today();
+      var allDays = XHZ.getAllScores(profile.id);
+      var todayRecord = allDays[today] || {};
+      var sources = profile.coins_sources || {};
+      var sushiDone = sources['game_sushi'] === today || (todayRecord.game_scores && todayRecord.game_scores.sushi > 0);
+      var matchingDone = sources['game_matching'] === today || (todayRecord.game_scores && todayRecord.game_scores.matching > 0);
+
+      var playerName = profile.nickname || 'there';
+      var missionEl = document.getElementById('mission-bubble');
+      if (!missionEl) return;
+
+      if (sushiDone && matchingDone) {
+        // Both coins earned today — congratulations
+        missionEl.innerHTML = 'Hey <span id="mission-player">' + escapeHtml(playerName) + '</span>! 🐼 You have worked hard today! 💪';
+        return;
+      }
+
+      // Build the mission text with only unearned games listed
+      var gameParts = [];
+      if (!sushiDone) gameParts.push('<span class="mb-game-icon">🍣</span> Sushi Shop');
+      if (!matchingDone) gameParts.push('<span class="mb-game-icon">⚡</span> Flash Match');
+
+      var gamesText = gameParts.join(' &amp; ');
+
+      missionEl.innerHTML = 'Hey <span id="mission-player">' + escapeHtml(playerName) + '</span>! 🐼 Today\'s mission: <strong>score over <span class="mb-highlight">30</span></strong> in ' + gamesText + ' to earn your daily coins!';
+    }
+
+    function renderPandaAvatar() {
+      buildAvatarFromProfile();
+      updateBaseLayer();
+      updateAuraLayer(_avatarState.aura);
+      updateClothingLayer(_avatarState.clothing);
+      updateHeadLayer(_avatarState.head);
+      updateToolLayer(_avatarState.tool);
+      updateFoodLayer(_avatarState.food);
+      setPlayerName();
+      updateMissionText();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+      XHZ.requireActive();
+      initNav('arena');
+      migrateOldMatchingScores();
+      migrateSupabaseMatchingScores();
+
+      // Load rewards data for avatar panda_layer resolution + badges
+      fetch('rewards.json').then(function(r) { return r.json(); }).then(function(data) {
+        _rewardsItems = data.effort_items || [];
+        __arenaBadges = (data.daily_badges || []).concat(data.study_badges || []);
+        renderPandaAvatar();
+      }).catch(function() {
+        renderPandaAvatar();
+      });
+
+      renderGameCards();
+      renderHallOfFame();
+
+      onLangChange(function() {
+        renderHallOfFame();
+        window.dispatchEvent(new CustomEvent('xhz:lang-changed'));
+      });
+
+      window.addEventListener('xhz:arena-hof-updated', function() {
+        renderHallOfFame();
+        renderGameCards();
+        // If on Global tab, retry after a delay to let Supabase catch up
+        if (CURRENT_HALL_TAB === 'global') {
+          setTimeout(function() {
+            if (CURRENT_HALL_TAB === 'global') {
+              renderGlobalHallOfFame();
+            }
+          }, 2000);
+        }
+      });
+
+      // Re-render Global tab when push to Supabase completes
+      window.addEventListener('xhz:arena-hof-pushed', function() {
+        if (CURRENT_HALL_TAB === 'global') {
+          renderGlobalHallOfFame();
+        }
+      });
+
+      // Re-render when returning to the page (badges may have been earned elsewhere)
+      window.addEventListener('focus', function() {
+        renderPandaAvatar();
+        renderGameCards();
+      });
+    });
+  </script>
+</body>
+</html>

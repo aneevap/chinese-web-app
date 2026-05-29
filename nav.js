@@ -40,7 +40,7 @@ function initNav(activePage, options) {
         { id: 'study', href: 'study.html', icon: '📖', label: 'Study' },
         { id: 'write', href: 'write.html', icon: '✍️',  label: 'Write' },
         { id: 'print', href: 'print.html', icon: '🖨️', label: 'Print' },
-        { id: 'dojo',  href: 'dojo.html',  icon: '🥋', label: 'Dojo' },
+        { id: 'arena', href: 'arena.html', icon: '⚔️', label: 'Arena' },
         { id: 'progress', href: 'progress.html', icon: '🏆', label: 'Progress' }
     ];
 

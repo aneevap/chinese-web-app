@@ -6,7 +6,7 @@ A gamified web app for children (ages 5–12) to learn Chinese characters throug
 
 - **📚 Study** — Flip flashcards with hanzi, pinyin, meaning, and audio pronunciation; quiz mode with star ratings
 - **✍️ Write** — Watch stroke-order animations, trace characters with HanziWriter.js, voice recognition
-- **🎮 Dojo** — Arcade-style games hub with Hall of Fame leaderboard:
+- **🎮 Arena** — Arcade-style games hub with Hall of Fame leaderboard, panda mascot avatar display, and daily mission tracker:
   - **🍣 Sushi Drop** — Tap a sushi plate from the conveyor belt to select it, then tap or drag it to a matching customer. Features:
     - Customers 50% larger with wooden stools, speech balloons, and SVG character avatars
     - Selected plate appears in a translucent square drop zone centered above customers
@@ -65,7 +65,7 @@ npm run dev     # Development server on port 5173
 npm run build   # Production build → dist/
 ```
 
-The games are served through `dojo.html` which loads the built game bundle (`games/dist/`).
+The games are served through `arena.html` which loads the built game bundle (`games/dist/`).
 
 ## 🗄️ Supabase Integration (Optional)
 
@@ -108,14 +108,13 @@ A warm, tactile aesthetic inspired by physical activity books.
 | `--botes-sage` | `#94A88E` | Success states |
 | `--botes-coral` | `#E8836F` | Button gradients |
 | `--shadow-card` | `0 8px 24px rgba(74,56,40,.12)...` | Card shadows |
-| `--shadow-lifted` | `0 16px 40px rgba(74,56,40,.18)...` | Hovered/active shadows |
+| `--shadow-lifted` | `0 16px 40px rgba(74,56,40,.18)...` | Hovered/active shadows |### Neo-Brutalism Board-Game (Arena & Games)
 
-### Neo-Brutalism Board-Game (Dojo & Games)
-A bold, tactile board-game aesthetic applied to the dojo page and both game modes:
+A bold, tactile board-game aesthetic applied to the arena page and both game modes:
 - **Colors:** Warm cream `#FAF8F5` bg, sunny yellow `#FCD34D` active states, royal blue `#1E40AF` headers, coral `#F43F5E` accents
 - **Borders:** Thick 3-4px solid `#111827` on all interactive elements
 - **Shadows:** Hard offset shadows (`4px 4px 0px 0px #111827` to `8px 8px 0px 0px #111827`) with push-down `:active` states (shadow shrinks, element shifts down)
-- **Dojo features:** Centered game cards with per-game color accent stripes, Hall of Fame achievement cards with podium styling (gold/silver/bronze) and metallic medal badges, decorative corner brackets, staggered entrance animations, ZCOOL KuaiLe display font on headers
+- **Arena features:** Centered game cards with per-game color accent stripes, Hall of Fame achievement cards with podium styling (gold/silver/bronze) and metallic medal badges, decorative corner brackets, staggered entrance animations, ZCOOL KuaiLe display font on headers
 
 ### Fonts
 
@@ -133,7 +132,7 @@ A bold, tactile board-game aesthetic applied to the dojo page and both game mode
 ├── new-learner.html        # New profile creation
 ├── study.html              # Flashcard study
 ├── write.html              # Character writing practice
-├── dojo.html               # Games hub + Hall of Fame
+├── arena.html              # Games hub + Hall of Fame
 ├── progress.html           # Progress tracking dashboard + settings
 ├── print.html              # Printable worksheets
 ├── profiles.js             # Data layer (localStorage + sync hooks + auto-merge)
@@ -178,7 +177,7 @@ A bold, tactile board-game aesthetic applied to the dojo page and both game mode
 - **Git push silently fails ~50% of the time** from the assistant (basher agent). The command outputs "Everything up-to-date" even when there are unpushed commits. Fix: always run `git push origin main` explicitly and verify by comparing `git rev-parse HEAD` vs `git rev-parse origin/main`.
 - **Stage 2 and 3 share the same 3×4 grid config** — consider adding a new config for stage 3 to increase progressive difficulty.
 - **Stage 1 (3×3) has 1 empty cell** — 9 cells with only 8 tiles (4 pairs), leaving the bottom-right cell unfilled. This is the intended layout.
-- **Dojo cards background** still lighter than page (user preference: match paper-warm with grain).
+- **Arena cards background** still lighter than page (user preference: match paper-warm with grain).
 - **Recovery modal** can be closed without setting a password, leaving a recovery-limited session.
 - **Flash Match touch interaction** on iPhone not yet fully verified.
 
@@ -195,23 +194,23 @@ This project has a **dual delivery setup**: source files are edited with Vite, b
    ```
    This writes the compiled output to `games/dist/assets/game.js`.
 
-2. **Bump the cache buster** in `dojo.html` — increment the `?v=` query parameter on the script tag:
+2. **Bump the cache buster** in `arena.html` — increment the `?v=` query parameter on the script tag:
    ```html
-   <script src="games/dist/assets/game.js?v=38"></script>
+   <script src="games/dist/assets/game.js?v=43"></script>
    ```
 
 3. **Hard refresh** the browser — Ctrl+Shift+R (Windows) or Cmd+Shift+R (Mac) to bypass the browser cache.
 
 4. **Wait for GitHub Pages deploy** (if pushed to remote) — the GitHub Actions workflow takes ~2 minutes to complete. Then do another hard refresh to clear the CDN cache.
 
-### Image paths resolve from dojo.html, not component files
+### Image paths resolve from arena.html, not component files
 
 React components in `games/src/modes/matching/MatchingMode.tsx` reference images like:
 ```tsx
 src="assets/mascot/pandarocket.png"
 ```
 
-Despite the component file being nested 5 directories deep (`games/src/modes/matching/`), **the path is relative to `dojo.html` at the project root**. Using `../assets/mascot/` goes one level above the repo root → image not found.
+Despite the component file being nested 5 directories deep (`games/src/modes/matching/`), **the path is relative to `arena.html` at the project root**. Using `../assets/mascot/` goes one level above the repo root → image not found.
 
 **Always use paths relative to the project root** (without `../`) for images in React game components:
 - ✅ `src="assets/mascot/pandarocket.png"`
@@ -239,9 +238,9 @@ For games that need reliable tap and drag on iPhone:
 
 **Mastery system:** Each word progresses through: `unseen → seen → practiced → mastered`. Progress is tracked per profile per word. Course unlocking uses conditional gates (e.g., "see 100% of words in course 1A to unlock 1B").
 
-**Scoring:** Writing quizzes award 1–3 stars based on mistakes (0 mistakes = 3 stars, 1–2 = 2 stars, 3+ = 1 star). Study flashcards award 1 star per card. Daily streaks and total stars are tracked. Dojo games save session results (score, stage, stars) to the Hall of Fame.
+**Scoring:** Writing quizzes award 1–3 stars based on mistakes (0 mistakes = 3 stars, 1–2 = 2 stars, 3+ = 1 star). Study flashcards award 1 star per card. Daily streaks and total stars are tracked. Arena games save session results (score, stage, stars) to the Hall of Fame.
 
-**Hall of Fame:** Game results auto-save to `localStorage` under `xhz_dojo_hall_of_fame` after each game session. The leaderboard ranks entries by score and displays top 5 in the result screen. A live Hall of Fame on `dojo.html` auto-refreshes via custom event `xhz:dojo-hof-updated`. Hall of Fame features:
+**Hall of Fame:** Game results auto-save to `localStorage` under `xhz_dojo_hall_of_fame` after each game session. The leaderboard ranks entries by score and displays top 5 in the result screen. A live Hall of Fame on `arena.html` auto-refreshes via custom event `xhz:arena-hof-updated`. Hall of Fame features:
 - Constrained width (640px centered) with trophy card layout
 - Podium styling for top 3 (gold/silver/bronze with ribbons and medal badges)
 - Game badge pills and stagger entrance animations
@@ -288,7 +287,7 @@ The app is tested manually. To verify:
 
 1. Create a profile and study some flashcards
 2. Practice writing characters (check HanziWriter renders)
-3. Visit the dojo and play Sushi Drop — try both tap-to-deliver and drag-and-drop; check leaderboard appears in result screen
+3. Visit the arena and play Sushi Drop — try both tap-to-deliver and drag-and-drop; check leaderboard appears in result screen
 4. Play Grid Buster — verify matching, combo detection, multi-round, neo-brutalism styling
 5. Check progress dashboard for updated stats
 6. If Supabase is configured, verify data appears in Table Editor

@@ -15,7 +15,7 @@ export function App() {
   const [language, setLanguage] = useState<DisplayLanguage>(getDisplayLang());
   const [mode, setMode] = useState<'sushi' | 'matching'>('sushi');
   const [error, setError] = useState<string | null>(null);
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
   const [gameActive, setGameActive] = useState(false);
 
   useEffect(() => {
