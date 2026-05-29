@@ -371,6 +371,14 @@
 
 **Files changed:** `arena.html`
 
+### Session 55 — Shrink Arena Profile Avatar on iPhone
+
+- **Changed the right element this time:** `.arena-panda-panel` width at 480px reduced from 150px → 105px (30% smaller) — this is the paper doll profile avatar the user was actually referring to
+- **Proportional overlap:** `.avatar-name` margin-top from -28px → -20px to match the smaller panel radius
+- Session 54's change (mission panda 80px → 56px) retained as reasonable improvement
+
+**Files changed:** `arena.html`
+
 ## Persistent Issues
 - **Git push silently fails ~50% of the time** from the assistant (basher agent). Fix: always run `git push origin main` explicitly.
 - Notebook table still needs to be applied to Supabase dashboard to eliminate remaining 404

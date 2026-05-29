@@ -317,6 +317,14 @@ Added `updateMissionText()` function that dynamically adjusts the speech bubble 
 
 ---
 
+## Session 55 — Shrink arena profile avatar on iPhone (30% smaller)
+
+- **Correct avatar this time:** Reduced `.arena-panda-panel` width from 150px → 105px at 480px (the paper doll profile avatar, not the speech bubble panda)
+- **Adjusted overlap:** `.avatar-name` margin-top from -28px → -20px to keep name badge proportional to the smaller panel
+- **Previous session (54):** Had mistakenly shrunk the mission speech bubble panda (`.mission-panda-img`: 80px → 56px) — kept that change as it's also reasonable
+
+---
+
 ## Next Steps
 
 - Revisit the player name badge design on the arena page (user noted they're not satisfied)
