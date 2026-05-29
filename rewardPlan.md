@@ -507,6 +507,25 @@ A dedicated interactive panda display where:
 
 ---
 
+## 10. Arena Page Panda Sizing — Responsive Breakpoints
+
+The arena page has two panda elements that need distinct sizing at different viewport widths. The profile panda (paper doll avatar at top) must always be larger than the mission panda (speech bubble illustration) at all breakpoints.
+
+| Element | Desktop (>640px) | ≤640px | ≤480px |
+|---|---|---|---|
+| **Profile panda** (`.arena-panda-panel` round frame) | 300px | 200px | 200px |
+| **Mission panda** (`.mission-panda-img` speech bubble) | 120px | 120px | 85px |
+| **Name badge overlap** (`.avatar-name` margin-top) | -34px | -34px | -34px |
+
+### Layout behavior
+
+At **≤480px**:
+- `.arena-top-row` switches to `flex-direction: column` with `order: -1` on `.arena-top-text` so the header appears above the avatar
+- Profile panda stays at 200px (same as 640px) — the round frame with 3px border and 4px box-shadow
+- Mission panda shrinks to 85px to remain clearly smaller than the profile panda
+- Name badge overlap stays at -34px (proportional to the 200px panel)
+
+
 ## 11. Paper Doll Asset Inventory
 
 ### 11.1 Asset Locations
