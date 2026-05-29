@@ -134,13 +134,15 @@ We introduce three distinct currencies/rewards that don't overlap:
 │   • Writing     │     reached daily     │     (+1 coin per tier)         │
 │   • Quiz        │                      │   • 🎮 Game completed           │
 │                 │   Used for:          │     (+1 coin per game/day max)  │
-│   Used for:     │   • Journey title    │   • 📅 Weekly streak bonus      │
+│   Used for:     │   • Journey title    │   • 📅 Daily login               │
+│   • Badge       │     progress         │     (+1 coin per day)           │
+│   • Word mastery│   • Streaks          │   • 📅 Weekly streak bonus      │
 │   • Badge       │     progress         │                                 │
 │     thresholds  │   • Streaks          │   Used for:                     │
 │   • Word mastery│   • Daily motivation │   • 🏪 Purchase items in Shop   │
 │     tracking    │                      │                                 │
 │                 │                      │   Key constraint:               │
-│ (unchanged)     │ (unchanged)          │   ≤ ~9 coins/day total          │
+│ (unchanged)     │ (unchanged)          │   ≤ ~10 coins/day total         │
 │                 │                      │   (savings model — coins        │
 │                 │                      │    accumulate across days)      │
 └─────────────────┴──────────────────────┴─────────────────────────────────┘
@@ -153,8 +155,8 @@ We introduce three distinct currencies/rewards that don't overlap:
 | **Game stars** | Separate as `game_score`, still fed into profile | **Removed entirely.** Games produce score + coins only |
 | **Game → coins** | +3 coins per game, no daily cap | **+1 coin per game per day max** (each game = 1 mission) |
 | **Badge → coins** | +10 coins per badge (any tier) | **+1 coin per badge tier** (up to 4/day) |
-| **Daily max coins** | ~15+ (no hard cap) | **~7–9 coins/day** (soft cap via design) |
-| **Item pricing** | 5–150 coins | **6–150 coins** (tuned for 7 coins/day earning rate) |
+| **Daily max coins** | ~15+ (no hard cap) | **~8–10 coins/day** (soft cap via design) |
+| **Item pricing** | 5–150 coins | **6–150 coins** (tuned for 8 coins/day earning rate) |
 | **Catalog size** | 14 items | **22 items** (8 new additions) |
 | **Game score role** | Badge calculation input | **Leaderboard only** — no effect on badges, items, or progression |
 
@@ -279,7 +281,7 @@ This keeps the leaderboard fair while letting each game's internal feel unchange
 
 ### 7.1 New Currency: 🪙 Coins
 
-Coins are a **slow, cumulative saving currency** — max ~7–9 per day, never reset.
+Coins are a **slow, cumulative saving currency** — max ~8–10 per day, never reset.
 
 ### 7.2 Coin Sources
 
@@ -287,26 +289,28 @@ Coins are a **slow, cumulative saving currency** — max ~7–9 per day, never r
 |---|---|---|---|
 | **🎮 Complete a game** (win) | +1 🪙 | Once per game per day | 3 (3 games) |
 | **🏅 Earn a daily badge** (per tier) | +1 🪙 | Once per tier per day | 4 (4 tiers) |
+| **📅 Daily login** (visit arena) | +1 🪙 | Once per day | 1 |
 | **📅 Weekly streak** (7-day streak) | +2 🪙 | Once per week | ~0.3/day avg |
-| **Total daily max** | | | **~7–9 🪙** |
+| **Total daily max** | | | **~8–10 🪙** |
 
 #### Daily coin cap design:
 
 ```
-        ┌──────────────────────────┐
-        │     DAILY COIN CAP        │
-        │                           │
-        │  Sushi Mode  ───→  +1 🪙  │  ← 1 coin per game per day
-        │  Flash Match ───→  +1 🪙  │
-        │  Future Game ───→  +1 🪙  │
-        │                           │
-        │  Keep Going!  ───→  +1 🪙 │  ← 1 coin per badge tier
-        │  Practice Hero ──→  +1 🪙 │
-        │  Rising Star  ───→  +1 🪙 │
-        │  Panda Master ───→  +1 🪙 │
-        │                           │
-        │  ≈ 7–9 coins/day total    │
-        └──────────────────────────┘
+        ┌──────────────────────────────┐
+        │       DAILY COIN CAP          │
+        │                               │
+        │  📅 Daily login  ───→  +1 🪙  │  ← 1 coin per day (arena visit)
+        │  Sushi Mode  ───────→  +1 🪙  │  ← 1 coin per game per day
+        │  Flash Match ───────→  +1 🪙  │
+        │  Future Game ───────→  +1 🪙  │
+        │                               │
+        │  Keep Going!  ───────→  +1 🪙  │  ← 1 coin per badge tier
+        │  Practice Hero ──────→  +1 🪙  │
+        │  Rising Star  ───────→  +1 🪙  │
+        │  Panda Master ───────→  +1 🪙  │
+        │                               │
+        │  ≈ 8–10 coins/day total       │
+        └──────────────────────────────┘
 ```
 
 **Important constraints:**
@@ -316,7 +320,7 @@ Coins are a **slow, cumulative saving currency** — max ~7–9 per day, never r
 
 ### 7.3 Coin Sinks (Item Prices)
 
-Items are priced so that a kid earning ~7 coins/day can:
+Items are priced so that a kid earning ~8 coins/day can:
 
 | Goal | Timeframe |
 |---|---|
@@ -331,9 +335,10 @@ Items are priced so that a kid earning ~7 coins/day can:
 profile.coins = 0;              // spendable balance
 profile.coins_earned_total = 0; // lifetime coins earned (for stats)
 profile.coins_sources = {       // daily tracking for caps
-  game_sushi: "2025-07-23",
-  game_matching: "2025-07-23",
-  badge_keep_going: "2025-07-23",
+  daily_login: "2025-09-25",    // +1 coin per day (arena visit)
+  game_sushi: "2025-09-25",
+  game_matching: "2025-09-25",
+  badge_keep_going: "2025-09-25",
   badge_practice_hero: null,
   badge_rising_star: null,
   badge_panda_master: null,
@@ -341,6 +346,8 @@ profile.coins_sources = {       // daily tracking for caps
 ```
 
 > **Note:** Future games are added to `coins_sources` by convention using the format `game_{gameId}`. Each unique `gameId` gets its own daily cap — 1 coin per game per day, enforced by checking if today's date matches the stored date for that key. This extends automatically to any new game without code changes to the cap system.
+>
+> **Note:** `daily_login` is a special source that awards +1 coin per day just for visiting the arena page. Like game coins, it's daily-capped — once earned, revisiting the page the same day gives nothing.
 
 ### 7.5 Unlocking vs Purchasing
 
@@ -405,7 +412,7 @@ For existing users who already earned items via stars:
 
 ### 8.3 Full Price Table
 
-| # | Item | Emoji | Category | 🪙 Price | Days to afford (~7 coin/day) |
+| # | Item | Emoji | Category | 🪙 Price | Days to afford (~8 coin/day) |
 |---|---|---|---|---|---|
 | 1 | Candy Bag | 🍬 | food | **6** | Day 1 |
 | 2 | Lollipop | 🍭 | food | **10** | Day 2 |
@@ -435,12 +442,12 @@ For existing users who already earned items via stars:
 
 | Day | Coins earned | Coins spent | Balance | Purchase |
 |---|---|---|---|---|
-| 1 | +7 | -6 | 1 | 🍬 Candy Bag |
-| 2 | +7 | 0 | 8 | Saving |
-| 3 | +7 | -15 | 0 | 🎋 Bamboo Stick (can't buy Day 2 ✅) |
-| 4 | +7 | 0 | 7 | |
-| 5 | +7 | 0 | 14 | |
-| 6 | +7 | -20 | 1 | 👒 Straw Hat |
+| 1 | +8 | -6 | 2 | 🍬 Candy Bag |
+| 2 | +8 | 0 | 10 | Saving |
+| 3 | +8 | -15 | 3 | 🎋 Bamboo Stick |
+| 4 | +8 | 0 | 11 | |
+| 5 | +8 | 0 | 19 | |
+| 6 | +8 | -20 | 7 | 👒 Straw Hat |
 | ... | | | | |
 
 ### 8.5 Category Balance
@@ -723,10 +730,11 @@ Back —————————————————————————
   coins: 45,
   coins_earned_total: 120,
   coins_sources: {
-    game_sushi: "2025-07-23",
-    game_matching: "2025-07-22",
-    badge_keep_going: "2025-07-23",
-    badge_practice_hero: "2025-07-23",
+    daily_login: "2025-09-25",
+    game_sushi: "2025-09-25",
+    game_matching: "2025-09-22",
+    badge_keep_going: "2025-09-25",
+    badge_practice_hero: "2025-09-23",
   }
 }
 ```
@@ -782,3 +790,4 @@ Back —————————————————————————
 | v1 | 2025-07-23 | Initial draft |
 | v2 | 2025-07-23 | Removed game stars entirely; redesigned coin economy (1 coin/game/day + badge coins, max ~7-9/day); adjusted prices (6-150); expanded catalog to 22 items; added score calibration section |
 | v3 | 2025-07-24 | Phases 1, 2, 4 fully implemented; updated status tracking
+| v4 | 2025-09-25 | Added daily login coin (+1/day, source `daily_login`); updated daily max to ~8–10 coins; updated coin sources table and storage example

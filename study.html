@@ -179,7 +179,7 @@ function colorPinyin(py){if(!py)return '';var parts=py.split(/(\s+|['\-])/);var 
 function escapeHtml(s){return s.replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 
 document.addEventListener('DOMContentLoaded',async function(){
-    XHZ.requireActive();var profile=XHZ.getActiveProfile();if(!profile){location.href='index.html';return;}
+    XHZ.requireActive();XHZ.awardDailyLoginCoin();var profile=XHZ.getActiveProfile();if(!profile){location.href='index.html';return;}
     // Guest banner: cross-reference Supabase auth state
     if(window.__supabaseIsAnon !== false && profile.is_guest && localStorage.getItem('xhz_waitlisted')!=='true')document.getElementById('guest-banner').style.display='flex';
     // Listen for auth changes to update banner and auto-repair profile

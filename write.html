@@ -1042,7 +1042,7 @@ function speakSentence(){var word=getThemeWords()[idx];if(!word)return;doSpeak(w
 function posKey(){return 'xhz_write_position_'+XHZ.getActiveProfile().id;}
 function savePosition(){if(!currentCourse)return;try{localStorage.setItem(posKey(),JSON.stringify({courseId:currentCourse.id,themeIdx:currentTheme,wordIdx:idx}));}catch(e){}}
 function restorePosition(){try{var d=JSON.parse(localStorage.getItem(posKey()));return d&&d.courseId?d:null;}catch(e){return null;}}
-window.onload=function(){XHZ.requireActive();checkMicSupport();initCanvas();showGuestWarningIfNeeded();updateAutoScrollUI();loadCourses();initSpeechEngine();onLangChange(function(){updateLeftPanel(idx);});};
+window.onload=function(){XHZ.requireActive();XHZ.awardDailyLoginCoin();checkMicSupport();initCanvas();showGuestWarningIfNeeded();updateAutoScrollUI();loadCourses();initSpeechEngine();onLangChange(function(){updateLeftPanel(idx);});};
 
 function switchTab(t){
   var sStudy=document.getElementById('section-study'),
