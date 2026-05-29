@@ -381,14 +381,45 @@
 
 ### Session 56 — iPhone layout: Header above avatar, avatar 20% smaller
 
-- **Stacked layout:**  at 480px changed to  with  on  so Arena header appears above the profile avatar
-- **Avatar 20% smaller:**  width at 480px reduced from 105px → 84px
-- **Name badge adjusted:**  margin-top from -20px → -16px (proportional)
+- **Stacked layout:** `.arena-top-row` at 480px changed to `flex-direction: column` with `order: -1` on `.arena-top-text` so Arena header appears above the profile avatar
+- **Avatar 20% smaller:** `.arena-panda-panel` width at 480px reduced from 105px → 84px
+- **Name badge adjusted:** `.avatar-name` margin-top from -20px → -16px (proportional)
 
-### Session 57 — Daily Login Coin
+### Session 57 — Daily Login Coin (Arena only)
 
-- **Added  to ** — awards 1 coin per day with source daily_login, daily-capped via existing addCoins() mechanism
-- **Triggered from arena.html** — called right after XHZ.requireActive() in DOMContentLoaded, so every visit awards the login coin silently
+- **Added `awardDailyLoginCoin()` to `profiles.js`** — awards 1 coin per day with source `daily_login`, daily-capped via existing `addCoins()` mechanism
+- **Triggered from arena.html** — called right after `XHZ.requireActive()` in `DOMContentLoaded`, so every visit awards the login coin silently
+
+### Session 58 — Daily Login Coin Extended to Study & Writing
+
+- Users visiting study.html or write.html first (without going to arena) were missing their daily login coin
+- **study.html**: Added `XHZ.awardDailyLoginCoin()` after `XHZ.requireActive()` in DOMContentLoaded
+- **write.html**: Added `XHZ.awardDailyLoginCoin()` after `XHZ.requireActive()` in window.onload
+- Now all three main pages (arena, study, write) award the daily login coin on first visit each day
+
+### Session 59 — Toast Notification for Daily Login Coin
+
+- Added visual toast notification when the daily login coin is actually awarded (first visit of the day)
+- **Toast message**: `🪙 +1 Daily login coin!` — slides in from top-right, auto-dismisses after 2.5s
+- Only shows when coins are earned (return > 0) — subsequent same-day visits are silent
+- **arena.html**: Added `#toast-container` div + `showToast()` function + return value check
+- **study.html**: Already had toast infrastructure — wrapped existing call in `if (> 0)` check
+- **write.html**: Added `#toast-container` div + `showToast()` function + return value check
+
+### Session 60 — Panda Sizing Fixes (iPhone ≤480px)
+
+**Round 1:**
+- **Mission panda** (speech bubble `.mission-panda-img`): 56px → **84px** (50% larger)
+- **Profile panda** (paper doll `.arena-panda-panel`): 84px → **67px** (20% smaller)
+- User noted this made mission panda bigger than profile panda — felt backwards
+
+**Round 2 (Session 60b):**
+- User clarification: the profile panda frame (round circle) controls visible size, not just the image
+- **Profile panda** (`.arena-panda-panel`): 67px → **200px** — clearly the main panda
+- **Mission panda** (`.mission-panda-img`): 84px → **85px** — visibly smaller, secondary
+- **Name badge overlap**: `.avatar-name` margin-top from -16px → **-34px** (proportional to 200px panel)
+- User confirmed these sizes look correct
+
 ## Persistent Issues
 - **Git push silently fails ~50% of the time** from the assistant (basher agent). Fix: always run `git push origin main` explicitly.
 - Notebook table still needs to be applied to Supabase dashboard to eliminate remaining 404
