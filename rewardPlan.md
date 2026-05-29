@@ -552,13 +552,26 @@ All saved to `assets/mascot/` as **500×500px transparent PNGs**:
 
 All saved to `assets/avatars/` as **500×500px transparent PNGs**.
 
-Naming convention: **`{layer}_{item_id}.png`**
+Naming convention: **`{layer}_{item_id}.png`** (generic) or **`{layer}_{item_id}_{pose}.png`** (per-pose clothing)
+
+#### Per-Pose Clothing PNGs
+
+Clothing items (dragon_cape, silk_scarf) use per-pose PNGs so the cape/scarf matches the panda's current pose. Each of the 4 poses gets its own PNG:
+
+| Item ID | Stand-still | Foody | Warrior | Foody Warrior |
+|---|---|---|---|---|
+| `dragon_cape` | `clothing_dragon_cape_stand.png` | `clothing_dragon_cape_foody.png` | `clothing_dragon_cape_warrior.png` | `clothing_dragon_cape_foody_warrior.png` |[✓]
+| `silk_scarf` | `clothing_silk_scarf_stand.png` | `clothing_silk_scarf_foody.png` | `clothing_silk_scarf_warrior.png` | `clothing_silk_scarf_foody_warrior.png` |[✓]
+
+> **Fallback:** The code tries the per-pose PNG first. If it doesn't exist (e.g., only generic PNGs created so far), it falls back to `clothing_{item_id}.png`. This allows gradual PNG creation — add one pose at a time.
+>
+> Future clothing items added to `rewards.json` follow the same convention — create per-pose PNGs for each of the 4 poses as needed.
 
 #### Auras (z-index: 10 — Background glow)
 
 | Item ID | Filename | Emoji |
 |---|---|---|
-| `sparkle_aura` | `aura_sparkle.png` | 🌟 |
+| `sparkle_aura` | `aura_sparkle.png` | 🌟 |[✓]
 | `flame_aura` | `aura_flame.png` | 🔥 |
 | `rainbow_aura` | `aura_rainbow.png` | 🌈 |
 | `star_glow` | `aura_star_glow.png` | 💫 |
@@ -567,41 +580,42 @@ Naming convention: **`{layer}_{item_id}.png`**
 
 | Item ID | Filename | Emoji |
 |---|---|---|
-| `dragon_cape` | `clothing_dragon_cape.png` | 🦸 |
-| `silk_scarf` | `clothing_silk_scarf.png` | 🧣 |
-| `jade_ring` | `clothing_jade_ring.png` | 💍 |
+ `dragon_cape` [✓]
+ `silk_scarf` [✓]
 
 #### Headwear (z-index: 40 — Head/face area)
 
 | Item ID | Filename | Emoji |
 |---|---|---|
-| `straw_hat` | `head_straw_hat.png` | 👒 |
-| `magic_fan` | `head_magic_fan.png` | 🪭 |
-| `hair_bow` | `head_hair_bow.png` | 🎀 |
-| `cool_glasses` | `head_cool_glasses.png` | 🕶️ |
-| `golden_crown` | `head_golden_crown.png` | 👑 |
+| `straw_hat` | `head_straw_hat.png` | 👒 | [✓]
+| `golden_wig` | `head_golden_wig.png` | 👩 |[✓]
+| `hair_bow` | `head_hair_bow.png` | 🎀 |[✓]
+| `cool_glasses` | `head_cool_glasses.png` | 🕶️ |[✓]
+| `golden_crown` | `head_golden_crown.png` | 👑 |[✓]
 
 #### Tools (z-index: 45 — Back hand / paw area)
 
 | Item ID | Filename | Emoji |
 |---|---|---|
-| `bamboo_stick` | `tool_bamboo_stick.png` | 🎋 |
+| `bamboo_stick` | `tool_bamboo_stick.png` | 🎋 |[✓]
 | `scroll` | `tool_scroll.png` | 📜 |
-| `lantern` | `tool_lantern.png` | 🏮 |
-| `wooden_sword` | `tool_wooden_sword.png` | 🗡️ |
-| `ink_brush` | `tool_ink_brush.png` | 🖌️ |
-| `dragon_staff` | `tool_dragon_staff.png` | 🐉 |
-
+| `lantern` | `tool_lantern.png` | 🏮 |[✓]
+| `wooden_sword` | `tool_wooden_sword.png` | 🗡️ |[✓]
+| `ink_brush` | `tool_ink_brush.png` | 🖌️ |[✓]
+| `dragon_staff` | `tool_dragon_staff.png` | 🐉 |[✓]
+| `magic_fan` | `tool_fan.png` | 🪭 |[✓]
 #### Food (z-index: 55 — Front hand / mouth area)
 
 | Item ID | Filename | Emoji |
 |---|---|---|
-| `candy_bag` | `food_candy_bag.png` | 🍬 |
-| `lollipop` | `food_lollipop.png` | 🍭 |
-| `ice_cream` | `food_ice_cream.png` | 🍦 |
-| `dumpling` | `food_dumpling.png` | 🥟 |
-| `boba_tea` | `food_boba_tea.png` | 🧋 |
+| `candy_bag` | `food_candy_bag.png` | 🍬 |[✓]
+| `lollipop` | `food_lollipop.png` | 🍭 |[✓]
+| `ice_cream` | `food_ice_cream.png` | 🍦 |[✓]
+| `dumpling` | `food_dumpling.png` | 🥟 |[✓]
+| `boba_tea` | `food_boba_tea.png` | 🧋 |[✓]
 | `moon_cake` | `food_moon_cake.png` | 🥮 |
+| `golden_dumpling` | `food_golden_dumpling.png` | 🥟 |[✓]
+| `donut` | `food_donut.png` | 🍩 |[✓]
 
 ### 11.4 Layer Stack Summary
 
@@ -633,11 +647,11 @@ Back —————————————————————————
 |---|---|
 | Base poses | 4 PNGs |
 | Auras | 4 PNGs |
-| Clothing | 3 PNGs |
+| Clothing | 8 PNGs (2 items × 4 poses) |
 | Headwear | 5 PNGs |
 | Tools | 6 PNGs |
 | Food | 6 PNGs |
-| **Total** | **28 PNGs** |
+| **Total** | **33 PNGs** (28 generic + 8 clothing pose variants − 3 generic clothing) |
 
 ---
 

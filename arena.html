@@ -1658,22 +1658,18 @@
     var DOLL_ALL_ITEMS = [
       // Auras
       { id: 'sparkle_aura', label: 'Sparkle Aura', emoji: '🌟', category: 'aura', type: 'sparkle' },
-      { id: 'flame_aura',   label: 'Flame Aura',   emoji: '🔥', category: 'aura', type: 'flame' },
-      { id: 'rainbow_aura', label: 'Rainbow Aura', emoji: '🌈', category: 'aura', type: 'rainbow' },
-      { id: 'star_glow',    label: 'Star Glow',    emoji: '💫', category: 'aura', type: 'star' },
       // Clothing (from rewards.json 'accessory' → clothing)
       { id: 'dragon_cape',  label: 'Dragon Cape',  emoji: '🦸', category: 'clothing', type: 'cape' },
       { id: 'silk_scarf',   label: 'Silk Scarf',   emoji: '🧣', category: 'clothing', type: 'scarf' },
-      { id: 'jade_ring',    label: 'Jade Ring',    emoji: '💍', category: 'clothing', type: 'robe' },
       // Head (from rewards.json 'accessory' → head)
       { id: 'straw_hat',    label: 'Straw Hat',    emoji: '👒', category: 'head' },
       { id: 'cool_glasses', label: 'Cool Glasses', emoji: '🕶️', category: 'head' },
       { id: 'hair_bow',     label: 'Hair Bow',     emoji: '🎀', category: 'head' },
-      { id: 'magic_fan',    label: 'Magic Fan',    emoji: '🪭', category: 'head' },
+      { id: 'magic_fan',    label: 'Magic Fan',    emoji: '🪭', category: 'tool' },
       { id: 'golden_crown', label: 'Golden Crown', emoji: '👑', category: 'head' },
+      { id: 'golden_wig',   label: 'Golden Wig',   emoji: '👩', category: 'head' },
       // Tools
       { id: 'bamboo_stick', label: 'Bamboo Stick',   emoji: '🎋', category: 'tool' },
-      { id: 'scroll',       label: 'Ancient Scroll', emoji: '📜', category: 'tool' },
       { id: 'lantern',      label: 'Festival Lantern', emoji: '🏮', category: 'tool' },
       { id: 'wooden_sword', label: 'Wooden Sword',   emoji: '🗡️', category: 'tool' },
       { id: 'ink_brush',    label: 'Ink Brush',      emoji: '🖌️', category: 'tool' },
@@ -1684,8 +1680,8 @@
       { id: 'ice_cream',    label: 'Ice Cream',      emoji: '🍦', category: 'food' },
       { id: 'dumpling',     label: 'Giant Dumpling', emoji: '🥟', category: 'food' },
       { id: 'boba_tea',     label: 'Boba Tea',       emoji: '🧋', category: 'food' },
-      { id: 'moon_cake',    label: 'Moon Cake',      emoji: '🥮', category: 'food' },
       { id: 'golden_dumpling', label: 'Golden Dumpling', emoji: '✨', category: 'food' },
+      { id: 'donut',        label: 'Donut',          emoji: '🍩', category: 'food' },
     ];
 
     /* ── Map rewards.json category → paper doll slot ──
@@ -1693,19 +1689,15 @@
        Accessory items need per-ID mapping since they split into clothing + head. */
     var ITEM_TO_SLOT = {
       sparkle_aura:  'aura',
-      flame_aura:    'aura',
-      rainbow_aura:  'aura',
-      star_glow:     'aura',
       dragon_cape:   'clothing',
       silk_scarf:    'clothing',
-      jade_ring:     'clothing',
       straw_hat:     'head',
       cool_glasses:  'head',
       hair_bow:      'head',
-      magic_fan:     'head',
+      magic_fan:     'tool',
       golden_crown:  'head',
+      golden_wig:    'head',
       bamboo_stick:  'tool',
-      scroll:        'tool',
       lantern:       'tool',
       wooden_sword:  'tool',
       ink_brush:     'tool',
@@ -1715,8 +1707,8 @@
       ice_cream:     'food',
       dumpling:      'food',
       boba_tea:      'food',
-      moon_cake:     'food',
       golden_dumpling: 'food',
+      donut:         'food',
     };
 
     /* ── Doll variants (4 base poses based on food + tool) ── */
@@ -1795,7 +1787,7 @@
         var cleanId = (slotId === 'aura' && item.id.endsWith('_aura'))
           ? item.id.slice(0, -5)
           : item.id;
-        var pngPath = 'assets/avatars/' + slotId + '_' + cleanId + '.png';
+        var genericPath = 'assets/avatars/' + slotId + '_' + cleanId + '.png';
         // On success: show PNG, hide placeholder
         img.onload = function() {
           this.style.opacity = '1';
@@ -1813,7 +1805,23 @@
           placeholderEl.style.opacity = '';
           placeholderEl.textContent = item.emoji;
         }
-        img.src = pngPath;
+        // Clothing items use per-pose PNGs (clothing_{id}_{pose}.png) with fallback to generic
+        if (slotId === 'clothing') {
+            var variantId = _currentVariantId || 'stand_still';
+            var posePath = 'assets/avatars/' + slotId + '_' + cleanId + '_' + variantId + '.png';
+            img.onerror = function() {
+                var genericSrc = genericPath;
+                this.onerror = function() {
+                    this.style.opacity = '0';
+                    this.removeAttribute('src');
+                    if (placeholderEl) placeholderEl.style.opacity = '';
+                };
+                this.src = genericSrc;
+            };
+            img.src = posePath;
+        } else {
+            img.src = genericPath;
+        }
         layerEl.classList.add('active');
       } else {
         img.src = '';

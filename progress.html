@@ -1057,6 +1057,155 @@
     padding: 4px 0;
 }
 
+
+
+/* ── JOURNEY SCENIC BACKGROUNDS ── */
+#journey-card {
+    position: relative;
+    overflow: hidden;
+}
+.journey-scene-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    transition: opacity 0.6s ease;
+    opacity: 0;
+}
+.journey-scene-bg.visible {
+    opacity: 1;
+}
+#journey-card .card-title,
+#journey-card #title-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* Village — warm greens, bamboo */
+.scene-village .journey-scene-bg {
+    background: linear-gradient(135deg,
+        rgba(148, 168, 142, 0.08) 0%,
+        rgba(212, 165, 116, 0.06) 50%,
+        rgba(200, 180, 120, 0.10) 100%
+    );
+}
+.scene-village .journey-scene-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(ellipse 80px 40px at 85% 20%, rgba(148, 168, 142, 0.15) 0%, transparent 100%),
+        radial-gradient(ellipse 60px 30px at 70% 15%, rgba(148, 168, 142, 0.10) 0%, transparent 100%),
+        radial-gradient(ellipse 70px 35px at 90% 35%, rgba(148, 168, 142, 0.08) 0%, transparent 100%);
+}
+.scene-village .journey-scene-bg::after {
+    content: '\1F38B\1F38B\1F38B';
+    position: absolute;
+    right: 6px;
+    bottom: 4px;
+    font-size: 1.6em;
+    opacity: 0.15;
+    line-height: 1;
+    letter-spacing: -2px;
+    transform: rotate(-5deg);
+}
+.scene-village.scene-title-highlight .journey-scene-bg::after {
+    content: '\1F38B\1F33F\1F38B\1F33F\1F38B';
+    font-size: 1.8em;
+    opacity: 0.20;
+}
+.scene-village.scene-title-complete .journey-scene-bg::before {
+    background-image:
+        radial-gradient(ellipse 80px 40px at 85% 20%, rgba(148, 168, 142, 0.18) 0%, transparent 100%),
+        radial-gradient(ellipse 60px 30px at 70% 15%, rgba(212, 165, 116, 0.12) 0%, transparent 100%),
+        radial-gradient(ellipse 70px 35px at 90% 35%, rgba(232, 197, 71, 0.10) 0%, transparent 100%);
+}
+.scene-village.scene-title-complete .journey-scene-bg::after {
+    content: '\1F3EE\1F38B\1F3EE\1F38B\1F3EE';
+    font-size: 1.8em;
+    opacity: 0.20;
+}
+
+/* Temple — cool purples, incense, scrolls */
+.scene-temple .journey-scene-bg {
+    background: linear-gradient(135deg,
+        rgba(200, 170, 220, 0.08) 0%,
+        rgba(180, 160, 200, 0.05) 50%,
+        rgba(160, 180, 210, 0.10) 100%
+    );
+}
+.scene-temple .journey-scene-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(circle 50px at 88% 25%, rgba(200, 170, 220, 0.12) 0%, transparent 100%),
+        radial-gradient(circle 40px at 75% 18%, rgba(200, 170, 220, 0.08) 0%, transparent 100%);
+}
+.scene-temple .journey-scene-bg::after {
+    content: '\1F338\1F4DC\1F338';
+    position: absolute;
+    right: 4px;
+    bottom: 4px;
+    font-size: 1.5em;
+    opacity: 0.12;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+.scene-temple.scene-title-complete .journey-scene-bg::before {
+    background-image:
+        radial-gradient(circle 60px at 88% 25%, rgba(200, 170, 220, 0.16) 0%, transparent 100%),
+        radial-gradient(circle 50px at 75% 18%, rgba(180, 140, 200, 0.10) 0%, transparent 100%),
+        radial-gradient(circle 40px at 92% 40%, rgba(255, 215, 0, 0.08) 0%, transparent 100%);
+}
+.scene-temple.scene-title-complete .journey-scene-bg::after {
+    content: '\26E9\1F338\1F4DC\1F338\26E9';
+    font-size: 1.6em;
+    opacity: 0.15;
+}
+
+/* Palace — rich golds, reds, dragons */
+.scene-palace .journey-scene-bg {
+    background: linear-gradient(135deg,
+        rgba(200, 160, 80, 0.08) 0%,
+        rgba(200, 120, 80, 0.05) 50%,
+        rgba(180, 100, 60, 0.08) 100%
+    );
+}
+.scene-palace .journey-scene-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(circle 50px at 88% 20%, rgba(200, 160, 80, 0.12) 0%, transparent 100%),
+        radial-gradient(circle 40px at 75% 30%, rgba(200, 100, 60, 0.08) 0%, transparent 100%),
+        radial-gradient(circle 35px at 92% 50%, rgba(255, 215, 0, 0.06) 0%, transparent 100%);
+}
+.scene-palace .journey-scene-bg::after {
+    content: '\1F3EE\1F409\1F3EE';
+    position: absolute;
+    right: 4px;
+    bottom: 4px;
+    font-size: 1.6em;
+    opacity: 0.12;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+.scene-palace.scene-title-complete .journey-scene-bg::before {
+    background-image:
+        radial-gradient(circle 60px at 88% 20%, rgba(200, 160, 80, 0.16) 0%, transparent 100%),
+        radial-gradient(circle 50px at 75% 30%, rgba(200, 100, 60, 0.12) 0%, transparent 100%),
+        radial-gradient(circle 45px at 92% 50%, rgba(255, 215, 0, 0.10) 0%, transparent 100%);
+}
+.scene-palace.scene-title-complete .journey-scene-bg::after {
+    content: '\1F451\1F409\1F3EE\1F409\1F451';
+    font-size: 1.8em;
+    opacity: 0.16;
+}
+
+
 /* ── ANIMATIONS ── */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(6px); }
@@ -1100,8 +1249,9 @@
     </div>
 
     <!-- JOURNEY -->
-    <div class="card">
+    <div class="card" id="journey-card">
         <div class="card-title">🏯 Journey</div>
+        <div class="journey-scene-bg" id="journey-scene-bg"></div>
         <div id="title-content"></div>
     </div>
 
@@ -1560,7 +1710,33 @@ function renderTitleProgress() {
         var fill = document.getElementById('title-fill');
         if (fill) fill.style.width = pct + '%';
     }, 100);
+
+    // ── Apply scenic background based on location ──
+    var card = document.getElementById('journey-card');
+    var bg   = document.getElementById('journey-scene-bg');
+    if (!card || !bg) return;
+
+    card.classList.remove('scene-village', 'scene-temple', 'scene-palace');
+    card.classList.remove('scene-title-highlight', 'scene-title-complete');
+
+    var location = (info.yearGroup || '1');
+    var sceneClass = 'scene-village';
+    if (location === '2')      sceneClass = 'scene-temple';
+    else if (location === '3') sceneClass = 'scene-palace';
+
+    card.classList.add(sceneClass);
+
+    var title = (info.title || '').toLowerCase().replace(/\s+/g, '-');
+    if (title === 'bamboo-cub') {
+        card.classList.add('scene-title-highlight');
+    } else if (title === 'village-champion' || title === 'temple-master' || title === 'dragon-scholar') {
+        card.classList.add('scene-title-complete');
+    }
+
+    bg.classList.add('visible');
 }
+
+
 
 /* =====================================================
    4. BADGES
@@ -1963,7 +2139,7 @@ function updatePandaLayerWithPNG(slotId, item, placeholderEl, layerEl) {
         var cleanId = (slotId === 'aura' && item.id.endsWith('_aura'))
             ? item.id.slice(0, -5)
             : item.id;
-        var pngPath = 'assets/avatars/' + slotId + '_' + cleanId + '.png';
+        var genericPath = 'assets/avatars/' + slotId + '_' + cleanId + '.png';
         img.onload = function() {
             this.style.opacity = '1';
             if (placeholderEl) {
@@ -1981,7 +2157,23 @@ function updatePandaLayerWithPNG(slotId, item, placeholderEl, layerEl) {
             placeholderEl.style.opacity = '';
             placeholderEl.textContent = item.emoji;
         }
-        img.src = pngPath;
+        // Clothing items use per-pose PNGs (clothing_{id}_{pose}.png) with fallback to generic
+        if (slotId === 'clothing') {
+            var variantId = _currentVariantId || 'stand_still';
+            var posePath = 'assets/avatars/' + slotId + '_' + cleanId + '_' + variantId + '.png';
+            img.onerror = function() {
+                var genericSrc = genericPath;
+                this.onerror = function() {
+                    this.style.opacity = '0';
+                    this.removeAttribute('src');
+                    if (placeholderEl) placeholderEl.style.opacity = '';
+                };
+                this.src = genericSrc;
+            };
+            img.src = posePath;
+        } else {
+            img.src = genericPath;
+        }
         layerEl.classList.add('active');
     } else {
         img.src = '';

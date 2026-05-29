@@ -368,6 +368,35 @@ Added `updateMissionText()` function that dynamically adjusts the speech bubble 
 
 ---
 
+## Session 61 — Per-Pose Clothing PNG Overlays
+
+### Problem
+Clothing items (dragon_cape, silk_scarf) used a single overlay PNG that didn't match the panda's current pose. When the base pose switched to `foody`, `warrior`, or `foody_warrior`, the clothing overlay stayed in the stand-still position — misaligned and unnatural.
+
+### Solution
+Added per-pose clothing PNG fallback system. Clothing items now try a pose-specific PNG first, then fall back to the generic PNG:
+
+- **progress.html** (`updatePandaLayerWithPNG()`): If `slotId === 'clothing'`, builds `clothing_{id}_{pose}.png` path using `_currentVariantId`. Falls back to `clothing_{id}.png` if pose-specific PNG doesn't exist.
+- **arena.html** (`updateLayerWithPNG()`): Same logic mirrored.
+- `_currentVariantId` is maintained by `updatePandaBaseLayer()` / `updateBaseLayer()` — no additional tracking needed.
+
+### Fallback chain
+1. Try `clothing_dragon_cape_foody.png` ✗ → 2. Try `clothing_dragon_cape.png` ✗ → 3. Show emoji placeholder
+
+### Naming convention (documented in rewardPlan.md §11.3)
+
+| Item | Stand-still | Foody | Warrior | Foody Warrior |
+|---|---|---|---|---|
+| `dragon_cape` | `clothing_dragon_cape_stand.png` | `clothing_dragon_cape_foody.png` | `clothing_dragon_cape_warrior.png` | `clothing_dragon_cape_foody_warrior.png` |
+| `silk_scarf` | `clothing_silk_scarf_stand.png` | `clothing_silk_scarf_foody.png` | `clothing_silk_scarf_warrior.png` | `clothing_silk_scarf_foody_warrior.png` |
+
+### Files changed
+- `progress.html` — per-pose clothing fallback in `updatePandaLayerWithPNG()`
+- `arena.html` — per-pose clothing fallback in `updateLayerWithPNG()`
+- `rewardPlan.md` — added Per-Pose Clothing PNGs table in §11.3
+
+---
+
 ## Next Steps
 
 - Apply notebook SQL to Supabase dashboard to eliminate remaining 404

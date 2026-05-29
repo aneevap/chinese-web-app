@@ -236,14 +236,6 @@
       "message":    "You bought a Straw Hat! Looking great!"
     },
     {
-      "id":         "scroll",
-      "label":      "Ancient Scroll",
-      "emoji":      "📜",
-      "category":   "tool",
-      "coin_cost":  22,
-      "message":    "Ancient Scroll \u2014 wisdom from the past!"
-    },
-    {
       "id":         "dumpling",
       "label":      "Giant Dumpling",
       "emoji":      "🥟",
@@ -277,15 +269,6 @@
       "message":    "Wooden Sword \u2014 a true warrior of words!"
     },
     {
-      "id":         "jade_ring",
-      "label":      "Jade Ring",
-      "emoji":      "💍",
-      "category":   "accessory",
-      "panda_layer": "clothing",
-      "coin_cost":  35,
-      "message":    "Jade Ring \u2014 elegant and timeless!"
-    },
-    {
       "id":         "magic_fan",
       "label":      "Magic Fan",
       "emoji":      "🪭",
@@ -295,28 +278,12 @@
       "message":    "Magic Fan \u2014 wave it and characters fly!"
     },
     {
-      "id":         "star_glow",
-      "label":      "Star Glow",
-      "emoji":      "💫",
-      "category":   "aura",
-      "coin_cost":  42,
-      "message":    "Star Glow \u2014 a celestial aura of wisdom!"
-    },
-    {
       "id":         "boba_tea",
       "label":      "Boba Tea",
       "emoji":      "🧋",
       "category":   "food",
       "coin_cost":  45,
       "message":    "Boba Tea \u2014 the perfect drink for a scholar!"
-    },
-    {
-      "id":         "flame_aura",
-      "label":      "Flame Aura",
-      "emoji":      "🔥",
-      "category":   "aura",
-      "coin_cost":  48,
-      "message":    "Flame Aura \u2014 your dedication is on fire!"
     },
     {
       "id":         "ink_brush",
@@ -336,14 +303,6 @@
       "message":    "Silk Scarf \u2014 stylish and warm!"
     },
     {
-      "id":         "moon_cake",
-      "label":      "Moon Cake",
-      "emoji":      "🥮",
-      "category":   "food",
-      "coin_cost":  55,
-      "message":    "Moon Cake \u2014 a festive delight!"
-    },
-    {
       "id":         "dragon_cape",
       "label":      "Dragon Cape",
       "emoji":      "🦸",
@@ -361,14 +320,6 @@
       "message":    "Golden Dumpling \u2014 the rarest treat in China!"
     },
     {
-      "id":         "rainbow_aura",
-      "label":      "Rainbow Aura",
-      "emoji":      "🌈",
-      "category":   "aura",
-      "coin_cost":  80,
-      "message":    "Rainbow Aura \u2014 your brilliance lights the sky!"
-    },
-    {
       "id":         "golden_crown",
       "label":      "Golden Crown",
       "emoji":      "👑",
@@ -384,6 +335,23 @@
       "category":   "tool",
       "coin_cost":  100,
       "message":    "Dragon Staff \u2014 only the greatest scholars hold this!"
+    },
+    {
+      "id":         "golden_wig",
+      "label":      "Golden Wig",
+      "emoji":      "👩",
+      "category":   "accessory",
+      "panda_layer": "head",
+      "coin_cost":  25,
+      "message":    "Golden Wig \u2014 regal and majestic!"
+    },
+    {
+      "id":         "donut",
+      "label":      "Donut",
+      "emoji":      "🍩",
+      "category":   "food",
+      "coin_cost":  20,
+      "message":    "Donut \u2014 a sweet ring of joy!"
     }
   ]
 }
