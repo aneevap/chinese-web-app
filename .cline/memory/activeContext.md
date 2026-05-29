@@ -323,9 +323,14 @@ Added `updateMissionText()` function that dynamically adjusts the speech bubble 
 - **Adjusted overlap:** `.avatar-name` margin-top from -28px → -20px to keep name badge proportional to the smaller panel
 - **Previous session (54):** Had mistakenly shrunk the mission speech bubble panda (`.mission-panda-img`: 80px → 56px) — kept that change as it's also reasonable
 
+## Session 56 — iPhone layout: header above avatar, avatar 20% smaller
+
+- **Stacked layout on iPhone:** Changed `.arena-top-row` to `flex-direction: column` at 480px with `order: -1` on `.arena-top-text` so the "Arena" header appears above the profile avatar
+- **Avatar 20% smaller:** Reduced `.arena-panda-panel` width from 105px → 84px at 480px
+- **Proportional name badge:** `.avatar-name` margin-top from -20px → -16px
+
 ---
 
 ## Next Steps
 
-- Revisit the player name badge design on the arena page (user noted they're not satisfied)
 - Apply notebook SQL to Supabase dashboard to eliminate remaining 404

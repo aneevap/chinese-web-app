@@ -379,6 +379,14 @@
 
 **Files changed:** `arena.html`
 
+### Session 56 — iPhone layout: Header above avatar, avatar 20% smaller
+
+- **Stacked layout:** `.arena-top-row` at 480px changed to `flex-direction: column` with `order: -1` on `.arena-top-text` so "Arena" header appears above the profile avatar
+- **Avatar 20% smaller:** `.arena-panda-panel` width at 480px reduced from 105px → 84px
+- **Name badge adjusted:** `.avatar-name` margin-top from -20px → -16px (proportional)
+
+**Files changed:** `arena.html`
+
 ## Persistent Issues
 - **Git push silently fails ~50% of the time** from the assistant (basher agent). Fix: always run `git push origin main` explicitly.
 - Notebook table still needs to be applied to Supabase dashboard to eliminate remaining 404
