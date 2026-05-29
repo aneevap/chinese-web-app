@@ -329,6 +329,12 @@ Added `updateMissionText()` function that dynamically adjusts the speech bubble 
 - **Avatar 20% smaller:** Reduced `.arena-panda-panel` width from 105px → 84px at 480px
 - **Proportional name badge:** `.avatar-name` margin-top from -20px → -16px
 
+## Session 57 — Daily Login Coin
+
+- **Added `awardDailyLoginCoin()` to `profiles.js`** — 1 coin per day with source `'daily_login'`, daily-capped via existing `addCoins()` mechanism
+- **Triggered from arena.html** — called right after `XHZ.requireActive()` in `DOMContentLoaded`, so every visit to the arena hub awards the login coin silently
+- No game bundle changes needed (no cache buster bump)
+
 ---
 
 ## Next Steps

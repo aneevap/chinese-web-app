@@ -1976,6 +1976,8 @@
 
       XHZ.requireActive();
       initNav('arena');
+      // Award 1 daily login coin (silent — only if not already claimed today)
+      XHZ.awardDailyLoginCoin();
       migrateOldMatchingScores();
       migrateSupabaseMatchingScores();
 

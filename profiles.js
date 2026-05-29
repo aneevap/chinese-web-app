@@ -1172,6 +1172,17 @@ const XHZ = {
     return this.addCoins(profile.id, 1, 'game_' + gameId);
   },
 
+  /**
+   * Award 1 coin for daily login. Everyone gets 1 coin just for visiting.
+   * Daily-capped via addCoins source ('daily_login') — max 1 per day.
+   * @returns {number} coins awarded (0 if already claimed today)
+   */
+  awardDailyLoginCoin() {
+    var profile = this.getActiveProfile();
+    if (!profile) return 0;
+    return this.addCoins(profile.id, 1, 'daily_login');
+  },
+
   equipItem(profileId, itemId, category) {
     const itemData = this._loadItems(profileId);
     if (!itemData.earned.includes(itemId)) return false;
