@@ -349,6 +349,20 @@ profile.coins_sources = {       // daily tracking for caps
 >
 > **Note:** `daily_login` is a special source that awards +1 coin per day just for visiting the arena page. Like game coins, it's daily-capped — once earned, revisiting the page the same day gives nothing.
 
+#### Toast notification on daily login coin
+
+When a user visits **arena.html**, `study.html`, or **write.html** for the first time each day, they receive a subtle slide-in toast notification:
+
+```
+🪙 +1 Daily login coin!
+```
+
+- The toast appears at the **top-right** of the screen (positioned via global `#toast-container` + `design-system.css`)
+- Auto-dismisses after **2.5 seconds** with a fade-out animation (`toastOut`)
+- Only shows on **first visit of the day** — subsequent page visits return 0 coins, so no toast
+- Each page has its own `showToast()` implementation with consistent behavior
+- No game bundle rebuild needed (no cache buster bump)
+
 ### 7.5 Unlocking vs Purchasing
 
 **Old system:** `_checkEffortItemUnlock()` auto-unlocked items when total stars crossed thresholds.
@@ -791,3 +805,4 @@ Back —————————————————————————
 | v2 | 2025-07-23 | Removed game stars entirely; redesigned coin economy (1 coin/game/day + badge coins, max ~7-9/day); adjusted prices (6-150); expanded catalog to 22 items; added score calibration section |
 | v3 | 2025-07-24 | Phases 1, 2, 4 fully implemented; updated status tracking
 | v4 | 2025-09-25 | Added daily login coin (+1/day, source `daily_login`); updated daily max to ~8–10 coins; updated coin sources table and storage example
+| v5 | 2025-09-25 | Added visual toast notification on daily login coin award (arena.html, study.html, write.html)
