@@ -329,11 +329,42 @@ Added `updateMissionText()` function that dynamically adjusts the speech bubble 
 - **Avatar 20% smaller:** Reduced `.arena-panda-panel` width from 105px → 84px at 480px
 - **Proportional name badge:** `.avatar-name` margin-top from -20px → -16px
 
-## Session 57 — Daily Login Coin
+## Session 57 — Daily Login Coin (Arena only)
 
 - **Added `awardDailyLoginCoin()` to `profiles.js`** — 1 coin per day with source `'daily_login'`, daily-capped via existing `addCoins()` mechanism
 - **Triggered from arena.html** — called right after `XHZ.requireActive()` in `DOMContentLoaded`, so every visit to the arena hub awards the login coin silently
 - No game bundle changes needed (no cache buster bump)
+
+## Session 58 — Daily Login Coin Extended to Study & Writing
+
+- Users visiting study.html or write.html first (without going to arena) were missing their daily login coin
+- **study.html**: Added `XHZ.awardDailyLoginCoin()` after `XHZ.requireActive()` in DOMContentLoaded
+- **write.html**: Added `XHZ.awardDailyLoginCoin()` after `XHZ.requireActive()` in window.onload
+- Now all three main pages (arena, study, write) award the daily login coin on first visit each day
+
+## Session 59 — Toast Notification for Daily Login Coin
+
+- Added visual toast notification when the daily login coin is actually awarded (first visit of the day)
+- **Toast message**: `🪙 +1 Daily login coin!` — slides in from top-right, auto-dismisses after 2.5s
+- Only shows when coins are earned (return > 0) — subsequent same-day visits are silent
+- **arena.html**: Added `#toast-container` div + `showToast()` function + return value check
+- **study.html**: Already had toast infrastructure — wrapped existing call in `if (> 0)` check
+- **write.html**: Added `#toast-container` div + `showToast()` function + return value check
+- Uses `toastOut` CSS animation from shared design system
+
+## Session 60 — Panda Sizing Fixes (iPhone ≤480px)
+
+### Round 1 (Session 60)
+- **Mission panda** (speech bubble `.mission-panda-img`): 56px → **84px** (50% larger)
+- **Profile panda** (paper doll `.arena-panda-panel`): 84px → **67px** (20% smaller)
+- User noted this made mission panda bigger than profile panda — felt backwards
+
+### Round 2 (Session 60b)
+- User clarification: the profile panda frame (round circle) controls visible size, not just the image
+- **Profile panda** (`.arena-panda-panel`): 67px → **200px** — clearly the main panda
+- **Mission panda** (`.mission-panda-img`): 84px → **85px** — visibly smaller, secondary
+- **Name badge overlap**: `.avatar-name` margin-top from -16px → **-34px** (proportional to 200px panel)
+- User confirmed these sizes look correct
 
 ---
 
