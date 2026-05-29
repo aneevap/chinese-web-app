@@ -1104,6 +1104,8 @@
 
   <script type="module" src="games/dist/assets/game.js?v=43"></script>
 
+<div id="toast-container"></div>
+
   <script>
     /* =====================================================
        GAME DEFINITIONS
@@ -1976,8 +1978,10 @@
 
       XHZ.requireActive();
       initNav('arena');
-      // Award 1 daily login coin (silent — only if not already claimed today)
-      XHZ.awardDailyLoginCoin();
+      // Award 1 daily login coin — show toast if earned
+      if (XHZ.awardDailyLoginCoin() > 0) {
+        showToast('🪙 +1 Daily login coin!', '', 2500);
+      }
       migrateOldMatchingScores();
       migrateSupabaseMatchingScores();
 
@@ -2024,6 +2028,21 @@
         renderGameCards();
       });
     });
+  /* ── TOAST ── */
+    function showToast(msg, type, duration) {
+      var c = document.getElementById('toast-container');
+      if (!c) return;
+      var toast = document.createElement('div');
+      toast.className = 'toast ' + (type || '');
+      toast.textContent = msg;
+      c.appendChild(toast);
+      setTimeout(function() {
+        toast.style.animation = 'toastOut .3s ease forwards';
+        setTimeout(function() {
+          if (toast.parentNode) toast.parentNode.removeChild(toast);
+        }, 300);
+      }, duration || 2000);
+    }
   </script>
 </body>
 </html>
