@@ -170,6 +170,10 @@ var STRINGS = {
     shop_source_game:       "Game",
     shop_source_badge:      "Badge",
     shop_source_migration:  "Welcome bonus",
+    shop_source_login:      "Daily Login",
+    shop_source_matching:   "Matching Game",
+    shop_source_sushi:      "Sushi Game",
+    shop_coins_checklist:   "Today's Coins",
     settings_tap_hint:      "⚙️ Settings",
     cal_su: "Su", cal_mo: "Mo", cal_tu: "Tu", cal_we: "We", cal_th: "Th", cal_fr: "Fr", cal_sa: "Sa",
 
@@ -375,6 +379,11 @@ var STRINGS = {
     shop_source_game:       "เกม",
     shop_source_badge:      "แบดจ์",
     shop_source_migration:  "ของขวัญต้อนรับ",
+    shop_source_login:      "เข้าสู่ระบบรายวัน",
+    shop_source_matching:   "เกมจับคู่",
+    shop_source_sushi:      "เกมซูชิ",
+    shop_coins_checklist:   "เหรียญวันนี้",
+
     settings_tap_hint:      "⚙️ ตั้งค่า",
     cal_su: "อา", cal_mo: "จ", cal_tu: "อ", cal_we: "พ", cal_th: "พฤ", cal_fr: "ศ", cal_sa: "ส",
 

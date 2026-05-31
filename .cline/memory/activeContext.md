@@ -397,6 +397,184 @@ Added per-pose clothing PNG fallback system. Clothing items now try a pose-speci
 
 ---
 
+## Zombie Spell Defense — Enhanced Playground (v2)
+
+### File
+- **`zombie-game-playground.html`** — standalone playground (like `avatar-playground.html`)
+- **Status:** ✅ Enhanced with animations, combo system, zombie variety, countdown, screen shake
+
+### New features (v2)
+- **Combo/Streak system:** Consecutive correct strokes build a combo meter (displayed top-left of battle field). Every 5-streak triggers a **CRITICAL HIT** (2 damage, gold burst FX, triple points, screen shake!)
+- **Player aura glow:** Wizard's aura intensifies with streak (level 1 at 2 streak, level 2 at 4, level 3 at 8 — gold glow)
+- **3 Zombie types:** Grunt 🧟 (standard), Brute 🧟‍♂️ (more HP), Reaper 💀 (more HP + slower advance)
+- **Round countdown:** 3 → 2 → 1 → ⚔️ animation before each round
+- **Zombie spawn animation:** Rises from ground with particle burst
+- **Floating damage numbers:** +1 / CRIT! 2 float up from zombie
+- **Screen shake:** On mistakes and critical hits
+- **Glassmorphism UI:** Frosted glass cards, glowing borders, atmospheric fog background
+- **Ground decorations:** Grass, stones, plants in the battle field
+- **Victory dance:** Player dances after defeating a zombie
+- **Hint toggle:** Magical conic-gradient spinning glow ring around writing box in Easy mode
+
+### Game mechanics (as implemented)
+1. Zombie appears on the right, advances in 5 stages
+2. Player draws character on HanziWriter.js canvas
+3. **Correct stroke** → combo up! Every 5th = critical hit (2 dmg, 3× points)
+4. **Wrong stroke** → combo resets, zombie advances after N mistakes, screen shake
+5. Word completed → bonus points (streak preserved!)
+6. Zombie HP=0 → explosion particle burst, round bonus (+streak bonus), victory overlay
+7. Zombie reaches DEADLY stage → game over
+
+### Two difficulty levels
+| Feature | Easy | Normal |
+|---|---|---|
+| Stroke guide | ✅ Outline + faded reference | ❌ No guide |
+| Leniency | 1.5 | 1.0 |
+| Zombie speed | 4→2 mistakes (round scaling) | 3→1 mistakes (faster scaling) |
+| Points per stroke | 10 (30 on crit) | 15 (45 on crit) |
+
+### Visual effects
+- Dark atmospheric theme with animated fog, glassmorphism UI
+- Zombie: lurch idle → hurt shake → stun flash → death explosion (12 particles)
+- Player: floating idle → cast spell → critical cast → victory dance
+- Spell hit: ✨ flies from wizard to zombie (correct direction now!)
+- Critical: 💥⚡ double FX burst + screen shake
+- Writing area: green flash on hit, red flash on mistake
+- HP bar: green gradient → gold → red pulsing
+- Round countdown: pop-in animation each number
+- 5 particles per correct stroke (stars, sparkles, magic)
+- Damage numbers: positioned over zombie (right side)
+
+### Bugs fixed v2 (code review)
+1. 🐛 **Countdown animation re-trigger** — Now clears class to `''` before reflow so each number replays its pop-in animation.
+2. 🐛 **Damage numbers positioned wrong** — Changed from `left: 150px` (near player) to `right: 40px` (over zombie).
+3. 🐛 **Spell FX flew wrong direction** — `--fx-x` changed from `-80px` (left, away from zombie) to `+80px` (right, toward zombie).
+
+## Zombie Spell Defense — Gameplay Enhancements (v3)
+
+### File
+- **`zombie-game-playground.html`** — standalone playground (like `avatar-playground.html`)
+- **Status:** ✅ Enhanced with clickable slots, slot defeat animation, distance bars, difficulty tuning, bug fixes, enlarged battlefield
+
+### New Features (v3)
+
+**1. Clickable Character Slots**
+- Each filled slot is now clickable — click any active zombie's slot to switch the writing canvas to that character instantly
+- Active slot gets a gold border + golden glow + colored character text (`.z-slot-active` CSS class)
+- Auto-selects first alive zombie on spawn if nothing is being written
+- Edge cases handled: clicking empty slot = no-op, clicking already-active slot = no-op, defeating active zombie shifts highlight to next alive
+
+**2. Slot Defeat Animation**
+- When a zombie is defeated, its slot plays a 0.7s animation sequence:
+  - 0–25%: Pulse shrink (scale 0.92) with strong gold glow
+  - 25–50%: Pulse expand (scale 1.05), glow transitions to red damage
+  - 50–70%: Scale down, red glow fading out
+  - 70–100%: Shrink to 0.3 scale, full transparency
+- Inner content (character + emoji) fades out simultaneously
+- `pointer-events: none` during animation prevents accidental clicks
+- After animation completes, the slot is removed and remaining slots shift left
+
+**3. Distance/HP Bar Under Each Zombie**
+- Small progress bar (`zombie-hp-wrap`) below each zombie showing remaining distance to castle
+- Full bar at spawn (green, `zbf-safe` with green glow) → shrinks as zombie walks closer
+- Color transitions: green (>50% distance) → yellow (25–50%, `zbf-warn`) → red (<25%, `zbf-danger` with damage glow)
+- Width updates every frame with `transition: width 0.15s linear` for smooth shrinkage
+- Fades out during death animation via `opacity: 0` with 0.1s delay
+- Responsive sizing: 36×4px desktop → 30×3px at 520px → 26×3px at 360px
+
+**4. Easy Mode Slowdown**
+- Easy mode `baseSpeed` reduced from 0.3 → **0.2** (60% slower than Normal's 0.5)
+- Wave scaling still applies (+0.06 per wave, capped at 1.5), so late-game easy zombies still speed up
+- Start screen footer updated: "Easy: slow zombies, stroke guide & hints · Normal: fast zombies, no guide"
+
+### Bug Fixes
+
+**Bug 1: Writing area stuck on zombie that reached castle**
+- When a zombie hits the castle and is removed from the array, `ZG.currentChar` still pointed at that zombie's character
+- Fixed: After the `toRemove` cleanup loop in `updateGame()`, a new check verifies if `ZG.currentChar.ch` still exists among alive (non-defeated) zombies
+- If not found (zombie was removed), `loadNextAvailableCharacter()` switches to the next living zombie or clears the writing area
+- Guarded by `!ZG.gameOver` to prevent action after game ends
+
+**Bug 2: Normal mode writing board unresponsive**
+- `showOutline: false` in Normal mode prevented HanziWriter from building internal stroke target zones needed for `quiz()` stroke detection
+- Fix: `showOutline: true` in **both** modes (always provides stroke target data to the quiz engine)
+- Normal mode uses very dim `outlineColor: '#1E1030'` — nearly invisible against `#0A0612` canvas background
+- Easy mode still uses visible `'#3D2D55'` outline color
+- `showCharacter: true` in both modes; `charColor` dimmer in Normal (`'#555577'` vs `'#8888AA'`)
+- Normal mode challenge now comes from: no visible outline guide + stricter 1.0 leniency + faster zombies
+
+**Bug 3: Start screen also uses Normal mode setting**
+- When returning to start screen, `isEasy` would be `false`, causing a `toUpperCase()` call on undefined
+- Not a gameplay issue, just a minor console noise on the start screen
+
+### Enlarged Battlefield
+- Changed `.z-battle-field` from fixed `height: 300px; flex-shrink: 0` to `flex: 1; min-height: 220px`
+- Battlefield now fills available vertical space — zombies have more room to traverse
+- Responsive: `min-height: 180px` at 520px, `min-height: 150px` at 360px (can still grow larger)
+- Spawn margin changed from hardcoded 10px to `Math.min(fw, fh) * 0.08` (proportional to field size)
+- Zombies no longer spawn right at the edge of smaller fields
+
+### Current Difficulty Matrix
+| Feature | Easy | Normal |
+|---|---|---|
+| Stroke outline guide | ✅ Visible (`#3D2D55`) | ✅ Dim (`#1E1030`, nearly invisible) |
+| Character reference | ✅ Visible (`#8888AA`) | ✅ Dim (`#555577`) |
+| Stroke animation speed | 0.5 (slow show) | 1.0 (normal) |
+| Quiz leniency | 1.5 (forgiving) | 1.0 (strict) |
+| Base zombie speed | 0.2 | 0.5 |
+| Wave speed scaling | +0.06/wave (cap 1.5) | +0.06/wave (cap 1.5) |
+| Points per stroke | 10 (30 on crit) | 15 (45 on crit) |
+
+## Mastery Requirement Fix — Both Study & Writing Required for "Mastered"
+
+### Problem
+Users could reach "mastered" status purely through writing. In `_updateWordMastery()`, when `write_cleared_count >= 2`, it auto-set `quiz_cleared = true` — meaning 2 perfect writing scores were sufficient without ever studying.
+
+### Fix (`profiles.js`)
+- Removed the auto-setting of `quiz_cleared` when `write_cleared_count >= 2`
+- `quiz_cleared` can now only be set by `markQuizCleared()`, which is exclusively called from study.html's `handleQuizAnswer()`
+- `write_cleared` is only incremented by `markWriteCleared()` in write.html (perfect 3-star scores)
+- The mastered condition (`perfectCount >= 2 && entry.quiz_cleared`) remains unchanged — users now genuinely need both activities
+
+### Migration function preserved
+- `migrateOldMasteryData()` still sets both flags together as before — appropriate for old data that already met the previous requirements
+
+### Files changed
+- `profiles.js` — removed 4 lines in `_updateWordMastery()`
+
+## Journey Card Redesign — Image Asset Preparation Guide
+
+### Vision
+Replace the current Journey card's progress bar with a large stage-appropriate image. Show just the percentage number (no bar). When a new stage is reached, a full-screen celebration overlay pops up and the image transitions to the next stage.
+
+### Images needed (Year 1 — The Village)
+
+Start with these 6 square PNGs (400×400 px recommended, transparent background, panda centered):
+
+| # | Stage (Mastery %) | Current Emoji | Suggested Filename | Suggested Scene |
+|---|-------------------|--------------|-------------------|-----------------|
+| 1 | **Panda Hatchling** (0%) | 🥚 | `journey_village_egg.png` | A cute panda-themed egg |
+| 2 | **Bamboo Cub** (20%) | 🐾 | `journey_village_hatch.png` | Egg cracking open, tiny panda cub peeking out |
+| 3 | **Village Wanderer** (40%) | 🌿 | `journey_village_cub.png` | Small panda cub exploring with bamboo leaves |
+| 4 | **Lantern Carrier** (60%) | 🪔 | `journey_village_lantern.png` | Panda cub holding a festival lantern |
+| 5 | **Bamboo Guardian** (80%) | 🎋 | `journey_village_guardian.png` | Panda standing tall, holding a bamboo staff |
+| 6 | **Village Champion** (100%) | 🏮 | `journey_village_champion.png` | Triumphant panda with champion pose |
+
+**Place in:** `assets/mascot/` (alongside existing panda PNGs)
+
+### Optional: Year 2 & Year 3
+Same panda character, different settings/outfits:
+- **Year 2 — The Temple (6 PNGs):** Panda in temple robes, exploring shrines, reading scrolls. Filenames: `journey_temple_*.png`
+- **Year 3 — The Palace (6 PNGs):** Panda in imperial attire, at court, crowned. Filenames: `journey_palace_*.png`
+
+### Implementation plan (once images are ready)
+1. Replace the progress bar with a large centered image area (`<img>` tag)
+2. Show percentage number below the image (`42%`)
+3. Build full-screen celebration overlay triggered when `getMasteryTitle()` returns a new stage
+4. Add CSS animations: image transition on stage change, confetti/particles on celebration overlay
+
 ## Next Steps
 
 - Apply notebook SQL to Supabase dashboard to eliminate remaining 404
+- Port zombie game into a proper game mode on arena.html
+- Add unlock gating (course 1A mastery check) and coin rewards

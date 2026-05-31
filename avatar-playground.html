@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Avatar Playground · 学汉字</title>
+<script src="nav.js"></script>
+<link rel="stylesheet" href="shared/design-system.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;600;700;800&family=ZCOOL+KuaiLe&family=Nunito:wght@400;700;800&family=Mali:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   VARIABLES
+═══════════════════════════════════════════ */
+:root {
+    --pg-accent:       #7C5CFC;
+    --pg-accent-soft:  #7C5CFC22;
+    --pg-accent-light: #7C5CFC44;
+    --pg-paper:        #FAFAF5;
+    --pg-ink:          #2D2438;
+    --pg-ink-soft:     #6B5C7A;
+    --pg-ink-light:    #9C8FAA;
+    --pg-card-radius:  18px;
+    --pg-shadow:       0 2px 12px rgba(44, 36, 56, 0.08);
+    --pg-shadow-lift:  0 6px 24px rgba(44, 36, 56, 0.14);
+}
+
+/* ═══════════════════════════════════════════
+   PAGE LAYOUT
+═══════════════════════════════════════════ */
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: 'Nunito', 'Bai Jamjuree', sans-serif;
+    background: #F2F1EC;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.playground-page {
+    flex: 1;
+    max-width: 1040px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 16px 16px 40px;
+}
+
+/* ── Header ── */
+.pg-header {
+    text-align: center;
+    margin-bottom: 24px;
+    padding: 0 8px;
+}
+.pg-header h1 {
+    font-family: 'ZCOOL KuaiLe', 'Nunito', sans-serif;
+    font-size: 2.2rem;
+    color: var(--pg-ink);
+    margin: 0 0 4px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+}
+.pg-header h1 .pg-hl {
+    background: linear-gradient(135deg, #7C5CFC, #5B3CC4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.pg-header p {
+    color: var(--pg-ink-soft);
+    font-size: 0.88rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* ═══════════════════════════════════════════
+   MAIN LAYOUT — Two column
+═══════════════════════════════════════════ */
+.pg-layout {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.pg-panda-column {
+    flex: 0 0 340px;
+    position: sticky;
+    top: 72px;
+}
+
+.pg-controls-column {
+    flex: 1;
+    min-width: 0;
+}
+
+@media (max-width: 820px) {
+    .pg-layout {
+        flex-direction: column;
+        align-items: center;
+    }
+    .pg-panda-column {
+        flex: none;
+        width: 100%;
+        max-width: 360px;
+        position: static;
+    }
+}
+
+/* ═══════════════════════════════════════════
+   PANDA CARDS
+═══════════════════════════════════════════ */
+.pg-panda-card {
+    background: var(--pg-paper);
+    border-radius: var(--pg-card-radius);
+    box-shadow: var(--pg-shadow);
+    overflow: hidden;
+    border: 2px solid #E8E3EF;
+}
+
+.pg-panda-viewport-wrap {
+    padding: 16px;
+    background: linear-gradient(180deg, #FFF8E7 0%, #FFF0D0 100%);
+}
+
+/* ── Panda viewport (same layered system as progress.html) ── */
+.pg-viewport {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: linear-gradient(180deg, #FFF8E7, #FFF0D0);
+    border-radius: 18px;
+    border: 2px solid #E8DDC0;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.pg-layer {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+}
+
+.pg-layer .pg-ph {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; height: 100%;
+    font-size: 5em;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+.pg-layer.active .pg-ph {
+    opacity: 1;
+}
+
+.pg-layer .pg-layer-img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+}
+.pg-layer.active .pg-layer-img {
+    opacity: 1;
+}
+
+/* Base image always visible */
+.pg-layer.layer-base img {
+    display: block;
+    width: 100%; height: 100%;
+    object-fit: contain;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+/* Z-index stack */
+.layer-aura     { z-index: 10; }
+.layer-base     { z-index: 20; }
+.layer-clothing { z-index: 30; }
+.layer-head     { z-index: 40; }
+.layer-tool     { z-index: 45; }
+.layer-food     { z-index: 55; }
+
+/* ── Aura glow ── */
+.pg-layer .aura-glow {
+    position: absolute;
+    top: -15%; left: -15%;
+    width: 130%; height: 130%;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    transform: scale(0.8);
+}
+.layer-aura.active .aura-glow {
+    opacity: 0.55;
+    transform: scale(1);
+    animation: auraPulse 2.5s ease-in-out infinite;
+}
+.aura-glow.type-sparkle { background: radial-gradient(circle, rgba(255,215,0,0.25) 0%, transparent 65%); }
+.aura-glow.type-empty   { background: transparent; }
+
+@keyframes auraPulse {
+    0%, 100% { opacity: 0.45; transform: scale(1); }
+    50%      { opacity: 0.7;  transform: scale(1.06); }
+}
+
+/* ── Panda info bar ── */
+.pg-panda-info {
+    padding: 12px 16px;
+    border-top: 1px solid #E8E3EF;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pg-variant-name {
+    text-align: center;
+    font-size: 0.78em;
+    color: var(--pg-ink-soft);
+    font-weight: bold;
+    letter-spacing: 0.3px;
+}
+
+.pg-equipped-summary {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.pg-eq-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.62em;
+    font-weight: bold;
+    background: var(--pg-accent-soft);
+    color: var(--pg-accent);
+    border: 1.5px solid var(--pg-accent-light);
+    animation: chipIn 0.3s ease both;
+}
+@keyframes chipIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+/* ═══════════════════════════════════════════
+   ACTION BUTTONS
+═══════════════════════════════════════════ */
+.pg-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+.pg-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 2px solid #D4CDE0;
+    background: var(--pg-paper);
+    font-size: 0.78em;
+    font-weight: 800;
+    color: var(--pg-ink-soft);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+}
+.pg-btn:active { transform: scale(0.96); }
+.pg-btn:hover { border-color: var(--pg-accent); color: var(--pg-accent); background: var(--pg-accent-soft); }
+.pg-btn-primary {
+    background: var(--pg-accent);
+    border-color: var(--pg-accent);
+    color: white;
+}
+.pg-btn-primary:hover { background: #6A4EE0; border-color: #6A4EE0; color: white; }
+.pg-btn-danger { border-color: #FF6B6B; color: #FF6B6B; }
+.pg-btn-danger:hover { background: #FFF0F0; border-color: #FF6B6B; color: #E05555; }
+
+/* ═══════════════════════════════════════════
+   CONTROLS — Category tabs + item grid
+═══════════════════════════════════════════ */
+.pg-category-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 14px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 2px 0;
+}
+.pg-category-tabs::-webkit-scrollbar { display: none; }
+
+.pg-cat-tab {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 2px solid #D4CDE0;
+    background: var(--pg-paper);
+    font-size: 0.78em;
+    font-weight: 800;
+    color: var(--pg-ink-soft);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    font-family: inherit;
+    flex-shrink: 0;
+}
+.pg-cat-tab:active { transform: scale(0.95); }
+.pg-cat-tab:hover { border-color: var(--pg-accent); color: var(--pg-accent); }
+.pg-cat-tab.active {
+    background: var(--pg-accent);
+    border-color: var(--pg-accent);
+    color: white;
+    box-shadow: 0 3px 10px rgba(124, 92, 252, 0.25);
+}
+.pg-cat-tab .pg-cat-count {
+    font-size: 0.72em;
+    opacity: 0.6;
+    font-weight: 700;
+}
+.pg-cat-tab.active .pg-cat-count { opacity: 0.8; }
+.pg-cat-tab.equipped-indicator {
+    position: relative;
+}
+.pg-cat-tab.equipped-indicator::after {
+    content: '';
+    position: absolute;
+    top: -2px; right: -2px;
+    width: 10px; height: 10px;
+    background: var(--pg-accent);
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
+/* ── Item grid ── */
+.pg-item-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 8px;
+    min-height: 120px;
+}
+
+.pg-item-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 16px 8px 12px;
+    border-radius: 16px;
+    background: var(--pg-paper);
+    border: 2px solid #E8E3EF;
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+    box-shadow: var(--pg-shadow);
+}
+.pg-item-card:active { transform: scale(0.94); }
+.pg-item-card:hover {
+    border-color: var(--pg-accent-light);
+    box-shadow: var(--pg-shadow-lift);
+    transform: translateY(-2px);
+}
+.pg-item-card.selected {
+    border-color: var(--pg-accent);
+    background: linear-gradient(135deg, #F5F0FF 0%, #EDE6FF 100%);
+    box-shadow: 0 4px 14px rgba(124, 92, 252, 0.20);
+}
+.pg-item-card .pg-item-emoji {
+    font-size: 2em;
+    line-height: 1;
+    filter: drop-shadow(1px 2px 2px rgba(0,0,0,0.08));
+}
+.pg-item-card .pg-item-label {
+    font-size: 0.62em;
+    font-weight: 800;
+    color: var(--pg-ink-soft);
+    text-align: center;
+    line-height: 1.3;
+}
+.pg-item-card.selected .pg-item-label {
+    color: var(--pg-accent);
+}
+.pg-item-card .pg-item-check {
+    position: absolute;
+    top: -4px; right: -4px;
+    background: var(--pg-accent);
+    color: white;
+    border-radius: 50%;
+    width: 20px; height: 20px;
+    font-size: 0.55em;
+    line-height: 20px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(124, 92, 252, 0.3);
+}
+
+/* ── No items / category empty ── */
+.pg-cat-empty {
+    text-align: center;
+    padding: 32px 0;
+    color: var(--pg-ink-light);
+    font-size: 0.82em;
+    font-weight: 700;
+    grid-column: 1 / -1;
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width: 480px) {
+    .playground-page { padding: 12px 10px 32px; }
+    .pg-header h1 { font-size: 1.6rem; }
+    .pg-panda-column { max-width: 300px; }
+    .pg-viewport { border-radius: 14px; }
+    .pg-layer .pg-ph { font-size: 3.5em; }
+    .pg-item-grid { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); }
+    .pg-item-card { padding: 12px 6px 10px; }
+    .pg-item-card .pg-item-emoji { font-size: 1.6em; }
+    .pg-cat-tab { padding: 6px 12px; font-size: 0.72em; }
+}
+
+/* ═══════════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════════ */
+@keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.pg-item-card {
+    animation: fadeSlideUp 0.25s ease both;
+}
+.pg-item-card:nth-child(1) { animation-delay: 0.01s; }
+.pg-item-card:nth-child(2) { animation-delay: 0.03s; }
+.pg-item-card:nth-child(3) { animation-delay: 0.05s; }
+.pg-item-card:nth-child(4) { animation-delay: 0.07s; }
+.pg-item-card:nth-child(5) { animation-delay: 0.09s; }
+.pg-item-card:nth-child(6) { animation-delay: 0.11s; }
+.pg-item-card:nth-child(7) { animation-delay: 0.13s; }
+.pg-item-card:nth-child(8) { animation-delay: 0.15s; }
+.pg-item-card:nth-child(n+9) { animation-delay: 0.17s; }
+
+/* ── Toast ── */
+.pg-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--pg-ink);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 16px;
+    font-size: 0.85em;
+    font-weight: 800;
+    z-index: 9999;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    opacity: 0;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+    max-width: 80vw;
+    text-align: center;
+}
+.pg-toast.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div id="app-nav"></div>
+
+<!-- PAGE -->
+<div class="playground-page">
+    <div class="pg-header">
+        <h1>🎨 Avatar <span class="pg-hl">Playground</span></h1>
+        <p>Mix and match any items freely — no coins needed! Try on all combinations.</p>
+    </div>
+
+    <div class="pg-layout">
+
+        <!-- ═══ PANDA COLUMN ═══ -->
+        <div class="pg-panda-column">
+            <div class="pg-panda-card">
+                <div class="pg-panda-viewport-wrap">
+                    <div class="pg-viewport" id="pg-viewport">
+                        <!-- LAYER 1: Aura -->
+                        <div class="pg-layer layer-aura" id="pg-layer-aura">
+                            <div class="aura-glow type-empty" id="pg-aura-glow"></div>
+                            <img class="pg-layer-img" id="pg-img-aura" src="" alt="" draggable="false"/>
+                        </div>
+                        <!-- LAYER 2: Base -->
+                        <div class="pg-layer layer-base" id="pg-layer-base">
+                            <img id="pg-base-image" src="assets/mascot/panda_stand.png" alt="Panda" draggable="false"/>
+                        </div>
+                        <!-- LAYER 3: Clothing -->
+                        <div class="pg-layer layer-clothing" id="pg-layer-clothing">
+                            <div class="pg-ph" id="pg-ph-clothing"></div>
+                            <img class="pg-layer-img" id="pg-img-clothing" src="" alt="" draggable="false"/>
+                        </div>
+                        <!-- LAYER 4: Head -->
+                        <div class="pg-layer layer-head" id="pg-layer-head">
+                            <div class="pg-ph" id="pg-ph-head"></div>
+                            <img class="pg-layer-img" id="pg-img-head" src="" alt="" draggable="false"/>
+                        </div>
+                        <!-- LAYER 5: Tool -->
+                        <div class="pg-layer layer-tool" id="pg-layer-tool">
+                            <div class="pg-ph" id="pg-ph-tool"></div>
+                            <img class="pg-layer-img" id="pg-img-tool" src="" alt="" draggable="false"/>
+                        </div>
+                        <!-- LAYER 6: Food -->
+                        <div class="pg-layer layer-food" id="pg-layer-food">
+                            <div class="pg-ph" id="pg-ph-food"></div>
+                            <img class="pg-layer-img" id="pg-img-food" src="" alt="" draggable="false"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pg-panda-info">
+                    <div class="pg-variant-name" id="pg-variant-name">Stand-still 🐼</div>
+                    <div class="pg-equipped-summary" id="pg-equipped-summary"></div>
+                </div>
+
+                <div class="pg-actions" style="padding: 0 16px 16px;">
+                    <button class="pg-btn pg-btn-primary" onclick="randomizeAll()">🎲 Randomize</button>
+                    <button class="pg-btn pg-btn-danger" onclick="clearAll()">✕ Clear All</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══ CONTROLS COLUMN ═══ -->
+        <div class="pg-controls-column">
+            <div class="pg-category-tabs" id="pg-category-tabs"></div>
+            <div class="pg-item-grid" id="pg-item-grid">
+                <div class="pg-cat-empty">Loading items...</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- TOAST -->
+<div class="pg-toast" id="pg-toast"></div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   AVATAR PLAYGROUND — Free dress-up for all items
+══════════════════════════════════════════════════════════════ */
+
+var PG = {
+    items:      [],          // All effort items from rewards.json
+    categories: ['aura', 'clothing', 'head', 'tool', 'food'],
+    catMeta: {
+        aura:     { emoji: '✨', label: 'Aura' },
+        clothing: { emoji: '👘', label: 'Clothing' },
+        head:     { emoji: '🎭', label: 'Head' },
+        tool:     { emoji: '🛠️', label: 'Tool' },
+        food:     { emoji: '🍽️', label: 'Food' }
+    },
+    activeCat: 'aura',
+    equipped: { aura: null, clothing: null, head: null, tool: null, food: null },
+
+    // Resolve the panda_layer for accessory items (same logic as progress.html)
+    getPandaLayer: function(item) {
+        return item.panda_layer || item.category;
+    },
+
+    // Get items for a given display category (resolving panda_layer)
+    getItemsForCategory: function(cat) {
+        return this.items.filter(function(it) {
+            return (it.panda_layer || it.category) === cat;
+        });
+    },
+
+    // Resolve the clean item ID for PNG file naming
+    cleanId: function(slotId, itemId) {
+        if (slotId === 'aura' && itemId.endsWith('_aura')) {
+            return itemId.slice(0, -5);
+        }
+        // Special case: magic_fan PNG is tool_fan.png
+        if (itemId === 'magic_fan') return 'fan';
+        return itemId;
+    }
+};
+
+/* ══════════════════════════════════════════════════════════════
+   BASE POSE VARIANTS
+══════════════════════════════════════════════════════════════ */
+var PG_VARIANTS = {
+    stand_still:   { name: 'Stand-still 🐼',   src: 'assets/mascot/panda_stand.png' },
+    foody:         { name: 'Foody 🍭',         src: 'assets/mascot/panda_foody.png' },
+    warrior:       { name: 'Warrior ⚔️',       src: 'assets/mascot/panda_warrior.png' },
+    foody_warrior: { name: 'Foody Warrior ⚔️🍭', src: 'assets/mascot/panda_foody_warrior.png' }
+};
+
+var _currentVariantId = null;
+
+function getCurrentVariant() {
+    var hasFood = !!PG.equipped.food;
+    var hasTool = !!PG.equipped.tool;
+    if (hasFood && hasTool) return 'foody_warrior';
+    if (hasFood) return 'foody';
+    if (hasTool) return 'warrior';
+    return 'stand_still';
+}
+
+/* ══════════════════════════════════════════════════════════════
+   LAYER RENDERING
+══════════════════════════════════════════════════════════════ */
+
+/* ── Base pose ── */
+function updateBaseLayer() {
+    var img = document.getElementById('pg-base-image');
+    if (!img) return;
+    var variantId = getCurrentVariant();
+    if (variantId === _currentVariantId) return;
+    _currentVariantId = variantId;
+    img.src = PG_VARIANTS[variantId].src;
+    document.getElementById('pg-variant-name').textContent = PG_VARIANTS[variantId].name;
+}
+
+/* ── Generic layer helper: load PNG, fallback to emoji ── */
+function updateLayerWithPNG(slotId, item, placeholderEl, layerEl) {
+    var img = document.getElementById('pg-img-' + slotId);
+    if (!img) return;
+
+    if (item) {
+        var cleanId = PG.cleanId(slotId, item.id);
+        var genericPath = 'assets/avatars/' + slotId + '_' + cleanId + '.png';
+
+        img.onload = function() {
+            this.style.opacity = '1';
+            if (placeholderEl) placeholderEl.style.opacity = '0';
+        };
+        img.onerror = function() {
+            this.style.opacity = '0';
+            this.removeAttribute('src');
+            if (placeholderEl) placeholderEl.style.opacity = '';
+        };
+        img.style.opacity = '';
+        if (placeholderEl) {
+            placeholderEl.style.opacity = '';
+            placeholderEl.textContent = item.emoji;
+        }
+
+        // Clothing items use per-pose PNGs with fallback to generic
+        if (slotId === 'clothing') {
+            // Map variant ID to actual file suffix used in PNG assets
+            var poseSuffixMap = {
+                stand_still:   'stand',
+                foody:         'foody',
+                warrior:       'warrior',
+                foody_warrior: 'foody_warrior'
+            };
+            var variantId = _currentVariantId || 'stand_still';
+            var poseSuffix = poseSuffixMap[variantId] || 'stand';
+            var posePath = 'assets/avatars/' + slotId + '_' + cleanId + '_' + poseSuffix + '.png';
+            img.onerror = function() {
+                this.onerror = function() {
+                    this.style.opacity = '0';
+                    this.removeAttribute('src');
+                    if (placeholderEl) placeholderEl.style.opacity = '';
+                };
+                this.src = genericPath;
+            };
+            img.src = posePath;
+        } else {
+            img.src = genericPath;
+        }
+        layerEl.classList.add('active');
+    } else {
+        img.src = '';
+        img.style.opacity = '0';
+        img.onload = null;
+        img.onerror = null;
+        layerEl.classList.remove('active');
+        if (placeholderEl) {
+            placeholderEl.textContent = '';
+            placeholderEl.style.opacity = '';
+        }
+    }
+}
+
+/* ── Aura layer (CSS glow + PNG) ── */
+function updateAuraLayer(item) {
+    var layer = document.getElementById('pg-layer-aura');
+    var glow  = document.getElementById('pg-aura-glow');
+    if (!layer || !glow) return;
+
+    layer.classList.toggle('active', !!item);
+    if (item) {
+        var typeClass = item.type || item.id.replace('_aura', '');
+        glow.className = 'aura-glow type-' + typeClass;
+    } else {
+        glow.className = 'aura-glow type-empty';
+    }
+    updateLayerWithPNG('aura', item, null, layer);
+}
+
+function updateClothingLayer(item) {
+    var layer = document.getElementById('pg-layer-clothing');
+    var ph    = document.getElementById('pg-ph-clothing');
+    if (!layer || !ph) return;
+    updateLayerWithPNG('clothing', item, ph, layer);
+}
+
+function updateHeadLayer(item) {
+    var layer = document.getElementById('pg-layer-head');
+    var ph    = document.getElementById('pg-ph-head');
+    if (!layer || !ph) return;
+    updateLayerWithPNG('head', item, ph, layer);
+}
+
+function updateToolLayer(item) {
+    var layer = document.getElementById('pg-layer-tool');
+    var ph    = document.getElementById('pg-ph-tool');
+    if (!layer || !ph) return;
+    updateLayerWithPNG('tool', item, ph, layer);
+}
+
+function updateFoodLayer(item) {
+    var layer = document.getElementById('pg-layer-food');
+    var ph    = document.getElementById('pg-ph-food');
+    if (!layer || !ph) return;
+    updateLayerWithPNG('food', item, ph, layer);
+}
+
+/* ── Full render ── */
+function renderPanda() {
+    // Reset variant to trigger re-evaluation
+    _currentVariantId = null;
+    updateBaseLayer();
+
+    // Clear all layers first
+    PG.categories.forEach(function(cat) {
+        var layer = document.getElementById('pg-layer-' + cat);
+        if (!layer) return;
+        if (cat === 'aura') {
+            updateAuraLayer(null);
+            return;
+        }
+        var img = document.getElementById('pg-img-' + cat);
+        if (img) { img.src = ''; img.style.opacity = '0'; }
+        var ph = document.getElementById('pg-ph-' + cat);
+        if (ph) { ph.textContent = ''; ph.style.opacity = ''; }
+        layer.classList.remove('active');
+    });
+
+    // Then apply equipped items
+    var auraItem = PG.equipped.aura ? PG.items.find(function(it) { return it.id === PG.equipped.aura; }) : null;
+    updateAuraLayer(auraItem);
+
+    ['clothing', 'head', 'tool', 'food'].forEach(function(cat) {
+        var itemId = PG.equipped[cat];
+        var item = itemId ? PG.items.find(function(it) { return it.id === itemId; }) : null;
+        var layer = document.getElementById('pg-layer-' + cat);
+        var ph = document.getElementById('pg-ph-' + cat);
+        if (!layer || !ph) return;
+        updateLayerWithPNG(cat, item, ph, layer);
+    });
+
+    // Update equipped summary chips
+    renderEquippedSummary();
+    // Update category tab indicators
+    updateCategoryTabIndicators();
+}
+
+/* ══════════════════════════════════════════════════════════════
+   EQUIPPED SUMMARY CHIPS
+══════════════════════════════════════════════════════════════ */
+function renderEquippedSummary() {
+    var el = document.getElementById('pg-equipped-summary');
+    if (!el) return;
+
+    var chips = [];
+    PG.categories.forEach(function(cat) {
+        var itemId = PG.equipped[cat];
+        if (!itemId) return;
+        var item = PG.items.find(function(it) { return it.id === itemId; });
+        if (!item) return;
+        var meta = PG.catMeta[cat] || { emoji: '', label: cat };
+        chips.push('<span class="pg-eq-chip">' + meta.emoji + ' ' + item.emoji + ' ' + item.label + '</span>');
+    });
+
+    el.innerHTML = chips.length
+        ? chips.join('')
+        : '<span style="font-size:0.65em;color:var(--pg-ink-light);font-weight:bold;">Nothing equipped — pick some items!</span>';
+}
+
+/* ══════════════════════════════════════════════════════════════
+   CATEGORY TABS
+══════════════════════════════════════════════════════════════ */
+function renderCategoryTabs() {
+    var tabsEl = document.getElementById('pg-category-tabs');
+    if (!tabsEl) return;
+
+    tabsEl.innerHTML = PG.categories.map(function(cat) {
+        var meta = PG.catMeta[cat] || { emoji: '', label: cat };
+        var count = PG.getItemsForCategory(cat).length;
+        var hasEquip = !!PG.equipped[cat];
+        return '<button class="pg-cat-tab' +
+            (cat === PG.activeCat ? ' active' : '') +
+            (hasEquip ? ' equipped-indicator' : '') +
+            '" data-cat="' + cat + '" onclick="switchCategory(\'' + cat + '\')">' +
+            meta.emoji + ' ' + meta.label +
+            ' <span class="pg-cat-count">' + count + '</span>' +
+            '</button>';
+    }).join('');
+}
+
+function updateCategoryTabIndicators() {
+    document.querySelectorAll('.pg-cat-tab').forEach(function(tab) {
+        var cat = tab.getAttribute('data-cat');
+        var hasEquip = !!PG.equipped[cat];
+        tab.classList.toggle('equipped-indicator', hasEquip);
+    });
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ITEM GRID
+══════════════════════════════════════════════════════════════ */
+function switchCategory(cat) {
+    PG.activeCat = cat;
+    renderCategoryTabs();
+    renderItemGrid();
+}
+
+function renderItemGrid() {
+    var grid = document.getElementById('pg-item-grid');
+    if (!grid) return;
+
+    var items = PG.getItemsForCategory(PG.activeCat);
+
+    if (!items.length) {
+        grid.innerHTML = '<div class="pg-cat-empty">No items in this category</div>';
+        return;
+    }
+
+    var selectedId = PG.equipped[PG.activeCat];
+
+    grid.innerHTML = items.map(function(item) {
+        var isSelected = item.id === selectedId;
+        return '<div class="pg-item-card' + (isSelected ? ' selected' : '') + '" ' +
+            'onclick="toggleItem(\'' + item.id + '\')">' +
+            (isSelected ? '<div class="pg-item-check">✓</div>' : '') +
+            '<div class="pg-item-emoji">' + item.emoji + '</div>' +
+            '<div class="pg-item-label">' + item.label + '</div>' +
+            '</div>';
+    }).join('');
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ITEM TOGGLE
+══════════════════════════════════════════════════════════════ */
+function toggleItem(itemId) {
+    var item = PG.items.find(function(it) { return it.id === itemId; });
+    if (!item) return;
+
+    var cat = item.panda_layer || item.category;
+
+    // If same item clicked, unequip it
+    if (PG.equipped[cat] === itemId) {
+        PG.equipped[cat] = null;
+    } else {
+        PG.equipped[cat] = itemId;
+    }
+
+    renderPanda();
+    renderItemGrid();
+    renderCategoryTabs();
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ACTIONS
+══════════════════════════════════════════════════════════════ */
+function clearAll() {
+    PG.equipped = { aura: null, clothing: null, head: null, tool: null, food: null };
+    renderPanda();
+    renderItemGrid();
+    renderCategoryTabs();
+    showToast('Cleared all items ✨');
+}
+
+function randomizeAll() {
+    PG.categories.forEach(function(cat) {
+        var items = PG.getItemsForCategory(cat);
+        if (items.length) {
+            var randomIdx = Math.floor(Math.random() * items.length);
+            PG.equipped[cat] = items[randomIdx].id;
+        }
+    });
+    renderPanda();
+    renderItemGrid();
+    renderCategoryTabs();
+    showToast('Random combo applied! 🎲');
+}
+
+/* ══════════════════════════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════════════════════════ */
+var _pgToastTimer = null;
+function showToast(msg) {
+    var toast = document.getElementById('pg-toast');
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.add('visible');
+    if (_pgToastTimer) clearTimeout(_pgToastTimer);
+    _pgToastTimer = setTimeout(function() {
+        toast.classList.remove('visible');
+    }, 1800);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', function() {
+    initNav('progress');
+
+    // Load rewards data
+    fetch('rewards.json')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            PG.items = data.effort_items || [];
+            renderCategoryTabs();
+            renderItemGrid();
+            renderPanda();
+        })
+        .catch(function(err) {
+            console.error('Failed to load rewards.json:', err);
+            document.getElementById('pg-item-grid').innerHTML =
+                '<div class="pg-cat-empty">❌ Could not load items. Try refreshing the page.</div>';
+        });
+});
+</script>
+</body>
+</html>

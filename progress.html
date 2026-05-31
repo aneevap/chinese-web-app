@@ -350,15 +350,18 @@
 
 /* ── COIN BAR ── */
 .coin-bar {
+  background: linear-gradient(135deg, #FFF8E1, #FFF3CD);
+  border: 1.5px solid #FFD54F;
+  border-radius: 12px;
+  padding: 8px 14px 10px;
+  font-size: 0.82em;
+  margin-bottom: 6px;
+}
+.coin-bar .cb-top-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  background: linear-gradient(135deg, #FFF8E1, #FFF3CD);
-  border: 1.5px solid #FFD54F;
-  border-radius: 12px;
-  padding: 8px 14px;
-  font-size: 0.82em;
   margin-bottom: 6px;
 }
 .coin-bar .cb-balance {
@@ -370,26 +373,84 @@
   font-size: 1.05em;
 }
 .coin-bar .cb-balance .cb-icon { font-size: 1.2em; }
-.coin-bar .cb-sources {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  flex-wrap: wrap;
-  font-size: 0.82em;
-  color: var(--ink-light);
-}
-.coin-source-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: #E8F5E9;
-  color: #2E7D32;
+.coin-bar .cb-header {
   font-size: 0.75em;
   font-weight: bold;
+  color: #B8860B;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
-.coin-source-chip .csc-check { font-size: 0.85em; }
+
+/* ── COIN CHECKLIST ── */
+.coin-checklist {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.coin-checklist-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px 3px 6px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.55);
+  border: 1.5px solid #F0E0B0;
+  cursor: default;
+  font-size: 0.72em;
+  font-weight: bold;
+  color: var(--ink-soft);
+  transition: all 0.2s;
+  position: relative;
+  user-select: none;
+}
+.coin-checklist-item .cci-box {
+  display: inline-flex;
+  width: 14px; height: 14px;
+  border-radius: 4px;
+  border: 2px solid var(--ink-light);
+  background: white;
+  flex-shrink: 0;
+  position: relative;
+  transition: all 0.2s;
+}
+.coin-checklist-item input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.coin-checklist-item input[type="checkbox"]:checked + .cci-box {
+  background: #4CAF50;
+  border-color: #4CAF50;
+}
+.coin-checklist-item input[type="checkbox"]:checked + .cci-box::after {
+  content: '✓';
+  position: absolute;
+  top: -2px; left: 1.5px;
+  font-size: 0.7em;
+  color: white;
+  line-height: 1;
+}
+.coin-checklist-item .cci-icon {
+  font-size: 0.85em;
+  line-height: 1;
+}
+.coin-checklist-item .cci-label {
+  color: var(--ink-medium);
+  font-weight: 700;
+}
+.coin-checklist-item .cci-earned {
+  font-size: 0.75em;
+  color: #2E7D32;
+  font-weight: bold;
+  margin-left: 1px;
+}
+/* Unchecked items (hints for what to earn) */
+.coin-checklist-item input[type="checkbox"]:not(:checked) ~ .cci-label {
+  color: var(--ink-light);
+}
+.coin-checklist-item input[type="checkbox"]:not(:checked) ~ .cci-icon {
+  opacity: 0.5;
+}
 
 /* ── SHOP ── */
 .shop-grid {
@@ -493,32 +554,240 @@
   transform: translateX(-50%) translateY(0);
 }
 
-/* ── ITEM SHELF ── */
-.item-shelf { display: flex; flex-wrap: wrap; gap: 8px; }
-.item-slot {
-    display: flex; flex-direction: column;
-    align-items: center; gap: 4px;
-    background: var(--theme-color-pale);
-    border-radius: 12px; padding: 8px 10px;
-    min-width: 58px; cursor: pointer;
-    border: 2px solid transparent;
-    transition: all 0.2s; position: relative;
+/* ── AVATAR EQUIPMENT LAYOUT ── */
+.avatar-equip-layout {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
 }
-.item-slot.equipped {
+.avatar-equip-panda {
+    flex-shrink: 0;
+    width: 238px;
+}
+.avatar-equip-panda .panda-viewport {
+    max-width: 238px;
+    aspect-ratio: 1 / 1;
+    margin: 0;
+}
+
+.equip-slots {
+    flex: 0 1 280px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+.equip-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    background: var(--theme-color-pale);
+    border-radius: 12px;
+    padding: 10px 6px 8px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    position: relative;
+    min-height: 60px;
+    justify-content: center;
+}
+.equip-slot:active { transform: scale(0.96); }
+.equip-slot:hover { border-color: var(--theme-color); }
+.equip-slot.has-equip {
     border-color: var(--theme-color);
     background: var(--theme-color-light);
 }
-.item-slot .it-emoji    { font-size: 1.5em; }
-.item-slot .it-label    { font-size: 0.6em; color: var(--ink-soft); text-align: center; line-height: 1.2; }
-.item-slot .it-category { font-size: 0.55em; color: var(--ink-light); text-transform: uppercase; letter-spacing: 0.5px; }
-.item-slot.equipped .it-label { color: var(--theme-color); font-weight: bold; }
-.equipped-badge {
-    position: absolute; top: -4px; right: -4px;
-    background: var(--theme-color); color: white;
-    border-radius: 50%; width: 14px; height: 14px;
-    font-size: 0.45em; line-height: 14px; text-align: center;
+.equip-slot .eq-slot-cat {
+    font-size: 0.55em;
+    color: var(--ink-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: bold;
+}
+.equip-slot .eq-slot-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+}
+.equip-slot .eq-slot-emoji { font-size: 1.3em; line-height: 1; }
+.equip-slot .eq-slot-name {
+    font-size: 0.6em;
+    color: var(--theme-color);
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.2;
+}
+.equip-slot .eq-slot-empty {
+    font-size: 0.6em;
+    color: var(--ink-light);
+    font-style: italic;
 }
 .item-empty { font-size: 0.8em; color: var(--ink-light); padding: 8px 0; }
+
+/* ── EQUIPMENT SELECTOR ── */
+.avatar-equip-layout {
+    position: relative;
+}
+
+/* Desktop: overlay over the equip-slots area */
+.eq-sheet-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    display: flex;
+    justify-content: flex-end;
+    background: rgba(74, 56, 40, 0.08);
+    border-radius: var(--card-radius);
+}
+.eq-sheet-overlay.open {
+    pointer-events: all;
+    opacity: 1;
+}
+.eq-sheet {
+    background: var(--paper-cream);
+    border-radius: var(--card-radius);
+    width: 270px;
+    max-height: 100%;
+    padding: 12px 14px;
+    box-shadow: var(--shadow-lifted);
+    border: 1px solid var(--paper-deep);
+    overflow-y: auto;
+    transform: translateX(10px);
+    transition: transform 0.2s ease;
+}
+.eq-sheet-overlay.open .eq-sheet {
+    transform: translateX(0);
+}
+.eq-sheet-header {
+    display: flex; align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--paper-deep);
+}
+.eq-sheet-title {
+    font-size: 0.82em; font-weight: 900;
+    color: var(--ink-dark);
+}
+.eq-sheet-close {
+    background: var(--paper-cool);
+    border: none; border-radius: 50%;
+    width: 30px; height: 30px;
+    font-size: 0.78em; color: var(--ink-light);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; transition: all 0.2s;
+}
+.eq-sheet-close:active {
+    transform: scale(0.9);
+    background: var(--paper-deep);
+}
+.eq-sheet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+    gap: 6px;
+}
+.eq-select-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    background: var(--theme-color-pale);
+    border-radius: 12px;
+    padding: 8px 4px 6px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    position: relative;
+}
+.eq-select-item:active { transform: scale(0.95); }
+.eq-select-item:hover { border-color: var(--theme-color); }
+.eq-select-item.active {
+    border-color: var(--botes-sage);
+    background: #E8F5E9;
+}
+.eq-select-item .eq-si-emoji { font-size: 1.3em; line-height: 1; }
+.eq-select-item .eq-si-label {
+    font-size: 0.52em;
+    color: var(--ink-soft);
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.1;
+}
+.eq-select-item .eq-si-check {
+    position: absolute;
+    top: -3px; right: -3px;
+    background: var(--botes-sage);
+    color: white;
+    border-radius: 50%;
+    width: 14px; height: 14px;
+    font-size: 0.4em;
+    line-height: 14px;
+    text-align: center;
+}
+.eq-sheet-none {
+    text-align: center;
+    padding: 16px 0;
+    color: var(--ink-light);
+    font-size: 0.78em;
+}
+
+@media (max-width: 480px) {
+    .avatar-equip-layout {
+        flex-direction: column;
+        align-items: center;
+    }
+    .avatar-equip-panda {
+        width: 187px;
+    }
+    .avatar-equip-panda .panda-viewport {
+        max-width: 187px;
+    }
+    .equip-slots {
+        width: 100%;
+        flex: none;
+    }
+
+    /* Mobile: bottom sheet */
+    .eq-sheet-overlay {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(74, 56, 40, 0.4);
+        z-index: 500;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+        transform: none;
+    }
+    .eq-sheet-overlay.open {
+        opacity: 1;
+        pointer-events: all;
+    }
+    .eq-sheet {
+        width: 100%;
+        max-width: 600px;
+        max-height: 85vh;
+        border-radius: var(--card-radius) var(--card-radius) 0 0;
+        padding: 20px 16px max(32px, env(safe-area-inset-bottom));
+        box-shadow: none;
+        border: none;
+        transform: translateY(100%);
+        transition: transform 0.35s cubic-bezier(0.32,0.72,0,1);
+    }
+    .eq-sheet-overlay.open .eq-sheet {
+        transform: translateY(0);
+    }
+}
 
 /* ── NOTEBOOK ── */
 .nb-compact {
@@ -529,9 +798,12 @@
   padding: 6px 10px;
   background: var(--theme-color-pale);
   border-radius: 10px;
-  cursor: default;
+  cursor: pointer;
+  touch-action: manipulation;
   transition: background 0.15s;
 }
+.nb-compact-entry:active { background: var(--theme-color-light); }
+.nb-compact-entry:hover { background: var(--theme-color-light); }
 .nb-compact-entry .cce-char {
   font-size: 1.1em; font-weight: 800;
   color: var(--ink-dark); min-width: 24px;
@@ -1012,44 +1284,6 @@
     50%      { opacity: 0.7;  transform: scale(1.06); }
 }
 
-/* Variant badge */
-.panda-variant {
-    text-align: center;
-    margin: 8px 0 0;
-    font-size: 0.78em;
-    color: var(--ink-soft);
-    font-weight: bold;
-    letter-spacing: 0.3px;
-}
-
-/* Status chips */
-.panda-chips {
-    display: flex;
-    gap: 5px;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 8px;
-    padding-top: 10px;
-    border-top: 1px solid #EDE5D0;
-}
-.panda-chips .ps-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
-    padding: 3px 10px;
-    border-radius: 999px;
-    font-size: 0.6em;
-    font-weight: bold;
-    color: #6B5544;
-    background: #EDE5D0;
-    border: 1.5px solid #E8DDC0;
-    transition: all 0.2s;
-}
-.panda-chips .ps-chip.active {
-    background: #FFF3E0;
-    border-color: var(--theme-color);
-    color: var(--botes-ochre-deep);
-}
 .panda-empty {
     padding: 4px 0;
 }
@@ -1203,6 +1437,180 @@
 }
 
 
+/* ── JOURNEY CARD — STAGE IMAGE ── */
+.journey-stage-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6px 0 2px;
+}
+.journey-stage-wrapper {
+    position: relative;
+}
+.journey-bg-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 14px;
+    opacity: 0.25;
+    z-index: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+}
+.journey-bg-img:not([src]), .journey-bg-img[src=""] { opacity: 0; }
+.journey-stage-img {
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.08));
+}
+.journey-stage-emoji {
+    font-size: 4.5em;
+    text-align: center;
+    display: block;
+    margin: 6px auto 0;
+    line-height: 1.2;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.06));
+}
+.journey-pct-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 8px;
+    margin: 6px 0 2px;
+}
+.journey-pct {
+    font-size: 1.3em;
+    font-weight: 900;
+    color: var(--theme-color);
+    letter-spacing: -0.5px;
+}
+.journey-title-name {
+    font-size: 0.85em;
+    font-weight: bold;
+    color: var(--ink-soft);
+}
+.journey-next-info {
+    font-size: 0.68em;
+    color: var(--ink-light);
+    text-align: center;
+    margin-top: 2px;
+    padding: 2px 0 4px;
+}
+
+/* ── JOURNEY CELEBRATION OVERLAY ── */
+.journey-celebration {
+    position: fixed; inset: 0;
+    z-index: 900;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.journey-celebration.open {
+    pointer-events: all;
+    opacity: 1;
+}
+.journey-celebration .celebration-bg {
+    position: absolute; inset: 0;
+    background: rgba(74, 56, 40, 0.55);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+.journey-celebration .celebration-content {
+    position: relative;
+    background: var(--paper-warm);
+    background-image: url('../assets/textures/paper-grain.png');
+    background-blend-mode: multiply;
+    border-radius: 24px;
+    padding: 32px 28px 28px;
+    max-width: 320px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    animation: celebPopIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes celebPopIn {
+    from { opacity: 0; transform: scale(0.7) translateY(20px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.journey-celebration .celebration-img {
+    width: 140px; height: 140px;
+    object-fit: contain;
+    margin: 0 auto 10px;
+    display: block;
+    filter: drop-shadow(0 6px 16px rgba(0,0,0,0.12));
+}
+.journey-celebration .celebration-emoji {
+    font-size: 4.5em;
+    display: block;
+    margin-bottom: 6px;
+    line-height: 1;
+}
+.journey-celebration .celebration-title {
+    font-size: 1.15em;
+    font-weight: 900;
+    color: var(--ink-dark);
+    margin-bottom: 6px;
+}
+.journey-celebration .celebration-sub {
+    font-size: 0.82em;
+    color: var(--ink-soft);
+    margin-bottom: 18px;
+    line-height: 1.5;
+}
+.journey-celebration .celebration-btn {
+    background: var(--theme-color);
+    color: white;
+    border: none;
+    border-radius: var(--radius-pill);
+    padding: 10px 28px;
+    font-size: 0.92em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    font-family: var(--font-main);
+}
+.journey-celebration .celebration-btn:hover {
+    background: var(--botes-ochre-deep);
+}
+.journey-celebration .celebration-btn:active {
+    transform: scale(0.95);
+}
+
+/* ── Confetti ── */
+.celebration-confetti {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    border-radius: 24px;
+}
+.confetti-piece {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    top: -10px;
+    animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
 /* ── ANIMATIONS ── */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(6px); }
@@ -1292,16 +1700,13 @@
         <div class="mastery-word-grid" id="mastery-word-grid"></div>
     </div>
 
-    <!-- ITEM SHELF -->
-    <div class="card">
-        <div class="card-title">🎒 Collection</div>
-        <div class="item-shelf" id="item-shelf"></div>
-    </div>
-
-    <!-- PANDA DISPLAY -->
-    <div class="card" id="panda-card" style="display:none;">
-        <div class="card-title">🐼 Panda</div>
-        <div id="panda-content">                <div class="panda-viewport" id="panda-viewport">
+    <!-- AVATAR & EQUIPMENT -->
+    <div class="card" id="avatar-card" style="display:none;">
+        <div class="card-title">🐼 Avatar</div>
+        <div id="panda-content">
+            <div class="avatar-equip-layout">
+                <div class="avatar-equip-panda">
+                    <div class="panda-viewport" id="panda-viewport">
                 <!-- LAYER 1: Aura (z:10) — Back glow -->
                 <div class="panda-layer layer-aura" id="panda-layer-aura">
                     <div class="aura-glow type-empty" id="panda-aura-glow"></div>
@@ -1331,20 +1736,22 @@
                     <div class="layer-placeholder" id="panda-ph-food"></div>
                     <img class="layer-img" id="panda-img-food" src="" alt="" draggable="false"/>
                 </div>
-            </div>
-            <div class="panda-variant" id="panda-variant">
-                🎭 <span id="panda-variant-name">Stand-still 🐼</span>
-            </div>
-            <div class="panda-chips" id="panda-chips">
-                <span class="ps-chip" data-cat="aura">✨ Aura</span>
-                <span class="ps-chip" data-cat="clothing">👘 Clothing</span>
-                <span class="ps-chip" data-cat="head">🎭 Head</span>
-                <span class="ps-chip" data-cat="tool">🛠️ Tool</span>
-                <span class="ps-chip" data-cat="food">🍽️ Food</span>
+                    </div>
+                </div>
+                <div class="equip-slots" id="equip-slots"></div>
+                <div class="eq-sheet-overlay" id="eq-sheet-overlay">
+                    <div class="eq-sheet">
+                        <div class="eq-sheet-header">
+                            <span class="eq-sheet-title" id="eq-sheet-title">Select Item</span>
+                            <button class="eq-sheet-close" onclick="closeEquipSelector()">✕</button>
+                        </div>
+                        <div class="eq-sheet-body" id="eq-sheet-body"></div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="panda-empty" id="panda-empty" style="display:none;">
-            <div class="item-empty">Equip items from your Collection to dress up the panda! 🎨</div>
+            <div class="item-empty">Equip items to dress up the panda! 🎨</div>
         </div>
     </div>
 
@@ -1394,6 +1801,21 @@
      SHOP TOAST
 ════════════════════════════════════════════════ -->
 <div class="shop-toast" id="shop-toast"></div>
+
+<!-- ════════════════════════════════════════════════
+     JOURNEY CELEBRATION OVERLAY
+════════════════════════════════════════════════ -->
+<div class="journey-celebration" id="journey-celebration">
+    <div class="celebration-bg" onclick="closeJourneyCelebration()"></div>
+    <div class="celebration-content">
+        <img class="celebration-img" id="celebration-img" src="" alt="" style="display:none;"/>
+        <span class="celebration-emoji" id="celebration-emoji" style="display:none;"></span>
+        <div class="celebration-title" id="celebration-title"></div>
+        <div class="celebration-sub" id="celebration-sub"></div>
+        <button class="celebration-btn" onclick="closeJourneyCelebration()">Let's Go! 🎉</button>
+        <div class="celebration-confetti" id="celebration-confetti"></div>
+    </div>
+</div>
 
 <!-- ════════════════════════════════════════════════
      PARENT SETTINGS MODAL
@@ -1515,7 +1937,7 @@ function renderAll(attempted) {
     renderBadges();
     renderCalendar();
     renderMasteryGrid(attempted);
-    renderItemShelf();
+    renderEquipSlots();
     renderPandaDisplay();
     renderShop();
     renderNotebook();
@@ -1682,31 +2104,77 @@ function getMasteryTitle() {
     };
 }
 
+function getJourneyStageImagePath(info) {
+    if (!info || !info.yearGroup || info.yearGroup !== '1') return null;
+    var pctMap = {
+        '0':   'egg',
+        '20':  'hatch',
+        '40':  'cub',
+        '60':  'lantern',
+        '80':  'guardian',
+        '100': 'champion'
+    };
+    // Find the current title's min_pct by looking up the rewards data
+    if (!rewards || !rewards.mastery_titles) return null;
+    var group = rewards.mastery_titles.find(function(g) {
+        return String(g.year_group) === String(info.yearGroup);
+    });
+    if (!group) return null;
+    var sorted = group.titles.slice().sort(function(a,b) { return b.min_pct - a.min_pct; });
+    var current = sorted.find(function(t) { return info.pct >= t.min_pct; }) || sorted[sorted.length - 1];
+    var pctKey = String(current.min_pct);
+    if (pctMap[pctKey]) {
+        return 'assets/mascot/journey_village_' + pctMap[pctKey] + '.png';
+    }
+    return null;
+}
+
+/* ── Get journey background image path (placeholder for user-prepared artwork) ── */
+function getJourneyStageBgPath(info) {
+    // Return placeholder background based on the current year group / location
+    // User should create PNGs at these paths to replace the placeholder
+    if (!info || !info.yearGroup) return null;
+    var name = 'journey_bg_placeholder.png';
+    if (info.yearGroup === '1')      name = 'journey_village_bg.png';
+    else if (info.yearGroup === '2') name = 'journey_temple_bg.png';
+    else if (info.yearGroup === '3') name = 'journey_palace_bg.png';
+    return 'assets/mascot/' + name;
+}
+
 function renderTitleProgress() {
     var info = getMasteryTitle();
     var pct  = info.pct || 0;
 
-    var nextHtml = info.next
-        ? '<div class="title-next">' + tFormat('journey_next', { emoji: info.next.emoji, title: info.next.title, pct: info.next.min_pct }) + '</div>'
-        : '<div class="title-next">' + t('journey_max') + '</div>';
+    // Build stage image or emoji
+    var imgPath = getJourneyStageImagePath(info);
+    var imageHtml;
+    if (imgPath) {
+        imageHtml = '<img class="journey-stage-img" src="' + imgPath + '" alt="' + info.title + '" draggable="false"/>';
+    } else {
+        imageHtml = '<span class="journey-stage-emoji">' + info.emoji + '</span>';
+    }
 
+    var nextHtml = info.next
+        ? '<div class="journey-next-info">' + tFormat('journey_next', { emoji: info.next.emoji, title: info.next.title, pct: info.next.min_pct }) + '</div>'
+        : '<div class="journey-next-info">' + t('journey_max') + '</div>';
+
+    // Build background image (placeholder — user prepares artwork later)
+    var bgPath = getJourneyStageBgPath(info);
+    var bgHtml = bgPath
+        ? '<img class="journey-bg-img" src="' + bgPath + '" alt="" draggable="false" onerror="this.style.display=\'none\'"/>'
+        : '';
+
+    // Replace progress bar with stage image + percentage + background
     document.getElementById('title-content').innerHTML =
-        '<div class="title-row">' +
-            '<div class="title-emoji-name">' +
-                '<span class="title-emoji">' + info.emoji + '</span>' +
-                '<span class="title-name">'  + info.title + '</span>' +
+        '<div class="journey-stage-wrapper">' +
+            bgHtml +
+            imageHtml +
+            '<div class="journey-pct-row">' +
+                '<span class="journey-pct">' + pct + '%</span>' +
+                '<span class="journey-title-name">' + info.emoji + ' ' + info.title + '</span>' +
             '</div>' +
-            '<span class="title-pct">' + pct + '%</span>' +
-        '</div>' +
-        '<div class="progress-track">' +
-            '<div class="progress-fill" id="title-fill" style="width:0%"></div>' +
         '</div>' +
         nextHtml;
-
-    setTimeout(function() {
-        var fill = document.getElementById('title-fill');
-        if (fill) fill.style.width = pct + '%';
-    }, 100);
 
     // ── Apply scenic background based on location ──
     var card = document.getElementById('journey-card');
@@ -1723,16 +2191,115 @@ function renderTitleProgress() {
 
     card.classList.add(sceneClass);
 
-    var title = (info.title || '').toLowerCase().replace(/\s+/g, '-');
-    if (title === 'bamboo-cub') {
+    var titleSlug = (info.title || '').toLowerCase().replace(/\s+/g, '-');
+    if (titleSlug === 'bamboo-cub') {
         card.classList.add('scene-title-highlight');
-    } else if (title === 'village-champion' || title === 'temple-master' || title === 'dragon-scholar') {
+    } else if (titleSlug === 'village-champion' || titleSlug === 'temple-master' || titleSlug === 'dragon-scholar') {
         card.classList.add('scene-title-complete');
     }
 
     bg.classList.add('visible');
+
+    // ── Detect stage change & trigger celebration ──
+    checkAndTriggerCelebration(info);
 }
 
+/* =====================================================
+   CELEBRATION — Stage-up overlay + confetti
+===================================================== */
+function getCelebratedStages() {
+    try {
+        var raw = localStorage.getItem('xhz_celebrated_stages_' + profile.id);
+        return raw ? JSON.parse(raw) : [];
+    } catch(e) { return []; }
+}
+
+function markStageCelebrated(titleName) {
+    var stages = getCelebratedStages();
+    if (stages.indexOf(titleName) === -1) {
+        stages.push(titleName);
+        try { localStorage.setItem('xhz_celebrated_stages_' + profile.id, JSON.stringify(stages)); } catch(e) {}
+    }
+}
+
+function checkAndTriggerCelebration(info) {
+    if (!info || !info.title) return;
+    var celebrated = getCelebratedStages();
+    // Don't celebrate the first stage (Panda Hatchling / Temple Seeker / Palace Visitor)
+    if (info.pct === 0) return;
+    // Only celebrate if not already celebrated
+    if (celebrated.indexOf(info.title) !== -1) return;
+    // Mark it now (prevents duplicate in this session)
+    markStageCelebrated(info.title);
+    // Show celebration after a short delay (let the card render first)
+    setTimeout(function() {
+        showJourneyCelebration(info);
+    }, 600);
+}
+
+function showJourneyCelebration(info) {
+    var overlay = document.getElementById('journey-celebration');
+    if (!overlay) return;
+
+    var imgPath = getJourneyStageImagePath(info);
+    var imgEl = document.getElementById('celebration-img');
+    var emojiEl = document.getElementById('celebration-emoji');
+
+    if (imgPath) {
+        imgEl.src = imgPath;
+        imgEl.style.display = 'block';
+        emojiEl.style.display = 'none';
+    } else {
+        emojiEl.textContent = info.emoji;
+        emojiEl.style.display = 'block';
+        imgEl.style.display = 'none';
+    }
+
+    document.getElementById('celebration-title').textContent = info.emoji + ' ' + info.title + '!';
+
+    // Find the title message from rewards
+    var msg = '';
+    if (rewards && rewards.mastery_titles) {
+        var group = rewards.mastery_titles.find(function(g) {
+            return String(g.year_group) === String(info.yearGroup);
+        });
+        if (group) {
+            var sorted = group.titles.slice().sort(function(a,b) { return b.min_pct - a.min_pct; });
+            var current = sorted.find(function(t) { return info.pct >= t.min_pct; }) || sorted[sorted.length - 1];
+            msg = current.message || '';
+        }
+    }
+    document.getElementById('celebration-sub').textContent = msg || 'Congratulations on your progress!';
+
+    // Generate confetti
+    generateConfetti('celebration-confetti');
+
+    overlay.classList.add('open');
+}
+
+function closeJourneyCelebration() {
+    var overlay = document.getElementById('journey-celebration');
+    if (overlay) overlay.classList.remove('open');
+}
+
+function generateConfetti(containerId) {
+    var container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = '';
+    var colors = ['#FF6B6B', '#FFD93D', '#6BCB77', '#4D96FF', '#FF6BFF', '#FF9F43', '#A29BFE', '#FD79A8'];
+    for (var i = 0; i < 40; i++) {
+        var piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        var color = colors[Math.floor(Math.random() * colors.length)];
+        var left = Math.random() * 100;
+        var size = 4 + Math.random() * 6;
+        var duration = 1.5 + Math.random() * 2;
+        var delay = Math.random() * 0.8;
+        var rotationEnd = 360 + Math.random() * 720;
+        piece.style.cssText = 'left:' + left + '%;width:' + size + 'px;height:' + (size * 0.6) + 'px;background:' + color + ';animation-duration:' + duration + 's;animation-delay:' + delay + 's;';
+        container.appendChild(piece);
+    }
+}
 
 
 /* =====================================================
@@ -2039,47 +2606,136 @@ function hideTooltip()     { document.getElementById('word-tooltip').classList.r
 function hideTooltipSoon() { tooltipTimer = setTimeout(hideTooltip, 1200); }
 
 /* =====================================================
-   7. ITEM SHELF
+   7. EQUIPMENT SLOTS & ITEM SELECTOR
 ===================================================== */
-function renderItemShelf() {
+var EQUIP_CATEGORIES = [
+    { id: 'aura',     emoji: '✨', label: 'Aura' },
+    { id: 'clothing', emoji: '👘', label: 'Clothing' },
+    { id: 'head',     emoji: '🎭', label: 'Head' },
+    { id: 'tool',     emoji: '🛠️', label: 'Tool' },
+    { id: 'food',     emoji: '🍽️', label: 'Food' }
+];
+
+function renderEquipSlots() {
     if (!rewards || !rewards.effort_items) return;
 
-    // Items are now purchased with coins (Phase 2) — no auto-unlock
-
-    var shelf    = document.getElementById('item-shelf');
+    var slots = document.getElementById('equip-slots');
     var itemData = XHZ.getItems(profile.id);
     var earned   = itemData ? (itemData.earned   || []) : [];
     var equipped = itemData ? (itemData.equipped || {}) : {};
 
+    var avatarCard = document.getElementById('avatar-card');
+    var empty = document.getElementById('panda-empty');
+    var content = document.getElementById('panda-content');
+    if (!avatarCard || !slots) return;
+
     if (!earned.length) {
-        shelf.innerHTML =
-            '<div class="item-empty">' + t('items_empty') + '</div>';
+        avatarCard.style.display = '';
+        content.style.display = 'none';
+        empty.style.display = '';
         return;
     }
 
-    shelf.innerHTML = earned.map(function(id) {
-        var item = rewards.effort_items.find(function(it) { return it.id === id; });
-        if (!item) return '';
-        var isEquip = equipped[item.category] === id;
-        return '<div class="item-slot' + (isEquip ? ' equipped' : '') + '" ' +
-            'onclick="toggleItem(\'' + id + '\',\'' + item.category + '\')">' +
-            (isEquip ? '<div class="equipped-badge">✓</div>' : '') +
-            '<div class="it-emoji">'    + item.emoji    + '</div>' +
-            '<div class="it-label">'    + item.label    + '</div>' +
-            '<div class="it-category">' + item.category + '</div>' +
+    avatarCard.style.display = '';
+    content.style.display = '';
+    empty.style.display = 'none';
+
+    slots.innerHTML = EQUIP_CATEGORIES.map(function(cat) {
+        var equipId = equipped[cat.id] || null;
+        var item = equipId ? rewards.effort_items.find(function(it) { return it.id === equipId; }) : null;
+        var hasEquip = !!item;
+
+        return '<div class="equip-slot' + (hasEquip ? ' has-equip' : '') + '" ' +
+            'onclick="openEquipSelector(\'' + cat.id + '\')">' +
+            '<div class="eq-slot-cat">' + cat.emoji + ' ' + cat.label + '</div>' +
+            (hasEquip
+                ? '<div class="eq-slot-item">' +
+                    '<span class="eq-slot-emoji">' + item.emoji + '</span>' +
+                    '<span class="eq-slot-name">' + item.label + '</span>' +
+                  '</div>'
+                : '<div class="eq-slot-empty">—</div>') +
             '</div>';
     }).join('');
 }
 
-function toggleItem(id, category) {
+/* ── Equipment selector bottom sheet ── */
+var _selectedCategory = null;
+
+function openEquipSelector(category) {
+    _selectedCategory = category;
+    var catInfo = EQUIP_CATEGORIES.find(function(c) { return c.id === category; });
+    if (!catInfo) return;
+    var overlay = document.getElementById('eq-sheet-overlay');
+    if (!overlay) return;
+
+    document.getElementById('eq-sheet-title').textContent =
+        catInfo.emoji + ' ' + catInfo.label + ' — ' + t('select_item');
+
+    var itemData = XHZ.getItems(profile.id);
+    var earned   = itemData ? (itemData.earned || []) : [];
+    var equipped = itemData ? (itemData.equipped || {}) : {};
+
+    // Filter items of this category that the user owns
+    var catItems = rewards.effort_items.filter(function(it) {
+        return it.category === category && earned.indexOf(it.id) !== -1;
+    });
+
+    var body = document.getElementById('eq-sheet-body');
+    if (!body) return;
+
+    if (!catItems.length) {
+        body.innerHTML = '<div class="eq-sheet-none">' + t('eq_no_items') + '</div>';
+    } else {
+        body.innerHTML = '<div class="eq-sheet-grid">' +
+            catItems.map(function(item) {
+                var isEquipped = equipped[category] === item.id;
+                return '<div class="eq-select-item' + (isEquipped ? ' active' : '') + '" ' +
+                    'onclick="selectEquipItem(\'' + item.id + '\',\'' + category + '\')">' +
+                    (isEquipped ? '<div class="eq-si-check">✓</div>' : '') +
+                    '<div class="eq-si-emoji">' + item.emoji + '</div>' +
+                    '<div class="eq-si-label">' + item.label + '</div>' +
+                    '</div>';
+            }).join('') + '</div>';
+    }
+
+    overlay.classList.add('open');
+    setTimeout(function() { overlay.focus(); }, 100);
+}
+
+function closeEquipSelector() {
+    var overlay = document.getElementById('eq-sheet-overlay');
+    if (overlay) overlay.classList.remove('open');
+    _selectedCategory = null;
+}
+
+/* Close equip selector when clicking the backdrop */
+document.addEventListener('click', function(e) {
+    var overlay = document.getElementById('eq-sheet-overlay');
+    if (!overlay || !overlay.classList.contains('open')) return;
+    if (e.target.closest('.equip-slot')) return;
+    // Close on backdrop click (the overlay itself, not the sheet inside)
+    if (e.target === overlay) {
+        closeEquipSelector();
+    }
+});
+
+/* Also close on Escape key */
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeEquipSelector();
+});
+
+function selectEquipItem(itemId, category) {
     var itemData = XHZ.getItems(profile.id);
     var equipped = itemData ? (itemData.equipped || {}) : {};
-    if (equipped[category] === id) {
+
+    if (equipped[category] === itemId) {
         XHZ.unequipItem(profile.id, category);
     } else {
-        XHZ.equipItem(profile.id, id, category);
+        XHZ.equipItem(profile.id, itemId, category);
     }
-    renderItemShelf();
+
+    closeEquipSelector();
+    renderEquipSlots();
     renderPandaDisplay();
 }
 
@@ -2156,8 +2812,16 @@ function updatePandaLayerWithPNG(slotId, item, placeholderEl, layerEl) {
         }
         // Clothing items use per-pose PNGs (clothing_{id}_{pose}.png) with fallback to generic
         if (slotId === 'clothing') {
+            // Map variant ID to actual file suffix used in PNG assets
+            var poseSuffixMap = {
+                stand_still:   'stand',
+                foody:         'foody',
+                warrior:       'warrior',
+                foody_warrior: 'foody_warrior'
+            };
             var variantId = _currentVariantId || 'stand_still';
-            var posePath = 'assets/avatars/' + slotId + '_' + cleanId + '_' + variantId + '.png';
+            var poseSuffix = poseSuffixMap[variantId] || 'stand';
+            var posePath = 'assets/avatars/' + slotId + '_' + cleanId + '_' + poseSuffix + '.png';
             img.onerror = function() {
                 var genericSrc = genericPath;
                 this.onerror = function() {
@@ -2188,11 +2852,6 @@ function updatePandaLayerWithPNG(slotId, item, placeholderEl, layerEl) {
 function renderPandaDisplay() {
     if (!profile || !rewards || !rewards.effort_items) return;
 
-    var card = document.getElementById('panda-card');
-    var empty = document.getElementById('panda-empty');
-    var content = document.getElementById('panda-content');
-    if (!card || !empty || !content) return;
-
     var itemData = XHZ.getItems(profile.id);
     var equipped = itemData ? (itemData.equipped || {}) : {};
     var effortItems = XHZ.getEffortItems() || rewards.effort_items;
@@ -2206,53 +2865,32 @@ function renderPandaDisplay() {
         displayMap[it.panda_layer || it.category] = id;
     });
 
-    // Check if any items are equipped
-    var hasAny = Object.keys(displayMap).length > 0;
-    if (!hasAny) {
-        card.style.display = '';
-        content.style.display = '';
-        empty.style.display = 'none';
-        // Reset base to stand still
-        _currentVariantId = null;
-        updatePandaBaseLayer();
-        document.getElementById('panda-variant-name').textContent = 'Stand-still 🐼';
-        // Clear all item layers and hide aura
-        PANDA_CATEGORIES.forEach(function(cat) {
-            var slot = PANDA_SLOT_MAP[cat];
-            if (!slot) return;
-            var layer = document.getElementById(slot.layerId);
-            if (!layer) return;
-            layer.classList.remove('active');
-            var img = document.getElementById(slot.imgId);
-            if (img) { img.src = ''; img.style.opacity = '0'; }
-            if (slot.phId) {
-                var ph = document.getElementById(slot.phId);
-                if (ph) { ph.textContent = ''; ph.style.opacity = ''; }
-            }
-        });
-        // Hide aura glow
-        var auraGlow = document.getElementById('panda-aura-glow');
-        if (auraGlow) auraGlow.className = 'aura-glow type-empty';
-        // Deactivate all chips
-        document.querySelectorAll('.panda-chips .ps-chip').forEach(function(chip) {
-            chip.classList.remove('active');
-        });
-        return;
-    }
-
-    card.style.display = '';
-    content.style.display = '';
-    empty.style.display = 'none';
-
-    // ── Base pose ──
+    // Reset base to stand still
+    _currentVariantId = null;
     updatePandaBaseLayer();
-    document.getElementById('panda-variant-name').textContent = getPandaVariant().name;
+
+    // Clear all item layers and hide aura
+    PANDA_CATEGORIES.forEach(function(cat) {
+        var slot = PANDA_SLOT_MAP[cat];
+        if (!slot) return;
+        var layer = document.getElementById(slot.layerId);
+        if (!layer) return;
+        layer.classList.remove('active');
+        var img = document.getElementById(slot.imgId);
+        if (img) { img.src = ''; img.style.opacity = '0'; }
+        if (slot.phId) {
+            var ph = document.getElementById(slot.phId);
+            if (ph) { ph.textContent = ''; ph.style.opacity = ''; }
+        }
+    });
+    // Hide aura glow
+    var auraGlow = document.getElementById('panda-aura-glow');
+    if (auraGlow) auraGlow.className = 'aura-glow type-empty';
 
     // ── Aura layer (CSS glow + PNG overlay) ──
     var auraItem = equipped.aura ? effortItems.find(function(it) { return it.id === equipped.aura; }) : null;
     var auraLayer = document.getElementById('panda-layer-aura');
-    var auraGlow = document.getElementById('panda-aura-glow');
-    if (auraLayer && auraGlow) {
+    if (auraLayer) {
         auraLayer.classList.toggle('active', !!auraItem);
         if (auraItem) {
             var typeClass = auraItem.type || auraItem.id.replace('_aura', '');
@@ -2275,13 +2913,6 @@ function renderPandaDisplay() {
         var itemId = displayMap[cat];
         var item = itemId ? effortItems.find(function(it) { return it.id === itemId; }) : null;
         updatePandaLayerWithPNG(cat, item, ph, layer);
-    });
-
-    // ── Status chips ──
-    var chips = document.querySelectorAll('.panda-chips .ps-chip');
-    chips.forEach(function(chip) {
-        var cat = chip.getAttribute('data-cat');
-        chip.classList.toggle('active', !!displayMap[cat]);
     });
 }
 
@@ -2321,47 +2952,47 @@ function renderCoinBar() {
     var sources = XHZ.getCoinSources(profile.id);
     var today = XHZ.today();
 
-    // Filter sources earned today
-    var todaySources = [];
-    Object.keys(sources).forEach(function(src) {
-        if (sources[src] === today) {
-            todaySources.push(src);
+    // ── All possible coin sources ──
+    var allSources = [
+        // Daily-repeatable tasks (checked based on today's date)
+        { id: 'daily_login',     icon: '🏠', label: t('shop_source_login'),    repeatable: true },
+        { id: 'game_matching',   icon: '🎴', label: t('shop_source_matching'), repeatable: true },
+        { id: 'game_sushi',      icon: '🍣', label: t('shop_source_sushi'),    repeatable: true },
+        // One-time badge achievements
+        { id: 'badge_keep_going',    icon: '🥉', label: 'Keep Going',        repeatable: false },
+        { id: 'badge_practice_hero', icon: '🏅', label: 'Practice Hero',     repeatable: false },
+        { id: 'badge_rising_star',   icon: '🌟', label: 'Rising Star',       repeatable: false },
+        { id: 'badge_panda_master',  icon: '🐼', label: 'Panda Master',      repeatable: false },
+        { id: 'badge_good_learner',  icon: '📚', label: 'Good Learner',      repeatable: false },
+        { id: 'badge_deep_thinker',  icon: '🔬', label: 'Deep Thinker',      repeatable: false }
+    ];
+
+    // Build checklist
+    var checklistHtml = allSources.map(function(src) {
+        var earned;
+        if (src.repeatable) {
+            earned = sources[src.id] === today;
+        } else {
+            earned = !!sources[src.id];
         }
-    });
-
-    var sourceLabels = {
-        'game_matching': { icon: '🎴', label: 'Matching' },
-        'game_sushi':    { icon: '🍣', label: 'Sushi' },
-        'badge_keep_going':    { icon: '🥉', label: t('shop_source_badge') },
-        'badge_practice_hero': { icon: '🏅', label: t('shop_source_badge') },
-        'badge_rising_star':   { icon: '🌟', label: t('shop_source_badge') },
-        'badge_panda_master':  { icon: '🐼', label: t('shop_source_badge') },
-        'badge_good_learner':  { icon: '📚', label: t('shop_source_badge') },
-        'badge_deep_thinker':  { icon: '🔬', label: t('shop_source_badge') },
-        'migration_bonus':     { icon: '🎁', label: t('shop_source_migration') }
-    };
-
-    var sourcesHtml = todaySources.map(function(src) {
-        var info = sourceLabels[src] || { icon: '🪙', label: src };
-        return '<span class="coin-source-chip">' +
-            '<span class="csc-check">✅</span>' +
-            info.icon + ' ' + info.label +
-            '</span>';
+        return '<div class="coin-checklist-item">' +
+            '<input type="checkbox" ' + (earned ? 'checked disabled' : '') + '>' +
+            '<span class="cci-box"></span>' +
+            '<span class="cci-icon">' + src.icon + '</span>' +
+            '<span class="cci-label">' + src.label + '</span>' +
+            (earned ? '<span class="cci-earned">+1 🪙</span>' : '') +
+            '</div>';
     }).join('');
 
     bar.innerHTML =
-        '<div class="cb-balance">' +
-            '<span class="cb-icon">🪙</span>' +
-            '<span>' + tFormat('shop_coin_balance', { coins: balance }) + '</span>' +
+        '<div class="cb-top-row">' +
+            '<div class="cb-balance">' +
+                '<span class="cb-icon">🪙</span>' +
+                '<span>' + tFormat('shop_coin_balance', { coins: balance }) + '</span>' +
+            '</div>' +
+            '<div class="cb-header">' + t('shop_coins_checklist') + '</div>' +
         '</div>' +
-        (todaySources.length
-            ? '<div class="cb-sources">' +
-                '<span style="color:var(--ink-light);font-weight:bold;">' + t('shop_coins_today') + ':</span>' +
-                sourcesHtml +
-              '</div>'
-            : '<div class="cb-sources" style="color:var(--ink-light);font-size:0.75em;">' +
-                t('shop_coins_today') + ': —' +
-              '</div>');
+        '<div class="coin-checklist">' + checklistHtml + '</div>';
 }
 
 function renderShop() {
@@ -2440,7 +3071,7 @@ function shopItemClick(itemId, category, owned, canAfford) {
             XHZ.equipItem(profile.id, itemId, category);
         }
         renderShop();
-        renderItemShelf();
+        renderEquipSlots();
         return;
     }
 
@@ -2485,7 +3116,7 @@ function doPurchase(itemId) {
         showShopToast(tFormat('shop_bought', { name: item.label }));
         renderShop();
         renderCoinBar();
-        renderItemShelf();
+        renderEquipSlots();
     } else if (result.reason === 'insufficient_coins') {
         showShopToast(tFormat('shop_insufficient', { cost: item.coin_cost }));
     } else if (result.reason === 'already_owned') {
@@ -2902,7 +3533,7 @@ function renderNotebook() {
             var nbMeaning = nbLang === 'th'
                 ? (e.meaning_th || (courseWord && courseWord.th) || e.meaning)
                 : e.meaning;
-            return '<div class="nb-compact-entry">' +
+            return '<div class="nb-compact-entry" onclick="openNotebookSheet()">' +
                 '<div class="cce-char">' + escapeHtml(e.char) + '</div>' +
                 '<div class="cce-info">' +
                     '<div class="cce-py">' + escapeHtml(e.pinyin) + '</div>' +

@@ -142,7 +142,7 @@ We introduce three distinct currencies/rewards that don't overlap:
 │   • Word mastery│   • Daily motivation │   • 🏪 Purchase items in Shop   │
 │     tracking    │                      │                                 │
 │                 │                      │   Key constraint:               │
-│ (unchanged)     │ (unchanged)          │   ≤ ~10 coins/day total         │
+│ (unchanged)     │ (unchanged)          │   ≤ ~12 coins/day total         │
 │                 │                      │   (savings model — coins        │
 │                 │                      │    accumulate across days)      │
 └─────────────────┴──────────────────────┴─────────────────────────────────┘
@@ -155,7 +155,7 @@ We introduce three distinct currencies/rewards that don't overlap:
 | **Game stars** | Separate as `game_score`, still fed into profile | **Removed entirely.** Games produce score + coins only |
 | **Game → coins** | +3 coins per game, no daily cap | **+1 coin per game per day max** (each game = 1 mission) |
 | **Badge → coins** | +10 coins per badge (any tier) | **+1 coin per badge tier** (up to 4/day) |
-| **Daily max coins** | ~15+ (no hard cap) | **~8–10 coins/day** (soft cap via design) |
+| **Daily max coins** | ~15+ (no hard cap) | **~10–12 coins/day** (soft cap via design; 1A-locked game pays +2) |
 | **Item pricing** | 5–150 coins | **6–150 coins** (tuned for 8 coins/day earning rate) |
 | **Catalog size** | 14 items | **22 items** (8 new additions) |
 | **Game score role** | Badge calculation input | **Leaderboard only** — no effect on badges, items, or progression |
@@ -281,17 +281,20 @@ This keeps the leaderboard fair while letting each game's internal feel unchange
 
 ### 7.1 New Currency: 🪙 Coins
 
-Coins are a **slow, cumulative saving currency** — max ~8–10 per day, never reset.
+Coins are a **slow, cumulative saving currency** — max ~10–12 per day, never reset.
+
+> **Note:** The future 1A-locked game awards **+2 coins** per completion (instead of the standard +1) because it's harder and requires full course mastery to unlock. This raises the theoretical daily max from ~10 to ~12 coins.
 
 ### 7.2 Coin Sources
 
 | Source | Coins | Frequency | Daily Max |
 |---|---|---|---|
-| **🎮 Complete a game** (win) | +1 🪙 | Once per game per day | 3 (3 games) |
+| **🎮 Complete a game** (win, standard) | +1 🪙 | Once per game per day | 3 (3 games) |
+| **🎮 Complete a game** (win, 1A-locked game) | +2 🪙 | Once per game per day | 2 |
 | **🏅 Earn a daily badge** (per tier) | +1 🪙 | Once per tier per day | 4 (4 tiers) |
 | **📅 Daily login** (visit arena) | +1 🪙 | Once per day | 1 |
 | **📅 Weekly streak** (7-day streak) | +2 🪙 | Once per week | ~0.3/day avg |
-| **Total daily max** | | | **~8–10 🪙** |
+| **Total daily max** | | | **~10–12 🪙** |
 
 #### Daily coin cap design:
 
@@ -302,15 +305,17 @@ Coins are a **slow, cumulative saving currency** — max ~8–10 per day, never 
         │  📅 Daily login  ───→  +1 🪙  │  ← 1 coin per day (arena visit)
         │  Sushi Mode  ───────→  +1 🪙  │  ← 1 coin per game per day
         │  Flash Match ───────→  +1 🪙  │
-        │  Future Game ───────→  +1 🪙  │
-        │                               │
-        │  Keep Going!  ───────→  +1 🪙  │  ← 1 coin per badge tier
-        │  Practice Hero ──────→  +1 🪙  │
-        │  Rising Star  ───────→  +1 🪙  │
-        │  Panda Master ───────→  +1 🪙  │
-        │                               │
-        │  ≈ 8–10 coins/day total       │
-        └──────────────────────────────┘
+  │  Sushi Mode  ───────→  +1 🪙  │  ← 1 coin per game per day
+  │  Flash Match ───────→  +1 🪙  │
+  │  1A-Locked Game ────→  +2 🪙  │  ← 2 coins (harder, locked)
+  │                               │
+  │  Keep Going!  ───────→  +1 🪙  │  ← 1 coin per badge tier
+  │  Practice Hero ──────→  +1 🪙  │
+  │  Rising Star  ───────→  +1 🪙  │
+  │  Panda Master ───────→  +1 🪙  │
+  │                               │
+  │  ≈ 10–12 coins/day total       │
+  └──────────────────────────────┘
 ```
 
 **Important constraints:**
@@ -345,7 +350,7 @@ profile.coins_sources = {       // daily tracking for caps
 };
 ```
 
-> **Note:** Future games are added to `coins_sources` by convention using the format `game_{gameId}`. Each unique `gameId` gets its own daily cap — 1 coin per game per day, enforced by checking if today's date matches the stored date for that key. This extends automatically to any new game without code changes to the cap system.
+> **Note:** Future games are added to `coins_sources` by convention using the format `game_{gameId}`. Each unique `gameId` gets its own daily cap — 1 coin per game per day (or 2 for premium/locked games), enforced by checking if today's date matches the stored date for that key. This extends automatically to any new game without code changes to the cap system.
 >
 > **Note:** `daily_login` is a special source that awards +1 coin per day just for visiting the arena page. Like game coins, it's daily-capped — once earned, revisiting the page the same day gives nothing.
 
@@ -572,9 +577,6 @@ Clothing items (dragon_cape, silk_scarf) use per-pose PNGs so the cape/scarf mat
 | Item ID | Filename | Emoji |
 |---|---|---|
 | `sparkle_aura` | `aura_sparkle.png` | 🌟 |[✓]
-| `flame_aura` | `aura_flame.png` | 🔥 |
-| `rainbow_aura` | `aura_rainbow.png` | 🌈 |
-| `star_glow` | `aura_star_glow.png` | 💫 |
 
 #### Clothing (z-index: 30 — Body overlay)
 
@@ -646,12 +648,12 @@ Back —————————————————————————
 | Type | Count |
 |---|---|
 | Base poses | 4 PNGs |
-| Auras | 4 PNGs |
+| Auras | 1 PNG |
 | Clothing | 8 PNGs (2 items × 4 poses) |
 | Headwear | 5 PNGs |
 | Tools | 6 PNGs |
-| Food | 6 PNGs |
-| **Total** | **33 PNGs** (28 generic + 8 clothing pose variants − 3 generic clothing) |
+| Food | 7 PNGs |
+| **Total** | **31 PNGs** (26 generic + 8 clothing pose variants − 3 generic clothing) |
 
 ---
 
@@ -839,3 +841,4 @@ Back —————————————————————————
 | v3 | 2025-07-24 | Phases 1, 2, 4 fully implemented; updated status tracking
 | v4 | 2025-09-25 | Added daily login coin (+1/day, source `daily_login`); updated daily max to ~8–10 coins; updated coin sources table and storage example
 | v5 | 2025-09-25 | Added visual toast notification on daily login coin award (arena.html, study.html, write.html)
+| v6 | 2026-05-30 | Added 1A-locked future game: +2 coins per completion (vs standard +1); updated daily max to ~10–12 coins

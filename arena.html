@@ -940,9 +940,6 @@
   animation: auraPulse 2.5s ease-in-out infinite;
 }
 .aura-glow.type-sparkle { background: radial-gradient(circle, rgba(255,215,0,0.25) 0%, transparent 65%); }
-.aura-glow.type-flame   { background: radial-gradient(circle, rgba(255,107,53,0.20) 0%, rgba(255,200,50,0.15) 40%, transparent 65%); }
-.aura-glow.type-rainbow { background: radial-gradient(circle, rgba(255,0,0,0.12) 0%, rgba(255,165,0,0.12) 15%, rgba(255,255,0,0.12) 30%, rgba(0,128,0,0.12) 45%, rgba(0,0,255,0.12) 60%, rgba(75,0,130,0.12) 75%, transparent 70%); }
-.aura-glow.type-star    { background: radial-gradient(circle, rgba(100,149,237,0.20) 0%, rgba(255,255,255,0.15) 35%, transparent 65%); }
 .aura-glow.type-empty   { background: transparent; }
 
 /* Clothing placeholder */
@@ -1807,8 +1804,16 @@
         }
         // Clothing items use per-pose PNGs (clothing_{id}_{pose}.png) with fallback to generic
         if (slotId === 'clothing') {
+            // Map variant ID to actual file suffix used in PNG assets
+            var poseSuffixMap = {
+                stand_still:   'stand',
+                foody:         'foody',
+                warrior:       'warrior',
+                foody_warrior: 'foody_warrior'
+            };
             var variantId = _currentVariantId || 'stand_still';
-            var posePath = 'assets/avatars/' + slotId + '_' + cleanId + '_' + variantId + '.png';
+            var poseSuffix = poseSuffixMap[variantId] || 'stand';
+            var posePath = 'assets/avatars/' + slotId + '_' + cleanId + '_' + poseSuffix + '.png';
             img.onerror = function() {
                 var genericSrc = genericPath;
                 this.onerror = function() {

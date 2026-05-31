@@ -420,6 +420,74 @@
 - **Name badge overlap**: `.avatar-name` margin-top from -16px → **-34px** (proportional to 200px panel)
 - User confirmed these sizes look correct
 
+## Zombie Spell Defense — Gameplay Enhancements (v3)
+
+### File
+- **`zombie-game-playground.html`** — standalone playground (like `avatar-playground.html`)
+- **Status:** ✅ Enhanced with clickable slots, slot defeat animation, distance bars, difficulty tuning, bug fixes, enlarged battlefield
+
+### New Features (v3)
+
+**1. Clickable Character Slots**
+- Each filled slot is clickable — click any active zombie's slot to switch writing to that character
+- Active slot gets gold border + golden glow + colored character text
+- Auto-selects first alive zombie on spawn if nothing is being written
+- Edge cases: clicking empty/already-active slot = no-op; defeating active zombie shifts highlight
+
+**2. Slot Defeat Animation**
+- 0.7s animation when zombie dies: pulse (scale 0.92→1.05) → gold glow → red flash → shrink + fade out
+- Inner content fades out simultaneously; pointer-events disabled during animation
+- After animation, slot removed and remaining slots shift left
+
+**3. Distance/HP Bar Under Zombies**
+- Progress bar below each zombie showing remaining distance to castle
+- Green (>50% distance) → Yellow (25-50%) → Red (<25%) with matching glows
+- Width updates each frame with smooth 0.15s transition
+- Fades out during death animation; responsive sizes (36×4 → 30×3 → 26×3)
+
+**4. Easy Mode Slowdown**
+- baseSpeed 0.3 → 0.2 (60% slower than Normal's 0.5)
+- Wave scaling still applies (+0.06/wave, cap 1.5)
+- Start screen footer: "Easy: slow zombies, stroke guide & hints"
+
+### Bug Fixes
+
+**Bug: Writing area stuck on zombie that hit castle**
+- When zombie reaches castle and is removed, writing area now auto-switches to next living zombie or clears
+- Check runs after toRemove cleanup loop in updateGame()
+
+**Bug: Normal mode writing board unresponsive**
+- `showOutline: false` prevented HanziWriter from creating stroke target zones for quiz detection
+- Fix: `showOutline: true` always; Normal mode uses dim `#1E1030` color (nearly invisible against dark canvas)
+- `showCharacter: true` always; charColor dimmer for Normal (`#555577` vs `#8888AA`)
+- Normal mode challenge: no visible outline guide + strict 1.0 leniency + faster zombies
+
+### Enlarged Battlefield
+- `.z-battle-field`: fixed 300px → `flex: 1; min-height: 220px` (fills available space)
+- Responsive min-heights: 180px at 520px, 150px at 360px
+- Spawn margin: hardcoded 10px → `Math.min(fw, fh) * 0.08` (proportional)
+
+### Current Difficulty Matrix
+| Feature | Easy | Normal |
+|---|---|---|
+| Stroke outline guide | Visible `#3D2D55` | Dim `#1E1030` (near invisible) |
+| Character reference | Visible `#8888AA` | Dim `#555577` |
+| Stroke animation speed | 0.5 | 1.0 |
+| Quiz leniency | 1.5 | 1.0 |
+| Base zombie speed | 0.2 | 0.5 |
+| Points per stroke | 10 (30 on crit) | 15 (45 on crit) |
+
+## Mastery Requirement Fix — Both Study & Writing Required for "Mastered"
+
+### Problem
+Users could reach "mastered" status purely through writing. In `_updateWordMastery()`, when `write_cleared_count >= 2`, it auto-set `quiz_cleared = true` — meaning 2 perfect writing scores were enough without studying.
+
+### Fix (`profiles.js`)
+- **Root cause:** Auto-set of `quiz_cleared = true` when `write_cleared_count >= 2` allowed writing alone to unlock "mastered"
+- **Fix:** Removed the auto-set block. `quiz_cleared` now only comes from `markQuizCleared()` in study.html
+- **Result:** Users now MUST both study (quiz_cleared) AND write (2 perfect scores) to reach "mastered"
+- **Backward compat:** `migrateOldMasteryData()` still sets both flags together — old data already met the previous requirements
+
 ## Persistent Issues
 - **Git push silently fails ~50% of the time** from the assistant (basher agent). Fix: always run `git push origin main` explicitly.
 - Notebook table still needs to be applied to Supabase dashboard to eliminate remaining 404

@@ -36,6 +36,12 @@
 ## Critical Logic
 - **Course unlocking:** Sequential — courses lock until previous words are "seen 100%" or "mastered 80%"
 - **Mastery levels:** `unseen → seen → practiced → mastered` (per word_id per profile)
+- **Mastery requires both activities:** A word reaches "mastered" only when BOTH conditions are met:
+  1. **2 perfect writing scores** (3 stars each, tracked via `write_cleared_count`) — in `write.html`
+  2. **Quiz cleared** (passed the flashcard quiz, tracked via `quiz_cleared`) — in `study.html`
+  This ensures users must both study (flashcard quiz) and practice (writing) to progress, preventing mastery from writing alone.
+- **Anti-farming:** Max 3 write scores per word per day. Once mastered, no more stars awarded for that word.
+- **Auto-scroll (write.html):** Toggle button that auto-advances to the next word when it becomes "mastered" after a 3-star write completion.
 - **Scoring:** Stars (1–3) based on mistakes in writing quiz; study flashcards award 1 star per card
 - **Duplicate profiles:** Now checked by nickname only (not nickname+avatar as before). Auto-merge on getAllProfiles() consolidates scores/mastery/items into the keeper profile (most total stars)
 - **Guest profiles:** Created without account; upgrade prompt via inline auth modal (`showAuthModal('upgrade')`)
@@ -48,6 +54,14 @@
 - **Tables:** `profiles`, `scores`, `mastery`, `items` with RLS policies (see `supabase-schema.sql`)
 - **Sync:** Push on every write, pull + merge on page load (`shared/supabase-sync.js`)
 - **Offline:** Graceful — if Supabase unavailable, app works exactly as before
+
+## Zombie Spell Defense — Standalone Playground Built
+
+A stroke-writing game where players use a magic wand to draw Chinese characters and fight off zombies. HanziWriter.js `quiz()` API validates each stroke in real-time — correct strokes damage the zombie, wrong strokes let it advance. Two difficulty levels (Easy with stroke guide, Normal without). Locked behind full course 1A mastery. Rewards +2 🪙 per completion.
+
+**Status:** ✅ Standalone playground built (`zombie-game-playground.html`). Code-reviewed with 6 bugs fixed. Pending user review before porting into React sub-app and adding unlock gating to arena.
+
+See `activeContext.md → Zombie Spell Defense — Playground Built` for full implementation details.
 
 ## Known Inconsistencies (Noted)
 - **Font weight loading varies by page:**

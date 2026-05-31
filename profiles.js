@@ -696,10 +696,6 @@ const XHZ = {
     if (changes.write_cleared === true) {
       entry.write_cleared = true;
       entry.write_cleared_count = (entry.write_cleared_count || 0) + 1;
-      // Auto-set quiz_cleared when reaching the required perfect score count
-      if (entry.write_cleared_count >= 2) {
-        entry.quiz_cleared = true;
-      }
     }
     if (changes.quiz_cleared === true) entry.quiz_cleared = true;
 

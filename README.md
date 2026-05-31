@@ -236,7 +236,7 @@ For games that need reliable tap and drag on iPhone:
 
 **Duplicate profiles:** Auto-detected on `getAllProfiles()` — profiles with the same nickname (case-insensitive) are merged. The profile with the most total stars is kept; scores, mastery, and items from extras are consolidated into the keeper, then extras are deleted.
 
-**Mastery system:** Each word progresses through: `unseen → seen → practiced → mastered`. Progress is tracked per profile per word. Course unlocking uses conditional gates (e.g., "see 100% of words in course 1A to unlock 1B").
+**Mastery system:** Each word progresses through: `unseen → seen → practiced → mastered`. Progress is tracked per profile per word. **Mastery requires both activities:** users must both study (complete the flashcard quiz) AND practice (score 3 stars twice in writing) to reach "mastered". Course unlocking uses conditional gates (e.g., "see 100% of words in course 1A to unlock 1B").
 
 **Scoring:** Writing quizzes award 1–3 stars based on mistakes (0 mistakes = 3 stars, 1–2 = 2 stars, 3+ = 1 star). Study flashcards award 1 star per card. Daily streaks and total stars are tracked. Arena games save session results (score, stage, stars) to the Hall of Fame.
 

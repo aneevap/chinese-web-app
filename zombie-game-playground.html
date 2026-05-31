@@ -1,0 +1,2066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Zombie Siege · 汉字保卫战</title>
+<script src="nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+<link rel="stylesheet" href="shared/design-system.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;600;700;800&family=ZCOOL+KuaiLe&family=Nunito:wght@400;700;800;900&family=Mali:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════ */
+:root {
+    --z-bg:           #120A1E;
+    --z-bg-dark:      #080312;
+    --z-bg-mid:       #1E1030;
+    --z-accent:       #7C3AED;
+    --z-accent-glow:  rgba(124, 58, 237, 0.35);
+    --z-accent-light: #A78BFA;
+    --z-health:       #22C55E;
+    --z-health-glow:  rgba(34, 197, 94, 0.3);
+    --z-damage:       #EF4444;
+    --z-damage-glow:  rgba(239, 68, 68, 0.3);
+    --z-gold:         #FBBF24;
+    --z-gold-glow:    rgba(251, 191, 36, 0.3);
+    --z-mana:         #60A5FA;
+    --z-text:         #F0E8FF;
+    --z-text-soft:    #A898C8;
+    --z-text-light:   #6A5A82;
+    --z-card:         rgba(30, 16, 48, 0.75);
+    --z-card-border:  rgba(61, 45, 85, 0.6);
+    --z-radius:       20px;
+    --z-radius-sm:    12px;
+    --z-radius-xs:    8px;
+    --z-font:         'Nunito', 'Bai Jamjuree', sans-serif;
+    --z-font-hanzi:   'ZCOOL KuaiLe', 'Noto Sans SC', serif;
+    --z-shake-amount: 0;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body {
+    font-family: var(--z-font);
+    background: var(--z-bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: var(--z-text);
+    overflow-x: hidden;
+    position: relative;
+}
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 80% 60% at 20% 80%, rgba(124,58,237,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 80% 20%, rgba(96,165,250,0.04) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+.z-page {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    max-width: 780px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 8px 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* ═══════════════════════════════════════════
+   GLASS HEADER
+═══════════════════════════════════════════ */
+.z-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 6px 12px;
+    background: var(--z-card);
+    border: 1px solid var(--z-card-border);
+    border-radius: var(--z-radius);
+    backdrop-filter: blur(12px);
+    flex-wrap: wrap;
+}
+.z-header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.z-logo {
+    font-family: var(--z-font-hanzi);
+    font-size: 0.82em;
+    color: var(--z-accent-light);
+    font-weight: 900;
+    letter-spacing: 0.5px;
+}
+.z-logo span { color: var(--z-gold); }
+.z-header-stat {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 2px 10px 2px 6px;
+    font-size: 0.72em;
+    font-weight: 800;
+    border-radius: 999px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.06);
+    white-space: nowrap;
+}
+.z-header-stat .z-hs-icon { font-size: 1em; }
+.z-header-stat.z-score  { color: var(--z-gold); }
+.z-header-stat.z-wave   { color: var(--z-accent-light); }
+.z-header-stat.z-castle-hp { color: var(--z-health); }
+.z-header-stat.z-castle-hp.z-chp-low { color: var(--z-damage); }
+#z-sound-btn {
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85em; padding: 0;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: var(--z-font);
+}
+#z-sound-btn:active { transform: scale(0.9); }
+
+/* ═══════════════════════════════════════════
+   BATTLEFIELD — Top-Down View
+═══════════════════════════════════════════ */
+.z-arena {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 0;
+}
+.z-battle-field {
+    position: relative;
+    background:
+        radial-gradient(ellipse 50% 50% at 50% 50%, #1E1030 0%, #140A20 50%, #0E0618 80%, #080312 100%);
+    border: 1px solid var(--z-card-border);
+    border-radius: var(--z-radius);
+    flex: 1;
+    min-height: 220px;
+    overflow: hidden;
+}
+
+/* Grid floor pattern */
+.z-battle-field::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(rgba(124,58,237,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124,58,237,0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Center safe zone glow */
+.z-battle-field::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 100px; height: 100px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: 1;
+    pointer-events: none;
+    animation: safeGlow 3s ease-in-out infinite;
+}
+@keyframes safeGlow {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+    50%      { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+}
+
+/* ── Center castle + wizard ── */
+.z-castle-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    pointer-events: none;
+    filter: drop-shadow(0 0 20px rgba(167,139,250,0.3));
+}
+.z-center-castle-emoji {
+    font-size: 3em;
+    line-height: 1;
+    animation: castleBreath 3s ease-in-out infinite;
+}
+@keyframes castleBreath {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.05); }
+}
+.z-center-wizard {
+    font-size: 2em;
+    line-height: 1;
+    margin-top: -6px;
+    animation: wizardFloat 2.5s ease-in-out infinite;
+}
+@keyframes wizardFloat {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-4px); }
+}
+.z-castle-hp-label {
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.6em;
+    font-weight: 900;
+    color: var(--z-text-soft);
+    background: rgba(0,0,0,0.5);
+    padding: 1px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+    z-index: 6;
+}
+
+/* ── Castle damage flash overlay ── */
+.z-castle-dmg-flash {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 80px; height: 80px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(239,68,68,0.3) 0%, transparent 60%);
+    z-index: 4;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+.z-castle-dmg-flash.z-cdf-active {
+    opacity: 1;
+    animation: cdfPulse 0.5s ease forwards;
+}
+@keyframes cdfPulse {
+    0%   { transform: translate(-50%, -50%) scale(0.5); opacity: 0.8; }
+    50%  { transform: translate(-50%, -50%) scale(2); opacity: 0.4; }
+    100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+}
+
+/* ── Cast spell FX from center ── */
+.z-cast-fx {
+    position: absolute;
+    top: 50%; left: 50%;
+    pointer-events: none;
+    z-index: 8;
+    font-size: 1.6em;
+    animation: castFX 0.4s ease forwards;
+}
+@keyframes castFX {
+    0%   { transform: translate(-50%, -50%) scale(0.3); opacity: 1; }
+    60%  { transform: translate(var(--fx-x, 0px), var(--fx-y, -60px)) scale(1.2); opacity: 1; }
+    100% { transform: translate(var(--fx-x, 0px), var(--fx-y, -60px)) scale(0.5); opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════
+   ZOMBIE — Positions via JS
+═══════════════════════════════════════════ */
+.zombie-container {
+    position: absolute;
+    z-index: 4;
+    pointer-events: none;
+    transition: none;
+    will-change: transform;
+}
+.zombie-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    transition: filter 0.3s;
+}
+.zombie-char-label {
+    font-family: var(--z-font-hanzi);
+    font-size: 1.3em;
+    font-weight: 800;
+    color: var(--z-gold);
+    text-shadow: 0 0 12px var(--z-gold-glow), 0 0 24px rgba(0,0,0,0.8);
+    line-height: 1;
+    margin-bottom: 2px;
+    background: rgba(0,0,0,0.4);
+    padding: 1px 8px;
+    border-radius: 8px;
+    white-space: nowrap;
+}
+.zombie-emoji {
+    font-size: 2.2em;
+    line-height: 1;
+    animation: zombieWalk 2s ease-in-out infinite;
+}
+@keyframes zombieWalk {
+    0%   { transform: translateY(0) rotate(0deg) scaleX(1); }
+    12%  { transform: translateY(-3px) rotate(-2deg) scaleX(1.03); }
+    25%  { transform: translateY(0) rotate(-1deg) scaleX(0.98); }
+    37%  { transform: translateY(-4px) rotate(1deg) scaleX(1.02); }
+    50%  { transform: translateY(-1px) rotate(2deg) scaleX(0.99); }
+    62%  { transform: translateY(-3px) rotate(0deg) scaleX(1.03); }
+    75%  { transform: translateY(0) rotate(1deg) scaleX(0.97); }
+    87%  { transform: translateY(-2px) rotate(-1deg) scaleX(1.02); }
+    100% { transform: translateY(0) rotate(0deg) scaleX(1); }
+}
+
+/* Zombie spawn animation */
+.zombie-container.z-spawn .zombie-emoji {
+    animation: zombieSpawn 0.6s ease forwards;
+}
+@keyframes zombieSpawn {
+    0%   { transform: scale(0.2); opacity: 0; }
+    60%  { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Zombie death */
+.zombie-container.z-dead .zombie-emoji {
+    animation: zombieDeath 0.7s ease forwards !important;
+}
+@keyframes zombieDeath {
+    0%   { transform: scale(1) rotate(0deg); opacity: 1; }
+    30%  { transform: scale(1.3) rotate(10deg); opacity: 1; }
+    60%  { transform: scale(1.1) rotate(-5deg); opacity: 0.7; }
+    100% { transform: scale(0.2) rotate(20deg); opacity: 0; }
+}
+.zombie-container.z-dead .zombie-char-label {
+    animation: labelFade 0.5s ease forwards;
+}
+@keyframes labelFade {
+    0%   { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.3); }
+}
+
+/* Zombie shadow (ground) */
+.zombie-shadow {
+    width: 28px;
+    height: 6px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 50%;
+    margin-top: -2px;
+    animation: shadowWalk 2s ease-in-out infinite;
+}
+@keyframes shadowWalk {
+    0%, 100% { transform: scaleX(1); opacity: 0.3; }
+    50%      { transform: scaleX(0.8); opacity: 0.2; }
+}
+
+/* ═══════════════════════════════════════════
+   ZOMBIE DISTANCE BAR (proximity to castle)
+═══════════════════════════════════════════ */
+.zombie-hp-wrap {
+    width: 36px;
+    height: 4px;
+    background: rgba(0,0,0,0.4);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 0px;
+    position: relative;
+    transition: opacity 0.3s;
+}
+.zombie-hp-fill {
+    height: 100%;
+    width: 100%;
+    border-radius: 2px;
+    transition: width 0.15s linear;
+}
+.zombie-hp-fill.zbf-safe  { background: var(--z-health); box-shadow: 0 0 4px var(--z-health-glow); }
+.zombie-hp-fill.zbf-warn  { background: #FBBF24; box-shadow: 0 0 4px rgba(251,191,36,0.4); }
+.zombie-hp-fill.zbf-danger { background: var(--z-damage); box-shadow: 0 0 4px var(--z-damage-glow); }
+
+/* Fade bar on zombie death */
+.zombie-container.z-dead .zombie-hp-wrap {
+    opacity: 0;
+    transition: opacity 0.3s ease 0.1s;
+}
+
+/* ═══════════════════════════════════════════
+   DEATH PARTICLES (for zombie defeat)
+═══════════════════════════════════════════ */
+.z-death-particle {
+    position: absolute;
+    pointer-events: none;
+    z-index: 10;
+    font-size: 1.3em;
+    animation: deathPart 0.9s ease forwards;
+}
+@keyframes deathPart {
+    0%   { transform: translate(0, 0) scale(0.5); opacity: 1; }
+    50%  { transform: translate(var(--px, 30px), var(--py, -40px)) scale(1.1); opacity: 1; }
+    100% { transform: translate(var(--px2, 60px), var(--py2, -80px)) scale(0.2); opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════
+   SCREEN SHAKE
+═══════════════════════════════════════════ */
+.z-shake {
+    animation: screenShake 0.35s ease;
+}
+@keyframes screenShake {
+    0%   { transform: translate(0, 0); }
+    15%  { transform: translate(-3px, 2px); }
+    30%  { transform: translate(3px, -2px); }
+    45%  { transform: translate(-2px, 2px); }
+    60%  { transform: translate(2px, -3px); }
+    80%  { transform: translate(-1px, 1px); }
+    100% { transform: translate(0, 0); }
+}
+
+/* ═══════════════════════════════════════════
+   CHARACTER SLOTS ROW
+═══════════════════════════════════════════ */
+.z-slots-row {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 2px 0;
+}
+.z-slot {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--z-radius-sm);
+    background: var(--z-card);
+    border: 2px solid var(--z-card-border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    transition: all 0.25s ease;
+    position: relative;
+    flex-shrink: 0;
+}
+.z-slot.z-slot-filled {
+    border-color: var(--z-accent);
+    background: rgba(124,58,237,0.12);
+}
+.z-slot .z-slot-char {
+    font-family: var(--z-font-hanzi);
+    font-size: 1.5em;
+    font-weight: 800;
+    color: var(--z-accent-light);
+    line-height: 1;
+    transition: color 0.3s;
+}
+.z-slot.z-slot-filled .z-slot-char { color: var(--z-text); }
+.z-slot .z-slot-empty-marker {
+    font-size: 0.7em;
+    color: var(--z-text-light);
+    opacity: 0.4;
+}
+.z-slot.z-slot-active {
+    border-color: var(--z-gold);
+    background: rgba(251,191,36,0.12);
+    box-shadow: 0 0 12px var(--z-gold-glow);
+}
+.z-slot.z-slot-active .z-slot-char {
+    color: var(--z-gold);
+    text-shadow: 0 0 8px var(--z-gold-glow);
+}
+.z-slot.z-slot-active .z-slot-zombie-emoji {
+    animation: none;
+}
+.z-slot.z-slot-defeating {
+    animation: slotDefeat 0.7s ease forwards;
+    pointer-events: none;
+}
+.z-slot.z-slot-defeating .z-slot-char,
+.z-slot.z-slot-defeating .z-slot-zombie-emoji {
+    animation: slotContentFade 0.7s ease forwards;
+}
+@keyframes slotDefeat {
+    0%   { transform: scale(1); border-color: var(--z-gold); background: rgba(251,191,36,0.15); box-shadow: 0 0 12px var(--z-gold-glow); }
+    25%  { transform: scale(0.92); border-color: var(--z-gold); background: rgba(251,191,36,0.25); box-shadow: 0 0 18px var(--z-gold-glow); }
+    50%  { transform: scale(1.05); border-color: var(--z-damage); background: rgba(239,68,68,0.2); box-shadow: 0 0 20px var(--z-damage-glow); }
+    70%  { transform: scale(0.95); border-color: var(--z-damage); opacity: 0.6; }
+    100% { transform: scale(0.3); border-color: transparent; opacity: 0; }
+}
+@keyframes slotContentFade {
+    0%   { opacity: 1; transform: scale(1); }
+    40%  { opacity: 1; }
+    70%  { opacity: 0.3; transform: scale(0.5); }
+    100% { opacity: 0; transform: scale(0); }
+}
+.z-slot.z-slot-filled {
+    cursor: pointer;
+}
+.z-slot.z-slot-filled:active {
+    transform: scale(0.94);
+}
+.z-slot .z-slot-zombie-emoji {
+    font-size: 0.55em;
+    line-height: 1;
+    margin-top: -1px;
+    opacity: 0.7;
+}
+
+/* ═══════════════════════════════════════════
+   WRITING AREA
+═══════════════════════════════════════════ */
+.z-writing-area {
+    background: var(--z-card);
+    border: 1px solid var(--z-card-border);
+    border-radius: var(--z-radius);
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    backdrop-filter: blur(8px);
+    transition: border-color 0.3s;
+}
+.z-writing-area.z-area-hit  { border-color: var(--z-health); box-shadow: 0 0 20px var(--z-health-glow); }
+.z-writing-area.z-area-miss { border-color: var(--z-damage); box-shadow: 0 0 20px var(--z-damage-glow); }
+
+.z-char-box-wrapper {
+    flex-shrink: 0;
+    width: min(170px, 30vmin);
+    height: min(170px, 30vmin);
+    position: relative;
+}
+.z-char-box {
+    width: 100%; height: 100%;
+    border-radius: var(--z-radius-sm);
+    background: #0A0612;
+    border: 2px solid var(--z-card-border);
+    overflow: hidden;
+    position: relative;
+}
+.z-char-box .hanzi-writer-canvas { border-radius: var(--z-radius-sm); }
+.z-char-box-wrapper.z-box-easy::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: calc(var(--z-radius-sm) + 3px);
+    background: conic-gradient(from 0deg, var(--z-accent), var(--z-mana), var(--z-accent-light), var(--z-accent));
+    opacity: 0.25;
+    animation: glowSpin 4s linear infinite;
+    z-index: -1;
+}
+@keyframes glowSpin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.z-word-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.z-word-char {
+    font-family: var(--z-font-hanzi);
+    font-size: 2.2em;
+    color: var(--z-accent-light);
+    line-height: 1;
+    font-weight: 400;
+    transition: color 0.3s;
+    text-shadow: 0 0 10px rgba(167,139,250,0.3);
+}
+.z-word-char.z-char-hit  { color: var(--z-health); text-shadow: 0 0 15px var(--z-health-glow); }
+.z-word-char.z-char-miss { color: var(--z-damage); text-shadow: 0 0 15px var(--z-damage-glow); }
+.z-word-pinyin {
+    font-size: 0.85em;
+    font-weight: 800;
+    color: var(--z-text-soft);
+}
+.z-word-meaning {
+    font-size: 0.75em;
+    font-weight: 700;
+    color: var(--z-text-light);
+}
+
+/* ═══════════════════════════════════════════
+   STATUS
+═══════════════════════════════════════════ */
+.z-status {
+    text-align: center;
+    font-size: 0.78em;
+    font-weight: 800;
+    padding: 2px 0;
+    min-height: 1.6em;
+    color: var(--z-text-soft);
+    transition: color 0.25s;
+}
+.z-status.z-s-hit  { color: var(--z-health); }
+.z-status.z-s-miss { color: var(--z-damage); }
+.z-status.z-s-win  { color: var(--z-gold); }
+.z-status.z-s-crit { color: #FF6B6B; }
+
+/* ═══════════════════════════════════════════
+   SCORE POPUP (floating on battlefield)
+═══════════════════════════════════════════ */
+.z-score-popup {
+    position: absolute;
+    z-index: 12;
+    font-weight: 900;
+    pointer-events: none;
+    animation: popFloat 1s ease forwards;
+    font-family: var(--z-font);
+    text-shadow: 0 0 10px currentColor;
+}
+.z-score-popup.z-sp-normal { font-size: 1em; color: var(--z-health); }
+.z-score-popup.z-sp-crit { font-size: 1.5em; color: var(--z-gold); text-shadow: 0 0 15px var(--z-gold-glow); }
+@keyframes popFloat {
+    0%   { transform: translateY(0) scale(0.5); opacity: 0; }
+    20%  { transform: translateY(-8px) scale(1.1); opacity: 1; }
+    40%  { transform: translateY(-16px) scale(1); opacity: 1; }
+    100% { transform: translateY(-40px) scale(0.8); opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════
+   COUNTDOWN OVERLAY
+═══════════════════════════════════════════ */
+.z-countdown {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+    pointer-events: none;
+    opacity: 0;
+}
+.z-countdown.z-cd-visible { opacity: 1; }
+.z-countdown-num {
+    font-size: 4em;
+    font-weight: 900;
+    color: var(--z-accent-light);
+    text-shadow: 0 0 40px var(--z-accent-glow);
+    animation: cdPop 0.45s ease;
+    font-family: var(--z-font);
+}
+@keyframes cdPop {
+    0%   { transform: scale(0.3); opacity: 0; }
+    60%  { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+.z-countdown-num.z-cd-go {
+    color: var(--z-gold);
+    text-shadow: 0 0 50px var(--z-gold-glow);
+}
+
+/* ═══════════════════════════════════════════
+   OVERLAYS (Game Over)
+═══════════════════════════════════════════ */
+.z-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(8, 3, 18, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    backdrop-filter: blur(6px);
+}
+.z-overlay.z-ol-visible { opacity: 1; pointer-events: all; }
+.z-overlay-card {
+    background: var(--z-card);
+    border: 1px solid var(--z-card-border);
+    border-radius: var(--z-radius);
+    padding: 32px 28px;
+    max-width: 380px;
+    width: 90%;
+    text-align: center;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 24px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05);
+    transform: scale(0.85);
+    transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.z-overlay.z-ol-visible .z-overlay-card { transform: scale(1); }
+.z-overlay-icon { font-size: 3.5em; margin-bottom: 8px; line-height: 1; }
+.z-overlay-title {
+    font-size: 1.4em;
+    font-weight: 900;
+    color: var(--z-text);
+    margin-bottom: 4px;
+}
+.z-overlay-sub {
+    font-size: 0.82em;
+    color: var(--z-text-soft);
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.5;
+    white-space: pre-line;
+}
+.z-overlay-stats {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+.z-overlay-stat { text-align: center; }
+.z-overlay-stat-val {
+    font-size: 1.6em;
+    font-weight: 900;
+    color: var(--z-gold);
+    text-shadow: 0 0 10px var(--z-gold-glow);
+}
+.z-overlay-stat-lbl {
+    font-size: 0.6em;
+    font-weight: 700;
+    color: var(--z-text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.z-overlay-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.z-overlay-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 999px;
+    border: none;
+    background: linear-gradient(135deg, var(--z-accent), #6D28D9);
+    color: white;
+    font-size: 0.9em;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: var(--z-font);
+    box-shadow: 0 0 24px var(--z-accent-glow);
+    transition: all 0.2s;
+}
+.z-overlay-btn:active { transform: scale(0.94); }
+.z-overlay-btn.z-ob-secondary {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--z-card-border);
+    box-shadow: none;
+    color: var(--z-text-soft);
+}
+
+/* ═══════════════════════════════════════════
+   START SCREEN
+═══════════════════════════════════════════ */
+.z-start-screen {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    text-align: center;
+    padding: 20px;
+    min-height: 80vh;
+}
+.z-start-screen::before,
+.z-start-screen::after {
+    content: '';
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+}
+.z-start-screen::before {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 60%);
+    top: 10%; left: -80px;
+    animation: orbFloat 8s ease-in-out infinite;
+}
+.z-start-screen::after {
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(96,165,250,0.06) 0%, transparent 50%);
+    bottom: 15%; right: -40px;
+    animation: orbFloat 10s ease-in-out infinite reverse;
+}
+@keyframes orbFloat {
+    0%, 100% { transform: translate(0, 0); }
+    50%      { transform: translate(30px, -20px); }
+}
+.z-start-title {
+    font-family: var(--z-font-hanzi);
+    font-size: 2.4em;
+    font-weight: 900;
+    color: var(--z-text);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+.z-start-title .z-glow { color: var(--z-accent-light); text-shadow: 0 0 20px var(--z-accent-glow); }
+.z-start-title .z-gold { color: var(--z-gold); }
+.z-start-sub {
+    font-size: 0.88em;
+    color: var(--z-text-soft);
+    font-weight: 700;
+    max-width: 400px;
+    line-height: 1.5;
+}
+.z-start-demo {
+    background: var(--z-card);
+    border: 1px solid var(--z-card-border);
+    border-radius: var(--z-radius);
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    max-width: 260px;
+    backdrop-filter: blur(8px);
+}
+.z-start-demo-icon {
+    font-size: 2.5em;
+    animation: demoPulse 2.5s ease-in-out infinite;
+    line-height: 1;
+}
+@keyframes demoPulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.08); }
+}
+.z-start-demo-text {
+    font-size: 0.72em;
+    color: var(--z-text-light);
+    font-weight: 700;
+}
+.z-start-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.z-start-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 30px;
+    border-radius: 999px;
+    border: none;
+    background: linear-gradient(135deg, var(--z-accent), #6D28D9);
+    color: white;
+    font-size: 1em;
+    font-weight: 900;
+    cursor: pointer;
+    font-family: var(--z-font);
+    box-shadow: 0 0 30px var(--z-accent-glow);
+    transition: all 0.2s;
+}
+.z-start-btn:active { transform: scale(0.94); }
+.z-start-btn.z-sb-danger {
+    background: linear-gradient(135deg, #DC2626, #B91C1C);
+    box-shadow: 0 0 30px var(--z-damage-glow);
+}
+.z-start-btn .z-btn-icon { font-size: 1.1em; }
+.z-start-footer {
+    font-size: 0.65em;
+    color: var(--z-text-light);
+    font-weight: 700;
+    max-width: 320px;
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width: 520px) {
+    .z-page { padding: 6px 8px 12px; gap: 5px; }
+    .z-battle-field { min-height: 180px; }
+    .z-header { padding: 5px 8px; gap: 4px; }
+    .z-header-stat { font-size: 0.65em; padding: 2px 6px 2px 4px; }
+    .z-logo { font-size: 0.72em; }
+    .z-castle-center .z-center-castle-emoji { font-size: 2.4em; }
+    .z-castle-center .z-center-wizard { font-size: 1.6em; }
+    .zombie-emoji { font-size: 1.8em; }
+    .zombie-char-label { font-size: 1.1em; }
+    .zombie-hp-wrap { width: 30px; height: 3px; }
+    .z-slot { width: 44px; height: 44px; }
+    .z-slot .z-slot-char { font-size: 1.2em; }
+    .z-writing-area { padding: 8px; gap: 8px; }
+    .z-char-box-wrapper { width: min(130px, 40vmin); height: min(130px, 40vmin); }
+    .z-word-char { font-size: 1.8em; }
+    .z-word-pinyin { font-size: 0.75em; }
+    .z-word-meaning { font-size: 0.68em; }
+    .z-start-title { font-size: 1.8em; }
+    .z-start-btn { font-size: 0.85em; padding: 12px 22px; }
+    .z-overlay-card { padding: 24px 18px; }
+    .z-overlay-stat-val { font-size: 1.3em; }
+    .z-countdown-num { font-size: 3em; }
+}
+
+@media (max-width: 360px) {
+    .z-battle-field { min-height: 150px; }
+    .z-castle-center .z-center-castle-emoji { font-size: 2em; }
+    .z-castle-center .z-center-wizard { font-size: 1.3em; }
+    .zombie-emoji { font-size: 1.5em; }
+    .zombie-char-label { font-size: 0.95em; }
+    .zombie-hp-wrap { width: 26px; height: 3px; }
+    .z-slot { width: 38px; height: 38px; }
+    .z-slot .z-slot-char { font-size: 1em; }
+    .z-char-box-wrapper { width: min(110px, 45vmin); height: min(110px, 45vmin); }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div id="app-nav"></div>
+
+<!-- ═════════════════════════════════════════
+     START SCREEN
+═════════════════════════════════════════ -->
+<div class="z-start-screen" id="z-start-screen">
+    <div class="z-start-title">
+        🧟 <span class="z-glow">Zombie</span> <span class="z-gold">Siege</span>
+    </div>
+    <div class="z-start-sub">
+        Protect the castle! Write Chinese characters to defeat zombies before they reach the wizard!
+    </div>
+    <div class="z-start-demo">
+        <div class="z-start-demo-icon">🏰🧙</div>
+        <div class="z-start-demo-text">Castle HP: 5 ❤️ · Write characters to survive!</div>
+    </div>
+    <div class="z-start-buttons">
+        <button class="z-start-btn" onclick="startGame('easy')">
+            <span class="z-btn-icon">🌟</span> Easy Mode
+        </button>
+        <button class="z-start-btn z-sb-danger" onclick="startGame('normal')">
+            <span class="z-btn-icon">🔥</span> Normal Mode
+        </button>
+    </div>
+    <div class="z-start-footer">
+        Easy: slow zombies, stroke guide &amp; hints · Normal: fast zombies, no guide
+    </div>
+</div>
+
+<!-- ═════════════════════════════════════════
+     GAME SCREEN
+═════════════════════════════════════════ -->
+<div class="z-page" id="z-game-screen" style="display:none;">
+
+    <!-- Header -->
+    <div class="z-header">
+        <div class="z-header-left">
+            <div class="z-logo">🧟 <span>Siege</span></div>
+            <div class="z-header-stat z-score">
+                <span class="z-hs-icon">⭐</span>
+                <span id="z-score-val">0</span>
+            </div>
+            <div class="z-header-stat z-wave">
+                🌊 <span id="z-wave-val">1</span>
+            </div>
+            <div class="z-header-stat z-castle-hp" id="z-castle-hp-stat">
+                ❤️ <span id="z-castle-hp-val">5</span>
+            </div>
+        </div>
+        <button id="z-sound-btn" onclick="ZG.sound.setMuted(!ZG.sound.isMuted())">🔊</button>
+    </div>
+
+    <!-- Arena -->
+    <div class="z-arena">
+
+        <!-- Battle field (top-down) -->
+        <div class="z-battle-field" id="z-battle-field">
+            <!-- Castle damage flash -->
+            <div class="z-castle-dmg-flash" id="z-castle-dmg-flash"></div>
+
+            <!-- Center castle + wizard -->
+            <div class="z-castle-center" id="z-castle-center">
+                <div class="z-castle-hp-label">❤️ Castle</div>
+                <div class="z-center-castle-emoji">🏰</div>
+                <div class="z-center-wizard">🧙</div>
+            </div>
+
+            <!-- Countdown -->
+            <div class="z-countdown" id="z-countdown">
+                <span class="z-countdown-num" id="z-countdown-num">3</span>
+            </div>
+
+            <!-- Zombies will be injected here by JS -->
+        </div>
+
+        <!-- 5 character slots -->
+        <div class="z-slots-row" id="z-slots-row"></div>
+
+        <!-- Status -->
+        <div class="z-status" id="z-status">Prepare for the siege! ⚔️</div>
+
+        <!-- Writing area -->
+        <div class="z-writing-area" id="z-writing-area">
+            <div class="z-char-box-wrapper" id="z-char-box-wrapper">
+                <div class="z-char-box" id="z-quiz-box"></div>
+            </div>
+            <div class="z-word-info">
+                <div class="z-word-char" id="z-word-char">—</div>
+                <div class="z-word-pinyin" id="z-word-pinyin">—</div>
+                <div class="z-word-meaning" id="z-word-meaning">—</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ═════════════════════════════════════════
+     GAME OVER OVERLAY
+═════════════════════════════════════════ -->
+<div class="z-overlay" id="z-game-over-overlay">
+    <div class="z-overlay-card">
+        <div class="z-overlay-icon" id="z-overlay-icon">💀</div>
+        <div class="z-overlay-title" id="z-overlay-title">Game Over!</div>
+        <div class="z-overlay-sub" id="z-overlay-sub">The zombies destroyed the castle!</div>
+        <div class="z-overlay-stats">
+            <div class="z-overlay-stat">
+                <div class="z-overlay-stat-val" id="z-overlay-score">0</div>
+                <div class="z-overlay-stat-lbl">Score</div>
+            </div>
+            <div class="z-overlay-stat">
+                <div class="z-overlay-stat-val" id="z-overlay-waves">0</div>
+                <div class="z-overlay-stat-lbl">Waves</div>
+            </div>
+            <div class="z-overlay-stat">
+                <div class="z-overlay-stat-val" id="z-overlay-kills">0</div>
+                <div class="z-overlay-stat-lbl">Defeated</div>
+            </div>
+        </div>
+        <div class="z-overlay-actions">
+            <button class="z-overlay-btn" onclick="restartGame()">🔄 Play Again</button>
+            <button class="z-overlay-btn z-ob-secondary" onclick="backToStart()">🏠 Menu</button>
+        </div>
+    </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   ZOMBIE SIEGE — Complete Game Engine
+══════════════════════════════════════════════════════════════ */
+
+var ZG = {
+    state:             'start',
+    difficulty:        'easy',
+
+    score:             0,
+    wave:              1,
+    castleHp:          5,
+    maxCastleHp:       5,
+
+    words:             [],
+    wordIndex:         0,
+
+    // Active zombies
+    zombies:           [],   // array of zombie objects
+    maxZombies:        2,    // starts at 2, increases with waves
+
+    // Spawn state
+    spawnTimer:        0,
+    spawnInterval:     4000, // ms
+
+    // Writing
+    writer:            null,
+    currentChar:       null, // the word being written
+
+    // Stats
+    totalKills:        0,
+    totalCorrectStrokes: 0,
+    totalMistakes:      0,
+    gameOver:          false,
+
+    // Animation frame
+    loopId:            null,
+
+    // ZOMBIE EMOJIS
+    ZOMBIE_EMOJIS: ['🧟', '🧟‍♂️', '💀', '👹', '👻'],
+
+    // SLOTS
+    MAX_SLOTS: 5
+};
+
+/* ══════════════════════════════════════════════════════════════
+   SOUND SYSTEM (same as before — Web Audio API)
+══════════════════════════════════════════════════════════════ */
+ZG.sound = (function() {
+    var ctx = null;
+    var masterGain = null;
+    var _muted = false;
+    var _volume = 0.4;
+
+    function getContext() {
+        if (!ctx) {
+            try {
+                ctx = new (window.AudioContext || window.webkitAudioContext)();
+                masterGain = ctx.createGain();
+                masterGain.gain.value = _volume;
+                masterGain.connect(ctx.destination);
+            } catch(e) { return null; }
+        }
+        if (ctx.state === 'suspended') ctx.resume();
+        return ctx;
+    }
+    function isMuted() { return _muted; }
+    function setMuted(m) { _muted = m; var btn = document.getElementById('z-sound-btn'); if (btn) btn.textContent = _muted ? '🔇' : '🔊'; }
+    function getVolume() { return _volume; }
+    function setVolume(v) { _volume = Math.max(0, Math.min(1, v)); if (masterGain) masterGain.gain.value = _volume; }
+
+    function spellCast() {
+        if (_muted) return;
+        var ac = getContext(); if (!ac) return;
+        var n = ac.currentTime;
+        var o = ac.createOscillator(), g = ac.createGain();
+        o.type = 'sine';
+        o.frequency.setValueAtTime(500, n); o.frequency.exponentialRampToValueAtTime(1200, n + 0.12);
+        g.gain.setValueAtTime(0.3, n); g.gain.exponentialRampToValueAtTime(0.001, n + 0.25);
+        o.connect(g); g.connect(masterGain); o.start(n); o.stop(n + 0.25);
+        var o2 = ac.createOscillator(), g2 = ac.createGain();
+        o2.type = 'sine'; o2.frequency.setValueAtTime(1000, n); o2.frequency.exponentialRampToValueAtTime(2400, n + 0.1);
+        g2.gain.setValueAtTime(0.12, n); g2.gain.exponentialRampToValueAtTime(0.001, n + 0.2);
+        o2.connect(g2); g2.connect(masterGain); o2.start(n); o2.stop(n + 0.2);
+    }
+    function zombieGroan() {
+        if (_muted) return;
+        var ac = getContext(); if (!ac) return;
+        var n = ac.currentTime;
+        var o = ac.createOscillator(), g = ac.createGain();
+        o.type = 'sawtooth';
+        o.frequency.setValueAtTime(70, n); o.frequency.linearRampToValueAtTime(55, n + 0.4); o.frequency.linearRampToValueAtTime(80, n + 0.8);
+        g.gain.setValueAtTime(0.15, n); g.gain.linearRampToValueAtTime(0.08, n + 0.3); g.gain.exponentialRampToValueAtTime(0.001, n + 0.9);
+        o.connect(g); g.connect(masterGain); o.start(n); o.stop(n + 0.9);
+    }
+    function victoryFanfare() {
+        if (_muted) return;
+        var ac = getContext(); if (!ac) return;
+        var notes = [523, 659, 784, 1047], now = ac.currentTime;
+        notes.forEach(function(f, i) {
+            var o = ac.createOscillator(), g = ac.createGain();
+            o.type = 'triangle'; o.frequency.value = f;
+            var st = now + 0.08 * i;
+            g.gain.setValueAtTime(0, st); g.gain.linearRampToValueAtTime(0.25, st + 0.04);
+            g.gain.setValueAtTime(0.25, st + 0.2); g.gain.exponentialRampToValueAtTime(0.001, st + 0.45);
+            o.connect(g); g.connect(masterGain); o.start(st); o.stop(st + 0.45);
+        });
+    }
+    function mistake() {
+        if (_muted) return;
+        var ac = getContext(); if (!ac) return;
+        var n = ac.currentTime;
+        var o = ac.createOscillator(), g = ac.createGain();
+        o.type = 'square'; o.frequency.setValueAtTime(150, n); o.frequency.exponentialRampToValueAtTime(80, n + 0.2);
+        g.gain.setValueAtTime(0.2, n); g.gain.exponentialRampToValueAtTime(0.001, n + 0.25);
+        o.connect(g); g.connect(masterGain); o.start(n); o.stop(n + 0.25);
+    }
+    function tick() {
+        if (_muted) return;
+        var ac = getContext(); if (!ac) return;
+        var n = ac.currentTime;
+        var o = ac.createOscillator(), g = ac.createGain();
+        o.type = 'sine'; o.frequency.value = 880;
+        g.gain.setValueAtTime(0.15, n); g.gain.exponentialRampToValueAtTime(0.001, n + 0.1);
+        o.connect(g); g.connect(masterGain); o.start(n); o.stop(n + 0.1);
+    }
+    function goSound() {
+        if (_muted) return;
+        var ac = getContext(); if (!ac) return;
+        var n = ac.currentTime;
+        var o = ac.createOscillator(), g = ac.createGain();
+        o.type = 'sine'; o.frequency.setValueAtTime(600, n); o.frequency.exponentialRampToValueAtTime(1200, n + 0.15);
+        g.gain.setValueAtTime(0.3, n); g.gain.exponentialRampToValueAtTime(0.001, n + 0.3);
+        o.connect(g); g.connect(masterGain); o.start(n); o.stop(n + 0.3);
+    }
+    function gameOver() {
+        if (_muted) return;
+        var ac = getContext(); if (!ac) return;
+        var n = ac.currentTime;
+        var o = ac.createOscillator(), g = ac.createGain();
+        o.type = 'triangle'; o.frequency.setValueAtTime(400, n); o.frequency.exponentialRampToValueAtTime(100, n + 0.8);
+        g.gain.setValueAtTime(0.25, n); g.gain.linearRampToValueAtTime(0.1, n + 0.4); g.gain.exponentialRampToValueAtTime(0.001, n + 0.9);
+        o.connect(g); g.connect(masterGain); o.start(n); o.stop(n + 0.9);
+    }
+
+    return { spellCast: spellCast, zombieGroan: zombieGroan, victoryFanfare: victoryFanfare, mistake: mistake, tick: tick, goSound: goSound, gameOver: gameOver, isMuted: isMuted, setMuted: setMuted, getVolume: getVolume, setVolume: setVolume };
+})();
+
+/* ══════════════════════════════════════════════════════════════
+   WORD DATA — Inline (97 characters from Course 1A)
+══════════════════════════════════════════════════════════════ */
+var INLINE_WORDS = [
+    {"word_id":"1A_001","ch":"一","py":"yī","en":"One","th":"หนึ่ง","theme":"numbers"},
+    {"word_id":"1A_002","ch":"二","py":"èr","en":"Two","th":"สอง","theme":"numbers"},
+    {"word_id":"1A_003","ch":"三","py":"sān","en":"Three","th":"สาม","theme":"numbers"},
+    {"word_id":"1A_004","ch":"十","py":"shí","en":"Ten","th":"สิบ","theme":"numbers"},
+    {"word_id":"1A_005","ch":"八","py":"bā","en":"Eight","th":"แปด","theme":"numbers"},
+    {"word_id":"1A_006","ch":"六","py":"liù","en":"Six","th":"หก","theme":"numbers"},
+    {"word_id":"1A_007","ch":"七","py":"qī","en":"Seven","th":"เจ็ด","theme":"numbers"},
+    {"word_id":"1A_008","ch":"九","py":"jiǔ","en":"Nine","th":"เก้า","theme":"numbers"},
+    {"word_id":"1A_009","ch":"四","py":"sì","en":"Four","th":"สี่","theme":"numbers"},
+    {"word_id":"1A_010","ch":"五","py":"wǔ","en":"Five","th":"ห้า","theme":"numbers"},
+    {"word_id":"1A_011","ch":"两","py":"liǎng","en":"Two (of something)","th":"สอง (สิ่งของ)","theme":"numbers"},
+    {"word_id":"1A_012","ch":"木","py":"mù","en":"Wood","th":"ไม้","theme":"nature"},
+    {"word_id":"1A_013","ch":"禾","py":"hé","en":"Grain / Rice plant","th":"ต้นข้าว","theme":"nature"},
+    {"word_id":"1A_014","ch":"土","py":"tǔ","en":"Soil","th":"ดิน","theme":"nature"},
+    {"word_id":"1A_015","ch":"火","py":"huǒ","en":"Fire","th":"ไฟ","theme":"nature"},
+    {"word_id":"1A_016","ch":"日","py":"rì","en":"Sun / Day","th":"ดวงอาทิตย์","theme":"nature"},
+    {"word_id":"1A_017","ch":"月","py":"yuè","en":"Moon / Month","th":"พระจันทร์","theme":"nature"},
+    {"word_id":"1A_018","ch":"山","py":"shān","en":"Mountain","th":"ภูเขา","theme":"nature"},
+    {"word_id":"1A_019","ch":"水","py":"shuǐ","en":"Water","th":"น้ำ","theme":"nature"},
+    {"word_id":"1A_020","ch":"云","py":"yún","en":"Cloud","th":"เมฆ","theme":"nature"},
+    {"word_id":"1A_021","ch":"雨","py":"yǔ","en":"Rain","th":"ฝน","theme":"nature"},
+    {"word_id":"1A_022","ch":"风","py":"fēng","en":"Wind","th":"ลม","theme":"nature"},
+    {"word_id":"1A_023","ch":"田","py":"tián","en":"Field","th":"ทุ่งนา","theme":"nature"},
+    {"word_id":"1A_024","ch":"米","py":"mǐ","en":"Rice","th":"ข้าว","theme":"nature"},
+    {"word_id":"1A_025","ch":"果","py":"guǒ","en":"Fruit","th":"ผลไม้","theme":"nature"},
+    {"word_id":"1A_026","ch":"马","py":"mǎ","en":"Horse","th":"ม้า","theme":"animals"},
+    {"word_id":"1A_027","ch":"鸟","py":"niǎo","en":"Bird","th":"นก","theme":"animals"},
+    {"word_id":"1A_028","ch":"牛","py":"niú","en":"Cow","th":"วัว","theme":"animals"},
+    {"word_id":"1A_029","ch":"羊","py":"yáng","en":"Sheep","th":"แกะ","theme":"animals"},
+    {"word_id":"1A_030","ch":"鱼","py":"yú","en":"Fish","th":"ปลา","theme":"animals"},
+    {"word_id":"1A_031","ch":"目","py":"mù","en":"Eye","th":"ตา","theme":"body"},
+    {"word_id":"1A_032","ch":"耳","py":"ěr","en":"Ear","th":"หู","theme":"body"},
+    {"word_id":"1A_033","ch":"头","py":"tóu","en":"Head","th":"หัว","theme":"body"},
+    {"word_id":"1A_034","ch":"口","py":"kǒu","en":"Mouth","th":"ปาก","theme":"body"},
+    {"word_id":"1A_035","ch":"手","py":"shǒu","en":"Hand","th":"มือ","theme":"body"},
+    {"word_id":"1A_036","ch":"足","py":"zú","en":"Foot","th":"เท้า","theme":"body"},
+    {"word_id":"1A_037","ch":"心","py":"xīn","en":"Heart","th":"หัวใจ","theme":"body"},
+    {"word_id":"1A_038","ch":"毛","py":"máo","en":"Hair / Fur","th":"ขน","theme":"body"},
+    {"word_id":"1A_039","ch":"牙","py":"yá","en":"Tooth","th":"ฟัน","theme":"body"},
+    {"word_id":"1A_040","ch":"人","py":"rén","en":"Person","th":"คน","theme":"people"},
+    {"word_id":"1A_041","ch":"大","py":"dà","en":"Big","th":"ใหญ่","theme":"people"},
+    {"word_id":"1A_042","ch":"天","py":"tiān","en":"Sky / Day","th":"ท้องฟ้า / วัน","theme":"people"},
+    {"word_id":"1A_043","ch":"文","py":"wén","en":"Language / Culture","th":"ภาษา / วัฒนธรรม","theme":"people"},
+    {"word_id":"1A_044","ch":"儿","py":"ér","en":"Child","th":"เด็ก","theme":"people"},
+    {"word_id":"1A_045","ch":"子","py":"zǐ","en":"Child / Son","th":"ลูก","theme":"people"},
+    {"word_id":"1A_046","ch":"公","py":"gōng","en":"Public / Male elder","th":"สาธารณะ","theme":"people"},
+    {"word_id":"1A_047","ch":"自","py":"zì","en":"Self","th":"ตัวเอง","theme":"people"},
+    {"word_id":"1A_048","ch":"上","py":"shàng","en":"Up / Above","th":"บน","theme":"directions"},
+    {"word_id":"1A_049","ch":"下","py":"xià","en":"Down / Below","th":"ล่าง","theme":"directions"},
+    {"word_id":"1A_050","ch":"中","py":"zhōng","en":"Middle / Center","th":"กลาง","theme":"directions"},
+    {"word_id":"1A_051","ch":"东","py":"dōng","en":"East","th":"ทิศตะวันออก","theme":"directions"},
+    {"word_id":"1A_052","ch":"西","py":"xī","en":"West","th":"ทิศตะวันตก","theme":"directions"},
+    {"word_id":"1A_053","ch":"左","py":"zuǒ","en":"Left","th":"ซ้าย","theme":"directions"},
+    {"word_id":"1A_054","ch":"右","py":"yòu","en":"Right","th":"ขวา","theme":"directions"},
+    {"word_id":"1A_055","ch":"回","py":"huí","en":"Return / Go back","th":"กลับ","theme":"directions"},
+    {"word_id":"1A_056","ch":"出","py":"chū","en":"Exit / Go out","th":"ออก","theme":"directions"},
+    {"word_id":"1A_057","ch":"入","py":"rù","en":"Enter","th":"เข้า","theme":"directions"},
+    {"word_id":"1A_058","ch":"个","py":"gè","en":"(measure word)","th":"ลักษณะนาม","theme":"everyday"},
+    {"word_id":"1A_059","ch":"门","py":"mén","en":"Door","th":"ประตู","theme":"everyday"},
+    {"word_id":"1A_060","ch":"不","py":"bù","en":"No / Not","th":"ไม่","theme":"everyday"},
+    {"word_id":"1A_061","ch":"开","py":"kāi","en":"Open / Start","th":"เปิด","theme":"everyday"},
+    {"word_id":"1A_062","ch":"了","py":"le","en":"(completed action)","th":"(คำช่วย)","theme":"everyday"},
+    {"word_id":"1A_063","ch":"也","py":"yě","en":"Also / Too","th":"ด้วย","theme":"everyday"},
+    {"word_id":"1A_064","ch":"长","py":"cháng","en":"Long","th":"ยาว","theme":"everyday"},
+    {"word_id":"1A_065","ch":"小","py":"xiǎo","en":"Small","th":"เล็ก","theme":"everyday"},
+    {"word_id":"1A_066","ch":"少","py":"shǎo","en":"Few / Little","th":"น้อย","theme":"everyday"},
+    {"word_id":"1A_067","ch":"书","py":"shū","en":"Book","th":"หนังสือ","theme":"everyday"},
+    {"word_id":"1A_068","ch":"车","py":"chē","en":"Vehicle / Car","th":"รถ","theme":"everyday"},
+    {"word_id":"1A_069","ch":"电","py":"diàn","en":"Electricity","th":"ไฟฟ้า","theme":"everyday"},
+    {"word_id":"1A_070","ch":"生","py":"shēng","en":"Born / Life","th":"เกิด / ชีวิต","theme":"everyday"},
+    {"word_id":"1A_071","ch":"年","py":"nián","en":"Year","th":"ปี","theme":"everyday"},
+    {"word_id":"1A_072","ch":"今","py":"jīn","en":"Now / Today","th":"ตอนนี้ / วันนี้","theme":"everyday"},
+    {"word_id":"1A_073","ch":"用","py":"yòng","en":"Use","th":"ใช้","theme":"everyday"},
+    {"word_id":"1A_074","ch":"正","py":"zhèng","en":"Correct / Upright","th":"ถูกต้อง","theme":"everyday"},
+    {"word_id":"1A_075","ch":"飞","py":"fēi","en":"Fly","th":"บิน","theme":"movement"},
+    {"word_id":"1A_076","ch":"走","py":"zǒu","en":"Walk / Go","th":"เดิน","theme":"movement"},
+    {"word_id":"1A_077","ch":"升","py":"shēng","en":"Rise / Go up","th":"ขึ้น","theme":"movement"},
+    {"word_id":"1A_078","ch":"开","py":"kāi","en":"Open / Start","th":"เริ่ม / เปิด","theme":"movement"},
+    {"word_id":"1A_079","ch":"见","py":"jiàn","en":"See / Meet","th":"เห็น / พบ","theme":"movement"},
+    {"word_id":"1A_080","ch":"巾","py":"jīn","en":"Cloth / Towel","th":"ผ้า","theme":"shapes"},
+    {"word_id":"1A_081","ch":"尺","py":"chǐ","en":"Ruler","th":"ไม้บรรทัด","theme":"shapes"},
+    {"word_id":"1A_082","ch":"方","py":"fāng","en":"Square / Direction","th":"สี่เหลี่ยม","theme":"shapes"},
+    {"word_id":"1A_083","ch":"半","py":"bàn","en":"Half","th":"ครึ่ง","theme":"shapes"},
+    {"word_id":"1A_084","ch":"片","py":"piàn","en":"Slice / Piece","th":"ชิ้น","theme":"shapes"},
+    {"word_id":"1A_085","ch":"平","py":"píng","en":"Flat / Peaceful","th":"แบน / สงบ","theme":"shapes"},
+    {"word_id":"1A_086","ch":"白","py":"bái","en":"White","th":"สีขาว","theme":"nature2"},
+    {"word_id":"1A_087","ch":"里","py":"lǐ","en":"Inside","th":"ข้างใน","theme":"nature2"},
+    {"word_id":"1A_088","ch":"皮","py":"pí","en":"Skin / Peel","th":"ผิว","theme":"nature2"},
+    {"word_id":"1A_089","ch":"本","py":"běn","en":"Root / Origin","th":"ราก / ต้นฉบับ","theme":"nature2"},
+    {"word_id":"1A_090","ch":"业","py":"yè","en":"Industry / Work","th":"อุตสาหกรรม","theme":"nature2"},
+    {"word_id":"1A_091","ch":"巴","py":"bā","en":"Tail / Suffix","th":"หาง","theme":"nature2"},
+    {"word_id":"1A_092","ch":"无","py":"wú","en":"None / Without","th":"ไม่มี","theme":"misc"},
+    {"word_id":"1A_093","ch":"又","py":"yòu","en":"Again / Also","th":"อีกครั้ง","theme":"misc"},
+    {"word_id":"1A_094","ch":"力","py":"lì","en":"Strength","th":"แรง","theme":"misc"},
+    {"word_id":"1A_095","ch":"广","py":"guǎng","en":"Wide / Broad","th":"กว้าง","theme":"misc"},
+    {"word_id":"1A_096","ch":"已","py":"yǐ","en":"Already","th":"แล้ว","theme":"misc"},
+    {"word_id":"1A_097","ch":"几","py":"jǐ","en":"How many","th":"กี่","theme":"misc"}
+];
+
+function loadWordData() {
+    ZG.words = INLINE_WORDS.slice();
+    shuffleArray(ZG.words);
+}
+function shuffleArray(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GAME START / RESTART
+══════════════════════════════════════════════════════════════ */
+function startGame(difficulty) {
+    ZG.difficulty = difficulty;
+    ZG.state = 'playing';
+    ZG.score = 0;
+    ZG.wave = 1;
+    ZG.castleHp = ZG.maxCastleHp = 5;
+    ZG.totalKills = 0;
+    ZG.totalCorrectStrokes = 0;
+    ZG.totalMistakes = 0;
+    ZG.wordIndex = 0;
+    ZG.zombies = [];
+    ZG.maxZombies = 2;
+    ZG.spawnTimer = 0;
+    ZG.spawnInterval = 4000;
+    ZG.gameOver = false;
+    ZG.currentChar = null;
+
+    resetZombieId();
+
+    // Reset writing
+    if (ZG.writer) {
+        try { ZG.writer.cancelQuiz(); } catch(e) {}
+        ZG.writer = null;
+    }
+    document.getElementById('z-quiz-box').innerHTML = '';
+
+    var btn = document.getElementById('z-sound-btn');
+    if (btn) btn.textContent = ZG.sound.isMuted() ? '🔇' : '🔊';
+
+    document.getElementById('z-start-screen').style.display = 'none';
+    document.getElementById('z-game-screen').style.display = '';
+    document.getElementById('z-game-over-overlay').classList.remove('z-ol-visible');
+
+    updateHUD();
+    renderSlots();
+    setStatus('Prepare for the siege! ⚔️', '');
+
+    if (!ZG.words || !ZG.words.length) {
+        loadWordData();
+    }
+
+    // Clean battlefield of old elements (except built-in ones)
+    var field = document.getElementById('z-battle-field');
+    var keep = ['z-castle-dmg-flash', 'z-castle-center', 'z-countdown', 'z-countdown-num'];
+    var toRemove = [];
+    field.querySelectorAll('.zombie-container, .z-death-particle, .z-score-popup, .z-cast-fx').forEach(function(el) {
+        toRemove.push(el);
+    });
+    toRemove.forEach(function(el) { el.parentNode.removeChild(el); });
+
+    beginCountdown();
+}
+
+function restartGame() {
+    if (ZG.loopId) { cancelAnimationFrame(ZG.loopId); ZG.loopId = null; }
+    if (ZG.writer) {
+        try { ZG.writer.cancelQuiz(); } catch(e) {}
+        ZG.writer = null;
+    }
+    document.getElementById('z-quiz-box').innerHTML = '';
+    document.getElementById('z-game-over-overlay').classList.remove('z-ol-visible');
+    startGame(ZG.difficulty);
+}
+
+function backToStart() {
+    if (ZG.loopId) { cancelAnimationFrame(ZG.loopId); ZG.loopId = null; }
+    if (ZG.writer) {
+        try { ZG.writer.cancelQuiz(); } catch(e) {}
+        ZG.writer = null;
+    }
+    document.getElementById('z-quiz-box').innerHTML = '';
+    document.getElementById('z-game-screen').style.display = 'none';
+    document.getElementById('z-game-over-overlay').classList.remove('z-ol-visible');
+    document.getElementById('z-start-screen').style.display = '';
+    ZG.state = 'start';
+}
+
+/* ══════════════════════════════════════════════════════════════
+   COUNTDOWN
+══════════════════════════════════════════════════════════════ */
+function beginCountdown() {
+    var overlay = document.getElementById('z-countdown');
+    var num = document.getElementById('z-countdown-num');
+    var vals = ['3', '2', '1'];
+    overlay.classList.add('z-cd-visible');
+    var i = 0;
+    function tick() {
+        if (i < vals.length) {
+            num.textContent = vals[i];
+            num.className = ''; void num.offsetWidth; num.className = 'z-countdown-num';
+            ZG.sound.tick();
+            i++;
+            setTimeout(tick, 600);
+        } else {
+            num.textContent = '⚔️';
+            num.className = ''; void num.offsetWidth; num.className = 'z-countdown-num z-cd-go';
+            ZG.sound.goSound();
+            setTimeout(function() {
+                overlay.classList.remove('z-cd-visible');
+                startWave();
+            }, 500);
+        }
+    }
+    tick();
+}
+
+/* ══════════════════════════════════════════════════════════════
+   WAVE SYSTEM
+══════════════════════════════════════════════════════════════ */
+function startWave() {
+    setStatus('🌊 Wave ' + ZG.wave + ' — zombies approaching!', '');
+
+    // Increase difficulty per wave
+    ZG.maxZombies = Math.min(ZG.MAX_SLOTS, 2 + Math.floor((ZG.wave - 1) / 2));
+    ZG.spawnInterval = Math.max(1200, 4000 - (ZG.wave - 1) * 400);
+
+    // Start game loop
+    if (ZG.loopId) cancelAnimationFrame(ZG.loopId);
+    var lastTime = performance.now();
+    function loop(time) {
+        if (ZG.gameOver || ZG.state === 'start') return;
+        var dt = time - lastTime;
+        lastTime = time;
+        updateGame(dt);
+        ZG.loopId = requestAnimationFrame(loop);
+    }
+    ZG.loopId = requestAnimationFrame(loop);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GAME UPDATE LOOP (per frame)
+══════════════════════════════════════════════════════════════ */
+function updateGame(dt) {
+    var field = document.getElementById('z-battle-field');
+    var fw = field.clientWidth;
+    var fh = field.clientHeight;
+    var cx = fw / 2;
+    var cy = fh / 2;
+    var dangerRadius = 20; // pixels from center = castle hit
+
+    // 1. Move zombies toward center
+    var toRemove = [];
+    for (var i = 0; i < ZG.zombies.length; i++) {
+        var z = ZG.zombies[i];
+        if (z.defeated) continue;
+
+        var dx = cx - z.x;
+        var dy = cy - z.y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < dangerRadius) {
+            // Reached center — damage castle!
+            damageCastle(z);
+            toRemove.push(i);
+            continue;
+        }
+
+        // Move toward center
+        var speed = z.speed * (dt / 16); // normalize to ~60fps
+        z.x += (dx / dist) * speed;
+        z.y += (dy / dist) * speed;
+
+        // Update zombie element position
+        var el = document.getElementById('zombie-' + z.id);
+        if (el) {
+            el.style.transform = 'translate(' + (z.x - 30) + 'px, ' + (z.y - 20) + 'px)';
+        }
+    }
+
+    // Remove zombies that reached center (reverse order)
+    for (var ri = toRemove.length - 1; ri >= 0; ri--) {
+        var idx = toRemove[ri];
+        var z = ZG.zombies[idx];
+        var el = document.getElementById('zombie-' + z.id);
+        if (el && el.parentNode) el.parentNode.removeChild(el);
+        ZG.zombies.splice(idx, 1);
+    }
+
+    // If the current character's zombie was removed (reached castle), switch to next available
+    if (ZG.currentChar && !ZG.gameOver) {
+        var stillAlive = ZG.zombies.some(function(z) { return !z.defeated && z.char === ZG.currentChar.ch; });
+        if (!stillAlive) {
+            loadNextAvailableCharacter();
+        }
+    }
+
+    // 2. Spawn timer
+    if (ZG.zombies.length < ZG.maxZombies) {
+        ZG.spawnTimer -= dt;
+        if (ZG.spawnTimer <= 0) {
+            spawnZombie();
+            ZG.spawnTimer = ZG.spawnInterval;
+        }
+    }
+
+    // 3. Update each zombie's distance bar
+    for (var i = 0; i < ZG.zombies.length; i++) {
+        var z = ZG.zombies[i];
+        if (z.defeated) continue;
+        var dx = cx - z.x;
+        var dy = cy - z.y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        // Max distance is ~ diagonal half of field, cap visibility at ~400px
+        var maxDist = Math.max(fw, fh) * 0.75;
+        var ratio = Math.min(dist / maxDist, 1);
+        var fillEl = document.getElementById('z-hp-fill-' + z.id);
+        if (fillEl) {
+            var pct = Math.round(ratio * 100);
+            fillEl.style.width = pct + '%';
+            // Color transitions: green > 50%, yellow 25-50%, red < 25%
+            fillEl.className = 'zombie-hp-fill' + (pct > 50 ? ' zbf-safe' : pct > 25 ? ' zbf-warn' : ' zbf-danger');
+        }
+    }
+
+    // 4. Update slots
+    updateSlots();
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ZOMBIE SPAWN
+══════════════════════════════════════════════════════════════ */
+var _nextZombieId = 0;
+
+function resetZombieId() { _nextZombieId = 0; }
+
+function spawnZombie() {
+    if (ZG.gameOver) return;
+
+    var field = document.getElementById('z-battle-field');
+    var fw = field.clientWidth;
+    var fh = field.clientHeight;
+
+    // Pick a random edge position
+    var spawnX, spawnY;
+    var edge = Math.floor(Math.random() * 4); // 0=top,1=right,2=bottom,3=left
+    var margin = Math.min(fw, fh) * 0.08;
+    switch (edge) {
+        case 0: spawnX = margin + Math.random() * (fw - margin * 2); spawnY = margin; break;
+        case 1: spawnX = fw - margin; spawnY = margin + Math.random() * (fh - margin * 2); break;
+        case 2: spawnX = margin + Math.random() * (fw - margin * 2); spawnY = fh - margin; break;
+        case 3: spawnX = margin; spawnY = margin + Math.random() * (fh - margin * 2); break;
+    }
+
+    // Pick a character (ensure no duplicate among active zombies)
+    var availableWords = ZG.words.filter(function(w) {
+        return !ZG.zombies.some(function(z) { return z.char === w.ch && !z.defeated; });
+    });
+    if (!availableWords.length) return; // all words in use (unlikely with 97 words and 5 slots)
+
+    var word = availableWords[Math.floor(Math.random() * availableWords.length)];
+    var emoji = ZG.ZOMBIE_EMOJIS[Math.floor(Math.random() * ZG.ZOMBIE_EMOJIS.length)];
+
+    // Speed based on difficulty and wave
+    var baseSpeed = ZG.difficulty === 'easy' ? 0.2 : 0.5;
+    var speed = baseSpeed + (ZG.wave - 1) * 0.06;
+    speed = Math.min(speed, 1.5);
+
+    var id = _nextZombieId++;
+    var zombie = {
+        id: id,
+        x: spawnX,
+        y: spawnY,
+        char: word.ch,
+        word: word,
+        emoji: emoji,
+        speed: speed,
+        defeated: false
+    };
+    ZG.zombies.push(zombie);
+
+    // Create DOM element
+    var container = document.createElement('div');
+    container.className = 'zombie-container z-spawn';
+    container.id = 'zombie-' + id;
+    container.style.transform = 'translate(' + (spawnX - 30) + 'px, ' + (spawnY - 20) + 'px)';
+
+    container.innerHTML =
+        '<div class="zombie-inner">' +
+            '<span class="zombie-char-label">' + word.ch + '</span>' +
+            '<span class="zombie-emoji">' + emoji + '</span>' +
+            '<div class="zombie-shadow"></div>' +
+            '<div class="zombie-hp-wrap"><div class="zombie-hp-fill zbf-safe" id="z-hp-fill-' + id + '" style="width:100%"></div></div>' +
+        '</div>';
+
+    field.appendChild(container);
+
+    // After spawn anim, remove class
+    setTimeout(function() {
+        var el = document.getElementById('zombie-' + id);
+        if (el) el.classList.remove('z-spawn');
+    }, 600);
+
+    ZG.sound.zombieGroan();
+    setStatus('🧟 Zombie appears: 「' + word.ch + '」', '');
+
+    updateSlots();
+
+    // Auto-select first alive zombie if nothing is being written
+    if (!ZG.currentChar && !ZG.gameOver) {
+        var alive = ZG.zombies.filter(function(z) { return !z.defeated; });
+        if (alive.length > 0) {
+            loadCharacterForWriting(alive[0].word);
+        }
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   CASTLE DAMAGE
+══════════════════════════════════════════════════════════════ */
+function damageCastle(zombie) {
+    ZG.castleHp--;
+    updateHUD();
+
+    // Flash damage effect
+    var flash = document.getElementById('z-castle-dmg-flash');
+    flash.classList.remove('z-cdf-active');
+    void flash.offsetWidth;
+    flash.classList.add('z-cdf-active');
+
+    // Screen shake
+    var field = document.getElementById('z-battle-field');
+    field.classList.remove('z-shake');
+    void field.offsetWidth;
+    field.classList.add('z-shake');
+
+    setStatus('💥 Castle hit! ' + ZG.castleHp + ' HP remaining!', 'z-s-miss');
+
+    ZG.sound.mistake();
+
+    if (ZG.castleHp <= 0) {
+        endGame();
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ZOMBIE DEFEATED (character written correctly)
+══════════════════════════════════════════════════════════════ */
+function defeatZombie(zombie) {
+    if (zombie.defeated) return;
+    zombie.defeated = true;
+    ZG.totalKills++;
+
+    // Score
+    var basePoints = ZG.difficulty === 'easy' ? 100 : 150;
+    var waveBonus = ZG.wave * 20;
+    var points = basePoints + waveBonus;
+    ZG.score += points;
+    updateHUD();
+
+    // Animate zombie death
+    var el = document.getElementById('zombie-' + zombie.id);
+    if (el) {
+        el.className = 'zombie-container z-dead';
+        spawnDeathParticles(el);
+    }
+
+    // Animate the matching slot (pulse → fade out)
+    animateSlotDefeat(zombie);
+
+    // Score popup
+    showScorePopup(points);
+
+    // Sound
+    ZG.sound.victoryFanfare();
+
+    // Spell FX from center
+    showCastFX(zombie);
+
+    setStatus('🎉 「' + zombie.char + '」 defeated! +' + points + ' pts', 'z-s-win');
+
+    // Remove zombie from active list after animation
+    setTimeout(function() {
+        var idx = ZG.zombies.indexOf(zombie);
+        if (idx >= 0) ZG.zombies.splice(idx, 1);
+        if (el && el.parentNode) el.parentNode.removeChild(el);
+        updateSlots();
+
+        // Check if we should advance wave
+        if (ZG.totalKills > 0 && ZG.totalKills % 5 === 0) {
+            advanceWave();
+        }
+
+        // Clear current character if it matches
+        if (ZG.currentChar && ZG.currentChar.ch === zombie.char) {
+            ZG.currentChar = null;
+            // Load next available character
+            loadNextAvailableCharacter();
+        }
+    }, 800);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   CHARACTER WRITING MANAGEMENT
+══════════════════════════════════════════════════════════════ */
+function loadCharacterForWriting(word) {
+    if (ZG.gameOver) return;
+    ZG.currentChar = word;
+
+    document.getElementById('z-word-char').textContent = word.ch;
+    document.getElementById('z-word-pinyin').textContent = word.py;
+    var meaning = typeof getNavLang !== 'undefined' && getNavLang() === 'th'
+        ? (word.th || word.en) : (word.en || word.th);
+    document.getElementById('z-word-meaning').textContent = meaning;
+
+    initWriter(word);
+}
+
+function loadNextAvailableCharacter() {
+    if (ZG.gameOver) return;
+    // Find an active zombie and load its character
+    var alive = ZG.zombies.filter(function(z) { return !z.defeated; });
+    if (alive.length > 0) {
+        loadCharacterForWriting(alive[0].word);
+    } else {
+        // No active zombies — clear the writing area
+        ZG.currentChar = null;
+        document.getElementById('z-word-char').textContent = '—';
+        document.getElementById('z-word-pinyin').textContent = '—';
+        document.getElementById('z-word-meaning').textContent = '—';
+        if (ZG.writer) {
+            try { ZG.writer.cancelQuiz(); } catch(e) {}
+            ZG.writer = null;
+        }
+        document.getElementById('z-quiz-box').innerHTML = '';
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   HANZIWRITER INTEGRATION
+══════════════════════════════════════════════════════════════ */
+function initWriter(word) {
+    var box = document.getElementById('z-quiz-box');
+    if (!box) return;
+
+    if (ZG.writer) {
+        try { ZG.writer.cancelQuiz(); } catch(e) {}
+        ZG.writer = null;
+    }
+    box.innerHTML = '';
+
+    var wrapper = document.getElementById('z-char-box-wrapper');
+    wrapper.className = 'z-char-box-wrapper' + (ZG.difficulty === 'easy' ? ' z-box-easy' : '');
+
+    var bw = box.clientWidth || box.offsetWidth;
+    if (bw <= 0) {
+        setTimeout(function() {
+            if (ZG.currentChar && ZG.currentChar.ch === word.ch) initWriter(word);
+        }, 100);
+        return;
+    }
+
+    var isEasy = ZG.difficulty === 'easy';
+
+    try {
+        ZG.writer = HanziWriter.create('z-quiz-box', word.ch, {
+            width: bw,
+            height: bw,
+            padding: 10,
+            showCharacter: true,
+            charColor: isEasy ? '#8888AA' : '#555577',
+            showOutline: true,
+            outlineColor: isEasy ? '#3D2D55' : '#1E1030',
+            strokeColor: '#A78BFA',
+            drawingColor: 'rgba(167, 139, 250, 0.25)',
+            drawingWidth: 3.5,
+            highlightColor: '#7C3AED',
+            highlightCompleteColor: '#7C3AED',
+            leniency: isEasy ? 1.5 : 1.0,
+            strokeAnimationSpeed: isEasy ? 0.7 : 1.0
+        });
+
+        ZG.writer.quiz({
+            onMistake: function() {
+                if (ZG.gameOver) return;
+                ZG.totalMistakes++;
+                onStrokeMistake();
+            },
+            onCorrectStroke: function() {
+                if (ZG.gameOver) return;
+                ZG.totalCorrectStrokes++;
+                onStrokeCorrect();
+            },
+            onComplete: function(summary) {
+                if (ZG.gameOver) return;
+                onWordComplete();
+            }
+        });
+    } catch(e) {
+        console.error('HanziWriter init error:', e);
+        setTimeout(loadNextAvailableCharacter, 1000);
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   STROKE EVENTS
+══════════════════════════════════════════════════════════════ */
+function onStrokeCorrect() {
+    ZG.sound.spellCast();
+    setStatus('✨ Correct stroke!', 'z-s-hit');
+
+    // Flash writing area green
+    document.getElementById('z-writing-area').className = 'z-writing-area z-area-hit';
+    setTimeout(function() {
+        var wa = document.getElementById('z-writing-area');
+        if (wa.classList.contains('z-area-hit')) wa.className = 'z-writing-area';
+    }, 300);
+}
+
+function onStrokeMistake() {
+    ZG.sound.mistake();
+    setStatus('⚠️ Wrong stroke! Keep trying...', 'z-s-miss');
+
+    // Flash writing area red
+    document.getElementById('z-writing-area').className = 'z-writing-area z-area-miss';
+    setTimeout(function() {
+        var wa = document.getElementById('z-writing-area');
+        if (wa.classList.contains('z-area-miss')) wa.className = 'z-writing-area';
+    }, 400);
+
+    // Flash character red
+    var charEl = document.getElementById('z-word-char');
+    charEl.classList.add('z-char-miss');
+    setTimeout(function() { charEl.classList.remove('z-char-miss'); }, 400);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   WORD COMPLETE → Find matching zombie & defeat it
+══════════════════════════════════════════════════════════════ */
+function onWordComplete() {
+    if (!ZG.currentChar) return;
+
+    var writtenChar = ZG.currentChar.ch;
+
+    // Find an active zombie with this character
+    var target = null;
+    for (var i = 0; i < ZG.zombies.length; i++) {
+        if (!ZG.zombies[i].defeated && ZG.zombies[i].char === writtenChar) {
+            target = ZG.zombies[i];
+            break;
+        }
+    }
+
+    if (target) {
+        defeatZombie(target);
+    } else {
+        // No matching zombie — shouldn't happen, but just in case
+        setStatus('⚠️ No zombie found for 「' + writtenChar + '」', '');
+        loadNextAvailableCharacter();
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   WAVE ADVANCE
+══════════════════════════════════════════════════════════════ */
+function advanceWave() {
+    ZG.wave++;
+    updateHUD();
+    setStatus('🌊 Wave ' + ZG.wave + ' arrives! More zombies!', 'z-s-win');
+    ZG.sound.victoryFanfare();
+
+    // Difficulty increases
+    ZG.maxZombies = Math.min(ZG.MAX_SLOTS, 2 + Math.floor((ZG.wave - 1) / 2));
+    ZG.spawnInterval = Math.max(1200, 4000 - (ZG.wave - 1) * 400);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GAME OVER
+══════════════════════════════════════════════════════════════ */
+function endGame() {
+    ZG.gameOver = true;
+    ZG.state = 'gameover';
+
+    if (ZG.loopId) { cancelAnimationFrame(ZG.loopId); ZG.loopId = null; }
+    if (ZG.writer) {
+        try { ZG.writer.cancelQuiz(); } catch(e) {}
+        ZG.writer = null;
+    }
+
+    document.getElementById('z-overlay-icon').textContent = '💀';
+    document.getElementById('z-overlay-title').textContent = 'Game Over!';
+    document.getElementById('z-overlay-score').textContent = ZG.score;
+    document.getElementById('z-overlay-waves').textContent = ZG.wave;
+    document.getElementById('z-overlay-kills').textContent = ZG.totalKills;
+
+    var accuracy = ZG.totalCorrectStrokes + ZG.totalMistakes > 0
+        ? Math.round((ZG.totalCorrectStrokes / (ZG.totalCorrectStrokes + ZG.totalMistakes)) * 100)
+        : 0;
+    document.getElementById('z-overlay-sub').textContent =
+        'The castle has fallen! 💀\nWaves survived: ' + ZG.wave + ' · Accuracy: ' + accuracy + '%';
+
+    ZG.sound.gameOver();
+
+    setTimeout(function() {
+        document.getElementById('z-game-over-overlay').classList.add('z-ol-visible');
+    }, 500);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SLOTS — 5 character boxes
+══════════════════════════════════════════════════════════════ */
+function renderSlots() {
+    var row = document.getElementById('z-slots-row');
+    if (!row) return;
+    row.innerHTML = '';
+    for (var i = 0; i < ZG.MAX_SLOTS; i++) {
+        var slot = document.createElement('div');
+        slot.className = 'z-slot';
+        slot.id = 'z-slot-' + i;
+        slot.setAttribute('onclick', 'onSlotClick(' + i + ')');
+        slot.innerHTML = '<span class="z-slot-char"></span><span class="z-slot-zombie-emoji"></span>';
+        row.appendChild(slot);
+    }
+}
+
+function onSlotClick(index) {
+    var alive = ZG.zombies.filter(function(z) { return !z.defeated; });
+    if (index >= alive.length) return; // empty slot
+    if (ZG.currentChar && ZG.currentChar.ch === alive[index].char) return; // already writing this
+
+    // Cancel current quiz and load the selected zombie's character
+    if (ZG.writer) {
+        try { ZG.writer.cancelQuiz(); } catch(e) {}
+        ZG.writer = null;
+    }
+    document.getElementById('z-quiz-box').innerHTML = '';
+    loadCharacterForWriting(alive[index].word);
+    updateSlots();
+}
+
+function updateSlots() {
+    var alive = ZG.zombies.filter(function(z) { return !z.defeated; });
+    var activeChar = ZG.currentChar ? ZG.currentChar.ch : null;
+    for (var i = 0; i < ZG.MAX_SLOTS; i++) {
+        var slot = document.getElementById('z-slot-' + i);
+        if (!slot) continue;
+        var charEl = slot.querySelector('.z-slot-char');
+        var emojiEl = slot.querySelector('.z-slot-zombie-emoji');
+
+        if (i < alive.length) {
+            var isActive = activeChar && alive[i].char === activeChar;
+            slot.className = 'z-slot z-slot-filled' + (isActive ? ' z-slot-active' : '');
+            charEl.textContent = alive[i].char;
+            emojiEl.textContent = alive[i].emoji;
+        } else {
+            slot.className = 'z-slot';
+            charEl.textContent = '';
+            emojiEl.textContent = '';
+        }
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   UI UPDATES
+══════════════════════════════════════════════════════════════ */
+function updateHUD() {
+    document.getElementById('z-score-val').textContent = ZG.score;
+    document.getElementById('z-wave-val').textContent = ZG.wave;
+    document.getElementById('z-castle-hp-val').textContent = ZG.castleHp;
+    var hpStat = document.getElementById('z-castle-hp-stat');
+    hpStat.classList.toggle('z-chp-low', ZG.castleHp <= 2);
+}
+
+function setStatus(msg, cls) {
+    var el = document.getElementById('z-status');
+    if (el) { el.textContent = msg; el.className = 'z-status' + (cls ? ' ' + cls : ''); }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SLOT DEFEAT ANIMATION
+══════════════════════════════════════════════════════════════ */
+function animateSlotDefeat(zombie) {
+    // Find which slot index this zombie occupies
+    var alive = ZG.zombies.filter(function(z) { return !z.defeated; });
+    // Note: zombie is already marked defeated, but we need the index BEFORE it's removed
+    var all = ZG.zombies;
+    var idx = -1;
+    for (var i = 0; i < all.length; i++) {
+        if (all[i].id === zombie.id) {
+            idx = i;
+            break;
+        }
+    }
+    if (idx < 0) return;
+
+    // Count how many non-defeated zombies come before this one
+    var slotIndex = 0;
+    for (var i = 0; i < idx; i++) {
+        if (!all[i].defeated) slotIndex++;
+    }
+
+    var slot = document.getElementById('z-slot-' + slotIndex);
+    if (slot) {
+        slot.classList.add('z-slot-defeating');
+    }
+}
+
+function showScorePopup(points) {
+    var field = document.getElementById('z-battle-field');
+    if (!field) return;
+    var el = document.createElement('div');
+    el.className = 'z-score-popup z-sp-normal';
+    el.textContent = '+' + points + ' ⭐';
+    el.style.left = (Math.random() * 50 + 25) + '%';
+    el.style.top = (Math.random() * 30 + 20) + '%';
+    el.style.fontSize = '1.2em';
+    field.appendChild(el);
+    setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 1100);
+}
+
+function showCastFX(zombie) {
+    var field = document.getElementById('z-battle-field');
+    if (!field) return;
+    var el = document.createElement('div');
+    el.className = 'z-cast-fx';
+    el.textContent = '✨';
+    // Direction from center toward zombie
+    var dx = zombie.x - field.clientWidth / 2;
+    var dy = zombie.y - field.clientHeight / 2;
+    el.style.setProperty('--fx-x', dx * 0.5 + 'px');
+    el.style.setProperty('--fx-y', dy * 0.5 + 'px');
+    field.appendChild(el);
+    setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 500);
+}
+
+function spawnDeathParticles(el) {
+    if (!el) return;
+    var rect = el.getBoundingClientRect();
+    var emojis = ['💀', '🔥', '💥', '☠️', '💫', '⚡'];
+    var field = document.getElementById('z-battle-field');
+    if (!field) return;
+
+    for (var i = 0; i < 8; i++) {
+        (function() {
+            var p = document.createElement('div');
+            p.className = 'z-death-particle';
+            p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            p.style.left = (rect.left - field.getBoundingClientRect().left + Math.random() * 40) + 'px';
+            p.style.top = (rect.top - field.getBoundingClientRect().top + Math.random() * 20) + 'px';
+            p.style.setProperty('--px', (-30 + Math.random() * 60) + 'px');
+            p.style.setProperty('--py', (-40 + Math.random() * -10) + 'px');
+            p.style.setProperty('--px2', (-60 + Math.random() * 120) + 'px');
+            p.style.setProperty('--py2', (-80 + Math.random() * -20) + 'px');
+            p.style.animationDuration = (0.5 + Math.random() * 0.5) + 's';
+            field.appendChild(p);
+            setTimeout(function() { if (p.parentNode) p.parentNode.removeChild(p); }, 1100);
+        })();
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', function() {
+    initNav('arena');
+    loadWordData();
+    renderSlots();
+    updateHUD();
+});
+</script>
+</body>
+</html>
