@@ -20,7 +20,7 @@
 | `new-learner.html` | New profile creation | ✅ Migrated |
 | `study.html` | Flashcard study + quiz mode | ✅ Migrated |
 | `write.html` | Character writing practice (HanziWriter) | ✅ Migrated |
-| `dojo.html` | Games hub + Hall of Fame | ✅ Migrated |
+| `arena.html` | Games hub + Hall of Fame | ✅ Migrated |
 | `progress.html` | Progress dashboard + settings | ✅ Migrated |
 | `print.html` | Printable worksheets | ✅ Migrated |
 | `games/` (React sub-app) | Sushi drop + matching games | ✅ Migrated |
@@ -30,7 +30,7 @@
 1. **Index** → **New Learner** — Create/select/manage profiles (guest or named)
 2. **Study** — Flip flashcards with pinyin, meaning, audio; quiz mode with star rating
 3. **Write** — Watch stroke animations, trace characters with HanziWriter, speech recognition
-4. **Dojo** — Arcade-style games (matching, sushi drop) with auto-saved Hall of Fame leaderboard
+4. **Arena** — Arcade-style games (matching, sushi drop) with auto-saved Hall of Fame leaderboard
 5. **Progress** — Journey stats, mastery matrix, activity calendar, badges & items, parent settings (auth, export, PIN)
 
 ## Critical Logic
@@ -41,7 +41,7 @@
   2. **Quiz cleared** (passed the flashcard quiz, tracked via `quiz_cleared`) — in `study.html`
   This ensures users must both study (flashcard quiz) and practice (writing) to progress, preventing mastery from writing alone.
 - **Anti-farming:** Max 3 write scores per word per day. Once mastered, no more stars awarded for that word.
-- **Auto-scroll (write.html):** Toggle button that auto-advances to the next word when it becomes "mastered" after a 3-star write completion.
+- **Auto-scroll (write.html):** Toggle button that auto-advances to the next word after completion. Triggers when a word reaches `write_cleared_count >= 2` (2 perfect 3-star writes) OR `status === 'mastered'`. This fixes the issue where "mastered" now requires both study quiz + 2 perfect writes.
 - **Scoring:** Stars (1–3) based on mistakes in writing quiz; study flashcards award 1 star per card
 - **Duplicate profiles:** Now checked by nickname only (not nickname+avatar as before). Auto-merge on getAllProfiles() consolidates scores/mastery/items into the keeper profile (most total stars)
 - **Guest profiles:** Created without account; upgrade prompt via inline auth modal (`showAuthModal('upgrade')`)
@@ -66,5 +66,5 @@ See `activeContext.md → Zombie Spell Defense — Playground Built` for full im
 ## Known Inconsistencies (Noted)
 - **Font weight loading varies by page:**
   - `index.html`, `new-learner.html`, `study.html`, `print.html`: Bai Jamjuree (400,600,700), Nunito (400,700,800,900), Mali (400,700)
-  - `dojo.html`, `progress.html`, `write.html`, `games/index.html`: Bai Jamjuree (400,600,700,800), Nunito (400,700,800), Mali (400,600,700)
+  - `arena.html`, `progress.html`, `write.html`, `games/index.html`: Bai Jamjuree (400,600,700,800), Nunito (400,700,800), Mali (400,600,700)
 - **`strings.js` still contains legacy `signup_*` keys** that were for the deleted `signup.html` page

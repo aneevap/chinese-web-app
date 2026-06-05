@@ -488,6 +488,28 @@ Users could reach "mastered" status purely through writing. In `_updateWordMaste
 - **Result:** Users now MUST both study (quiz_cleared) AND write (2 perfect scores) to reach "mastered"
 - **Backward compat:** `migrateOldMasteryData()` still sets both flags together — old data already met the previous requirements
 
+## Session 64 — Journey Card Redesign & Write Auto-Scroll Fix
+
+### Journey Card Redesign (`progress.html`)
+- Stage images (6 PNGs: egg→hatch→cub→lantern→guardian→champion) replace the old progress bar
+- Full-screen celebration overlay with confetti particles on stage-up
+- Background image placeholder system behind the stage image at 25% opacity
+- Emoji fallback when no image exists; scenic backgrounds per year (village/temple/palace)
+- localStorage stage tracking prevents re-triggering celebrations
+
+### Write Auto-Scroll Fix (`write.html`)
+- **Problem:** Auto-scroll only checked `ma.status === 'mastered'`, but "mastered" now requires study quiz + writing
+- **Fix:** Now checks `write_cleared_count >= 2` (2 perfect 3-star writes) OR `status === 'mastered'`
+- Auto-scroll now triggers when writing practice is fully done, regardless of study quiz status
+
+### Cache buster update
+- `?v=40` → `?v=43` (cumulative across Sessions 52–64)
+
+### Files changed
+- `progress.html` — Journey card redesign + celebration overlay + background placeholder
+- `write.html` — Auto-scroll condition fix
+- `.cline/memory/activeContext.md` — Added background image creation guide
+
 ## Persistent Issues
 - **Git push silently fails ~50% of the time** from the assistant (basher agent). Fix: always run `git push origin main` explicitly.
 - Notebook table still needs to be applied to Supabase dashboard to eliminate remaining 404

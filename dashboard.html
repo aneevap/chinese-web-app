@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en" data-i18n-lang>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+  <title>🐼 学汉字 — Dashboard</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;600;700;800&family=Nunito:wght@400;700;800;900&family=Mali:wght@400;700&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="shared/design-system.css" />
+  <style>
+/* ═══════════════════════════════════════════════════════════════
+   DASHBOARD — CUSTOM STYLES
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --dash-card-radius: 20px;
+  --dash-gap: 16px;
+}
+
+/* ── Layout ── */
+.dash-page {
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 16px 14px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--dash-gap);
+}
+
+/* ── Welcome header ── */
+.dash-welcome {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--paper-warm);
+  border-radius: var(--dash-card-radius);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-card);
+  background-image: url('assets/textures/paper-grain.png');
+  background-blend-mode: multiply;
+}
+.dash-welcome-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--theme-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  flex-shrink: 0;
+  box-shadow: inset 0 -2px 4px rgba(0,0,0,0.08);
+}
+.dash-welcome-text {
+  flex: 1;
+  min-width: 0;
+}
+.dash-welcome-text h1 {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--ink-dark);
+  line-height: 1.2;
+}
+.dash-welcome-text p {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* ── Stats row ── */
+.dash-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.dash-stat {
+  background: var(--paper-warm);
+  border-radius: 14px;
+  padding: 12px 8px;
+  text-align: center;
+  box-shadow: var(--shadow-soft);
+  background-image: url('assets/textures/paper-grain.png');
+  background-blend-mode: multiply;
+}
+.dash-stat-value {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--ink-dark);
+  line-height: 1.2;
+}
+.dash-stat-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--ink-light);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-top: 3px;
+}
+.dash-stat .coin-icon { font-size: 1rem; }
+
+/* ── Section header ── */
+.dash-section-title {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--ink-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── Quest cards ── */
+.dash-quests {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.dash-quest {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--paper-warm);
+  border-radius: var(--dash-card-radius);
+  padding: 16px 18px;
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  transition: all 0.2s;
+  background-image: url('assets/textures/paper-grain.png');
+  background-blend-mode: multiply;
+  text-decoration: none;
+  color: inherit;
+}
+.dash-quest:active { transform: scale(0.98); }
+.dash-quest-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+.dash-quest-icon.q-study {
+  background: #E3F0F7;
+}
+.dash-quest-icon.q-write {
+  background: #F0EDD6;
+}
+.dash-quest-icon.q-arena {
+  background: #F7E8E3;
+}
+.dash-quest-body {
+  flex: 1;
+  min-width: 0;
+}
+.dash-quest-body h3 {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--ink-dark);
+}
+.dash-quest-body .q-sub {
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  font-weight: 600;
+  margin-top: 1px;
+}
+.dash-quest-progress-wrap {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.dash-quest-bar-bg {
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--paper-deep);
+  overflow: hidden;
+}
+.dash-quest-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.4s ease;
+  background: var(--theme-color-deep);
+}
+.dash-quest-bar.bar-study { background: var(--botes-sky-deep); }
+.dash-quest-bar.bar-write { background: var(--botes-ochre-deep); }
+.dash-quest-bar.bar-arena { background: var(--botes-coral-deep); }
+.dash-quest-pct {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--ink-soft);
+  min-width: 30px;
+  text-align: right;
+}
+.dash-quest-arrow {
+  font-size: 1.2rem;
+  color: var(--ink-light);
+  flex-shrink: 0;
+}
+
+/* ── Completed state ── */
+.dash-quest.completed {
+  opacity: 0.75;
+}
+.dash-quest.completed .dash-quest-bar {
+  background: var(--botes-sage-deep) !important;
+}
+.dash-quest .q-check {
+  display: none;
+  font-size: 1.3rem;
+  color: var(--botes-sage-deep);
+  flex-shrink: 0;
+}
+.dash-quest.completed .q-check { display: block; }
+
+/* ── Journey card (embedded) ── */
+#dashboard-journey-card {
+  background: var(--paper-warm);
+  border-radius: var(--dash-card-radius);
+  padding: 16px 18px 18px;
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  transition: all 0.2s;
+  background-image: url('assets/textures/paper-grain.png');
+  background-blend-mode: multiply;
+  position: relative;
+  overflow: hidden;
+}
+#dashboard-journey-card:active { transform: scale(0.98); }
+
+.journey-stage-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 0 2px;
+  position: relative;
+}
+.journey-stage-img {
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  position: relative;
+  z-index: 1;
+  border-radius: 12px;
+}
+.journey-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  opacity: 0.25;
+  z-index: 0;
+  pointer-events: none;
+}
+.journey-bg-img:not([src]), .journey-bg-img[src=""] { opacity: 0; }
+.journey-pct-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+  z-index: 1;
+}
+.journey-pct {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--ink-dark);
+  letter-spacing: -0.02em;
+}
+.journey-title-name {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  font-weight: 700;
+}
+.journey-next-info {
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--ink-light);
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+/* ── Parent Corner ── */
+.dash-parent-section {
+  margin-top: 4px;
+}
+.dash-parent-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px;
+  border-radius: 14px;
+  background: var(--paper-deep);
+  color: var(--ink-light);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  width: 100%;
+  font-family: inherit;
+}
+.dash-parent-toggle:hover { background: #DDD0B5; color: var(--ink-soft); }
+.dash-parent-toggle .pt-arrow {
+  transition: transform 0.2s;
+  font-size: 0.8em;
+}
+.dash-parent-toggle.open .pt-arrow { transform: rotate(180deg); }
+
+.dash-parent-content {
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+.dash-parent-content.open { display: flex; }
+
+.dash-parent-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--paper-warm);
+  box-shadow: var(--shadow-soft);
+  background-image: url('assets/textures/paper-grain.png');
+  background-blend-mode: multiply;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: none;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink-medium);
+  width: 100%;
+  text-align: left;
+  text-decoration: none;
+}
+.dash-parent-link:active { transform: scale(0.97); }
+.dash-parent-link .pl-icon { font-size: 1.3rem; flex-shrink: 0; }
+
+/* ── Welcome overlay (first visit) ── */
+.dash-welcome-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(45, 31, 20, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  padding: 20px;
+}
+.dash-welcome-overlay.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+.dash-welcome-modal {
+  background: var(--paper-cream);
+  background-image: url('assets/textures/paper-grain.png');
+  background-blend-mode: multiply;
+  border-radius: 28px;
+  padding: 32px 28px;
+  max-width: 380px;
+  width: 100%;
+  box-shadow: var(--shadow-lifted);
+  text-align: center;
+  transform: scale(0.85);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.dash-welcome-overlay.visible .dash-welcome-modal {
+  transform: scale(1);
+}
+.wm-emoji {
+  font-size: 4rem;
+  margin-bottom: 8px;
+  display: block;
+}
+.wm-title {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--ink-dark);
+  margin-bottom: 8px;
+}
+.wm-sub {
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.wm-features {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 22px;
+  text-align: left;
+}
+.wm-feature {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: var(--paper-warm);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink-medium);
+  box-shadow: var(--shadow-soft);
+}
+.wm-feature .wmf-icon { font-size: 1.2rem; flex-shrink: 0; }
+.wm-btn {
+  background: var(--ink-dark);
+  color: var(--paper-cream);
+  border-radius: 16px;
+  padding: 14px 32px;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  font-family: inherit;
+  box-shadow: var(--shadow-card);
+}
+.wm-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-lifted); }
+.wm-btn:active { transform: scale(0.97); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 520px) {
+  .dash-stats-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dash-welcome-avatar { width: 46px; height: 46px; font-size: 1.6rem; }
+  .dash-welcome-text h1 { font-size: 1.1rem; }
+  .journey-stage-img { max-width: 160px; }
+}
+@media (max-width: 360px) {
+  .dash-page { padding: 10px 10px 30px; gap: 12px; }
+  .dash-quest { padding: 12px 14px; }
+  .dash-quest-icon { width: 40px; height: 40px; font-size: 1.3rem; }
+}
+  </style>
+</head>
+<body>
+  <div id="page-wrap">
+    <!-- Nav bar: brand only + lang toggle -->
+    <nav class="app-nav" id="app-nav"></nav>
+
+    <!-- Toast container -->
+    <div id="toast-container"></div>
+
+    <!-- Welcome overlay (first visit) -->
+    <div class="dash-welcome-overlay" id="welcome-overlay">
+      <div class="dash-welcome-modal">
+        <span class="wm-emoji">🐼</span>
+        <h2 class="wm-title" data-i18n="dash_welcome_title">Welcome to 学汉字!</h2>
+        <p class="wm-sub" data-i18n="dash_welcome_sub">Your daily Chinese learning adventure starts here. Here's what you can do:</p>
+        <div class="wm-features">
+          <div class="wm-feature">
+            <span class="wmf-icon">📖</span>
+            <span data-i18n="dash_welcome_f1">Study flashcards — see characters, meanings &amp; sentences</span>
+          </div>
+          <div class="wm-feature">
+            <span class="wmf-icon">✍️</span>
+            <span data-i18n="dash_welcome_f2">Practice writing — trace characters with stroke-by-stroke guidance</span>
+          </div>
+          <div class="wm-feature">
+            <span class="wmf-icon">⚔️</span>
+            <span data-i18n="dash_welcome_f3">Play games — earn coins and unlock collectibles in the Arena</span>
+          </div>
+          <div class="wm-feature">
+            <span class="wmf-icon">🏆</span>
+            <span data-i18n="dash_welcome_f4">Track progress — watch your panda grow as you master new words</span>
+          </div>
+        </div>
+        <button class="wm-btn" onclick="closeWelcomeOverlay()" data-i18n="dash_welcome_cta">Let's go! 🚀</button>
+      </div>
+    </div>
+
+    <!-- ══ MAIN DASHBOARD CONTENT ══ -->
+    <div class="dash-page">
+
+      <!-- Welcome header -->
+      <div class="dash-welcome" id="dash-header">
+        <div class="dash-welcome-avatar" id="dash-avatar">🐼</div>
+        <div class="dash-welcome-text">
+          <h1 id="dash-greeting">Hello!</h1>
+          <p id="dash-today-date"></p>
+        </div>
+      </div>
+
+      <!-- Stats row -->
+      <div class="dash-stats-row" id="dash-stats">
+        <div class="dash-stat">
+          <div class="dash-stat-value" id="stat-coins">0</div>
+          <div class="dash-stat-label">🪙</div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-value" id="stat-stars">0</div>
+          <div class="dash-stat-label" data-i18n="stats_total">Total ⭐</div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-value" id="stat-streak">0</div>
+          <div class="dash-stat-label" data-i18n="stats_streak">Streak</div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-value" id="stat-mastered">0</div>
+          <div class="dash-stat-label" data-i18n="stats_mastered">Mastered</div>
+        </div>
+      </div>
+
+      <!-- Today's Quest -->
+      <div>
+        <div class="dash-section-title">🎯 <span data-i18n="dash_quest_title">Today's Quest</span></div>
+        <div class="dash-quests">
+          <!-- Study quest -->
+          <a class="dash-quest" id="quest-study" href="study.html">
+            <div class="dash-quest-icon q-study">📖</div>
+            <div class="dash-quest-body">
+              <h3 data-i18n="activity_study">Study</h3>
+              <div class="q-sub" id="quest-study-sub">0 / 5 cards today</div>
+              <div class="dash-quest-progress-wrap">
+                <div class="dash-quest-bar-bg">
+                  <div class="dash-quest-bar bar-study" id="quest-study-bar" style="width: 0%"></div>
+                </div>
+                <span class="dash-quest-pct" id="quest-study-pct">0%</span>
+              </div>
+            </div>
+            <span class="q-check">✅</span>
+            <span class="dash-quest-arrow">→</span>
+          </a>
+
+          <!-- Write quest -->
+          <a class="dash-quest" id="quest-write" href="write.html">
+            <div class="dash-quest-icon q-write">✍️</div>
+            <div class="dash-quest-body">
+              <h3 data-i18n="activity_write">Write Practice</h3>
+              <div class="q-sub" id="quest-write-sub">0 / 3 characters today</div>
+              <div class="dash-quest-progress-wrap">
+                <div class="dash-quest-bar-bg">
+                  <div class="dash-quest-bar bar-write" id="quest-write-bar" style="width: 0%"></div>
+                </div>
+                <span class="dash-quest-pct" id="quest-write-pct">0%</span>
+              </div>
+            </div>
+            <span class="q-check">✅</span>
+            <span class="dash-quest-arrow">→</span>
+          </a>
+
+          <!-- Arena quest -->
+          <a class="dash-quest" id="quest-arena" href="arena.html">
+            <div class="dash-quest-icon q-arena">⚔️</div>
+            <div class="dash-quest-body">
+              <h3 data-i18n="dash_arena">Arena Games</h3>
+              <div class="q-sub" id="quest-arena-sub">0 / 2 games today</div>
+              <div class="dash-quest-progress-wrap">
+                <div class="dash-quest-bar-bg">
+                  <div class="dash-quest-bar bar-arena" id="quest-arena-bar" style="width: 0%"></div>
+                </div>
+                <span class="dash-quest-pct" id="quest-arena-pct">0%</span>
+              </div>
+            </div>
+            <span class="q-check">✅</span>
+            <span class="dash-quest-arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Journey Card -->
+      <div>
+        <div class="dash-section-title">🐼 <span data-i18n="dash_journey_title">My Journey</span></div>
+        <div id="dashboard-journey-card" onclick="location.href='progress.html'">
+          <div id="title-content">
+            <!-- Rendered by renderTitleProgress() -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Parent Corner -->
+      <div class="dash-parent-section">
+        <button class="dash-parent-toggle" id="parent-toggle" onclick="toggleParentCorner()">
+          🔒 <span data-i18n="parent_settings">Parent Settings</span>
+          <span class="pt-arrow">▾</span>
+        </button>
+        <div class="dash-parent-content" id="parent-content">
+          <a class="dash-parent-link" href="print.html">
+            <span class="pl-icon">🖨️</span>
+            <span data-i18n="activity_print">Print Worksheet</span>
+          </a>
+          <button class="dash-parent-link" onclick="openSettings()">
+            <span class="pl-icon">⚙️</span>
+            <span data-i18n="settings_title">Settings</span>
+          </button>
+          <button class="dash-parent-link" id="btn-clear-data" onclick="if(confirm('Clear all local data?')){localStorage.clear();location.href='index.html';}" style="color: var(--danger);">
+            <span class="pl-icon">🗑️</span>
+            <span>Clear Local Data</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ SCRIPTS ══ -->
+  <script src="shared/design-tokens.js"></script>
+  <script src="shared/supabase-client.js"></script>
+  <script src="shared/supabase-sync.js"></script>
+  <script src="profiles.js"></script>
+  <script src="nav.js"></script>
+  <script src="strings.js"></script>
+  <script src="shared/auth-modal.js"></script>
+  <script>
+/* ═══════════════════════════════════════════════════════════════
+   DASHBOARD — MAIN LOGIC
+   ═══════════════════════════════════════════════════════════════ */
+
+var REWARDS = null;
+var COURSE_DATA = {};
+
+// ── Initialization ──
+document.addEventListener('DOMContentLoaded', function() {
+  XHZ.requireActive();
+  initNav('dashboard');
+
+  // Daily login coin
+  if (XHZ.awardDailyLoginCoin() > 0) {
+    showToast('🪙 +1 Daily login coin!', '', 2500);
+  }
+
+  // Check first visit
+  checkFirstVisit();
+
+  // Load data, then render
+  loadData();
+
+  // Wire language refresh
+  refreshStrings();
+
+  // Guest banner check
+  showGuestWarningIfNeeded();
+
+  console.log('🐼 Dashboard loaded');
+});
+
+function loadData() {
+  Promise.all([
+    fetch('rewards.json').then(function(r) { return r.json(); }),
+    fetch('courses.json').then(function(r) { return r.json(); })
+  ])
+  .then(function(results) {
+    REWARDS = results[0];
+    var coursesData = results[1];
+    var courses = coursesData.courses || [];
+
+    // Load each course's data file for mastery percentage
+    var loads = courses.map(function(c) {
+      return fetch(c.data_file)
+        .then(function(r) { return r.json(); })
+        .then(function(data) { COURSE_DATA[c.id] = data; })
+        .catch(function() { /* skip failed loads */ });
+    });
+
+    return Promise.all(loads);
+  })
+  .then(function() {
+    // Render everything now that data is loaded
+    renderHeader();
+    renderStats();
+    renderQuests();
+    renderJourneyCard();
+  })
+  .catch(function(err) {
+    console.error('Dashboard data load failed:', err);
+    // Still render what we can
+    renderHeader();
+    renderStats();
+    renderQuests();
+  });
+}
+
+// ── First visit welcome overlay ──
+function checkFirstVisit() {
+  var seen = localStorage.getItem('xhz_dash_welcome_seen');
+  if (seen) return;
+  setTimeout(function() {
+    document.getElementById('welcome-overlay').classList.add('visible');
+  }, 400);
+}
+
+function closeWelcomeOverlay() {
+  localStorage.setItem('xhz_dash_welcome_seen', 'true');
+  document.getElementById('welcome-overlay').classList.remove('visible');
+}
+
+// ── Header ──
+function renderHeader() {
+  var profile = XHZ.getActiveProfile();
+  if (!profile) return;
+
+  document.getElementById('dash-avatar').textContent = profile.avatar || '🐼';
+
+  var name = profile.nickname || 'Learner';
+  var hour = new Date().getHours();
+  var greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+  document.getElementById('dash-greeting').textContent = greeting + ', ' + name + '! 🌟';
+
+  var now = new Date();
+  var opts = { weekday: 'long', month: 'long', day: 'numeric' };
+  document.getElementById('dash-today-date').textContent = now.toLocaleDateString('en-US', opts);
+}
+
+// ── Stats ──
+function renderStats() {
+  var profile = XHZ.getActiveProfile();
+  if (!profile) return;
+
+  var coins = XHZ.getCoins(profile.id);
+  var totalStars = XHZ.getTotalStars(profile.id);
+  var streak = XHZ.getCurrentStreak(profile.id);
+
+  // Count mastered words across all courses
+  var allMastery = XHZ.getAllMastery(profile.id);
+  var masteredCount = 0;
+  Object.values(allMastery).forEach(function(m) {
+    if (m.status === 'mastered') masteredCount++;
+  });
+
+  document.getElementById('stat-coins').textContent = coins;
+  document.getElementById('stat-stars').textContent = totalStars;
+  document.getElementById('stat-streak').textContent = streak;
+  document.getElementById('stat-mastered').textContent = masteredCount;
+}
+
+// ── Quests ──
+var QUEST_GOALS = {
+  study: { target: 5 },
+  write: { target: 3 },
+  arena: { target: 2 }
+};
+
+function renderQuests() {
+  var profile = XHZ.getActiveProfile();
+  if (!profile) return;
+
+  var today = XHZ.getTodayScore();
+
+  // Study progress
+  var studyCount = today ? (today.cards_studied ? today.cards_studied.length : 0) : 0;
+  var studyPct = Math.min(100, Math.round((studyCount / QUEST_GOALS.study.target) * 100));
+  document.getElementById('quest-study-sub').textContent = studyCount + ' / ' + QUEST_GOALS.study.target + ' cards today';
+  document.getElementById('quest-study-bar').style.width = studyPct + '%';
+  document.getElementById('quest-study-pct').textContent = studyPct + '%';
+  document.getElementById('quest-study').classList.toggle('completed', studyPct >= 100);
+
+  // Write progress
+  var writeCount = today ? (today.chars_practiced ? today.chars_practiced.length : 0) : 0;
+  var writePct = Math.min(100, Math.round((writeCount / QUEST_GOALS.write.target) * 100));
+  document.getElementById('quest-write-sub').textContent = writeCount + ' / ' + QUEST_GOALS.write.target + ' characters today';
+  document.getElementById('quest-write-bar').style.width = writePct + '%';
+  document.getElementById('quest-write-pct').textContent = writePct + '%';
+  document.getElementById('quest-write').classList.toggle('completed', writePct >= 100);
+
+  // Arena progress
+  var sources = XHZ.getCoinSources(profile.id);
+  var arenaCount = 0;
+  if (sources.game_matching === XHZ.today()) arenaCount++;
+  if (sources.game_sushi === XHZ.today()) arenaCount++;
+  var arenaPct = Math.min(100, Math.round((arenaCount / QUEST_GOALS.arena.target) * 100));
+  document.getElementById('quest-arena-sub').textContent = arenaCount + ' / ' + QUEST_GOALS.arena.target + ' games today';
+  document.getElementById('quest-arena-bar').style.width = arenaPct + '%';
+  document.getElementById('quest-arena-pct').textContent = arenaPct + '%';
+  document.getElementById('quest-arena').classList.toggle('completed', arenaPct >= 100);
+}
+
+// ── Journey Card ──
+function renderJourneyCard() {
+  if (!REWARDS) {
+    // Retry once rewards data is loaded
+    setTimeout(renderJourneyCard, 300);
+    return;
+  }
+  renderTitleProgress();
+}
+
+function getMasteryTitle() {
+  if (!REWARDS || !REWARDS.mastery_titles) {
+    return { emoji: '🥚', title: 'Panda Hatchling', pct: 0, next: null };
+  }
+
+  var profile = XHZ.getActiveProfile();
+  if (!profile) return { emoji: '🥚', title: 'Panda Hatchling', pct: 0, next: null };
+
+  var allMastery = XHZ.getAllMastery(profile.id);
+  var allWords = [];
+  if (typeof COURSE_DATA !== 'undefined') {
+    Object.keys(COURSE_DATA).forEach(function(cid) {
+      if (COURSE_DATA[cid] && COURSE_DATA[cid].words) {
+        allWords = allWords.concat(COURSE_DATA[cid].words);
+      }
+    });
+  }
+  var total = allWords.length;
+  var mastered = 0;
+  allWords.forEach(function(w) {
+    if (allMastery[w.word_id] && allMastery[w.word_id].status === 'mastered') mastered++;
+  });
+  var pct = total > 0 ? Math.round((mastered / total) * 100) : 0;
+
+  // Find current title from rewards
+  var group = REWARDS.mastery_titles[0]; // Year 1 by default
+  if (!group || !group.titles) {
+    return { emoji: '🥚', title: 'Panda Hatchling', pct: pct, next: null };
+  }
+
+  var sorted = group.titles.slice().sort(function(a, b) { return b.min_pct - a.min_pct; });
+  var current = sorted.find(function(t) { return pct >= t.min_pct; }) || sorted[sorted.length - 1];
+  var nextTitle = sorted[sorted.length - 1].min_pct === current.min_pct
+    ? null
+    : sorted[sorted.length - 2];
+
+  return {
+    emoji: current.emoji,
+    title: current.title,
+    pct: pct,
+    next: { emoji: nextTitle ? nextTitle.emoji : '', title: nextTitle ? nextTitle.title : '', min_pct: nextTitle ? nextTitle.min_pct : 100 }
+  };
+}
+
+function getJourneyStageImagePath(info) {
+  if (!info || !info.yearGroup || info.yearGroup !== '1') return null;
+  var pctMap = {
+    '0':   'egg',
+    '20':  'hatch',
+    '40':  'cub',
+    '60':  'lantern',
+    '80':  'guardian',
+    '100': 'champion'
+  };
+  if (!REWARDS || !REWARDS.mastery_titles) return null;
+  var group = REWARDS.mastery_titles.find(function(g) {
+    return String(g.year_group) === String(info.yearGroup);
+  });
+  if (!group) return null;
+  var sorted = group.titles.slice().sort(function(a,b) { return b.min_pct - a.min_pct; });
+  var current = sorted.find(function(t) { return info.pct >= t.min_pct; }) || sorted[sorted.length - 1];
+  var pctKey = String(current.min_pct);
+  if (pctMap[pctKey]) {
+    return 'assets/mascot/journey_village_' + pctMap[pctKey] + '.png';
+  }
+  return null;
+}
+
+function getJourneyStageBgPath(info) {
+  if (!info || !info.yearGroup) return null;
+  var name = 'journey_bg_placeholder.png';
+  if (info.yearGroup === '1')      name = 'journey_village_bg.png';
+  else if (info.yearGroup === '2') name = 'journey_temple_bg.png';
+  else if (info.yearGroup === '3') name = 'journey_palace_bg.png';
+  return 'assets/mascot/' + name;
+}
+
+function renderTitleProgress() {
+  var info = getMasteryTitle();
+  var pct  = info.pct || 0;
+
+  // Build stage image
+  var imgPath = getJourneyStageImagePath(info);
+  var imageHtml;
+  if (imgPath) {
+    imageHtml = '<img class="journey-stage-img" src="' + imgPath + '" alt="' + info.title + '" draggable="false"/>';
+  } else {
+    imageHtml = '<span class="journey-stage-emoji" style="font-size:3.5rem;display:block;line-height:1;">' + info.emoji + '</span>';
+  }
+
+  // Background image
+  var bgPath = getJourneyStageBgPath(info);
+  var bgHtml = bgPath
+    ? '<img class="journey-bg-img" src="' + bgPath + '" alt="" draggable="false" onerror="this.style.display=\'none\'"/>'
+    : '';
+
+  var nextHtml = info.next && info.next.title
+    ? '<div class="journey-next-info">' + tFormat('journey_next', { emoji: info.next.emoji, title: info.next.title, pct: info.next.min_pct }) + '</div>'
+    : '<div class="journey-next-info">' + t('journey_max') + '</div>';
+
+  document.getElementById('title-content').innerHTML =
+    '<div class="journey-stage-wrapper">' +
+      bgHtml +
+      imageHtml +
+      '<div class="journey-pct-row">' +
+        '<span class="journey-pct">' + pct + '%</span>' +
+        '<span class="journey-title-name">' + info.emoji + ' ' + info.title + '</span>' +
+      '</div>' +
+    '</div>' +
+    nextHtml;
+}
+
+// ── Parent Corner ──
+function toggleParentCorner() {
+  var content = document.getElementById('parent-content');
+  var toggle = document.getElementById('parent-toggle');
+  content.classList.toggle('open');
+  toggle.classList.toggle('open');
+}
+
+function openSettings() {
+  // Redirect to index.html which has the PIN gate + settings modal
+  location.href = 'index.html';
+}
+
+// ── Guest warning ──
+function showGuestWarningIfNeeded() {
+  if (!XHZ.shouldWarnGuest()) return;
+  XHZ.markGuestWarned();
+
+  var banner = document.createElement('div');
+  banner.className = 'guest-banner';
+  banner.id = 'guest-banner';
+  banner.innerHTML =
+    '<span>' + t('guest_banner') + '</span>' +
+    '<button onclick="showAuthModal(\'upgrade\')">' + t('save_my_progress') + '</button>' +
+    '<button class="dismiss" onclick="this.parentElement.remove()">✕</button>';
+  var nav = document.getElementById('app-nav');
+  nav.parentNode.insertBefore(banner, nav.nextSibling);
+}
+
+// ── Toast ──
+function showToast(msg, cls, duration) {
+  cls = cls || '';
+  duration = duration || 2500;
+  var container = document.getElementById('toast-container');
+  if (!container) return;
+  var el = document.createElement('div');
+  el.className = 'toast ' + cls;
+  el.textContent = msg;
+  container.appendChild(el);
+  setTimeout(function() {
+    el.style.animation = 'toastOut 0.3s ease forwards';
+    setTimeout(function() { el.remove(); }, 300);
+  }, duration);
+}
+
+// ── Refresh all on lang change ──
+onLangChange(function() {
+  renderHeader();
+  renderQuests();
+  renderTitleProgress();
+  refreshStrings();
+});
+  </script>
+</body>
+</html>

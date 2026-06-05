@@ -215,6 +215,18 @@ var STRINGS = {
     password_strength_strong:     "Strong",
     password_strength_very_strong: "Very Strong",
 
+    // ── Dashboard ──
+    dash_welcome_title:  "Welcome to 学汉字!",
+    dash_welcome_sub:    "Your daily Chinese learning adventure starts here. Here's what you can do:",
+    dash_welcome_f1:     "Study flashcards — see characters, meanings & sentences",
+    dash_welcome_f2:     "Practice writing — trace characters with stroke-by-stroke guidance",
+    dash_welcome_f3:     "Play games — earn coins and unlock collectibles in the Arena",
+    dash_welcome_f4:     "Track progress — watch your panda grow as you master new words",
+    dash_welcome_cta:    "Let's go! 🚀",
+    dash_quest_title:    "Today's Quest",
+    dash_arena:          "Arena Games",
+    dash_journey_title:  "My Journey",
+
     // ── Streak ──
     streak_day:  "day",
     streak_days: "days",
@@ -424,6 +436,18 @@ var STRINGS = {
     password_strength_good:       "ดี",
     password_strength_strong:     "แข็งแรง",
     password_strength_very_strong: "แข็งแรงมาก",
+
+    // ── Dashboard ──
+    dash_welcome_title:  "ยินดีต้อนรับสู่ 学汉字!",
+    dash_welcome_sub:    "การผจญภัยเรียนภาษาจีนประจำวันของคุณเริ่มต้นที่นี่:",
+    dash_welcome_f1:     "📖 เรียนบัตรคำศัพท์ — ดูตัวอักษร ความหมาย และประโยคตัวอย่าง",
+    dash_welcome_f2:     "✍️ ฝึกเขียน — ลากเส้นตัวอักษรตามคำแนะนำทีละขีด",
+    dash_welcome_f3:     "⚔️ เล่นเกม — หาเหรียญและปลดล็อคของสะสมในสนามประลอง",
+    dash_welcome_f4:     "🏆 ติดตามความคืบหน้า — ดูแพนด้าของคุณเติบโตเมื่อคุณเชี่ยวชาญคำศัพท์ใหม่",
+    dash_welcome_cta:    "ไปกันเลย! 🚀",
+    dash_quest_title:    "ภารกิจวันนี้",
+    dash_arena:          "สนามประลอง",
+    dash_journey_title:  "การเดินทางของฉัน",
 
     // ── Streak ──
     streak_day:  "วัน",

@@ -34,15 +34,6 @@ function _setLang(lang) {
 ===================================================== */
 function initNav(activePage, options) {
     options = options || {};
-    var hideLinks = options.hideLinks === true;
-
-    var pages = [
-        { id: 'study', href: 'study.html', icon: '📖', label: 'Study' },
-        { id: 'write', href: 'write.html', icon: '✍️',  label: 'Write' },
-        { id: 'print', href: 'print.html', icon: '🖨️', label: 'Print' },
-        { id: 'arena', href: 'arena.html', icon: '⚔️', label: 'Arena' },
-        { id: 'progress', href: 'progress.html', icon: '🏆', label: 'Progress' }
-    ];
 
     /* ── inject CSS ── */
     var style = document.createElement('style');
@@ -59,7 +50,7 @@ function initNav(activePage, options) {
         }
 
         /* ════════════════════════════
-           TOP NAV BAR (all screen sizes)
+           TOP NAV BAR (minimal — single home icon)
         ════════════════════════════ */
         .app-nav {
             background: var(--nav-teal);
@@ -76,6 +67,9 @@ function initNav(activePage, options) {
         }
 
         .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 6px;
             font-size: 1.05em;
             font-weight: 900;
             color: white;
@@ -83,49 +77,38 @@ function initNav(activePage, options) {
             white-space: nowrap;
             flex-shrink: 0;
         }
+        .nav-brand:hover { opacity: 0.85; }
 
         .nav-right {
             display: flex;
             align-items: center;
             gap: 4px;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
         }
-        .nav-right::-webkit-scrollbar { display: none; }
 
-        /* ── Nav links ── */
-        .nav-links {
-            display: flex;
-            gap: 3px;
-            align-items: center;
-        }
-        .nav-link {
+        /* ── Dashboard home button ── */
+        .nav-home-btn {
             display: flex;
             align-items: center;
             gap: 4px;
-            padding: 6px 12px;
+            padding: 6px 14px;
             border-radius: var(--nav-radius-pill);
             text-decoration: none;
             font-size: 0.8em;
             font-weight: 800;
-            color: rgba(255,255,255,0.7);
+            color: rgba(255,255,255,0.8);
             transition: all 0.2s;
             white-space: nowrap;
             min-height: 36px;
-            flex-shrink: 0;
         }
-        .nav-link:hover {
+        .nav-home-btn:hover {
             background: rgba(255,255,255,0.15);
             color: white;
         }
-        .nav-link.active {
+        .nav-home-btn.active {
             background: var(--nav-white);
             color: var(--nav-teal);
             box-shadow: var(--nav-shadow);
         }
-        .nav-link .nav-icon  { font-size: 1em; }
-        .nav-link .nav-label { font-size: 0.88em; }
 
         /* ── Language toggle ── */
         .nav-lang-btn {
@@ -158,10 +141,6 @@ function initNav(activePage, options) {
         }
 
         /* ════════════════════════════
-           NO BOTTOM NAV — removed entirely
-        ════════════════════════════ */
-
-        /* ════════════════════════════
            RESPONSIVE — MOBILE
         ════════════════════════════ */
         @media (max-width: 600px) {
@@ -171,37 +150,14 @@ function initNav(activePage, options) {
                 padding-top: env(safe-area-inset-top);
                 gap: 6px;
             }
-
             .nav-brand {
                 font-size: 0.92em;
             }
-
-            /* Show links on mobile too — same style, just compact */
-            .nav-links {
-                display: flex;
-                gap: 2px;
-            }
-
-            /* Hide labels on mobile, show only icons */
-            .nav-link .nav-label {
-                display: none;
-            }
-            .nav-link {
+            .nav-home-btn {
                 padding: 6px 10px;
                 min-height: 34px;
                 font-size: 0.9em;
             }
-
-            /* Active item: show label */
-            .nav-link.active .nav-label {
-                display: inline;
-                font-size: 0.82em;
-            }
-            .nav-link.active {
-                padding: 6px 12px;
-            }
-
-            /* Smaller lang toggle */
             .nav-lang-btn {
                 padding: 3px 4px;
                 margin-left: 2px;
@@ -211,12 +167,6 @@ function initNav(activePage, options) {
                 font-size: 0.62em;
                 padding: 2px 6px;
             }
-        }
-
-        @media (max-width: 900px) and (orientation: landscape) {
-            .nav-link .nav-label { display: none; }
-            .nav-link { padding: 6px 10px; }
-            .nav-link.active .nav-label { display: inline; }
         }
     `;
     document.head.appendChild(style);
@@ -234,32 +184,20 @@ function initNav(activePage, options) {
     if (topNav) {
         topNav.className = 'app-nav';
 
-        var brandHTML =
-            '<a class="nav-brand" href="index.html">🐼 学汉字</a>';
-
-        var linksHTML = '';
-        if (!hideLinks) {
-            linksHTML =
-                '<nav class="nav-links">' +
-                pages.map(function(p) {
-                    return '<a href="' + p.href + '" class="nav-link' +
-                        (p.id === activePage ? ' active' : '') + '">' +
-                        '<span class="nav-icon">'  + p.icon  + '</span>' +
-                        '<span class="nav-label">' + p.label + '</span>' +
-                        '</a>';
-                }).join('') +
-                '</nav>';
-        }
+        var isDashboard = (activePage === 'dashboard');
+        var homeIcon = isDashboard ? '🏠' : '🏠';
+        var homeLabel = isDashboard ? '' : '';
 
         topNav.innerHTML =
-            brandHTML +
+            '<a class="nav-brand" href="dashboard.html">🐼 学汉字</a>' +
             '<div class="nav-right">' +
-                linksHTML +
+                '<a href="dashboard.html" class="nav-home-btn' +
+                    (isDashboard ? ' active' : '') + '">' +
+                    homeIcon + ' ' + homeLabel +
+                '</a>' +
                 langHTML +
             '</div>';
     }
-
-    /* ── NO bottom nav created ── */
 }
 
 /* ── theme color sync ── */

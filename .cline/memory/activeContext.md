@@ -70,18 +70,18 @@ The Hall of Fame in `dojo.html` is **plain JavaScript**, not React/TypeScript. C
 
 This project has a **dual delivery setup**:
 - **Source files** (`games/src/`) — edited directly but only served by Vite dev server
-- **Production bundle** (`games/dist/assets/game.js`) — pre-built snapshot loaded by `dojo.html`
+- **Production bundle** (`games/dist/assets/game.js`) — pre-built snapshot loaded by `arena.html`
 
 **Any change to `games/src/` requires:**
 1. `cd games && npm run build` — rebuilds `dist/assets/game.js`
-2. Bump the `?v=` cache-buster in `dojo.html`'s script tag (e.g., `?v=38`)
+2. Bump the `?v=` cache-buster in `arena.html`'s script tag (e.g., `?v=43`)
 3. Hard refresh the browser (Ctrl+Shift+R / Cmd+Shift+R)
 
-Editing source files alone will NOT update the live game visible through `dojo.html`.
+Editing source files alone will NOT update the live game visible through `arena.html`.
 
-### Image paths resolve from dojo.html, not component file
+### Image paths resolve from arena.html, not component file
 
-React components in `games/src/modes/matching/MatchingMode.tsx` reference images like `src="assets/mascot/pandarocket.png"`. Despite the component file being nested 5 directories deep, the path is relative to `dojo.html` at the project root. Using `../assets/mascot/` goes one level above the repo root → image not found.
+React components in `games/src/modes/matching/MatchingMode.tsx` reference images like `src="assets/mascot/pandarocket.png"`. Despite the component file being nested 5 directories deep, the path is relative to `arena.html` at the project root. Using `../assets/mascot/` goes one level above the repo root → image not found.
 
 **Fix:** Always use `assets/mascot/...` (without `../`) for images in matching/sushi mode components.
 
@@ -93,7 +93,7 @@ React components in `games/src/modes/matching/MatchingMode.tsx` reference images
 
 `align-self: center` on a flex child works in most browsers but can fail on iOS Safari, especially when the child is `display: grid`. **Fix:** Use `align-items: center` on the parent flex container, then undo with `align-self: stretch` on children that need full width.
 
-- Session 44: `v=39` → `v=40` (score multiplier + stars removal + HOF migration)
+- Session 44: `v=39` → `v=40`
 
 ## Session 46 — Phase 3: Shop Toggle (Hide items behind Enter Shop button)
 
@@ -148,7 +148,7 @@ Used the same `.section-hidden` pattern from write.html — shop items hidden be
 - Fixed badge coin awarding: was looping all 4 BADGE_TIERS on any badge change → now awards 1 coin for the specific newly unlocked badge only
 
 **Cache buster tracking:**
-- Phase 2 does not add a cache buster change (no game code changes since Session 44)
+- No game code changes since Session 44
 
 ---
 
@@ -249,6 +249,8 @@ Two critical bugs made the progress page panda display show emojis instead of re
 
 ## ✅ Working Correctly
 
+- **Journey card redesign:** Stage images with celebration overlay and confetti, background placeholder system
+- **Write auto-scroll:** Advances after 2 perfect 3-star writes (not just "mastered")
 - **Panda mascot display:** Real PNG overlays load correctly, accessory items render on proper layers, variant detection works for accessories
 - **Design system migration:** All 8 pages use design system CSS variables
 - **Hall of Fame:** Auto-saves scores, leaderboard in result screens, global shared leaderboard via Supabase
@@ -267,7 +269,7 @@ Two critical bugs made the progress page panda display show emojis instead of re
 
 ## Known Issues
 
-- Dojo cards background still lighter than page (user preference: match paper-warm with grain)
+- Arena cards background still lighter than page (user preference: match paper-warm with grain)
 - User could close recovery modal without setting password (leaves recovery-limited session)
 - Stage 1 grid (3×3) has 1 empty cell — 9 cells with only 8 tiles (4 pairs). The last cell is unfilled.
 - Stage 2 and 3 have the same grid config (3×4) — no difficulty increase between them.
@@ -542,39 +544,67 @@ Users could reach "mastered" status purely through writing. In `_updateWordMaste
 ### Files changed
 - `profiles.js` — removed 4 lines in `_updateWordMastery()`
 
-## Journey Card Redesign — Image Asset Preparation Guide
+## Session 64 — Journey Card Redesign & Write Auto-Scroll Fix
 
-### Vision
-Replace the current Journey card's progress bar with a large stage-appropriate image. Show just the percentage number (no bar). When a new stage is reached, a full-screen celebration overlay pops up and the image transitions to the next stage.
+### Journey Card Redesign (`progress.html`)
 
-### Images needed (Year 1 — The Village)
+**Stage images replace progress bar:** Each mastery stage now shows a large panda PNG instead of a progress bar. 6 village stage images (0%→100%) with full-screen celebration overlay on stage-up.
 
-Start with these 6 square PNGs (400×400 px recommended, transparent background, panda centered):
+**Changes:**
+- Added `getJourneyStageImagePath(info)` — maps mastery stage to `journey_village_{egg,hatch,cub,lantern,guardian,champion}.png`
+- Added `getJourneyStageBgPath(info)` — maps year group to `journey_{village,temple,palace}_bg.png` placeholder (at 25% opacity)
+- Added `.journey-stage-wrapper`, `.journey-stage-img`, `.journey-bg-img`, `.journey-pct-row`, `.journey-pct`, `.journey-title-name` CSS
+- Added `.journey-celebration` overlay with confetti particles (40 pieces, random colors)
+- Added `checkAndTriggerCelebration()`, `showJourneyCelebration()`, `closeJourneyCelebration()`, `generateConfetti()`
+- Added `getCelebratedStages()` / `markStageCelebrated()` — localStorage tracking, fires once per stage
+- Scenic backgrounds per year: `.scene-village` (green), `.scene-temple` (purple), `.scene-palace` (gold)
+- Emoji fallback if image doesn't exist
 
-| # | Stage (Mastery %) | Current Emoji | Suggested Filename | Suggested Scene |
-|---|-------------------|--------------|-------------------|-----------------|
-| 1 | **Panda Hatchling** (0%) | 🥚 | `journey_village_egg.png` | A cute panda-themed egg |
-| 2 | **Bamboo Cub** (20%) | 🐾 | `journey_village_hatch.png` | Egg cracking open, tiny panda cub peeking out |
-| 3 | **Village Wanderer** (40%) | 🌿 | `journey_village_cub.png` | Small panda cub exploring with bamboo leaves |
-| 4 | **Lantern Carrier** (60%) | 🪔 | `journey_village_lantern.png` | Panda cub holding a festival lantern |
-| 5 | **Bamboo Guardian** (80%) | 🎋 | `journey_village_guardian.png` | Panda standing tall, holding a bamboo staff |
-| 6 | **Village Champion** (100%) | 🏮 | `journey_village_champion.png` | Triumphant panda with champion pose |
+### Write Auto-Scroll Fix (`write.html`)
 
-**Place in:** `assets/mascot/` (alongside existing panda PNGs)
+**Problem:** Auto-scroll only checked `ma.status === 'mastered'`, but "mastered" now requires both study quiz AND 2 perfect writes. Users who completed writing felt the auto-mode was broken.
 
-### Optional: Year 2 & Year 3
-Same panda character, different settings/outfits:
-- **Year 2 — The Temple (6 PNGs):** Panda in temple robes, exploring shrines, reading scrolls. Filenames: `journey_temple_*.png`
-- **Year 3 — The Palace (6 PNGs):** Panda in imperial attire, at court, crowned. Filenames: `journey_palace_*.png`
+**Fix:** Auto-scroll now checks `write_cleared_count >= 2` (2 perfect 3-star writes) OR `status === 'mastered'`. This matches the user's expectation: "after 2 perfect writing scores, move to the next word."
 
-### Implementation plan (once images are ready)
-1. Replace the progress bar with a large centered image area (`<img>` tag)
-2. Show percentage number below the image (`42%`)
-3. Build full-screen celebration overlay triggered when `getMasteryTitle()` returns a new stage
-4. Add CSS animations: image transition on stage change, confetti/particles on celebration overlay
+**Files changed:** `progress.html`, `write.html`
+
+### Cache buster update
+- `?v=40` → `?v=43` on arena.html's game.js script tag (cumulative across Sessions 52-64)
+
+---
+
+## Journey Background Images — Creation Guide
+
+Place **square PNGs** (400×400 px recommended, transparent background preferred) in:
+
+**`assets/mascot/`**
+
+### Stage images (already in place ✓)
+| # | Filename | Stage |
+|---|----------|-------|
+| 1 | `journey_village_egg.png` | Panda Hatchling (0%) |
+| 2 | `journey_village_hatch.png` | Bamboo Cub (20%) |
+| 3 | `journey_village_cub.png` | Village Wanderer (40%) |
+| 4 | `journey_village_lantern.png` | Lantern Carrier (60%) |
+| 5 | `journey_village_guardian.png` | Bamboo Guardian (80%) |
+| 6 | `journey_village_champion.png` | Village Champion (100%) |
+
+### Background images (create these) — sits behind the stage image at 25% opacity
+| # | Group | Filename | Suggested Scene |
+|---|-------|----------|-----------------|
+| 1 | Year 1 — The Village | `journey_village_bg.png` | Bamboo forest, moon, village rooftops, lantern glow |
+| 2 | Year 2 — The Temple | `journey_temple_bg.png` | Mountain shrine, cherry blossoms, prayer flags |
+| 3 | Year 3 — The Palace | `journey_palace_bg.png` | Imperial courtyard, golden roofs, red pillars |
+
+### How it works (`progress.html` → `getJourneyStageBgPath()`)
+- The background image auto-selects based on the user's current year group (from `rewards.json` mastery titles)
+- Stays the same for all 6 stages within a year — only the panda stage image changes
+- If the PNG doesn't exist yet, the image hides itself gracefully (no broken icon shown)
+- Opacity is 25% so it acts as a subtle backdrop behind the panda
 
 ## Next Steps
 
 - Apply notebook SQL to Supabase dashboard to eliminate remaining 404
+- Create the background PNGs (start with `journey_village_bg.png`)
 - Port zombie game into a proper game mode on arena.html
 - Add unlock gating (course 1A mastery check) and coin rewards
