@@ -12,346 +12,892 @@
   <link rel="stylesheet" href="shared/design-system.css" />
   <style>
 /* ═══════════════════════════════════════════════════════════════
-   DASHBOARD — CUSTOM STYLES
+   DASHBOARD — COZY TOY / NEO-BRUTALIST BENTO
    ═══════════════════════════════════════════════════════════════ */
 
 :root {
-  --dash-card-radius: 20px;
-  --dash-gap: 16px;
+  /* Palette */
+  --db-bg:          #F9F6EE;
+  --db-card:        #FFFFFF;
+  --db-border:      #4A3B2C;
+  --db-text:        #2D1C12;
+  --db-text-soft:   #7A6B5A;
+  --db-text-faint:  #B0A090;
+  --db-gold:        #D8A81D;
+  --db-gold-light:  #F0D060;
+  --db-gold-dark:   #B88E10;
+  --db-green:       #7CB342;
+  --db-green-dark:  #558B2F;
+  --db-blue:        #6CA7E8;
+  --db-orange:      #E8A06C;
+  --db-purple:      #A58EDB;
+  --db-red:         #E53935;
+  --db-frame:       #522F12;
+  --shadow-sm:      0px 4px 0px 0px var(--db-border);
+  --shadow-md:      0px 6px 0px 0px var(--db-border);
+  --shadow-lg:      0px 8px 0px 0px var(--db-border);
+}
+
+body {
+  background-color: #eedec2;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='105' viewBox='0 0 80 105'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='death-star' fill='%23e8c57f' fill-opacity='0.4'%3E%3Cpath d='M20 10a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V10zm15 35a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V45zM20 75a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V75zm30-65a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V10zm0 65a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V75zM35 10a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V10zM5 45a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V45zm0-35a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V10zm60 35a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V45zm0-35a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V10z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-attachment: fixed;
+  background-repeat: repeat;
 }
 
 /* ── Layout ── */
 .dash-page {
-  max-width: 740px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 16px 14px 40px;
-  display: flex;
-  flex-direction: column;
-  gap: var(--dash-gap);
+  padding: 12px 16px 32px;
 }
 
-/* ── Welcome header ── */
-.dash-welcome {
+/* ── Ribbon Float (desktop: absolute in top bar; mobile: flows in document) ── */
+.ribbon-float {
+  position: absolute;
+  top: -60px;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TOP NAV BAR — Full width, floating pills + ribbon
+   ═══════════════════════════════════════════════════════════════ */
+.dash-top-bar {
   display: flex;
   align-items: center;
-  gap: 14px;
-  background: var(--paper-warm);
-  border-radius: var(--dash-card-radius);
-  padding: 18px 20px;
-  box-shadow: var(--shadow-card);
-  background-image: url('assets/textures/paper-grain.png');
-  background-blend-mode: multiply;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
 }
-.dash-welcome-avatar {
-  width: 56px;
-  height: 56px;
+
+/* ── Left: avatar + streak (frameless) ── */
+.tb-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tb-avatar-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tb-avatar {
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  background: var(--theme-color);
+  background: var(--db-purple);
+  border: 2px solid var(--db-border);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
-  flex-shrink: 0;
-  box-shadow: inset 0 -2px 4px rgba(0,0,0,0.08);
-}
-.dash-welcome-text {
-  flex: 1;
-  min-width: 0;
-}
-.dash-welcome-text h1 {
-  font-size: 1.25rem;
-  font-weight: 900;
-  color: var(--ink-dark);
-  line-height: 1.2;
-}
-.dash-welcome-text p {
-  font-size: 0.8rem;
-  color: var(--ink-soft);
-  font-weight: 600;
-  margin-top: 2px;
-}
-
-/* ── Stats row ── */
-.dash-stats-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-}
-.dash-stat {
-  background: var(--paper-warm);
-  border-radius: 14px;
-  padding: 12px 8px;
-  text-align: center;
-  box-shadow: var(--shadow-soft);
-  background-image: url('assets/textures/paper-grain.png');
-  background-blend-mode: multiply;
-}
-.dash-stat-value {
   font-size: 1.2rem;
-  font-weight: 900;
-  color: var(--ink-dark);
-  line-height: 1.2;
+  flex-shrink: 0;
 }
-.dash-stat-label {
-  font-size: 0.6rem;
-  font-weight: 700;
-  color: var(--ink-light);
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  margin-top: 3px;
-}
-.dash-stat .coin-icon { font-size: 1rem; }
 
-/* ── Section header ── */
-.dash-section-title {
-  font-size: 0.78rem;
+.tb-greeting {
+  font-family: 'Nunito', sans-serif;
   font-weight: 800;
-  color: var(--ink-light);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: var(--db-text);
+  white-space: nowrap;
+}
+
+.tb-streak-group {
   display: flex;
   align-items: center;
   gap: 6px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 0.82rem;
+  color: var(--db-text);
+}
+.tb-streak-icon {
+  font-size: 1.1rem;
+  line-height: 1;
 }
 
-/* ── Quest cards ── */
-.dash-quests {
+.tb-ribbon {
+  position: relative;
+  background: linear-gradient(135deg, var(--db-green), var(--db-green-dark));
+  border: 3px solid var(--db-border);
+  padding: 8px 28px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 0.82rem;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+  clip-path: polygon(
+    0% 0%, 8px 50%, 0% 100%,
+    calc(100% - 8px) 100%, 100% 50%, calc(100% - 8px) 0%
+  );
+}
+.tb-ribbon::before {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 16px;
+  width: 12px;
+  height: 12px;
+  background: var(--db-green-dark);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+.tb-ribbon::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  right: 16px;
+  width: 12px;
+  height: 12px;
+  background: var(--db-green-dark);
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+}
+.tb-ribbon-text {
+  letter-spacing: 0.03em;
+}
+
+/* ── Right: coins + treasure chest (frameless) ── */
+.tb-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tb-coins-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 0.82rem;
+  color: var(--db-text);
+}
+.tb-coins-icon {
+  font-size: 1.1rem;
+}
+
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   MAIN CONTENT — Panda Column (left) + Quest Board (right)
+   ═══════════════════════════════════════════════════════════════ */
+
+.dash-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+
+/* ── Panda Column (left, ~35%) ── */
+.panda-col {
+  flex: 0 0 320px;
+  max-width: 35%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding-top: 10px;
+}
+
+/* ── Speech Bubble (above panda) ── */
+.speech-bubble {
+  position: relative;
+  background: var(--db-card);
+  border: 3px solid var(--db-frame);
+  border-radius: 18px;
+  padding: 10px 16px;
+  font-family: 'Nunito', 'Mali', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--db-text);
+  text-align: center;
+  line-height: 1.4;
+  box-shadow: var(--shadow-sm);
+  max-width: 200px;
+  margin-bottom: 6px;
+  z-index: 2;
+}
+/* Speech bubble tail (points down to panda) */
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 12px solid var(--db-card);
+  filter: drop-shadow(0 3px 0 var(--db-frame));
+  z-index: 1;
+}
+
+/* Panda Stage — breaks frame, layered viewport */
+.panda-stage {
+  position: relative;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 40px;
+}
+.panda-stage:active {
+  transform: scale(0.95);
+}
+/* No ground shadow — viewport has its own background matching progress page */
+
+/* ── Panda Viewport (layered paper doll) — transparent, no frame */
+.panda-viewport {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  flex-shrink: 0;
+  z-index: 1;
+  background: radial-gradient(circle, rgba(251, 246, 238, 0.4) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.panda-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.panda-layer .layer-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 4em;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+.panda-layer.active .layer-placeholder {
+  opacity: 1;
+}
+.panda-layer .layer-img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.panda-layer.active .layer-img {
+  opacity: 1;
+}
+.panda-layer.layer-base img {
+  display: block;
+  width: 100%; height: 100%;
+  object-fit: contain;
+  opacity: 1;
+}
+
+/* Z-index stack */
+.panda-layer.layer-aura     { z-index: 10; }
+.panda-layer.layer-base     { z-index: 20; }
+.panda-layer.layer-clothing { z-index: 30; }
+.panda-layer.layer-head     { z-index: 40; }
+.panda-layer.layer-tool     { z-index: 45; }
+.panda-layer.layer-food     { z-index: 55; }
+
+/* Aura glow */
+.panda-layer .aura-glow {
+  position: absolute;
+  top: -15%; left: -15%;
+  width: 130%; height: 130%;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: scale(0.8);
+}
+.panda-layer.layer-aura.active .aura-glow {
+  opacity: 0.55;
+  transform: scale(1);
+  animation: auraPulse 2.5s ease-in-out infinite;
+}
+.aura-glow.type-sparkle { background: radial-gradient(circle, rgba(255,215,0,0.25) 0%, transparent 65%); }
+.aura-glow.type-empty   { background: transparent; }
+
+@keyframes auraPulse {
+  0%, 100% { opacity: 0.45; transform: scale(1); }
+  50%      { opacity: 0.7;  transform: scale(1.06); }
+}
+
+/* Journey Card — below panda (flex column: header + row) */
+.journey-card {
+  width: 100%;
+  background: #f7eedd;
+  border: 8px solid #fcf7ec;
+  border-radius: 20px;
+  padding: 14px 16px 16px;
+  box-shadow: 6px 9px 0 0 #e8dcc6;
+  cursor: pointer;
+  transition: all 0.12s ease;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-.dash-quest {
+.journey-card:active {
+  transform: translateY(4px);
+  box-shadow: none;
+}
+
+.jc-header {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 0.62rem;
+  color: var(--db-text-soft);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #E8DDC0;
+}
+
+.jc-row {
   display: flex;
   align-items: center;
   gap: 14px;
-  background: var(--paper-warm);
-  border-radius: var(--dash-card-radius);
-  padding: 16px 18px;
-  box-shadow: var(--shadow-card);
+}
+
+.jc-avatar-wrap {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: #FFF8E1;
+  border: 2px solid var(--db-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.jc-avatar-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.jc-avatar-emoji {
+  display: none;
+  font-size: 1.6rem;
+  line-height: 1;
+}
+.jc-avatar-wrap.show-emoji .jc-avatar-emoji {
+  display: block;
+}
+.jc-avatar-wrap.show-emoji .jc-avatar-img {
+  display: none;
+}
+
+.jc-body {
+  flex: 1;
+  min-width: 0;
+}
+.jc-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--db-text);
+  line-height: 1.2;
+}
+.jc-pct {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1.2rem;
+  color: var(--db-gold-dark);
+  margin-top: 2px;
+}
+.jc-bar-bg {
+  width: 100%;
+  height: 12px;
+  border-radius: 6px;
+  background: #E8DDC0;
+  border: 2px solid var(--db-border);
+  overflow: hidden;
+  margin-top: 6px;
+}
+.jc-bar {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--db-gold-light), var(--db-gold));
+  transition: width 0.5s ease;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   QUEST BOARD — 9-Slice border-image (SVG)
+   ═══════════════════════════════════════════════════════════════ */
+
+.quest-board {
+  flex: 1;
+  min-width: 0;
+  border: 45px solid transparent;
+  border-image-source: url('assets/frames/quest-board.svg');
+  border-image-slice: 45 fill;
+  display: flex;
+  flex-direction: column;
+  min-height: 380px;
+}
+
+/* ── Ribbon Header — SVG background ── */
+.quest-ribbon {
+  position: relative;
+  margin: -40px auto 0;
+  width: fit-content;
+  max-width: 92%;
+  background-image: url('assets/frames/quest-ribbon.svg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  border: none;
+  border-radius: 0;
+  padding: 0 32px;
+  height: 56px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1.38rem;
+  color: var(--db-text);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.quest-subtitle {
+  text-align: center;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--db-text-soft);
+  margin-top: 6px;
+  margin-bottom: 0;
+  padding: 0 24px;
+}
+
+/* ── Quest Board Body (rows + reward panel) ── */
+.qb-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  margin-top: 0;
+  gap: 6px;
+}
+
+/* Left: Quest rows */
+.quest-rows {
+  flex: 1;
+  padding: 12px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: #faf6ed;
+  border-radius: 16px;
+  border: 2px solid rgba(74, 43, 22, 0.08);
+}
+
+/* Each row: icon + info + stamps */
+.quest-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 0;
+  border-bottom: 2px dashed rgba(74,43,22,0.12);
   cursor: pointer;
-  transition: all 0.2s;
-  background-image: url('assets/textures/paper-grain.png');
-  background-blend-mode: multiply;
+  transition: all 0.12s ease;
   text-decoration: none;
   color: inherit;
 }
-.dash-quest:active { transform: scale(0.98); }
-.dash-quest-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.6rem;
-  flex-shrink: 0;
+.quest-row:last-of-type {
+  border-bottom: none;
 }
-.dash-quest-icon.q-study {
-  background: #E3F0F7;
+.quest-row:hover {
+  background: rgba(218, 165, 53, 0.08);
+  border-radius: 12px;
 }
-.dash-quest-icon.q-write {
-  background: #F0EDD6;
+.quest-row:active {
+  transform: scale(0.97);
 }
-.dash-quest-icon.q-arena {
-  background: #F7E8E3;
+.quest-row.completed {
+  opacity: 0.6;
+}.qr-icon {
+   width: 48px;
+   height: 48px;
+   border-radius: 14px;
+   display: flex;
+   align-items: center;
+   justify-content: center;   font-size: 1.82rem;
+   flex-shrink: 0;
+   border: 3px solid var(--db-frame);
+  box-shadow: inset 0 -3px 6px rgba(0,0,0,0.06), 0 2px 0 0 var(--db-frame);
+  transition: transform 0.12s ease;
 }
-.dash-quest-body {
+.qr-icon.study-color { background: var(--db-blue); border-color: #416497; box-shadow: inset 0 -3px 6px rgba(0,0,0,0.06), 0 2px 0 0 #416497; }
+.qr-icon.write-color { background: #f5c29a; border-color: #c48a5e; box-shadow: inset 0 -3px 6px rgba(0,0,0,0.06), 0 2px 0 0 #c48a5e; }
+.qr-icon.arena-color { background: var(--db-purple); border-color: #7a68a8; box-shadow: inset 0 -3px 6px rgba(0,0,0,0.06), 0 2px 0 0 #7a68a8; }
+
+.qr-info {
   flex: 1;
   min-width: 0;
 }
-.dash-quest-body h3 {
-  font-size: 0.95rem;
+.qr-label {
+  font-family: 'Nunito', sans-serif;
   font-weight: 800;
-  color: var(--ink-dark);
+  font-size: 1.08rem;
+  color: var(--db-text);
 }
-.dash-quest-body .q-sub {
-  font-size: 0.72rem;
-  color: var(--ink-soft);
+.qr-progress {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.7rem;
   font-weight: 600;
+  color: var(--db-text-soft);
   margin-top: 1px;
 }
-.dash-quest-progress-wrap {
-  margin-top: 6px;
+
+/* Stamp circles */
+.qr-stamps {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.qr-stamp {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px dashed rgba(74, 43, 22, 0.2);
   display: flex;
   align-items: center;
-  gap: 8px;
-}
-.dash-quest-bar-bg {
-  flex: 1;
-  height: 8px;
-  border-radius: 4px;
-  background: var(--paper-deep);
-  overflow: hidden;
-}
-.dash-quest-bar {
-  height: 100%;
-  border-radius: 4px;
-  transition: width 0.4s ease;
-  background: var(--theme-color-deep);
-}
-.dash-quest-bar.bar-study { background: var(--botes-sky-deep); }
-.dash-quest-bar.bar-write { background: var(--botes-ochre-deep); }
-.dash-quest-bar.bar-arena { background: var(--botes-coral-deep); }
-.dash-quest-pct {
-  font-size: 0.72rem;
-  font-weight: 800;
-  color: var(--ink-soft);
-  min-width: 30px;
-  text-align: right;
-}
-.dash-quest-arrow {
-  font-size: 1.2rem;
-  color: var(--ink-light);
+  justify-content: center;
+  font-size: 0.6rem;
+  background: rgba(240, 237, 228, 0.5);
   flex-shrink: 0;
-}
-
-/* ── Completed state ── */
-.dash-quest.completed {
-  opacity: 0.75;
-}
-.dash-quest.completed .dash-quest-bar {
-  background: var(--botes-sage-deep) !important;
-}
-.dash-quest .q-check {
-  display: none;
-  font-size: 1.3rem;
-  color: var(--botes-sage-deep);
-  flex-shrink: 0;
-}
-.dash-quest.completed .q-check { display: block; }
-
-/* ── Journey card (embedded) ── */
-#dashboard-journey-card {
-  background: var(--paper-warm);
-  border-radius: var(--dash-card-radius);
-  padding: 16px 18px 18px;
-  box-shadow: var(--shadow-card);
-  cursor: pointer;
-  transition: all 0.2s;
-  background-image: url('assets/textures/paper-grain.png');
-  background-blend-mode: multiply;
+  transition: all 0.25s ease;
   position: relative;
-  overflow: hidden;
 }
-#dashboard-journey-card:active { transform: scale(0.98); }
+.qr-stamp.active {
+  border-style: solid;
+  border-color: rgba(82, 47, 18, 0.4);
+  background: linear-gradient(135deg, rgba(249, 231, 159, 0.7), rgba(240, 208, 96, 0.7));
+  transform: scale(1.1);
+  box-shadow: 0 2px 6px rgba(218, 165, 53, 0.25);
+}
+.qr-stamp.active::after {
+  content: '✓';
+  font-weight: 900;
+  color: var(--db-border);
+  font-size: 0.65rem;
+}
 
-.journey-stage-wrapper {
+
+/* ── Reward Panel (right 30% of quest board) ── */
+.reward-panel {
+  width: 32%;
+  min-width: 150px;
+  max-width: 240px;
+  flex-shrink: 0;
+  background: #fceac8;
+  border: 3px solid rgba(74,43,22,0.18);
+  border-radius: 18px;
+  padding: 16px 10px;
+  padding-top: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 4px 0 2px;
-  position: relative;
-}
-.journey-stage-img {
-  display: block;
-  width: 100%;
-  max-width: 200px;
-  aspect-ratio: 1 / 1;
-  object-fit: contain;
-  position: relative;
-  z-index: 1;
-  border-radius: 12px;
-}
-.journey-bg-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 12px;
-  opacity: 0.25;
-  z-index: 0;
-  pointer-events: none;
-}
-.journey-bg-img:not([src]), .journey-bg-img[src=""] { opacity: 0; }
-.journey-pct-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 6px;
-  z-index: 1;
-}
-.journey-pct {
-  font-size: 1.5rem;
-  font-weight: 900;
-  color: var(--ink-dark);
-  letter-spacing: -0.02em;
-}
-.journey-title-name {
-  font-size: 0.85rem;
-  color: var(--ink-soft);
-  font-weight: 700;
-}
-.journey-next-info {
+  justify-content: flex-start;
+  gap: 8px;
   text-align: center;
-  font-size: 0.72rem;
-  color: var(--ink-light);
-  font-weight: 700;
-  margin-top: 4px;
 }
 
-/* ── Parent Corner ── */
-.dash-parent-section {
-  margin-top: 4px;
+.rp-chest {
+  font-size: 2.8rem;
+  line-height: 1;
+  filter: drop-shadow(0 4px 12px rgba(216,168,29,0.35));
+  animation: rpGlow 2s ease-in-out infinite;
+  transition: all 0.3s ease;
 }
-.dash-parent-toggle {
+
+@keyframes rpGlow {
+  0%, 100% { filter: drop-shadow(0 3px 8px rgba(216,168,29,0.30)); transform: scale(1); }
+  50%      { filter: drop-shadow(0 6px 16px rgba(216,168,29,0.50)); transform: scale(1.06); }
+}
+
+.rp-text {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--db-text-soft);
+  line-height: 1.4;
+}
+
+
+
+.rp-cta {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 12px;
-  border-radius: 14px;
-  background: var(--paper-deep);
-  color: var(--ink-light);
-  font-size: 0.78rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-  border: none;
   width: 100%;
-  font-family: inherit;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 2px solid #2ecc71;
+  background: transparent;
+  box-shadow: 0 0 40px 40px #2ecc71 inset, 0 0 0 0 #2ecc71;
+  font-family: 'Nunito', 'Mali', sans-serif;
+  font-weight: 900;
+  font-size: 0.68rem;
+  color: #fff;
+  cursor: pointer;
+  transition: all 150ms ease-in-out;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  white-space: normal;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-height: 1.3;
+  box-sizing: border-box;
 }
-.dash-parent-toggle:hover { background: #DDD0B5; color: var(--ink-soft); }
-.dash-parent-toggle .pt-arrow {
-  transition: transform 0.2s;
-  font-size: 0.8em;
+.rp-cta:hover {
+  color: var(--db-text);
+  box-shadow: 0 0 10px 0 #2ecc71 inset, 0 0 10px 4px #2ecc71;
 }
-.dash-parent-toggle.open .pt-arrow { transform: rotate(180deg); }
+.rp-cta:active {
+  box-shadow: 0 0 4px 0 #2ecc71 inset, 0 0 4px 2px #2ecc71;
+  transition: all 50ms ease-in-out;
+}
 
-.dash-parent-content {
+
+/* ═══════════════════════════════════════════════════════════════
+   BOTTOM ROW — Daily Bonus (flex) + Parent Settings (fixed width)
+   ═══════════════════════════════════════════════════════════════ */
+
+.dash-bottom {
+  display: flex;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.journey-card {
+  flex: 55;
+  width: 0;
+  min-width: 280px;
+}
+
+.daily-bonus {
+  flex: 35;
+  width: 0;
+  min-width: 340px;
+}
+
+.parent-card {
+  flex: 10;
+  width: 100%;
+  min-width: 100px;
+}
+
+/* ── Daily Bonus Card ── */
+.daily-bonus {
+  background: #f7eedd;
+  border: 8px solid #fcf7ec;
+  border-radius: 20px;
+  box-shadow: 6px 9px 0 0 #e8dcc6;
+  padding: 20px 12px 18px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.db-ribbon {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, #8CC63F 0%, #558B2F 100%);
+  border: none;
+  padding: 5px 22px;
+  box-shadow: none;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 0.72rem;
+  color: #fff;
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+  z-index: 2;
+  clip-path: polygon(8px 0%, calc(100% - 8px) 0%, 100% 50%, calc(100% - 8px) 100%, 8px 100%, 0% 50%);
+}
+
+
+.db-slots {
+  display: flex;
+  gap: 6px;
+  margin-top: 22px;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+
+.db-slot {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid rgba(160, 190, 100, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  background: #F0EDE4;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  position: relative;
+}
+.db-slot.earned {
+  background: #C8E6C9;
+  border-style: solid;
+}
+.db-slot.earned::after {
+  content: '✓';
+  font-weight: 900;
+  color: var(--db-green-dark);
+  font-size: 0.85rem;
+}
+.db-slot.gift {
+  background: #FFCDD2;
+  border-style: solid;
+  animation: giftPulse 1.5s ease-in-out infinite;
+}
+@keyframes giftPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); box-shadow: 0 0 12px rgba(229,57,53,0.3); }
+}
+.db-slot-number {
+  position: absolute;
+  bottom: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.55rem;
+  font-weight: 700;
+  color: var(--db-text-faint);
+  white-space: nowrap;
+}
+
+
+/* ── Parent Settings Card ── */
+.parent-card {
+  background: var(--db-card);
+  border: 8px solid #fcf7ec;
+  border-radius: 20px;
+  box-shadow: 6px 9px 0 0 #e8dcc6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 10px;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  text-align: center;
+  position: relative;
+}
+.parent-card:active {
+  transform: translateY(4px);
+  box-shadow: none;
+}
+.pc-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #E3F0F7;
+  border: 2px solid var(--db-frame);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+.pc-label {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 0.6rem;
+  color: var(--db-text-soft);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.pc-arrow {
+  font-size: 0.7rem;
+  color: var(--db-text-faint);
+  transition: transform 0.2s;
+}
+.parent-card.open .pc-arrow {
+  transform: rotate(180deg);
+}
+
+/* Parent dropdown */
+.parent-dropdown {
   display: none;
   flex-direction: column;
   gap: 8px;
   margin-top: 8px;
+  padding: 12px 16px;
+  background: var(--db-card);
+  border: 3px solid var(--db-border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
 }
-.dash-parent-content.open { display: flex; }
-
-.dash-parent-link {
+.parent-dropdown.open {
+  display: flex;
+}
+.pd-link {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
-  border-radius: 14px;
-  background: var(--paper-warm);
-  box-shadow: var(--shadow-soft);
-  background-image: url('assets/textures/paper-grain.png');
-  background-blend-mode: multiply;
-  cursor: pointer;
-  transition: all 0.15s;
-  border: none;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #F5F0E8;
+  border: 2px solid var(--db-border);
   font-family: inherit;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 700;
-  color: var(--ink-medium);
+  color: var(--db-text);
+  cursor: pointer;
+  transition: all 0.1s ease;
+  text-decoration: none;
   width: 100%;
   text-align: left;
-  text-decoration: none;
+  box-sizing: border-box;
 }
-.dash-parent-link:active { transform: scale(0.97); }
-.dash-parent-link .pl-icon { font-size: 1.3rem; flex-shrink: 0; }
+.pd-link:active {
+  transform: translateY(3px);
+  box-shadow: none;
+}
 
-/* ── Welcome overlay (first visit) ── */
+
+/* ═══════════════════════════════════════════════════════════════
+   WELCOME OVERLAY — same as before, minor restyle
+   ═══════════════════════════════════════════════════════════════ */
+
 .dash-welcome-overlay {
   position: fixed;
   inset: 0;
@@ -371,14 +917,13 @@
   pointer-events: all;
 }
 .dash-welcome-modal {
-  background: var(--paper-cream);
-  background-image: url('assets/textures/paper-grain.png');
-  background-blend-mode: multiply;
-  border-radius: 28px;
+  background: var(--db-card);
+  border: 4px solid var(--db-border);
+  border-radius: 24px;
   padding: 32px 28px;
   max-width: 380px;
   width: 100%;
-  box-shadow: var(--shadow-lifted);
+  box-shadow: var(--shadow-lg);
   text-align: center;
   transform: scale(0.85);
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -386,23 +931,21 @@
 .dash-welcome-overlay.visible .dash-welcome-modal {
   transform: scale(1);
 }
-.wm-emoji {
-  font-size: 4rem;
-  margin-bottom: 8px;
-  display: block;
-}
+.wm-emoji { font-size: 4rem; margin-bottom: 8px; display: block; }
 .wm-title {
   font-size: 1.5rem;
   font-weight: 900;
-  color: var(--ink-dark);
+  color: var(--db-text);
   margin-bottom: 8px;
+  font-family: 'Nunito', sans-serif;
 }
 .wm-sub {
-  font-size: 0.9rem;
-  color: var(--ink-soft);
+  font-size: 0.85rem;
+  color: var(--db-text-soft);
   line-height: 1.5;
   font-weight: 600;
   margin-bottom: 20px;
+  font-family: 'Nunito', sans-serif;
 }
 .wm-features {
   display: flex;
@@ -417,42 +960,287 @@
   gap: 10px;
   padding: 10px 14px;
   border-radius: 14px;
-  background: var(--paper-warm);
-  font-size: 0.82rem;
+  background: #F5F0E8;
+  border: 2px solid var(--db-border);
+  font-size: 0.8rem;
   font-weight: 700;
-  color: var(--ink-medium);
-  box-shadow: var(--shadow-soft);
+  color: var(--db-text);
 }
 .wm-feature .wmf-icon { font-size: 1.2rem; flex-shrink: 0; }
 .wm-btn {
-  background: var(--ink-dark);
-  color: var(--paper-cream);
-  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--db-green);
+  color: #fff;
+  border: 3px solid var(--db-border);
+  border-radius: 999px;
   padding: 14px 32px;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 800;
   cursor: pointer;
-  transition: all 0.2s;
-  border: none;
-  font-family: inherit;
-  box-shadow: var(--shadow-card);
+  transition: all 0.12s ease;
+  font-family: 'Nunito', sans-serif;
+  box-shadow: var(--shadow-sm);
 }
-.wm-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-lifted); }
-.wm-btn:active { transform: scale(0.97); }
+.wm-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+.wm-btn:active { transform: translateY(3px); box-shadow: none; }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 520px) {
-  .dash-stats-row {
-    grid-template-columns: repeat(2, 1fr);
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 900px) {
+  .dash-main {
+    flex-direction: column;
+    align-items: center;
   }
-  .dash-welcome-avatar { width: 46px; height: 46px; font-size: 1.6rem; }
-  .dash-welcome-text h1 { font-size: 1.1rem; }
-  .journey-stage-img { max-width: 160px; }
+  .panda-col {
+    flex: none;
+    max-width: 100%;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+    padding-top: 0;
+  }
+  .panda-stage {
+    padding-top: 8px;
+  }
+  .panda-viewport {
+    width: 130px;
+    height: 130px;
+  }
+  .panda-layer .layer-placeholder {
+    font-size: 3em;
+  }
+  .reward-panel {
+    width: 100%;
+    max-width: none;
+    border-radius: 18px;
+    border-top: 3px solid rgba(74,43,22,0.18);
+    padding: 16px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .rp-cta {
+    margin-top: 0;
+    width: auto;
+    padding: 10px 20px;
+  }
+  .rp-chest { font-size: 2rem; }
+  .qb-body {
+    flex-direction: column;
+  }
+  .quest-rows {
+    padding: 12px 16px;
+  }
+  .dash-bottom {
+    display: grid;
+    grid-template-columns: 7fr 3fr;
+    gap: 12px;
+  }
+  .journey-card {
+    order: 1;
+    grid-column: 1 / -1;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .daily-bonus {
+    order: 2;
+    min-width: 0;
+    width: 100%;
+    padding: 20px 12px 18px;
+  }
+  .parent-card {
+    order: 2;
+    min-width: 0;
+    width: 100%;
+    flex: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px;
+  }
+  .jc-row {
+    flex-wrap: wrap;
+  }
+  .jc-body {
+    flex: none;
+    width: 100%;
+  }
+  .jc-bar-bg {
+    width: 100%;
+  }
 }
-@media (max-width: 360px) {
-  .dash-page { padding: 10px 10px 30px; gap: 12px; }
-  .dash-quest { padding: 12px 14px; }
-  .dash-quest-icon { width: 40px; height: 40px; font-size: 1.3rem; }
+
+@media (max-width: 640px) {
+  .dash-top-bar {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 0;
+    margin-bottom: 10px;
+  }
+  .tb-left {
+    flex: 1;
+    min-width: 0;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+  }
+  .tb-avatar-group {
+    flex-shrink: 0;
+  }
+  .tb-streak-group {
+    flex-shrink: 0;
+  }
+  .tb-right {
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+  .tb-coins-group {
+    font-size: 0.75rem;
+  }
+  .ribbon-float {
+    position: relative;
+    top: auto;
+    right: auto;
+  }
+  .panda-col {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding-top: 0;
+  }
+  .speech-bubble {
+    padding: 6px 12px;
+    font-size: 0.7rem;
+    margin-bottom: 0;
+    max-width: 180px;
+  }
+  .speech-bubble::after {
+    border-top-width: 8px;
+    border-left-width: 8px;
+    border-right-width: 8px;
+    bottom: -8px;
+  }
+  .panda-stage {
+    padding-top: 4px;
+  }
+  .dash-main {
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .journey-card {
+    max-width: 100%;
+  }
+  .quest-board {
+    min-height: auto;
+    border-width: 30px;
+  }
+  .quest-ribbon {
+    font-size: 0.78rem;
+    padding: 0 16px;
+    height: 40px;
+  }
+  .qr-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+  .qr-stamp {
+    width: 22px;
+    height: 22px;
+  }
+  .daily-bonus {
+    padding: 18px 12px 16px;
+  }
+  .db-slot {
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
+  }
+  .db-slots {
+    gap: 5px;
+  }
+  .parent-card {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 400px) {
+  .dash-page {
+    padding: 6px 10px 20px;
+  }
+  .dash-top-bar {
+    gap: 4px;
+    margin-bottom: 6px;
+  }
+  .panda-viewport {
+    width: 100px;
+    height: 100px;
+  }
+  .panda-layer .layer-placeholder {
+    font-size: 2.2em;
+  }
+  .speech-bubble {
+    padding: 5px 10px;
+    font-size: 0.65rem;
+    max-width: 160px;
+  }
+  .dash-main {
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+  .quest-board {
+    border-width: 20px;
+  }
+  .quest-ribbon {
+    position: static;
+    transform: none;
+    margin-top: 4px;
+    height: 36px;
+    font-size: 0.72rem;
+  }
+  .reward-panel {
+    padding: 12px;
+    min-width: 0;
+    width: 100%;
+    max-width: none;
+  }
+  .rp-cta {
+    font-size: 0.65rem;
+    padding: 8px 14px;
+  }
+  .db-slot {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
+  }
+  .db-slots {
+    gap: 4px;
+    overflow: hidden;
+  }
+  .db-slot-number {
+    display: none;
+  }
+  .db-ribbon {
+    font-size: 0.65rem;
+    padding: 4px 16px;
+  }
+  .daily-bonus {
+    padding: 18px 8px 14px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GUEST BANNER OVERRIDES — match new palette
+   ═══════════════════════════════════════════════════════════════ */
+.guest-banner {
+  border-bottom: 3px solid var(--db-border) !important;
 }
   </style>
 </head>
@@ -495,122 +1283,183 @@
     <!-- ══ MAIN DASHBOARD CONTENT ══ -->
     <div class="dash-page">
 
-      <!-- Welcome header -->
-      <div class="dash-welcome" id="dash-header">
-        <div class="dash-welcome-avatar" id="dash-avatar">🐼</div>
-        <div class="dash-welcome-text">
-          <h1 id="dash-greeting">Hello!</h1>
-          <p id="dash-today-date"></p>
+      <!-- ══════ TOP NAV BAR ══════ -->
+      <header class="dash-top-bar">
+        <!-- Left: avatar + streak -->
+        <div class="tb-left">
+          <div class="tb-avatar-group">
+            <div class="tb-avatar" id="dash-avatar">🐼</div>
+            <span class="tb-greeting" id="dash-greeting">Hi, Learner!</span>
+          </div>
+          <div class="tb-streak-group">
+            <span class="tb-streak-icon">🔥</span>
+            <span id="dash-streak-text">0 Day Streak!</span>
+          </div>
         </div>
-      </div>
 
-      <!-- Stats row -->
-      <div class="dash-stats-row" id="dash-stats">
-        <div class="dash-stat">
-          <div class="dash-stat-value" id="stat-coins">0</div>
-          <div class="dash-stat-label">🪙</div>
+        <!-- Right: coins + chest -->
+        <div class="tb-right">
+          <div class="tb-coins-group">
+            <span class="tb-coins-icon">🪙</span>
+            <span id="dash-coins-text">0 COINS</span>
+          </div>
         </div>
-        <div class="dash-stat">
-          <div class="dash-stat-value" id="stat-stars">0</div>
-          <div class="dash-stat-label" data-i18n="stats_total">Total ⭐</div>
-        </div>
-        <div class="dash-stat">
-          <div class="dash-stat-value" id="stat-streak">0</div>
-          <div class="dash-stat-label" data-i18n="stats_streak">Streak</div>
-        </div>
-        <div class="dash-stat">
-          <div class="dash-stat-value" id="stat-mastered">0</div>
-          <div class="dash-stat-label" data-i18n="stats_mastered">Mastered</div>
-        </div>
-      </div>
+      </header>
 
-      <!-- Today's Quest -->
-      <div>
-        <div class="dash-section-title">🎯 <span data-i18n="dash_quest_title">Today's Quest</span></div>
-        <div class="dash-quests">
-          <!-- Study quest -->
-          <a class="dash-quest" id="quest-study" href="study.html">
-            <div class="dash-quest-icon q-study">📖</div>
-            <div class="dash-quest-body">
-              <h3 data-i18n="activity_study">Study</h3>
-              <div class="q-sub" id="quest-study-sub">0 / 5 cards today</div>
-              <div class="dash-quest-progress-wrap">
-                <div class="dash-quest-bar-bg">
-                  <div class="dash-quest-bar bar-study" id="quest-study-bar" style="width: 0%"></div>
-                </div>
-                <span class="dash-quest-pct" id="quest-study-pct">0%</span>
+      <!-- ══════ MAIN CONTENT ══════ -->
+      <div class="dash-main">
+
+        <!-- ── Panda Column (Left) ── -->
+        <div class="panda-col">
+          <!-- Speech Bubble above panda -->
+          <div class="speech-bubble" id="panda-speech">
+            Hello there! 🐼
+          </div>
+
+          <div class="panda-stage" onclick="location.href='progress.html'">
+            <!-- Panda Viewport (layered paper doll) -->
+            <div class="panda-viewport" id="panda-viewport">
+
+              <!-- LAYER 1: Aura (z:10) -->
+              <div class="panda-layer layer-aura" id="layer-aura">
+                <div class="aura-glow type-empty" id="aura-glow"></div>
+                <img class="layer-img" id="img-aura" src="" alt="" draggable="false"/>
               </div>
-            </div>
-            <span class="q-check">✅</span>
-            <span class="dash-quest-arrow">→</span>
-          </a>
 
-          <!-- Write quest -->
-          <a class="dash-quest" id="quest-write" href="write.html">
-            <div class="dash-quest-icon q-write">✍️</div>
-            <div class="dash-quest-body">
-              <h3 data-i18n="activity_write">Write Practice</h3>
-              <div class="q-sub" id="quest-write-sub">0 / 3 characters today</div>
-              <div class="dash-quest-progress-wrap">
-                <div class="dash-quest-bar-bg">
-                  <div class="dash-quest-bar bar-write" id="quest-write-bar" style="width: 0%"></div>
-                </div>
-                <span class="dash-quest-pct" id="quest-write-pct">0%</span>
+              <!-- LAYER 2: Base (z:20) -->
+              <div class="panda-layer layer-base">
+                <img id="base-image" src="assets/mascot/panda_stand.png" alt="Panda" draggable="false"/>
               </div>
-            </div>
-            <span class="q-check">✅</span>
-            <span class="dash-quest-arrow">→</span>
-          </a>
 
-          <!-- Arena quest -->
-          <a class="dash-quest" id="quest-arena" href="arena.html">
-            <div class="dash-quest-icon q-arena">⚔️</div>
-            <div class="dash-quest-body">
-              <h3 data-i18n="dash_arena">Arena Games</h3>
-              <div class="q-sub" id="quest-arena-sub">0 / 2 games today</div>
-              <div class="dash-quest-progress-wrap">
-                <div class="dash-quest-bar-bg">
-                  <div class="dash-quest-bar bar-arena" id="quest-arena-bar" style="width: 0%"></div>
-                </div>
-                <span class="dash-quest-pct" id="quest-arena-pct">0%</span>
+              <!-- LAYER 3: Clothing (z:30) -->
+              <div class="panda-layer layer-clothing" id="layer-clothing">
+                <span class="layer-placeholder" id="clothing-placeholder"></span>
+                <img class="layer-img" id="img-clothing" src="" alt="" draggable="false"/>
               </div>
+
+              <!-- LAYER 4: Head (z:40) -->
+              <div class="panda-layer layer-head" id="layer-head">
+                <span class="layer-placeholder" id="head-placeholder"></span>
+                <img class="layer-img" id="img-head" src="" alt="" draggable="false"/>
+              </div>
+
+              <!-- LAYER 5: Tool (z:45) -->
+              <div class="panda-layer layer-tool" id="layer-tool">
+                <span class="layer-placeholder" id="tool-placeholder"></span>
+                <img class="layer-img" id="img-tool" src="" alt="" draggable="false"/>
+              </div>
+
+              <!-- LAYER 6: Food (z:55) -->
+              <div class="panda-layer layer-food" id="layer-food">
+                <span class="layer-placeholder" id="food-placeholder"></span>
+                <img class="layer-img" id="img-food" src="" alt="" draggable="false"/>
+              </div>
+
             </div>
-            <span class="q-check">✅</span>
-            <span class="dash-quest-arrow">→</span>
-          </a>
+          </div>
         </div>
-      </div>
 
-      <!-- Journey Card -->
-      <div>
-        <div class="dash-section-title">🐼 <span data-i18n="dash_journey_title">My Journey</span></div>
-        <div id="dashboard-journey-card" onclick="location.href='progress.html'">
-          <div id="title-content">
-            <!-- Rendered by renderTitleProgress() -->
+        <!-- Encouraging ribbon (desktop: absolute above dash-main; mobile: flows between panda and quest board) -->
+        <div class="ribbon-float" id="ribbon-float">
+          <div class="tb-ribbon">
+            <span class="tb-ribbon-text" id="dash-ribbon-text">✨ Great job! Keep it up! ✨</span>
+          </div>
+        </div>
+
+        <!-- ── Quest Board (Right) — 9-Slice border-image ready ── -->
+        <div class="quest-board">
+          <div class="quest-ribbon">🎯 <span data-i18n="dash_quest_title">TODAY'S QUEST</span></div>
+          <div class="quest-subtitle" data-i18n="dash_quest_sub">Complete each task to earn a stamp!</div>
+
+          <div class="qb-body">
+            <!-- Quest Rows -->
+            <div class="quest-rows">
+              <!-- Study -->
+              <a class="quest-row" id="quest-study" href="study.html">
+                <div class="qr-icon study-color">📖</div>
+                <div class="qr-info">
+                  <div class="qr-label" data-i18n="activity_study">Study</div>
+                  <div class="qr-progress" id="quest-study-text">0 / 5 cards</div>
+                </div>
+                <div class="qr-stamps" id="stamps-study"></div>
+              </a>
+
+              <!-- Write -->
+              <a class="quest-row" id="quest-write" href="write.html">
+                <div class="qr-icon write-color">✏️</div>
+                <div class="qr-info">
+                  <div class="qr-label" data-i18n="activity_write">Write Practice</div>
+                  <div class="qr-progress" id="quest-write-text">0 / 3 chars</div>
+                </div>
+                <div class="qr-stamps" id="stamps-write"></div>
+              </a>
+
+              <!-- Arena -->
+              <a class="quest-row" id="quest-arena" href="arena.html">
+                <div class="qr-icon arena-color">⚔️</div>
+                <div class="qr-info">
+                  <div class="qr-label" data-i18n="dash_arena">Arena</div>
+                  <div class="qr-progress" id="quest-arena-text">0 / 2 games</div>
+                </div>
+                <div class="qr-stamps" id="stamps-arena"></div>
+              </a>
+            </div>
+
+            <!-- Reward Panel -->
+            <div class="reward-panel">
+              <div class="rp-chest">🎁</div>
+              <div class="rp-text" data-i18n="dash_reward_text">Complete all tasks to claim your reward!</div>
+              <div class="rp-pill" style="visibility:hidden">.</div>
+              <a href="study.html" class="rp-cta">🚀 START TODAY'S MISSION</a>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Parent Corner -->
-      <div class="dash-parent-section">
-        <button class="dash-parent-toggle" id="parent-toggle" onclick="toggleParentCorner()">
-          🔒 <span data-i18n="parent_settings">Parent Settings</span>
-          <span class="pt-arrow">▾</span>
-        </button>
-        <div class="dash-parent-content" id="parent-content">
-          <a class="dash-parent-link" href="print.html">
-            <span class="pl-icon">🖨️</span>
-            <span data-i18n="activity_print">Print Worksheet</span>
-          </a>
-          <button class="dash-parent-link" onclick="openSettings()">
-            <span class="pl-icon">⚙️</span>
-            <span data-i18n="settings_title">Settings</span>
-          </button>
-          <button class="dash-parent-link" id="btn-clear-data" onclick="if(confirm('Clear all local data?')){localStorage.clear();location.href='index.html';}" style="color: var(--danger);">
-            <span class="pl-icon">🗑️</span>
-            <span>Clear Local Data</span>
-          </button>
+      <!-- ══════ BOTTOM ROW ══════ -->
+      <div class="dash-bottom">
+        <!-- My Journey -->
+        <div class="journey-card" onclick="location.href='progress.html'">
+          <div class="jc-header">MY JOURNEY</div>
+          <div class="jc-row">
+            <div class="jc-avatar-wrap" id="jc-avatar-wrap">
+              <img class="jc-avatar-img" id="jc-avatar-img" src="" alt="" draggable="false"/>
+              <div class="jc-avatar-emoji" id="jc-avatar-emoji">🥚</div>
+            </div>
+            <div class="jc-body">
+              <div class="jc-title" id="jc-title">Panda Hatchling</div>
+              <div class="jc-pct" id="jc-pct">0%</div>
+              <div class="jc-bar-bg">
+                <div class="jc-bar" id="jc-bar" style="width:0%"></div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <!-- Daily Bonus -->
+        <div class="daily-bonus">
+          <div class="db-ribbon">🎁 <span data-i18n="dash_daily_bonus">DAILY BONUS</span></div>
+          <div class="db-slots" id="daily-slots"></div>
+        </div>
+
+        <!-- Parent Settings -->
+        <div class="parent-card" id="parent-toggle" onclick="toggleParentCorner()">
+          <div class="pc-icon">👤</div>
+          <div class="pc-label" data-i18n="parent_settings">Parent Settings</div>
+          <div class="pc-arrow">▾</div>
+        </div>
+      </div>
+
+      <!-- Parent Dropdown -->
+      <div class="parent-dropdown" id="parent-content">
+        <a class="pd-link" href="print.html">
+          <span>🖨️</span>
+          <span data-i18n="activity_print">Print Worksheet</span>
+        </a>
+        <button class="pd-link" onclick="openSettings()">
+          <span>⚙️</span>
+          <span data-i18n="settings_title">Settings</span>
+        </button>
       </div>
 
     </div>
@@ -626,7 +1475,7 @@
   <script src="shared/auth-modal.js"></script>
   <script>
 /* ═══════════════════════════════════════════════════════════════
-   DASHBOARD — MAIN LOGIC
+   DASHBOARD — MAIN LOGIC (Adapted for Bento Layout)
    ═══════════════════════════════════════════════════════════════ */
 
 var REWARDS = null;
@@ -640,6 +1489,13 @@ document.addEventListener('DOMContentLoaded', function() {
   // Daily login coin
   if (XHZ.awardDailyLoginCoin() > 0) {
     showToast('🪙 +1 Daily login coin!', '', 2500);
+  }
+
+  // Weekly streak bonus (7 coins for 7-day streak)
+  if (XHZ.awardWeeklyStreakBonus() > 0) {
+    setTimeout(function() {
+      showToast('🎉 7-day streak bonus! +7 coins', '', 3000);
+    }, 2800);
   }
 
   // Check first visit
@@ -664,8 +1520,10 @@ function loadData() {
   ])
   .then(function(results) {
     REWARDS = results[0];
+    _effortItems = REWARDS.effort_items || [];
     var coursesData = results[1];
     var courses = coursesData.courses || [];
+    window.DASH_COURSES = courses;
 
     // Load each course's data file for mastery percentage
     var loads = courses.map(function(c) {
@@ -683,10 +1541,11 @@ function loadData() {
     renderStats();
     renderQuests();
     renderJourneyCard();
+    renderPandaAvatar();
+    renderDailyBonus();
   })
   .catch(function(err) {
     console.error('Dashboard data load failed:', err);
-    // Still render what we can
     renderHeader();
     renderStats();
     renderQuests();
@@ -718,32 +1577,35 @@ function renderHeader() {
   var hour = new Date().getHours();
   var greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
   document.getElementById('dash-greeting').textContent = greeting + ', ' + name + '! 🌟';
-
-  var now = new Date();
-  var opts = { weekday: 'long', month: 'long', day: 'numeric' };
-  document.getElementById('dash-today-date').textContent = now.toLocaleDateString('en-US', opts);
 }
 
-// ── Stats ──
+// ── Stats (integrated into top bar) ──
 function renderStats() {
   var profile = XHZ.getActiveProfile();
   if (!profile) return;
 
   var coins = XHZ.getCoins(profile.id);
-  var totalStars = XHZ.getTotalStars(profile.id);
   var streak = XHZ.getCurrentStreak(profile.id);
+  var streakLabel = streak === 1 ? '1 Day Streak!' : streak + ' Day Streak!';
 
-  // Count mastered words across all courses
-  var allMastery = XHZ.getAllMastery(profile.id);
-  var masteredCount = 0;
-  Object.values(allMastery).forEach(function(m) {
-    if (m.status === 'mastered') masteredCount++;
-  });
+  document.getElementById('dash-coins-text').textContent = coins + ' COINS';
+  document.getElementById('dash-streak-text').textContent = streakLabel;
 
-  document.getElementById('stat-coins').textContent = coins;
-  document.getElementById('stat-stars').textContent = totalStars;
-  document.getElementById('stat-streak').textContent = streak;
-  document.getElementById('stat-mastered').textContent = masteredCount;
+  // Random encouraging ribbon text
+  var ribbonEl = document.getElementById('dash-ribbon-text');
+  var encouragements = [
+    '🌟 You can do it! 🌟',
+    '🔥 Keep going! 🔥',
+    '✨ Amazing work today! ✨',
+    '💪 Strong learner! 💪',
+    '🎉 You\'re awesome! 🎉',
+    '📚 Knowledge is power! 📚',
+    '🌟 Great job! 🌟',
+    '🚀 To the stars! 🚀',
+    '👍 Keep it up! 👍',
+    '🏆 Champion mindset! 🏆'
+  ];
+  ribbonEl.textContent = encouragements[Math.floor(Math.random() * encouragements.length)];
 }
 
 // ── Quests ──
@@ -762,18 +1624,16 @@ function renderQuests() {
   // Study progress
   var studyCount = today ? (today.cards_studied ? today.cards_studied.length : 0) : 0;
   var studyPct = Math.min(100, Math.round((studyCount / QUEST_GOALS.study.target) * 100));
-  document.getElementById('quest-study-sub').textContent = studyCount + ' / ' + QUEST_GOALS.study.target + ' cards today';
-  document.getElementById('quest-study-bar').style.width = studyPct + '%';
-  document.getElementById('quest-study-pct').textContent = studyPct + '%';
+  document.getElementById('quest-study-text').textContent = studyCount + ' / ' + QUEST_GOALS.study.target + ' cards';
   document.getElementById('quest-study').classList.toggle('completed', studyPct >= 100);
+  renderStamps('stamps-study', studyCount, QUEST_GOALS.study.target);
 
   // Write progress
   var writeCount = today ? (today.chars_practiced ? today.chars_practiced.length : 0) : 0;
   var writePct = Math.min(100, Math.round((writeCount / QUEST_GOALS.write.target) * 100));
-  document.getElementById('quest-write-sub').textContent = writeCount + ' / ' + QUEST_GOALS.write.target + ' characters today';
-  document.getElementById('quest-write-bar').style.width = writePct + '%';
-  document.getElementById('quest-write-pct').textContent = writePct + '%';
+  document.getElementById('quest-write-text').textContent = writeCount + ' / ' + QUEST_GOALS.write.target + ' chars';
   document.getElementById('quest-write').classList.toggle('completed', writePct >= 100);
+  renderStamps('stamps-write', writeCount, QUEST_GOALS.write.target);
 
   // Arena progress
   var sources = XHZ.getCoinSources(profile.id);
@@ -781,16 +1641,84 @@ function renderQuests() {
   if (sources.game_matching === XHZ.today()) arenaCount++;
   if (sources.game_sushi === XHZ.today()) arenaCount++;
   var arenaPct = Math.min(100, Math.round((arenaCount / QUEST_GOALS.arena.target) * 100));
-  document.getElementById('quest-arena-sub').textContent = arenaCount + ' / ' + QUEST_GOALS.arena.target + ' games today';
-  document.getElementById('quest-arena-bar').style.width = arenaPct + '%';
-  document.getElementById('quest-arena-pct').textContent = arenaPct + '%';
+  document.getElementById('quest-arena-text').textContent = arenaCount + ' / ' + QUEST_GOALS.arena.target + ' games';
   document.getElementById('quest-arena').classList.toggle('completed', arenaPct >= 100);
+  renderStamps('stamps-arena', arenaCount, QUEST_GOALS.arena.target);
+
+  // Daily quest reward: check if all 3 quests are completed
+  var allComplete = studyPct >= 100 && writePct >= 100 && arenaPct >= 100;
+  renderQuestReward(profile, allComplete);
+}
+
+// ── Daily Quest Reward ──
+function renderQuestReward(profile, allComplete) {
+  var panel = document.querySelector('.reward-panel');
+  var text = document.querySelector('.rp-text');
+  var cta = document.querySelector('.rp-cta');
+  if (!panel) return;
+
+  // Award 1 bonus coin for completing all daily quests (once per day)
+  var bonusAwarded = 0;
+  if (allComplete) {
+    bonusAwarded = XHZ.addCoins(profile.id, 1, 'daily_quest_complete');
+  }
+
+  // Count coins earned today from individual activities
+  var sources = XHZ.getCoinSources(profile.id);
+  var earnedToday = 0;
+  if (sources.game_matching === XHZ.today()) earnedToday++;
+  if (sources.game_sushi === XHZ.today()) earnedToday++;
+  if (sources.daily_login === XHZ.today()) earnedToday++;
+  // Badge coins are tracked separately in coins_sources as badge_*
+  var pData = XHZ._load();
+  var p = pData.profiles.find(function(pr) { return pr.id === profile.id; });
+  if (p && p.coins_sources) {
+    Object.keys(p.coins_sources).forEach(function(src) {
+      if (src.indexOf('badge_') === 0 && p.coins_sources[src] === XHZ.today()) earnedToday++;
+    });
+  }
+  earnedToday += bonusAwarded;
+
+  if (allComplete) {
+    var chest = document.querySelector('.rp-chest');
+    if (chest) chest.textContent = '👍';
+    if (text) text.textContent = bonusAwarded > 0 ? "You completed today's quest! Good job! +1 🪙" : "You completed today's quest! Good job!";
+    if (cta) {
+      cta.textContent = '✅ QUESTS DONE';
+      cta.href = '#';
+    }
+    if (bonusAwarded > 0) {
+      showToast('🎉 Daily quest bonus! +1 🪙', '', 3000);
+      var coinsEl = document.getElementById('dash-coins-text');
+      if (coinsEl) coinsEl.textContent = XHZ.getCoins(profile.id) + ' COINS';
+    }
+  } else {
+    if (text) text.textContent = 'Complete all tasks for +1 bonus!';
+    if (cta) {
+      cta.textContent = "\u{1F680} START TODAY'S MISSION";
+      cta.href = 'study.html';
+    }
+  }
+}
+
+// ── Render stamp circles ──
+function renderStamps(containerId, count, total) {
+  var container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = '';
+  for (var i = 0; i < total; i++) {
+    var stamp = document.createElement('div');
+    stamp.className = 'qr-stamp';
+    if (i < count) {
+      stamp.classList.add('active');
+    }
+    container.appendChild(stamp);
+  }
 }
 
 // ── Journey Card ──
 function renderJourneyCard() {
   if (!REWARDS) {
-    // Retry once rewards data is loaded
     setTimeout(renderJourneyCard, 300);
     return;
   }
@@ -799,50 +1727,83 @@ function renderJourneyCard() {
 
 function getMasteryTitle() {
   if (!REWARDS || !REWARDS.mastery_titles) {
-    return { emoji: '🥚', title: 'Panda Hatchling', pct: 0, next: null };
+    return { emoji: '🥚', title: 'Panda Hatchling', pct: 0, next: null, yearGroup: '1' };
   }
 
   var profile = XHZ.getActiveProfile();
-  if (!profile) return { emoji: '🥚', title: 'Panda Hatchling', pct: 0, next: null };
+  if (!profile) return { emoji: '🥚', title: 'Panda Hatchling', pct: 0, next: null, yearGroup: '1' };
 
   var allMastery = XHZ.getAllMastery(profile.id);
-  var allWords = [];
+  var courses = [];
   if (typeof COURSE_DATA !== 'undefined') {
-    Object.keys(COURSE_DATA).forEach(function(cid) {
-      if (COURSE_DATA[cid] && COURSE_DATA[cid].words) {
-        allWords = allWords.concat(COURSE_DATA[cid].words);
+    courses = Object.keys(COURSE_DATA).map(function(cid) {
+      return COURSE_DATA[cid];
+    }).filter(Boolean);
+  }
+
+  // Find the most advanced year group with mastered words (same logic as progress.html)
+  var yearGroup = '1';
+  var dashCourses = window.DASH_COURSES || [];
+  dashCourses.forEach(function(c) {
+    var data = COURSE_DATA[c.id];
+    if (!data) return;
+    data.words.forEach(function(w) {
+      if (allMastery[w.word_id] &&
+          allMastery[w.word_id].status === 'mastered' &&
+          parseInt(c.year_group) > parseInt(yearGroup)) {
+        yearGroup = c.year_group;
       }
     });
-  }
-  var total = allWords.length;
-  var mastered = 0;
-  allWords.forEach(function(w) {
-    if (allMastery[w.word_id] && allMastery[w.word_id].status === 'mastered') mastered++;
   });
-  var pct = total > 0 ? Math.round((mastered / total) * 100) : 0;
 
-  // Find current title from rewards
-  var group = REWARDS.mastery_titles[0]; // Year 1 by default
-  if (!group || !group.titles) {
-    return { emoji: '🥚', title: 'Panda Hatchling', pct: pct, next: null };
+  // Determine which courses have been attempted (user has mastery data for at least one word)
+  var attemptedCourseIds = {};
+  Object.keys(allMastery).forEach(function(wordId) {
+    dashCourses.forEach(function(c) {
+      if (wordId.indexOf(c.id + '_') === 0) attemptedCourseIds[c.id] = true;
+    });
+  });
+
+  // Collect all words in the determined year group (only from attempted courses)
+  var yearWords = [];
+  dashCourses.forEach(function(c) {
+    if (c.year_group === yearGroup && COURSE_DATA[c.id] && attemptedCourseIds[c.id]) {
+      yearWords = yearWords.concat(COURSE_DATA[c.id].words);
+    }
+  });
+
+  var totalYear = yearWords.length || 1;
+  var masteredYear = yearWords.filter(function(w) {
+    return allMastery[w.word_id] &&
+           allMastery[w.word_id].status === 'mastered';
+  }).length;
+  var pct = Math.round((masteredYear / totalYear) * 100);
+
+  // Find the matching group by yearGroup
+  var group = REWARDS.mastery_titles.find(function(g) {
+    return String(g.year_group) === String(yearGroup);
+  });
+  if (!group) {
+    return { emoji: '🥚', title: 'Panda Hatchling', pct: pct, next: null, yearGroup: yearGroup };
   }
 
   var sorted = group.titles.slice().sort(function(a, b) { return b.min_pct - a.min_pct; });
   var current = sorted.find(function(t) { return pct >= t.min_pct; }) || sorted[sorted.length - 1];
-  var nextTitle = sorted[sorted.length - 1].min_pct === current.min_pct
-    ? null
-    : sorted[sorted.length - 2];
+  var nextT = group.titles.slice()
+    .sort(function(a, b) { return a.min_pct - b.min_pct; })
+    .find(function(t) { return t.min_pct > pct; });
 
   return {
     emoji: current.emoji,
     title: current.title,
     pct: pct,
-    next: { emoji: nextTitle ? nextTitle.emoji : '', title: nextTitle ? nextTitle.title : '', min_pct: nextTitle ? nextTitle.min_pct : 100 }
+    yearGroup: yearGroup,
+    next: nextT || null
   };
 }
 
 function getJourneyStageImagePath(info) {
-  if (!info || !info.yearGroup || info.yearGroup !== '1') return null;
+  if (!info || !info.yearGroup) return null;
   var pctMap = {
     '0':   'egg',
     '20':  'hatch',
@@ -856,7 +1817,7 @@ function getJourneyStageImagePath(info) {
     return String(g.year_group) === String(info.yearGroup);
   });
   if (!group) return null;
-  var sorted = group.titles.slice().sort(function(a,b) { return b.min_pct - a.min_pct; });
+  var sorted = group.titles.slice().sort(function(a, b) { return b.min_pct - a.min_pct; });
   var current = sorted.find(function(t) { return info.pct >= t.min_pct; }) || sorted[sorted.length - 1];
   var pctKey = String(current.min_pct);
   if (pctMap[pctKey]) {
@@ -865,48 +1826,292 @@ function getJourneyStageImagePath(info) {
   return null;
 }
 
-function getJourneyStageBgPath(info) {
-  if (!info || !info.yearGroup) return null;
-  var name = 'journey_bg_placeholder.png';
-  if (info.yearGroup === '1')      name = 'journey_village_bg.png';
-  else if (info.yearGroup === '2') name = 'journey_temple_bg.png';
-  else if (info.yearGroup === '3') name = 'journey_palace_bg.png';
-  return 'assets/mascot/' + name;
-}
-
 function renderTitleProgress() {
   var info = getMasteryTitle();
   var pct  = info.pct || 0;
 
-  // Build stage image
+  // Journey card header is hardcoded as "MY JOURNEY" in HTML
+
+  // Try to load stage image, fall back to emoji
   var imgPath = getJourneyStageImagePath(info);
-  var imageHtml;
-  if (imgPath) {
-    imageHtml = '<img class="journey-stage-img" src="' + imgPath + '" alt="' + info.title + '" draggable="false"/>';
+  var wrap = document.getElementById('jc-avatar-wrap');
+  var img = document.getElementById('jc-avatar-img');
+  var emoji = document.getElementById('jc-avatar-emoji');
+  if (imgPath && img) {
+    img.onload = function() {
+      img.style.display = 'block';
+      if (emoji) emoji.style.display = 'none';
+      if (wrap) wrap.classList.remove('show-emoji');
+    };
+    img.onerror = function() {
+      // Fallback to emoji
+      img.style.display = 'none';
+      if (emoji) {
+        emoji.textContent = info.emoji;
+        emoji.style.display = 'block';
+      }
+      if (wrap) wrap.classList.add('show-emoji');
+    };
+    img.src = imgPath;
   } else {
-    imageHtml = '<span class="journey-stage-emoji" style="font-size:3.5rem;display:block;line-height:1;">' + info.emoji + '</span>';
+    if (img) img.style.display = 'none';
+    if (emoji) {
+      emoji.textContent = info.emoji;
+      emoji.style.display = 'block';
+    }
+    if (wrap) wrap.classList.add('show-emoji');
   }
 
-  // Background image
-  var bgPath = getJourneyStageBgPath(info);
-  var bgHtml = bgPath
-    ? '<img class="journey-bg-img" src="' + bgPath + '" alt="" draggable="false" onerror="this.style.display=\'none\'"/>'
-    : '';
+  document.getElementById('jc-title').textContent = info.title;
+  document.getElementById('jc-pct').textContent = pct + '%';
+  document.getElementById('jc-bar').style.width = pct + '%';
 
-  var nextHtml = info.next && info.next.title
-    ? '<div class="journey-next-info">' + tFormat('journey_next', { emoji: info.next.emoji, title: info.next.title, pct: info.next.min_pct }) + '</div>'
-    : '<div class="journey-next-info">' + t('journey_max') + '</div>';
+  // Update speech bubble with dynamic message
+  updateSpeechBubble(info);
+}
 
-  document.getElementById('title-content').innerHTML =
-    '<div class="journey-stage-wrapper">' +
-      bgHtml +
-      imageHtml +
-      '<div class="journey-pct-row">' +
-        '<span class="journey-pct">' + pct + '%</span>' +
-        '<span class="journey-title-name">' + info.emoji + ' ' + info.title + '</span>' +
-      '</div>' +
-    '</div>' +
-    nextHtml;
+/* ═══════════════════════════════════════════════════════════════
+   PANDA AVATAR — Layered paper doll from equipped items
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Slot mapping: item ID → paper doll slot (matches arena.html) ── */
+var ITEM_TO_SLOT = {
+  sparkle_aura:  'aura',
+  dragon_cape:   'clothing',
+  silk_scarf:    'clothing',
+  straw_hat:     'head',
+  cool_glasses:  'head',
+  hair_bow:      'head',
+  magic_fan:     'tool',
+  golden_crown:  'head',
+  golden_wig:    'head',
+  bamboo_stick:  'tool',
+  lantern:       'tool',
+  wooden_sword:  'tool',
+  ink_brush:     'tool',
+  dragon_staff:  'tool',
+  candy_bag:     'food',
+  lollipop:      'food',
+  ice_cream:     'food',
+  dumpling:      'food',
+  boba_tea:      'food',
+  golden_dumpling: 'food',
+  donut:         'food',
+};
+
+var _avatarState = { aura: null, clothing: null, head: null, tool: null, food: null };
+var _effortItems = [];
+
+function buildEquippedState() {
+  var profile = XHZ.getActiveProfile();
+  if (!profile) {
+    _avatarState = { aura: null, clothing: null, head: null, tool: null, food: null };
+    return;
+  }
+  var itemData = XHZ.getItems(profile.id);
+  var equipped = itemData ? (itemData.equipped || {}) : {};
+  var state = { aura: null, clothing: null, head: null, tool: null, food: null };
+
+  Object.keys(equipped).forEach(function(oldCat) {
+    var itemId = equipped[oldCat];
+    if (!itemId) return;
+    // Resolve slot: panda_layer > category > ITEM_TO_SLOT
+    var slot = null;
+    var rewardItem = _effortItems.find(function(r) { return r.id === itemId; });
+    if (rewardItem) {
+      slot = rewardItem.panda_layer || rewardItem.category;
+    }
+    if (!slot) slot = ITEM_TO_SLOT[itemId];
+    if (!slot || !state.hasOwnProperty(slot)) return;
+
+    // Store the full reward item for PNG resolution
+    state[slot] = rewardItem || { id: itemId, emoji: '✨', category: slot };
+  });
+
+  _avatarState = state;
+}
+
+function updatePandaLayer(slotId) {
+  var layer = document.getElementById('layer-' + slotId);
+  if (!layer) return;
+  var img = document.getElementById('img-' + slotId);
+  var ph = document.getElementById(slotId + '-placeholder');
+  var item = _avatarState[slotId];
+
+  if (item) {
+    // Try loading a PNG from assets/avatars/{slot}_{id}.png
+    var cleanId = item.id;
+    if (slotId === 'aura' && cleanId.endsWith('_aura')) cleanId = cleanId.slice(0, -5);
+    var pngPath = 'assets/avatars/' + slotId + '_' + cleanId + '.png';
+
+    img.onload = function() {
+      this.style.opacity = '1';
+      if (ph) ph.style.opacity = '0';
+    };
+    img.onerror = function() {
+      this.style.opacity = '0';
+      this.removeAttribute('src');
+      if (ph) ph.style.opacity = '';
+    };
+    img.style.opacity = '';
+    if (ph) {
+      ph.style.opacity = '';
+      ph.textContent = item.emoji || '✨';
+    }
+    img.src = pngPath;
+    layer.classList.add('active');
+  } else {
+    img.src = '';
+    img.style.opacity = '0';
+    img.onload = null;
+    img.onerror = null;
+    layer.classList.remove('active');
+    if (ph) {
+      ph.textContent = '';
+      ph.style.opacity = '';
+    }
+  }
+}
+
+function updateAuraLayer() {
+  var layer = document.getElementById('layer-aura');
+  var glow = document.getElementById('aura-glow');
+  var item = _avatarState.aura;
+  if (!layer || !glow) return;
+
+  if (item) {
+    layer.classList.add('active');
+    glow.className = 'aura-glow type-sparkle';
+  } else {
+    layer.classList.remove('active');
+    glow.className = 'aura-glow type-empty';
+  }
+  // Also load PNG via generic layer updater
+  updatePandaLayer('aura');
+}
+
+/* ── Base pose PNGs, swapped based on food + tool slots (matching progress page) ── */
+var VARIANT_PNG_MAP = {
+  stand_still:   'assets/mascot/panda_stand.png',
+  foody:         'assets/mascot/panda_foody.png',
+  warrior:       'assets/mascot/panda_warrior.png',
+  foody_warrior: 'assets/mascot/panda_foody_warrior.png',
+};
+var _currentVariantId = null;
+
+function getPandaVariant() {
+  var profile = XHZ.getActiveProfile();
+  if (!profile) return { name: 'Stand-still 🐼', id: 'stand_still' };
+  var itemData = XHZ.getItems(profile.id);
+  var equipped = itemData ? (itemData.equipped || {}) : {};
+  var hasFood = !!equipped.food;
+  var hasTool = !!equipped.tool;
+  if (hasFood && hasTool) return { name: 'Foody Warrior ⚔️🍭', id: 'foody_warrior' };
+  if (hasFood)            return { name: 'Foody 🍭',           id: 'foody' };
+  if (hasTool)            return { name: 'Warrior ⚔️',         id: 'warrior' };
+  return { name: 'Stand-still 🐼', id: 'stand_still' };
+}
+
+function updatePandaBaseLayer() {
+  var img = document.getElementById('base-image');
+  if (!img) return;
+  var variant = getPandaVariant();
+  if (variant.id === _currentVariantId) return;
+  _currentVariantId = variant.id;
+  var newSrc = VARIANT_PNG_MAP[variant.id] || 'assets/mascot/panda_stand.png';
+  img.src = newSrc;
+}
+
+function renderPandaAvatar() {
+  buildEquippedState();
+  updatePandaBaseLayer();
+  updateAuraLayer();
+  updatePandaLayer('clothing');
+  updatePandaLayer('head');
+  updatePandaLayer('tool');
+  updatePandaLayer('food');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SPEECH BUBBLE — Dynamic messages based on time/streak/journey
+   ═══════════════════════════════════════════════════════════════ */
+
+function updateSpeechBubble(journeyInfo) {
+  var el = document.getElementById('panda-speech');
+  if (!el) return;
+
+  var profile = XHZ.getActiveProfile();
+  if (!profile) { el.textContent = 'Hello there! 🐼'; return; }
+
+  var hour = new Date().getHours();
+  var streak = XHZ.getCurrentStreak(profile.id);
+
+  // Build message from most relevant context
+  var msg = '';
+
+  if (streak === 0) {
+    // No streak — encourage first study
+    var timeGreet = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+    msg = timeGreet + '! Ready to learn today? 🐼';
+  } else if (streak >= 7) {
+    msg = '🔥 ' + streak + '-day streak! You\'re on fire!';
+  } else if (streak >= 3) {
+    msg = '🌟 Day ' + streak + '! Keep the streak alive!';
+  } else if (streak >= 1) {
+    var greetings = [
+      'Welcome back! Let\'s keep going! 🐼',
+      'Day ' + streak + '! You\'ve got this! 💪',
+      'Another day, another character! 📚'
+    ];
+    msg = greetings[streak % greetings.length];
+  }
+
+  // Add journey context
+  if (journeyInfo && journeyInfo.title && journeyInfo.pct >= 20) {
+    var pct = journeyInfo.pct;
+    if (pct >= 80) msg = 'Almost there! ' + pct + '% mastered! 🏮';
+    else if (pct >= 60) msg = 'Great progress — ' + pct + '%! Keep it up! 🌿';
+    else if (pct >= 40) msg = 'You\'re a ' + journeyInfo.title + '! ' + pct + '% so far! 🎋';
+    else if (pct >= 20) msg = 'Learning is an adventure! ' + pct + '% done! 🐾';
+  }
+
+  if (!msg) msg = 'Let\'s learn some Chinese today! 🐼';
+  el.textContent = msg;
+}
+
+// ── Daily Bonus ──
+function renderDailyBonus() {
+  var container = document.getElementById('daily-slots');
+  if (!container) return;
+
+  var profile = XHZ.getActiveProfile();
+  var streak = profile ? XHZ.getCurrentStreak(profile.id) : 0;
+
+  container.innerHTML = '';
+  for (var i = 0; i < 7; i++) {
+    var slot = document.createElement('div');
+    slot.className = 'db-slot';
+
+    if (i === 6) {
+      // Day 7: show earned state if bonus already claimed today, otherwise pulsing gift
+      if (streak >= 7 && XHZ.hasClaimedWeeklyStreakBonus()) {
+        slot.classList.add('earned');
+      } else {
+        slot.classList.add('gift');
+        slot.textContent = '🎁';
+      }
+    } else if (i < streak) {
+      slot.classList.add('earned');
+    }
+
+    // Day number label
+    var numLabel = document.createElement('span');
+    numLabel.className = 'db-slot-number';
+    numLabel.textContent = 'Day ' + (i + 1);
+    slot.appendChild(numLabel);
+
+    container.appendChild(slot);
+  }
 }
 
 // ── Parent Corner ──
@@ -918,7 +2123,6 @@ function toggleParentCorner() {
 }
 
 function openSettings() {
-  // Redirect to index.html which has the PIN gate + settings modal
   location.href = 'index.html';
 }
 
@@ -959,6 +2163,7 @@ onLangChange(function() {
   renderHeader();
   renderQuests();
   renderTitleProgress();
+  renderDailyBonus();
   refreshStrings();
 });
   </script>

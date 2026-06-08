@@ -5,15 +5,18 @@
 
 -- 1. PROFILES -------------------------------------------------
 CREATE TABLE IF NOT EXISTS public.profiles (
-  id              TEXT PRIMARY KEY,
-  nickname        TEXT NOT NULL,
-  avatar          TEXT NOT NULL DEFAULT '🐼',
-  color           TEXT NOT NULL DEFAULT '#FFB347',
-  is_guest        BOOLEAN DEFAULT true,
-  equipped_items  JSONB DEFAULT '{}',
-  created_at      TIMESTAMPTZ DEFAULT now(),
-  updated_at      TIMESTAMPTZ DEFAULT now(),
-  user_id         UUID REFERENCES auth.users(id) ON DELETE SET NULL
+  id                  TEXT PRIMARY KEY,
+  nickname            TEXT NOT NULL,
+  avatar              TEXT NOT NULL DEFAULT '🐼',
+  color               TEXT NOT NULL DEFAULT '#FFB347',
+  is_guest            BOOLEAN DEFAULT true,
+  equipped_items      JSONB DEFAULT '{}',
+  coins               INTEGER DEFAULT 0,
+  coins_earned_total  INTEGER DEFAULT 0,
+  coins_sources       JSONB DEFAULT '{}',
+  created_at          TIMESTAMPTZ DEFAULT now(),
+  updated_at          TIMESTAMPTZ DEFAULT now(),
+  user_id             UUID REFERENCES auth.users(id) ON DELETE SET NULL
 );
 
 -- 2. SCORES (daily) -------------------------------------------
@@ -62,6 +65,7 @@ CREATE TABLE IF NOT EXISTS public.notebook (
   char            TEXT DEFAULT '',
   pinyin          TEXT DEFAULT '',
   meaning         TEXT DEFAULT '',
+  meaning_th      TEXT DEFAULT '',
   note            TEXT DEFAULT '',
   added_at        TEXT,
   updated_at      TEXT,
@@ -84,6 +88,17 @@ CREATE TABLE IF NOT EXISTS public.hall_of_fame (
   updated_at      BIGINT NOT NULL,
   created_at      TIMESTAMPTZ DEFAULT now()
 );
+
+
+-- ============================================================
+--  MIGRATION: Add new columns to existing tables
+--  Run these if the tables already exist without the new columns
+-- ============================================================
+
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS coins               INTEGER DEFAULT 0;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS coins_earned_total  INTEGER DEFAULT 0;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS coins_sources       JSONB DEFAULT '{}';
+ALTER TABLE public.notebook   ADD COLUMN IF NOT EXISTS meaning_th        TEXT DEFAULT '';
 
 
 -- ============================================================

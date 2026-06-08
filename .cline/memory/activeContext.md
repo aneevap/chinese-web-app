@@ -602,9 +602,164 @@ Place **square PNGs** (400×400 px recommended, transparent background preferr
 - If the PNG doesn't exist yet, the image hides itself gracefully (no broken icon shown)
 - Opacity is 25% so it acts as a subtle backdrop behind the panda
 
+## Session 65 — Dashboard Bento Redesign (Action Launch Rows + Pastel Toy Aesthetic)
+
+### Overview
+Overhauled the dashboard (`dashboard.html`) bento card layout to fix the "Box-ception" problem and improve affordance for young learners. Transformed passive nested frames into vibrant action launch rows with 3D pastel buttons.
+
+### Changes (in order)
+
+**1. Avatar greeting → speech bubble**
+- White bubble with `border: 2px solid var(--text-dark)`, `border-radius: 14px`, `::after` triangle tail pointing up toward the panda
+- Mali hand-written font for greeting text
+- `box-shadow: 3px 3px 0 var(--text-dark)` matching new palette
+- Responsive: shrinks to `max-width: 200px` at 420px
+
+**2. Journey stage images in trophy case**
+- Trophy case now shows stage-specific PNGs (`journey_village_{egg,hatch,cub,lantern,guardian,champion}.png`) instead of just emoji
+- `getStageImageSrc(minPct)` maps mastery % → filename
+- Enlarged from 60×60px → 80×80px
+- Fallback edge case: if image source is empty (unknown stage), properly hides `<img>` and shows `🏆` fallback span
+
+**3. Mastery % discrepancy fix**
+- **Bug:** Dashboard counted mastered words across ALL courses (mixing year groups). Progress page only counts within the current year group.
+- **Fix:** Added `DASH_COURSES` global from `courses.json`. `getMasteryTitle()` now finds the active year group → filters words to that year → calculates % within that group only.
+- Title lookup uses `mastery_titles.find()` by `year_group` instead of hardcoded `[0]`.
+
+**4. CTA button relocated & recolored**
+- Moved from avatar stage to stamp card (below quest rows)
+- Color: yellow gradient → `#ffa17a` → `#326c9e` (users' sequential requests)
+- `margin-top: auto` pushes to bottom of card on wider screens
+- Hover: `translateY(-3px)`, `filter: brightness(1.15)`
+
+**5. Quest rows → Action launch rows**
+- Removed nested white sticker frames (`sc-quest` → `action-launch-row`)
+- Dashed dividers between rows instead of box backgrounds
+- 3D buttons per path: green (study), orange (write), purple (arena)
+  - `border: 3px solid #111827`, `5px` offset shadow, `:active` squish (translateY+shadow flatten)
+- Initially too bulky; slimmed down per user feedback (smaller padding/font/shadow)
+
+**6. Pastel toy aesthetic (Nintendo Switch-style)**
+Applied comprehensive visual redesign based on user-provided CSS spec:
+
+| Token | Before | After |
+|-------|--------|-------|
+| `--text-dark` | `--ink-dark` (#170E07) | `#2C1A0B` (deep coffee brown) |
+| Card background | `var(--paper-warm)` + paper-grain texture | `#FFFFFF` (pure white) |
+| Card border | None (just `filter: drop-shadow`) | `3px solid var(--text-dark)` |
+| Card radius | 20px | 24px |
+| Card shadow | `var(--shadow-card)` (soft brown) | `6px 6px 0px 0px var(--text-dark)` (solid) |
+| Card padding | 18px 20px | 28px |
+| Button colors | Bright #2ECC71 / #E67E22 / #6C5CE7 | Pastel `#A3E4D7` / `#FAD7A0` / `#A3E4D7` |
+| Button text | White | `var(--text-dark)` |
+| Button radius | 10px | 20px (pill) |
+| Button shadow | Colored per-theme | `0 5px 0 var(--text-dark)` (unified) |
+| Button active | translateY(2px) | translateY(4px), shadow → 1px |
+| Stamp dots | 28px, dashed border, #FFDE6A active | 16px, solid border, `var(--pastel-yellow)` active |
+| Ink splash | rgba(255,200,50,...) | rgba(249,231,159,...) |
+| CTA button | Blue (#326c9e), white text | Pastel yellow, dark brown text, 3D pill |
+| `.bento-card` | `overflow: hidden` (clipped aura glow) | Removed |
+| `.bento-card` | `filter: drop-shadow` | Removed (replaced by solid shadow) |
+
+**Arena button** reuses `pastel-green` for color harmony (instead of a 3rd competing color).
+
+**Files changed:** `dashboard.html` only
+
+### Remaining polish
+The user noted the pastel redesign "doesn't look right yet" and wants to revisit tomorrow.
+
+---
+
+## Session 66 — Dashboard Polish: Panda Variant Fix, Text Fixes, Quest Board Prep for 9-Slice Border
+
+### Overview
+Multiple polish passes on `dashboard.html` fixing panda avatar overlap, text overflow, quest board frame design, and preparing for future 9-slice SVG border images.
+
+### Changes (in order)
+
+**1. Panda variant system ported from progress page**
+- **Bug:** Main panda always showed `panda_stand.png` with equipped items (e.g. foodie) overlaid on top — "two layers of pandas"
+- **Fix:** Ported `VARIANT_PNG_MAP`, `getPandaVariant()`, `updatePandaBaseLayer()` from progress.html
+- Now swaps base image to `panda_foody.png`, `panda_warrior.png`, or `panda_foody_warrior.png` based on equipped food/tool items
+- `_currentVariantId` caching prevents redundant src swaps
+- Called before other layers in `renderPandaAvatar()`
+
+**2. Text display fixes**
+- **Journey header**: Removed `t('dash_journey_header')` JS override that was returning the i18n key itself (missing from strings.js). Static `MY JOURNEY` from HTML now displays correctly.
+- **CTA button**: Removed `data-i18n="dash_start_mission"` so "🚀 START TODAY'S MISSION" renders instead of the i18n key.
+- **Button overflow**: `white-space: nowrap` → `normal`, reduced padding/font-size, added `word-break: keep-all` + `overflow-wrap: break-word` + `box-sizing: border-box`.
+
+**3. Quest board 3-layer frame → simplified placeholder**
+- Initially built a carved wooden toy frame (8px brown stroke, 16px gold gradient band, cream panel, gold cap bars, shading overlay)
+- User didn't like the result, decided to use 9-slice border-image method with SVGs
+- **Reverted**: Removed `.quest-board-frame`, `.qbf-cap`, `::before` overlay, and gold ribbon pseudo-element tails
+- Simplified to clean `.quest-board` and `.quest-ribbon` containers with placeholder gold borders, marked with `/* ══ PLACEHOLDER ══ */` comments
+
+**4. 9-slice SVG setup documented** (`onboarding-audit.md` §8)
+- Added file structure: `assets/frames/quest-board.svg`, `assets/frames/quest-ribbon.svg`
+- SVG slice guide: 80×80 px grid with 20 px slices
+- CSS `border-image` recipes for both elements
+- Step-by-step activation instructions
+
+### Files changed
+- `dashboard.html` — Panda variant system, text fixes, quest board simplified
+- `onboarding-audit.md` — New §8: 9-Slice Border Setup
+
+---
+
+## Session 67 — Dashboard: Responsive Overhaul, Mastery Fix, Quest Reward, Cleanup
+
+### Overview
+Major polish pass on `dashboard.html` — responsive layout restructured for iPhone, mastery percentage fixed to match progress page, daily quest reward system, and extensive dead code cleanup.
+
+### Changes
+
+**1. Responsive layout overhaul (iPhone ≤640px)**
+- **Top bar restructured:** Horizontal row with avatar+streak on left, coins on right (was 3 stacked rows)
+- **Ribbon restructured:** Moved from `.dash-top-bar` (tb-center) to `.dash-main` as a sibling of `.panda-col` and `.quest-board`. On desktop: absolutely positioned at `top: -60px; right: 0` to appear in the top bar area (known fragile magic number). On mobile (≤640px): `position: relative`, flows naturally between panda and quest board, right-aligned.
+- **Bottom row layout:** My Journey on top (full width), Daily Bonus (70%) + Parent Settings (30%) below on mobile
+- **Journey card width fix:** Added `width: 100%; min-width: 0` at ≤900px to override flex-era `width: 0; min-width: 280px`
+- **Compact spacing:** Top bar gap 12→6px, ribbon padding tightened, speech bubble smaller, panda viewport 220→100px at ≤400px, main area gaps reduced
+- **Ribbon border removed** on mobile for cleaner look
+- **Coins font size** reduced to 0.75rem on mobile
+
+**2. Mastery percentage fix**
+- **Bug:** Dashboard loaded ALL courses' data into `COURSE_DATA` but progress page only loaded attempted ones. Dashboard included unattempted courses in the year group word count, lowering the percentage.
+- **Fix:** Added `attemptedCourseIds` detection (same pattern as progress page's `getAttemptedCourseIds()`), filtered `yearWords` to only include attempted courses
+- **Files:** `dashboard.html` — `getMasteryTitle()` function
+
+**3. Daily quest reward**
+- Awards 1 bonus coin via `XHZ.addCoins(id, 1, 'daily_quest_complete')` when all 3 quests complete (daily-capped by addCoins)
+- Reward panel shows 👍 + "You completed today's quest! Good job! +1 🪙" on first completion
+- Removed XP display entirely (no XP system exists)
+- Removed dead `.rp-pill` CSS and JS references
+- Removed dead `.reward-panel.claimed` CSS rules
+
+**4. Removed elements**
+- Removed broken `rewards.html` link from treasure chest icon (changed `<a>` to `<div>`)
+- Removed gift box icon (🎁) from top-right nav bar (HTML + CSS)
+- Removed "Clear Local Data" button from parent settings dropdown
+
+**5. Encouraging ribbon text**
+- Changed from streak-based messages ("Keep it up! Day 1!") to 10 random encouraging phrases (no day numbers)
+- Random phrase picks on each page load for variety
+
+**6. Dead CSS cleanup**
+- Removed `.tb-center` base CSS (flex: 1, display: flex, justify-content: center, min-width: 200px) — ribbon moved out
+- Removed `.rp-pill` CSS block — element hidden with visibility:hidden
+- Removed `.reward-panel.claimed` CSS rules — function now overwrites styles inline
+- Removed `overflow: visible` from `.dash-top-bar` at ≤640px — ribbon moved out
+
+### Files changed
+- `dashboard.html` — all changes above
+
+---
+
 ## Next Steps
 
+- Create 9-slice SVG frames for quest board and ribbon, place in `assets/frames/`, swap `border-image` values from placeholders
 - Apply notebook SQL to Supabase dashboard to eliminate remaining 404
 - Create the background PNGs (start with `journey_village_bg.png`)
 - Port zombie game into a proper game mode on arena.html
 - Add unlock gating (course 1A mastery check) and coin rewards
+- Fine-tune ribbon `top: -60px` magic number on desktop (fragile, depends on top bar height)

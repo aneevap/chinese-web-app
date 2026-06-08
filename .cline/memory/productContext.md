@@ -63,6 +63,16 @@ A stroke-writing game where players use a magic wand to draw Chinese characters 
 
 See `activeContext.md → Zombie Spell Defense — Playground Built` for full implementation details.
 
+## Design Evolution — Dashboard Exploring Pastel Toy Aesthetic
+
+As of Session 65, `dashboard.html` is piloting a **pastel toy aesthetic** diverging from the original "Botes paper palette":
+- **Cards:** Pure white `#FFFFFF` with `3px solid var(--text-dark)` (#2C1A0B deep brown) border, `24px` radius, `6px 6px 0px` solid offset shadow
+- **Buttons:** 3D pill-shaped with pastel fills (mint green `#A3E4D7`, apricot `#FAD7A0`, buttery yellow `#F9E79F`), dark brown text, `5px` unified text-dark shadow, `:active` squish
+- **No more paper-grain textures** on dashboard cards (pure white surface)
+- **No more `overflow: hidden`** on cards — aura glow can extend naturally
+
+**Status:** ✅ Session 67 polish complete — responsive layout overhauled for iPhone, quest board with 9-slice SVG borders, mastery percentage fixed, daily quest reward system added. Dead CSS cleaned up. Desktop ribbon uses absolute positioning (`top: -60px`) — known fragile magic number.
+
 ## Known Inconsistencies (Noted)
 - **Font weight loading varies by page:**
   - `index.html`, `new-learner.html`, `study.html`, `print.html`: Bai Jamjuree (400,600,700), Nunito (400,700,800,900), Mali (400,700)

@@ -105,6 +105,9 @@
           color: profile.color || '#FFB347',
           is_guest: profile.is_guest !== false,
           equipped_items: profile.equipped_items || {},
+          coins: profile.coins || 0,
+          coins_earned_total: profile.coins_earned_total || 0,
+          coins_sources: profile.coins_sources || {},
           updated_at: new Date().toISOString()
         }, { onConflict: 'id' });
         if (error) console.warn('Supabase pushProfile:', error.message);
@@ -124,6 +127,9 @@
             color: p.color || '#FFB347',
             is_guest: p.is_guest !== false,
             equipped_items: p.equipped_items || {},
+            coins: p.coins || 0,
+            coins_earned_total: p.coins_earned_total || 0,
+            coins_sources: p.coins_sources || {},
             updated_at: new Date().toISOString()
           };
         });
@@ -372,11 +378,46 @@
               avatar: rp.avatar,
               color: rp.color,
               is_guest: rp.is_guest !== false,
-              equipped_items: rp.equipped_items || {}
+              equipped_items: rp.equipped_items || {},
+              coins: rp.coins || 0,
+              coins_earned_total: rp.coins_earned_total || 0,
+              coins_sources: rp.coins_sources || {}
             });
             XHZ._save(data);
           }
         });
+      }
+
+      // Merge coins (take the higher balance if remote has more)
+      if (remote.profiles && remote.profiles.length) {
+        var data = XHZ._load();
+        var merged = false;
+        remote.profiles.forEach(function (rp) {
+          var lp = data.profiles.find(function (p) { return p.id === rp.id; });
+          if (!lp) return;
+          if (!lp.coins) lp.coins = 0;
+          if (!lp.coins_earned_total) lp.coins_earned_total = 0;
+          if (!lp.coins_sources) lp.coins_sources = {};
+          // Take the higher balance
+          if ((rp.coins || 0) > lp.coins) {
+            lp.coins = rp.coins;
+            merged = true;
+          }
+          if ((rp.coins_earned_total || 0) > lp.coins_earned_total) {
+            lp.coins_earned_total = rp.coins_earned_total;
+            merged = true;
+          }
+          // Merge coin sources (union — keep both today's dates)
+          if (rp.coins_sources && typeof rp.coins_sources === 'object') {
+            Object.keys(rp.coins_sources).forEach(function (src) {
+              if (!lp.coins_sources[src] || rp.coins_sources[src] > lp.coins_sources[src]) {
+                lp.coins_sources[src] = rp.coins_sources[src];
+                merged = true;
+              }
+            });
+          }
+        });
+        if (merged) XHZ._save(data);
       }
 
       // Merge scores (keep both, union)
@@ -454,6 +495,7 @@
             char: e.char || '',
             pinyin: e.pinyin || '',
             meaning: e.meaning || '',
+            meaning_th: e.meaning_th || '',
             note: e.note || '',
             added_at: e.added_at || null,
             updated_at: e.updated_at || null
@@ -485,6 +527,7 @@
             char: row.char,
             pinyin: row.pinyin,
             meaning: row.meaning,
+            meaning_th: row.meaning_th || '',
             note: row.note,
             added_at: row.added_at,
             updated_at: row.updated_at

@@ -291,7 +291,111 @@ All changes are **additive** — they don't break existing functionality, just l
 
 ---
 
-## 7. Principles for Going Forward
+## 7. Dashboard Redesign Impact (Session 65)
+
+### Changes applied that address onboarding issues
+
+| Audit Issue | Dashboard Fix |
+|-------------|---------------|
+| **Box-ception** (3.3 — too many nested frames) | Completely removed inner frames from quest rows. Action launch rows float freely with dashed dividers — no box nesting. Applied to dashboard avatar + stamp card bento cards. |
+| **Lack of affordance** (3.3 — nothing says "Click Me!") | Replaced flat rows with 3D pastel pill buttons with `:active` squish feedback. Each pathway (study/write/arena) has a distinct colored button with action verbs ("Let's Study!", "Start Writing!", "Enter Arena!"). |
+| **No session goal or "done" state** (3.5) | Stamp circles below each quest label show completion state. Pastel-yellow stamps fill in as quests progress. Completed rows dim to 55% opacity. CTA button at bottom for "Start Today's Mission". |
+
+### Still pending from this session
+
+- The pastel toy aesthetic needs revision — user felt it "doesn't look right yet"
+- Once approved, the design pattern (action buttons, 3D shadows, pure white cards) could propagate to other pages
+
+---
+
+## 8. 9-Slice Border Setup (CSS `border-image`)
+
+> **Status:** 🟡 Placeholder — SVGs not yet created. CSS and HTML are cleaned up and ready.
+
+### Overview
+
+The quest board (`.quest-board`) and the "TODAY'S QUEST" ribbon header (`.quest-ribbon`) on `dashboard.html` will use **9-slice scaling** via CSS `border-image` with custom SVGs. This replaces the earlier 3-layer CSS frame approach.
+
+### Target file structure
+
+Create SVGs and place them here:
+
+```
+assets/
+  frames/
+    quest-board.svg        ← Frame for the main quest board panel
+    quest-ribbon.svg       ← Frame for the "TODAY'S QUEST" ribbon header
+```
+
+### SVG slice guide
+
+Each SVG should be designed as an **80×80 pixel** 9-slice grid:
+
+```
+┌──────────┬──────────────────┬──────────┐
+│ top-left │   top (tile)     │ top-right │
+│  (fixed) │                  │  (fixed)  │
+│ 20×20px  │    20×40px       │ 20×20px   │
+├──────────┼──────────────────┼──────────┤
+│ left     │   center (tile)  │ right     │
+│ (tile)   │   transparent    │ (tile)    │
+│ 20×40px  │   or fill        │ 20×40px   │
+├──────────┼──────────────────┼──────────┤
+│ bot-left │   bottom (tile)  │ bot-right │
+│  (fixed) │                  │  (fixed)  │
+│ 20×20px  │    20×40px       │ 20×20px   │
+└──────────┴──────────────────┴──────────┘
+```
+
+- **Total SVG canvas:** 80 × 80 px
+- **Slice width/height:** 20 px on each side → `border-width: 20px` or use `border-image-slice: 20 fill`
+- **Corner pieces (4):** Fixed — won't stretch. Each is 20×20 px.
+- **Edge pieces (4):** Stretch/tile horizontally or vertically. Middle section of each edge: 40 px wide/tall, 20 px thick.
+- **Center:** Leave transparent or a fill color — the element's `background` will show through.
+
+### CSS to apply once SVGs are ready
+
+#### quest-board (main panel)
+
+Replace the `border` / `border-radius` placeholder in `.quest-board` with:
+
+```css
+.quest-board {
+  border: 20px solid transparent;
+  border-image-source: url('assets/frames/quest-board.svg');
+  border-image-slice: 20 fill;
+  border-image-repeat: stretch stretch;
+  border-image-outset: 0;
+  /* Remove border-radius — 9-slice handles corners */
+}
+```
+
+#### quest-ribbon (header)
+
+Replace the `border` / `border-radius` placeholder in `.quest-ribbon` with:
+
+```css
+.quest-ribbon {
+  border: 20px solid transparent;
+  border-image-source: url('assets/frames/quest-ribbon.svg');
+  border-image-slice: 20 fill;
+  border-image-repeat: stretch stretch;
+  border-image-outset: 0;
+}
+```
+
+> **Note:** `border-image-slice: 20 fill` — the `fill` keyword lets the center region of the SVG render as the element's background, so the element's own `background` property is ignored. If your SVG center is transparent, use `border-image-slice: 20` (no fill) and the element's CSS `background` will show through.
+
+### Steps to activate
+
+1. Create the two SVGs and place them in `assets/frames/`
+2. In `dashboard.html` CSS, replace the placeholder border blocks (marked with comments `/* ══ PLACEHOLDER ══ */`) with the `border-image` rules above
+3. Remove `border-radius` from both selectors (9-slice handles rounded corners via SVG)
+4. Test in browser
+
+---
+
+## 9. Principles for Going Forward
 
 1. **The first 10 seconds decide retention** — make them count
 2. **One clear action > five good options** — always suggest a next step

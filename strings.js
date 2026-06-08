@@ -24,9 +24,9 @@ var STRINGS = {
     who_learning:       "Who's learning today?",
     add_learner:        "Add learner",
     what_to_do:         "What do you want to do?",
-    activity_write:     "✍️ Write Practice",
-    activity_study:     "📖 Study",
-    activity_print:     "🖨️ Print Worksheet",
+    activity_write:     "Write Practice",
+    activity_study:     "Study",
+    activity_print:     "Print Worksheet",
     cancel:             "Cancel",
 
     // ── Settings modal ──────────────────────────────────────────
@@ -224,8 +224,11 @@ var STRINGS = {
     dash_welcome_f4:     "Track progress — watch your panda grow as you master new words",
     dash_welcome_cta:    "Let's go! 🚀",
     dash_quest_title:    "Today's Quest",
-    dash_arena:          "Arena Games",
+    dash_quest_sub:      "Complete each task to earn a stamp!",
+    dash_arena:          "Arena",
     dash_journey_title:  "My Journey",
+    dash_daily_bonus: "Daily Bonus",
+    dash_cta_mission:  "Start Today's Mission",
 
     // ── Streak ──
     streak_day:  "day",
@@ -446,8 +449,11 @@ var STRINGS = {
     dash_welcome_f4:     "🏆 ติดตามความคืบหน้า — ดูแพนด้าของคุณเติบโตเมื่อคุณเชี่ยวชาญคำศัพท์ใหม่",
     dash_welcome_cta:    "ไปกันเลย! 🚀",
     dash_quest_title:    "ภารกิจวันนี้",
+    dash_quest_sub:      "ทำแต่ละภารกิจเพื่อรับตราประทับ!",
     dash_arena:          "สนามประลอง",
     dash_journey_title:  "การเดินทางของฉัน",
+    dash_daily_bonus: "โบนัสรายวัน",
+    dash_cta_mission:  "เริ่มภารกิจวันนี้",
 
     // ── Streak ──
     streak_day:  "วัน",

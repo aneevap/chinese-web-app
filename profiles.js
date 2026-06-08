@@ -1179,6 +1179,46 @@ const XHZ = {
     return this.addCoins(profile.id, 1, 'daily_login');
   },
 
+  /**
+   * Award 7 coins for reaching a 7-day streak milestone.
+   * Awards once per 7-day cycle (source encodes the week number).
+   * E.g. streak 7-13 → source 'streak_week_1', streak 14-20 → source 'streak_week_2'
+   * @returns {number} coins awarded (0 if already claimed or streak < 7)
+   */
+  awardWeeklyStreakBonus() {
+    var profile = this.getActiveProfile();
+    if (!profile) return 0;
+    var streak = this.getCurrentStreak(profile.id);
+    if (streak < 7) return 0;
+    var weekNumber = Math.floor(streak / 7);
+    var source = 'streak_week_' + weekNumber;
+    var data = this._load();
+    var p = data.profiles.find(function(pr) { return pr.id === profile.id; });
+    if (!p) return 0;
+    this._ensureCoinFields(p);
+    // Once-per-cycle: if source already exists, this cycle's bonus was claimed
+    if (p.coins_sources[source]) return 0;
+    p.coins += 7;
+    p.coins_earned_total += 7;
+    p.coins_sources[source] = this.today();
+    this._save(data);
+    return 7;
+  },
+
+  /**
+   * Check if the weekly streak bonus has been claimed for the current streak cycle.
+   * @returns {boolean}
+   */
+  hasClaimedWeeklyStreakBonus() {
+    var profile = this.getActiveProfile();
+    if (!profile) return false;
+    var streak = this.getCurrentStreak(profile.id);
+    if (streak < 7) return false;
+    var weekNumber = Math.floor(streak / 7);
+    var source = 'streak_week_' + weekNumber;
+    return !!(profile.coins_sources && profile.coins_sources[source]);
+  },
+
   equipItem(profileId, itemId, category) {
     const itemData = this._loadItems(profileId);
     if (!itemData.earned.includes(itemId)) return false;
@@ -1458,13 +1498,13 @@ const XHZ = {
       }
     });
 
-    // Phase 2: Sync nickname, avatar, color from Supabase (async)
+    // Phase 2: Sync nickname, avatar, color, and coins from Supabase (async)
     if (data.profiles.length > 0 && window.__supabase) {
       try {
         var ids = data.profiles.map(function(p) { return p.id; });
         var { data: remoteProfiles, error } = await window.__supabase
           .from('profiles')
-          .select('id, nickname, avatar, color')
+          .select('id, nickname, avatar, color, coins, coins_earned_total, coins_sources')
           .in('id', ids);
 
         if (!error && remoteProfiles && remoteProfiles.length) {
@@ -1488,6 +1528,26 @@ const XHZ = {
               if (rp.color !== undefined && p.color !== rp.color) {
                 p.color = rp.color;
                 changed = true;
+              }
+              // Sync coins — take the higher balance
+              if (!p.coins) p.coins = 0;
+              if (!p.coins_earned_total) p.coins_earned_total = 0;
+              if (!p.coins_sources) p.coins_sources = {};
+              if ((rp.coins || 0) > p.coins) {
+                p.coins = rp.coins;
+                changed = true;
+              }
+              if ((rp.coins_earned_total || 0) > p.coins_earned_total) {
+                p.coins_earned_total = rp.coins_earned_total;
+                changed = true;
+              }
+              if (rp.coins_sources && typeof rp.coins_sources === 'object') {
+                Object.keys(rp.coins_sources).forEach(function (src) {
+                  if (!p.coins_sources[src] || rp.coins_sources[src] > p.coins_sources[src]) {
+                    p.coins_sources[src] = rp.coins_sources[src];
+                    changed = true;
+                  }
+                });
               }
               if (changed) count++;
             }
