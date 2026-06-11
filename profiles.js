@@ -967,7 +967,7 @@ const XHZ = {
     while (true) {
       const key = cursor.toISOString().slice(0, 10);
       const entry = days[key];
-      if (entry && (entry.write_score + entry.study_score) > 0) {
+      if (entry) {
         streak++;
         cursor.setDate(cursor.getDate() - 1);
       } else {
@@ -983,8 +983,7 @@ const XHZ = {
     let longest = 0, current = 0, prevDate = null;
 
     sorted.forEach(dateStr => {
-      const entry = days[dateStr];
-      if ((entry.write_score || 0) + (entry.study_score || 0) === 0) return;
+      if (!days[dateStr]) return;
 
       if (prevDate) {
         const diff = (new Date(dateStr + 'T00:00:00') - new Date(prevDate + 'T00:00:00')) / 86400000;
@@ -1179,7 +1178,25 @@ const XHZ = {
   awardDailyLoginCoin() {
     var profile = this.getActiveProfile();
     if (!profile) return 0;
-    return this.addCoins(profile.id, 1, 'daily_login');
+    var result = this.addCoins(profile.id, 1, 'daily_login');
+    if (result > 0) {
+      // Ensure today's score entry exists so the streak counter works
+      var scoreData = this._loadScores(profile.id);
+      var day = this.today();
+      if (!scoreData.days[day]) {
+        scoreData.days[day] = {
+          write_score: 0,
+          study_score: 0,
+          chars_practiced: [],
+          cards_studied: [],
+          badge: null,
+          study_badge: null,
+          write_attempts: {}
+        };
+      }
+      this._saveScores(profile.id, scoreData);
+    }
+    return result;
   },
 
   /**
