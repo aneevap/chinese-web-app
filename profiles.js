@@ -472,6 +472,9 @@ const XHZ = {
           }
         } else {
           pointsBlocked += points;
+          if (!entry.chars_practiced.includes(wordId)) {
+            entry.chars_practiced.push(wordId);
+          }
         }
       });
       

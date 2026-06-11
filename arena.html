@@ -17,14 +17,54 @@
 <style>
 /* ── ARENA PAGE — Neo-Brutalism Board-Game Aesthetic ── */
 
-/* ── LAYOUT ── */
-#main-content { flex: 1; padding: 12px 12px 80px; }
-
-/* ── ARENA HEADER ── */
-.arena-header {
-  text-align: center;
-  padding: 0;
+/* ── PAGE BACKGROUND ── */
+body {
+  background-color: #e3d7b9 !important;
+  background-image: none !important;
 }
+
+/* Background images — scoped to content sections */
+.arena-upper {
+  position: relative;
+}
+.arena-upper::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: calc(-50vw + 50%);
+  width: 100vw;
+  background: url('assets/textures/bg_mountains.webp') top center / cover no-repeat;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+}
+.arena-upper > * {
+  position: relative;
+  z-index: 1;
+}
+
+.arena-lower {
+  position: relative;
+}
+.arena-lower::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: calc(-50vw + 50%);
+  width: 100vw;
+  background: url('assets/textures/bg_bamboos.webp') bottom center / cover no-repeat;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+}
+.arena-lower > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── LAYOUT ── */
+/* (see TWO-COLUMN LAYOUT section below for #main-content and .arena-header) */
+
 .arena-header h1 {
   font-family: 'ZCOOL KuaiLe', 'Bai Jamjuree', sans-serif;
   font-size: 3rem;
@@ -42,14 +82,14 @@
   line-height: 1.3;
 }
 
-/* ── GAME CARDS — 3-column grid ── */
+/* ── GAME CARDS — 3-column grid, full width ── */
 .games-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  margin-bottom: 16px;
-  padding: 0 8px;
-  max-width: 420px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin: 16px 0 10px;
+  padding: 0;
+  max-width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -87,7 +127,7 @@
   border: 3px solid #111827;
   border-radius: 18px;
   padding: 12px 16px;
-  box-shadow: 4px 4px 0px 0px #111827;
+  box-shadow: none;
   font-size: 0.82rem;
   color: #6B5544;
   font-weight: 700;
@@ -127,16 +167,6 @@
   font-size: 1em;
 }
 
-@media (max-width: 480px) {
-  .mission-panda-img {
-    width: 85px;
-  }
-  .mission-bubble {
-    font-size: 0.76rem;
-  }
-}
-
-
 .game-card {
   background: #FAF8F5;
   border: 3px solid #111827;
@@ -152,7 +182,7 @@
   gap: 4px;
   position: relative;
   overflow: hidden;
-  box-shadow: 4px 4px 0px 0px #111827;
+  box-shadow: none;
   min-width: 0;
 }
 .game-card:hover {
@@ -401,10 +431,10 @@
 
 /* ── HALL OF FAME — Neo-Brutalism Board ── */
 .hall {
-  background: #FAF8F5;
+  background: rgba(250, 248, 245, 0.7);
   border-radius: 20px;
   border: 4px solid #111827;
-  padding: 24px;
+  padding: 16px;
   box-shadow: 8px 8px 0px 0px #111827;
   max-width: 600px;
   margin: 0 auto;
@@ -514,17 +544,17 @@
 .hall-item.podium-1 {
   background: linear-gradient(135deg, #FFF9E6, #FFF3CC);
   border-color: #E6B800;
-  box-shadow: 4px 4px 0px 0px #111827;
+  box-shadow: none;
 }
 .hall-item.podium-2 {
   background: linear-gradient(135deg, #F0F2F5, #E4E7EB);
   border-color: #9CA3AF;
-  box-shadow: 4px 4px 0px 0px #111827;
+  box-shadow: none;
 }
 .hall-item.podium-3 {
   background: linear-gradient(135deg, #FDF0E6, #FCE4D4);
   border-color: #CD8D5E;
-  box-shadow: 4px 4px 0px 0px #111827;
+  box-shadow: none;
 }
 
 /* Thick accent stripe on left for podium */
@@ -661,62 +691,17 @@
 
 
 
-/* ── RESPONSIVE ── */
+/* ── RESPONSIVE: Header shrinks ── */
 @media (max-width: 640px) {
-  .arena-top-row {
-    gap: 8px;
-    margin-bottom: 12px;
-  }
-  .arena-panda-panel {
-    width: 200px;
-    border-width: 3px;
-    box-shadow: 4px 4px 0px 0px #111827;
-  }
-  .arena-top-text {
-    padding: 6px 0;
-  }
-  .arena-header h1 {
-    font-size: 2.2rem;
-  }
-  .arena-header p {
-    font-size: 0.72rem;
-  }
+  .arena-header h1 { font-size: 2.2rem; }
+  .arena-header p  { font-size: 0.72rem; }
 }
 
 @media (max-width: 480px) {
-  .arena-top-row {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-  .arena-panda-panel {
-    width: 200px;
-    border-width: 3px;
-    box-shadow: 4px 4px 0px 0px #111827;
-  }
-  .arena-top-text {
-    order: -1;
-    padding: 4px 0;
-  }
-  .arena-header h1 {
-    font-size: 1.8rem;
-  }
-  .arena-header p {
-    font-size: 0.65rem;
-  }
+  .arena-header h1 { font-size: 1.8rem; }
+  .arena-header p  { font-size: 0.65rem; }
 
-  .games-grid {
-    gap: 6px;
-    padding: 0 4px;
-  }
-  .avatar-name {
-    font-size: 1.2rem;
-    margin-top: -34px;
-    padding: 4px 12px;
-    gap: 6px;
-    border: none;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
-  }
+  .game-card.disabled { display: none; }
   .daily-badge {
     font-size: 0.85em;
   }
@@ -738,7 +723,7 @@
   .game-card-highscore .score-value { font-size: 0.65rem; }
   .game-card-play { font-size: 0.6rem; padding: 3px 8px; border-width: 2px; }
   
-  .hall { padding: 16px; box-shadow: 6px 6px 0px 0px #111827; }
+  .hall { padding: 16px; box-shadow: none; }
   .hall-item { grid-template-columns: 36px 30px 1fr auto; gap: 8px; padding: 8px 10px; }
   .hall-rank { width: 34px; height: 34px; font-size: 0.9rem; }
   .hall-item.podium .hall-rank { width: 42px; height: 42px; font-size: 1.2rem; }
@@ -746,52 +731,7 @@
   .hall-meta .hall-name { font-size: 0.82rem; }
 }
 
-/* ══════════════════════════════════════════════════════════════
-   LAYOUT — Top row: Panda + Header side by side, content below
-   ══════════════════════════════════════════════════════════════ */
-.arena-layout {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 0 8px;
-}
 
-/* Top row: horizontal flex — panda on the far left, header centered in remaining space */
-.arena-top-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  margin-bottom: 16px;
-}
-
-.arena-panda-panel {
-  width: 256px;
-  flex-shrink: 0;
-}
-
-.arena-top-text {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 12px 0;
-}
-
-.arena-content {
-  width: 100%;
-  max-width: 640px;
-  margin: 0 auto;
-}
-
-/* ── PANDA AVATAR COLUMN — wraps circle + name ── */
-.arena-panda-col {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex-shrink: 0;
-}
 
 .avatar-name {
   margin-top: -34px;
@@ -848,11 +788,11 @@
 .arena-panda-panel {
   position: relative;
   width: 300px;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 3 / 3.5;
   border-radius: 50%;
   border: 4px solid #111827;
   background: #F5F0EB;
-  box-shadow: 6px 6px 0px 0px #111827;
+  box-shadow: none;
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -861,7 +801,7 @@
 .avatar-viewport {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 3 / 3.5;
   background: none;
   overflow: hidden;
   user-select: none;
@@ -974,136 +914,364 @@
     font-size: 3em;
   }
 }
-</style>
+
+
+/* ── TWO-COLUMN LAYOUT (desktop: avatar sidebar + mission) ── */
+#main-content { flex: 1; max-width: 960px; margin: 0 auto; padding: 12px 12px 40px; }
+
+/* ── HEADER (top of arena-upper, full width) ── */
+.arena-header {
+  text-align: center;
+  padding: 4px 0 12px;
+}
+
+.arena-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 8px;
+  margin-top: 4px;
+  align-items: start;
+}
+
+.arena-left { }
+.arena-right { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+
+/* Profile card */
+.profile-card {
+  position: sticky;
+  top: 80px;
+  background: transparent;
+  border: none;
+  border-radius: 20px;
+  padding: 99px 0 37px;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  overflow: visible !important;
+  width: 187px;
+  margin: 99px auto 0;
+}
+
+/* Card border starts from mid-avatar down */
+.profile-card::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.7);
+  border: 3px solid #F1C443;
+  border-top: none;
+  border-radius: 0 0 20px 20px;
+  box-shadow: none;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.profile-card .arena-panda-panel {
+  position: absolute;
+  top: -99px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  box-shadow: none;
+}
+
+.profile-card .avatar-name { position: relative; z-index: 10; margin-top: -50px;
+  margin-top: 0;
+  padding: 4px 16px;
+  font-size: 0.9rem;
+}
+
+.pc-stats-row {
+  position: relative;
+  z-index: 1;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 6px auto 0;
+  background: #F5F0EB;
+  border: 1.5px solid #D1C8B0;
+  border-radius: 10px;
+  padding: 4px 8px;
+}
+
+.pc-stat-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pc-stat-divider {
+  color: #D1C8B0;
+  font-weight: 300;
+  font-size: 1rem;
+}
+
+.pc-stat-label { font-size: 0.6rem; color: #6B5544; font-weight: 700; }
+.pc-stat-value { font-size: 0.9rem; font-weight: 900; color: #121824; }
+
+.pc-customize-btn { position: relative; z-index: 1;
+  width: 50%;
+  background: white;
+  border: 3px solid #D1C8B0;
+  border-radius: 10px;
+  padding: 6px;
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 0.75rem;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 0 #D1C8B0;
+}
+
+/* ── MOBILE LAYOUT (≤ 720px) ── */
+@media (max-width: 720px) {
+  /* Flatten the DOM hierarchy: children of these containers become grid items */
+  .arena-left,
+  .arena-right,
+  .profile-card {
+    display: contents;
+  }
+
+  .arena-layout {
+    display: grid;
+    grid-template-columns: 30% 1fr;
+    grid-template-rows: auto auto;
+    gap: 6px;
+    margin-top: 0;
+  }
+
+  /* Avatar cell — override absolute positioning from desktop sidebar */
+  .arena-panda-panel {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    grid-column: 1;
+    grid-row: 1;
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1 !important;
+    max-width: 110px;
+    margin: 0 auto;
+    border-radius: 50% !important;
+    border: 3px solid #111827;
+  }
+
+  /* Name badge — sits below avatar, same width */
+  .avatar-name {
+    grid-column: 1;
+    grid-row: 2;
+    width: auto;
+    max-width: 90%;
+    margin: -12px auto 0;
+    padding: 2px 10px;
+    font-size: 0.65rem;
+    border-radius: 100px;
+    background: linear-gradient(135deg, #FFD93D, #FF6B6B);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-weight: 800;
+    color: #111827;
+    border: none;
+    position: relative;
+    z-index: 5;
+  }
+
+  /* Panda mission fills the right column, centered vertically */
+  .panda-mission {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    margin: 0;
+    padding: 0;
+    gap: 8px;
+    align-self: center;
+  }
+  .mission-panda-img { width: 60px; }
+  .mission-panda-img img { width: 100%; }
+  .mission-bubble {
+    font-size: 0.72rem;
+    padding: 10px 12px;
+  }
+  .mission-bubble::before {
+    left: -10px;
+    border-top-width: 10px;
+    border-bottom-width: 10px;
+    border-right-width: 10px;
+  }
+  .mission-bubble::after {
+    left: -6px;
+    border-top-width: 8px;
+    border-bottom-width: 8px;
+    border-right-width: 8px;
+  }
+
+  /* Games grid — full width below the avatar+mission row */
+  .games-grid {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    width: 100%;
+    margin: 8px 0 0;
+  }
+
+  /* Hide extras on mobile */
+  .pc-stats-row,
+  .pc-customize-btn,
+  .profile-card::before { display: none !important; }
+}
+
+@media (max-width: 480px) {
+  .arena-panda-panel { max-width: 75px; }
+  .avatar-name { max-width: 85%; font-size: 0.6rem; }
+  .mission-panda-img { width: 50px; }
+  .mission-bubble { font-size: 0.68rem; padding: 8px 10px; }
+}
+
+
+
+
+
+/* ── HOF HEADING ── */
+.hof-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 24px 0 10px;
+  max-width: 100%;
+}
+
+.hof-line {
+  flex: 1;
+  height: 2px;
+  background: #C4B8A0;
+  border-radius: 1px;
+}
+
+.hof-title {
+  font-family: 'ZCOOL KuaiLe', 'Bai Jamjuree', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #121824;
+  white-space: nowrap;
+  letter-spacing: -0.02em;
+}</style>
 </head>
 <body>
-  <div id="page-wrap">
-    <div id="app-nav"></div>
-    <main id="main-content">
+<div id="page-wrap">
+  <div id="app-nav"></div>
+  <main id="main-content">
 
+    <div class="arena-upper">
+
+      <!-- ── HEADER (full width, always at top) ── -->
+      <div class="arena-header">
+        <h1>Arena</h1>
+        <p>Choose your challenge and master Chinese characters!</p>
+      </div>
+
+      <!-- ── MAIN LAYOUT: avatar sidebar + panda mission ── -->
       <div class="arena-layout">
 
-      <!-- ── TOP ROW: Panda + Header side by side ── -->
-      <div class="arena-top-row">
-
-        <!-- ── PANDA AVATAR COLUMN (far left) ── -->
-        <div class="arena-panda-col">
-          <div class="arena-panda-panel">
-            <div class="avatar-viewport" id="avatar-viewport">
-
-              <!-- LAYER 1: Aura (z:10) -->
-              <div class="avatar-layer layer-aura" id="layer-aura">
-                <div class="aura-glow type-empty" id="aura-glow"></div>
-                <img class="layer-img" id="img-aura" src="" alt=""
-                     onerror="this.style.opacity='0'" draggable="false"/>
+        <div class="arena-left">
+          <div class="profile-card">
+            <div class="arena-panda-panel" style="width:187px;height:218px;border-radius:9999px;flex-shrink:0;">
+              <div class="avatar-viewport" id="avatar-viewport">
+                <div class="avatar-layer layer-aura" id="layer-aura">
+                  <div class="aura-glow type-empty" id="aura-glow"></div>
+                  <img class="layer-img" id="img-aura" src="" alt="" onerror="this.style.opacity='0'" draggable="false"/>
+                </div>
+                <div class="avatar-layer layer-base">
+                  <img id="base-image" src="assets/mascot/panda_dojo.png" alt="Panda" draggable="false" onerror="this.src='assets/mascot/panda_dojo.png'; this.dataset.fallback='1';"/>
+                </div>
+                <div class="avatar-layer layer-clothing" id="layer-clothing">
+                  <div class="clothing-vest type-empty" id="clothing-vest"></div>
+                  <img class="layer-img" id="img-clothing" src="" alt="" onerror="this.style.opacity='0'" draggable="false"/>
+                </div>
+                <div class="avatar-layer layer-head" id="layer-head">
+                  <span class="layer-placeholder" id="head-placeholder"></span>
+                  <img class="layer-img" id="img-head" src="" alt="" onerror="this.style.opacity='0'" draggable="false"/>
+                </div>
+                <div class="avatar-layer layer-tool" id="layer-tool">
+                  <span class="layer-placeholder" id="tool-placeholder"></span>
+                  <img class="layer-img" id="img-tool" src="" alt="" onerror="this.style.opacity='0'" draggable="false"/>
+                </div>
+                <div class="avatar-layer layer-food" id="layer-food">
+                  <span class="layer-placeholder" id="food-placeholder"></span>
+                  <img class="layer-img" id="img-food" src="" alt="" onerror="this.style.opacity='0'" draggable="false"/>
+                </div>
               </div>
-
-              <!-- LAYER 2: Base (z:20) — dynamic variant swap -->
-              <div class="avatar-layer layer-base">
-                <img id="base-image" src="assets/mascot/panda_dojo.png" alt="Panda"
-                     draggable="false"
-                     onerror="this.src='assets/mascot/panda_dojo.png'; this.dataset.fallback='1';"/>
-              </div>
-
-              <!-- LAYER 3: Clothing (z:30) -->
-              <div class="avatar-layer layer-clothing" id="layer-clothing">
-                <div class="clothing-vest type-empty" id="clothing-vest"></div>
-                <img class="layer-img" id="img-clothing" src="" alt=""
-                     onerror="this.style.opacity='0'" draggable="false"/>
-              </div>
-
-              <!-- LAYER 4: Head (z:40) -->
-              <div class="avatar-layer layer-head" id="layer-head">
-                <span class="layer-placeholder" id="head-placeholder"></span>
-                <img class="layer-img" id="img-head" src="" alt=""
-                     onerror="this.style.opacity='0'" draggable="false"/>
-              </div>
-
-              <!-- LAYER 5: Tool (z:45) -->
-              <div class="avatar-layer layer-tool" id="layer-tool">
-                <span class="layer-placeholder" id="tool-placeholder"></span>
-                <img class="layer-img" id="img-tool" src="" alt=""
-                     onerror="this.style.opacity='0'" draggable="false"/>
-              </div>
-
-              <!-- LAYER 6: Food (z:55) -->
-              <div class="avatar-layer layer-food" id="layer-food">
-                <span class="layer-placeholder" id="food-placeholder"></span>
-                <img class="layer-img" id="img-food" src="" alt=""
-                     onerror="this.style.opacity='0'" draggable="false"/>
-              </div>
-
             </div>
-          </div>
-          <div class="avatar-name" id="avatar-name">
-            <span class="name-text" id="name-text"></span>
-            <span class="daily-badge" id="daily-badge"></span>
+            <div class="avatar-name" id="avatar-name">
+              <span class="name-text" id="name-text"></span>
+              <span class="daily-badge" id="daily-badge"></span>
+            </div>
+            <div class="pc-stats-row">
+              <div class="pc-stat-item">
+                <span class="pc-stat-label">⭐ Stars</span>
+                <span class="pc-stat-value" id="stat-stars">0</span>
+              </div>
+              <span class="pc-stat-divider">|</span>
+              <div class="pc-stat-item">
+                <span class="pc-stat-label">🔥 Streak</span>
+                <span class="pc-stat-value" id="stat-streak">0</span>
+              </div>
+            </div>
+            <button class="pc-customize-btn" onclick="location.href='progress.html'">Customize</button>
           </div>
         </div>
 
-        <!-- ── HEADER + DESCRIPTION CENTERED ── -->
-        <div class="arena-top-text">
-          <div class="arena-header">
-            <h1>Arena</h1>
-            <p>Choose your challenge and master Chinese characters!</p>
-          </div>
-        </div>
-
-      </div><!-- /arena-top-row -->
-
-        <!-- ── CONTENT (below top row) ── -->
-        <div class="arena-content">
-
-          <!-- GAME CARDS -->
-          <div class="games-grid" id="games-grid"></div>
-
-          <!-- PANDA MISSION -->
+        <div class="arena-right">
           <div class="panda-mission" id="panda-mission">
             <div class="mission-panda-img">
               <img src="assets/mascot/panda_arena.png" alt="Panda" draggable="false">
             </div>
             <div class="mission-bubble" id="mission-bubble">
-              Hey <span id="mission-player">there</span>! 🐼 Today&rsquo;s mission: <strong>score over <span class="mb-highlight">30</span></strong> in
+              Hey <span id="mission-player">there</span>! Today's mission: <strong>score over <span class="mb-highlight">30</span></strong> in
               <span class="mb-game-icon">🍣</span> Sushi Shop &amp;
               <span class="mb-game-icon">⚡</span> Flash Match to earn your daily coins!
             </div>
           </div>
-
-
-          <!-- GAME SELECTION DESCRIPTION -->
-          <div class="game-selection-info" id="game-selection-info"></div>
-
-          <!-- INLINE GAME CONTAINER (for sushi mode) -->
-          <div class="game-back-bar" id="game-back-bar" style="display:none;">
-            <button class="game-back-btn" onclick="closeGame()">← Back to Arena</button>
-          </div>
-          <div id="arena-game-root"></div>
-
-          <!-- HALL OF FAME -->
-          <section class="hall">
-            <div class="hall-header">
-              <h2><span>🏆</span> Hall of Fame</h2>
-            </div>
-
-            <div class="hall-tabs">
-              <button class="hall-tab active" data-tab="local" onclick="switchHallTab('local')">📋 Your Rankings</button>
-              <button class="hall-tab" data-tab="global" onclick="switchHallTab('global')">🌍 Global Rankings</button>
-            </div>
-
-            <div id="hall-list" class="hall-list"></div>
-          </section>
-
+          <div class="games-grid" id="games-grid"></div>
         </div>
+
       </div>
 
-    </main>
-  </div>
+      <div class="game-selection-info" id="game-selection-info"></div>
+      <div class="game-back-bar" id="game-back-bar" style="display:none;">
+        <button class="game-back-btn" onclick="closeGame()">\u2190 Back to Arena</button>
+      </div>
+      <div id="arena-game-root"></div>
+    </div>
 
-  <script type="module" src="games/dist/assets/game.js?v=43"></script>
+    <div class="arena-lower">
 
-<div id="toast-container"></div>
+      <div class="hof-heading">
+        <span class="hof-line"></span>
+        <span class="hof-title">🏆 Hall of Fame</span>
+        <span class="hof-line"></span>
+      </div>
+      <section class="hall">
+        <div class="hall-tabs">
+        <button class="hall-tab active" data-tab="local" onclick="switchHallTab('local')">📋 Your Rankings</button>
+        <button class="hall-tab" data-tab="global" onclick="switchHallTab('global')">🌍 Global Rankings</button>
+      </div>
+      <div id="hall-list" class="hall-list"></div>
+    </section>
+    </div>
 
-  <script>
+  </main>
+</div>
+
+<script type="module" src="games/dist/assets/game.js?v=43"></script>
+<div id="toast-container"></div><script>
     /* =====================================================
        GAME DEFINITIONS
     ===================================================== */
@@ -1126,7 +1294,16 @@
         inline: true,
         route: null
       },
-
+      {
+        id: 'zombie',
+        icon: '🧟',
+        title: 'Zombie Chase',
+        desc: 'Race through a zombie-infested city — match characters to survive!',
+        color: '#2D7D46',
+        inline: false,
+        route: 'zombie-game-playground.html',
+        disabled: true
+      },
     ];
 
     /* =====================================================
@@ -1171,6 +1348,20 @@
         card.style.setProperty('--theme-color', game.color);
         card.setAttribute('data-game', game.id);
 
+        // Check unlock for zombie game
+        if (game.id === 'zombie') {
+          var mastery = XHZ.getAllMastery ? XHZ.getAllMastery(XHZ.getActiveId()) || {} : {};
+          var course1AWords = Object.keys(mastery).filter(function(w) { return w.indexOf('1A_') === 0; });
+          var allMastered = course1AWords.length > 0 && course1AWords.every(function(w) { return mastery[w] && mastery[w].status === 'mastered'; });
+          if (!allMastered) {
+            card.classList.add('disabled');
+            game.disabled = true;
+          } else {
+            card.classList.remove('disabled');
+            game.disabled = false;
+          }
+        }
+
         // Get high score for this game
         var highScore = getGameHighScore(game.id);
 
@@ -1180,7 +1371,9 @@
           (highScore !== null
             ? '<div class="game-card-highscore">⭐ Best: <span class="score-value">' + highScore + '</span></div>'
             : '<div class="game-card-highscore" style="color:var(--ink-light);font-size:0.68rem;">No record yet</div>') +
-          '<div class="game-card-play" style="background:' + game.color + ';">▶ Play</div>';
+          (game.disabled
+            ? '<div class="game-card-play" style="background:#9CA3AF;">🔒 Locked</div>'
+            : '<div class="game-card-play" style="background:' + game.color + ';">▶ Play</div>');
 
         card.onclick = function(e) {
           e.preventDefault();
@@ -1290,6 +1483,23 @@
       document.querySelectorAll('.hall-tab').forEach(function(btn) {
         btn.classList.toggle('active', btn.getAttribute('data-tab') === tab);
       });
+      
+      // Sync profile stats
+      var p = XHZ.getActiveProfile();
+      if (p) {
+        var s = document.getElementById('stat-stars');
+        if (s) {
+          var t = XHZ.getTodayScore() || {};
+          var total = (t.write_score || 0) + (t.study_score || 0);
+          s.textContent = total;
+        }
+        var st = document.getElementById('stat-streak');
+        if (st) {
+          var streak = XHZ.getCurrentStreak ? XHZ.getCurrentStreak(p.id) || 0 : 0;
+          st.textContent = streak;
+        }
+      }
+      
       renderHallOfFame();
     }
 
@@ -2008,15 +2218,66 @@
       });
 
       renderGameCards();
+      
+      // Sync profile stats
+      var p = XHZ.getActiveProfile();
+      if (p) {
+        var s = document.getElementById('stat-stars');
+        if (s) {
+          var t = XHZ.getTodayScore() || {};
+          var total = (t.write_score || 0) + (t.study_score || 0);
+          s.textContent = total;
+        }
+        var st = document.getElementById('stat-streak');
+        if (st) {
+          var streak = XHZ.getCurrentStreak ? XHZ.getCurrentStreak(p.id) || 0 : 0;
+          st.textContent = streak;
+        }
+      }
+      
       renderHallOfFame();
 
       onLangChange(function() {
-        renderHallOfFame();
+        
+      // Sync profile stats
+      var p = XHZ.getActiveProfile();
+      if (p) {
+        var s = document.getElementById('stat-stars');
+        if (s) {
+          var t = XHZ.getTodayScore() || {};
+          var total = (t.write_score || 0) + (t.study_score || 0);
+          s.textContent = total;
+        }
+        var st = document.getElementById('stat-streak');
+        if (st) {
+          var streak = XHZ.getCurrentStreak ? XHZ.getCurrentStreak(p.id) || 0 : 0;
+          st.textContent = streak;
+        }
+      }
+      
+      renderHallOfFame();
         window.dispatchEvent(new CustomEvent('xhz:lang-changed'));
       });
 
       window.addEventListener('xhz:arena-hof-updated', function() {
-        renderHallOfFame();
+        
+      // Sync profile stats
+      var p = XHZ.getActiveProfile();
+      if (p) {
+        var s = document.getElementById('stat-stars');
+        if (s) {
+          var t = XHZ.getTodayScore() || {};
+          var total = (t.write_score || 0) + (t.study_score || 0);
+          s.textContent = total;
+        }
+        var st = document.getElementById('stat-streak');
+        if (st) {
+          var streak = XHZ.getCurrentStreak ? XHZ.getCurrentStreak(p.id) || 0 : 0;
+          st.textContent = streak;
+        }
+      }
+      
+      renderHallOfFame();
         renderGameCards();
         // If on Global tab, retry after a delay to let Supabase catch up
         if (CURRENT_HALL_TAB === 'global') {

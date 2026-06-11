@@ -763,3 +763,18 @@ Major polish pass on `dashboard.html` — responsive layout restructured for iPh
 - Port zombie game into a proper game mode on arena.html
 - Add unlock gating (course 1A mastery check) and coin rewards
 - Fine-tune ribbon `top: -60px` magic number on desktop (fragile, depends on top bar height)
+### Etymology added to existing courses
+- All 347 words in characters_1A.json + characters_1B.json now have etymology field
+- Structure: { notes, definition, components: [{type, char}], images }
+- Simple pictographs (一, 二, 大) have notes but no components
+- Compound characters (妈, 好) have full component breakdown
+- word_id naming: "HSK1_001" won't conflict with "1A_001" — prefix-based course detection
+
+### HSK course scaffolds generated (Ses 69)
+- 6 new JSON files: characters_hsk1.json → hsk6.json
+- 2,663 total characters across all HSK levels
+- 342 cross-referenced with existing courses (th/zh/sent preserved)
+- 2,321 need Thai translations + sentence examples filled in
+- All have etymology data from chinese-lexicon
+- courses.json updated with 6 new HSK course entries
+- Single-character only (matches app's current format)
