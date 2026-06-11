@@ -701,7 +701,6 @@ body {
   .arena-header h1 { font-size: 1.8rem; }
   .arena-header p  { font-size: 0.65rem; }
 
-  .game-card.disabled { display: none; }
   .daily-badge {
     font-size: 0.85em;
   }
@@ -1297,8 +1296,8 @@ body {
       {
         id: 'zombie',
         icon: '🧟',
-        title: 'Zombie Chase',
-        desc: 'Race through a zombie-infested city — match characters to survive!',
+        title: 'Zombie Strike',
+        desc: 'Survive the zombie horde — match characters to fight back!',
         color: '#2D7D46',
         inline: false,
         route: 'zombie-game-playground.html',
@@ -1484,22 +1483,7 @@ body {
         btn.classList.toggle('active', btn.getAttribute('data-tab') === tab);
       });
       
-      // Sync profile stats
-      var p = XHZ.getActiveProfile();
-      if (p) {
-        var s = document.getElementById('stat-stars');
-        if (s) {
-          var t = XHZ.getTodayScore() || {};
-          var total = (t.write_score || 0) + (t.study_score || 0);
-          s.textContent = total;
-        }
-        var st = document.getElementById('stat-streak');
-        if (st) {
-          var streak = XHZ.getCurrentStreak ? XHZ.getCurrentStreak(p.id) || 0 : 0;
-          st.textContent = streak;
-        }
-      }
-      
+      syncProfileStats();
       renderHallOfFame();
     }
 
@@ -1533,7 +1517,8 @@ body {
       });
 
       if (sorted.length === 0) {
-        return '<div class="hall-empty">No ' + (gameId === 'sushi' ? 'Sushi' : 'Flash') + ' records yet</div>';
+        var gameNames = { sushi: 'Sushi Conveyor', matching: 'Flash Match', zombie: 'Zombie Strike' };
+        return '<div class="hall-empty">No ' + (gameNames[gameId] || gameId) + ' records yet</div>';
       }
 
       var count = Math.min(maxRank, sorted.length);
@@ -1586,6 +1571,7 @@ body {
       var listEl = document.getElementById('hall-list');
       var sushiHtml = renderGameLeaderboard('sushi', 5);
       var matchingHtml = renderGameLeaderboard('matching', 5);
+      var zombieHtml = renderGameLeaderboard('zombie', 5);
 
       listEl.innerHTML =
         '<div>' +
@@ -1596,6 +1582,11 @@ body {
         '<div>' +
           '<div class="section-label" style="font-size:0.85rem;font-weight:800;margin-bottom:10px;text-align:center;">⚡ Flash Match</div>' +
           matchingHtml +
+        '</div>' +
+        '<div style="border-top:2px dashed #D1D5DB;margin:14px 0;"></div>' +
+        '<div>' +
+          '<div class="section-label" style="font-size:0.85rem;font-weight:800;margin-bottom:10px;text-align:center;">🧟 Zombie Strike</div>' +
+          zombieHtml +
         '</div>';
     }
 
@@ -1611,7 +1602,8 @@ body {
       });
 
       if (sorted.length === 0) {
-        return '<div class="hall-empty">No ' + (gameId === 'sushi' ? 'Sushi' : 'Flash') + ' global records yet</div>';
+        var gameNames = { sushi: 'Sushi Conveyor', matching: 'Flash Match', zombie: 'Zombie Strike' };
+        return '<div class="hall-empty">No ' + (gameNames[gameId] || gameId) + ' global records yet</div>';
       }
 
       var count = Math.min(maxRank, sorted.length);
@@ -1732,6 +1724,7 @@ body {
       var listEl = document.getElementById('hall-list');
       var sushiHtml = renderGlobalLeaderboard('sushi', 5);
       var matchingHtml = renderGlobalLeaderboard('matching', 5);
+      var zombieHtml = renderGlobalLeaderboard('zombie', 5);
 
       listEl.innerHTML =
         '<div>' +
@@ -1742,6 +1735,11 @@ body {
         '<div>' +
           '<div class="section-label" style="font-size:0.85rem;font-weight:800;margin-bottom:10px;text-align:center;">⚡ Flash Match — Global</div>' +
           matchingHtml +
+        '</div>' +
+        '<div style="border-top:2px dashed #D1D5DB;margin:14px 0;"></div>' +
+        '<div>' +
+          '<div class="section-label" style="font-size:0.85rem;font-weight:800;margin-bottom:10px;text-align:center;">🧟 Zombie Strike — Global</div>' +
+          zombieHtml +
         '</div>';
     }
 
@@ -1753,6 +1751,22 @@ body {
       }
     }
 
+
+    /* =====================================================
+       PROFILE STATS SYNC
+    ===================================================== */
+    function syncProfileStats() {
+      var p = XHZ.getActiveProfile();
+      if (!p) return;
+      var s = document.getElementById('stat-stars');
+      if (s) {
+        s.textContent = XHZ.getTotalStars(p.id);
+      }
+      var st = document.getElementById('stat-streak');
+      if (st) {
+        st.textContent = XHZ.getCurrentStreak ? XHZ.getCurrentStreak(p.id) || 0 : 0;
+      }
+    }
 
     /* =====================================================
        UTILITY
@@ -2218,66 +2232,18 @@ body {
       });
 
       renderGameCards();
-      
-      // Sync profile stats
-      var p = XHZ.getActiveProfile();
-      if (p) {
-        var s = document.getElementById('stat-stars');
-        if (s) {
-          var t = XHZ.getTodayScore() || {};
-          var total = (t.write_score || 0) + (t.study_score || 0);
-          s.textContent = total;
-        }
-        var st = document.getElementById('stat-streak');
-        if (st) {
-          var streak = XHZ.getCurrentStreak ? XHZ.getCurrentStreak(p.id) || 0 : 0;
-          st.textContent = streak;
-        }
-      }
-      
+      syncProfileStats();
       renderHallOfFame();
 
       onLangChange(function() {
-        
-      // Sync profile stats
-      var p = XHZ.getActiveProfile();
-      if (p) {
-        var s = document.getElementById('stat-stars');
-        if (s) {
-          var t = XHZ.getTodayScore() || {};
-          var total = (t.write_score || 0) + (t.study_score || 0);
-          s.textContent = total;
-        }
-        var st = document.getElementById('stat-streak');
-        if (st) {
-          var streak = XHZ.getCurrentStreak ? XHZ.getCurrentStreak(p.id) || 0 : 0;
-          st.textContent = streak;
-        }
-      }
-      
-      renderHallOfFame();
+        syncProfileStats();
+        renderHallOfFame();
         window.dispatchEvent(new CustomEvent('xhz:lang-changed'));
       });
 
       window.addEventListener('xhz:arena-hof-updated', function() {
-        
-      // Sync profile stats
-      var p = XHZ.getActiveProfile();
-      if (p) {
-        var s = document.getElementById('stat-stars');
-        if (s) {
-          var t = XHZ.getTodayScore() || {};
-          var total = (t.write_score || 0) + (t.study_score || 0);
-          s.textContent = total;
-        }
-        var st = document.getElementById('stat-streak');
-        if (st) {
-          var streak = XHZ.getCurrentStreak ? XHZ.getCurrentStreak(p.id) || 0 : 0;
-          st.textContent = streak;
-        }
-      }
-      
-      renderHallOfFame();
+        syncProfileStats();
+        renderHallOfFame();
         renderGameCards();
         // If on Global tab, retry after a delay to let Supabase catch up
         if (CURRENT_HALL_TAB === 'global') {
@@ -2300,6 +2266,7 @@ body {
       window.addEventListener('focus', function() {
         renderPandaAvatar();
         renderGameCards();
+        syncProfileStats();
       });
     });
   /* ── TOAST ── */
