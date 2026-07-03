@@ -755,26 +755,144 @@ Major polish pass on `dashboard.html` — responsive layout restructured for iPh
 
 ---
 
+## Sessions 70-74 — Arena Layout, Zombie Game HOF, Stats Sync, Memory Update
+
+### Session 70 — Arena: Mobile layout restructured
+- **Header moved to top** of `arena-upper`, outside 2-column layout
+- **Mobile CSS Grid (≤720px):** Uses `display: contents` to flatten DOM, then CSS Grid with explicit placements — avatar at (1,1), name at (1,2), mission at (2,1/3), games-grid at (1/-1, 3) for full-width below
+- **Desktop preserved:** games-grid stays in `arena-right`, original 2-column grid untouched
+- **Fixed absolute positioning conflict:** `.profile-card .arena-panda-panel { position: absolute }` had higher specificity than mobile rule — added `position: static !important` with `top/left/transform` resets
+- **Bg scoping preserved:** `bg_mountains` on `arena-upper`, `bg_bamboos` on `arena-lower`
+
+### Session 71 — Zombie game unlock + name change
+- **Name:** "Zombie Chase" → **"Zombie Strike"** in GAMES array
+- **Unlock logic verified** via browser automation: locked when Course 1A not fully mastered, unlocks after injecting full 1A mastery
+- **Locked cards visible on mobile:** Removed `.game-card.disabled { display: none }` from 480px media query
+
+### Session 72 — Zombie HOF + testplayer deletion
+- **Zombie in HOF:** Added third section to both Local and Global rankings (after sushi & matching) with 🧟 icon labels
+- **Test Player deleted:** Found and removed "Test Player" (score 1000) from Supabase `hall_of_fame` table — verified deletion
+
+### Session 73 — Zombie game iPhone layout fix
+- **Battlefield min-height reduced:** 180→140px (≤520px), 150→110px (≤360px)
+- **Writing box smaller:** 130→110px (≤520px), 90px (≤360px)
+- **Slots compacted:** 44→40px (≤520px), 38→34px (≤360px), gaps reduced
+- **Added `overflow-y: auto`** to `.z-arena` — content scrolls if still too tall
+- **Added `min-height: 0`** to `.z-page` — allows proper flex shrink
+
+### Session 74 — Profile stats sync fix
+- **Bug:** Stars showed today's score via `getTodayScore()` instead of lifetime total
+- **Fix:** Created `syncProfileStats()` helper using `XHZ.getTotalStars(p.id)` (all-time total)
+- **Deduplicated:** Replaced 4 copies of identical sync code with single helper
+- **Added to focus handler:** Stats now sync when returning to the page
+
+### Pushed to GitHub
+- Commit `addd9a7` — all above changes pushed
+
+## Radical Replan — Doodle God Style Discovery (Current Session)
+
+### Final Decisions Made
+
+**Data audit:** radicals.json has 230 entries → 218 unique after removing 12 trad variants (馬→马, etc.)
+
+**70 leveling radicals** sorted by frequency (movie + book rank). Variant forms (氵, 扌, 艹, 亻) sorted by reactions count since they lack standalone frequency.
+
+**Variant + full-character pairs (7 pairs):**
+- 5 merged (both were leveling): 人+亻, 心+忄, 言+讠, 金+钅, 刀+刂 → freed 5 slots
+- 9 bonus (variant leveled, full was decomp): 氵+水, 扌+手, 辶+走, ⺼+肉, 纟+糸, 饣+食, 犭+犬, 衤+衣, ⺮+竹
+- 1 reverse bonus: 火+灬 (fire + fire dots)
+
+**5 promoted from decomposition:** 一, 小, 母, 风, 龙 (low reactions = hard to mix = good to level)
+
+**6 Doodle God categories:** nature(14), body(17), civilization(17), fauna(9), abstract(5), other(8)
+
+**Chainable discovery system:** 12 leveling radicals can also be discovered through mixing. If that happens, a spare replacement is awarded at level-up instead:
+- 大→公, 日→合, 目→彳, 木→冫, 土→生, 金→青, 王→弓, 贝→羽, 石→气, 穴→戈, 疒→包, 各→令
+
+**Lab data:** 2,502 reactions. 54 produce chainable results (result IS a radical). 574 reactions use only leveling radicals (day-one available).
+
+### Plan document
+`radical-categories-plan.md` — completely updated with all decisions, full 70-level table, variant pairs, spare list, discovery tree design.
+
+### Reference doc
+`.cline/references/chinese-lexicon-reference.md` — quick-access guide for the chinese-lexicon-master repo.
+
+## Aesthetic Audit — Laboratory UI vs Dashboard Direction
+
+### Current Lab Page Aesthetic
+- Uses original "Botes Paper Palette" (warm creams, soft browns, paper textures)
+- All cards have thin 1px borders with soft drop shadows
+- Flask SVG centerpiece with glassmorphism effects
+- Elemental orb filters for radical category filtering
+- Parchment-style radical cards with category color accent strips
+- Overall: **functional lab notebook** — clean, organized, but not game-y
+
+### Dashboard Aesthetic (latest design direction from Sessions 65-67)
+- **Neo-brutalist pastel toy aesthetic** with thick 3px borders
+- **Solid offset shadows** (6px 9px 0 0) instead of soft drop shadows
+- Pure white cards with bold outlines, no paper-grain on cards
+- **3D buttons** with squish feedback on `:active`
+- Clip-path ribbon shapes, stamp circles, playful emoji integration
+- **Panda mascot** integrated throughout (speech bubble, avatar, clickable)
+- Rich `--db-*` palette vs original Botes palette
+
+### Design Gap Analysis
+
+| Aspect | Lab (Current) | Dashboard (Target) | Gap |
+|--------|:------------:|:------------------:|:---:|
+| Card borders | 1px solid `--paper-deep` | 3px solid `--db-border` | Lab feels flat |
+| Card shadows | `0 2px 4px rgba(0,0,0,0.06)` | `6px 9px 0 0 #e8dcc6` | Lab has no tactile depth |
+| Card backgrounds | `--paper-warm` (#FAEFD3) | `#FFFFFF` with bold borders | Lab looks like aged notebook |
+| Buttons | Pills with `shadow-card` | 3D offset shadow, squish :active | Lab buttons don't pop |
+| Top bar | Glassmorphism with background chips | Clean frameless flex layout | Lab top bar is heavier |
+| Mascot | None | Panda avatar + speech bubble | Lab lacks character |
+| Colors | Botes palette (sage, mustard, etc.) | `--db-*` palette (richer, more vibrant) | Lab palette is muted |
+| Empty states | Text-heavy with muted emoji | N/A | Could be more playful |
+
+### Proposed Improvements — Prioritized
+
+**HIGH PRIORITY (visual cohesion):**
+1. **Unified card system** — All card types (book-left, book-right, picker, collection, decomp detail) adopt neo-brutalist style: thick borders, solid offset shadows, white/cream backgrounds
+2. **Button redesign** — Lab buttons (`lb-primary`, `lb-secondary`, `lb-gold`, `lb-chain`) get 3D offset shadows and squish feedback matching dashboard
+3. **Panda mascot integration** — Add panda as lab assistant (top bar or speech bubble with lab-themed messages)
+4. **Top bar simplification** — Streamline to match dashboard's clean horizontal layout (avatar | streak | level | coins)
+
+**MEDIUM PRIORITY (visual polish):**
+5. **Flask overlay polish** — Better success particle effects, liquid animation on mix
+6. **Empty state redesign** — More encouraging, game-like empty states with mascot
+7. **Tab redesign** — More playful tabs with active indicator matching dashboard aesthetic
+8. **Cohesive palette pass** — Unify all `--botes-*` color references; introduce `--lab-*` tokens that bridge to dashboard palette
+
+**LOW PRIORITY (nice-to-have):**
+9. **Background decoration** — Faint alchemy line art behind the mix area (beakers, scrolls, herbs)
+10. **Discovery reveal animation** — Sparkle/bubble animation when new radical is earned or character discovered
+11. **Stats panel visual pass** — Stat cards are plain text — add charts or visual indicators
+
 ## Next Steps
 
-- Create 9-slice SVG frames for quest board and ribbon, place in `assets/frames/`, swap `border-image` values from placeholders
-- Apply notebook SQL to Supabase dashboard to eliminate remaining 404
-- Create the background PNGs (start with `journey_village_bg.png`)
-- Port zombie game into a proper game mode on arena.html
-- Add unlock gating (course 1A mastery check) and coin rewards
-- Fine-tune ribbon `top: -60px` magic number on desktop (fragile, depends on top bar height)
-### Etymology added to existing courses
-- All 347 words in characters_1A.json + characters_1B.json now have etymology field
-- Structure: { notes, definition, components: [{type, char}], images }
-- Simple pictographs (一, 二, 大) have notes but no components
-- Compound characters (妈, 好) have full component breakdown
-- word_id naming: "HSK1_001" won't conflict with "1A_001" — prefix-based course detection
+### Next Stage: Phase 3.5 — Visual Cohesion Overhaul
 
-### HSK course scaffolds generated (Ses 69)
-- 6 new JSON files: characters_hsk1.json → hsk6.json
-- 2,663 total characters across all HSK levels
-- 342 cross-referenced with existing courses (th/zh/sent preserved)
-- 2,321 need Thai translations + sentence examples filled in
-- All have etymology data from chinese-lexicon
-- courses.json updated with 6 new HSK course entries
-- Single-character only (matches app's current format)
+**Objective:** Bridge the aesthetic gap between the lab page and the dashboard's neo-brutalist pastel toy direction. Make the lab feel like a cohesive, playful Alchemist's Toolkit rather than a functional spreadsheet with beakers.
+
+**Priority order:**
+1. **Adopt dashboard-style card system** — Thick borders, solid shadows, white/cream cards
+2. **3D button redesign** — Matching dashboard's `:active` squish behavior
+3. **Streamline top bar** — Match dashboard's avatar/streak/level/coins layout
+4. **Panda mascot** — Add tiny panda lab assistant with speech bubble
+5. **Tab & filter polish** — Match dashboard pill/swatch aesthetic
+6. **Empty state & toast brush-up** — More game-like prompts
+7. **Background decor** — Faint SVG line art
+
+### Game-ification Roadmap (Deferred: Alchemist's Toolkit Overhaul)
+
+Original 5-priority roadmap deferred until visual cohesion is addressed first:
+1. ~~Parchment Cards~~ → Deferred (partially done — chips already have parchment style)
+2. ~~Elemental Orb Filters~~ → Already built (orb filter row exists)
+3. ~~Wings → Work Trays~~ → Deferred (wings hidden on mobile, need rethinking)
+4. ~~Background Decor~~ → Deferred (Phase 3.5 step 7)
+5. ~~Discovery Animation~~ → Deferred (Phase 3.5 step 6)
+
+### Other Active Items
+- Create 9-slice SVG frames for quest board and ribbon (`assets/frames/`)
+- Apply notebook SQL to Supabase dashboard
+- Create journey background PNGs (`journey_village_bg.png`, etc.)

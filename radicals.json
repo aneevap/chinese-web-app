@@ -1,0 +1,2904 @@
+{
+  "radicals": [
+    {
+      "char": "人",
+      "pinyin": "rén",
+      "meaning": "man; person; people",
+      "frequency": 53,
+      "reactions": 25,
+      "category": "person",
+      "unlock_level": 1,
+      "source": "leveling",
+      "doodle_category": "body",
+      "chainable": false,
+      "paired_with": "亻"
+    },
+    {
+      "char": "大",
+      "pinyin": "dà",
+      "meaning": "big; huge; large",
+      "frequency": 36,
+      "reactions": 20,
+      "category": "abstract",
+      "unlock_level": 2,
+      "source": "leveling",
+      "doodle_category": "abstract",
+      "chainable": true
+    },
+    {
+      "char": "子",
+      "pinyin": "zǐ",
+      "meaning": "son; child; seed",
+      "frequency": 25,
+      "reactions": 20,
+      "category": "person",
+      "unlock_level": 3,
+      "source": "leveling",
+      "doodle_category": "body",
+      "chainable": false
+    },
+    {
+      "char": "心",
+      "pinyin": "xīn",
+      "meaning": "heart; mind; intention",
+      "frequency": 63,
+      "reactions": 57,
+      "category": "body",
+      "unlock_level": 4,
+      "source": "leveling",
+      "doodle_category": "body",
+      "chainable": false,
+      "paired_with": "忄"
+    },
+    {
+      "char": "力",
+      "pinyin": "Lì",
+      "meaning": "surname Li",
+      "frequency": 43,
+      "reactions": 36,
+      "category": "abstract",
+      "unlock_level": 5,
+      "source": "leveling",
+      "doodle_category": "abstract",
+      "chainable": false
+    },
+    {
+      "char": "者",
+      "pinyin": "zhě",
+      "meaning": "(after a verb or adjective) one who (is) ...; (after a noun) person involved in ...; -er",
+      "frequency": 21,
+      "reactions": 21,
+      "category": "other",
+      "unlock_level": 6,
+      "source": "leveling",
+      "doodle_category": "abstract",
+      "chainable": false
+    },
+    {
+      "char": "工",
+      "pinyin": "gōng",
+      "meaning": "work; worker; skill",
+      "frequency": 23,
+      "reactions": 20,
+      "category": "other",
+      "unlock_level": 7,
+      "source": "leveling",
+      "doodle_category": "civilization",
+      "chainable": false
+    },
+    {
+      "char": "女",
+      "pinyin": "nǚ",
+      "meaning": "female; woman; daughter",
+      "frequency": 84,
+      "reactions": 83,
+      "category": "person",
+      "unlock_level": 8,
+      "source": "leveling",
+      "doodle_category": "body",
+      "chainable": false
+    },
+    {
+      "char": "又",
+      "pinyin": "yòu",
+      "meaning": "(once) again; also; both... and...",
+      "frequency": 80,
+      "reactions": 52,
+      "category": "abstract",
+      "unlock_level": 9,
+      "source": "leveling",
+      "doodle_category": "abstract",
+      "chainable": false
+    },
+    {
+      "char": "日",
+      "pinyin": "Rì",
+      "meaning": "abbr. for 日本[Rì​běn], Japan",
+      "frequency": 67,
+      "reactions": 58,
+      "category": "nature",
+      "unlock_level": 10,
+      "source": "leveling",
+      "doodle_category": "nature",
+      "chainable": true
+    },
+    {
+      "char": "白",
+      "pinyin": "Bái",
+      "meaning": "surname Bai",
+      "frequency": 23,
+      "reactions": 21,
+      "category": "color",
+      "unlock_level": 11,
+      "source": "leveling",
+      "doodle_category": "nature",
+      "chainable": false
+    },
+    {
+      "char": "门",
+      "pinyin": "Mén",
+      "meaning": "surname Men",
+      "frequency": 22,
+      "reactions": 21,
+      "category": "building",
+      "unlock_level": 12,
+      "source": "leveling",
+      "doodle_category": "civilization",
+      "chainable": false
+    },
+    {
+      "char": "非",
+      "pinyin": "Fēi",
+      "meaning": "abbr. for 非洲[Fēi​zhōu], Africa",
+      "frequency": 23,
+      "reactions": 23,
+      "category": "other",
+      "unlock_level": 13,
+      "source": "leveling",
+      "doodle_category": "other",
+      "chainable": false
+    },
+    {
+      "char": "马",
+      "pinyin": "Mǎ",
+      "meaning": "surname Ma; abbr. for Malaysia 馬來西亞|马来西亚[Mǎ​lái​xī​yà]",
+      "frequency": 31,
+      "reactions": 31,
+      "category": "animal",
+      "unlock_level": 14,
+      "source": "leveling",
+      "doodle_category": "fauna",
+      "chainable": false
+    },
+    {
+      "char": "车",
+      "pinyin": "Chē",
+      "meaning": "surname Che",
+      "frequency": 26,
+      "reactions": 26,
+      "category": "object",
+      "unlock_level": 15,
+      "source": "leveling",
+      "doodle_category": "civilization",
+      "chainable": false
+    },
+    {
+      "char": "口",
+      "pinyin": "kǒu",
+      "meaning": "mouth; classifier for things with mouths (people, domestic animals, cannons, wells etc); classifier for bites or mouthfuls",
+      "frequency": 282,
+      "reactions": 252,
+      "category": "body",
+      "unlock_level": 16,
+      "source": "leveling",
+      "doodle_category": "body",
+      "chainable": false
+    },
+    {
+      "char": "目",
+      "pinyin": "mù",
+      "meaning": "eye; item; section",
+      "frequency": 58,
+      "reactions": 50,
+      "category": "body",
+      "unlock_level": 17,
+      "source": "leveling",
+      "doodle_category": "body",
+      "chainable": true
+    },
+    {
+      "char": "月",
+      "pinyin": "yuè",
+      "meaning": "moon; month; monthly",
+      "frequency": 15,
+      "reactions": 12,
+      "category": "nature",
+      "unlock_level": 18,
+      "source": "leveling",
+      "doodle_category": "nature",
+      "chainable": false
+    },
+    {
+      "char": "金",
+      "pinyin": "Jīn",
+      "meaning": "surname Jin; surname Kim (Korean); Jurchen Jin dynasty (1115-1234)",
+      "frequency": 22,
+      "reactions": 20,
+      "category": "nature",
+      "unlock_level": 19,
+      "source": "leveling",
+      "doodle_category": "nature",
+      "chainable": true,
+      "paired_with": "钅"
+    },
+    {
+      "char": "火",
+      "pinyin": "Huǒ",
+      "meaning": "surname Huo",
+      "frequency": 74,
+      "reactions": 67,
+      "category": "nature",
+      "unlock_level": 20,
+      "source": "leveling",
+      "doodle_category": "nature",
+      "chainable": false,
+      "paired_with": "灬"
+    },
+    {
+      "char": "言",
+      "pinyin": "yán",
+      "meaning": "words; speech; to say",
+      "frequency": 101,
+      "reactions": 97,
+      "category": "action",
+      "unlock_level": 21,
+      "source": "leveling",
+      "doodle_category": "body",
+      "chainable": false,
+      "paired_with": "讠"
+    },
+    {
+      "char": "各",
+      "pinyin": "gè",
+      "meaning": "each; every",
+      "frequency": 21,
+      "reactions": 21,
+      "category": "other",
+      "unlock_level": 22,
+      "source": "leveling",
+      "doodle_category": "other",
+      "chainable": true
+    },
+    {
+      "char": "王",
+      "pinyin": "Wáng",
+      "meaning": "surname Wang",
+      "frequency": 47,
+      "reactions": 45,
+      "category": "object",
+      "unlock_level": 23,
+      "source": "leveling",
+      "doodle_category": "civilization",
+      "chainable": true
+    },
+    {
+      "char": "山",
+      "pinyin": "Shān",
+      "meaning": "surname Shan",
+      "frequency": 50,
+      "reactions": 48,
+      "category": "nature",
+      "unlock_level": 24,
+      "source": "leveling",
+      "doodle_category": "nature",
+      "chainable": false
+    },
+    {
+      "char": "止",
+      "pinyin": "zhǐ",
+      "meaning": "to stop; to prohibit; until",
+      "frequency": 32,
+      "reactions": 17,
+      "category": "action",
+      "unlock_level": 25,
+      "source": "leveling",
+      "doodle_category": "body",
+      "chainable": false
+    },
+    {
+      "char": "米",
+      "pinyin": "Mǐ",
+      "meaning": "surname Mi",
+      "frequency": 34,
+      "reactions": 29,
+      "category": "food",
+      "unlock_level": 26,
+      "source": "leveling",
+      "doodle_category": "fauna",
+      "chainable": false
+    },
+    {
+      "char": "足",
+      "pinyin": "jù",
+      "meaning": "excessive",
+      "frequency": 53,
+      "reactions": 53,
+      "category": "body",
+      "unlock_level": 27,
+      "source": "leveling",
+      "doodle_category": "body",
+      "chainable": false
+    },
+    {
+      "char": "石",
+      "pinyin": "Shí",
+      "meaning": "surname Shi",
+      "frequency": 54,
+      "reactions": 53,
+      "category": "nature",
+      "unlock_level": 28,
+      "source": "leveling",
+      "doodle_category": "nature",
+      "chainable": true
+    },
+    {
+      "char": "广",
+      "pinyin": "yǎn",
+      "meaning": "\"house on a cliff\" radical in Chinese characters (Kangxi radical 53), occurring in 店, 序, 底 etc",
+      "frequency": 31,
+      "reactions": 31,
+      "category": "building",
+      "unlock_level": 29,
+      "source": "leveling",
+      "doodle_category": "civilization",
+      "chainable": false
+    },
+    {
+      "char": "土",
+      "pinyin": "Tǔ",
+      "meaning": "Tu (ethnic group); surname Tu",
+      "frequency": 100,
+      "reactions": 89,
+      "category": "nature",
+      "unlock_level": 30,
+      "source": "leveling",
+      "doodle_category": "nature",
+      "chainable": true
+    },
+    {
+      "char": "贝",
+      "pinyin": "Bèi",
+      "meaning": "surname Bei",
+      "frequency": 39,
+      "reactions": 37,
+      "category": "animal",
+      "unlock_level": 31,
+      "source": "leveling",
+      "doodle_category": "fauna",
+      "chainable": true
+    },
+    {
+      "char": "鱼",
+      "pinyin": "Yú",
+      "meaning": "surname Yu",
+      "frequency": 26,
+      "reactions": 26,
+      "category": "animal",
+      "unlock_level": 32,
+      "source": "leveling",
+      "doodle_category": "fauna",
+      "chainable": false
+    },
+    {
+      "char": "木",
+      "pinyin": "Mù",
+      "meaning": "surname Mu",
+      "frequency": 188,
+      "reactions": 174,
+      "category": "nature",
+      "unlock_level": 33,
+      "source": "leveling",
+      "doodle_category": "nature",
+      "chainable": true
+    },
+    {
+      "char": "耳",
+      "pinyin": "ěr",
+      "meaning": "ear; handle (archaeology); and that is all (Classical Chinese)",
+      "frequency": 30,
+      "reactions": 25,
+      "category": "body",
+      "unlock_level": 34,
+      "source": "leveling",
+      "doodle_category": "body",
+      "chainable": false
+    },
+    {
+      "char": "刀",
+      "pinyin": "Dāo",
+      "meaning": "surname Dao",
+      "frequency": 13,
+      "reactions": 9,
+      "category": "object",
+      "unlock_level": 35,
+      "source": "leveling",
+      "doodle_category": "civilization",
+      "chainable": false,
+      "paired_with": "刂"
+    },
+    {
+      "char": "雨",
+      "pinyin": "yǔ",
+      "meaning": "rain; CL:陣|阵[zhèn],場|场[cháng]",
+      "frequency": 26,
+      "reactions": 25,
+      "category": "nature",
+      "unlock_level": 36,
+      "source": "leveling",
+      "doodle_category": "nature",
+      "chainable": false
+    },
+    {
+      "char": "田",
+      "pinyin": "Tián",
+      "meaning": "surname Tian",
+      "frequency": 24,
+      "reactions": 18,
+      "category": "nature",
+      "unlock_level": 37,
+      "source": "leveling",
+      "doodle_category": "nature",
+      "chainable": false
+    },
+    {
+      "char": "鸟",
+      "pinyin": "diǎo",
+      "meaning": "variant of 屌[diǎo]; penis",
+      "frequency": 27,
+      "reactions": 27,
+      "category": "animal",
+      "unlock_level": 38,
+      "source": "leveling",
+      "doodle_category": "fauna",
+      "chainable": false
+    },
+    {
+      "char": "虫",
+      "pinyin": "chóng",
+      "meaning": "lower form of animal life, including insects, insect larvae, worms and similar creatures; CL:條|条[tiáo],隻|只[zhī]; person with a particular undesirable characteristic",
+      "frequency": 84,
+      "reactions": 76,
+      "category": "animal",
+      "unlock_level": 39,
+      "source": "leveling",
+      "doodle_category": "fauna",
+      "chainable": false
+    },
+    {
+      "char": "羊",
+      "pinyin": "Yáng",
+      "meaning": "surname Yang",
+      "frequency": 28,
+      "reactions": 27,
+      "category": "animal",
+      "unlock_level": 40,
+      "source": "leveling",
+      "doodle_category": "fauna",
+      "chainable": false
+    },
+    {
+      "char": "页",
+      "pinyin": "xié",
+      "meaning": "head",
+      "frequency": 24,
+      "reactions": 24,
+      "category": "body",
+      "unlock_level": 41,
+      "source": "leveling",
+      "doodle_category": "body",
+      "chainable": false
+    },
+    {
+      "char": "欠",
+      "pinyin": "qiàn",
+      "meaning": "deficient; to owe; to lack",
+      "frequency": 24,
+      "reactions": 23,
+      "category": "other",
+      "unlock_level": 42,
+      "source": "leveling",
+      "doodle_category": "other",
+      "chainable": false
+    },
+    {
+      "char": "寸",
+      "pinyin": "cùn",
+      "meaning": "a unit of length; inch; thumb",
+      "frequency": 25,
+      "reactions": 19,
+      "category": "abstract",
+      "unlock_level": 43,
+      "source": "leveling",
+      "doodle_category": "abstract",
+      "chainable": false
+    },
+    {
+      "char": "巾",
+      "pinyin": "jīn",
+      "meaning": "towel; general purpose cloth; women's headcovering (old)",
+      "frequency": 23,
+      "reactions": 22,
+      "category": "object",
+      "unlock_level": 44,
+      "source": "leveling",
+      "doodle_category": "civilization",
+      "chainable": false
+    },
+    {
+      "char": "穴",
+      "pinyin": "xué",
+      "meaning": "cave; cavity; hole",
+      "frequency": 24,
+      "reactions": 23,
+      "category": "building",
+      "unlock_level": 45,
+      "source": "leveling",
+      "doodle_category": "civilization",
+      "chainable": true
+    },
+    {
+      "char": "禾",
+      "pinyin": "hé",
+      "meaning": "cereal; grain",
+      "frequency": 46,
+      "reactions": 42,
+      "category": "food",
+      "unlock_level": 46,
+      "source": "leveling",
+      "doodle_category": "fauna",
+      "chainable": false
+    },
+    {
+      "char": "皿",
+      "pinyin": "mǐn",
+      "meaning": "dish; vessel; shallow container",
+      "frequency": 25,
+      "reactions": 18,
+      "category": "object",
+      "unlock_level": 47,
+      "source": "leveling",
+      "doodle_category": "civilization",
+      "chainable": false
+    },
+    {
+      "char": "酉",
+      "pinyin": "yǒu",
+      "meaning": "10th earthly branch: 5-7 p.m., 8th solar month (8th September-7th October), year of the Rooster; ancient Chinese compass point: 270° (west)",
+      "frequency": 33,
+      "reactions": 31,
+      "category": "food",
+      "unlock_level": 48,
+      "source": "leveling",
+      "doodle_category": "civilization",
+      "chainable": false
+    },
+    {
+      "char": "隹",
+      "pinyin": "zhuī",
+      "meaning": "short-tailed bird",
+      "frequency": 38,
+      "reactions": 29,
+      "category": "animal",
+      "unlock_level": 49,
+      "source": "leveling",
+      "doodle_category": "fauna",
+      "chainable": false
+    },
+    {
+      "char": "攵",
+      "pinyin": "",
+      "meaning": "",
+      "frequency": 34,
+      "reactions": 28,
+      "category": "other",
+      "unlock_level": 50,
+      "source": "leveling",
+      "doodle_category": "other",
+      "chainable": false
+    },
+    {
+      "char": "氵",
+      "pinyin": "shuǐ",
+      "meaning": "\"water\" radical in Chinese characters (Kangxi radical 85), occurring in 没, 法, 流 etc; see also 三點水|三点水[sān​diǎn​shuǐ]",
+      "frequency": 247,
+      "reactions": 244,
+      "category": "nature",
+      "unlock_level": 51,
+      "source": "leveling",
+      "doodle_category": "nature",
+      "chainable": false,
+      "paired_with": "水"
+    },
+    {
+      "char": "扌",
+      "pinyin": "shǒu",
+      "meaning": "\"hand\" radical in Chinese characters (Kangxi radical 64), occurring in 提, 把, 打 etc",
+      "frequency": 215,
+      "reactions": 214,
+      "category": "body",
+      "unlock_level": 52,
+      "source": "leveling",
+      "doodle_category": "body",
+      "chainable": false,
+      "paired_with": "手"
+    },
+    {
+      "char": "艹",
+      "pinyin": "cǎo",
+      "meaning": "grass radical 草字頭兒|草字头儿[cǎo​zì​tóu​r]",
+      "frequency": 154,
+      "reactions": 147,
+      "category": "nature",
+      "unlock_level": 53,
+      "source": "leveling",
+      "doodle_category": "nature",
+      "chainable": false
+    },
+    {
+      "char": "辶",
+      "pinyin": "chuò",
+      "meaning": "to walk (side part of split character)",
+      "frequency": 89,
+      "reactions": 86,
+      "category": "action",
+      "unlock_level": 54,
+      "source": "leveling",
+      "doodle_category": "body",
+      "chainable": false,
+      "paired_with": "走"
+    },
+    {
+      "char": "⺼",
+      "pinyin": "",
+      "meaning": "",
+      "frequency": 88,
+      "reactions": 80,
+      "category": "body",
+      "unlock_level": 55,
+      "source": "leveling",
+      "doodle_category": "body",
+      "chainable": false,
+      "paired_with": "肉"
+    },
+    {
+      "char": "纟",
+      "pinyin": "",
+      "meaning": "",
+      "frequency": 73,
+      "reactions": 73,
+      "category": "object",
+      "unlock_level": 56,
+      "source": "leveling",
+      "doodle_category": "civilization",
+      "chainable": false,
+      "paired_with": "糸"
+    },
+    {
+      "char": "疒",
+      "pinyin": "nè",
+      "meaning": "sick; sickness; Kang Xi radical 104",
+      "frequency": 61,
+      "reactions": 61,
+      "category": "other",
+      "unlock_level": 57,
+      "source": "leveling",
+      "doodle_category": "other",
+      "chainable": true
+    },
+    {
+      "char": "⺮",
+      "pinyin": "zhú",
+      "meaning": "\"bamboo\" radical in Chinese characters (Kangxi radical 118)",
+      "frequency": 61,
+      "reactions": 61,
+      "category": "object",
+      "unlock_level": 58,
+      "source": "leveling",
+      "doodle_category": "nature",
+      "chainable": false,
+      "paired_with": "竹"
+    },
+    {
+      "char": "阝",
+      "pinyin": "",
+      "meaning": "",
+      "frequency": 62,
+      "reactions": 56,
+      "category": "building",
+      "unlock_level": 59,
+      "source": "leveling",
+      "doodle_category": "civilization",
+      "chainable": false
+    },
+    {
+      "char": "犭",
+      "pinyin": "",
+      "meaning": "",
+      "frequency": 47,
+      "reactions": 45,
+      "category": "other",
+      "unlock_level": 60,
+      "source": "leveling",
+      "doodle_category": "other",
+      "chainable": false,
+      "paired_with": "犬"
+    },
+    {
+      "char": "宀",
+      "pinyin": "mián",
+      "meaning": "\"roof\" radical in Chinese characters (Kangxi radical 40), occurring in 家, 定, 安 etc; see also 寶蓋|宝盖[bǎo​gài]",
+      "frequency": 53,
+      "reactions": 40,
+      "category": "building",
+      "unlock_level": 61,
+      "source": "leveling",
+      "doodle_category": "civilization",
+      "chainable": false
+    },
+    {
+      "char": "衤",
+      "pinyin": "",
+      "meaning": "",
+      "frequency": 31,
+      "reactions": 31,
+      "category": "other",
+      "unlock_level": 62,
+      "source": "leveling",
+      "doodle_category": "other",
+      "chainable": false,
+      "paired_with": "衣"
+    },
+    {
+      "char": "卩",
+      "pinyin": "jié",
+      "meaning": "\"seal\" radical in Chinese characters (Kangxi radical 26)",
+      "frequency": 33,
+      "reactions": 22,
+      "category": "building",
+      "unlock_level": 63,
+      "source": "leveling",
+      "doodle_category": "civilization",
+      "chainable": false
+    },
+    {
+      "char": "礻",
+      "pinyin": "",
+      "meaning": "",
+      "frequency": 23,
+      "reactions": 22,
+      "category": "other",
+      "unlock_level": 64,
+      "source": "leveling",
+      "doodle_category": "other",
+      "chainable": false
+    },
+    {
+      "char": "饣",
+      "pinyin": "shí",
+      "meaning": "\"to eat\" or \"food\" radical in Chinese characters (Kangxi radical 184)",
+      "frequency": 20,
+      "reactions": 20,
+      "category": "food",
+      "unlock_level": 65,
+      "source": "leveling",
+      "doodle_category": "civilization",
+      "chainable": false,
+      "paired_with": "食"
+    },
+    {
+      "char": "一",
+      "pinyin": "yī",
+      "meaning": "one; 1; single",
+      "frequency": 6,
+      "reactions": 5,
+      "category": "abstract",
+      "unlock_level": 66,
+      "source": "leveling",
+      "doodle_category": "abstract",
+      "chainable": false
+    },
+    {
+      "char": "小",
+      "pinyin": "xiǎo",
+      "meaning": "small; tiny; few",
+      "frequency": 3,
+      "reactions": 3,
+      "category": "abstract",
+      "unlock_level": 67,
+      "source": "leveling",
+      "doodle_category": "abstract",
+      "chainable": false
+    },
+    {
+      "char": "母",
+      "pinyin": "mǔ",
+      "meaning": "mother; elderly female relative; origin",
+      "frequency": 4,
+      "reactions": 3,
+      "category": "person",
+      "unlock_level": 68,
+      "source": "leveling",
+      "doodle_category": "body",
+      "chainable": false
+    },
+    {
+      "char": "风",
+      "pinyin": "fēng",
+      "meaning": "wind; news; style",
+      "frequency": 6,
+      "reactions": 6,
+      "category": "nature",
+      "unlock_level": 69,
+      "source": "leveling",
+      "doodle_category": "nature",
+      "chainable": false
+    },
+    {
+      "char": "龙",
+      "pinyin": "Lóng",
+      "meaning": "surname Long",
+      "frequency": 12,
+      "reactions": 12,
+      "category": "animal",
+      "unlock_level": 70,
+      "source": "leveling",
+      "doodle_category": "fauna",
+      "chainable": false
+    },
+    {
+      "char": "亻",
+      "pinyin": "rén",
+      "meaning": "\"person\" radical in Chinese characters (Kangxi radical 9)",
+      "frequency": 140,
+      "reactions": 135,
+      "category": "person",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "body"
+    },
+    {
+      "char": "忄",
+      "pinyin": "xīn",
+      "meaning": "Kangxi radical 61 (心) as a vertical side element",
+      "frequency": 92,
+      "reactions": 92,
+      "category": "body",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "body"
+    },
+    {
+      "char": "讠",
+      "pinyin": "yán",
+      "meaning": "\"speech\" or \"words\" radical in Chinese characters (Kangxi radical 149); see also 言字旁[yán​zì​páng]",
+      "frequency": 82,
+      "reactions": 81,
+      "category": "action",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "body"
+    },
+    {
+      "char": "钅",
+      "pinyin": "",
+      "meaning": "",
+      "frequency": 78,
+      "reactions": 78,
+      "category": "object",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "civilization"
+    },
+    {
+      "char": "刂",
+      "pinyin": "dāo",
+      "meaning": "\"knife\" radical in Chinese characters (Kangxi radical 18); see also 立刀旁[lì​dāo​páng]; see also 側刀旁|侧刀旁[cè​dāo​páng]",
+      "frequency": 53,
+      "reactions": 49,
+      "category": "object",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "civilization"
+    },
+    {
+      "char": "血",
+      "pinyin": "xuè",
+      "meaning": "blood; colloquial pr. [xiě]; CL:滴[dī],片[piàn]",
+      "frequency": 2,
+      "reactions": 2,
+      "category": "body",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "body"
+    },
+    {
+      "char": "骨",
+      "pinyin": "gǔ",
+      "meaning": "bone",
+      "frequency": 12,
+      "reactions": 12,
+      "category": "body",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "body"
+    },
+    {
+      "char": "父",
+      "pinyin": "fù",
+      "meaning": "father",
+      "frequency": 7,
+      "reactions": 7,
+      "category": "person",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "body"
+    },
+    {
+      "char": "彳",
+      "pinyin": "chì",
+      "meaning": "step with the left foot (Kangxi radical 60); see also 彳亍[chì​chù]",
+      "frequency": 23,
+      "reactions": 17,
+      "category": "action",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "body"
+    },
+    {
+      "char": "立",
+      "pinyin": "Lì",
+      "meaning": "surname Li",
+      "frequency": 15,
+      "reactions": 15,
+      "category": "action",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "body"
+    },
+    {
+      "char": "牛",
+      "pinyin": "Niú",
+      "meaning": "surname Niu",
+      "frequency": 11,
+      "reactions": 10,
+      "category": "animal",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "fauna"
+    },
+    {
+      "char": "羽",
+      "pinyin": "yǔ",
+      "meaning": "feather; 5th note in pentatonic scale",
+      "frequency": 17,
+      "reactions": 17,
+      "category": "animal",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "fauna"
+    },
+    {
+      "char": "弓",
+      "pinyin": "Gōng",
+      "meaning": "surname Gong",
+      "frequency": 21,
+      "reactions": 18,
+      "category": "object",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "civilization"
+    },
+    {
+      "char": "戈",
+      "pinyin": "Gē",
+      "meaning": "surname Ge",
+      "frequency": 19,
+      "reactions": 16,
+      "category": "object",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "civilization"
+    },
+    {
+      "char": "斤",
+      "pinyin": "jīn",
+      "meaning": "catty; (PRC) weight equal to 500 g; (Tw) weight equal to 600 g",
+      "frequency": 20,
+      "reactions": 13,
+      "category": "object",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "civilization"
+    },
+    {
+      "char": "厂",
+      "pinyin": "hǎn",
+      "meaning": "\"cliff\" radical in Chinese characters (Kangxi radical 27), occurring in 原, 历, 压 etc",
+      "frequency": 18,
+      "reactions": 13,
+      "category": "building",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "civilization"
+    },
+    {
+      "char": "黑",
+      "pinyin": "Hēi",
+      "meaning": "abbr. for Heilongjiang province 黑龍江|黑龙江[Hēi​lóng​jiāng]",
+      "frequency": 8,
+      "reactions": 8,
+      "category": "color",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "nature"
+    },
+    {
+      "char": "青",
+      "pinyin": "Qīng",
+      "meaning": "abbr. for 青海[Qīng​hǎi], Qinghai Province",
+      "frequency": 17,
+      "reactions": 17,
+      "category": "color",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "nature"
+    },
+    {
+      "char": "黄",
+      "pinyin": "Huáng",
+      "meaning": "surname Huang or Hwang",
+      "frequency": 4,
+      "reactions": 4,
+      "category": "color",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "nature"
+    },
+    {
+      "char": "二",
+      "pinyin": "èr",
+      "meaning": "two; 2; (Beijing dialect) stupid",
+      "frequency": 5,
+      "reactions": 4,
+      "category": "abstract",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "abstract"
+    },
+    {
+      "char": "三",
+      "pinyin": "Sān",
+      "meaning": "surname San",
+      "frequency": 1,
+      "reactions": 1,
+      "category": "abstract",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "abstract"
+    },
+    {
+      "char": "十",
+      "pinyin": "shí",
+      "meaning": "ten; 10",
+      "frequency": 12,
+      "reactions": 12,
+      "category": "abstract",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "abstract"
+    },
+    {
+      "char": "中",
+      "pinyin": "Zhōng",
+      "meaning": "China; Chinese; surname Zhong",
+      "frequency": 8,
+      "reactions": 8,
+      "category": "abstract",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "abstract"
+    },
+    {
+      "char": "上",
+      "pinyin": "shǎng",
+      "meaning": "see 上聲|上声[shǎng​shēng]",
+      "frequency": 2,
+      "reactions": 2,
+      "category": "abstract",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "abstract"
+    },
+    {
+      "char": "下",
+      "pinyin": "xià",
+      "meaning": "down; downwards; below",
+      "frequency": 3,
+      "reactions": 3,
+      "category": "abstract",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "abstract"
+    },
+    {
+      "char": "八",
+      "pinyin": "bā",
+      "meaning": "eight; 8",
+      "frequency": 10,
+      "reactions": 7,
+      "category": "abstract",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "abstract"
+    },
+    {
+      "char": "甘",
+      "pinyin": "Gān",
+      "meaning": "surname Gan; abbr. for Gansu Province 甘肅省|甘肃省[Gān​sù​Shěng]",
+      "frequency": 11,
+      "reactions": 10,
+      "category": "food",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "fauna"
+    },
+    {
+      "char": "豆",
+      "pinyin": "dòu",
+      "meaning": "variant of 豆[dòu]",
+      "frequency": 13,
+      "reactions": 10,
+      "category": "food",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "fauna"
+    },
+    {
+      "char": "冫",
+      "pinyin": "bīng",
+      "meaning": "\"ice\" radical in Chinese characters (Kangxi radical 15), occurring in 冰, 决, 次; see also 兩點水|两点水[liǎng​diǎn​shuǐ]",
+      "frequency": 19,
+      "reactions": 19,
+      "category": "nature",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "nature"
+    },
+    {
+      "char": "旦",
+      "pinyin": "dàn",
+      "meaning": "dawn; morning; daybreak",
+      "frequency": 11,
+      "reactions": 11,
+      "category": "nature",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "nature"
+    },
+    {
+      "char": "舌",
+      "pinyin": "shé",
+      "meaning": "tongue",
+      "frequency": 13,
+      "reactions": 10,
+      "category": "body",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "body"
+    },
+    {
+      "char": "文",
+      "pinyin": "Wén",
+      "meaning": "surname Wen",
+      "frequency": 16,
+      "reactions": 13,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "囗",
+      "pinyin": "wéi",
+      "meaning": "enclosure",
+      "frequency": 19,
+      "reactions": 18,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "古",
+      "pinyin": "Gǔ",
+      "meaning": "surname Gu",
+      "frequency": 13,
+      "reactions": 13,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "夂",
+      "pinyin": "zhǐ",
+      "meaning": "\"walk slowly\" component in Chinese characters; see also 冬字頭|冬字头[dōng​zì​tóu]",
+      "frequency": 18,
+      "reactions": 13,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "京",
+      "pinyin": "Jīng",
+      "meaning": "abbr. for Beijing; surname Jing; Jing ethnic minority",
+      "frequency": 15,
+      "reactions": 15,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "今",
+      "pinyin": "jīn",
+      "meaning": "today; modern; present",
+      "frequency": 11,
+      "reactions": 9,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "亥",
+      "pinyin": "hài",
+      "meaning": "12th earthly branch: 9-11 p.m., 10th solar month (7th November-6th December), year of the Boar; ancient Chinese compass point: 330°",
+      "frequency": 13,
+      "reactions": 13,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "艮",
+      "pinyin": "gěn",
+      "meaning": "blunt; tough; chewy",
+      "frequency": 16,
+      "reactions": 16,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "里",
+      "pinyin": "lǐ",
+      "meaning": "variant of 裡|里[lǐ]",
+      "frequency": 14,
+      "reactions": 14,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "聿",
+      "pinyin": "yù",
+      "meaning": "(arch. introductory particle); then; and then",
+      "frequency": 11,
+      "reactions": 9,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "矢",
+      "pinyin": "shǐ",
+      "meaning": "arrow; dart; straight",
+      "frequency": 11,
+      "reactions": 10,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "幺",
+      "pinyin": "Yāo",
+      "meaning": "surname Yao",
+      "frequency": 10,
+      "reactions": 2,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "卜",
+      "pinyin": "Bǔ",
+      "meaning": "surname Bu",
+      "frequency": 14,
+      "reactions": 14,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "可",
+      "pinyin": "kě",
+      "meaning": "can; may; able to",
+      "frequency": 12,
+      "reactions": 12,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "占",
+      "pinyin": "zhàn",
+      "meaning": "variant of 占[zhàn]",
+      "frequency": 15,
+      "reactions": 15,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "良",
+      "pinyin": "liáng",
+      "meaning": "good; very; very much",
+      "frequency": 11,
+      "reactions": 11,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "气",
+      "pinyin": "qì",
+      "meaning": "gas; air; smell",
+      "frequency": 15,
+      "reactions": 15,
+      "category": "nature",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "nature"
+    },
+    {
+      "char": "合",
+      "pinyin": "gě",
+      "meaning": "100 ml; one-tenth of a peck; measure for dry grain equal to one-tenth of sheng 升 or liter, or one-hundredth dou 斗",
+      "frequency": 19,
+      "reactions": 19,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "尸",
+      "pinyin": "shī",
+      "meaning": "person representing the dead (during burial ceremonies); to put a corpse on display (after execution); variant of 屍|尸[shī]",
+      "frequency": 11,
+      "reactions": 10,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "寺",
+      "pinyin": "sì",
+      "meaning": "Buddhist temple; mosque; government office (old)",
+      "frequency": 11,
+      "reactions": 11,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "尚",
+      "pinyin": "Shàng",
+      "meaning": "surname Shang",
+      "frequency": 19,
+      "reactions": 19,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "反",
+      "pinyin": "fǎn",
+      "meaning": "contrary; in reverse; inside out or upside down",
+      "frequency": 10,
+      "reactions": 10,
+      "category": "abstract",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "abstract"
+    },
+    {
+      "char": "丁",
+      "pinyin": "Dīng",
+      "meaning": "surname Ding",
+      "frequency": 19,
+      "reactions": 17,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "歹",
+      "pinyin": "dǎi",
+      "meaning": "bad; wicked; evil",
+      "frequency": 13,
+      "reactions": 13,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "巴",
+      "pinyin": "Bā",
+      "meaning": "Ba state during Zhou dynasty (in east of modern Sichuan); abbr. for east Sichuan or Chongqing; surname Ba",
+      "frequency": 11,
+      "reactions": 11,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "己",
+      "pinyin": "jǐ",
+      "meaning": "self; oneself; sixth of the ten Heavenly Stems 十天干[shí​tiān​gān]",
+      "frequency": 10,
+      "reactions": 10,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "见",
+      "pinyin": "jiàn",
+      "meaning": "to see; to meet; to appear (to be sth)",
+      "frequency": 10,
+      "reactions": 10,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "网",
+      "pinyin": "wǎng",
+      "meaning": "net; network",
+      "frequency": 11,
+      "reactions": 9,
+      "category": "object",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "civilization"
+    },
+    {
+      "char": "生",
+      "pinyin": "shēng",
+      "meaning": "to be born; to give birth; life",
+      "frequency": 10,
+      "reactions": 10,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "它",
+      "pinyin": "tā",
+      "meaning": "it",
+      "frequency": 10,
+      "reactions": 10,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "同",
+      "pinyin": "tóng",
+      "meaning": "(used in given names); variant of 同[tóng]",
+      "frequency": 10,
+      "reactions": 10,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "巠",
+      "pinyin": "jīng",
+      "meaning": "underground watercourse; archaic variant of 經|经[jīng]",
+      "frequency": 14,
+      "reactions": 14,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "舟",
+      "pinyin": "zhōu",
+      "meaning": "boat",
+      "frequency": 11,
+      "reactions": 10,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "方",
+      "pinyin": "Fāng",
+      "meaning": "surname Fang",
+      "frequency": 15,
+      "reactions": 13,
+      "category": "abstract",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "abstract"
+    },
+    {
+      "char": "几",
+      "pinyin": "jī",
+      "meaning": "small table",
+      "frequency": 12,
+      "reactions": 12,
+      "category": "object",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "civilization"
+    },
+    {
+      "char": "堇",
+      "pinyin": "jǐn",
+      "meaning": "clay; old variant of 僅|仅[jǐn]; violet (plant)",
+      "frequency": 10,
+      "reactions": 10,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "彡",
+      "pinyin": "shān",
+      "meaning": "\"bristle\" radical in Chinese characters (Kangxi radical 59)",
+      "frequency": 14,
+      "reactions": 12,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "雚",
+      "pinyin": "guàn",
+      "meaning": "(archaic) stork; heron",
+      "frequency": 10,
+      "reactions": 10,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "廾",
+      "pinyin": "gǒng",
+      "meaning": "hands joined",
+      "frequency": 17,
+      "reactions": 11,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "高",
+      "pinyin": "Gāo",
+      "meaning": "surname Gao",
+      "frequency": 13,
+      "reactions": 13,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "台",
+      "pinyin": "Tái",
+      "meaning": "Taiwan (abbr.); surname Tai",
+      "frequency": 12,
+      "reactions": 12,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "其",
+      "pinyin": "qí",
+      "meaning": "his; her; its",
+      "frequency": 12,
+      "reactions": 10,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "鬼",
+      "pinyin": "guǐ",
+      "meaning": "ghost; demon; terrible",
+      "frequency": 14,
+      "reactions": 14,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "辛",
+      "pinyin": "Xīn",
+      "meaning": "surname Xin",
+      "frequency": 11,
+      "reactions": 7,
+      "category": "object",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "civilization"
+    },
+    {
+      "char": "且",
+      "pinyin": "qiě",
+      "meaning": "and; moreover; yet",
+      "frequency": 16,
+      "reactions": 16,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "殳",
+      "pinyin": "Shū",
+      "meaning": "surname Shu",
+      "frequency": 17,
+      "reactions": 13,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "牙",
+      "pinyin": "yá",
+      "meaning": "tooth; ivory; CL:顆|颗[kē]",
+      "frequency": 11,
+      "reactions": 11,
+      "category": "body",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "body"
+    },
+    {
+      "char": "云",
+      "pinyin": "yún",
+      "meaning": "(classical) to say",
+      "frequency": 12,
+      "reactions": 10,
+      "category": "nature",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "nature"
+    },
+    {
+      "char": "曷",
+      "pinyin": "hé",
+      "meaning": "why; how; when",
+      "frequency": 12,
+      "reactions": 12,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "票",
+      "pinyin": "piào",
+      "meaning": "ticket; ballot; banknote",
+      "frequency": 13,
+      "reactions": 13,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "令",
+      "pinyin": "Líng",
+      "meaning": "see 令狐[Líng​hú]",
+      "frequency": 19,
+      "reactions": 19,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "公",
+      "pinyin": "gōng",
+      "meaning": "public; collectively owned; common",
+      "frequency": 15,
+      "reactions": 15,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "交",
+      "pinyin": "jiāo",
+      "meaning": "to hand over; to deliver; to pay (money)",
+      "frequency": 14,
+      "reactions": 14,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "昜",
+      "pinyin": "yáng",
+      "meaning": "to open out, to expand; bright, glorious",
+      "frequency": 14,
+      "reactions": 13,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "爪",
+      "pinyin": "zhǎo",
+      "meaning": "foot of a bird or animal; paw; claws",
+      "frequency": 10,
+      "reactions": 6,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "肖",
+      "pinyin": "Xiāo",
+      "meaning": "surname Xiao; Taiwan pr. [Xiào]",
+      "frequency": 16,
+      "reactions": 16,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "干",
+      "pinyin": "gān",
+      "meaning": "old variant of 乾|干[gān]",
+      "frequency": 13,
+      "reactions": 12,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "余",
+      "pinyin": "Yú",
+      "meaning": "surname Yu",
+      "frequency": 12,
+      "reactions": 12,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "奇",
+      "pinyin": "jī",
+      "meaning": "odd (number)",
+      "frequency": 10,
+      "reactions": 10,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "吉",
+      "pinyin": "Jí",
+      "meaning": "surname Ji; abbr. for Jilin Province 吉林省[Jí​lín​Shěng]",
+      "frequency": 12,
+      "reactions": 12,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "革",
+      "pinyin": "gé",
+      "meaning": "animal hide; leather; to reform",
+      "frequency": 18,
+      "reactions": 14,
+      "category": "object",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "civilization"
+    },
+    {
+      "char": "皮",
+      "pinyin": "Pí",
+      "meaning": "surname Pi",
+      "frequency": 14,
+      "reactions": 14,
+      "category": "body",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "body"
+    },
+    {
+      "char": "䜌",
+      "pinyin": "",
+      "meaning": "",
+      "frequency": 10,
+      "reactions": 10,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "包",
+      "pinyin": "Bāo",
+      "meaning": "surname Bao",
+      "frequency": 19,
+      "reactions": 19,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "甬",
+      "pinyin": "Yǒng",
+      "meaning": "the Yongjiang river 甬江[Yǒng​jiāng] through Ningbo 寧波|宁波[Níng​bō]; abbr. for Ningbo",
+      "frequency": 12,
+      "reactions": 12,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "比",
+      "pinyin": "Bǐ",
+      "meaning": "Belgium; Belgian; abbr. for 比利時|比利时[Bǐ​lì​shí]",
+      "frequency": 13,
+      "reactions": 13,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "林",
+      "pinyin": "Lín",
+      "meaning": "surname Lin; Japanese surname Hayashi",
+      "frequency": 12,
+      "reactions": 10,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "召",
+      "pinyin": "Shào",
+      "meaning": "surname Shao; name of an ancient state that existed in what is now Shaanxi Province",
+      "frequency": 10,
+      "reactions": 10,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "周",
+      "pinyin": "Zhōu",
+      "meaning": "surname Zhou; Zhou Dynasty (1046-256 BC)",
+      "frequency": 12,
+      "reactions": 12,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "共",
+      "pinyin": "gòng",
+      "meaning": "common; general; to share",
+      "frequency": 13,
+      "reactions": 11,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "户",
+      "pinyin": "hù",
+      "meaning": "a household; door; family",
+      "frequency": 12,
+      "reactions": 12,
+      "category": "object",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "civilization"
+    },
+    {
+      "char": "我",
+      "pinyin": "wǒ",
+      "meaning": "I; me; my",
+      "frequency": 11,
+      "reactions": 11,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "莫",
+      "pinyin": "Mò",
+      "meaning": "surname Mo",
+      "frequency": 18,
+      "reactions": 18,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "朱",
+      "pinyin": "Zhū",
+      "meaning": "surname Zhu",
+      "frequency": 12,
+      "reactions": 12,
+      "category": "color",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "nature"
+    },
+    {
+      "char": "尞",
+      "pinyin": "",
+      "meaning": "",
+      "frequency": 11,
+      "reactions": 11,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "甫",
+      "pinyin": "fǔ",
+      "meaning": "(classical) barely; just; just now",
+      "frequency": 14,
+      "reactions": 14,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "申",
+      "pinyin": "Shēn",
+      "meaning": "old name for Shanghai 上海[Shàng​hǎi]; surname Shen",
+      "frequency": 10,
+      "reactions": 10,
+      "category": "nature",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "nature"
+    },
+    {
+      "char": "辰",
+      "pinyin": "chén",
+      "meaning": "5th earthly branch: 7-9 a.m., 3rd solar month (5th April-4th May), year of the Dragon; ancient Chinese compass point: 120°",
+      "frequency": 10,
+      "reactions": 8,
+      "category": "object",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "civilization"
+    },
+    {
+      "char": "分",
+      "pinyin": "fēn",
+      "meaning": "to divide; to separate; to distribute",
+      "frequency": 13,
+      "reactions": 13,
+      "category": "abstract",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "abstract"
+    },
+    {
+      "char": "圭",
+      "pinyin": "guī",
+      "meaning": "(old) jade tablet (a ceremonial badge of rank)",
+      "frequency": 15,
+      "reactions": 15,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "川",
+      "pinyin": "Chuān",
+      "meaning": "abbr. for Sichuan Province 四川[Sì​chuān] in southwest China",
+      "frequency": 10,
+      "reactions": 9,
+      "category": "nature",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "nature"
+    },
+    {
+      "char": "真",
+      "pinyin": "zhēn",
+      "meaning": "really; truly; indeed",
+      "frequency": 10,
+      "reactions": 10,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "屯",
+      "pinyin": "tún",
+      "meaning": "to station (soldiers); to store up; village",
+      "frequency": 13,
+      "reactions": 13,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "每",
+      "pinyin": "měi",
+      "meaning": "each; every",
+      "frequency": 10,
+      "reactions": 10,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "敝",
+      "pinyin": "bì",
+      "meaning": "my (polite); poor; ruined",
+      "frequency": 10,
+      "reactions": 10,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "加",
+      "pinyin": "Jiā",
+      "meaning": "abbr. for Canada 加拿大[Jiā​ná​dà]; surname Jia",
+      "frequency": 12,
+      "reactions": 12,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "由",
+      "pinyin": "yóu",
+      "meaning": "to follow; from; it is for...to",
+      "frequency": 14,
+      "reactions": 14,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "監",
+      "pinyin": "",
+      "meaning": "",
+      "frequency": 11,
+      "reactions": 11,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "佥",
+      "pinyin": "qiān",
+      "meaning": "all",
+      "frequency": 11,
+      "reactions": 11,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "僉",
+      "pinyin": "",
+      "meaning": "",
+      "frequency": 11,
+      "reactions": 11,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "柬",
+      "pinyin": "Jiǎn",
+      "meaning": "abbr. for 柬埔寨[Jiǎn​pǔ​zhài], Cambodia",
+      "frequency": 11,
+      "reactions": 11,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "告",
+      "pinyin": "gào",
+      "meaning": "to say; to tell; to announce",
+      "frequency": 10,
+      "reactions": 10,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "尧",
+      "pinyin": "Yáo",
+      "meaning": "surname Yao; Yao or Tang Yao (c. 2200 BC), one of Five legendary Emperors 五帝[wǔ​dì], second son of Di Ku 帝嚳|帝喾[Dì​Kù]",
+      "frequency": 11,
+      "reactions": 11,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "堯",
+      "pinyin": "",
+      "meaning": "",
+      "frequency": 10,
+      "reactions": 10,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "少",
+      "pinyin": "shǎo",
+      "meaning": "few; less; to lack",
+      "frequency": 12,
+      "reactions": 12,
+      "category": "abstract",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "abstract"
+    },
+    {
+      "char": "俞",
+      "pinyin": "Yú",
+      "meaning": "surname Yu",
+      "frequency": 15,
+      "reactions": 15,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "辟",
+      "pinyin": "bì",
+      "meaning": "king; monarch; to enlist",
+      "frequency": 11,
+      "reactions": 11,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "甲",
+      "pinyin": "jiǎ",
+      "meaning": "first of the ten Heavenly Stems 十天干[shí​tiān​gān]; (used for an unspecified person or thing); first (in a list, as a party to a contract etc)",
+      "frequency": 10,
+      "reactions": 10,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "胡",
+      "pinyin": "Hú",
+      "meaning": "surname Hu",
+      "frequency": 10,
+      "reactions": 10,
+      "category": "other",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "other"
+    },
+    {
+      "char": "亡",
+      "pinyin": "wáng",
+      "meaning": "death, destruction; to lose; to perish",
+      "frequency": 3,
+      "reactions": 0,
+      "category": "abstract",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "abstract"
+    },
+    {
+      "char": "本",
+      "pinyin": "běn",
+      "meaning": "root, origin, source; basis",
+      "frequency": 5,
+      "reactions": 0,
+      "category": "nature",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "nature"
+    },
+    {
+      "char": "豕",
+      "pinyin": "shǐ",
+      "meaning": "pig, boar",
+      "frequency": 3,
+      "reactions": 0,
+      "category": "animal",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "fauna"
+    },
+    {
+      "char": "夭",
+      "pinyin": "yāo",
+      "meaning": "young, tender; to die young",
+      "frequency": 3,
+      "reactions": 0,
+      "category": "abstract",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "abstract"
+    },
+    {
+      "char": "毛",
+      "pinyin": "máo",
+      "meaning": "hair, fur, feathers; coarse",
+      "frequency": 5,
+      "reactions": 0,
+      "category": "body",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "body"
+    },
+    {
+      "char": "玉",
+      "pinyin": "yù",
+      "meaning": "jade, gem, precious stone",
+      "frequency": 5,
+      "reactions": 0,
+      "category": "object",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "civilization"
+    },
+    {
+      "char": "相",
+      "pinyin": "xiāng",
+      "meaning": "mutual, reciprocal; each other",
+      "frequency": 4,
+      "reactions": 0,
+      "category": "abstract",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "abstract"
+    },
+    {
+      "char": "北",
+      "pinyin": "běi",
+      "meaning": "north, northern",
+      "frequency": 5,
+      "reactions": 0,
+      "category": "directions",
+      "unlock_level": null,
+      "source": "decomposition",
+      "chainable": false,
+      "doodle_category": "abstract"
+    }
+  ],
+  "total": 208,
+  "level_thresholds": [
+    {
+      "level": 1,
+      "stars_required": 0
+    },
+    {
+      "level": 2,
+      "stars_required": 28
+    },
+    {
+      "level": 3,
+      "stars_required": 63
+    },
+    {
+      "level": 4,
+      "stars_required": 112
+    },
+    {
+      "level": 5,
+      "stars_required": 175
+    },
+    {
+      "level": 6,
+      "stars_required": 252
+    },
+    {
+      "level": 7,
+      "stars_required": 343
+    },
+    {
+      "level": 8,
+      "stars_required": 448
+    },
+    {
+      "level": 9,
+      "stars_required": 567
+    },
+    {
+      "level": 10,
+      "stars_required": 700
+    },
+    {
+      "level": 11,
+      "stars_required": 847
+    },
+    {
+      "level": 12,
+      "stars_required": 1008
+    },
+    {
+      "level": 13,
+      "stars_required": 1183
+    },
+    {
+      "level": 14,
+      "stars_required": 1372
+    },
+    {
+      "level": 15,
+      "stars_required": 1575
+    },
+    {
+      "level": 16,
+      "stars_required": 1792
+    },
+    {
+      "level": 17,
+      "stars_required": 2023
+    },
+    {
+      "level": 18,
+      "stars_required": 2268
+    },
+    {
+      "level": 19,
+      "stars_required": 2527
+    },
+    {
+      "level": 20,
+      "stars_required": 2800
+    },
+    {
+      "level": 21,
+      "stars_required": 3087
+    },
+    {
+      "level": 22,
+      "stars_required": 3388
+    },
+    {
+      "level": 23,
+      "stars_required": 3703
+    },
+    {
+      "level": 24,
+      "stars_required": 4032
+    },
+    {
+      "level": 25,
+      "stars_required": 4375
+    },
+    {
+      "level": 26,
+      "stars_required": 4732
+    },
+    {
+      "level": 27,
+      "stars_required": 5103
+    },
+    {
+      "level": 28,
+      "stars_required": 5488
+    },
+    {
+      "level": 29,
+      "stars_required": 5887
+    },
+    {
+      "level": 30,
+      "stars_required": 6300
+    },
+    {
+      "level": 31,
+      "stars_required": 6727
+    },
+    {
+      "level": 32,
+      "stars_required": 7168
+    },
+    {
+      "level": 33,
+      "stars_required": 7623
+    },
+    {
+      "level": 34,
+      "stars_required": 8092
+    },
+    {
+      "level": 35,
+      "stars_required": 8575
+    },
+    {
+      "level": 36,
+      "stars_required": 9072
+    },
+    {
+      "level": 37,
+      "stars_required": 9583
+    },
+    {
+      "level": 38,
+      "stars_required": 10108
+    },
+    {
+      "level": 39,
+      "stars_required": 10647
+    },
+    {
+      "level": 40,
+      "stars_required": 11200
+    },
+    {
+      "level": 41,
+      "stars_required": 11767
+    },
+    {
+      "level": 42,
+      "stars_required": 12348
+    },
+    {
+      "level": 43,
+      "stars_required": 12943
+    },
+    {
+      "level": 44,
+      "stars_required": 13552
+    },
+    {
+      "level": 45,
+      "stars_required": 14175
+    },
+    {
+      "level": 46,
+      "stars_required": 14812
+    },
+    {
+      "level": 47,
+      "stars_required": 15463
+    },
+    {
+      "level": 48,
+      "stars_required": 16128
+    },
+    {
+      "level": 49,
+      "stars_required": 16807
+    },
+    {
+      "level": 50,
+      "stars_required": 17500
+    },
+    {
+      "level": 51,
+      "stars_required": 18207
+    },
+    {
+      "level": 52,
+      "stars_required": 18928
+    },
+    {
+      "level": 53,
+      "stars_required": 19663
+    },
+    {
+      "level": 54,
+      "stars_required": 20412
+    },
+    {
+      "level": 55,
+      "stars_required": 21175
+    },
+    {
+      "level": 56,
+      "stars_required": 21952
+    },
+    {
+      "level": 57,
+      "stars_required": 22743
+    },
+    {
+      "level": 58,
+      "stars_required": 23548
+    },
+    {
+      "level": 59,
+      "stars_required": 24367
+    },
+    {
+      "level": 60,
+      "stars_required": 25200
+    },
+    {
+      "level": 61,
+      "stars_required": 26047
+    },
+    {
+      "level": 62,
+      "stars_required": 26908
+    },
+    {
+      "level": 63,
+      "stars_required": 27783
+    },
+    {
+      "level": 64,
+      "stars_required": 28672
+    },
+    {
+      "level": 65,
+      "stars_required": 29575
+    },
+    {
+      "level": 66,
+      "stars_required": 30492
+    },
+    {
+      "level": 67,
+      "stars_required": 31423
+    },
+    {
+      "level": 68,
+      "stars_required": 32368
+    },
+    {
+      "level": 69,
+      "stars_required": 33327
+    },
+    {
+      "level": 70,
+      "stars_required": 34300
+    },
+    {
+      "level": 71,
+      "stars_required": 35287
+    },
+    {
+      "level": 72,
+      "stars_required": 36288
+    },
+    {
+      "level": 73,
+      "stars_required": 37303
+    },
+    {
+      "level": 74,
+      "stars_required": 38332
+    },
+    {
+      "level": 75,
+      "stars_required": 39375
+    },
+    {
+      "level": 76,
+      "stars_required": 40432
+    },
+    {
+      "level": 77,
+      "stars_required": 41503
+    },
+    {
+      "level": 78,
+      "stars_required": 42588
+    },
+    {
+      "level": 79,
+      "stars_required": 43687
+    },
+    {
+      "level": 80,
+      "stars_required": 44800
+    }
+  ],
+  "generated_at": "2025-06-19 (Doodle God Phase 1)",
+  "source": "chinese-lexicon etymology data",
+  "total_leveling": 70,
+  "total_decomposition": 138,
+  "doodle_categories": [
+    "nature",
+    "body",
+    "civilization",
+    "fauna",
+    "abstract",
+    "other"
+  ],
+  "doodle_category_colors": {
+    "nature": "#4CAF50",
+    "body": "#FF7043",
+    "civilization": "#FFB300",
+    "fauna": "#EC407A",
+    "abstract": "#5C6BC0",
+    "other": "#9E9E9E"
+  },
+  "variant_pairs": {
+    "亻": "人",
+    "忄": "心",
+    "讠": "言",
+    "钅": "金",
+    "刂": "刀",
+    "氵": "水",
+    "扌": "手",
+    "辶": "走",
+    "⺼": "肉",
+    "纟": "糸",
+    "饣": "食",
+    "犭": "犬",
+    "衤": "衣",
+    "⺮": "竹",
+    "火": "灬"
+  },
+  "spare_replacements": {
+    "大": "公",
+    "日": "合",
+    "目": "彳",
+    "木": "冫",
+    "土": "生",
+    "金": "青",
+    "王": "弓",
+    "贝": "羽",
+    "石": "气",
+    "穴": "戈",
+    "疒": "包",
+    "各": "令"
+  },
+  "chainable_radicals": [
+    "大",
+    "日",
+    "目",
+    "金",
+    "各",
+    "王",
+    "石",
+    "土",
+    "贝",
+    "木",
+    "穴",
+    "疒"
+  ],
+  "notes": "Doodle God recategorization — 70 leveling, 138 decomposition. See radical-categories-plan.md"
+}

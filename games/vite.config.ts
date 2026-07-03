@@ -25,6 +25,26 @@ function rootAssetsPlugin() {
           }
         }
         // Serve image files from the repo-root /images/ directory
+        if (/^\/assets\//.test(url)) {
+          const relPath = url.split('?')[0].replace(/^\//, '');
+          const filePath = path.join(rootDir, relPath);
+          if (fs.existsSync(filePath)) {
+            const ext = path.extname(filePath).toLowerCase();
+            const mime: Record<string, string> = {
+              '.png': 'image/png',
+              '.jpg': 'image/jpeg',
+              '.jpeg': 'image/jpeg',
+              '.gif': 'image/gif',
+              '.svg': 'image/svg+xml',
+              '.webp': 'image/webp',
+            };
+            res.setHeader('Content-Type', mime[ext] || 'application/octet-stream');
+            res.setHeader('Cache-Control', 'no-cache');
+            res.end(fs.readFileSync(filePath));
+            return;
+          }
+        }
+        // Serve image files from the repo-root /images/ directory
         if (/^\/images\//.test(url)) {
           const relPath = url.split('?')[0].replace(/^\//, '');
           const filePath = path.join(rootDir, relPath);

@@ -605,6 +605,155 @@ Major polish pass on `dashboard.html` — responsive layout restructured for iPh
 
 ---
 
+## Sessions 70-74 — Arena Layout, Zombie Game HOF, Stats Sync
+
+### Session 70 — Arena: Mobile layout restructured
+- Header moved to top of arena-upper, mobile uses CSS Grid with `display: contents`
+- Desktop 2-column grid preserved, games-grid stays in arena-right
+- Fixed absolute positioning conflict overriding mobile avatar placement
+- bg-mountains on arena-upper, bg-bamboos on arena-lower
+
+### Session 71 — Zombie game unlock + name change
+- "Zombie Chase" → "Zombie Strike" in GAMES array
+- Unlock logic verified: locks without full Course 1A mastery, unlocks after mastery injection
+- Locked cards now visible on mobile (removed `display: none` from 480px media query)
+
+### Session 72 — Zombie HOF + testplayer deletion
+- Zombie Strike added to both Local and Global HOF rankings
+- "Test Player" (score 1000) deleted from Supabase hall_of_fame table
+
+### Session 73 — Zombie game iPhone layout fix
+- Battlefield min-height: 180→140px (≤520px), 150→110px (≤360px)
+- Writing box: 130→110px (≤520px), 110→90px (≤360px)
+- Slots: 44→40px (≤520px), 38→34px (≤360px), gaps reduced
+- Added `overflow-y: auto` to .z-arena, `min-height: 0` to .z-page
+
+### Session 74 — Profile stats sync fix
+- Fixed: Stars showed today's score (`getTodayScore()`) instead of lifetime total
+- Created `syncProfileStats()` helper using `XHZ.getTotalStars(p.id)`
+- Deduplicated 4 copies of sync code, added sync to focus handler
+
+## Session 75+ — Lab/XP System: Design, Data, & Engine
+
+### Design Phase — Laboratory Game & XP/Level System
+- Full design plan created in `laboratory-plan.md`
+- Chemistry-lab-themed minigame where users collect radicals and mix them to discover characters
+- **XP = total stars earned** — no separate tracking needed
+- **80 leveled radicals** (levels 1-80) + **142 decomposition-only** discovered through lab
+- **3 decomposition categories:** both_decomp (117 chars), mixed (1,010 chars), both_leveled (316 chars — not decomposable)
+- **Lab energy system:** 1-2 decompositions per day (resets daily)
+- **Zero orphans:** All 142 decomposition-only radicals earnable through course characters
+
+### Phase 1: Data Foundation
+- `scripts/extract-lab-data.js` — extracts radicals + reactions from chinese-lexicon
+- `radicals.json` — 222 radicals with unlock levels, categories, frequency, source field
+- `reactions.json` — 1,443 2-radical reactions with decomp_category field
+- All radicals have `source: 'leveling' | 'decomposition'`
+- All reactions have `decomp_category: 'both_leveled' | 'both_decomp' | 'mixed'`
+
+### Phase 2: XP/Level Engine
+- `shared/lab-engine.js` — extends XHZ with level computation, radical storage, lab energy, mixing helpers
+- API: `getLevel()`, `getLevelProgress()`, `getMyLevel()` — level from total stars + thresholds
+- Storage: `xhz_lab_{profileId}` in localStorage (earned radicals, discovered chars, decompositions, claimed levels)
+- Lab energy: `getLabEnergy()`, `canDecompose()`, `useDecomposition()` — 1-2/day with daily reset
+- Level rewards: `getUnclaimedLevelRewards()`, `getLevelRewardOptions()`, `claimLevelReward()`
+- Mixing: `checkReaction()`, `getAffinities()`, `loadReactionData()`
+- Auto-claim: levels 1-5 auto-awarded, 6+ requires user choice (branching)
+
+### Pacing Decision: 150 hours to Lv 80
+- Research: Duolingo 45-300 hrs, Khan Academy 50-100 hrs per subject — 150 hrs is a solid full playthrough
+- **TARGET_MAX = 14,700 stars** (was 33,394) — scaled by factor 0.440
+- Lv 5 (Lab unlocks): Day 3 at 30 min/day
+- Lv 10 (Branching): Day 7
+- Lv 25 (Advanced mixing): Day 31 (~1 month)
+- Lv 50: Day 125 (~4 months)
+- Lv 80: Day 300 (~10 months, 150 hours)
+- `scripts/extract-lab-data.js` updated with new TARGET_MAX, `radicals.json` regenerated
+
+### Page-by-Page Audit Complete
+- 12 pages analyzed: 3 High priority, 2 Medium, 2 Low, 4 None, 1 Build
+- Full integration checklist in `laboratory-plan.md §7`
+- Script loading order: profiles.js → lab-engine.js → radicals.json + reactions.json fetch
+
+## Radical Replan — Doodle God Style Discovery
+
+### This session
+Decided to replace linear level-based radical unlock with a **tree-based discovery system** inspired by Doodle God. Created `radical-categories-plan.md` with full categorization of 222 radicals into 6 thematic categories, discovery compound logic, progression structure, and implementation plan.
+
+### Six categories
+| Category | Emoji | Radicals |
+|----------|-------|:--------:|
+| 🌿 Nature & Cosmos | ☀️🌊 | ~35 |
+| 👤 Humanity & Body | 🖐️❤️ | ~35 |
+| 🌸 Flora & Fauna | 🐾🌾 | ~35 |
+| 🏛️ Civilization & Tools | 🔧👘 | ~40 |
+| ✨ Abstract & Symbols | 🔢🔤 | ~25 |
+| 🔬 Discovery Compounds | 🧪⚗️ | ~30 |
+
+### Done: Doodle categories wired into lab UI
+- Updated `_categoryEmoji()` in laboratory-playground.html — reduced from 11 old categories to the 6 Doodle God categories: nature (🌿), body (🫀), civilization (🏛️), fauna (🐾), abstract (💭), other (🔮)
+- Branching options modal now reads `opt.doodle_category` instead of `opt.category` for both emoji icon and label display
+- Old `category` field preserved in data as fallback; UI only shows Doodle God categories
+
+### Next actions
+- Add category tabs/filters to lab UI mixing station
+- Wire Doodle God discovery chains
+- Deploy lab UI to arena.html with level gating (Lv 5 unlock)
+
+## Session 75+ — Lab UI Polish: Game-ification Overhaul (Alchemist's Toolkit)
+
+### Game Design Assessment
+Game design feedback identified that the radical inventory felt like a spreadsheet. Key changes:
+
+**1. Parchment Cards (IN PROGRESS)**
+- Replacing shelf chips with floating parchment-textured cards with drop shadows
+- Category color accent as small badge or left border
+- Chips now look like physical items on a shelf, not spreadsheet cells
+
+**2. Elemental Orb Filters (Planned)**
+- Replace text shelf headers with glowing category orbs
+- Smooth animation transitions for filtering
+
+**3. Wing Work Trays (Done)**
+- Wings show distinct content: Partners (left) vs Others (right)
+- Headers added for clarity
+
+**4. Background Decor (Planned)**
+- Faint alchemy equipment line art behind the UI
+
+**5. Discovery Animation (Planned)**
+- New radical arrival animation
+
+### Previous: Wings fix & layout tightening
+- Removed empty beaker result box (the "?" space)
+- Tightened layout spacing
+- Wings now show different content per wing with headers
+- Right wing shows "Others" (non-partner earned radicals) instead of duplicating left
+
+## Aesthetic Audit — Lab Page vs Dashboard Direction (Current Session)
+
+### Assessment
+Conducted a thorough visual audit of `laboratory-playground.html` against the latest design direction (dashboard's neo-brutalist pastel toy aesthetic from Sessions 65-67).
+
+### Key Findings (7 gaps identified)
+1. **Card borders & shadows**: Lab uses 1px thin borders with soft shadows; dashboard uses 3px thick borders with solid offset shadows (6px 9px 0 0). Lab feels flat.
+2. **Buttons**: Lab buttons are standard rounded pills; dashboard has 3D buttons with `:active` squish and offset shadows.
+3. **Panda mascot**: Lab has no mascot presence — dashboard has avatar, speech bubble, and clickable panda throughout.
+4. **Top bar**: Lab uses glassmorphism with background chips; dashboard has clean frameless horizontal layout.
+5. **Color palette**: Lab uses original Botes palette (muted); dashboard has richer `--db-*` palette.
+6. **Empty states**: Lab uses text-heavy muted emoji states; could be more playful.
+7. **No visual cohesion across card types**: Lab has 6+ different card styles (parchment chips, wing chips, collection cards, decomp cards, discovered cards, stat cards) that don't feel part of one system.
+
+### Proposed Next Stage
+**Phase 3.5 — Visual Cohesion Overhaul** — Bridge lab with dashboard aesthetic:
+1. Unified neo-brutalist card system
+2. 3D button redesign
+3. Streamlined top bar
+4. Panda mascot integration
+5. Tab & filter polish
+6. Empty state/toast brush-up
+7. Background decorative line art
+
 ## Persistent Issues
 - **Git push silently fails ~50% of the time** from the assistant (basher agent). Fix: always run `git push origin main` explicitly.
 - Notebook table still needs to be applied to Supabase dashboard to eliminate remaining 404

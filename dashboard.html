@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en" data-i18n-lang>
 <head>
   <meta charset="UTF-8" />
@@ -121,6 +121,30 @@ body {
 .tb-streak-icon {
   font-size: 1.1rem;
   line-height: 1;
+}
+
+/* ── Level Badge (between streak and ribbon) ── */
+/* ── Panda-level info (under panda) ── */
+.panda-level-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  text-align: center;
+  margin-top: -6px;
+}
+.panda-level-info .pli-level {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1rem;
+  color: var(--db-purple);
+  line-height: 1.2;
+}
+.panda-level-info .pli-xp {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--db-text-soft);
 }
 
 .tb-ribbon {
@@ -1008,6 +1032,10 @@ body {
   .panda-stage {
     padding-top: 8px;
   }
+  .panda-level-info {
+    width: 100%;
+    text-align: center;
+  }
   .panda-viewport {
     width: 130px;
     height: 130px;
@@ -1295,6 +1323,7 @@ body {
             <span class="tb-streak-icon">🔥</span>
             <span id="dash-streak-text">0 Day Streak!</span>
           </div>
+
         </div>
 
         <!-- Right: coins + chest -->
@@ -1305,6 +1334,8 @@ body {
           </div>
         </div>
       </header>
+
+
 
       <!-- ══════ MAIN CONTENT ══════ -->
       <div class="dash-main">
@@ -1356,6 +1387,12 @@ body {
               </div>
 
             </div>
+          </div>
+
+          <!-- Level / XP info under panda -->
+          <div class="panda-level-info" id="panda-level-info">
+            <span class="pli-level" id="pli-level">Lv.1</span>
+            <span class="pli-xp" id="pli-xp">0 / 23 XP</span>
           </div>
         </div>
 
@@ -1472,7 +1509,7 @@ body {
   <script src="profiles.js"></script>
   <script src="nav.js"></script>
   <script src="strings.js"></script>
-  <script src="shared/auth-modal.js"></script>
+  <script src="shared/lab-engine.js"></script>
   <script>
 /* ═══════════════════════════════════════════════════════════════
    DASHBOARD — MAIN LOGIC (Adapted for Bento Layout)
@@ -1514,6 +1551,23 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function loadData() {
+  // Load lab data (radicals, reactions) separately — it's optional, don't block dashboard
+  fetch('radicals.json').then(function(r) { return r.json(); }).then(function(data) {
+    XHZ.loadRadicalData(data);
+    return fetch('reactions.json').then(function(r) { return r.json(); }).then(function(rdata) {
+      XHZ.loadReactionData(rdata);
+
+      // Auto-claim levels 1-5 after lab engine is ready
+      var p = XHZ.getActiveProfile();
+      if (p) XHZ.autoClaimLevelRewards(p.id);
+
+      // Render level badge now that we have lab data
+      renderLevelBadge();
+    });
+  }).catch(function(e) {
+    console.warn('Lab data not available:', e.message);
+  });
+
   Promise.all([
     fetch('rewards.json').then(function(r) { return r.json(); }),
     fetch('courses.json').then(function(r) { return r.json(); })
@@ -2069,10 +2123,10 @@ function updateSpeechBubble(journeyInfo) {
   // Add journey context
   if (journeyInfo && journeyInfo.title && journeyInfo.pct >= 20) {
     var pct = journeyInfo.pct;
-    if (pct >= 80) msg = 'Almost there! ' + pct + '% mastered! 🏮';
-    else if (pct >= 60) msg = 'Great progress — ' + pct + '%! Keep it up! 🌿';
-    else if (pct >= 40) msg = 'You\'re a ' + journeyInfo.title + '! ' + pct + '% so far! 🎋';
-    else if (pct >= 20) msg = 'Learning is an adventure! ' + pct + '% done! 🐾';
+    if (pct >= 80) msg = 'Almost there! Keep going! 🏮';
+    else if (pct >= 60) msg = 'Great progress! Keep it up! 🌿';
+    else if (pct >= 40) msg = 'You\'re a ' + journeyInfo.title + '! 🎋';
+    else if (pct >= 20) msg = 'Learning is an adventure! 🐾';
   }
 
   if (!msg) msg = 'Let\'s learn some Chinese today! 🐼';
@@ -2140,6 +2194,45 @@ function showGuestWarningIfNeeded() {
     '<button class="dismiss" onclick="this.parentElement.remove()">✕</button>';
   var nav = document.getElementById('app-nav');
   nav.parentNode.insertBefore(banner, nav.nextSibling);
+}
+
+// ── Level Badge & Panda Level/XP Info ──
+function renderLevelBadge() {
+  var p = XHZ.getActiveProfile();
+  if (!p) return;
+
+  var progress = XHZ.getLevelProgress(p.id);
+  if (!progress) return;
+
+  var level = progress.currentLevel;
+
+  // Level/XP under panda
+  var levelEl = document.getElementById('pli-level');
+  var xpEl = document.getElementById('pli-xp');
+  if (levelEl) levelEl.textContent = 'Lv.' + level;
+  if (xpEl) {
+    if (progress.nextLevel) {
+      var needed = progress.starsNeeded || 0;
+      xpEl.textContent = progress.starsOwned + ' / ' + needed + ' XP';
+    } else {
+      xpEl.textContent = '🌟 ' + progress.starsOwned + ' Total XP';
+    }
+  }
+
+  // Level-up toast detection
+  detectLevelUp(level);
+}
+
+// Detect and show level-up toast
+function detectLevelUp(newLevel) {
+  var saved = localStorage.getItem('xhz_dash_last_level');
+  if (saved !== null) {
+    var prevLevel = parseInt(saved, 10);
+    if (!isNaN(prevLevel) && newLevel > prevLevel) {
+      showToast('🎉 Level Up! You\'re now Lv.' + newLevel + '!', '', 3500);
+    }
+  }
+  localStorage.setItem('xhz_dash_last_level', String(newLevel));
 }
 
 // ── Toast ──

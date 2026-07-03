@@ -1882,13 +1882,11 @@ body {
 }
 
 .matching-tile:hover:not(:disabled) {
-  transform: translateY(-3px);
-  box-shadow: 4px 7px 0px 0px #111827;
+  box-shadow: 4px 4px 0px 0px #111827;
 }
 
 .matching-tile:active:not(:disabled) {
-  transform: translateY(2px) scale(0.98);
-  box-shadow: 1px 1px 0px 0px #111827;
+  box-shadow: 4px 4px 0px 0px #111827;
 }
 
 /* Character tile — jade gradient (#2a9484 → #1c6d60) */
@@ -1911,9 +1909,44 @@ body {
 
 /* Selected state — gold glow highlight, border #fde87b */
 .matching-tile.tile-selected {
-  transform: translateY(-3px);
   border-color: #fde87b !important;
-  box-shadow: 0 0 18px rgba(253, 232, 123, 0.7), 0 0 32px rgba(253, 232, 123, 0.3), 4px 7px 0px 0px #111827;
+  box-shadow: 0 0 18px rgba(253, 232, 123, 0.7), 0 0 32px rgba(253, 232, 123, 0.3), 4px 4px 0px 0px #111827;
+}
+
+/* ── Placeholder tile — fills empty cells for symmetrical layout ── */
+.matching-tile-placeholder {
+  aspect-ratio: 1;
+  border-radius: 14px;
+  border: 2px dashed rgba(17, 24, 39, 0.12);
+  background: rgba(250, 248, 245, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  position: relative;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+  max-height: 90%;
+  pointer-events: none;
+  user-select: none;
+}
+
+.matching-tile-placeholder .placeholder-emoji {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  line-height: 1;
+  opacity: 0.15;
+  filter: grayscale(0.8);
+}
+
+@media (max-width: 480px) {
+  .matching-tile-placeholder {
+    border-radius: 10px;
+    border-width: 2px;
+  }
+  .matching-tile-placeholder .placeholder-emoji {
+    font-size: clamp(1rem, 3vw, 1.4rem);
+  }
 }
 
 /* Wrong state — coral flash + shake */
@@ -2027,6 +2060,80 @@ body {
   100% { opacity: 0; }
 }
 
+/* ── 🖼️ Etymology Image Popup — ancient script image on correct match ── */
+.etymology-image-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9998;
+  pointer-events: none;
+  animation: etymologyPop 1.2s ease-out forwards;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.etymology-image-inner {
+  max-width: min(180px, 40vw);
+  max-height: min(180px, 40vh);
+  object-fit: contain;
+  filter: drop-shadow(0 4px 20px rgba(0,0,0,0.25));
+  background: rgba(255, 248, 231, 0.85);
+  border-radius: 16px;
+  border: 3px solid #2D2D2D;
+  padding: 10px;
+  box-shadow: 5px 5px 0px 0px #2D2D2D;
+}
+
+/* ── Top-right variant (used by Sushi game) ── */
+.etymology-image-popup--tr {
+  top: 80px;
+  right: 16px;
+  left: auto;
+  transform: none;
+  animation: etymologyPopTr 1.2s ease-out forwards;
+}
+
+.etymology-image-popup--tr .etymology-image-inner {
+  max-width: min(130px, 30vw);
+  max-height: min(130px, 30vh);
+  padding: 8px;
+}
+
+@keyframes etymologyPop {
+  0% { transform: translate(-50%, -50%) scale(0.2) rotate(-10deg); opacity: 0; }
+  15% { transform: translate(-50%, -50%) scale(1.15) rotate(2deg); opacity: 1; }
+  30% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
+  75% { transform: translate(-50%, calc(-50% - 6px)) scale(0.95) rotate(0deg); opacity: 1; }
+  100% { transform: translate(-50%, calc(-50% - 20px)) scale(0.7) rotate(3deg); opacity: 0; }
+}
+
+@keyframes etymologyPopTr {
+  0% { transform: scale(0.2) rotate(-10deg); opacity: 0; transform-origin: top right; }
+  15% { transform: scale(1.15) rotate(2deg); opacity: 1; transform-origin: top right; }
+  30% { transform: scale(1) rotate(0deg); opacity: 1; transform-origin: top right; }
+  75% { transform: scale(0.95) rotate(0deg) translateY(-4px); opacity: 1; transform-origin: top right; }
+  100% { transform: scale(0.7) rotate(3deg) translateY(-12px); opacity: 0; transform-origin: top right; }
+}
+
+@media (max-width: 480px) {
+  .etymology-image-inner {
+    max-width: min(130px, 50vw);
+    max-height: min(130px, 35vh);
+    padding: 8px;
+    border-width: 2.5px;
+  }
+  .etymology-image-popup--tr {
+    top: 70px;
+    right: 8px;
+  }
+  .etymology-image-popup--tr .etymology-image-inner {
+    max-width: min(100px, 35vw);
+    max-height: min(100px, 25vh);
+  }
+}
+
 /* ── Combo Popup ── */
 .combo-popup {
   position: fixed;
@@ -2062,7 +2169,10 @@ body {
     box-shadow: 3px 3px 0px 0px #111827;
   }
   .matching-tile:hover:not(:disabled) {
-    box-shadow: 3px 5px 0px 0px #111827;
+    box-shadow: 3px 3px 0px 0px #111827;
+  }
+  .matching-tile:active:not(:disabled) {
+    box-shadow: 3px 3px 0px 0px #111827;
   }
   .tile-content-char {
     font-size: clamp(1.7rem, 5.5vw, 2.4rem);

@@ -13,7 +13,9 @@
 
 **Design:** "Botes paper palette" — warm cream/tan paper textures (`paper-grain.png`), soft brown shadows, custom font stack (Bai Jamjuree, ZCOOL KuaiLe, Nunito, Mali). CSS custom properties defined in `shared/design-system.css`.
 
-**Data:** `courses.json` (course structure), `characters_1A.json`/`characters_1B.json` (vocabulary), `rewards.json` (badges & items). All data read from local JSON files with offline caching via `COURSE_DATA`.
+**Data:** `courses.json` (course structure), `characters_*.json` (vocabulary), `rewards.json` (badges & items), `radicals.json` (222 radicals for lab game), `reactions.json` (1,443 2-radical reactions). All data read from local JSON files with offline caching.
+
+**XP/Level System:** XP = total stars earned (no separate tracking). 80 levels, each unlocking a Chinese radical. Labs (mixing + decomposition) unlocked at Level 5. Paced for ~150 hours to reach Lv 80. Implemented in `shared/lab-engine.js`.
 
 **Persistence:** Local-first with optional Supabase sync. All writes go to localStorage via `profiles.js` and are synced to Supabase asynchronously via `shared/supabase-sync.js`.
 

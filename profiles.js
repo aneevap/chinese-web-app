@@ -1167,7 +1167,9 @@ const XHZ = {
   awardGameCoin(gameId) {
     var profile = this.getActiveProfile();
     if (!profile) return 0;
-    return this.addCoins(profile.id, 1, 'game_' + gameId);
+    var result = this.addCoins(profile.id, 1, 'game_' + gameId);
+    this.ensureTodayEntry(profile.id);
+    return result;
   },
 
   /**
@@ -1175,26 +1177,33 @@ const XHZ = {
    * Daily-capped via addCoins source ('daily_login') — max 1 per day.
    * @returns {number} coins awarded (0 if already claimed today)
    */
+  /**
+   * Ensure today's score entry exists so the streak counter works.
+   * Public helper used by arena, games, and login flow.
+   */
+  ensureTodayEntry(profileId) {
+    var scoreData = this._loadScores(profileId);
+    var day = this.today();
+    if (!scoreData.days[day]) {
+      scoreData.days[day] = {
+        write_score: 0,
+        study_score: 0,
+        chars_practiced: [],
+        cards_studied: [],
+        badge: null,
+        study_badge: null,
+        write_attempts: {}
+      };
+      this._saveScores(profileId, scoreData);
+    }
+  },
+
   awardDailyLoginCoin() {
     var profile = this.getActiveProfile();
     if (!profile) return 0;
     var result = this.addCoins(profile.id, 1, 'daily_login');
     if (result > 0) {
-      // Ensure today's score entry exists so the streak counter works
-      var scoreData = this._loadScores(profile.id);
-      var day = this.today();
-      if (!scoreData.days[day]) {
-        scoreData.days[day] = {
-          write_score: 0,
-          study_score: 0,
-          chars_practiced: [],
-          cards_studied: [],
-          badge: null,
-          study_badge: null,
-          write_attempts: {}
-        };
-      }
-      this._saveScores(profile.id, scoreData);
+      this.ensureTodayEntry(profile.id);
     }
     return result;
   },

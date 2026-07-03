@@ -180,55 +180,199 @@
       ]
     },
     {
-      "id": "HSK1",
-      "name": "HSK Level 1",
-      "year_group": "hsk",
+      "id": "2A",
+      "name": "Primary 2 · Semester 1",
+      "year_group": "2",
+      "data_file": "characters_2a.json",
+      "is_free": true,
+      "unlock": null,
+      "themes": []
+    },
+    {
+      "id": "2B",
+      "name": "Primary 2 · Semester 2",
+      "year_group": "2",
+      "data_file": "characters_2b.json",
+      "is_free": true,
+      "unlock": null,
+      "themes": []
+    },
+    {
+      "id": "3A",
+      "name": "Primary 3 · Semester 1",
+      "year_group": "3",
+      "data_file": "characters_3a.json",
+      "is_free": true,
+      "unlock": null,
+      "themes": []
+    },
+    {
+      "id": "3B",
+      "name": "Primary 3 · Semester 2",
+      "year_group": "3",
+      "data_file": "characters_3b.json",
+      "is_free": true,
+      "unlock": null,
+      "themes": []
+    },
+    {
+      "id": "4A",
+      "name": "Primary 4 · Semester 1",
+      "year_group": "4",
+      "data_file": "characters_4a.json",
+      "is_free": true,
+      "unlock": null,
+      "themes": []
+    },
+    {
+      "id": "4B",
+      "name": "Primary 4 · Semester 2",
+      "year_group": "4",
+      "data_file": "characters_4b.json",
+      "is_free": true,
+      "unlock": null,
+      "themes": []
+    },
+    {
+      "id": "5A",
+      "name": "Primary 5 · Semester 1",
+      "year_group": "5",
+      "data_file": "characters_5a.json",
+      "is_free": true,
+      "unlock": null,
+      "themes": []
+    },
+    {
+      "id": "5B",
+      "name": "Primary 5 · Semester 2",
+      "year_group": "5",
+      "data_file": "characters_5b.json",
+      "is_free": true,
+      "unlock": null,
+      "themes": []
+    },
+    {
+      "id": "6A",
+      "name": "Primary 6 · Semester 1",
+      "year_group": "6",
+      "data_file": "characters_6a.json",
+      "is_free": true,
+      "unlock": null,
+      "themes": []
+    },
+    {
+      "id": "6B",
+      "name": "Primary 6 · Semester 2",
+      "year_group": "6",
+      "data_file": "characters_6b.json",
+      "is_free": true,
+      "unlock": null,
+      "themes": []
+    },
+    {
+      "id": "HSK3_1",
+      "name": "HSK 3.0 Level 1",
+      "year_group": "hsk3",
       "data_file": "characters_hsk1.json",
       "is_free": true,
       "unlock": null,
       "themes": []
     },
     {
-      "id": "HSK2",
-      "name": "HSK Level 2",
-      "year_group": "hsk",
+      "id": "HSK3_2",
+      "name": "HSK 3.0 Level 2",
+      "year_group": "hsk3",
       "data_file": "characters_hsk2.json",
       "is_free": true,
       "unlock": null,
       "themes": []
     },
     {
-      "id": "HSK3",
-      "name": "HSK Level 3",
-      "year_group": "hsk",
+      "id": "HSK3_3",
+      "name": "HSK 3.0 Level 3",
+      "year_group": "hsk3",
       "data_file": "characters_hsk3.json",
       "is_free": true,
       "unlock": null,
       "themes": []
     },
     {
-      "id": "HSK4",
-      "name": "HSK Level 4",
-      "year_group": "hsk",
+      "id": "HSK3_4",
+      "name": "HSK 3.0 Level 4",
+      "year_group": "hsk3",
       "data_file": "characters_hsk4.json",
       "is_free": true,
       "unlock": null,
       "themes": []
     },
     {
-      "id": "HSK5",
-      "name": "HSK Level 5",
-      "year_group": "hsk",
+      "id": "HSK3_5",
+      "name": "HSK 3.0 Level 5",
+      "year_group": "hsk3",
       "data_file": "characters_hsk5.json",
       "is_free": true,
       "unlock": null,
       "themes": []
     },
     {
-      "id": "HSK6",
-      "name": "HSK Level 6",
-      "year_group": "hsk",
+      "id": "HSK3_6",
+      "name": "HSK 3.0 Level 6",
+      "year_group": "hsk3",
       "data_file": "characters_hsk6.json",
+      "is_free": true,
+      "unlock": null,
+      "themes": []
+    },
+    {
+      "id": "HSK20_1",
+      "name": "HSK 2.0 Level 1",
+      "year_group": "hsk20",
+      "data_file": "characters_hsk20_1.json",
+      "is_free": true,
+      "unlock": null,
+      "themes": []
+    },
+    {
+      "id": "HSK20_2",
+      "name": "HSK 2.0 Level 2",
+      "year_group": "hsk20",
+      "data_file": "characters_hsk20_2.json",
+      "is_free": true,
+      "unlock": null,
+      "themes": []
+    },
+    {
+      "id": "HSK20_3",
+      "name": "HSK 2.0 Level 3",
+      "year_group": "hsk20",
+      "data_file": "characters_hsk20_3.json",
+      "is_free": true,
+      "unlock": null,
+      "themes": []
+    },
+    {
+      "id": "HSK20_4",
+      "name": "HSK 2.0 Level 4",
+      "year_group": "hsk20",
+      "data_file": "characters_hsk20_4.json",
+      "is_free": true,
+      "unlock": null,
+      "themes": []
+    },
+    {
+      "id": "HSK20_5",
+      "name": "HSK 2.0 Level 5",
+      "year_group": "hsk20",
+      "data_file": "characters_hsk20_5.json",
+      "is_free": true,
+      "unlock": null,
+      "themes": []
+    },
+    {
+      "id": "HSK20_6",
+      "name": "HSK 2.0 Level 6",
+      "year_group": "hsk20",
+      "data_file": "characters_hsk20_6.json",
       "is_free": true,
       "unlock": null,
       "themes": []

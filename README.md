@@ -17,6 +17,12 @@ A gamified web app for children (ages 5–12) to learn Chinese characters throug
     - Green juice-bar spawn timer with shiny highlight streak
     - Neo-brutalism board-game aesthetic throughout
   - **🔤 Grid Buster** — Match character tiles to meaning tiles on a 4×4 grid. Multi-round gameplay with combo detection, course/theme selection, and neo-brutalism board-game aesthetic
+- **🧪 Laboratory** (Planned) — Chemistry-lab-themed minigame where users collect Chinese radicals (部首) and mix them to discover full characters. Features:
+  - **Level system (80 levels):** XP = total stars earned. Each level unlocks a new radical. Paced for ~150 hours total playtime.
+  - **Mixing station:** Select 2 radicals → check if they form a real character → discover it!
+  - **Decomposition chamber:** Break down course characters to extract rare radicals (1-2 decompositions per day)
+  - **Branching rewards:** From Level 6+, choose which radical to unlock from 3 themed options
+  - **222 radicals total:** 80 from leveling, 142 discovered through lab experimentation only
 - **📊 Progress** — Journey stats, mastery matrix, activity calendar, badges & unlockable items, parent settings
 - **🔐 Auth** — Inline auth modal with upgrade (anonymous → email/password), sign-in, password reset flow, recovery page with password strength meter
 - **🔑 Sign-in on all devices** — Profile picker includes a "Sign In" button for returning users on a new device

@@ -16,6 +16,7 @@ declare global {
       getCoins?: (profileId: string) => number;
     };
     getNavLang?: () => 'en' | 'th';
+    closeGame?: () => void;
   }
 }
 

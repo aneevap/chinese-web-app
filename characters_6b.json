@@ -1,0 +1,1753 @@
+{
+  "course": "6B",
+  "words": [
+    {
+      "word_id": "6B_001",
+      "ch": "勃",
+      "py": "bó",
+      "en": "Thrive",
+      "th": "เจริญ",
+      "zh": "他最近工作很蓬勃。",
+      "sent_en": "He has been working very vigorously recently.",
+      "sent_th": "เขาทำงานอย่างกระตือรือร้นมากเมื่อเร็วๆนี้",
+      "theme": "actions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_002",
+      "ch": "瞅",
+      "py": "chǒu",
+      "en": "To look",
+      "th": "มอง",
+      "zh": "他瞅了我一眼。",
+      "sent_en": "He glanced at me.",
+      "sent_th": "เขามองมาที่ฉันแวบหนึ่ง",
+      "theme": "actions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_003",
+      "ch": "搓",
+      "py": "cuō",
+      "en": "Rub",
+      "th": "ถู",
+      "zh": "他搓了搓手。",
+      "sent_en": "He rubbed his hands.",
+      "sent_th": "เขาถูมือของเขา",
+      "theme": "actions",
+      "etymology": {
+        "notes": "Phonosemantic compound. 扌 represents the meaning and 差 represents the sound. ",
+        "definition": "to rub or roll between the hands",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "扌"
+          },
+          {
+            "type": "sound",
+            "char": "差"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_004",
+      "ch": "残",
+      "py": "cán",
+      "en": "Incomplete",
+      "th": "เสียหาย",
+      "zh": "我的玩具坏了，有点残。",
+      "sent_en": "My toy is broken",
+      "sent_th": " a bit damaged.",
+      "theme": "actions",
+      "etymology": {
+        "notes": "Simplified form of 殘.  Phonosemantic compound. 歹 represents the meaning and 戔 represents the sound. ",
+        "definition": "destroy; injure",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "歹"
+          },
+          {
+            "type": "sound",
+            "char": "戔"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_005",
+      "ch": "锻",
+      "py": "duàn",
+      "en": "Forge",
+      "th": "ตีเหล็ก",
+      "zh": "爸爸在工厂锻铁。",
+      "sent_en": "Dad forges iron in the factory.",
+      "sent_th": "พ่อกำลังตีเหล็กในโรงงาน",
+      "theme": "actions",
+      "etymology": {
+        "notes": "Simplified form of 鍛.  Phonosemantic compound. 金 represents the meaning and 段 represents the sound. ",
+        "definition": "forge",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "钅"
+          },
+          {
+            "type": "sound",
+            "char": "段"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_006",
+      "ch": "搅",
+      "py": "jiǎo",
+      "en": "Stir",
+      "th": "คน",
+      "zh": "请搅拌一下汤。",
+      "sent_en": "Please stir the soup.",
+      "sent_th": "ช่วยคนซุปหน่อย",
+      "theme": "actions",
+      "etymology": {
+        "notes": "Phonosemantic compound. 扌 represents the meaning and 觉 represents the sound. Simplified form of 攪. ",
+        "definition": "to annoy, to disturb, to stir up",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "扌"
+          },
+          {
+            "type": "sound",
+            "char": "觉"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_007",
+      "ch": "捐",
+      "py": "juān",
+      "en": "Donate",
+      "th": "บริจาค",
+      "zh": "我们为灾区捐钱。",
+      "sent_en": "We donate money for the disaster area.",
+      "sent_th": "เราบริจาคเงินให้พื้นที่ประสบภัย",
+      "theme": "actions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_008",
+      "ch": "吭",
+      "py": "kēng",
+      "en": "Utter a sound",
+      "th": "เปล่งเสียง",
+      "zh": "他一声不吭地走了。",
+      "sent_en": "He left without uttering a sound.",
+      "sent_th": "เขาจากไปโดยไม่เปล่งเสียง",
+      "theme": "actions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_009",
+      "ch": "啃",
+      "py": "kěn",
+      "en": "To gnaw",
+      "th": "แทะ",
+      "zh": "小狗喜欢啃骨头。",
+      "sent_en": "The puppy likes to gnaw on bones.",
+      "sent_th": "ลูกสุนัขชอบแทะกระดูก",
+      "theme": "actions",
+      "etymology": {
+        "notes": "Phonosemantic compound. 口 represents the meaning and 肯 represents the sound. ",
+        "definition": "to gnaw, to chew, to bite",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "口"
+          },
+          {
+            "type": "sound",
+            "char": "肯"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_010",
+      "ch": "揉",
+      "py": "róu",
+      "en": "Knead/Rub",
+      "th": "นวด",
+      "zh": "妈妈帮我揉肩膀。",
+      "sent_en": "Mom helps me rub my shoulders.",
+      "sent_th": "แม่ช่วยนวดไหล่ให้ฉัน",
+      "theme": "actions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_011",
+      "ch": "刑",
+      "py": "xíng",
+      "en": "Punishment",
+      "th": "การลงโทษ",
+      "zh": "法律禁止酷刑。",
+      "sent_en": "The law prohibits torture.",
+      "sent_th": "กฎหมายห้ามการทรมาน",
+      "theme": "actions",
+      "etymology": {
+        "notes": "Phonosemantic compound. 刂 represents the meaning and 井 represents the sound. ",
+        "definition": "punishment; penalty",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "刂"
+          },
+          {
+            "type": "sound",
+            "char": "井"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_012",
+      "ch": "噎",
+      "py": "yē",
+      "en": "Choke",
+      "th": "สำลัก",
+      "zh": "他吃太快噎住了。",
+      "sent_en": "He ate too fast and choked.",
+      "sent_th": "เขากินเร็วเกินไปจนสำลัก",
+      "theme": "actions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_013",
+      "ch": "熬",
+      "py": "áo",
+      "en": "To boil",
+      "th": "To stew",
+      "zh": "ต้มเคี่ยว",
+      "sent_en": "妈妈在熬汤。",
+      "sent_th": "Mom is stewing soup.",
+      "theme": "actions",
+      "etymology": {
+        "notes": "Phonosemantic compound. 灬 represents the meaning and 敖 represents the sound. ",
+        "definition": "to boil, to simmer; to endure pain",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "灬"
+          },
+          {
+            "type": "sound",
+            "char": "敖"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_014",
+      "ch": "翡",
+      "py": "fěi",
+      "en": "Kingfisher",
+      "th": "นกกระเต็น",
+      "zh": "那只翡翠鸟的羽毛很漂亮。",
+      "sent_en": "The feathers of that kingfisher are very beautiful.",
+      "sent_th": "ขนของนกกระเต็นตัวนั้นสวยมาก",
+      "theme": "animals",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_015",
+      "ch": "喳",
+      "py": "zhā",
+      "en": "Chirp",
+      "th": "เสียงนกร้อง",
+      "zh": "小鸟在树上喳喳叫。",
+      "sent_en": "The little bird is chirping in the tree.",
+      "sent_th": "นกตัวเล็กกำลังร้องจิ๊บๆ บนต้นไม้",
+      "theme": "animals",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_016",
+      "ch": "胖",
+      "py": "pàng",
+      "en": "Fat",
+      "th": "อ้วน",
+      "zh": "我的猫很胖。",
+      "sent_en": "My cat is very fat.",
+      "sent_th": "แมวของฉันอ้วนมาก",
+      "theme": "body",
+      "etymology": {
+        "notes": "Phonosemantic compound. ⺼ represents the meaning and 半 represents the sound. ",
+        "definition": "fat, plump, obese; a fat person",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "⺼"
+          },
+          {
+            "type": "sound",
+            "char": "半"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_017",
+      "ch": "逆",
+      "py": "nì",
+      "en": "Against",
+      "th": "ทวน",
+      "zh": "不要逆着风骑车。",
+      "sent_en": "Don't ride your bike against the wind.",
+      "sent_th": "อย่าขี่จักรยานทวนลม",
+      "theme": "directions",
+      "etymology": {
+        "notes": "Originally written as 屰, a pictograph of an upside-down person. The 辶 (walk) component was added later.",
+        "definition": "contrary; oppose; go against",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "屰"
+          },
+          {
+            "type": "meaning",
+            "char": "辶"
+          }
+        ],
+        "images": [
+          {
+            "url": "url(\"data:image/svg+xml;charset=utf8,%3Csvg%20version%3D%221.0%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2277.000000pt%22%20height%3D%22113.000000pt%22%20viewBox%3D%220%200%2077.000000%20113.000000%22%20preserveAspectRatio%3D%22xMidYMid%20meet%22%3E%3Cg%20transform%3D%22translate(0.000000%2C113.000000)%20scale(0.100000%2C-0.100000)%22%20fill%3D%22%23000000%22%20stroke%3D%22none%22%3E%20%3Cpath%20d%3D%22M628%201017%20c-22%20-17%20-37%20-85%20-38%20-168%200%20-64%20-16%20-119%20-34%20-119%20-18%200%20-66%2054%20-66%2074%20-1%2089%20-101%20199%20-137%20150%20-18%20-25%20-17%20-35%2012%20-66%2014%20-15%2025%20-32%2025%20-37%200%20-30%2054%20-125%2094%20-167%2048%20-49%2061%20-93%2029%20-96%20-34%20-3%20-58%202%20-89%2019%20-17%209%20-39%2013%20-48%2010%20-21%20-8%20-22%20-67%20-2%20-67%208%200%2016%20-3%2018%20-7%206%20-15%2086%20-53%20111%20-53%2032%200%2043%20-15%2051%20-72%204%20-25%2016%20-56%2027%20-69%2017%20-20%2022%20-21%2045%20-9%2018%2010%2024%2020%2020%2035%20-2%2011%20-8%2046%20-11%2077%20-7%2056%20-7%2056%2033%2082%2051%2032%2082%2065%2082%2087%200%2029%20-13%2029%20-66%204%20-27%20-13%20-51%20-22%20-53%20-19%20-8%208%200%2098%2010%20110%206%207%2014%2060%2019%20118%204%2059%2013%20113%2020%20121%206%207%2010%2026%208%2042%20-3%2032%20-32%2041%20-60%2020z%22%2F%3E%20%3Cpath%20d%3D%22M184%20802%20c-16%20-10%20-54%20-79%20-54%20-97%200%20-8%20-3%20-15%20-8%20-15%20-8%200%20-27%20-42%20-36%20-81%20-3%20-14%200%20-34%207%20-44%2012%20-15%2016%20-16%2035%20-4%2011%207%2027%2025%2034%2039%207%2014%2015%2027%2018%2030%2013%2011%2048%2079%2059%20113%2011%2031%2010%2039%20-3%2052%20-16%2016%20-35%2019%20-52%207z%22%2F%3E%20%3Cpath%20d%3D%22M144%20495%20c-27%20-19%20-62%20-42%20-79%20-51%20-16%20-9%20-38%20-26%20-48%20-37%20-16%20-19%20-16%20-21%20-1%20-39%2022%20-23%2051%20-23%2089%202%2036%2023%2045%2014%2045%20-47%200%20-23%204%20-52%209%20-65%205%20-13%2014%20-41%2021%20-63%2037%20-119%20107%20-84%2072%2036%20-20%2071%20-27%20193%20-12%20229%2014%2034%20-1%2070%20-29%2070%20-10%200%20-41%20-16%20-67%20-35z%22%2F%3E%20%3Cpath%20d%3D%22M441%20334%20c-8%20-10%20-11%20-26%20-6%20-47%203%20-18%209%20-62%2013%20-99%206%20-59%205%20-68%20-9%20-68%20-23%200%20-49%2033%20-49%2063%200%2038%20-37%2047%20-61%2016%20-31%20-40%20-23%20-71%2033%20-133%2034%20-38%2093%20-56%20183%20-56%2058%200%2075%204%2098%2023%2042%2033%2028%2054%20-39%2063%20-51%206%20-54%208%20-54%2034%200%2020%206%2031%2020%2035%2011%203%2020%2011%2020%2016%200%205%207%209%2015%209%2015%200%2055%2019%2065%2031%203%203%2013%208%2023%2012%2027%2010%2018%2051%20-12%2055%20-29%205%20-111%20-17%20-111%20-29%200%20-5%20-9%20-9%20-19%20-9%20-15%200%20-23%2012%20-33%2048%20-11%2038%20-18%2047%20-38%2049%20-14%202%20-31%20-4%20-39%20-13z%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E\")",
+            "caption": "Bronze script"
+          }
+        ]
+      }
+    },
+    {
+      "word_id": "6B_018",
+      "ch": "怖",
+      "py": "bù",
+      "en": "Fear",
+      "th": "กลัว",
+      "zh": "那个声音很可怕。",
+      "sent_en": "That sound is very scary.",
+      "sent_th": "เสียงนั้นน่ากลัวมาก",
+      "theme": "emotions",
+      "etymology": {
+        "notes": "Phonosemantic compound. 忄 represents the meaning and 布 represents the sound. ",
+        "definition": "frightened, terrified",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "忄"
+          },
+          {
+            "type": "sound",
+            "char": "布"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_019",
+      "ch": "哼",
+      "py": "hēng",
+      "en": "humph",
+      "th": "ฮึม",
+      "zh": "他哼了一声。",
+      "sent_en": "He let out a humph.",
+      "sent_th": "เขาฮึมออกมา",
+      "theme": "emotions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_020",
+      "ch": "哎",
+      "py": "āi",
+      "en": "Hey/Oh",
+      "th": "โอ๊ะ",
+      "zh": "哎，你在这里啊！",
+      "sent_en": "Hey",
+      "sent_th": " you're here!",
+      "theme": "emotions",
+      "etymology": {
+        "notes": "Phonosemantic compound. 口 represents the meaning and 艾 represents the sound. ",
+        "definition": "interjection of surprise",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "口"
+          },
+          {
+            "type": "sound",
+            "char": "艾"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_021",
+      "ch": "鞭",
+      "py": "biān",
+      "en": "Whip",
+      "th": "แส้",
+      "zh": "他有一条马鞭。",
+      "sent_en": "He has a horse whip.",
+      "sent_th": "เขามีแส้ม้า",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Phonosemantic compound. 革 represents the meaning and 便 represents the sound. ",
+        "definition": "whip; to lash, to flog",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "革"
+          },
+          {
+            "type": "sound",
+            "char": "便"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_022",
+      "ch": "币",
+      "py": "bì",
+      "en": "Currency",
+      "th": "เงินตรา",
+      "zh": "我有一枚硬币。",
+      "sent_en": "I have a coin.",
+      "sent_th": "ฉันมีเหรียญหนึ่งเหรียญ",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Simplified form of 幣.  Phonosemantic compound. 巾 represents the meaning and 敝 represents the sound. ",
+        "definition": "currency, coins, legal tender",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "巾"
+          },
+          {
+            "type": "sound",
+            "char": "敝"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_023",
+      "ch": "炊",
+      "py": "chuī",
+      "en": "Cook",
+      "th": "หุง",
+      "zh": "妈妈在厨房里炊饭。",
+      "sent_en": "Mom is cooking rice in the kitchen.",
+      "sent_th": "แม่กำลังหุงข้าวอยู่ในครัว",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Phonosemantic compound. 火 represents the meaning and 欠 represents the sound. ",
+        "definition": "meal; to cook, to steam",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "火"
+          },
+          {
+            "type": "sound",
+            "char": "欠"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_024",
+      "ch": "橱",
+      "py": "chú",
+      "en": "Cabinet",
+      "th": "ตู้",
+      "zh": "我的衣服在橱里。",
+      "sent_en": "My clothes are in the cabinet.",
+      "sent_th": "เสื้อผ้าของฉันอยู่ในตู้",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_025",
+      "ch": "兜",
+      "py": "dōu",
+      "en": "Pocket",
+      "th": "กระเป๋า",
+      "zh": "我的口袋里有一个苹果。",
+      "sent_en": "There is an apple in my pocket.",
+      "sent_th": "ในกระเป๋าของฉันมีแอปเปิ้ลหนึ่งลูก",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_026",
+      "ch": "乏",
+      "py": "fá",
+      "en": "Tired",
+      "th": "เหนื่อย",
+      "zh": "我今天很乏。",
+      "sent_en": "I am very tired today.",
+      "sent_th": "วันนี้ฉันเหนื่อยมาก",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Line over 之 (foot), similar to how 正 (straight; correct) is a line over 止 (foot). Possibly represents the opposite of 正, since the top line in 乏 is written in the opposite direction as the top line in 正.",
+        "definition": "short of; tired",
+        "components": [
+          {
+            "type": "iconic",
+            "char": "之"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_027",
+      "ch": "粪",
+      "py": "fèn",
+      "en": "Manure",
+      "th": "มูล",
+      "zh": "农民用粪给田地施肥。",
+      "sent_en": "Farmers use manure to fertilize the fields.",
+      "sent_th": "ชาวนาใช้อุจจาระเป็นปุ๋ยใส่ในนา",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_028",
+      "ch": "摩",
+      "py": "mó",
+      "en": "rub",
+      "th": "ถู",
+      "zh": "妈妈用手机摩了一下脸。",
+      "sent_en": "Mom rubbed her face with her phone.",
+      "sent_th": "แม่ใช้โทรศัพท์มือถือถูหน้าของเธอ",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Phonosemantic compound. 手 represents the meaning and 麻 represents the sound. ",
+        "definition": "to scour, to rub, to grind; friction",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "手"
+          },
+          {
+            "type": "sound",
+            "char": "麻"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_029",
+      "ch": "玛",
+      "py": "mǎ",
+      "en": "Agate",
+      "th": "หินอะเกต",
+      "zh": "她戴着一串玛瑙手链。",
+      "sent_en": "She is wearing an agate bracelet.",
+      "sent_th": "เธอสวมสร้อยข้อมือหินอะเกต",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_030",
+      "ch": "裙",
+      "py": "qún",
+      "en": "Skirt",
+      "th": "กระโปรง",
+      "zh": "她穿了一条红色的裙子。",
+      "sent_en": "She is wearing a red skirt.",
+      "sent_th": "เธอใส่กระโปรงสีแดง",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Phonosemantic compound. 衤 represents the meaning and 君 represents the sound. ",
+        "definition": "skirt",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "衤"
+          },
+          {
+            "type": "sound",
+            "char": "君"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_031",
+      "ch": "寺",
+      "py": "sì",
+      "en": "Temple",
+      "th": "วัด",
+      "zh": "我们去寺庙。",
+      "sent_en": "We go to the temple.",
+      "sent_th": "เราไปวัด",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Phonosemantic compound. 寸 represents the meaning and 止 represents the sound. Based on the original meaning of \"to grasp\". The current meaning \"temple\" is a phonetic loan. The original meaning is now represented by the character 持 (to hold).",
+        "definition": "temple",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "寸"
+          },
+          {
+            "type": "sound",
+            "char": "止"
+          }
+        ],
+        "images": [
+          {
+            "url": "url(\"data:image/svg+xml;charset=utf8,%3Csvg%20version%3D%221.0%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2267.000000pt%22%20height%3D%22145.000000pt%22%20viewBox%3D%220%200%2067.000000%20145.000000%22%20preserveAspectRatio%3D%22xMidYMid%20meet%22%3E%20%3Cg%20transform%3D%22translate(0.000000%2C145.000000)%20scale(0.100000%2C-0.100000)%22%20fill%3D%22%23000000%22%20stroke%3D%22none%22%3E%20%3Cpath%20d%3D%22M556%201353%20c-3%20-4%20-6%20-34%20-6%20-68%200%20-50%20-5%20-69%20-29%20-107%20-20%20-32%20-37%20-47%20-57%20-51%20-39%20-7%20-44%20-2%20-44%2046%200%2065%20-18%20117%20-39%20117%20-16%200%20-20%20-11%20-26%20-75%20-4%20-41%20-4%20-88%200%20-104%203%20-16%207%20-72%209%20-124%203%20-110%2012%20-100%20-108%20-113%20-69%20-7%20-69%20-7%20-63%20138%208%20177%20-3%20227%20-51%20228%20-9%200%20-13%20-11%20-11%20-32%201%20-18%201%20-97%200%20-175%20-1%20-124%20-3%20-143%20-17%20-143%20-25%200%20-94%20-42%20-94%20-57%200%20-7%202%20-13%205%20-13%203%200%2040%20-7%2081%20-15%2041%20-9%2080%20-13%2086%20-9%206%204%2075%209%20152%2010%20139%204%20249%2017%20277%2035%2011%206%2011%2012%203%2026%20-11%2018%20-18%2019%20-141%2022%20-53%201%20-53%201%20-53%2069%200%2074%2010%2092%2050%2092%2023%200%2066%2032%2095%2072%2031%2041%2045%20151%2025%20198%20-12%2029%20-33%2044%20-44%2033z%22%2F%3E%20%3Cpath%20d%3D%22M407%20630%20c-11%20-21%20-14%20-51%20-12%20-103%203%20-39%200%20-78%20-4%20-86%20-10%20-16%20-61%20-7%20-61%2010%200%206%20-6%2017%20-14%2024%20-8%208%20-17%2036%20-21%2062%20-12%2091%20-57%20111%20-68%2031%20-7%20-50%204%20-108%2026%20-142%2019%20-28%2070%20-62%20110%20-71%2027%20-7%2027%20-7%2027%20-156%200%20-82%204%20-149%209%20-149%2026%200%2051%20101%2051%20210%200%2073%208%2088%2060%20116%2061%2033%2079%2060%20105%20156%2016%2058%202%20118%20-26%20118%20-13%200%20-20%20-14%20-29%20-57%20-16%20-82%20-32%20-133%20-41%20-133%20-4%200%20-15%20-7%20-24%20-16%20-24%20-25%20-28%20-12%20-18%2063%208%2061%206%2074%20-12%20108%20-26%2050%20-39%2053%20-58%2015z%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E%20\")",
+            "caption": "Bronze script"
+          },
+          {
+            "url": "url(\"data:image/svg+xml;charset=utf8,%3Csvg%20version%3D%221.0%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2270.000000pt%22%20height%3D%22121.000000pt%22%20viewBox%3D%220%200%2070.000000%20121.000000%22%20preserveAspectRatio%3D%22xMidYMid%20meet%22%3E%20%3Cg%20transform%3D%22translate(0.000000%2C121.000000)%20scale(0.100000%2C-0.100000)%22%20fill%3D%22%23000000%22%20stroke%3D%22none%22%3E%20%3Cpath%20d%3D%22M347%201108%20c-2%20-7%20-5%20-51%20-6%20-98%20-1%20-46%20-5%20-88%20-7%20-92%20-3%20-4%20-31%20-8%20-63%20-8%20-50%200%20-59%203%20-68%2023%20-5%2012%20-9%2041%20-7%2064%201%2030%20-3%2046%20-17%2059%20-24%2022%20-29%2016%20-41%20-43%20-12%20-65%205%20-126%2040%20-144%2028%20-14%2035%20-15%20110%20-18%2042%20-1%2042%20-1%2042%20-41%200%20-41%200%20-41%20-72%20-36%20-40%202%20-99%208%20-130%2011%20-39%205%20-67%204%20-88%20-5%20-34%20-14%20-35%20-18%20-16%20-42%2011%20-16%2032%20-18%20153%20-18%20167%200%20233%20-7%20233%20-26%200%20-8%2017%20-22%2038%20-33%2047%20-24%20102%20-84%20102%20-111%200%20-22%20-37%20-60%20-58%20-60%20-8%200%20-22%208%20-31%2018%20-9%209%20-33%2028%20-53%2042%20-21%2014%20-38%2028%20-38%2033%200%204%20-7%207%20-15%207%20-9%200%20-24%208%20-35%2018%20-11%2010%20-36%2023%20-57%2030%20-21%208%20-48%2018%20-60%2024%20-26%2013%20-53%204%20-53%20-17%200%20-15%2055%20-55%2076%20-55%207%200%2042%20-18%2078%20-40%2036%20-22%2069%20-40%2073%20-40%209%20-1%2047%20-50%2041%20-54%20-1%20-1%20-30%20-7%20-62%20-13%20-80%20-14%20-138%205%20-224%2074%20-24%2020%20-49%2032%20-57%2029%20-16%20-6%20-20%20-43%20-7%20-62%2010%20-14%2090%20-67%20127%20-83%2035%20-16%20217%20-16%20245%20-1%2028%2015%2033%2013%2054%20-23%2018%20-30%2026%20-114%2030%20-327%201%20-32%2011%20-49%2027%20-50%204%200%2014%2012%2024%2026%2015%2024%2016%2039%206%20163%20-7%2075%20-17%20160%20-23%20189%20-11%2052%20-11%2053%2020%2085%2028%2029%2032%2040%2032%2089%200%2051%20-3%2059%20-37%2093%20-21%2020%20-49%2041%20-62%2046%20-41%2017%20-13%2024%2083%2021%2085%20-3%2094%20-1%2098%2016%2011%2040%20-4%2044%20-148%2046%20-139%201%20-139%201%20-140%2035%200%2039%200%2039%2090%2045%2039%203%2075%2011%2083%2018%2015%2016%2029%20133%2019%20171%20-6%2026%20-34%2043%20-48%2029%20-4%20-4%20-11%20-42%20-16%20-82%20-7%20-75%20-7%20-75%20-55%20-84%20-73%20-13%20-82%201%20-81%20119%201%2092%200%2095%20-22%2095%20-12%200%20-24%20-6%20-27%20-12z%22%2F%3E%20%3Cpath%20d%3D%22M103%20292%20c-61%20-4%20-87%20-24%20-57%20-47%2014%20-10%2035%20-13%2074%20-9%2030%203%20117%208%20193%2011%20126%205%20137%206%20137%2024%200%2010%20-6%2019%20-12%2020%20-36%203%20-290%204%20-335%201z%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E%20\")",
+            "caption": "Seal script"
+          }
+        ]
+      }
+    },
+    {
+      "word_id": "6B_032",
+      "ch": "屉",
+      "py": "tì",
+      "en": "Drawer",
+      "th": "ลิ้นชัก",
+      "zh": "请把书放进抽屉里。",
+      "sent_en": "Please put the book in the drawer.",
+      "sent_th": "กรุณาเอาหนังสือใส่ในลิ้นชัก",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_033",
+      "ch": "旺",
+      "py": "wàng",
+      "en": "Prosperous",
+      "th": "รุ่งเรือง",
+      "zh": "生意很旺。",
+      "sent_en": "The business is very prosperous.",
+      "sent_th": "ธุรกิจรุ่งเรืองมาก",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Phonosemantic compound. 日 represents the meaning and 王 represents the sound. ",
+        "definition": "to flourish, to prosper; prosperous",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "日"
+          },
+          {
+            "type": "sound",
+            "char": "王"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_034",
+      "ch": "窝",
+      "py": "wō",
+      "en": "Nest",
+      "th": "รัง",
+      "zh": "小鸟在树上做了一个窝。",
+      "sent_en": "The little bird made a nest in the tree.",
+      "sent_th": "นกตัวน้อยทำรังบนต้นไม้",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_035",
+      "ch": "匣",
+      "py": "xiá",
+      "en": "Box",
+      "th": "กล่อง",
+      "zh": "他把玩具放进匣子里。",
+      "sent_en": "He put the toy into the box.",
+      "sent_th": "เขาเอาของเล่นใส่ลงในกล่อง",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_036",
+      "ch": "衔",
+      "py": "xián",
+      "en": "To hold in mouth",
+      "th": "คาบ",
+      "zh": "小狗衔着球跑。",
+      "sent_en": "The puppy runs with the ball in its mouth.",
+      "sent_th": "ลูกหมาคาบลูกบอลวิ่ง",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_037",
+      "ch": "械",
+      "py": "xiè",
+      "en": "Machine",
+      "th": "เครื่องจักร",
+      "zh": "这台机器很新。",
+      "sent_en": "This machine is very new.",
+      "sent_th": "เครื่องจักรเครื่องนี้ใหม่มาก",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Phonosemantic compound. 木 represents the meaning and 戒 represents the sound. ",
+        "definition": "weapons; tools; instruments",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "木"
+          },
+          {
+            "type": "sound",
+            "char": "戒"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_038",
+      "ch": "锈",
+      "py": "xiù",
+      "en": "Rust",
+      "th": "สนิม",
+      "zh": "这把刀生锈了。",
+      "sent_en": "This knife is rusty.",
+      "sent_th": "มีดเล่มนี้ขึ้นสนิมแล้ว",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Phonosemantic compound. 钅 represents the meaning and 秀 represents the sound. Simplified form of 銹. ",
+        "definition": "to rust, to corrode",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "钅"
+          },
+          {
+            "type": "sound",
+            "char": "秀"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_039",
+      "ch": "析",
+      "py": "xī",
+      "en": "Analyze",
+      "th": "วิเคราะห์",
+      "zh": "他分析问题很仔细。",
+      "sent_en": "He analyzes problems very carefully.",
+      "sent_th": "เขาวิเคราะห์ปัญหาอย่างละเอียด",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_040",
+      "ch": "筝",
+      "py": "zhēng",
+      "en": "Zither",
+      "th": "ซึง",
+      "zh": "他在弹古筝。",
+      "sent_en": "He is playing the guzheng.",
+      "sent_th": "เขากำลังเล่นกู่เจิง",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_041",
+      "ch": "澡",
+      "py": "zǎo",
+      "en": "Bath",
+      "th": "อาบน้ำ",
+      "zh": "我每天洗一个澡。",
+      "sent_en": "I take a bath every day.",
+      "sent_th": "ฉันอาบน้ำทุกวัน",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Phonosemantic compound. 氵 represents the meaning and 喿 represents the sound. ",
+        "definition": "bath; shower",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "氵"
+          },
+          {
+            "type": "sound",
+            "char": "喿"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_042",
+      "ch": "埃",
+      "py": "āi",
+      "en": "Dust",
+      "th": "ฝุ่น",
+      "zh": "桌子上有很多灰尘和埃。",
+      "sent_en": "There is a lot of dust on the table.",
+      "sent_th": "บนโต๊ะมีฝุ่นและละอองเยอะมาก",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_043",
+      "ch": "舅",
+      "py": "jiù",
+      "en": "Maternal Uncle",
+      "th": "ลุง",
+      "zh": "我的舅舅住在北京。",
+      "sent_en": "My maternal uncle lives in Beijing.",
+      "sent_th": "ลุงของฉันอาศัยอยู่ที่ปักกิ่ง",
+      "theme": "family",
+      "etymology": {
+        "notes": "Phonosemantic compound. 男 represents the meaning and 臼 represents the sound. ",
+        "definition": "mother's brother, uncle",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "男"
+          },
+          {
+            "type": "sound",
+            "char": "臼"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_044",
+      "ch": "拌",
+      "py": "bàn",
+      "en": "To mix",
+      "th": "ผสม",
+      "zh": "我喜欢拌沙拉吃。",
+      "sent_en": "I like to mix and eat salad.",
+      "sent_th": "ฉันชอบผสมสลัดกิน",
+      "theme": "food",
+      "etymology": {
+        "notes": "Phonosemantic compound. 扌 represents the meaning and 半 represents the sound. ",
+        "definition": "to mix",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "扌"
+          },
+          {
+            "type": "sound",
+            "char": "半"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_045",
+      "ch": "醋",
+      "py": "cù",
+      "en": "Vinegar",
+      "th": "น้ำส้มสายชู",
+      "zh": "我喜欢在饺子里加醋。",
+      "sent_en": "I like to add vinegar to dumplings.",
+      "sent_th": "ฉันชอบใส่น้ำส้มสายชูในเกี๊ยว",
+      "theme": "food",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_046",
+      "ch": "番",
+      "py": "fān",
+      "en": "turn",
+      "th": "ครั้ง",
+      "zh": "我喜欢吃番茄炒蛋。",
+      "sent_en": "I like to eat scrambled eggs with tomatoes.",
+      "sent_th": "ฉันชอบกินไข่คนมะเขือเทศ",
+      "theme": "food",
+      "etymology": {
+        "notes": "Phonosemantic compound. 田 represents the meaning and 釆 represents the sound. Original meaning unclear.",
+        "definition": "foreign; [measure word]",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "田"
+          },
+          {
+            "type": "sound",
+            "char": "釆"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_047",
+      "ch": "饺",
+      "py": "jiǎo",
+      "en": "Dumpling",
+      "th": "เกี๊ยว",
+      "zh": "我喜欢吃饺子。",
+      "sent_en": "I like to eat dumplings.",
+      "sent_th": "ฉันชอบกินเกี๊ยว",
+      "theme": "food",
+      "etymology": {
+        "notes": "Phonosemantic compound. 饣 represents the meaning and 交 represents the sound. Simplified form of 餃. ",
+        "definition": "stuffed dumplings",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "饣"
+          },
+          {
+            "type": "sound",
+            "char": "交"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_048",
+      "ch": "栗",
+      "py": "lì",
+      "en": "Chestnut",
+      "th": "เกาลัด",
+      "zh": "我喜欢吃糖炒栗子。",
+      "sent_en": "I like to eat sugar-roasted chestnuts.",
+      "sent_th": "ฉันชอบกินเกาลัดคั่วน้ำตาล",
+      "theme": "food",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_049",
+      "ch": "麦",
+      "py": "mài",
+      "en": "Wheat",
+      "th": "ข้าวสาลี",
+      "zh": "我喜欢吃面包。",
+      "sent_en": "I like to eat bread.",
+      "sent_th": "ฉันชอบกินขนมปัง",
+      "theme": "food",
+      "etymology": {
+        "notes": "Simplified form of 麥.  The top component 來 is a pictograph of wheat. It is unclear why the foot component (夂) was added to the character for \"wheat\".",
+        "definition": "wheat",
+        "components": [
+          {
+            "type": "sound",
+            "char": "來"
+          },
+          {
+            "type": "unknown",
+            "char": "夂"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_050",
+      "ch": "蒜",
+      "py": "suàn",
+      "en": "Garlic",
+      "th": "กระเทียม",
+      "zh": "我喜欢吃蒜蓉面包。",
+      "sent_en": "I like to eat garlic bread.",
+      "sent_th": "ฉันชอบกินขนมปังกระเทียม",
+      "theme": "food",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_051",
+      "ch": "蘸",
+      "py": "zhàn",
+      "en": "Dip",
+      "th": "จุ่ม",
+      "zh": "我喜欢蘸酱吃饺子。",
+      "sent_en": "I like to dip dumplings in sauce.",
+      "sent_th": "ฉันชอบจิ้มเกี๊ยวกับซอส",
+      "theme": "food",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_052",
+      "ch": "蒸",
+      "py": "zhēng",
+      "en": "Steam",
+      "th": "นึ่ง",
+      "zh": "妈妈用锅蒸包子。",
+      "sent_en": "Mom uses a pot to steam buns.",
+      "sent_th": "แม่ใช้หม้อนึ่งซาลาเปา",
+      "theme": "food",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_053",
+      "ch": "域",
+      "py": "yù",
+      "en": "Domain",
+      "th": "ขอบเขต",
+      "zh": "这个国家有很多不同的区域。",
+      "sent_en": "This country has many different regions.",
+      "sent_th": "ประเทศนี้มีภูมิภาคที่แตกต่างกันมากมาย",
+      "theme": "geography",
+      "etymology": {
+        "notes": "Phonosemantic compound. 土 represents the meaning and 或 represents the sound. ",
+        "definition": "area, district, field, land, region; boundary; domain (in taxonomy)",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "土"
+          },
+          {
+            "type": "sound",
+            "char": "或"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_054",
+      "ch": "鼎",
+      "py": "dǐng",
+      "en": "Tripod cauldron",
+      "th": "กระทะสามขา",
+      "zh": "博物馆里有一个青铜鼎。",
+      "sent_en": "There is a bronze tripod cauldron in the museum.",
+      "sent_th": "ในพิพิธภัณฑ์มีกระทะสามขาทองสัมฤทธิ์อยู่หนึ่งอัน",
+      "theme": "history",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_055",
+      "ch": "逛",
+      "py": "guàng",
+      "en": "Stroll",
+      "th": "เดินเล่น",
+      "zh": "我喜欢逛公园。",
+      "sent_en": "I like to stroll in the park.",
+      "sent_th": "ฉันชอบเดินเล่นในสวนสาธารณะ",
+      "theme": "movement",
+      "etymology": {
+        "notes": "Phonosemantic compound. 辶 represents the meaning and 狂 represents the sound. ",
+        "definition": "to ramble, to stroll, to wander",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "辶"
+          },
+          {
+            "type": "sound",
+            "char": "狂"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_056",
+      "ch": "挪",
+      "py": "nuó",
+      "en": "Move",
+      "th": "ย้าย",
+      "zh": "请把椅子挪一下。",
+      "sent_en": "Please move the chair.",
+      "sent_th": "กรุณาย้ายเก้าอี้หน่อย",
+      "theme": "movement",
+      "etymology": {
+        "notes": "Phonosemantic compound. 扌 represents the meaning and 那 represents the sound. ",
+        "definition": "to shift, to move",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "扌"
+          },
+          {
+            "type": "sound",
+            "char": "那"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_057",
+      "ch": "撇",
+      "py": "piě",
+      "en": "Throw away",
+      "th": "ทิ้ง",
+      "zh": "他撇掉了旧玩具。",
+      "sent_en": "He threw away the old toys.",
+      "sent_th": "เขาทิ้งของเล่นเก่า",
+      "theme": "movement",
+      "etymology": {
+        "notes": "Phonosemantic compound. 扌 represents the meaning and 敝 represents the sound. ",
+        "definition": "to abandon, to discard",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "扌"
+          },
+          {
+            "type": "sound",
+            "char": "敝"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_058",
+      "ch": "毒",
+      "py": "dú",
+      "en": "Poison",
+      "th": "พิษ",
+      "zh": "这种蘑菇有毒。",
+      "sent_en": "This mushroom is poisonous.",
+      "sent_th": "เห็ดชนิดนี้มีพิษ",
+      "theme": "nature",
+      "etymology": {
+        "notes": "Depicts a plant (屮) that is wicked (毐), i.e. a poisonous plant.",
+        "definition": "poison",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "屮"
+          },
+          {
+            "type": "meaning",
+            "char": "毐"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_059",
+      "ch": "鸿",
+      "py": "hóng",
+      "en": "Wild Swan",
+      "th": "หงส์",
+      "zh": "天空飞过一只鸿。",
+      "sent_en": "A wild swan flew across the sky.",
+      "sent_th": "หงส์ตัวหนึ่งบินผ่านท้องฟ้า",
+      "theme": "nature",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_060",
+      "ch": "峻",
+      "py": "jùn",
+      "en": "Steep",
+      "th": "สูงชัน",
+      "zh": "这座山非常峻峭。",
+      "sent_en": "This mountain is very steep.",
+      "sent_th": "ภูเขาลูกนี้สูงชันมาก",
+      "theme": "nature",
+      "etymology": {
+        "notes": "Phonosemantic compound. 山 represents the meaning and 夋 represents the sound. ",
+        "definition": "high, steep, towering; stern",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "山"
+          },
+          {
+            "type": "sound",
+            "char": "夋"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_061",
+      "ch": "玫",
+      "py": "méi",
+      "en": "Rose",
+      "th": "กุหลาบ",
+      "zh": "这朵玫瑰很漂亮。",
+      "sent_en": "This rose is very beautiful.",
+      "sent_th": "ดอกกุหลาบนี้สวยมาก",
+      "theme": "nature",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_062",
+      "ch": "蚀",
+      "py": "shí",
+      "en": "Erosion",
+      "th": "การกัดเซาะ",
+      "zh": "雨水会侵蚀岩石。",
+      "sent_en": "Rainwater erodes rocks.",
+      "sent_th": "น้ำฝนกัดเซาะหิน",
+      "theme": "nature",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_063",
+      "ch": "藤",
+      "py": "téng",
+      "en": "Vine",
+      "th": "เถาวัลย์",
+      "zh": "葡萄藤上结满了葡萄。",
+      "sent_en": "The grapevine is full of grapes.",
+      "sent_th": "เถาองุ่นเต็มไปด้วยผลองุ่น",
+      "theme": "nature",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_064",
+      "ch": "萎",
+      "py": "wěi",
+      "en": "Wilt",
+      "th": "เหี่ยวเฉา",
+      "zh": "花儿枯萎了。",
+      "sent_en": "The flower has wilted.",
+      "sent_th": "ดอกไม้เหี่ยวเฉาแล้ว",
+      "theme": "nature",
+      "etymology": {
+        "notes": "Phonosemantic compound. 艹 represents the meaning and 委 represents the sound. ",
+        "definition": "to wither, to wilt",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "艹"
+          },
+          {
+            "type": "sound",
+            "char": "委"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_065",
+      "ch": "秧",
+      "py": "yāng",
+      "en": "Rice seedling",
+      "th": "ต้นกล้าข้าว",
+      "zh": "田里有很多秧苗。",
+      "sent_en": "There are many rice seedlings in the field.",
+      "sent_th": "ในทุ่งนามีต้นกล้าข้าวเยอะมาก",
+      "theme": "nature",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_066",
+      "ch": "榛",
+      "py": "zhēn",
+      "en": "Hazelnut",
+      "th": "เฮเซลนัท",
+      "zh": "松鼠喜欢吃榛子。",
+      "sent_en": "Squirrels like to eat hazelnuts.",
+      "sent_th": "กระรอกชอบกินเฮเซลนัท",
+      "theme": "nature",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_067",
+      "ch": "匪",
+      "py": "fěi",
+      "en": "Bandit",
+      "th": "โจร",
+      "zh": "那个匪被警察抓住了。",
+      "sent_en": "That bandit was caught by the police.",
+      "sent_th": "โจรคนนั้นถูกตำรวจจับได้แล้ว",
+      "theme": "people",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_068",
+      "ch": "乖",
+      "py": "guāi",
+      "en": "Well-behaved",
+      "th": "เชื่อฟัง",
+      "zh": "妹妹很乖。",
+      "sent_en": "Little sister is very well-behaved.",
+      "sent_th": "น้องสาวเชื่อฟังมาก",
+      "theme": "people",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_069",
+      "ch": "伦",
+      "py": "lún",
+      "en": "ethics",
+      "th": "จริยธรรม",
+      "zh": "我们要遵守社会伦理。",
+      "sent_en": "We must follow social ethics.",
+      "sent_th": "เราต้องปฏิบัติตามจริยธรรมทางสังคม",
+      "theme": "people",
+      "etymology": {
+        "notes": "Simplified form of 倫.  Phonosemantic compound. 亻 represents the meaning and 侖 represents the sound. ",
+        "definition": "order; coherence; human relationship",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "亻"
+          },
+          {
+            "type": "sound",
+            "char": "仑"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_070",
+      "ch": "娜",
+      "py": "nà",
+      "en": "Anna (name)",
+      "th": "น่า",
+      "zh": "娜娜是我的朋友。",
+      "sent_en": "Nana is my friend.",
+      "sent_th": "น่าน่าเป็นเพื่อนของฉัน",
+      "theme": "people",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_071",
+      "ch": "顽",
+      "py": "wán",
+      "en": "Stubborn",
+      "th": "ดื้อ",
+      "zh": "这个孩子很顽皮。",
+      "sent_en": "This child is very naughty.",
+      "sent_th": "เด็กคนนี้ดื้อมาก",
+      "theme": "people",
+      "etymology": {
+        "notes": "Phonosemantic compound. 页 represents the meaning and 元 represents the sound. Simplified form of 頑. ",
+        "definition": "stubborn, recalcitrant, obstinate",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "页"
+          },
+          {
+            "type": "sound",
+            "char": "元"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_072",
+      "ch": "伊",
+      "py": "yī",
+      "en": "He/She (literary)",
+      "th": "เขา/เธอ",
+      "zh": "伊是我的朋友。",
+      "sent_en": "He is my friend.",
+      "sent_th": "เขาเป็นเพื่อนของฉัน",
+      "theme": "people",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_073",
+      "ch": "雅",
+      "py": "yǎ",
+      "en": "Elegant",
+      "th": "สง่างาม",
+      "zh": "她的举止很优雅。",
+      "sent_en": "Her manner is very elegant.",
+      "sent_th": "ท่าทางของเธอสง่างามมาก",
+      "theme": "people",
+      "etymology": {
+        "notes": "Phonosemantic compound. 隹 represents the meaning and 牙 represents the sound. ",
+        "definition": "elegant, graceful, refined",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "隹"
+          },
+          {
+            "type": "sound",
+            "char": "牙"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_074",
+      "ch": "卓",
+      "py": "zhuó",
+      "en": "Outstanding",
+      "th": "ยอดเยี่ยม",
+      "zh": "他的成绩很卓越。",
+      "sent_en": "His grades are outstanding.",
+      "sent_th": "ผลการเรียนของเขายอดเยี่ยมมาก",
+      "theme": "people",
+      "etymology": {
+        "notes": "Pictograph of a person standing erect with something above the head. The significance of the object above the head is unclear.",
+        "definition": "outstanding",
+        "components": [],
+        "images": [
+          {
+            "url": "url(\"data:image/svg+xml;charset=utf8,%3Csvg%20version%3D%221.0%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2277.000000pt%22%20height%3D%22165.000000pt%22%20viewBox%3D%220%200%2077.000000%20165.000000%22%20preserveAspectRatio%3D%22xMidYMid%20meet%22%3E%3Cg%20transform%3D%22translate(0.000000%2C165.000000)%20scale(0.100000%2C-0.100000)%22%20fill%3D%22%23000000%22%20stroke%3D%22none%22%3E%20%3Cpath%20d%3D%22M257%201544%20c-11%20-11%2020%20-58%2063%20-94%2049%20-42%2076%20-86%2061%20-103%20-5%20-7%20-31%20-18%20-58%20-26%20-95%20-26%20-123%20-36%20-126%20-46%20-3%20-16%2052%20-17%20130%20-2%2084%2016%20113%206%20113%20-39%200%20-14%204%20-23%209%20-20%205%204%204%20-8%20-2%20-25%20-13%20-35%20-24%20-41%20-121%20-63%20-55%20-13%20-74%20-23%20-101%20-52%20-44%20-48%20-55%20-129%20-23%20-169%204%20-5%2017%20-22%2029%20-37%2011%20-15%2035%20-35%2053%20-43%2057%20-27%2076%20-51%2076%20-98%200%20-42%200%20-42%20-148%20-42%20-156%200%20-207%20-11%20-179%20-39%2016%20-16%2067%20-24%20202%20-32%2055%20-4%20106%20-11%20114%20-17%2011%20-9%2012%20-35%207%20-127%20-7%20-114%20-24%20-230%20-37%20-240%20-3%20-3%20-11%20-15%20-18%20-28%20-7%20-12%20-16%20-20%20-22%20-17%20-5%204%20-9%202%20-9%20-3%200%20-5%20-10%20-14%20-22%20-20%20-75%20-39%20-143%20-81%20-146%20-91%20-2%20-6%204%20-14%2013%20-17%2024%20-10%20128%2014%20138%2031%204%208%2022%2022%2039%2031%2057%2030%20105%2083%20117%20129%2010%2038%2026%20257%2024%20323%20-1%2017%205%2022%2026%2024%2014%200%2040%203%2056%205%2031%204%20103%209%20188%2011%2045%202%2048%203%2041%2025%20-3%2012%20-7%2023%20-9%2025%20-9%2010%20-158%2026%20-189%2020%20-48%20-10%20-100%203%20-104%2026%20-2%2010%20-1%2032%202%2050%205%2028%2016%2037%2091%2075%2049%2025%2087%2051%2090%2062%204%2010%2011%2019%2016%2019%205%200%209%209%209%2019%200%2011%205%2021%2012%2023%2018%206%20-16%2088%20-53%20126%20-17%2018%20-41%2032%20-53%2032%20-33%201%20-54%2022%20-51%2052%204%2031%20-12%20116%20-25%20140%20-6%2010%20-10%2026%20-10%2035%200%2010%20-14%2036%20-30%2057%20-17%2022%20-30%2045%20-30%2052%200%207%20-13%2024%20-30%2037%20-16%2014%20-30%2030%20-30%2035%200%2020%20-77%2041%20-93%2026z%20m224%20-467%20c88%20-16%20130%20-128%2064%20-171%20-13%20-9%20-33%20-16%20-44%20-16%20-11%200%20-22%20-4%20-25%20-9%20-9%20-15%20-68%20-21%20-116%20-11%20-52%2010%20-79%2039%20-99%20105%20-13%2045%20-13%2046%2015%2068%2055%2044%20106%2052%20205%2034z%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E\")",
+            "caption": "Bronze script"
+          },
+          {
+            "url": "url(\"data:image/svg+xml;charset=utf8,%3Csvg%20version%3D%221.0%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2269.000000pt%22%20height%3D%2290.000000pt%22%20viewBox%3D%220%200%2069.000000%2090.000000%22%20preserveAspectRatio%3D%22xMidYMid%20meet%22%3E%3Cg%20transform%3D%22translate(0.000000%2C90.000000)%20scale(0.100000%2C-0.100000)%22%20fill%3D%22%23000000%22%20stroke%3D%22none%22%3E%20%3Cpath%20d%3D%22M218%20710%20c-81%20-15%20-101%20-73%20-47%20-135%2048%20-54%2083%20-41%2039%2015%20-11%2014%20-20%2035%20-20%2048%200%2019%205%2022%2040%2022%2030%200%2042%20-5%2051%20-21%2023%20-44%20200%20-97%20238%20-70%2026%2017%204%2041%20-37%2041%20-51%200%20-162%2034%20-162%2050%200%204%2040%2011%2090%2014%2091%208%20110%2015%2087%2034%20-14%2012%20-218%2013%20-279%202z%22%2F%3E%20%3Cpath%20d%3D%22M290%20498%20c-125%20-19%20-119%20-17%20-140%20-58%20-47%20-91%20-6%20-170%2087%20-170%2053%200%2089%20-19%2081%20-42%20-6%20-13%20-106%20-38%20-155%20-38%20-11%200%20-26%20-6%20-32%20-14%20-22%20-26%2012%20-37%20101%20-34%2083%203%2083%203%2086%20-60%202%20-41%207%20-62%2015%20-62%2023%200%2037%2024%2037%2063%200%2056%2015%2077%2053%2077%2086%200%20138%2013%20154%2037%2020%2030%204%2054%20-22%2033%20-10%20-8%20-46%20-13%20-98%20-14%20-81%20-1%20-82%20-1%20-82%2024%200%2022%206%2026%2050%2033%2028%205%2059%2010%2071%2013%2026%205%2044%2044%2051%20110%205%2043%202%2054%20-20%2080%20-24%2027%20-30%2029%20-104%2029%20-43%201%20-103%20-3%20-133%20-7z%20m201%20-55%20c12%20-31%204%20-100%20-13%20-120%20-17%20-21%20-261%20-18%20-282%203%20-17%2016%20-21%2080%20-8%20101%2016%2026%2087%2042%20190%2042%20102%201%20102%201%20113%20-26z%22%2F%3E%20%3Cpath%20d%3D%22M298%20411%20c-73%20-8%20-88%20-15%20-71%20-32%2018%20-18%20208%201%20208%2021%200%2018%20-39%2021%20-137%2011z%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E\")",
+            "caption": "Seal script"
+          }
+        ]
+      }
+    },
+    {
+      "word_id": "6B_075",
+      "ch": "籍",
+      "py": "jí",
+      "en": "Record",
+      "th": "บันทึก",
+      "zh": "这是我的学生籍。",
+      "sent_en": "This is my student record.",
+      "sent_th": "นี่คือบันทึกนักเรียนของฉัน",
+      "theme": "school",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_076",
+      "ch": "效",
+      "py": "xiào",
+      "en": "Effect",
+      "th": "ผล",
+      "zh": "这个方法很有效。",
+      "sent_en": "This method is very effective.",
+      "sent_th": "วิธีนี้มีประสิทธิภาพมาก",
+      "theme": "school",
+      "etymology": {
+        "notes": "Phonosemantic compound. 攵 represents the meaning and 交 represents the sound. Simplified form of 傚. ",
+        "definition": "result, effect; effective",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "攵"
+          },
+          {
+            "type": "sound",
+            "char": "交"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_077",
+      "ch": "誉",
+      "py": "yù",
+      "en": "Reputation",
+      "th": "ชื่อเสียง",
+      "zh": "他在学校有很好的声誉。",
+      "sent_en": "He has a good reputation at school.",
+      "sent_th": "เขามีชื่อเสียงที่ดีในโรงเรียน",
+      "theme": "school",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_078",
+      "ch": "碱",
+      "py": "jiǎn",
+      "en": "Alkali",
+      "th": "ด่าง",
+      "zh": "肥皂里有碱。",
+      "sent_en": "There is alkali in soap.",
+      "sent_th": "สบู่มีด่าง",
+      "theme": "science",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_079",
+      "ch": "魔",
+      "py": "mó",
+      "en": "Demon",
+      "th": "ปีศาจ",
+      "zh": "这个游戏里有魔法。",
+      "sent_en": "There is magic in this game.",
+      "sent_th": "ในเกมนี้มีเวทมนตร์",
+      "theme": "supernatural",
+      "etymology": {
+        "notes": "Phonosemantic compound. 鬼 represents the meaning and 麻 represents the sound. ",
+        "definition": "demon, evil spirit; magic, spell",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "鬼"
+          },
+          {
+            "type": "sound",
+            "char": "麻"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "6B_080",
+      "ch": "旬",
+      "py": "xún",
+      "en": "Decade (10 days)",
+      "th": "ทศวรรษ",
+      "zh": "这个月有上旬、中旬和下旬。",
+      "sent_en": "This month has early",
+      "sent_th": " middle",
+      "theme": "time",
+      "etymology": {
+        "notes": "Originally a pictograph of an earthworm, now written as 螾, used here since the word for earthworm sounded similar to 旬. Later the meaning component (日) was added.",
+        "definition": "ten-day period; period of time",
+        "components": [
+          {
+            "type": "sound",
+            "char": "螾"
+          },
+          {
+            "type": "meaning",
+            "char": "日"
+          }
+        ],
+        "images": [
+          {
+            "url": "url(\"data:image/svg+xml;charset=utf8,%3Csvg%20version%3D%221.0%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2273.000000pt%22%20height%3D%2293.000000pt%22%20viewBox%3D%220%200%2073.000000%2093.000000%22%20preserveAspectRatio%3D%22xMidYMid%20meet%22%3E%3Cg%20transform%3D%22translate(0.000000%2C93.000000)%20scale(0.100000%2C-0.100000)%22%20fill%3D%22%23000000%22%20stroke%3D%22none%22%3E%20%3Cpath%20d%3D%22M101%20756%20c-10%20-11%20-5%20-21%2024%20-50%2020%20-20%2042%20-36%2050%20-36%208%200%2015%20-4%2015%20-10%200%20-5%207%20-10%2016%20-10%2035%200%204%20-26%20-42%20-35%20-54%20-11%20-94%20-30%20-94%20-45%200%20-18%2073%20-41%20119%20-38%2044%203%2046%202%2055%20-29%2017%20-56%2066%20-54%2066%202%200%2019%205%2037%2010%2040%206%204%2043%201%2082%20-5%2087%20-13%20151%20-55%20187%20-121%2020%20-37%2024%20-59%2025%20-138%201%20-93%201%20-93%20-32%20-121%20-42%20-35%20-110%20-55%20-184%20-53%20-59%202%20-108%2024%20-108%2049%200%208%20-4%2014%20-8%2014%20-5%200%20-15%2025%20-22%2055%20-13%2053%20-12%2055%2014%2090%2015%2020%2052%2052%2081%2071%2057%2038%2074%2062%2053%2076%20-17%2010%20-45%2010%20-52%20-1%20-3%20-4%20-19%20-11%20-36%20-14%20-34%20-7%20-100%20-73%20-130%20-130%20-20%20-38%20-27%20-92%20-12%20-101%204%20-3%2014%20-28%2022%20-56%2010%20-37%2024%20-60%2049%20-81%2020%20-16%2041%20-29%2048%20-29%207%200%2027%20-9%2045%20-20%2035%20-21%2097%20-26%20126%20-11%209%206%2046%2020%2081%2033%2067%2024%20104%2064%20129%20137%2029%2083%202%20244%20-52%20314%20-41%2054%20-133%20100%20-236%20117%20-44%207%20-80%2018%20-80%2024%200%2027%20-68%2087%20-120%20106%20-65%2024%20-74%2024%20-89%206z%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E\")",
+            "caption": "Oracle bone script"
+          },
+          {
+            "url": "url(\"data:image/svg+xml;charset=utf8,%3Csvg%20version%3D%221.0%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2283.000000pt%22%20height%3D%22131.000000pt%22%20viewBox%3D%220%200%2083.000000%20131.000000%22%20preserveAspectRatio%3D%22xMidYMid%20meet%22%3E%3Cg%20transform%3D%22translate(0.000000%2C131.000000)%20scale(0.100000%2C-0.100000)%22%20fill%3D%22%23000000%22%20stroke%3D%22none%22%3E%20%3Cpath%20d%3D%22M147%201240%20c15%20-16%2033%20-30%2040%20-30%2022%200%2043%20-44%2043%20-92%200%20-43%20-2%20-48%20-22%20-48%20-35%200%20-113%20-26%20-111%20-36%203%20-14%2046%20-22%2071%20-12%2036%2013%2062%2010%2062%20-7%200%20-9%20-11%20-37%20-25%20-63%20-26%20-48%20-32%20-82%20-16%20-82%205%200%2013%209%2016%2020%203%2011%2010%2020%2014%2020%205%200%2014%2014%2021%2030%207%2017%2016%2030%2020%2030%204%200%2010%2010%2013%2021%205%2018%2011%2020%2034%2014%2028%20-7%2028%20-7%205%2013%20-26%2023%20-36%2020%20143%2043%2088%2011%2091%2010%20136%20-15%2070%20-39%2094%20-78%20147%20-231%206%20-16%2016%20-57%2022%20-90%207%20-33%2016%20-70%2021%20-83%2018%20-45%2010%20-115%20-30%20-285%20-5%20-21%20-16%20-46%20-25%20-56%20-9%20-10%20-16%20-22%20-16%20-27%200%20-34%20-108%20-103%20-210%20-134%20-25%20-7%20-49%20-17%20-55%20-20%20-10%20-7%20-50%20-18%20-147%20-39%20-75%20-17%20-145%20-14%20-153%207%20-31%2074%20-38%20178%20-12%20197%2019%2013%2024%2030%206%2019%20-18%20-11%2012%2040%2033%2054%2021%2015%2024%2038%204%2045%20-15%206%20-86%20-59%20-86%20-79%200%20-8%20-5%20-14%20-11%20-14%20-12%200%20-7%20-102%209%20-192%2019%20-104%2067%20-125%20211%20-89%2046%2012%20101%2021%20122%2021%2021%200%2041%205%2044%2010%203%206%2014%2010%2023%2010%209%200%2052%2018%2094%2039%2043%2022%2093%2044%20112%2051%2037%2012%2057%2048%2094%20170%2044%20147%2055%20265%2032%20349%20-5%2020%20-17%2068%20-26%20106%20-28%20122%20-79%20242%20-104%20250%20-10%203%20-30%2016%20-45%2029%20-44%2038%20-119%2051%20-222%2037%20-133%20-17%20-133%20-17%20-133%2022%200%2017%20-9%2043%20-20%2057%20-11%2014%20-20%2030%20-20%2035%200%2016%20-76%2055%20-105%2055%20-27%200%20-27%200%202%20-30z%22%2F%3E%20%3Cpath%20d%3D%22M445%20807%20c-75%20-27%20-85%20-34%20-113%20-74%20-31%20-44%20-29%20-100%207%20-169%2039%20-76%2094%20-114%20162%20-112%2054%201%2049%20-4%20103%20103%2029%2056%2048%20142%2035%20151%20-5%203%20-7%209%20-4%2014%2012%2019%20-24%2078%20-56%2094%20-41%2021%20-61%2020%20-134%20-7z%20m131%20-51%20c22%20-22%2018%20-114%20-7%20-160%20-38%20-71%20-74%20-94%20-139%20-88%20-27%203%20-80%20103%20-80%20149%200%2036%205%2046%2042%2077%2024%2021%2052%2036%2067%2036%2014%200%2032%204%2040%209%2016%2010%2055%20-1%2077%20-23z%22%2F%3E%20%3Cpath%20d%3D%22M442%20658%20c-21%20-21%20-14%20-48%2011%20-48%2027%200%2062%2033%2052%2049%20-8%2015%20-48%2014%20-63%20-1z%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E\")",
+            "caption": "Bronze script"
+          }
+        ]
+      }
+    }
+  ]
+}

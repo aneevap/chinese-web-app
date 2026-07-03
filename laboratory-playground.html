@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>🧪 Potion Shop · 汉字实验室</title>
+<script src="nav.js"></script>
+<script src="profiles.js"></script>
+<script src="shared/lab-engine.js"></script>
+<link rel="stylesheet" href="shared/design-system.css">
+<link rel="stylesheet" href="shared/lab-styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;600;700;800&family=ZCOOL+KuaiLe&family=Nunito:wght@400;700;800;900&family=Mali:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Bai Jamjuree', 'Nunito', system-ui, sans-serif;
+    color: var(--lab-text);
+    overflow-x: hidden;
+    background:
+      linear-gradient(180deg, rgba(20,15,8,0.25), rgba(20,15,8,0.45)),
+      url('assets/textures/bg_lab1.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+</style>
+</head>
+<body>
+
+<div class="lab-page">
+
+  <!-- ═════════════════════════════════════════
+       NAVBAR
+  ═════════════════════════════════════════ -->
+  <div class="lab-navbar" id="lab-navbar">
+    <div class="nav-left">
+      <div class="nav-back" onclick="location.href='dashboard.html'" title="Back to Dashboard">
+        <span class="nav-back-icon">←</span>
+      </div>
+      <div class="nav-title">Potion Shop</div>
+    </div>
+    <div class="nav-right">
+      <div class="nav-link" onclick="location.href='dashboard.html'">🏠</div>
+      <div class="nav-credits">
+        <span class="tb-icon">⭐</span>
+        <span id="lab-stars-val">0</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═════════════════════════════════════════
+       MAIN LAYOUT — Left + Right columns
+  ═════════════════════════════════════════ -->
+  <div class="lab-main">
+
+    <!-- ═══════════════════════════════════════
+         LEFT COLUMN (30%)
+    ═══════════════════════════════════════ -->
+    <div class="lab-left">
+
+      <!-- ── Player Card ── -->
+      <div class="player-card lab-card" id="lab-player-card">
+        <div class="avatar-wrap">
+          <div class="avatar-circle" onclick="location.href='dashboard.html'">
+            <span class="avatar-emoji">🐼</span>
+          </div>
+          <div class="avatar-name" id="lab-profile-name">—</div>
+        </div>
+        <div class="player-stats">
+          <div class="lv" id="lab-level-val">Lv 1</div>
+          <div class="exp" id="lab-xp-text">0 / 23</div>
+          <div class="exp-bar"><div class="exp-fill" id="lab-xp-bar" style="width:0%"></div></div>
+          <div class="energy-row">
+            <span class="energy-label">⚡</span>
+            <span id="lab-energy-val">2/2</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Hero Illustration ── -->
+      <div class="hero-illustration" id="hero-illustration">
+        <!-- Hero Flask with drop zones (first = left side) -->
+        <div class="hero-flask" id="hero-flask">
+          <img src="images/lab/Flask l.png" alt="Flask" class="flask-image" id="flask-image">
+          <!-- Physical stove button for mixing -->
+          <div class="flask-mix-btn" id="flask-mix-btn" onclick="onMixClick()">
+            <span class="fmb-label">MIX</span>
+          </div>
+          <!-- Small clear button, visible only when radicals are in the flask -->
+          <div class="flask-clear-btn" id="flask-clear-btn" onclick="clearMixSelection()" title="Clear selection">
+            <span class="fcb-label">✕</span>
+          </div>
+          <!-- Bubbles -->
+          <div class="flask-bubble"></div>
+          <div class="flask-bubble"></div>
+          <div class="flask-bubble"></div>
+          <!-- Drop zones overlaid on flask image -->
+          <div class="brew-drop-zone dz-left" id="dz-left" onclick="onFlaskDropClick(0)">
+            <span class="dz-placeholder" id="dz-label-0">?</span>
+            <span class="dz-char" id="dz-char-0" style="display:none;"></span>
+          </div>
+          <div class="brew-drop-zone dz-right" id="dz-right" onclick="onFlaskDropClick(1)">
+            <span class="dz-placeholder" id="dz-label-1">?</span>
+            <span class="dz-char" id="dz-char-1" style="display:none;"></span>
+          </div>
+          <div class="brew-drop-zone dz-third" id="dz-third" onclick="onFlaskDropClick(2)">
+            <span class="dz-placeholder" id="dz-label-2">?</span>
+            <span class="dz-char" id="dz-char-2" style="display:none;"></span>
+          </div>
+          <!-- Liquid fill overlay -->
+          <div class="hero-liquid" id="hero-liquid"></div>
+          <!-- Flask result character (appears on successful mix) -->
+          <div class="flask-result-overlay" id="flask-result-overlay">
+            <span class="flask-result-char" id="flask-result-char"></span>
+          </div>
+          <!-- Smoke effect (appears on failed mix) -->
+          <div class="flask-smoke" id="flask-smoke"></div>
+        </div>
+
+        <!-- Panda image (second = right side) -->
+        <div class="panda-image-wrap" id="panda-image-wrap">
+          <img src="assets/mascot/panda-wave.png" alt="Panda" class="panda-image" id="panda-image">
+          <!-- Speech bubble floats above panda -->
+          <div class="panda-speech" id="panda-speech">
+            <span class="panda-msg" id="panda-msg">Drop some ingredients in the cauldron! 🌿</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Lower Frame (hints / chain / result) ── -->
+      <div class="lower-frame" id="lower-frame">
+        <!-- Welcome default -->
+        <div class="lf-content lf-welcome" id="lf-welcome">
+          <div class="lf-welcome-icon">🧪</div>
+          <div class="lf-welcome-text">Select 2 ingredients from the shelf to brew!</div>
+          <div class="lf-tip" id="brew-tip">✨ Try: 火 + 火 = 炎!</div>
+        </div>
+        
+        <!-- Result display (hidden by default) -->
+        <div class="lf-content lf-result" id="lf-result" style="display:none;">
+          <div class="lf-result-char" id="lf-result-char">明</div>
+          <div class="lf-result-info" id="lf-result-info">míng · bright</div>
+          <div class="lf-result-recipe" id="lf-result-recipe">日 + 月</div>
+          <div class="lf-result-badge" id="lf-result-badge"></div>
+        </div>
+        
+        <!-- Brewing animation placeholder (hidden by default) -->
+        <div class="lf-content lf-brewing" id="lf-brewing" style="display:none;">
+          <div class="lf-brewing-spinner">⚗️</div>
+          <div class="lf-brewing-text">Brewing...</div>
+        </div>
+        
+        <!-- Action prompt (shown when ingredients are selected, instead of buttons) -->
+        <div class="lf-content lf-actions" id="lf-actions" style="display:none;">
+          <div class="lf-welcome-icon">⚗️</div>
+          <div class="lf-welcome-text" id="lf-action-prompt">2 ingredients ready! Press the Brew button above!</div>
+          <div class="lf-chain-section" id="lf-chain-section" style="display:none;">
+            <div class="lf-chain-label">🔗 Can extend to 3 ingredients:</div>
+            <div class="lf-chain-grid" id="lf-chain-grid"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         RIGHT COLUMN (70%)
+    ═══════════════════════════════════════ -->
+    <div class="lab-right">
+      <div class="right-panel" id="right-panel">
+
+        <!-- Tabs -->
+        <div class="right-tabs" id="right-tabs">
+          <button class="right-tab active" data-tab="shelf">
+            <span class="rtab-icon">🧪</span> Shelf
+          </button>
+          <button class="right-tab" data-tab="decomp">
+            <span class="rtab-icon">🔬</span> Decomp
+          </button>
+          <button class="right-tab" data-tab="grimoire">
+            <span class="rtab-icon">📖</span> Grimoire
+          </button>
+        </div>
+
+        <!-- Panel Body -->
+        <div class="right-panel-body">
+          <!-- Category Sidebar -->
+          <div class="right-sidebar" id="right-sidebar">
+            <div class="sidebar-label">Filter</div>
+            <div class="sidebar-cats" id="sidebar-cats">
+              <!-- Rendered by JS -->
+            </div>
+            <div class="sidebar-spacer"></div>
+            <button class="sidebar-all-btn" onclick="Lab.setShelfFilter('all')">🟤 All</button>
+          </div>
+
+          <!-- Content Area -->
+          <div class="right-content" id="right-content">
+
+            <!-- ── SHELF tab: Radical shelf grid ── -->
+            <div class="rc-panel active" id="rc-shelf">
+              <div class="rc-header">
+                <span class="rc-header-title">Ingredient Shelf</span>
+                <span class="rc-header-xp">
+                  <span id="lab-xp-text-header">0 / 23</span>
+                  <span id="lab-xp-pct-header">0%</span>
+                </span>
+              </div>
+              <div class="rc-shelf-grid" id="brew-shelves"></div>
+            </div>
+
+            <!-- ── DECOMP tab: Decomposition ── -->
+            <div class="rc-panel" id="rc-decomp">
+              <div class="rc-header">
+                <span class="rc-header-title">🔬 Decomposition</span>
+                <span class="rc-header-energy" id="decomp-energy-hint">⚡ 2 extractions remaining</span>
+              </div>
+              <div class="extract-list" id="extract-list">
+                <div class="lab-empty">
+                  <div class="emp-emoji">🔬</div>
+                  <div class="emp-text">No decomposable characters yet</div>
+                  <div class="emp-sub">Study more characters to unlock decomposition!</div>
+                </div>
+              </div>
+              <div class="extract-detail" id="extract-detail">
+                <div class="ed-char" id="ed-char">—</div>
+                <div class="ed-compounds" id="ed-compounds"></div>
+                <div class="ed-desc" id="ed-desc"></div>
+                <div style="display:flex;gap:8px;justify-content:center;margin-top:10px;">
+                  <button class="lab-btn lb-extract" id="btn-decompose" onclick="onDecomposeClick()">🔬 Extract!</button>
+                  <button class="lab-btn lb-secondary" onclick="clearDecompSelection()">✕ Cancel</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ── GRIMOIRE tab: Collection + Stats + Creations ── -->
+            <div class="rc-panel" id="rc-grimoire">
+              <div class="grimoire-header">
+                <h2>📖 Alchemist's Grimoire</h2>
+                <p id="grimoire-count">0 / 222 ingredients collected</p>
+              </div>
+              <div class="grimoire-progress">
+                <div class="gp-bar-bg"><div class="gp-bar-fill" id="grimoire-progress-bar" style="width:0%"></div></div>
+                <span class="gp-text" id="grimoire-progress-text">0%</span>
+              </div>
+              <div class="grimoire-cats" id="grimoire-cats"></div>
+              <div class="grimoire-ownership" id="grimoire-ownership">
+                <button class="grimoire-own active" data-filter="all" onclick="setCollFilter('all')">All</button>
+                <button class="grimoire-own" data-filter="owned" onclick="setCollFilter('owned')">⭐ Owned</button>
+                <button class="grimoire-own" data-filter="locked" onclick="setCollFilter('locked')">🔒 Locked</button>
+              </div>
+              <div class="grimoire-grid" id="grimoire-grid"></div>
+              <div class="grimoire-stats" id="grimoire-stats"></div>
+
+              <div style="margin-top:12px;border-top:2px dashed rgba(0,0,0,0.06);padding-top:12px;">
+                <div class="rc-header">
+                  <span class="rc-header-title">⚗️ Creations</span>
+                </div>
+                <div class="creations-list" id="creations-list">
+                  <div class="lab-empty">
+                    <div class="emp-emoji">⚗️</div>
+                    <div class="emp-text">No characters discovered yet</div>
+                    <div class="emp-sub">Head to the Brew tab and combine ingredients!</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ═════════════════════════════════════════
+     TOAST NOTIFICATION
+═════════════════════════════════════════ -->
+<div class="lab-result-toast" id="lab-result-toast">
+  <div class="rt-emoji">🎉</div>
+  <div class="rt-char" id="rt-char">明</div>
+  <div class="rt-info" id="rt-info">New character discovered!</div>
+  <div class="rt-desc" id="rt-desc">日 + 月 = 明 (míng) bright</div>
+  <button class="rt-btn" id="rt-close-btn" onclick="closeResultToast()">Awesome! ✨</button>
+</div>
+
+<!-- ═════════════════════════════════════════
+     BRANCHING LEVEL-UP MODAL
+═════════════════════════════════════════ -->
+<div class="lab-modal-overlay" id="lab-branch-modal">
+  <div class="lab-modal-box">
+    <h2>🎉 Level Up!</h2>
+    <p>Choose a new ingredient to add to your collection:</p>
+    <div class="lab-branch-options" id="lab-branch-options"></div>
+  </div>
+</div>
+
+<script src="shared/lab-ui.js"></script>
+</body>
+</html>

@@ -10,6 +10,7 @@
 <script src="shared/supabase-sync.js"></script>
 <script src="strings.js"></script>
 <script src="shared/auth-modal.js"></script>
+<script src="shared/lab-engine.js"></script>
 <link rel="stylesheet" href="shared/design-system.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -150,6 +151,52 @@
     font-size: 0.65em; color: var(--ink-light);
     margin-top: 3px; font-weight: bold;
     text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+/* ── LEVEL CARD ── */
+.level-hero {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+.level-badge {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.35em;
+    font-weight: 900;
+    color: #7A68A8;
+    flex-shrink: 0;
+    line-height: 1;
+}
+.level-stats {
+    flex: 1;
+    min-width: 0;
+}
+.level-xp-bar-bg {
+    width: 100%;
+    height: 10px;
+    border-radius: var(--radius-pill);
+    background: var(--paper-deep);
+    overflow: hidden;
+}
+.level-xp-bar {
+    height: 100%;
+    border-radius: var(--radius-pill);
+    background: linear-gradient(90deg, var(--theme-color), var(--botes-ochre-deep));
+    transition: width 0.8s ease;
+}
+.level-xp-text {
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.72em;
+    font-weight: 800;
+    color: var(--ink-soft);
+    margin-top: 4px;
+}
+.level-total {
+    font-size: 0.7em;
+    font-weight: 700;
+    color: var(--ink-light);
+    text-align: right;
+    margin-top: 6px;
 }
 
 /* ── TITLE PROGRESS ── */
@@ -1660,6 +1707,22 @@
         <div id="title-content"></div>
     </div>
 
+    <!-- LEVEL -->
+    <div class="card" id="level-card">
+        <div id="level-content">
+            <div class="level-hero">
+                <div class="level-badge" id="level-badge">Lv.1</div>
+                <div class="level-stats">
+                    <div class="level-xp-bar-bg">
+                        <div class="level-xp-bar" id="level-xp-bar" style="width:0%"></div>
+                    </div>
+                    <div class="level-xp-text" id="level-xp-text">0 / 0 XP</div>
+                </div>
+            </div>
+            <div class="level-total" id="level-total">0 ⭐ total</div>
+        </div>
+    </div>
+
     <!-- BADGES -->
     <div class="card">
         <div class="card-title">🏅 Badges</div>
@@ -1898,6 +1961,18 @@ window.onload = function() {
             '<div style="color:#FF6B6B;text-align:center;padding:20px;">' +
             '❌ Could not load data files.</div>';
     });
+
+  // Load lab data (radicals) for level display
+  fetch('radicals.json').then(function(r) { return r.json(); }).then(function(data) {
+    XHZ.loadRadicalData(data);
+    // Auto-claim levels 1-5 now that we have thresholds
+    var p = XHZ.getActiveProfile();
+    if (p) XHZ.autoClaimLevelRewards(p.id);
+    // Re-render level card now that data is available
+    renderLevelCard();
+  }).catch(function(e) {
+    console.warn('Level data not available:', e.message);
+  });
 };
 
 /* =====================================================
@@ -1935,6 +2010,7 @@ function renderAll(attempted) {
     renderStats();
     renderTitleProgress();
     renderBadges();
+    renderLevelCard();
     renderCalendar();
     renderMasteryGrid(attempted);
     renderEquipSlots();
@@ -2925,6 +3001,46 @@ function refreshStringsShop() {
     if (shopCard && shopCard.style.display !== 'none') {
         renderShop();
     }
+}
+
+/* =====================================================
+   LEVEL CARD
+===================================================== */
+function renderLevelCard() {
+  var card = document.getElementById('level-card');
+  var badge = document.getElementById('level-badge');
+  var xpBar = document.getElementById('level-xp-bar');
+  var xpText = document.getElementById('level-xp-text');
+  var totalEl = document.getElementById('level-total');
+  if (!card || !badge) return;
+
+  var p = XHZ.getActiveProfile();
+  if (!p) { card.style.display = 'none'; return; }
+
+  var progress = XHZ.getLevelProgress(p.id);
+  // Wait for level thresholds (loaded from radicals.json) before computing
+  var thresholds = XHZ.getLevelThresholds();
+  if (!thresholds || !thresholds.length) {
+    // Level data not loaded yet — try again later
+    setTimeout(renderLevelCard, 1000);
+    return;
+  }
+
+  card.style.display = '';
+  badge.textContent = 'Lv.' + progress.currentLevel;
+
+  if (progress.nextLevel) {
+    var pct = progress.progressPercent || 0;
+    xpBar.style.width = pct + '%';
+    xpText.textContent = progress.starsOwned + ' / ' + progress.starsNeeded + ' XP';
+  } else {
+    xpBar.style.width = '100%';
+    xpText.textContent = '🌟 Max level!';
+  }
+
+  // Total XP
+  var total = XHZ.getTotalStars(p.id) || 0;
+  totalEl.textContent = total + ' ⭐ total';
 }
 
 /* =====================================================

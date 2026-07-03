@@ -1,0 +1,2230 @@
+{
+  "generated_at": "2026-06-18",
+  "source": "makemeahanzi IDS decomposition data",
+  "total_reactions": 179,
+  "reactions": [
+    {
+      "char": "兌",
+      "radicals": [
+        "八",
+        "口",
+        "人"
+      ],
+      "pinyin": "",
+      "meaning": "",
+      "in_radical_set": 3
+    },
+    {
+      "char": "兑",
+      "radicals": [
+        "八",
+        "口",
+        "人"
+      ],
+      "pinyin": "Duì",
+      "meaning": "surname Dui",
+      "in_radical_set": 3
+    },
+    {
+      "char": "森",
+      "radicals": [
+        "木",
+        "木",
+        "木"
+      ],
+      "pinyin": "Sēn",
+      "meaning": "Mori (Japanese surname)",
+      "in_radical_set": 3
+    },
+    {
+      "char": "得",
+      "radicals": [
+        "彳",
+        "貝",
+        "寸"
+      ],
+      "pinyin": "dé",
+      "meaning": "to obtain; to get",
+      "in_radical_set": 3
+    },
+    {
+      "char": "後",
+      "radicals": [
+        "彳",
+        "幺",
+        "夂"
+      ],
+      "pinyin": "",
+      "meaning": "",
+      "in_radical_set": 3
+    },
+    {
+      "char": "堇",
+      "radicals": [
+        "口",
+        "人",
+        "火"
+      ],
+      "pinyin": "jǐn",
+      "meaning": "clay; old variant of 僅|仅[jǐn]",
+      "in_radical_set": 3
+    },
+    {
+      "char": "坐",
+      "radicals": [
+        "人",
+        "人",
+        "土"
+      ],
+      "pinyin": "Zuò",
+      "meaning": "surname Zuo",
+      "in_radical_set": 3
+    },
+    {
+      "char": "親",
+      "radicals": [
+        "辛",
+        "木",
+        "見"
+      ],
+      "pinyin": "",
+      "meaning": "",
+      "in_radical_set": 3
+    },
+    {
+      "char": "亲",
+      "radicals": [
+        "辛",
+        "木",
+        "見"
+      ],
+      "pinyin": "qīn",
+      "meaning": "parent; one's own (flesh and blood)",
+      "in_radical_set": 3
+    },
+    {
+      "char": "新",
+      "radicals": [
+        "辛",
+        "木",
+        "斤"
+      ],
+      "pinyin": "Xīn",
+      "meaning": "abbr. for Xinjiang 新疆[Xīn​jiāng] or Singapore 新加坡[Xīn​jiā​pō]; surname Xin",
+      "in_radical_set": 3
+    },
+    {
+      "char": "报",
+      "radicals": [
+        "扌",
+        "卩",
+        "又"
+      ],
+      "pinyin": "bào",
+      "meaning": "to announce; to inform",
+      "in_radical_set": 3
+    },
+    {
+      "char": "無",
+      "radicals": [
+        "大",
+        "革",
+        "革"
+      ],
+      "pinyin": "",
+      "meaning": "",
+      "in_radical_set": 3
+    },
+    {
+      "char": "无",
+      "radicals": [
+        "大",
+        "革",
+        "革"
+      ],
+      "pinyin": "wú",
+      "meaning": "not to have; no",
+      "in_radical_set": 3
+    },
+    {
+      "char": "受",
+      "radicals": [
+        "又",
+        "舟",
+        "又"
+      ],
+      "pinyin": "shòu",
+      "meaning": "to receive; to accept",
+      "in_radical_set": 3
+    },
+    {
+      "char": "巽",
+      "radicals": [
+        "卩",
+        "卩",
+        "共"
+      ],
+      "pinyin": "xùn",
+      "meaning": "to obey; one of the Eight Trigrams 八卦[bā​guà], symbolizing wood and wind",
+      "in_radical_set": 3
+    },
+    {
+      "char": "褱",
+      "radicals": [
+        "衣",
+        "目",
+        "水"
+      ],
+      "pinyin": "huái",
+      "meaning": "to carry in the bosom or the sleeve; to wrap, to conceal",
+      "in_radical_set": 3
+    },
+    {
+      "char": "善",
+      "radicals": [
+        "羊",
+        "言",
+        "言"
+      ],
+      "pinyin": "shàn",
+      "meaning": "good (virtuous); benevolent",
+      "in_radical_set": 3
+    },
+    {
+      "char": "劦",
+      "radicals": [
+        "力",
+        "力",
+        "力"
+      ],
+      "pinyin": "liè",
+      "meaning": "unending exertion",
+      "in_radical_set": 3
+    },
+    {
+      "char": "众",
+      "radicals": [
+        "人",
+        "人",
+        "人"
+      ],
+      "pinyin": "Zhòng",
+      "meaning": "abbr. for 眾議院|众议院[Zhòng​yì​yuàn], House of Representatives",
+      "in_radical_set": 3
+    },
+    {
+      "char": "尞",
+      "radicals": [
+        "木",
+        "日",
+        "火"
+      ],
+      "pinyin": "",
+      "meaning": "",
+      "in_radical_set": 3
+    },
+    {
+      "char": "監",
+      "radicals": [
+        "目",
+        "人",
+        "皿"
+      ],
+      "pinyin": "",
+      "meaning": "",
+      "in_radical_set": 3
+    },
+    {
+      "char": "监",
+      "radicals": [
+        "目",
+        "人",
+        "皿"
+      ],
+      "pinyin": "jiān",
+      "meaning": "to supervise; to inspect",
+      "in_radical_set": 3
+    },
+    {
+      "char": "寅",
+      "radicals": [
+        "矢",
+        "爪",
+        "爪"
+      ],
+      "pinyin": "yín",
+      "meaning": "3rd earthly branch: 3-5 a.m., 1st solar month (4th February-5th March), year of the Tiger; ancient Chinese compass point: 60°",
+      "in_radical_set": 3
+    },
+    {
+      "char": "品",
+      "radicals": [
+        "口",
+        "口",
+        "口"
+      ],
+      "pinyin": "pǐn",
+      "meaning": "article; commodity",
+      "in_radical_set": 3
+    },
+    {
+      "char": "蟲",
+      "radicals": [
+        "虫",
+        "虫",
+        "虫"
+      ],
+      "pinyin": "",
+      "meaning": "",
+      "in_radical_set": 3
+    },
+    {
+      "char": "夾",
+      "radicals": [
+        "大",
+        "人",
+        "人"
+      ],
+      "pinyin": "",
+      "meaning": "",
+      "in_radical_set": 3
+    },
+    {
+      "char": "夹",
+      "radicals": [
+        "大",
+        "人",
+        "人"
+      ],
+      "pinyin": "jiā",
+      "meaning": "to press from either side; to place in between",
+      "in_radical_set": 3
+    },
+    {
+      "char": "厤",
+      "radicals": [
+        "厂",
+        "禾",
+        "禾"
+      ],
+      "pinyin": "",
+      "meaning": "",
+      "in_radical_set": 3
+    },
+    {
+      "char": "聶",
+      "radicals": [
+        "耳",
+        "耳",
+        "耳"
+      ],
+      "pinyin": "",
+      "meaning": "",
+      "in_radical_set": 3
+    },
+    {
+      "char": "聂",
+      "radicals": [
+        "耳",
+        "又",
+        "又"
+      ],
+      "pinyin": "Niè",
+      "meaning": "surname Nie",
+      "in_radical_set": 3
+    },
+    {
+      "char": "雙",
+      "radicals": [
+        "隹",
+        "隹",
+        "又"
+      ],
+      "pinyin": "",
+      "meaning": "",
+      "in_radical_set": 3
+    },
+    {
+      "char": "厭",
+      "radicals": [
+        "犬",
+        "口",
+        "肉"
+      ],
+      "pinyin": "",
+      "meaning": "",
+      "in_radical_set": 3
+    },
+    {
+      "char": "厌",
+      "radicals": [
+        "犬",
+        "口",
+        "肉"
+      ],
+      "pinyin": "yàn",
+      "meaning": "to loathe",
+      "in_radical_set": 3
+    },
+    {
+      "char": "陰",
+      "radicals": [
+        "阝",
+        "今",
+        "云"
+      ],
+      "pinyin": "",
+      "meaning": "",
+      "in_radical_set": 3
+    },
+    {
+      "char": "賓",
+      "radicals": [
+        "宀",
+        "止",
+        "貝"
+      ],
+      "pinyin": "",
+      "meaning": "",
+      "in_radical_set": 3
+    },
+    {
+      "char": "質",
+      "radicals": [
+        "斤",
+        "斤",
+        "貝"
+      ],
+      "pinyin": "",
+      "meaning": "",
+      "in_radical_set": 3
+    },
+    {
+      "char": "质",
+      "radicals": [
+        "斤",
+        "斤",
+        "贝"
+      ],
+      "pinyin": "zhì",
+      "meaning": "character; nature",
+      "in_radical_set": 3
+    },
+    {
+      "char": "彥",
+      "radicals": [
+        "文",
+        "厂",
+        "弓"
+      ],
+      "pinyin": "",
+      "meaning": "",
+      "in_radical_set": 3
+    },
+    {
+      "char": "彦",
+      "radicals": [
+        "文",
+        "厂",
+        "弓"
+      ],
+      "pinyin": "yàn",
+      "meaning": "accomplished; elegant",
+      "in_radical_set": 3
+    },
+    {
+      "char": "羅",
+      "radicals": [
+        "网",
+        "糹",
+        "隹"
+      ],
+      "pinyin": "",
+      "meaning": "",
+      "in_radical_set": 3
+    },
+    {
+      "char": "農",
+      "radicals": [
+        "田",
+        "林",
+        "辰"
+      ],
+      "pinyin": "",
+      "meaning": "",
+      "in_radical_set": 3
+    },
+    {
+      "char": "奚",
+      "radicals": [
+        "爪",
+        "幺",
+        "大"
+      ],
+      "pinyin": "Xī",
+      "meaning": "surname Xi",
+      "in_radical_set": 3
+    },
+    {
+      "char": "傷",
+      "radicals": [
+        "亻",
+        "刀",
+        "昜"
+      ],
+      "pinyin": "",
+      "meaning": "",
+      "in_radical_set": 3
+    },
+    {
+      "char": "伤",
+      "radicals": [
+        "亻",
+        "刀",
+        "力"
+      ],
+      "pinyin": "shāng",
+      "meaning": "to injure; injury",
+      "in_radical_set": 3
+    },
+    {
+      "char": "流",
+      "radicals": [
+        "氵",
+        "子",
+        "川"
+      ],
+      "pinyin": "liú",
+      "meaning": "to flow; to disseminate",
+      "in_radical_set": 3
+    },
+    {
+      "char": "往",
+      "radicals": [
+        "彳",
+        "止",
+        "王"
+      ],
+      "pinyin": "wǎng",
+      "meaning": "to go (in a direction); to",
+      "in_radical_set": 3
+    },
+    {
+      "char": "兼",
+      "radicals": [
+        "禾",
+        "禾",
+        "又"
+      ],
+      "pinyin": "jiān",
+      "meaning": "double; twice",
+      "in_radical_set": 3
+    },
+    {
+      "char": "散",
+      "radicals": [
+        "竹",
+        "月",
+        "攵"
+      ],
+      "pinyin": "sàn",
+      "meaning": "variant of 散[sàn]",
+      "in_radical_set": 3
+    },
+    {
+      "char": "幽",
+      "radicals": [
+        "山",
+        "幺",
+        "幺"
+      ],
+      "pinyin": "yōu",
+      "meaning": "remote; hidden away",
+      "in_radical_set": 3
+    },
+    {
+      "char": "雖",
+      "radicals": [
+        "口",
+        "虫",
+        "隹"
+      ],
+      "pinyin": "",
+      "meaning": "",
+      "in_radical_set": 3
+    },
+    {
+      "char": "虽",
+      "radicals": [
+        "口",
+        "虫",
+        "隹"
+      ],
+      "pinyin": "suī",
+      "meaning": "although; even though",
+      "in_radical_set": 3
+    },
+    {
+      "char": "奮",
+      "radicals": [
+        "大",
+        "隹",
+        "田"
+      ],
+      "pinyin": "",
+      "meaning": "",
+      "in_radical_set": 3
+    },
+    {
+      "char": "奋",
+      "radicals": [
+        "大",
+        "隹",
+        "田"
+      ],
+      "pinyin": "fèn",
+      "meaning": "to exert oneself (bound form)",
+      "in_radical_set": 3
+    },
+    {
+      "char": "祝",
+      "radicals": [
+        "礻",
+        "口",
+        "卩"
+      ],
+      "pinyin": "Zhù",
+      "meaning": "surname Zhu",
+      "in_radical_set": 3
+    },
+    {
+      "char": "暴",
+      "radicals": [
+        "日",
+        "共",
+        "米"
+      ],
+      "pinyin": "Bào",
+      "meaning": "surname Bao",
+      "in_radical_set": 3
+    },
+    {
+      "char": "棄",
+      "radicals": [
+        "子",
+        "其",
+        "廾"
+      ],
+      "pinyin": "",
+      "meaning": "",
+      "in_radical_set": 3
+    },
+    {
+      "char": "弃",
+      "radicals": [
+        "子",
+        "其",
+        "廾"
+      ],
+      "pinyin": "qì",
+      "meaning": "to abandon; to relinquish",
+      "in_radical_set": 3
+    },
+    {
+      "char": "夏",
+      "radicals": [
+        "日",
+        "頁",
+        "夂"
+      ],
+      "pinyin": "Xià",
+      "meaning": "the Xia or Hsia dynasty c. 2000 BC; Xia of the Sixteen Kingdoms (407-432)",
+      "in_radical_set": 3
+    },
+    {
+      "char": "類",
+      "radicals": [
+        "米",
+        "犬",
+        "頁"
+      ],
+      "pinyin": "",
+      "meaning": "",
+      "in_radical_set": 3
+    },
+    {
+      "char": "类",
+      "radicals": [
+        "米",
+        "犬",
+        "頁"
+      ],
+      "pinyin": "lèi",
+      "meaning": "kind; type",
+      "in_radical_set": 3
+    },
+    {
+      "char": "卷",
+      "radicals": [
+        "米",
+        "廾",
+        "卩"
+      ],
+      "pinyin": "juǎn",
+      "meaning": "to roll up; roll",
+      "in_radical_set": 3
+    },
+    {
+      "char": "降",
+      "radicals": [
+        "阝",
+        "止",
+        "止"
+      ],
+      "pinyin": "jiàng",
+      "meaning": "to drop; to fall",
+      "in_radical_set": 3
+    },
+    {
+      "char": "灭",
+      "radicals": [
+        "氵",
+        "一",
+        "火"
+      ],
+      "pinyin": "miè",
+      "meaning": "to extinguish or put out; to go out (of a fire etc)",
+      "in_radical_set": 3
+    },
+    {
+      "char": "叟",
+      "radicals": [
+        "宀",
+        "火",
+        "又"
+      ],
+      "pinyin": "sǒu",
+      "meaning": "old gentleman; old man",
+      "in_radical_set": 3
+    },
+    {
+      "char": "岸",
+      "radicals": [
+        "山",
+        "厂",
+        "干"
+      ],
+      "pinyin": "àn",
+      "meaning": "variant of 岸[àn]",
+      "in_radical_set": 3
+    },
+    {
+      "char": "奥",
+      "radicals": [
+        "宀",
+        "米",
+        "大"
+      ],
+      "pinyin": "Aò",
+      "meaning": "Austria; Austrian",
+      "in_radical_set": 3
+    },
+    {
+      "char": "獄",
+      "radicals": [
+        "犭",
+        "言",
+        "犬"
+      ],
+      "pinyin": "",
+      "meaning": "",
+      "in_radical_set": 3
+    },
+    {
+      "char": "狱",
+      "radicals": [
+        "犭",
+        "讠",
+        "犬"
+      ],
+      "pinyin": "yù",
+      "meaning": "prison",
+      "in_radical_set": 3
+    },
+    {
+      "char": "憂",
+      "radicals": [
+        "頁",
+        "心",
+        "又"
+      ],
+      "pinyin": "",
+      "meaning": "",
+      "in_radical_set": 3
+    },
+    {
+      "radicals": [
+        "日",
+        "幺",
+        "幺",
+        "灬"
+      ],
+      "result": "㬎",
+      "char": "㬎",
+      "pinyin": "xiǎn",
+      "meaning": "motes in a sunbeam; illustrious, bright",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "亻",
+        "宀",
+        "一"
+      ],
+      "result": "伫",
+      "char": "伫",
+      "pinyin": "zhù",
+      "meaning": "to wait; to look towards; to turn one's back on",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "亻",
+        "二",
+        "女"
+      ],
+      "result": "佞",
+      "char": "佞",
+      "pinyin": "nìng",
+      "meaning": "flattery; glib",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "亻",
+        "八",
+        "月"
+      ],
+      "result": "佾",
+      "char": "佾",
+      "pinyin": "yì",
+      "meaning": "a row or file of dancers",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "亻",
+        "口",
+        "川"
+      ],
+      "result": "侃",
+      "char": "侃",
+      "pinyin": "kǎn",
+      "meaning": "upright and strong; amiable",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "甘",
+        "一",
+        "八"
+      ],
+      "result": "其",
+      "char": "其",
+      "pinyin": "qí",
+      "meaning": "his, her, its, their; that",
+      "type": "semantic",
+      "decomp_category": "both_decomp"
+    },
+    {
+      "radicals": [
+        "目",
+        "一",
+        "八"
+      ],
+      "result": "具",
+      "char": "具",
+      "pinyin": "jù",
+      "meaning": "tool, implement; to draw up, to write",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "又",
+        "又",
+        "又"
+      ],
+      "result": "叒",
+      "char": "叒",
+      "pinyin": "ruò",
+      "meaning": "obedient; united",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "王",
+        "口",
+        "口",
+        "口",
+        "口"
+      ],
+      "result": "噩",
+      "char": "噩",
+      "pinyin": "è",
+      "meaning": "bad, ill-omened, unlucky",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "土",
+        "土",
+        "土"
+      ],
+      "result": "垚",
+      "char": "垚",
+      "pinyin": "yáo",
+      "meaning": "mound, lump, round mass",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "土",
+        "日",
+        "羽"
+      ],
+      "result": "塌",
+      "char": "塌",
+      "pinyin": "tā",
+      "meaning": "to collapse, to fall into ruin",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "亻",
+        "日",
+        "夂"
+      ],
+      "result": "复",
+      "char": "复",
+      "pinyin": "fù",
+      "meaning": "again, repeatedly; copy, duplicate; to restore, to return",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "女",
+        "女",
+        "女"
+      ],
+      "result": "姦",
+      "char": "姦",
+      "pinyin": "jiān",
+      "meaning": "crafty, dishonest, selfish; evil, villainous; adultery",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "子",
+        "子",
+        "子"
+      ],
+      "result": "孨",
+      "char": "孨",
+      "pinyin": "zhuǎn",
+      "meaning": "cautious, cowardly, weak; an orphan",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "宀",
+        "頁",
+        "刀"
+      ],
+      "result": "寡",
+      "char": "寡",
+      "pinyin": "guǎ",
+      "meaning": "widowed; friendless, alone",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "宀",
+        "心",
+        "皿",
+        "丁"
+      ],
+      "result": "寧",
+      "char": "寧",
+      "pinyin": "níng",
+      "meaning": "calm, peaceful; healthy; rather; to prefer",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "山",
+        "甘",
+        "欠"
+      ],
+      "result": "嵌",
+      "char": "嵌",
+      "pinyin": "qiàn",
+      "meaning": "valley, ravine; to fall into; to inlay, to set in",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "广",
+        "里",
+        "八",
+        "土"
+      ],
+      "result": "廛",
+      "char": "廛",
+      "pinyin": "chán",
+      "meaning": "store, shop",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "彳",
+        "又",
+        "工"
+      ],
+      "result": "径",
+      "char": "径",
+      "pinyin": "jìng",
+      "meaning": "path, diameter; straight, direct",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "彳",
+        "山",
+        "王",
+        "攵"
+      ],
+      "result": "徴",
+      "char": "徴",
+      "pinyin": "zhēng",
+      "meaning": "to summon",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "彳",
+        "山",
+        "一",
+        "王",
+        "攵"
+      ],
+      "result": "徵",
+      "char": "徵",
+      "pinyin": "zhēng",
+      "meaning": "to summon, to recruit; levy, tax; journey; invasion",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "心",
+        "心",
+        "心"
+      ],
+      "result": "惢",
+      "char": "惢",
+      "pinyin": "suǒ",
+      "meaning": "",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "手",
+        "手",
+        "手"
+      ],
+      "result": "掱",
+      "char": "掱",
+      "pinyin": "pá",
+      "meaning": "to pickpocket",
+      "type": "semantic",
+      "decomp_category": "both_decomp"
+    },
+    {
+      "radicals": [
+        "艹",
+        "分",
+        "木"
+      ],
+      "result": "棻",
+      "char": "棻",
+      "pinyin": "fēn",
+      "meaning": "sandalwood",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "木",
+        "日",
+        "羽"
+      ],
+      "result": "榻",
+      "char": "榻",
+      "pinyin": "tà",
+      "meaning": "bed, cot, couch",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "氵",
+        "几",
+        "口"
+      ],
+      "result": "沿",
+      "char": "沿",
+      "pinyin": "yán",
+      "meaning": "to follow a course, to go along",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "水",
+        "水",
+        "水"
+      ],
+      "result": "淼",
+      "char": "淼",
+      "pinyin": "miǎo",
+      "meaning": "infinity; flooding; a wide expanse of water",
+      "type": "semantic",
+      "decomp_category": "both_decomp"
+    },
+    {
+      "radicals": [
+        "氵",
+        "山",
+        "一",
+        "几",
+        "攵"
+      ],
+      "result": "溦",
+      "char": "溦",
+      "pinyin": "wēi",
+      "meaning": "to drizzle",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "氵",
+        "日",
+        "羽"
+      ],
+      "result": "溻",
+      "char": "溻",
+      "pinyin": "tā",
+      "meaning": "wet",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "氵",
+        "林",
+        "月"
+      ],
+      "result": "潸",
+      "char": "潸",
+      "pinyin": "shān",
+      "meaning": "tearful; to weep",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "火",
+        "火",
+        "火"
+      ],
+      "result": "焱",
+      "char": "焱",
+      "pinyin": "yàn",
+      "meaning": "fierce flames; conflagration",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "犬",
+        "犬",
+        "犬"
+      ],
+      "result": "猋",
+      "char": "猋",
+      "pinyin": "biāo",
+      "meaning": "wind, storm, gale; a dog running",
+      "type": "semantic",
+      "decomp_category": "both_decomp"
+    },
+    {
+      "radicals": [
+        "王",
+        "人",
+        "彡"
+      ],
+      "result": "珍",
+      "char": "珍",
+      "pinyin": "zhēn",
+      "meaning": "a treasure, a precious thing; rare, valuable",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "聿",
+        "田",
+        "一"
+      ],
+      "result": "畫",
+      "char": "畫",
+      "pinyin": "huà",
+      "meaning": "picture, painting, drawing; to draw",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "田",
+        "田",
+        "田"
+      ],
+      "result": "畾",
+      "char": "畾",
+      "pinyin": "léi",
+      "meaning": "fields divided by dikes",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "石",
+        "石",
+        "石"
+      ],
+      "result": "磊",
+      "char": "磊",
+      "pinyin": "lěi",
+      "meaning": "a pile of rocks; candid, open; great",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "糹",
+        "刀",
+        "巴"
+      ],
+      "result": "絕",
+      "char": "絕",
+      "pinyin": "jué",
+      "meaning": "to cut, to sever; to break off, to terminate",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "亻",
+        "夂",
+        "糸"
+      ],
+      "result": "絛",
+      "char": "絛",
+      "pinyin": "tāo",
+      "meaning": "silk cord; sash, ribbon, cord",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "羊",
+        "羊",
+        "羊"
+      ],
+      "result": "羴",
+      "char": "羴",
+      "pinyin": "shān",
+      "meaning": "the rank odor of sheep or goats",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "羽",
+        "人",
+        "彡"
+      ],
+      "result": "翏",
+      "char": "翏",
+      "pinyin": "liù",
+      "meaning": "the sound of the wind; to soar",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "艹",
+        "宀",
+        "一"
+      ],
+      "result": "苎",
+      "char": "苎",
+      "pinyin": "zhù",
+      "meaning": "China grass, ramie",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "艹",
+        "幺",
+        "幺"
+      ],
+      "result": "茲",
+      "char": "茲",
+      "pinyin": "zī",
+      "meaning": "now, here; this; time, year",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "艹",
+        "犬",
+        "廾"
+      ],
+      "result": "莽",
+      "char": "莽",
+      "pinyin": "mǎng",
+      "meaning": "thicket, underbrush; rude, impertinent",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "艹",
+        "鱼",
+        "刂"
+      ],
+      "result": "蓟",
+      "char": "蓟",
+      "pinyin": "jì",
+      "meaning": "cirsium, thistle; surname",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "艹",
+        "歹",
+        "非"
+      ],
+      "result": "薤",
+      "char": "薤",
+      "pinyin": "xiè",
+      "meaning": "shallots, scallions; Allium bakeri",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "艹",
+        "禾",
+        "曷"
+      ],
+      "result": "藒",
+      "char": "藒",
+      "pinyin": "qiè",
+      "meaning": "an aromatic herb",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "衤",
+        "日",
+        "羽"
+      ],
+      "result": "褟",
+      "char": "褟",
+      "pinyin": "tā",
+      "meaning": "singlet, inner shirt; to sew",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "八",
+        "人",
+        "口"
+      ],
+      "result": "谷",
+      "char": "谷",
+      "pinyin": "gǔ",
+      "meaning": "valley, gorge, ravine",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "貝",
+        "貝",
+        "貝"
+      ],
+      "result": "贔",
+      "char": "贔",
+      "pinyin": "bì",
+      "meaning": "strong",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "贝",
+        "宀",
+        "一"
+      ],
+      "result": "贮",
+      "char": "贮",
+      "pinyin": "zhù",
+      "meaning": "to store, to stockpile, to hoard",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "贝",
+        "贝",
+        "贝"
+      ],
+      "result": "赑",
+      "char": "赑",
+      "pinyin": "bì",
+      "meaning": "strong",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "足",
+        "日",
+        "羽"
+      ],
+      "result": "蹋",
+      "char": "蹋",
+      "pinyin": "tà",
+      "meaning": "to step on, to tread on",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "車",
+        "車",
+        "車"
+      ],
+      "result": "轟",
+      "char": "轟",
+      "pinyin": "hōng",
+      "meaning": "rumble, explosion, blast",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "金",
+        "金",
+        "金"
+      ],
+      "result": "鑫",
+      "char": "鑫",
+      "pinyin": "xīn",
+      "meaning": "prosperity; used in names of people and shops",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "阝",
+        "夂",
+        "一",
+        "生"
+      ],
+      "result": "隆",
+      "char": "隆",
+      "pinyin": "lóng",
+      "meaning": "prosperous, plentiful, abundant",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "阝",
+        "小",
+        "日",
+        "小"
+      ],
+      "result": "隙",
+      "char": "隙",
+      "pinyin": "xì",
+      "meaning": "crack, fissure, split; grudge",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "雨",
+        "口",
+        "口",
+        "口"
+      ],
+      "result": "霝",
+      "char": "霝",
+      "pinyin": "líng",
+      "meaning": "raindrops",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "雨",
+        "革",
+        "月"
+      ],
+      "result": "霸",
+      "char": "霸",
+      "pinyin": "bà",
+      "meaning": "tyrant; to usurp, to rule by might",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "魚",
+        "魚",
+        "魚"
+      ],
+      "result": "鱻",
+      "char": "鱻",
+      "pinyin": "xiān",
+      "meaning": "fresh, delicious; rare, few",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "鱼",
+        "日",
+        "羽"
+      ],
+      "result": "鳎",
+      "char": "鳎",
+      "pinyin": "tǎ",
+      "meaning": "sole",
+      "type": "semantic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "艹",
+        "人",
+        "木"
+      ],
+      "result": "茶",
+      "char": "茶",
+      "pinyin": "chá",
+      "meaning": "tea; tea plant",
+      "type": "phono-semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "车",
+        "又",
+        "工"
+      ],
+      "result": "轻",
+      "char": "轻",
+      "pinyin": "qīng",
+      "meaning": "light; easy",
+      "type": "phono-semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "舟",
+        "几",
+        "口"
+      ],
+      "result": "船",
+      "char": "船",
+      "pinyin": "chuán",
+      "meaning": "variant of 船[chuán]",
+      "type": "phono-semantic",
+      "decomp_category": "both_decomp"
+    },
+    {
+      "radicals": [
+        "聿",
+        "灬",
+        "皿"
+      ],
+      "result": "盡",
+      "char": "盡",
+      "pinyin": "",
+      "meaning": "",
+      "type": "pictographic",
+      "decomp_category": "both_leveled"
+    },
+    {
+      "radicals": [
+        "釒",
+        "几",
+        "口"
+      ],
+      "result": "鉛",
+      "char": "鉛",
+      "pinyin": "",
+      "meaning": "",
+      "type": "phono-semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "钅",
+        "几",
+        "口"
+      ],
+      "result": "铅",
+      "char": "铅",
+      "pinyin": "qiān",
+      "meaning": "old variant of 鉛|铅[qiān]",
+      "type": "phono-semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "上",
+        "小",
+        "又"
+      ],
+      "result": "叔",
+      "char": "叔",
+      "pinyin": "shū",
+      "meaning": "uncle; father's younger brother",
+      "type": "phono-semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "木",
+        "人",
+        "水"
+      ],
+      "result": "桼",
+      "char": "桼",
+      "pinyin": "qī",
+      "meaning": "the varnish tree; varnish, lacquer; paint",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "纟",
+        "纟",
+        "一",
+        "纟",
+        "纟"
+      ],
+      "result": "㡭",
+      "char": "㡭",
+      "pinyin": "jì",
+      "meaning": "to continue; to carry on; to succeed, to inherit",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "又",
+        "又",
+        "又",
+        "又"
+      ],
+      "result": "叕",
+      "char": "叕",
+      "pinyin": "zhuó",
+      "meaning": "to connect",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "口",
+        "口",
+        "几"
+      ],
+      "result": "咒",
+      "char": "咒",
+      "pinyin": "zhòu",
+      "meaning": "to curse; to damn; incantation",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "口",
+        "口",
+        "犬"
+      ],
+      "result": "哭",
+      "char": "哭",
+      "pinyin": "kū",
+      "meaning": "to weep, to cry, to wail",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "户",
+        "攵",
+        "口"
+      ],
+      "result": "啓",
+      "char": "啓",
+      "pinyin": "qǐ",
+      "meaning": "to open; to explain; to begin",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "土",
+        "口",
+        "口",
+        "亡"
+      ],
+      "result": "喪",
+      "char": "喪",
+      "pinyin": "sàng",
+      "meaning": "mourning; mourn; funeral",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "口",
+        "口",
+        "田",
+        "一",
+        "口"
+      ],
+      "result": "嘼",
+      "char": "嘼",
+      "pinyin": "chù",
+      "meaning": "",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "口",
+        "口",
+        "犬",
+        "口",
+        "口"
+      ],
+      "result": "器",
+      "char": "器",
+      "pinyin": "qì",
+      "meaning": "device, instrument, tool; receptacle, vessel",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "口",
+        "口",
+        "页",
+        "口",
+        "口"
+      ],
+      "result": "嚣",
+      "char": "嚣",
+      "pinyin": "xiāo",
+      "meaning": "to make noise; to treat with contempt",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "口",
+        "口",
+        "頁",
+        "口",
+        "口"
+      ],
+      "result": "囂",
+      "char": "囂",
+      "pinyin": "xiāo",
+      "meaning": "to make noise; to treat with contempt",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "土",
+        "八",
+        "土"
+      ],
+      "result": "坴",
+      "char": "坴",
+      "pinyin": "lù",
+      "meaning": "a clod of earth; land",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "方",
+        "方",
+        "土"
+      ],
+      "result": "堃",
+      "char": "堃",
+      "pinyin": "kūn",
+      "meaning": "compliance, obedience; female",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "車",
+        "殳",
+        "土"
+      ],
+      "result": "墼",
+      "char": "墼",
+      "pinyin": "jī",
+      "meaning": "unburnt bricks",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "土",
+        "八",
+        "夂"
+      ],
+      "result": "夌",
+      "char": "夌",
+      "pinyin": "líng",
+      "meaning": "to dawdle; the name of the father of the Emperor Yao",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "贝",
+        "贝",
+        "女"
+      ],
+      "result": "婴",
+      "char": "婴",
+      "pinyin": "yīng",
+      "meaning": "baby, infant; to bother",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "白",
+        "方",
+        "攵"
+      ],
+      "result": "敫",
+      "char": "敫",
+      "pinyin": "jiǎo",
+      "meaning": "ancient musical instrument",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "幺",
+        "幺",
+        "一",
+        "幺",
+        "幺",
+        "斤"
+      ],
+      "result": "斷",
+      "char": "斷",
+      "pinyin": "duàn",
+      "meaning": "to sever, to cut off, to interrupt",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "亡",
+        "月",
+        "王"
+      ],
+      "result": "望",
+      "char": "望",
+      "pinyin": "wàng",
+      "meaning": "to expect, to hope, to look forward to",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "幺",
+        "白",
+        "幺",
+        "木"
+      ],
+      "result": "樂",
+      "char": "樂",
+      "pinyin": "lè",
+      "meaning": "cheerful, happy, laughing; music",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "毛",
+        "毛",
+        "毛"
+      ],
+      "result": "毳",
+      "char": "毳",
+      "pinyin": "cuì",
+      "meaning": "fine hair or fur on animals",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "火",
+        "言",
+        "火",
+        "又"
+      ],
+      "result": "燮",
+      "char": "燮",
+      "pinyin": "xiè",
+      "meaning": "to harmonize, to blend; to adjust",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "林",
+        "大",
+        "火"
+      ],
+      "result": "爨",
+      "char": "爨",
+      "pinyin": "cuàn",
+      "meaning": "oven, stove; to cook",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "田",
+        "八",
+        "夂"
+      ],
+      "result": "畟",
+      "char": "畟",
+      "pinyin": "cè",
+      "meaning": "to plow",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "一",
+        "田",
+        "一",
+        "田",
+        "一"
+      ],
+      "result": "畺",
+      "char": "畺",
+      "pinyin": "jiāng",
+      "meaning": "boundary, border",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "氵",
+        "欠",
+        "皿"
+      ],
+      "result": "盜",
+      "char": "盜",
+      "pinyin": "dào",
+      "meaning": "to rob, to steal; thief, bandit",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "目",
+        "目",
+        "隹"
+      ],
+      "result": "瞿",
+      "char": "瞿",
+      "pinyin": "jù",
+      "meaning": "startled; surname",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "刂",
+        "又",
+        "立"
+      ],
+      "result": "竖",
+      "char": "竖",
+      "pinyin": "shù",
+      "meaning": "perpendicular, vertical; to erect",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "户",
+        "攵",
+        "糸"
+      ],
+      "result": "綮",
+      "char": "綮",
+      "pinyin": "qǐ",
+      "meaning": "embroidered banner",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "耳",
+        "口",
+        "王"
+      ],
+      "result": "聖",
+      "char": "聖",
+      "pinyin": "shèng",
+      "meaning": "holy, sacred; sage, saint",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "户",
+        "攵",
+        "聿"
+      ],
+      "result": "肇",
+      "char": "肇",
+      "pinyin": "zhào",
+      "meaning": "to begin, to start; to originate",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "中",
+        "一",
+        "貝"
+      ],
+      "result": "貴",
+      "char": "貴",
+      "pinyin": "guì",
+      "meaning": "expensive, costly; valuable, precious",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "中",
+        "一",
+        "贝"
+      ],
+      "result": "贵",
+      "char": "贵",
+      "pinyin": "guì",
+      "meaning": "expensive, costly; valuable, precious",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "糹",
+        "車",
+        "糹",
+        "口"
+      ],
+      "result": "轡",
+      "char": "轡",
+      "pinyin": "pèi",
+      "meaning": "bridle, reins",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "纟",
+        "车",
+        "纟",
+        "口"
+      ],
+      "result": "辔",
+      "char": "辔",
+      "pinyin": "pèi",
+      "meaning": "bridle, reins",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "口",
+        "口",
+        "马"
+      ],
+      "result": "骂",
+      "char": "骂",
+      "pinyin": "mà",
+      "meaning": "to accuse, to blame, to curse, to scold",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "尸",
+        "巾",
+        "刂"
+      ],
+      "result": "刷",
+      "char": "刷",
+      "pinyin": "shuā",
+      "meaning": "brush; to clean, to scrub",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "厂",
+        "日",
+        "子"
+      ],
+      "result": "厚",
+      "char": "厚",
+      "pinyin": "hòu",
+      "meaning": "generous; substantial; deep (as a friendship)",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "厂",
+        "一",
+        "巴"
+      ],
+      "result": "巵",
+      "char": "巵",
+      "pinyin": "zhī",
+      "meaning": "measuring cup; wine flask",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "十",
+        "隹",
+        "戈"
+      ],
+      "result": "截",
+      "char": "截",
+      "pinyin": "jié",
+      "meaning": "to cut off, to obstruct, to stop; segment; intersection",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "尸",
+        "共",
+        "殳"
+      ],
+      "result": "殿",
+      "char": "殿",
+      "pinyin": "diàn",
+      "meaning": "hall; palace; temple",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "十",
+        "戈",
+        "衣"
+      ],
+      "result": "裁",
+      "char": "裁",
+      "pinyin": "cái",
+      "meaning": "to trim, to reduce, to cut; judgment",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    },
+    {
+      "radicals": [
+        "尸",
+        "口",
+        "辛"
+      ],
+      "result": "辟",
+      "char": "辟",
+      "pinyin": "pì",
+      "meaning": "law, rule; to open up, to develop",
+      "type": "semantic",
+      "decomp_category": "mixed"
+    }
+  ]
+}

@@ -20,11 +20,12 @@
 | `new-learner.html` | New profile creation | ✅ Migrated |
 | `study.html` | Flashcard study + quiz mode | ✅ Migrated |
 | `write.html` | Character writing practice (HanziWriter) | ✅ Migrated |
-| `arena.html` | Games hub + Hall of Fame | ✅ Migrated |
-| `progress.html` | Progress dashboard + settings | ✅ Migrated |
+| `arena.html` | Games hub + Hall of Fame + lab gating | ✅ Migrated |
+| `progress.html` | Progress dashboard + settings + radical collection | ✅ Migrated |
 | `print.html` | Printable worksheets | ✅ Migrated |
 | `games/` (React sub-app) | Sushi drop + matching games | ✅ Migrated |
 | ~~`signup.html`~~ | ~~Legacy sign-up page~~ | ❌ Deleted |
+| `laboratory-playground.html` | 🧪 NEW — Lab mixing + decomposition game | 🔄 Planned (Phase 3) |
 
 ## User Workflows
 1. **Index** → **New Learner** — Create/select/manage profiles (guest or named)
@@ -72,6 +73,24 @@ As of Session 65, `dashboard.html` is piloting a **pastel toy aesthetic** diverg
 - **No more `overflow: hidden`** on cards — aura glow can extend naturally
 
 **Status:** ✅ Session 67 polish complete — responsive layout overhauled for iPhone, quest board with 9-slice SVG borders, mastery percentage fixed, daily quest reward system added. Dead CSS cleaned up. Desktop ribbon uses absolute positioning (`top: -60px`) — known fragile magic number.
+
+## Design Evolution: Laboratory as Alchemist's Toolkit
+
+The laboratory page (laboratory-playground.html) is evolving from a functional UI toward a **game-ified Alchemist's Toolkit**. Key principles:
+
+### Before: Inventory as Spreadsheet
+- Categorized shelf rows with tab-like chips
+- Functional but joyless — looked like an office app
+- No tactile feedback or sense of physical items
+
+### After: Inventory as Alchemist's Bag of Runes
+- **Parchment Cards**: Each radical is a floating card with texture, drop shadow, and paper-like feel
+- **Elemental Orb Filters**: Visual badges (leaf for Nature, heart for Body, hammer for Civilization) instead of text headers
+- **Work Trays**: Wings reframed as side tables/work trays with active glow states
+- **Environmental Decor**: Faint alchemy equipment line art behind the UI for atmosphere
+- **Tactile Feedback**: Pop animations on discovery, hover lift, squish on click
+
+The goal is to make 200+ radicals feel like a vast impressive collection rather than a long list.
 
 ## Known Inconsistencies (Noted)
 - **Font weight loading varies by page:**

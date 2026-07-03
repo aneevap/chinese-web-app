@@ -4,6 +4,7 @@ import type { DisplayLanguage, VocabItem, HallOfFameEntry } from '../../core/typ
 import { getActiveProfile, awardGameCoin } from '../../profile/profileBridge';
 import type { CourseMeta } from '../../data/vocab';
 import { saveSessionResult, getGameLeaderboard } from '../../core/systems/hallOfFame';
+import { speakChinese } from '../../core/systems/audio';
 
 const ROUND_SECONDS = 45;
 const POINTS_PER_MATCH = 10;
@@ -61,6 +62,7 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
   const [totalMatched, setTotalMatched] = useState(0);
   const [newSetFlash, setNewSetFlash] = useState(false);
   const [flashEffect, setFlashEffect] = useState(false);
+  const [etymologyImage, setEtymologyImage] = useState<string | null>(null);
   const [timePopup, setTimePopup] = useState<{ text: string; key: number } | null>(null);
   const [matchStage, setMatchStage] = useState(1);
   const [victory, setVictory] = useState(false);
@@ -303,6 +305,13 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
     const timer = setTimeout(() => setComboPopup(null), 1200);
     return () => clearTimeout(timer);
   }, [comboPopup]);
+
+  // ✅ Etymology image popup cleanup
+  useEffect(() => {
+    if (!etymologyImage) return;
+    const timer = setTimeout(() => setEtymologyImage(null), 1200);
+    return () => clearTimeout(timer);
+  }, [etymologyImage]);
 
   // ✅ Flash effect cleanup
   useEffect(() => {
@@ -597,6 +606,12 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
             playComboSound();
           }
 
+          // 🗣️ Speak the matched character's Chinese pronunciation
+          speakChinese(first.type === 'char' ? first.content : second.content);
+
+          // 🖼️ Show character illustration from assets/characters/
+          setEtymologyImage('assets/characters/' + first.wordId + '.png');
+
           // ⚡ Lightning reward every 5 combos (5, 10, 15…) + time bonus
           if (isCombo && comboValue >= 5 && comboValue % 5 === 0) {
             setFlashEffect(true);
@@ -688,6 +703,7 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
     setMatchStage(1);
     setNewSetFlash(false);
     setFlashEffect(false);
+    setEtymologyImage(null);
     setTimePopup(null);
     setVictory(false);
     setStageTransition(null);
@@ -708,11 +724,7 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
         <div className="overlay">
           <button
             className="back-button"
-            onClick={() => {
-              const root = document.getElementById('arena-game-root');
-              if (root) root.classList.remove('visible');
-              window.location.href = 'arena.html';
-            }}
+            onClick={() => window.closeGame?.()}
           >
             ← Back to Arena
           </button>
@@ -860,6 +872,12 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
             </button>
           );
         })}
+        {/* Placeholder tiles to fill empty cells for a symmetrical layout */}
+        {gameStarted && !ended && Array.from({ length: gridConfig.cols * gridConfig.rows - tiles.length }).map((_, i) => (
+          <div key={'ph-' + i} className="matching-tile-placeholder">
+            <span className="placeholder-emoji">🐼</span>
+          </div>
+        ))}
       </div>
 
       {/* ⏱️ Time popup — centered on screen, big animation */}
@@ -907,6 +925,13 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
           style={{ left: comboPopup.x, top: comboPopup.y }}
         >
           🔥 {comboPopup.combo}x Combo!
+        </div>
+      )}
+
+      {/* 🖼️ Etymology image popup — shows ancient script image on correct match */}
+      {etymologyImage && (
+        <div className="etymology-image-popup">
+          <img src={etymologyImage} alt="" className="etymology-image-inner" aria-hidden="true" onError={() => setEtymologyImage(null)} />
         </div>
       )}
 
@@ -967,11 +992,7 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
               </button>
               <button
                 className="exit-button"
-                onClick={() => {
-                  const root = document.getElementById('arena-game-root');
-                  if (root) root.classList.remove('visible');
-                  window.location.href = 'arena.html';
-                }}
+            onClick={() => window.closeGame?.()}
               >
                 Exit
               </button>
@@ -1020,11 +1041,7 @@ export function MatchingMode({ words, courseThemes, language, onGameActiveChange
               </button>
               <button
                 className="exit-button"
-                onClick={() => {
-                  const root = document.getElementById('arena-game-root');
-                  if (root) root.classList.remove('visible');
-                  window.location.href = 'arena.html';
-                }}
+            onClick={() => window.closeGame?.()}
               >
                 Exit
               </button>

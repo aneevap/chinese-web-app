@@ -128,6 +128,7 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
   const [showCorrectEffect, setShowCorrectEffect] = useState(false);
   const [correctCustomerId, setCorrectCustomerId] = useState<string | null>(null);
   const [shakeEffect, setShakeEffect] = useState(false);
+  const [etymologyImage, setEtymologyImage] = useState<string | null>(null);
   const [scorePopup, setScorePopup] = useState<{ value: number; x: number; y: number } | null>(null);
   // 😊 Customer reactions — heart for correct, sad for wrong
   const [reactions, setReactions] = useState<Record<string, { emoji: string; key: number }>>({});
@@ -666,6 +667,13 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
     return () => clearTimeout(timer);
   }, [reactions]);
 
+  // ✅ Etymology image popup cleanup
+  useEffect(() => {
+    if (!etymologyImage) return;
+    const timer = setTimeout(() => setEtymologyImage(null), 1200);
+    return () => clearTimeout(timer);
+  }, [etymologyImage]);
+
   // ✅ Score popup cleanup
   useEffect(() => {
     if (!scorePopup) return;
@@ -691,6 +699,8 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
     if (correct) {
       dispatch({ type: 'CORRECT', attempts, gameId: 'sushi' });
       speakChinese(customer.target.hanzi);
+      // 🖼️ Show character illustration from assets/characters/
+      setEtymologyImage('assets/characters/' + customer.target.id + '.png');
       setResolvedCount((count) => count + 1);
       
       // 🎊 Show success effects
@@ -773,6 +783,7 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
     setShowCorrectEffect(false);
     setCorrectCustomerId(null);
     setShakeEffect(false);
+    setEtymologyImage(null);
     setScorePopup(null);
     setShowStartScreen(true);
     setCountdown(3);
@@ -885,16 +896,19 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
         </div>
       )}
 
+      {/* 🖼️ Character illustration popup — shows on correct order */}
+      {etymologyImage && (
+        <div className="etymology-image-popup etymology-image-popup--tr">
+          <img src={etymologyImage} alt="" className="etymology-image-inner" aria-hidden="true" onError={() => setEtymologyImage(null)} />
+        </div>
+      )}
+
       {/* Start Screen Overlay */}
       {showStartScreen && (
         <div className="overlay">
           <button
             className="back-button"
-            onClick={() => {
-              const root = document.getElementById('arena-game-root');
-              if (root) root.classList.remove('visible');
-              window.location.href = 'arena.html';
-            }}
+            onClick={() => window.closeGame?.()}
           >
             ← Back to Arena
           </button>
@@ -1196,13 +1210,7 @@ export function SushiMode({ words, courseThemes, onGameActiveChange }: Props) {
               <button className="play-again-button" onClick={handlePlayAgain}>
                 Play Again
               </button>
-              <button className="exit-button" onClick={() => {
-                // Hide the game container if on arena page
-                const root = document.getElementById('arena-game-root');
-                if (root) root.classList.remove('visible');
-                // Navigate back to Arena page
-                window.location.href = 'arena.html';
-              }}>
+              <button className="exit-button" onClick={() => window.closeGame?.()}>
                 Exit
               </button>
             </div>

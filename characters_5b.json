@@ -1,0 +1,3209 @@
+{
+  "course": "5B",
+  "words": [
+    {
+      "word_id": "5B_001",
+      "ch": "扳",
+      "py": "bān",
+      "en": "Pull",
+      "th": "ดึง",
+      "zh": "他扳动了开关。",
+      "sent_en": "He pulled the switch.",
+      "sent_th": "เขาดึงสวิตช์",
+      "theme": "actions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_002",
+      "ch": "搀",
+      "py": "chān",
+      "en": "To support (by the arm)",
+      "th": "ประคอง",
+      "zh": "我搀着奶奶过马路。",
+      "sent_en": "I support Grandma across the street.",
+      "sent_th": "ฉันประคองคุณยายข้ามถนน",
+      "theme": "actions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_003",
+      "ch": "瞪",
+      "py": "dèng",
+      "en": "Stare",
+      "th": "จ้องมอง",
+      "zh": "他瞪着眼睛看。",
+      "sent_en": "He stared with wide eyes.",
+      "sent_th": "เขาจ้องมองด้วยตาโต",
+      "theme": "actions",
+      "etymology": {
+        "notes": "Phonosemantic compound. 目 represents the meaning and 登 represents the sound. ",
+        "definition": "to stare at",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "目"
+          },
+          {
+            "type": "sound",
+            "char": "登"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_004",
+      "ch": "赋",
+      "py": "fù",
+      "en": "Bestow",
+      "th": "มอบ",
+      "zh": "国王赋给他一个重要的任务。",
+      "sent_en": "The king bestowed an important task upon him.",
+      "sent_th": "พระราชามอบหมายภารกิจสำคัญให้เขา",
+      "theme": "actions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_005",
+      "ch": "抚",
+      "py": "fǔ",
+      "en": "Stroke/Caress",
+      "th": "ลูบไล้",
+      "zh": "妈妈轻轻地抚摸着我的头发。",
+      "sent_en": "Mom gently strokes my hair.",
+      "sent_th": "แม่ลูบผมของฉันเบาๆ",
+      "theme": "actions",
+      "etymology": {
+        "notes": "Phonosemantic compound. 扌 represents the meaning and 无 represents the sound. Simplified form of 撫. ",
+        "definition": "to pat, to console; to stroke, to caress",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "扌"
+          },
+          {
+            "type": "sound",
+            "char": "无"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_006",
+      "ch": "谎",
+      "py": "huǎng",
+      "en": "Lie",
+      "th": "โกหก",
+      "zh": "不要说谎。",
+      "sent_en": "Don't tell a lie.",
+      "sent_th": "อย่าโกหก",
+      "theme": "actions",
+      "etymology": {
+        "notes": "Phonosemantic compound. 讠 represents the meaning and 荒 represents the sound. Simplified form of 謊. ",
+        "definition": "to lie",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "讠"
+          },
+          {
+            "type": "sound",
+            "char": "荒"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_007",
+      "ch": "揪",
+      "py": "jiū",
+      "en": "Pull",
+      "th": "ดึง",
+      "zh": "他揪着我的衣服不放。",
+      "sent_en": "He wouldn't let go of my clothes.",
+      "sent_th": "เขาไม่ยอมปล่อยเสื้อผ้าของฉัน",
+      "theme": "actions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_008",
+      "ch": "绞",
+      "py": "jiǎo",
+      "en": "Twist",
+      "th": "บิด",
+      "zh": "她把毛巾绞干了。",
+      "sent_en": "She twisted the towel dry.",
+      "sent_th": "เธอบิดผ้าเช็ดตัวให้แห้ง",
+      "theme": "actions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_009",
+      "ch": "拒",
+      "py": "jù",
+      "en": "Refuse",
+      "th": "ปฏิเสธ",
+      "zh": "他拒绝了我的邀请。",
+      "sent_en": "He refused my invitation.",
+      "sent_th": "เขาปฏิเสธคำเชิญของฉัน",
+      "theme": "actions",
+      "etymology": {
+        "notes": "Phonosemantic compound. 扌 represents the meaning and 巨 represents the sound. ",
+        "definition": "to defend, to ward off; to refuse",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "扌"
+          },
+          {
+            "type": "sound",
+            "char": "巨"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_010",
+      "ch": "拘",
+      "py": "jū",
+      "en": "Restrain",
+      "th": "จำกัด",
+      "zh": "警察拘捕了小偷。",
+      "sent_en": "The police arrested the thief.",
+      "sent_th": "ตำรวจจับขโมย",
+      "theme": "actions",
+      "etymology": {
+        "notes": "Phonosemantic compound. 扌 represents the meaning and 句 represents the sound. ",
+        "definition": "to detain, to restrain, to seize",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "扌"
+          },
+          {
+            "type": "sound",
+            "char": "句"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_011",
+      "ch": "挎",
+      "py": "kuà",
+      "en": "Carry (over arm/shoulder)",
+      "th": "สะพาย",
+      "zh": "她挎着一个篮子。",
+      "sent_en": "She is carrying a basket.",
+      "sent_th": "เธอกำลังสะพายตะกร้า",
+      "theme": "actions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_012",
+      "ch": "敛",
+      "py": "liǎn",
+      "en": "To restrain",
+      "th": "เก็บ",
+      "zh": "他努力敛住怒气。",
+      "sent_en": "He tried hard to restrain his anger.",
+      "sent_th": "เขาพยายามเก็บความโกรธไว้",
+      "theme": "actions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_013",
+      "ch": "勒",
+      "py": "lè",
+      "en": "to rein in",
+      "th": "ดึงรั้ง",
+      "zh": "他勒住了马。",
+      "sent_en": "He reined in the horse.",
+      "sent_th": "เขาดึงบังเหียนให้ม้าหยุด",
+      "theme": "actions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_014",
+      "ch": "擂",
+      "py": "lèi",
+      "en": "To beat",
+      "th": "ตี",
+      "zh": "他用力擂鼓。",
+      "sent_en": "He beat the drum forcefully.",
+      "sent_th": "เขาตีกลองอย่างแรง",
+      "theme": "actions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_015",
+      "ch": "呻",
+      "py": "shēn",
+      "en": "Groan",
+      "th": "คร่ำครวญ",
+      "zh": "他呻吟了一声。",
+      "sent_en": "He groaned.",
+      "sent_th": "เขาคร่ำครวญออกมา",
+      "theme": "actions",
+      "etymology": {
+        "notes": "Phonosemantic compound. 口 represents the meaning and 申 represents the sound. ",
+        "definition": "to moan, to groan; to chant",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "口"
+          },
+          {
+            "type": "sound",
+            "char": "申"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_016",
+      "ch": "擞",
+      "py": "sòu",
+      "en": "Shake",
+      "th": "เขย่า",
+      "zh": "小狗擞了擞身上的水。",
+      "sent_en": "The puppy shook the water off its body.",
+      "sent_th": "ลูกสุนัขเขย่าตัวเพื่อสะบัดน้ำออก",
+      "theme": "actions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_017",
+      "ch": "侮",
+      "py": "wǔ",
+      "en": "Insult",
+      "th": "ดูถูก",
+      "zh": "不要侮辱别人。",
+      "sent_en": "Don't insult others.",
+      "sent_th": "อย่าดูถูกคนอื่น",
+      "theme": "actions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_018",
+      "ch": "卸",
+      "py": "xiè",
+      "en": "Unload",
+      "th": "ถอด",
+      "zh": "工人正在卸货。",
+      "sent_en": "The workers are unloading the goods.",
+      "sent_th": "คนงานกำลังถอดสินค้า",
+      "theme": "actions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_019",
+      "ch": "援",
+      "py": "yuán",
+      "en": "Aid/Assist",
+      "th": "ช่วยเหลือ",
+      "zh": "他来援助我。",
+      "sent_en": "He came to aid me.",
+      "sent_th": "เขามาช่วยเหลือฉัน",
+      "theme": "actions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_020",
+      "ch": "役",
+      "py": "yì",
+      "en": "Service",
+      "th": "การรับใช้",
+      "zh": "他在军队服役。",
+      "sent_en": "He serves in the military.",
+      "sent_th": "เขารับราชการทหาร",
+      "theme": "actions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_021",
+      "ch": "绽",
+      "py": "zhàn",
+      "en": "To burst/bloom",
+      "th": "ผลิ",
+      "zh": "花儿绽开了。",
+      "sent_en": "The flower bloomed.",
+      "sent_th": "ดอกไม้ผลิบาน",
+      "theme": "actions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_022",
+      "ch": "召",
+      "py": "zhào",
+      "en": "To summon",
+      "th": "เรียก",
+      "zh": "老师召学生来教室。",
+      "sent_en": "The teacher summons the students to the classroom.",
+      "sent_th": "ครูเรียกนักเรียนมาเข้าห้องเรียน",
+      "theme": "actions",
+      "etymology": {
+        "notes": "Phonosemantic compound. 口 represents the meaning and 刀 represents the sound. ",
+        "definition": "call together; summon; convene",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "口"
+          },
+          {
+            "type": "sound",
+            "char": "刀"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_023",
+      "ch": "豹",
+      "py": "bào",
+      "en": "Leopard",
+      "th": "เสือดาว",
+      "zh": "豹子跑得很快。",
+      "sent_en": "Leopards run very fast.",
+      "sent_th": "เสือดาววิ่งเร็วมาก",
+      "theme": "animals",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_024",
+      "ch": "鲁",
+      "py": "lǔ",
+      "en": "Shandong (or crass)",
+      "th": "หยาบ",
+      "zh": "山东的简称是鲁。",
+      "sent_en": "Shandong's abbreviation is Lu.",
+      "sent_th": "ชื่อย่อของมณฑลซานตงคือหลู่",
+      "theme": "animals",
+      "etymology": {
+        "notes": "Simplified form of 魯.  Phonosemantic compound. 甘 represents the meaning and 魚 represents the sound. Based on the original meaning \"tasty\". The current meaning is a phonetic loan.",
+        "definition": "Lu; Shandong province",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "甘"
+          },
+          {
+            "type": "sound",
+            "char": "鱼"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_025",
+      "ch": "牧",
+      "py": "mù",
+      "en": "Herding",
+      "th": "เลี้ยงสัตว์",
+      "zh": "牧民在草原上放牧。",
+      "sent_en": "The herder is grazing livestock on the grassland.",
+      "sent_th": "ชาวเลี้ยงสัตว์กำลังต้อนปศุสัตว์บนทุ่งหญ้า",
+      "theme": "animals",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_026",
+      "ch": "狞",
+      "py": "níng",
+      "en": "Ferocious",
+      "th": "ดุร้าย",
+      "zh": "那只狼看起来很狞恶。",
+      "sent_en": "That wolf looks very ferocious.",
+      "sent_th": "หมาป่าตัวนั้นดูดุร้ายมาก",
+      "theme": "animals",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_027",
+      "ch": "咆",
+      "py": "páo",
+      "en": "Roar",
+      "th": "คำราม",
+      "zh": "老虎在森林里咆哮。",
+      "sent_en": "The tiger roars in the forest.",
+      "sent_th": "เสือคำรามในป่า",
+      "theme": "animals",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_028",
+      "ch": "禽",
+      "py": "qín",
+      "en": "Bird",
+      "th": "นก",
+      "zh": "那只禽在树上。",
+      "sent_en": "That bird is in the tree.",
+      "sent_th": "นกตัวนั้นอยู่บนต้นไม้",
+      "theme": "animals",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_029",
+      "ch": "骚",
+      "py": "sāo",
+      "en": "Smelly",
+      "th": "เหม็น",
+      "zh": "这只羊很骚。",
+      "sent_en": "This goat is very smelly.",
+      "sent_th": "แพะตัวนี้เหม็นมาก",
+      "theme": "animals",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_030",
+      "ch": "蹄",
+      "py": "tí",
+      "en": "Hoof",
+      "th": "กีบ",
+      "zh": "马的蹄子很大。",
+      "sent_en": "The horse's hooves are big.",
+      "sent_th": "กีบม้ามีขนาดใหญ่",
+      "theme": "animals",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_031",
+      "ch": "哮",
+      "py": "xiào",
+      "en": "Bark",
+      "th": "เห่า",
+      "zh": "狗在门外哮叫。",
+      "sent_en": "The dog is barking outside the door.",
+      "sent_th": "หมาเห่าอยู่นอกประตู",
+      "theme": "animals",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_032",
+      "ch": "梁",
+      "py": "liáng",
+      "en": "Beam/Ridge",
+      "th": "คาน",
+      "zh": "房子的梁很坚固。",
+      "sent_en": "The beam of the house is very sturdy.",
+      "sent_th": "คานของบ้านแข็งแรงมาก",
+      "theme": "architecture",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_033",
+      "ch": "渲",
+      "py": "xuàn",
+      "en": "to wash (in painting)",
+      "th": "ล้างสี",
+      "zh": "他在画布上渲染颜色。",
+      "sent_en": "He is washing colors on the canvas.",
+      "sent_th": "เขากำลังล้างสีบนผ้าใบ",
+      "theme": "art",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_034",
+      "ch": "臂",
+      "py": "bì",
+      "en": "Arm",
+      "th": "แขน",
+      "zh": "我的手臂很疼。",
+      "sent_en": "My arm hurts.",
+      "sent_th": "แขนของฉันเจ็บมาก",
+      "theme": "body",
+      "etymology": {
+        "notes": "Phonosemantic compound. ⺼ represents the meaning and 辟 represents the sound. ",
+        "definition": "arm",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "⺼"
+          },
+          {
+            "type": "sound",
+            "char": "辟"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_035",
+      "ch": "脊",
+      "py": "jǐ",
+      "en": "Spine",
+      "th": "กระดูกสันหลัง",
+      "zh": "我的脊背有点疼。",
+      "sent_en": "My back (spine) is a bit sore.",
+      "sent_th": "หลังของฉันปวดนิดหน่อย",
+      "theme": "body",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_036",
+      "ch": "胚",
+      "py": "pēi",
+      "en": "Embryo",
+      "th": "ตัวอ่อน",
+      "zh": "胚胎在母体中发育。",
+      "sent_en": "The embryo develops in the mother's body.",
+      "sent_th": "ตัวอ่อนพัฒนาขึ้นในร่างกายของแม่",
+      "theme": "body",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_037",
+      "ch": "膛",
+      "py": "táng",
+      "en": "chest cavity",
+      "th": "ช่องอก",
+      "zh": "子弹穿过他的胸膛。",
+      "sent_en": "The bullet went through his chest cavity.",
+      "sent_th": "กระสุนทะลุผ่านช่องอกของเขา",
+      "theme": "body",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_038",
+      "ch": "硝",
+      "py": "xiāo",
+      "en": "Nitrate",
+      "th": "ไนเตรต",
+      "zh": "硝石是一种矿物。",
+      "sent_en": "Niter is a type of mineral.",
+      "sent_th": "ไนเตอร์เป็นแร่ชนิดหนึ่ง",
+      "theme": "chemicals",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_039",
+      "ch": "襟",
+      "py": "jīn",
+      "en": "Front of a garment",
+      "th": "ปกเสื้อ",
+      "zh": "他的衬衫襟口很干净。",
+      "sent_en": "The front of his shirt is very clean.",
+      "sent_th": "ปกเสื้อของเขาเรียบร้อยมาก",
+      "theme": "clothing",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_040",
+      "ch": "袍",
+      "py": "páo",
+      "en": "Robe",
+      "th": "เสื้อคลุม",
+      "zh": "他穿了一件长袍。",
+      "sent_en": "He is wearing a long robe.",
+      "sent_th": "เขาสวมเสื้อคลุมยาว",
+      "theme": "clothing",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_041",
+      "ch": "袄",
+      "py": "ǎo",
+      "en": "Jacket",
+      "th": "เสื้อกันหนาว",
+      "zh": "冬天穿棉袄很暖和。",
+      "sent_en": "Wearing a padded jacket in winter is very warm.",
+      "sent_th": "ในฤดูหนาวใส่เสื้อกันหนาวจะทำให้อบอุ่นมาก",
+      "theme": "clothing",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_042",
+      "ch": "偏",
+      "py": "piān",
+      "en": "Partial",
+      "th": "ส่วน",
+      "zh": "我偏要往左边走。",
+      "sent_en": "I insist on going left.",
+      "sent_th": "ฉันยืนยันที่จะเดินไปทางซ้าย",
+      "theme": "directions",
+      "etymology": {
+        "notes": "Phonosemantic compound. 亻 represents the meaning and 扁 represents the sound. ",
+        "definition": "slanting, inclined; prejudiced",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "亻"
+          },
+          {
+            "type": "sound",
+            "char": "扁"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_043",
+      "ch": "妒",
+      "py": "dù",
+      "en": "Jealousy",
+      "th": "อิจฉา",
+      "zh": "她妒忌别人的成功。",
+      "sent_en": "She is jealous of others' success.",
+      "sent_th": "เธออิจฉาความสำเร็จของคนอื่น",
+      "theme": "emotions",
+      "etymology": {
+        "notes": "Phonosemantic compound. 女 represents the meaning and 户 represents the sound. Simplified form of 妬. ",
+        "definition": "jealous, envious",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "女"
+          },
+          {
+            "type": "sound",
+            "char": "户"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_044",
+      "ch": "疯",
+      "py": "fēng",
+      "en": "Crazy",
+      "th": "บ้า",
+      "zh": "这只小狗玩疯了。",
+      "sent_en": "This puppy is playing like crazy.",
+      "sent_th": "ลูกหมาตัวนี้เล่นบ้าคลั่งมาก",
+      "theme": "emotions",
+      "etymology": {
+        "notes": "Phonosemantic compound. 疒 represents the meaning and 风 represents the sound. Simplified form of 瘋. ",
+        "definition": "crazy, insane, mentally ill",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "疒"
+          },
+          {
+            "type": "sound",
+            "char": "风"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_045",
+      "ch": "患",
+      "py": "huàn",
+      "en": "Suffer",
+      "th": "ป่วย",
+      "zh": "他患了感冒。",
+      "sent_en": "He has a cold.",
+      "sent_th": "เขาเป็นหวัด",
+      "theme": "emotions",
+      "etymology": {
+        "notes": "Phonosemantic compound. 心 represents the meaning and 串 represents the sound. ",
+        "definition": "suffering; misfortune; trouble; to suffer",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "心"
+          },
+          {
+            "type": "sound",
+            "char": "串"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_046",
+      "ch": "忌",
+      "py": "jì",
+      "en": "Jealousy",
+      "th": "อิจฉา",
+      "zh": "他忌妒别人的成功。",
+      "sent_en": "He is jealous of others' success.",
+      "sent_th": "เขาอิจฉาความสำเร็จของคนอื่น",
+      "theme": "emotions",
+      "etymology": {
+        "notes": "Phonosemantic compound. 心 represents the meaning and 己 represents the sound. ",
+        "definition": "jealous, envious; to fear; to shun",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "心"
+          },
+          {
+            "type": "sound",
+            "char": "己"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_047",
+      "ch": "愧",
+      "py": "kuì",
+      "en": "Ashamed",
+      "th": "ละอายใจ",
+      "zh": "他感到非常愧疚。",
+      "sent_en": "He feels very ashamed.",
+      "sent_th": "เขารู้สึกละอายใจมาก",
+      "theme": "emotions",
+      "etymology": {
+        "notes": "Phonosemantic compound. 忄 represents the meaning and 鬼 represents the sound. Simplified form of 媿. ",
+        "definition": "ashamed, regretful; the pangs of conscience",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "忄"
+          },
+          {
+            "type": "sound",
+            "char": "鬼"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_048",
+      "ch": "亏",
+      "py": "kuī",
+      "en": "Loss",
+      "th": "ขาดทุน",
+      "zh": "他做生意亏了钱。",
+      "sent_en": "He lost money in business.",
+      "sent_th": "เขาขาดทุนจากการทำธุรกิจ",
+      "theme": "emotions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_049",
+      "ch": "怜",
+      "py": "lián",
+      "en": "Pity",
+      "th": "สงสาร",
+      "zh": "他很可怜那只小狗。",
+      "sent_en": "He feels pity for that little dog.",
+      "sent_th": "เขารู้สึกสงสารลูกสุนัขตัวนั้น",
+      "theme": "emotions",
+      "etymology": {
+        "notes": "Phonosemantic compound. 忄 represents the meaning and 令 represents the sound. Simplified form of 憐. ",
+        "definition": "to pity, to sympathize with",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "忄"
+          },
+          {
+            "type": "sound",
+            "char": "令"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_050",
+      "ch": "媚",
+      "py": "mèi",
+      "en": "Flatter",
+      "th": "ประจบ",
+      "zh": "她笑得很妩媚。",
+      "sent_en": "She smiled very charmingly.",
+      "sent_th": "เธอยิ้มอย่างมีเสน่ห์",
+      "theme": "emotions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_051",
+      "ch": "寞",
+      "py": "mò",
+      "en": "Loneliness",
+      "th": "ความเหงา",
+      "zh": "他感到寂寞。",
+      "sent_en": "He feels lonely.",
+      "sent_th": "เขารู้สึกเหงา",
+      "theme": "emotions",
+      "etymology": {
+        "notes": "Phonosemantic compound. 宀 represents the meaning and 莫 represents the sound. ",
+        "definition": "silent, still; lonely, solitary",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "宀"
+          },
+          {
+            "type": "sound",
+            "char": "莫"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_052",
+      "ch": "颇",
+      "py": "pō",
+      "en": "Quite",
+      "th": "ค่อนข้าง",
+      "zh": "他今天颇高兴。",
+      "sent_en": "He is quite happy today.",
+      "sent_th": "วันนี้เขาค่อนข้างมีความสุข",
+      "theme": "emotions",
+      "etymology": {
+        "notes": "Phonosemantic compound. 页 represents the meaning and 皮 represents the sound. Simplified form of 頗. ",
+        "definition": "rather, quite; partial, biased",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "页"
+          },
+          {
+            "type": "sound",
+            "char": "皮"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_053",
+      "ch": "怯",
+      "py": "qiè",
+      "en": "Timid",
+      "th": "ขี้ขลาด",
+      "zh": "他怯生生地回答问题。",
+      "sent_en": "He answered the question timidly.",
+      "sent_th": "เขาตอบคำถามอย่างขี้ขลาด",
+      "theme": "emotions",
+      "etymology": {
+        "notes": "Phonosemantic compound. 忄 represents the meaning and 去 represents the sound. ",
+        "definition": "afraid, lacking in courage",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "忄"
+          },
+          {
+            "type": "sound",
+            "char": "去"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_054",
+      "ch": "岂",
+      "py": "qǐ",
+      "en": "how (rhetorical)",
+      "th": "อย่างไร",
+      "zh": "你岂能这样做？",
+      "sent_en": "How could you do this?",
+      "sent_th": "คุณจะทำอย่างนี้ได้อย่างไร?",
+      "theme": "emotions",
+      "etymology": {
+        "notes": "Simplified form of 豈. Origin unclear. The simplified component 己 represents the sound.",
+        "definition": "how",
+        "components": [
+          {
+            "type": "unknown",
+            "char": "山"
+          },
+          {
+            "type": "sound",
+            "char": "己"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_055",
+      "ch": "辱",
+      "py": "rǔ",
+      "en": "humiliate",
+      "th": "ทำให้อับอาย",
+      "zh": "他不应该辱骂别人。",
+      "sent_en": "He should not insult others.",
+      "sent_th": "เขาไม่ควรพูดเหยียดหยามผู้อื่น",
+      "theme": "emotions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_056",
+      "ch": "涩",
+      "py": "sè",
+      "en": "Astringent",
+      "th": "ฝาด",
+      "zh": "这个柿子很涩。",
+      "sent_en": "This persimmon is very astringent.",
+      "sent_th": "ลูกพลับลูกนี้ฝาดมาก",
+      "theme": "emotions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_057",
+      "ch": "羞",
+      "py": "xiū",
+      "en": "Shy",
+      "th": "อาย",
+      "zh": "他害羞地笑了。",
+      "sent_en": "He smiled shyly.",
+      "sent_th": "เขายิ้มอย่างอาย",
+      "theme": "emotions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_058",
+      "ch": "嘻",
+      "py": "xī",
+      "en": "Laugh",
+      "th": "หัวเราะ",
+      "zh": "他听了笑话就嘻嘻地笑。",
+      "sent_en": "He laughed when he heard the joke.",
+      "sent_th": "เขาหัวเราะเมื่อได้ฟังเรื่องตลก",
+      "theme": "emotions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_059",
+      "ch": "醉",
+      "py": "zuì",
+      "en": "Drunk",
+      "th": "เมา",
+      "zh": "他喝了一杯酒就醉了。",
+      "sent_en": "He got drunk after one glass of wine.",
+      "sent_th": "เขาดื่มไวน์แก้วเดียวก็เมาแล้ว",
+      "theme": "emotions",
+      "etymology": {
+        "notes": "Phonosemantic compound. 酉 represents the meaning and 卒 represents the sound. ",
+        "definition": "intoxicated, drunk; addicted",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "酉"
+          },
+          {
+            "type": "sound",
+            "char": "卒"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_060",
+      "ch": "噩",
+      "py": "è",
+      "en": "Nightmare",
+      "th": "ฝันร้าย",
+      "zh": "我昨晚做了一个噩梦。",
+      "sent_en": "I had a nightmare last night.",
+      "sent_th": "เมื่อคืนฉันฝันร้าย",
+      "theme": "emotions",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_061",
+      "ch": "敝",
+      "py": "bì",
+      "en": "Shabby",
+      "th": "เก่า",
+      "zh": "这件衣服很敝旧。",
+      "sent_en": "This piece of clothing is very shabby.",
+      "sent_th": "เสื้อผ้าตัวนี้เก่ามาก",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_062",
+      "ch": "璧",
+      "py": "bì",
+      "en": "Jade disc",
+      "th": "จี้หยก",
+      "zh": "这块璧很漂亮。",
+      "sent_en": "This jade disc is very beautiful.",
+      "sent_th": "จี้หยกชิ้นนี้สวยมาก",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_063",
+      "ch": "剥",
+      "py": "bāo",
+      "en": "Peel",
+      "th": "ปอก",
+      "zh": "我帮妈妈剥橘子。",
+      "sent_en": "I help my mother peel an orange.",
+      "sent_th": "ฉันช่วยแม่ปอกส้ม",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Phonosemantic compound. 刂 represents the meaning and 录 represents the sound. Simplified form of 剝. ",
+        "definition": "to peel, to skin; to exploit",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "刂"
+          },
+          {
+            "type": "sound",
+            "char": "录"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_064",
+      "ch": "锄",
+      "py": "chú",
+      "en": "Hoe",
+      "th": "จอบ",
+      "zh": "农民用锄头耕地。",
+      "sent_en": "The farmer uses a hoe to plow the field.",
+      "sent_th": "ชาวนาใช้จอบไถนา",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_065",
+      "ch": "叉",
+      "py": "chā",
+      "en": "Fork",
+      "th": "ส้อม",
+      "zh": "请给我一把叉子。",
+      "sent_en": "Please give me a fork.",
+      "sent_th": "กรุณาให้ส้อมฉันหนึ่งอัน",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_066",
+      "ch": "舱",
+      "py": "cāng",
+      "en": "Cabin",
+      "th": "ห้องโดยสาร",
+      "zh": "飞机舱很宽敞。",
+      "sent_en": "The airplane cabin is very spacious.",
+      "sent_th": "ห้องโดยสารเครื่องบินกว้างขวางมาก",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_067",
+      "ch": "奠",
+      "py": "diàn",
+      "en": "To lay a foundation",
+      "th": "วางรากฐาน",
+      "zh": "他们在奠地基。",
+      "sent_en": "They are laying the foundation.",
+      "sent_th": "พวกเขากำลังวางรากฐาน",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Pictograph of alchohol (酉) being poured out as a a libation for the dead.",
+        "definition": "fix; settle; libation for the dead",
+        "components": [
+          {
+            "type": "iconic",
+            "char": "酉"
+          },
+          {
+            "type": "iconic",
+            "char": "◎"
+          }
+        ],
+        "images": [
+          {
+            "url": "url(\"data:image/svg+xml;charset=utf8,%3Csvg%20version%3D%221.0%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2279.000000pt%22%20height%3D%22145.000000pt%22%20viewBox%3D%220%200%2079.000000%20145.000000%22%20preserveAspectRatio%3D%22xMidYMid%20meet%22%3E%3Cg%20transform%3D%22translate(0.000000%2C145.000000)%20scale(0.100000%2C-0.100000)%22%20fill%3D%22%23000000%22%20stroke%3D%22none%22%3E%20%3Cpath%20d%3D%22M445%201380%20c-33%20-4%20-112%20-8%20-175%20-9%20-63%20-1%20-125%20-4%20-137%20-7%20-29%20-8%20-35%20-39%20-12%20-60%2015%20-14%2030%20-15%2085%20-9%2066%207%2066%207%2062%20-99%20-2%20-64%20-7%20-107%20-14%20-110%20-6%20-2%20-36%20-7%20-67%20-11%20-86%20-11%20-102%20-34%20-102%20-143%200%20-93%2017%20-168%2056%20-244%205%20-10%209%20-27%209%20-38%200%20-11%204%20-20%208%20-20%205%200%2015%20-12%2023%20-28%208%20-15%2031%20-45%2051%20-67%2021%20-22%2038%20-44%2038%20-50%200%20-5%2020%20-25%2044%20-42%2034%20-26%2053%20-33%2088%20-33%2083%200%2099%2012%20146%20104%2023%2045%2051%2092%2062%20104%2011%2012%2020%2024%2020%2027%200%208%2080%20127%2098%20145%2041%2041%2053%20129%2026%20183%20-34%2065%20-86%2097%20-159%2097%20-45%200%20-45%200%20-45%20105%200%20132%2011%20155%2075%20155%2044%200%2060%2015%2049%2045%20-5%2012%20-23%2015%20-88%2014%20-44%20-1%20-108%20-5%20-141%20-9z%20m23%20-67%20c23%20-6%2024%20-8%2018%20-87%20-10%20-145%20-9%20-141%20-33%20-140%20-113%203%20-103%20-7%20-103%20113%200%20110%200%20110%2038%20114%2020%202%2042%204%2047%205%206%201%2021%20-1%2033%20-5z%20m-210%20-348%20c2%20-32%200%20-65%20-4%20-74%20-4%20-9%20-8%20-20%20-8%20-26%20-1%20-5%20-22%20-11%20-48%20-13%20-48%20-3%20-48%20-3%20-48%2042%200%2025%205%2048%2010%2051%206%203%2010%2015%2010%2026%200%2020%2056%2062%2075%2056%206%20-2%2011%20-30%2013%20-62z%20m200%2046%20c14%20-9%2017%20-34%2014%20-113%20-2%20-48%20-2%20-48%20-73%20-48%20-72%200%20-72%200%20-65%2061%203%2034%206%2073%206%2085%200%2022%204%2024%2053%2024%2028%200%2058%20-4%2065%20-9z%20m167%20-16%20c26%20-4%2046%20-14%2054%20-27%2014%20-22%2017%20-90%206%20-108%20-3%20-5%20-37%20-10%20-75%20-10%20-68%200%20-68%200%20-65%2058%202%2031%203%2067%204%2080%201%2017%206%2022%2019%2018%209%20-2%2035%20-7%2057%20-11z%20m-118%20-216%20c7%20-7%2017%20-8%2029%20-1%2021%2011%2081%205%2090%20-9%206%20-11%20-12%20-46%20-40%20-75%20-30%20-32%20-83%20-42%20-228%20-42%20-71%20-1%20-128%200%20-128%201%200%201%20-9%2027%20-20%2056%20-11%2030%20-18%2057%20-15%2059%2016%2016%20297%2026%20312%2011z%20m0%20-193%20c11%20-11%20-29%20-72%20-63%20-94%20-50%20-33%20-71%20-28%20-125%2029%20-51%2053%20-57%2064%20-36%2072%2018%207%20217%201%20224%20-7z%22%2F%3E%20%3Cpath%20d%3D%22M167%20361%20c-52%20-11%20-56%20-19%20-22%20-47%2025%20-20%2037%20-24%2070%20-19%2022%203%2047%207%2055%208%208%201%2083%20-2%20166%20-7%20111%20-6%20162%20-5%20192%205%2038%2011%2060%2034%2046%2048%20-3%203%20-94%207%20-202%208%20-108%201%20-213%204%20-232%207%20-19%202%20-52%201%20-73%20-3z%22%2F%3E%20%3Cpath%20d%3D%22M268%20232%20c-21%20-22%20-55%20-98%20-63%20-139%20-5%20-26%20-3%20-32%2014%20-38%2024%20-7%2041%207%2070%2059%2037%2065%2019%20164%20-21%20118z%22%2F%3E%20%3Cpath%20d%3D%22M517%20223%20c-19%20-19%202%20-133%2025%20-133%204%200%208%20-7%208%20-15%200%20-22%2051%20-40%2062%20-23%2011%2019%2011%2024%20-18%2086%20-35%2077%20-59%20104%20-77%2085z%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E\")",
+            "caption": "Bronze script"
+          }
+        ]
+      }
+    },
+    {
+      "word_id": "5B_068",
+      "ch": "妨",
+      "py": "fáng",
+      "en": "Hinder",
+      "th": "ขัดขวาง",
+      "zh": "不要妨碍别人工作。",
+      "sent_en": "Don't hinder others' work.",
+      "sent_th": "อย่าขัดขวางการทำงานของผู้อื่น",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Phonosemantic compound. 女 represents the meaning and 方 represents the sound. ",
+        "definition": "damage, harm; to impede, to obstruct; to undermine",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "女"
+          },
+          {
+            "type": "sound",
+            "char": "方"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_069",
+      "ch": "雇",
+      "py": "gù",
+      "en": "Hire",
+      "th": "จ้าง",
+      "zh": "公司雇了新员工。",
+      "sent_en": "The company hired new employees.",
+      "sent_th": "บริษัทจ้างพนักงานใหม่",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Phonosemantic compound. 隹 represents the meaning and 户 represents the sound. Originally was the name of a type of bird. The current meaning is a phonetic loan.",
+        "definition": "employ; hire",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "隹"
+          },
+          {
+            "type": "sound",
+            "char": "户"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_070",
+      "ch": "哗",
+      "py": "huá",
+      "en": "Noise",
+      "th": "เสียงดัง",
+      "zh": "孩子们在公园里哗哗地笑。",
+      "sent_en": "The children are laughing noisily in the park.",
+      "sent_th": "เด็กๆ หัวเราะเสียงดังอยู่ในสวนสาธารณะ",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Phonosemantic compound. 口 represents the meaning and 华 represents the sound. Simplified form of 嘩. ",
+        "definition": "uproar, tumult, hubbub",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "口"
+          },
+          {
+            "type": "sound",
+            "char": "华"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_071",
+      "ch": "惠",
+      "py": "huì",
+      "en": "Favor",
+      "th": "ความกรุณา",
+      "zh": "这个商店有优惠。",
+      "sent_en": "This store has a discount.",
+      "sent_th": "ร้านนี้มีส่วนลด",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_072",
+      "ch": "祸",
+      "py": "huò",
+      "en": "Misfortune",
+      "th": "ภัยพิบัติ",
+      "zh": "开车要小心，以免出祸。",
+      "sent_en": "Drive carefully to avoid misfortune.",
+      "sent_th": "ขับรถให้ระวังเพื่อหลีกเลี่ยงภัยพิบัติ",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_073",
+      "ch": "耗",
+      "py": "hào",
+      "en": "Consume",
+      "th": "สิ้นเปลือง",
+      "zh": "我的手机耗电很快。",
+      "sent_en": "My phone consumes battery quickly.",
+      "sent_th": "โทรศัพท์ของฉันสิ้นเปลืองแบตเตอรี่เร็วมาก",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Phonosemantic compound. 耒 represents the meaning and 毛 represents the sound. ",
+        "definition": "to consume, to use up; to squander, to waste",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "耒"
+          },
+          {
+            "type": "sound",
+            "char": "毛"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_074",
+      "ch": "监",
+      "py": "jiān",
+      "en": "Supervise",
+      "th": "ดูแล",
+      "zh": "老师监考。",
+      "sent_en": "The teacher supervises the exam.",
+      "sent_th": "ครูคุมสอบ",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Simplified form of 監.  Pictograph of a person leaning over to look at his own reflection on a plate.",
+        "definition": "supervise; inspect",
+        "components": [
+          {
+            "type": "iconic",
+            "char": "目"
+          },
+          {
+            "type": "iconic",
+            "char": "人"
+          },
+          {
+            "type": "iconic",
+            "char": "皿"
+          }
+        ],
+        "images": [
+          {
+            "url": "url(\"data:image/svg+xml;charset=utf8,%3Csvg%20version%3D%221.0%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2273.000000pt%22%20height%3D%22127.000000pt%22%20viewBox%3D%220%200%2073.000000%20127.000000%22%20preserveAspectRatio%3D%22xMidYMid%20meet%22%3E%3Cg%20transform%3D%22translate(0.000000%2C127.000000)%20scale(0.100000%2C-0.100000)%22%20fill%3D%22%23000000%22%20stroke%3D%22none%22%3E%20%3Cpath%20d%3D%22M601%201172%20c-14%20-27%20-34%20-45%20-68%20-62%20-26%20-14%20-66%20-42%20-88%20-62%20-40%20-37%20-40%20-37%20-43%20-125%20-4%20-87%20-4%20-88%20-35%20-103%20-25%20-12%20-35%20-26%20-47%20-65%20-21%20-69%20-36%20-92%20-70%20-110%20-43%20-22%20-56%20-19%20-75%2022%20-19%2038%20-18%2048%2011%20185%208%2036%20-1%2059%20-21%2052%20-9%20-4%20-15%20-18%20-15%20-35%200%20-28%20-3%20-37%20-28%20-86%20-15%20-29%20-15%20-85%20-1%20-117%206%20-13%209%20-35%205%20-48%20-7%20-27%20-59%20-88%20-75%20-88%20-6%200%20-11%20-9%20-11%20-19%200%20-14%2016%20-27%2054%20-45%2030%20-14%2061%20-33%2069%20-41%2037%20-36%2067%2012%2067%20106%200%2049%203%2059%2018%2060%2054%202%20111%2073%20122%20153%203%2022%2010%2041%2017%2043%207%203%209%20-4%206%20-18%20-9%20-33%2017%20-19%2052%2028%2029%2039%2072%2070%2083%2058%205%20-4%20-10%20-62%20-28%20-110%20-4%20-11%20-18%20-58%20-30%20-105%20-13%20-47%20-27%20-89%20-31%20-94%20-10%20-11%20-12%20-56%20-3%20-56%2014%200%2054%2060%2054%2082%200%207%209%2024%2020%2038%2020%2025%2020%2025%2020%20-26%200%20-48%20-3%20-54%20-40%20-87%20-22%20-19%20-67%20-52%20-100%20-74%20-78%20-50%20-87%20-68%20-72%20-142%207%20-31%2012%20-69%2012%20-83%200%20-14%206%20-31%2014%20-37%2011%20-10%2020%20-5%2043%2026%2058%2078%2068%2081%2059%2018%20-3%20-25%20-9%20-65%20-12%20-90%20-4%20-28%20-3%20-45%204%20-45%2018%200%2048%2083%2062%20170%207%2047%2017%2090%2022%2096%205%208%203%2014%20-8%2018%20-31%2012%20-36%209%20-88%20-57%20-16%20-20%20-33%20-37%20-36%20-37%20-4%200%20-10%2019%20-13%2043%20-6%2043%2011%2087%2034%2087%206%200%2038%2020%2071%2045%2034%2025%2066%2049%2072%2053%2026%2016%2033%2063%2032%20229%20-1%20132%202%20174%2011%20177%207%203%2013%2012%2013%2021%200%208%205%2015%2010%2015%206%200%2010%2041%2010%20104%200%2059%204%20108%2010%20111%206%203%2010%2019%2010%2036%200%2042%20-25%2037%20-49%20-9z%20m-11%20-114%20c0%20-25%20-3%20-29%20-10%20-18%20-13%2020%20-13%2050%200%2050%206%200%2010%20-15%2010%20-32z%20m-33%20-125%20c-11%20-10%20-15%20-1%20-21%2052%20-6%2050%20-6%2050%2011%203%209%20-27%2013%20-51%2010%20-55z%20m-72%2017%20c7%20-40%202%20-60%20-16%20-60%20-5%200%20-9%2023%20-9%2050%200%2060%2016%2066%2025%2010z%20m-310%20-412%20c-4%20-24%20-9%20-44%20-10%20-46%20-5%20-6%20-45%2018%20-45%2026%200%209%2048%2062%2056%2062%203%200%203%20-19%20-1%20-42z%22%2F%3E%20%3Cpath%20d%3D%22M241%20858%20c-34%20-74%20-53%20-156%20-39%20-164%205%20-3%2010%20-4%2012%20-3%2051%2069%2097%20229%2065%20229%20-5%200%20-23%20-28%20-38%20-62z%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E\")",
+            "caption": "Oracle bone script"
+          },
+          {
+            "url": "url(\"data:image/svg+xml;charset=utf8,%3Csvg%20version%3D%221.0%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22103.000000pt%22%20height%3D%22209.000000pt%22%20viewBox%3D%220%200%20103.000000%20209.000000%22%20preserveAspectRatio%3D%22xMidYMid%20meet%22%3E%3Cg%20transform%3D%22translate(0.000000%2C209.000000)%20scale(0.100000%2C-0.100000)%22%20fill%3D%22%23000000%22%20stroke%3D%22none%22%3E%20%3Cpath%20d%3D%22M190%201966%20c0%20-8%20-3%20-16%20-7%20-18%20-7%20-3%20-32%20-82%20-53%20-168%20-23%20-95%20-51%20-191%20-71%20-245%20-26%20-73%20-38%20-237%20-20%20-293%206%20-20%2013%20-69%2014%20-108%203%20-63%207%20-77%2043%20-135%2035%20-54%2046%20-65%2075%20-69%2020%20-3%2029%20-8%2022%20-13%20-6%20-4%20-19%20-4%20-30%20-1%20-15%205%20-16%204%20-2%20-5%2018%20-12%2057%20-7%2073%209%205%205%2020%2010%2032%2010%2012%200%2024%205%2026%2010%202%206%2020%2016%2040%2023%2046%2016%20118%2081%20118%20107%200%2015%20-11%2023%20-44%2032%20-69%2018%20-77%2028%20-79%2097%20-1%2033%20-5%2061%20-9%2061%20-5%200%20-8%206%20-8%2013%200%2013%2040%2037%2060%2037%2020%200%20120%20108%20120%20129%200%2012%206%2021%2016%2021%2020%200%20101%2037%20106%2049%201%205%2022%2030%2046%2055%2038%2042%2045%2045%2065%2035%2068%20-37%20107%20-126%20107%20-246%200%20-63%20-4%20-85%20-22%20-113%20-12%20-19%20-39%20-68%20-60%20-109%20-31%20-61%20-38%20-84%20-38%20-132%200%20-33%204%20-59%209%20-59%2015%200%2041%2030%2042%2048%201%2028%2064%20137%2082%20140%2016%203%2037%20-50%2041%20-108%202%20-14%207%20-43%2013%20-65%2013%20-47%2013%20-53%2013%20-169%20-1%20-49%20-5%20-96%20-9%20-105%20-5%20-9%20-12%20-86%20-16%20-171%20-5%20-126%20-4%20-162%208%20-195%2043%20-115%2062%20-160%2067%20-165%203%20-3%2011%20-17%2019%20-32%208%20-16%2018%20-28%2022%20-28%2015%200%202%20164%20-17%20215%20-21%2058%20-26%20246%20-8%20286%207%2013%2019%2047%2027%2075%2027%2092%20-5%20339%20-63%20479%20-9%2020%20-13%2061%20-26%20238%20-4%2048%20-11%2090%20-15%2093%20-5%203%20-9%2015%20-9%2028%200%2050%20-79%20142%20-150%20173%20-75%2033%20-116%2035%20-337%2018%20-80%20-7%20-93%20-6%20-93%208%200%208%20-19%2045%20-41%2083%20-37%2060%20-41%2072%20-37%20116%204%2035%201%2054%20-9%2064%20-18%2018%20-33%2018%20-33%200z%20m40%20-212%20c27%20-63%2025%20-72%20-17%20-83%20-20%20-6%20-38%20-9%20-39%20-8%20-3%203%2016%20120%2022%20129%209%2014%2014%209%2034%20-38z%20m380%20-133%20c0%20-14%20-46%20-50%20-82%20-66%20-35%20-14%20-38%20-14%20-48%204%20-16%2032%20-12%2048%2018%2059%2048%2019%20112%2021%20112%203z%20m-239%20-20%20c33%20-33%2036%20-56%2012%20-83%20-13%20-14%20-14%20-21%20-5%20-30%207%20-7%2012%20-26%2012%20-42%200%20-34%20-35%20-100%20-48%20-92%20-5%203%20-20%20-1%20-35%20-9%20-26%20-13%20-54%20-14%20-118%20-1%20-26%206%20-40%2016%20-49%2034%20-7%2015%20-16%2035%20-21%2044%20-12%2024%20-11%2058%201%2058%206%200%2010%2011%2010%2025%200%2022%204%2025%2034%2025%2052%200%2066%209%2066%2041%200%2022%205%2029%2020%2029%2011%200%2020%204%2020%209%200%209%2022%2016%2058%2020%208%200%2027%20-12%2043%20-28z%20m-118%20-329%20c8%20-7%2017%20-38%2021%20-70%2010%20-97%2018%20-131%2032%20-143%2024%20-20%2015%20-45%20-25%20-67%20-49%20-28%20-83%20-28%20-107%201%20-25%2030%20-44%2064%20-43%2079%200%207%204%204%209%20-7%205%20-11%209%20-14%209%20-7%201%207%20-6%2023%20-14%2035%20-8%2013%20-19%2050%20-23%2083%20-5%2032%20-10%2064%20-12%2069%20-7%2026%202%2044%2023%2047%2035%205%20114%20-7%20130%20-20z%20m112%20-211%20c3%20-6%20-4%20-15%20-15%20-21%20-16%20-8%20-20%20-8%20-20%203%200%2025%2023%2036%2035%2018z%22%2F%3E%20%3Cpath%20d%3D%22M229%201483%20c-12%20-33%208%20-53%2053%20-53%2024%200%2028%204%2028%2028%200%2056%20-62%2075%20-81%2025z%22%2F%3E%20%3Cpath%20d%3D%22M56%20842%20c-10%20-16%20-26%20-137%20-26%20-197%200%20-91%2042%20-187%2078%20-179%2037%209%2044%20-9%2043%20-114%20-1%20-55%20-6%20-123%20-12%20-151%20-10%20-47%20-12%20-50%20-38%20-45%20-58%2012%20-93%20-56%20-36%20-70%2013%20-3%2031%20-13%2040%20-22%2014%20-14%2039%20-16%20165%20-15%2081%201%20163%206%20181%2011%2023%207%2035%206%2040%20-1%205%20-8%208%20-8%2013%200%204%206%2018%2011%2030%2011%2029%200%2049%2022%2040%2044%20-4%2011%20-18%2016%20-44%2016%20-52%200%20-57%2017%20-76%20222%20-5%2056%20-5%2056%2053%2068%2080%2015%2094%2024%20128%2078%2033%2050%2044%2084%2052%20150%208%2069%20-13%2053%20-66%20-48%20-19%20-36%20-46%20-75%20-60%20-88%20-25%20-22%20-31%20-23%20-151%20-17%20-245%2011%20-270%2018%20-288%2077%20-6%2018%20-16%2084%20-23%20146%20-11%20101%20-28%20149%20-43%20124z%20m313%20-434%20c11%20-30%2031%20-257%2024%20-275%20-5%20-13%20-59%20-14%20-130%20-2%20-15%203%20-16%2018%20-17%20181%20-1%20118%20-1%20118%2057%20118%2050%200%2059%20-3%2066%20-22z%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E\")",
+            "caption": "Bronze script"
+          },
+          {
+            "url": "url(\"data:image/svg+xml;charset=utf8,%3Csvg%20version%3D%221.0%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2266.000000pt%22%20height%3D%2286.000000pt%22%20viewBox%3D%220%200%2066.000000%2086.000000%22%20preserveAspectRatio%3D%22xMidYMid%20meet%22%3E%3Cg%20transform%3D%22translate(0.000000%2C86.000000)%20scale(0.100000%2C-0.100000)%22%20fill%3D%22%23000000%22%20stroke%3D%22none%22%3E%20%3Cpath%20d%3D%22M385%20641%20c-3%20-6%201%20-24%2011%20-40%2016%20-28%2016%20-30%20-20%20-96%20-54%20-100%20-28%20-102%2036%20-3%2019%2029%2038%2048%2047%2046%2027%20-5%2023%20-43%20-9%20-82%20-16%20-22%20-30%20-43%20-30%20-48%200%20-4%2012%20-27%2026%20-49%2014%20-23%2024%20-42%2022%20-42%20-2%20-1%20-12%20-8%20-23%20-14%20-63%20-39%20-103%20-55%20-137%20-55%20-58%201%20-104%2019%20-116%2047%20-13%2028%20-30%2032%20-39%209%20-3%20-9%205%20-27%2022%20-44%2027%20-29%2027%20-29%206%20-63%20-11%20-19%20-21%20-42%20-21%20-51%200%20-29%2025%20-17%2050%2024%2045%2073%2064%2056%2058%20-55%20-3%20-60%20-3%20-60%20-113%20-65%20-89%20-4%20-110%20-8%20-110%20-20%200%20-13%2036%20-15%20258%20-17%20247%20-1%20257%20-1%20257%2018%200%2021%20-3%2021%20-97%2019%20-58%20-1%20-63%200%20-68%2022%20-10%2037%20-1%20161%2011%20165%206%202%2026%20-17%2045%20-41%2035%20-46%2059%20-59%2059%20-30%200%208%20-12%2031%20-26%2050%20-24%2031%20-26%2037%20-14%2059%2010%2019%2019%2023%2036%2019%2017%20-4%2026%20-1%2030%2011%205%2013%20-4%2027%20-34%2052%20-23%2019%20-42%2042%20-42%2052%200%209%2016%2031%2035%2050%2019%2018%2035%2041%2035%2051%200%2020%20-29%2055%20-70%2083%20-14%209%20-35%2024%20-47%2033%20-14%2010%20-23%2012%20-28%205z%20m-37%20-499%20c3%20-73%201%20-82%20-15%20-82%20-33%200%20-38%2014%20-35%2093%203%2074%205%2078%2025%2075%2020%20-3%2022%20-10%2025%20-86z%22%2F%3E%20%3Cpath%20d%3D%22M185%20603%20c-12%20-2%20-34%20-14%20-50%20-27%20-25%20-20%20-29%20-31%20-33%20-88%20-5%20-83%2014%20-124%2061%20-133%2052%20-10%20160%20-2%20165%2013%202%208%20-8%2012%20-32%2012%20-29%200%20-36%204%20-36%2020%200%2013%2010%2024%2025%2030%2028%2011%2051%2051%2042%2074%20-3%208%20-21%2016%20-39%2018%20-26%202%20-34%208%20-36%2027%20-4%2026%2012%2041%2046%2041%2012%200%2022%205%2022%2010%200%2010%20-92%2012%20-135%203z%20m33%20-50%20c-2%20-22%20-9%20-29%20-32%20-31%20-16%20-2%20-33%201%20-39%207%20-15%2015%2020%2051%2050%2051%2021%200%2024%20-4%2021%20-27z%20m65%20-70%20c18%20-17%20-19%20-33%20-79%20-33%20-57%200%20-64%202%20-64%2020%200%2018%207%2020%2068%2020%2038%200%2072%20-3%2075%20-7z%20m-67%20-74%20c10%20-17%20-11%20-31%20-39%20-24%20-41%2011%20-43%2035%20-2%2035%2018%200%2037%20-5%2041%20-11z%22%2F%3E%20%3Cpath%20d%3D%22M294%20326%20c-18%20-14%20-18%20-16%20-1%20-33%2016%20-16%2018%20-16%2033%20-1%2016%2016%2013%2048%20-4%2048%20-4%200%20-17%20-6%20-28%20-14z%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E\")",
+            "caption": "Seal script"
+          }
+        ]
+      }
+    },
+    {
+      "word_id": "5B_075",
+      "ch": "皆",
+      "py": "jiē",
+      "en": "All",
+      "th": "ทั้งหมด",
+      "zh": "大家皆喜欢这个游戏。",
+      "sent_en": "Everyone likes this game.",
+      "sent_th": "ทุกคนชอบเกมนี้",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Origin unclear.",
+        "definition": "all; every",
+        "components": [
+          {
+            "type": "unknown",
+            "char": "比"
+          },
+          {
+            "type": "unknown",
+            "char": "白"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_076",
+      "ch": "锦",
+      "py": "jǐn",
+      "en": "Brocade",
+      "th": "ผ้าไหม",
+      "zh": "这件衣服的图案很漂亮。",
+      "sent_en": "The pattern on this clothing is very beautiful.",
+      "sent_th": "ลวดลายบนเสื้อผ้าชิ้นนี้สวยมาก",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_077",
+      "ch": "幔",
+      "py": "màn",
+      "en": "Curtain",
+      "th": "ม่าน",
+      "zh": "窗帘是布做的。",
+      "sent_en": "The curtain is made of cloth.",
+      "sent_th": "ผ้าม่านทำจากผ้า",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_078",
+      "ch": "诺",
+      "py": "nuò",
+      "en": "Promise",
+      "th": "สัญญา",
+      "zh": "他答应了我的请求。",
+      "sent_en": "He promised my request.",
+      "sent_th": "เขาสัญญาตอบรับคำขอของฉัน",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Phonosemantic compound. 讠 represents the meaning and 若 represents the sound. Simplified form of 諾. ",
+        "definition": "to promise; to approve, to assent to",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "讠"
+          },
+          {
+            "type": "sound",
+            "char": "若"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_079",
+      "ch": "呐",
+      "py": "nà",
+      "en": "Exclamation (sentence-final particle)",
+      "th": "นะ",
+      "zh": "你叫什么名字呐？",
+      "sent_en": "What's your name?",
+      "sent_th": "คุณชื่ออะไรนะ",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_080",
+      "ch": "帕",
+      "py": "pà",
+      "en": "Handkerchief",
+      "th": "ผ้าเช็ดหน้า",
+      "zh": "他用手帕擦汗。",
+      "sent_en": "He wiped his sweat with a handkerchief.",
+      "sent_th": "เขาถูเหงื่อด้วยผ้าเช็ดหน้า",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_081",
+      "ch": "赔",
+      "py": "péi",
+      "en": "Compensate",
+      "th": "ชดเชย",
+      "zh": "他赔了我十块钱。",
+      "sent_en": "He compensated me ten yuan.",
+      "sent_th": "เขาชดเชยฉันสิบหยวน",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Phonosemantic compound. 贝 represents the meaning and 咅 represents the sound. Simplified form of 賠. ",
+        "definition": "to compensate, to pay damages, to suffer a loss",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "贝"
+          },
+          {
+            "type": "sound",
+            "char": "咅"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_082",
+      "ch": "私",
+      "py": "sī",
+      "en": "Private",
+      "th": "ส่วนตัว",
+      "zh": "这是我的私人物品。",
+      "sent_en": "This is my private item.",
+      "sent_th": "นี่คือของส่วนตัวของฉัน",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Phonosemantic compound. 禾 represents the meaning and 厶 represents the sound. Originally written as 厶.",
+        "definition": "personal; selfish",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "禾"
+          },
+          {
+            "type": "sound",
+            "char": "厶"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_083",
+      "ch": "伞",
+      "py": "sǎn",
+      "en": "Umbrella",
+      "th": "ร่ม",
+      "zh": "下雨了，带伞吧。",
+      "sent_en": "It's raining",
+      "sent_th": " take an umbrella.",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Simplified form of 傘.  Pictograph of an umbrella.",
+        "definition": "umbrella",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_084",
+      "ch": "淘",
+      "py": "táo",
+      "en": "Wash",
+      "th": "ซัก",
+      "zh": "妈妈在淘米。",
+      "sent_en": "Mom is washing rice.",
+      "sent_th": "แม่กำลังซักข้าว",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Phonosemantic compound. 氵 represents the meaning and 匋 represents the sound. ",
+        "definition": "to dredge, to sieve; to cleanse, to weed out",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "氵"
+          },
+          {
+            "type": "sound",
+            "char": "匋"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_085",
+      "ch": "毯",
+      "py": "tǎn",
+      "en": "Blanket",
+      "th": "ผ้าห่ม",
+      "zh": "我的毯子很暖和。",
+      "sent_en": "My blanket is very warm.",
+      "sent_th": "ผ้าห่มของฉันอุ่นมาก",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Phonosemantic compound. 毛 represents the meaning and 炎 represents the sound. ",
+        "definition": "rug, carpet, blanket",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "毛"
+          },
+          {
+            "type": "sound",
+            "char": "炎"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_086",
+      "ch": "晰",
+      "py": "xī",
+      "en": "Clear",
+      "th": "ชัดเจน",
+      "zh": "这张照片很清晰。",
+      "sent_en": "This photo is very clear.",
+      "sent_th": "รูปภาพนี้ชัดเจนมาก",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_087",
+      "ch": "谣",
+      "py": "yáo",
+      "en": "Rumor",
+      "th": "ข่าวลือ",
+      "zh": "不要相信网络上的谣言。",
+      "sent_en": "Don't believe rumors on the internet.",
+      "sent_th": "อย่าเชื่อข่าวลือบนอินเทอร์เน็ต",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Phonosemantic compound. 讠 represents the meaning and 䍃 represents the sound. Simplified form of 謠. ",
+        "definition": "rumor; folksong, ballad",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "讠"
+          },
+          {
+            "type": "sound",
+            "char": "䍃"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_088",
+      "ch": "毡",
+      "py": "zhān",
+      "en": "Felt",
+      "th": "ผ้าสักหลาด",
+      "zh": "我的帽子是毡做的。",
+      "sent_en": "My hat is made of felt.",
+      "sent_th": "หมวกของฉันทำจากผ้าสักหลาด",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_089",
+      "ch": "遮",
+      "py": "zhē",
+      "en": "Cover",
+      "th": "บัง",
+      "zh": "我用帽子遮太阳。",
+      "sent_en": "I use a hat to cover from the sun.",
+      "sent_th": "ฉันใช้หมวกบังแดด",
+      "theme": "everyday",
+      "etymology": {
+        "notes": "Phonosemantic compound. 辶 represents the meaning and 庶 represents the sound. ",
+        "definition": "to cover, to protect, to shield",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "辶"
+          },
+          {
+            "type": "sound",
+            "char": "庶"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_090",
+      "ch": "姆",
+      "py": "mǔ",
+      "en": "Nanny",
+      "th": "พี่เลี้ยง",
+      "zh": "我的姆姆很爱我。",
+      "sent_en": "My nanny loves me very much.",
+      "sent_th": "พี่เลี้ยงของฉันรักฉันมาก",
+      "theme": "family",
+      "etymology": {
+        "notes": "Phonosemantic compound. 女 represents the meaning and 母 represents the sound. ",
+        "definition": "governess, matron, nanny",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "女"
+          },
+          {
+            "type": "sound",
+            "char": "母"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_091",
+      "ch": "嫂",
+      "py": "sǎo",
+      "en": "Sister-in-law",
+      "th": "พี่สะใภ้",
+      "zh": "我嫂子很善良。",
+      "sent_en": "My sister-in-law is very kind.",
+      "sent_th": "พี่สะใภ้ของฉันใจดีมาก",
+      "theme": "family",
+      "etymology": {
+        "notes": "Phonosemantic compound. 女 represents the meaning and 叟 represents the sound. ",
+        "definition": "sister-in-law, elder brother's wife",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "女"
+          },
+          {
+            "type": "sound",
+            "char": "叟"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_092",
+      "ch": "媳",
+      "py": "xí",
+      "en": "daughter-in-law",
+      "th": "ลูกสะใภ้",
+      "zh": "我的媳妇很孝顺。",
+      "sent_en": "My daughter-in-law is very filial.",
+      "sent_th": "ลูกสะใภ้ของฉันเป็นลูกที่ดีมาก",
+      "theme": "family",
+      "etymology": {
+        "notes": "Phonosemantic compound. 女 represents the meaning and 息 represents the sound. ",
+        "definition": "daughter-in-law",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "女"
+          },
+          {
+            "type": "sound",
+            "char": "息"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_093",
+      "ch": "侄",
+      "py": "zhí",
+      "en": "Nephew",
+      "th": "หลานชาย",
+      "zh": "我的侄子在踢足球。",
+      "sent_en": "My nephew is playing soccer.",
+      "sent_th": "หลานชายของฉันกำลังเล่นฟุตบอล",
+      "theme": "family",
+      "etymology": {
+        "notes": "Phonosemantic compound. 亻 represents the meaning and 至 represents the sound. Simplified form of 姪. ",
+        "definition": "nephew",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "亻"
+          },
+          {
+            "type": "sound",
+            "char": "至"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_094",
+      "ch": "宗",
+      "py": "zōng",
+      "en": "Ancestor",
+      "th": "บรรพบุรุษ",
+      "zh": "我们每年都祭拜祖宗。",
+      "sent_en": "We worship our ancestors every year.",
+      "sent_th": "พวกเราสักการะบรรพบุรุษทุกปี",
+      "theme": "family",
+      "etymology": {
+        "notes": "Depicts a spiritual (示) edifice (宀), such as an ancestral shrine.",
+        "definition": "school; sect; clan; ancestral; temple",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "宀"
+          },
+          {
+            "type": "meaning",
+            "char": "示"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_095",
+      "ch": "柑",
+      "py": "gān",
+      "en": "Mandarin orange",
+      "th": "ส้ม",
+      "zh": "这个柑很甜。",
+      "sent_en": "This mandarin orange is very sweet.",
+      "sent_th": "ส้มนี้หวานมาก",
+      "theme": "food",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_096",
+      "ch": "甘",
+      "py": "gān",
+      "en": "Sweet",
+      "th": "หวาน",
+      "zh": "这个苹果很甘甜。",
+      "sent_en": "This apple is very sweet.",
+      "sent_th": "แอปเปิ้ลลูกนี้หวานมาก",
+      "theme": "food",
+      "etymology": {
+        "notes": "Pictograph of something sweet inside the mouth (口).",
+        "definition": "sweet",
+        "components": [
+          {
+            "type": "iconic",
+            "char": "口"
+          },
+          {
+            "type": "iconic",
+            "char": "◎"
+          }
+        ],
+        "images": [
+          {
+            "url": "url(\"data:image/svg+xml;charset=utf8,%3Csvg%20version%3D%221.0%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2249.000000pt%22%20height%3D%2259.000000pt%22%20viewBox%3D%220%200%2049.000000%2059.000000%22%20preserveAspectRatio%3D%22xMidYMid%20meet%22%3E%3Cg%20transform%3D%22translate(0.000000%2C59.000000)%20scale(0.100000%2C-0.100000)%22%20fill%3D%22%23000000%22%20stroke%3D%22none%22%3E%20%3Cpath%20d%3D%22M64%20354%20c3%20-9%206%20-63%206%20-121%200%20-102%201%20-105%2029%20-134%2023%20-23%2038%20-29%2070%20-29%2023%200%2050%20-6%2061%20-12%2016%20-10%2024%20-10%2041%201%2018%2011%2023%2011%2031%20-1%208%20-10%209%20-9%204%204%20-4%2013%201%2019%2018%2024%2039%2010%2051%2047%2048%20153%20-1%2069%20-6%20100%20-17%20110%20-8%209%20-15%2011%20-16%206%20-2%20-31%20-9%20-68%20-13%20-72%20-9%20-9%20-137%20-21%20-176%20-16%20-36%205%20-41%209%20-50%2042%20-5%2020%20-10%2042%20-10%2049%200%206%20-7%2012%20-16%2012%20-11%200%20-14%20-5%20-10%20-16z%20m274%20-167%20c3%20-45%202%20-47%20-35%20-63%20-44%20-19%20-158%20-21%20-179%20-3%20-9%207%20-14%2031%20-14%2061%200%2048%201%2050%2023%2044%2051%20-16%20104%20-17%20142%20-2%2022%208%2045%2013%2050%2012%206%20-1%2011%20-23%2013%20-49z%22%2F%3E%20%3Cpath%20d%3D%22M205%20173%20c-70%20-5%20-80%20-10%20-65%20-28%207%20-9%2029%20-15%2053%20-15%2044%200%20117%2019%20117%2031%200%209%20-27%2020%20-43%2017%20-7%20-1%20-34%20-3%20-62%20-5z%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E\")",
+            "caption": "Oracle bone script"
+          }
+        ]
+      }
+    },
+    {
+      "word_id": "5B_097",
+      "ch": "嚼",
+      "py": "jiáo",
+      "en": "Chew",
+      "th": "เคี้ยว",
+      "zh": "吃饭时要慢慢嚼。",
+      "sent_en": "You should chew slowly when eating.",
+      "sent_th": "เวลากินข้าวควรเคี้ยวช้าๆ",
+      "theme": "food",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_098",
+      "ch": "橘",
+      "py": "jú",
+      "en": "Tangerine",
+      "th": "ส้ม",
+      "zh": "这个橘子很甜。",
+      "sent_en": "This tangerine is very sweet.",
+      "sent_th": "ส้มลูกนี้หวานมาก",
+      "theme": "food",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_099",
+      "ch": "咀",
+      "py": "jǔ",
+      "en": "Chew",
+      "th": "เคี้ยว",
+      "zh": "吃饭要慢慢咀嚼。",
+      "sent_en": "You should chew your food slowly.",
+      "sent_th": "คุณควรเคี้ยวอาหารช้าๆ",
+      "theme": "food",
+      "etymology": {
+        "notes": "Phonosemantic compound. 口 represents the meaning and 且 represents the sound. ",
+        "definition": "to suck; to chew",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "口"
+          },
+          {
+            "type": "sound",
+            "char": "且"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_100",
+      "ch": "汁",
+      "py": "zhī",
+      "en": "Juice",
+      "th": "น้ำผลไม้",
+      "zh": "我喜欢喝橙汁。",
+      "sent_en": "I like to drink orange juice.",
+      "sent_th": "ฉันชอบดื่มน้ำส้ม",
+      "theme": "food",
+      "etymology": {
+        "notes": "Phonosemantic compound. 氵 represents the meaning and 十 represents the sound. ",
+        "definition": "juice, liquor, fluid; sap; gravy, sauce",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "氵"
+          },
+          {
+            "type": "sound",
+            "char": "十"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_101",
+      "ch": "淮",
+      "py": "huái",
+      "en": "Huai River",
+      "th": "แม่น้ำฮวาย",
+      "zh": "淮河是中国的一条大河。",
+      "sent_en": "The Huai River is a major river in China.",
+      "sent_th": "แม่น้ำฮวายเป็นแม่น้ำสายสำคัญของจีน",
+      "theme": "geography",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_102",
+      "ch": "厘",
+      "py": "lí",
+      "en": "centi-",
+      "th": "เซนติ",
+      "zh": "这栋楼高三百厘米。",
+      "sent_en": "This building is 300 centimeters tall.",
+      "sent_th": "ตึกนี้สูงสามร้อยเซนติเมตร",
+      "theme": "measurement",
+      "etymology": {
+        "notes": "Phonosemantic compound. 厂 represents the meaning and 里 represents the sound. Simplified form of 釐. ",
+        "definition": "one thousandth",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "厂"
+          },
+          {
+            "type": "sound",
+            "char": "里"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_103",
+      "ch": "跺",
+      "py": "duò",
+      "en": "Stamp (foot)",
+      "th": "กระทืบ",
+      "zh": "他生气地跺脚。",
+      "sent_en": "He stamped his foot angrily.",
+      "sent_th": "เขากระทืบเท้าด้วยความโกรธ",
+      "theme": "movement",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_104",
+      "ch": "咚",
+      "py": "dōng",
+      "en": "Thud (sound)",
+      "th": "ตึง",
+      "zh": "咚！球掉在地上了。",
+      "sent_en": "Thud! The ball fell on the ground.",
+      "sent_th": "ตึง! ลูกบอลตกถึงพื้น",
+      "theme": "movement",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_105",
+      "ch": "跤",
+      "py": "jiāo",
+      "en": "Fall",
+      "th": "ล้ม",
+      "zh": "他跑步时摔了一跤。",
+      "sent_en": "He tripped and fell while running.",
+      "sent_th": "เขาสะดุดล้มขณะที่กำลังวิ่ง",
+      "theme": "movement",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_106",
+      "ch": "翘",
+      "py": "qiào",
+      "en": "Stick up",
+      "th": "ยกขึ้น",
+      "zh": "小猫翘起了尾巴。",
+      "sent_en": "The kitten stuck up its tail.",
+      "sent_th": "แมวน้อยยกหางขึ้น",
+      "theme": "movement",
+      "etymology": {
+        "notes": "Phonosemantic compound. 羽 represents the meaning and 尧 represents the sound. Simplified form of 翹. ",
+        "definition": "outstanding; to elevate, to lift, to raise",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "羽"
+          },
+          {
+            "type": "sound",
+            "char": "尧"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_107",
+      "ch": "翘",
+      "py": "qiào",
+      "en": "Stick up",
+      "th": "ยกขึ้น",
+      "zh": "小猫翘起了尾巴。",
+      "sent_en": "The kitten stuck up its tail.",
+      "sent_th": "แมวน้อยยกหางขึ้น",
+      "theme": "movement",
+      "etymology": {
+        "notes": "Phonosemantic compound. 羽 represents the meaning and 尧 represents the sound. Simplified form of 翹. ",
+        "definition": "outstanding; to elevate, to lift, to raise",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "羽"
+          },
+          {
+            "type": "sound",
+            "char": "尧"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_108",
+      "ch": "翘",
+      "py": "qiào",
+      "en": "Stick up",
+      "th": "ยกขึ้น",
+      "zh": "小猫翘起了尾巴。",
+      "sent_en": "The kitten stuck up its tail.",
+      "sent_th": "แมวน้อยยกหางขึ้น",
+      "theme": "movement",
+      "etymology": {
+        "notes": "Phonosemantic compound. 羽 represents the meaning and 尧 represents the sound. Simplified form of 翹. ",
+        "definition": "outstanding; to elevate, to lift, to raise",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "羽"
+          },
+          {
+            "type": "sound",
+            "char": "尧"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_109",
+      "ch": "翘",
+      "py": "qiào",
+      "en": "Stick up",
+      "th": "ยกขึ้น",
+      "zh": "小猫翘起了尾巴。",
+      "sent_en": "The kitten stuck up its tail.",
+      "sent_th": "แมวน้อยยกหางขึ้น",
+      "theme": "movement",
+      "etymology": {
+        "notes": "Phonosemantic compound. 羽 represents the meaning and 尧 represents the sound. Simplified form of 翹. ",
+        "definition": "outstanding; to elevate, to lift, to raise",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "羽"
+          },
+          {
+            "type": "sound",
+            "char": "尧"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_110",
+      "ch": "艄",
+      "py": "shāo",
+      "en": "Helmsman",
+      "th": "คนถือพวงมาลัย",
+      "zh": "艄公在船尾掌舵。",
+      "sent_en": "The helmsman steers at the stern.",
+      "sent_th": "คนถือพวงมาลัยคุมหางเสือเรืออยู่ที่ท้ายเรือ",
+      "theme": "movement",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_111",
+      "ch": "艇",
+      "py": "tǐng",
+      "en": "Boat",
+      "th": "เรือ",
+      "zh": "我们坐小艇去岛上。",
+      "sent_en": "We take a small boat to the island.",
+      "sent_th": "เรานั่งเรือเล็กไปที่เกาะ",
+      "theme": "movement",
+      "etymology": {
+        "notes": "Phonosemantic compound. 舟 represents the meaning and 廷 represents the sound. ",
+        "definition": "dugout, punt, small boat",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "舟"
+          },
+          {
+            "type": "sound",
+            "char": "廷"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_112",
+      "ch": "陷",
+      "py": "xiàn",
+      "en": "Trap",
+      "th": "กับดัก",
+      "zh": "小心别陷进泥里。",
+      "sent_en": "Be careful not to get trapped in the mud.",
+      "sent_th": "ระวังอย่าติดหล่ม",
+      "theme": "movement",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_113",
+      "ch": "延",
+      "py": "yán",
+      "en": "Extend",
+      "th": "ยืดออก",
+      "zh": "请延长这条线。",
+      "sent_en": "Please extend this line.",
+      "sent_th": "กรุณายืดเส้นนี้ให้ยาวขึ้น",
+      "theme": "movement",
+      "etymology": {
+        "notes": "",
+        "definition": "prolong; delay",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "疋"
+          },
+          {
+            "type": "meaning",
+            "char": "廴"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_114",
+      "ch": "迂",
+      "py": "yū",
+      "en": "Circuitous / Roundabout",
+      "th": "อ้อม",
+      "zh": "他走了一条迂回的路。",
+      "sent_en": "He took a circuitous route.",
+      "sent_th": "เขาเดินไปทางอ้อม",
+      "theme": "movement",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_115",
+      "ch": "瑟",
+      "py": "sè",
+      "en": "Zither",
+      "th": "ซอ",
+      "zh": "她喜欢弹古瑟。",
+      "sent_en": "She likes to play the ancient se zither.",
+      "sent_th": "เธอชอบเล่นซอโบราณ",
+      "theme": "music",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_116",
+      "ch": "莞",
+      "py": "guǎn",
+      "en": "Smiling",
+      "th": "ยิ้ม",
+      "zh": "她莞尔一笑。",
+      "sent_en": "She smiled gently.",
+      "sent_th": "เธอยิ้มอย่างอ่อนโยน",
+      "theme": "nature",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_117",
+      "ch": "疆",
+      "py": "jiāng",
+      "en": "Border",
+      "th": "เขตแดน",
+      "zh": "新疆是中国的一个自治区。",
+      "sent_en": "Xinjiang is an autonomous region of China.",
+      "sent_th": "ซินเจียงเป็นเขตปกครองตนเองของจีน",
+      "theme": "nature",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_118",
+      "ch": "荆",
+      "py": "jīng",
+      "en": "Thorn",
+      "th": "หนาม",
+      "zh": "路上有很多荆棘。",
+      "sent_en": "There are many thorns on the road.",
+      "sent_th": "บนถนนมีหนามเยอะมาก",
+      "theme": "nature",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_119",
+      "ch": "漠",
+      "py": "mò",
+      "en": "Desert",
+      "th": "ทะเลทราย",
+      "zh": "沙漠里很热。",
+      "sent_en": "The desert is very hot.",
+      "sent_th": "ในทะเลทรายร้อนมาก",
+      "theme": "nature",
+      "etymology": {
+        "notes": "Phonosemantic compound. 氵 represents the meaning and 莫 represents the sound. ",
+        "definition": "desert; aloof, cool, indifferent",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "氵"
+          },
+          {
+            "type": "sound",
+            "char": "莫"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_120",
+      "ch": "蓑",
+      "py": "suō",
+      "en": "Raincoat",
+      "th": "เสื้อกันฝน",
+      "zh": "爷爷穿着蓑衣去钓鱼。",
+      "sent_en": "Grandpa wears a raincoat to go fishing.",
+      "sent_th": "คุณปู่สวมเสื้อกันฝนไปตกปลา",
+      "theme": "nature",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_121",
+      "ch": "炭",
+      "py": "tàn",
+      "en": "Charcoal",
+      "th": "ถ่าน",
+      "zh": "我们在烧烤时用木炭。",
+      "sent_en": "We use charcoal when we barbecue.",
+      "sent_th": "เราใช้ถ่านเมื่อปิ้งย่าง",
+      "theme": "nature",
+      "etymology": {
+        "notes": "Phonosemantic compound. 灰 represents the meaning and 山 represents the sound. ",
+        "definition": "carbon, charcoal, coal",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "灰"
+          },
+          {
+            "type": "sound",
+            "char": "山"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_122",
+      "ch": "淌",
+      "py": "tǎng",
+      "en": "Flow",
+      "th": "ไหล",
+      "zh": "小溪在流淌。",
+      "sent_en": "The stream is flowing.",
+      "sent_th": "ลำธารกำลังไหล",
+      "theme": "nature",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_123",
+      "ch": "涯",
+      "py": "yá",
+      "en": "Shore",
+      "th": "ฝั่ง",
+      "zh": "大海的涯边很美。",
+      "sent_en": "The shore of the sea is beautiful.",
+      "sent_th": "ริมฝั่งทะเลสวยงามมาก",
+      "theme": "nature",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_124",
+      "ch": "枳",
+      "py": "zhǐ",
+      "en": "Trifoliate Orange",
+      "th": "ส้มจี๊ด",
+      "zh": "枳是一种小树。",
+      "sent_en": "The trifoliate orange is a small tree.",
+      "sent_th": "ส้มจี๊ดเป็นต้นไม้ขนาดเล็ก",
+      "theme": "nature",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_125",
+      "ch": "肆",
+      "py": "sì",
+      "en": "Four",
+      "th": "สี่",
+      "zh": "我买了四个苹果。",
+      "sent_en": "I bought four apples.",
+      "sent_th": "ฉันซื้อแอปเปิ้ลสี่ลูก",
+      "theme": "numbers",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_126",
+      "ch": "姹",
+      "py": "chà",
+      "en": "Beautiful",
+      "th": "สวย",
+      "zh": "花园里姹紫嫣红。",
+      "sent_en": "The garden is ablaze with beautiful flowers.",
+      "sent_th": "ในสวนมีดอกไม้สีสวยงาม",
+      "theme": "people",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_127",
+      "ch": "臣",
+      "py": "chén",
+      "en": "Minister",
+      "th": "ขุนนาง",
+      "zh": "国王有忠臣。",
+      "sent_en": "The king has loyal ministers.",
+      "sent_th": "กษัตริย์มีขุนนางที่ซื่อสัตย์",
+      "theme": "people",
+      "etymology": {
+        "notes": "Pictograph of an eye, similar to 目. Based on the original meaning \"to glare at\", now written as 瞋. The current meaning is a phonetic loan.",
+        "definition": "official; statesman",
+        "components": [],
+        "images": [
+          {
+            "url": "url(\"data:image/svg+xml;charset=utf8,%3Csvg%20version%3D%221.0%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2239.000000pt%22%20height%3D%2264.000000pt%22%20viewBox%3D%220%200%2039.000000%2064.000000%22%20preserveAspectRatio%3D%22xMidYMid%20meet%22%3E%3Cg%20transform%3D%22translate(0.000000%2C64.000000)%20scale(0.100000%2C-0.100000)%22%20fill%3D%22%23000000%22%20stroke%3D%22none%22%3E%20%3Cpath%20d%3D%22M94%20575%20c-4%20-8%20-4%20-25%200%20-38%208%20-30%20-10%20-123%20-46%20-239%20-38%20-121%20-36%20-183%208%20-230%2045%20-48%2079%20-58%20144%20-44%20103%2022%20160%2056%20160%2095%200%2020%20-1%2021%20-36%206%20-56%20-23%20-74%20-20%20-74%2014%200%2029%2047%2091%2068%2091%2012%200%2042%2056%2042%2077%200%2049%20-74%20112%20-117%2099%20-18%20-5%20-33%2019%20-77%20126%20-21%2049%20-61%2073%20-72%2043z%20m72%20-197%20c-21%20-15%20-34%20-8%20-29%2015%2011%2050%2014%2053%2027%2022%209%20-21%2010%20-32%202%20-37z%20m122%20-40%20c22%20-22%2014%20-65%20-15%20-86%20-90%20-61%20-165%20-65%20-171%20-8%20-4%2029%2021%2066%2045%2066%207%200%2013%204%2013%209%200%2010%2055%2029%2090%2030%2015%201%2031%20-4%2038%20-11z%20m-133%20-188%20c19%200%2049%20-43%2037%20-55%20-13%20-12%20-50%20-3%20-69%2018%20-36%2040%20-39%2051%20-12%2044%2013%20-4%2033%20-7%2044%20-7z%22%2F%3E%20%3Cpath%20d%3D%22M183%20293%20c-14%20-3%20-23%20-12%20-23%20-23%200%20-25%2015%20-33%2050%20-25%2023%205%2030%2012%2030%2031%200%2025%20-7%2027%20-57%2017z%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E\")",
+            "caption": "Bronze script"
+          }
+        ]
+      }
+    },
+    {
+      "word_id": "5B_128",
+      "ch": "臣",
+      "py": "chén",
+      "en": "Minister",
+      "th": "ขุนนาง",
+      "zh": "他是国王的臣子。",
+      "sent_en": "He is the king's minister.",
+      "sent_th": "เขาเป็นขุนนางของพระราชา",
+      "theme": "people",
+      "etymology": {
+        "notes": "Pictograph of an eye, similar to 目. Based on the original meaning \"to glare at\", now written as 瞋. The current meaning is a phonetic loan.",
+        "definition": "official; statesman",
+        "components": [],
+        "images": [
+          {
+            "url": "url(\"data:image/svg+xml;charset=utf8,%3Csvg%20version%3D%221.0%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2239.000000pt%22%20height%3D%2264.000000pt%22%20viewBox%3D%220%200%2039.000000%2064.000000%22%20preserveAspectRatio%3D%22xMidYMid%20meet%22%3E%3Cg%20transform%3D%22translate(0.000000%2C64.000000)%20scale(0.100000%2C-0.100000)%22%20fill%3D%22%23000000%22%20stroke%3D%22none%22%3E%20%3Cpath%20d%3D%22M94%20575%20c-4%20-8%20-4%20-25%200%20-38%208%20-30%20-10%20-123%20-46%20-239%20-38%20-121%20-36%20-183%208%20-230%2045%20-48%2079%20-58%20144%20-44%20103%2022%20160%2056%20160%2095%200%2020%20-1%2021%20-36%206%20-56%20-23%20-74%20-20%20-74%2014%200%2029%2047%2091%2068%2091%2012%200%2042%2056%2042%2077%200%2049%20-74%20112%20-117%2099%20-18%20-5%20-33%2019%20-77%20126%20-21%2049%20-61%2073%20-72%2043z%20m72%20-197%20c-21%20-15%20-34%20-8%20-29%2015%2011%2050%2014%2053%2027%2022%209%20-21%2010%20-32%202%20-37z%20m122%20-40%20c22%20-22%2014%20-65%20-15%20-86%20-90%20-61%20-165%20-65%20-171%20-8%20-4%2029%2021%2066%2045%2066%207%200%2013%204%2013%209%200%2010%2055%2029%2090%2030%2015%201%2031%20-4%2038%20-11z%20m-133%20-188%20c19%200%2049%20-43%2037%20-55%20-13%20-12%20-50%20-3%20-69%2018%20-36%2040%20-39%2051%20-12%2044%2013%20-4%2033%20-7%2044%20-7z%22%2F%3E%20%3Cpath%20d%3D%22M183%20293%20c-14%20-3%20-23%20-12%20-23%20-23%200%20-25%2015%20-33%2050%20-25%2023%205%2030%2012%2030%2031%200%2025%20-7%2027%20-57%2017z%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E\")",
+            "caption": "Bronze script"
+          }
+        ]
+      }
+    },
+    {
+      "word_id": "5B_129",
+      "ch": "丞",
+      "py": "chéng",
+      "en": "To assist",
+      "th": "ช่วยเหลือ",
+      "zh": "丞相帮助皇帝。",
+      "sent_en": "The prime minister assists the emperor.",
+      "sent_th": "อัครมหาเสนาบดีช่วยเหลือจักรพรรดิ",
+      "theme": "people",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_130",
+      "ch": "曹",
+      "py": "cáo",
+      "en": "Cao (surname)",
+      "th": "แซ่โจว",
+      "zh": "曹操是历史人物。",
+      "sent_en": "Cao Cao is a historical figure.",
+      "sent_th": "โจโฉเป็นบุคคลในประวัติศาสตร์",
+      "theme": "people",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_131",
+      "ch": "郎",
+      "py": "láng",
+      "en": "young man",
+      "th": "หนุ่ม",
+      "zh": "他是我的新郎。",
+      "sent_en": "He is my bridegroom.",
+      "sent_th": "เขาเป็นเจ้าบ่าวของฉัน",
+      "theme": "people",
+      "etymology": {
+        "notes": "Phonosemantic compound. ⻏ represents the meaning and 良 represents the sound. Originally a place name for what is now Shandong province. Unrelated to current meaning.",
+        "definition": "husband; youth",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "⻏"
+          },
+          {
+            "type": "sound",
+            "char": "良"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_132",
+      "ch": "貌",
+      "py": "mào",
+      "en": "Appearance",
+      "th": "รูปลักษณ์",
+      "zh": "她的外貌很漂亮。",
+      "sent_en": "Her appearance is very beautiful.",
+      "sent_th": "รูปลักษณ์ของเธอสวยมาก",
+      "theme": "people",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_133",
+      "ch": "尼",
+      "py": "ní",
+      "en": "Buddhist nun",
+      "th": "แม่ชี",
+      "zh": "她是一位尼姑。",
+      "sent_en": "She is a Buddhist nun.",
+      "sent_th": "เธอเป็นแม่ชี",
+      "theme": "people",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_134",
+      "ch": "妮",
+      "py": "nī",
+      "en": "Girl (often used in names)",
+      "th": "เด็กผู้หญิง (มักใช้ในชื่อ)",
+      "zh": "小妮是我的妹妹。",
+      "sent_en": "Xiao Ni is my younger sister.",
+      "sent_th": "เสี่ยวหนีเป็นน้องสาวของฉัน",
+      "theme": "people",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_135",
+      "ch": "乃",
+      "py": "nǎi",
+      "en": "then/so",
+      "th": "จึง",
+      "zh": "乃是我最好的朋友。",
+      "sent_en": "He/She is my best friend.",
+      "sent_th": "เขาคือเพื่อนที่ดีที่สุดของฉัน",
+      "theme": "people",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_136",
+      "ch": "囚",
+      "py": "qiú",
+      "en": "Prisoner",
+      "th": "นักโทษ",
+      "zh": "那个囚犯在监狱里。",
+      "sent_en": "That prisoner is in the prison.",
+      "sent_th": "นักโทษคนนั้นอยู่ในคุก",
+      "theme": "people",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_137",
+      "ch": "绍",
+      "py": "shào",
+      "en": "Introduce",
+      "th": "แนะนำ",
+      "zh": "我来介绍我的朋友。",
+      "sent_en": "I will introduce my friend.",
+      "sent_th": "ฉันจะแนะนำเพื่อนของฉัน",
+      "theme": "people",
+      "etymology": {
+        "notes": "Phonosemantic compound. 纟 represents the meaning and 召 represents the sound. Simplified form of 紹. ",
+        "definition": "to connect; to introduce",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "纟"
+          },
+          {
+            "type": "sound",
+            "char": "召"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_138",
+      "ch": "傻",
+      "py": "shǎ",
+      "en": "Silly",
+      "th": "โง่",
+      "zh": "别傻了！",
+      "sent_en": "Don't be silly!",
+      "sent_th": "อย่าโง่ไปเลย!",
+      "theme": "people",
+      "etymology": {
+        "notes": "Origin unclear. Possibly a combination of 亻 (person) 囟 (head) 八 (separate) and 夂 (foot).",
+        "definition": "stupid; foolish",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "亻"
+          },
+          {
+            "type": "meaning",
+            "char": "囟"
+          },
+          {
+            "type": "meaning",
+            "char": "八"
+          },
+          {
+            "type": "meaning",
+            "char": "夂"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_139",
+      "ch": "谊",
+      "py": "yì",
+      "en": "Friendship",
+      "th": "มิตรภาพ",
+      "zh": "友谊很重要。",
+      "sent_en": "Friendship is important.",
+      "sent_th": "มิตรภาพเป็นสิ่งสำคัญ",
+      "theme": "people",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_140",
+      "ch": "吟",
+      "py": "yín",
+      "en": "To chant",
+      "th": "ร้องเพลง",
+      "zh": "他喜欢吟诗。",
+      "sent_en": "He likes to chant poetry.",
+      "sent_th": "เขาชอบร้องเพลงบทกวี",
+      "theme": "people",
+      "etymology": {
+        "notes": "Phonosemantic compound. 口 represents the meaning and 今 represents the sound. ",
+        "definition": "chant; recite; moan",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "口"
+          },
+          {
+            "type": "sound",
+            "char": "今"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_141",
+      "ch": "嫣",
+      "py": "yān",
+      "en": "Charming",
+      "th": "สวยงาม",
+      "zh": "她的笑容很嫣然。",
+      "sent_en": "Her smile is very charming.",
+      "sent_th": "รอยยิ้มของเธอสวยงามมาก",
+      "theme": "people",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_142",
+      "ch": "寨",
+      "py": "zhài",
+      "en": "Village/Stockade",
+      "th": "หมู่บ้าน",
+      "zh": "山上有寨子。",
+      "sent_en": "There is a village on the mountain.",
+      "sent_th": "บนภูเขามีหมู่บ้าน",
+      "theme": "people",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_143",
+      "ch": "赵",
+      "py": "zhào",
+      "en": "Zhao (surname)",
+      "th": "จ้าว",
+      "zh": "赵老师是我的中文老师。",
+      "sent_en": "Teacher Zhao is my Chinese teacher.",
+      "sent_th": "อาจารย์จ้าวเป็นครูภาษาจีนของฉัน",
+      "theme": "people",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_144",
+      "ch": "诸",
+      "py": "zhū",
+      "en": "All",
+      "th": "ทั้งหมด",
+      "zh": "诸位请坐。",
+      "sent_en": "Everyone",
+      "sent_th": " please sit down.",
+      "theme": "people",
+      "etymology": {
+        "notes": "Phonosemantic compound. 讠 represents the meaning and 者 represents the sound. Simplified form of 諸. ",
+        "definition": "all, many, various; surname",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "讠"
+          },
+          {
+            "type": "sound",
+            "char": "者"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_145",
+      "ch": "贼",
+      "py": "zéi",
+      "en": "Thief",
+      "th": "ขโมย",
+      "zh": "那个贼偷了钱包。",
+      "sent_en": "That thief stole the wallet.",
+      "sent_th": "ขโมยคนนั้นขโมยกระเป๋าสตางค์ไป",
+      "theme": "people",
+      "etymology": {
+        "notes": "Phonosemantic compound. 戎 represents the meaning and 贝 represents the sound. Simplified form of 賊. ",
+        "definition": "thief, traitor; cunning, sly",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "戎"
+          },
+          {
+            "type": "sound",
+            "char": "贝"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_146",
+      "ch": "祷",
+      "py": "dǎo",
+      "en": "Pray",
+      "th": "อธิษฐาน",
+      "zh": "我每天为家人祈祷。",
+      "sent_en": "I pray for my family every day.",
+      "sent_th": "ฉันอธิษฐานให้ครอบครัวทุกวัน",
+      "theme": "religion",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_147",
+      "ch": "祭",
+      "py": "jì",
+      "en": "sacrifice",
+      "th": "การเซ่นไหว้",
+      "zh": "清明节我们要祭祖。",
+      "sent_en": "We pay respects to ancestors during Qingming Festival.",
+      "sent_th": "วันเช็งเม้งเราต้องเซ่นไหว้บรรพบุรุษ",
+      "theme": "rituals",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_148",
+      "ch": "督",
+      "py": "dū",
+      "en": "Supervise",
+      "th": "ตรวจสอบ",
+      "zh": "老师会监督我们学习。",
+      "sent_en": "The teacher will supervise our studying.",
+      "sent_th": "ครูจะคอยตรวจสอบการเรียนของเรา",
+      "theme": "school",
+      "etymology": {
+        "notes": "Phonosemantic compound. 目 represents the meaning and 叔 represents the sound. ",
+        "definition": "to supervise, to oversee, to direct",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "目"
+          },
+          {
+            "type": "sound",
+            "char": "叔"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_149",
+      "ch": "篮",
+      "py": "lán",
+      "en": "Basket",
+      "th": "ตะกร้า",
+      "zh": "篮球在篮子里。",
+      "sent_en": "The basketball is in the basket.",
+      "sent_th": "บาสเกตบอลอยู่ในตะกร้า",
+      "theme": "school",
+      "etymology": {
+        "notes": "Phonosemantic compound. ⺮ represents the meaning and 监 represents the sound. Simplified form of 籃. ",
+        "definition": "basket; goal",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "⺮"
+          },
+          {
+            "type": "sound",
+            "char": "监"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_150",
+      "ch": "诣",
+      "py": "yì",
+      "en": "To visit (a place of respect)",
+      "th": "เยี่ยมเยือน",
+      "zh": "他今天去诣见老师。",
+      "sent_en": "He went to visit the teacher today.",
+      "sent_th": "วันนี้เขาไปเยี่ยมเยือนคุณครู",
+      "theme": "school",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_151",
+      "ch": "矩",
+      "py": "jǔ",
+      "en": "Square",
+      "th": "สี่เหลี่ยม",
+      "zh": "这个桌子是矩形的。",
+      "sent_en": "This table is rectangular.",
+      "sent_th": "โต๊ะนี้เป็นรูปสี่เหลี่ยม",
+      "theme": "shapes",
+      "etymology": {
+        "notes": "Phonosemantic compound. 矢 represents the meaning and 巨 represents the sound. Originally written as 巨.",
+        "definition": "carpenter's square; rule; pattern",
+        "components": [
+          {
+            "type": "meaning",
+            "char": "矢"
+          },
+          {
+            "type": "sound",
+            "char": "巨"
+          }
+        ],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_152",
+      "ch": "暇",
+      "py": "xiá",
+      "en": "Leisure",
+      "th": "เวลาว่าง",
+      "zh": "我有很多闲暇时间。",
+      "sent_en": "I have a lot of leisure time.",
+      "sent_th": "ฉันมีเวลาว่างมาก",
+      "theme": "time",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    },
+    {
+      "word_id": "5B_153",
+      "ch": "曰",
+      "py": "yuē",
+      "en": "To say",
+      "th": "พูด",
+      "zh": "子曰：“学而时习之。”",
+      "sent_en": "Confucius said: \"Learn and practice often.\"",
+      "sent_th": "ขงจื๊อกล่าวว่า: \"เรียนรู้และฝึกฝนบ่อยๆ\"",
+      "theme": "time",
+      "etymology": {
+        "notes": "",
+        "definition": "",
+        "components": [],
+        "images": []
+      }
+    }
+  ]
+}
