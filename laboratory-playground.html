@@ -35,7 +35,7 @@
 <div class="lab-page">
 
   <!-- ═════════════════════════════════════════
-       NAVBAR
+       NAVBAR (desktop)
   ═════════════════════════════════════════ -->
   <div class="lab-navbar" id="lab-navbar">
     <div class="nav-left">
@@ -50,6 +50,24 @@
         <span class="tb-icon">⭐</span>
         <span id="lab-stars-val">0</span>
       </div>
+    </div>
+  </div>
+
+  <!-- ═════════════════════════════════════════
+       MOBILE BAR (hidden on desktop, shown ≤720px)
+  ═════════════════════════════════════════ -->
+  <div class="lab-mobile-bar" id="lab-mobile-bar">
+    <div class="lmb-row">
+      <div class="lmb-back" onclick="location.href='dashboard.html'">←</div>
+      <span class="lmb-title">🧪 Potion Shop</span>
+      <span class="lmb-badge" id="lmb-level">Lv 1</span>
+      <span class="lmb-badge" id="lmb-energy">⚡2</span>
+      <span class="lmb-stars" id="lmb-stars">⭐0</span>
+    </div>
+    <div class="lmb-tabs-row">
+      <button class="lmb-tab active" data-tab="shelf">🧪</button>
+      <button class="lmb-tab" data-tab="decomp">🔬</button>
+      <button class="lmb-tab" data-tab="grimoire">📖</button>
     </div>
   </div>
 
@@ -238,34 +256,65 @@
               </div>
             </div>
 
-            <!-- ── GRIMOIRE tab: Collection + Stats + Creations ── -->
+            <!-- ── GRIMOIRE tab: Potion Book (two-page layout) ── -->
             <div class="rc-panel" id="rc-grimoire">
-              <div class="grimoire-header">
-                <h2>📖 Alchemist's Grimoire</h2>
-                <p id="grimoire-count">0 / 222 ingredients collected</p>
-              </div>
-              <div class="grimoire-progress">
-                <div class="gp-bar-bg"><div class="gp-bar-fill" id="grimoire-progress-bar" style="width:0%"></div></div>
-                <span class="gp-text" id="grimoire-progress-text">0%</span>
-              </div>
-              <div class="grimoire-cats" id="grimoire-cats"></div>
-              <div class="grimoire-ownership" id="grimoire-ownership">
-                <button class="grimoire-own active" data-filter="all" onclick="setCollFilter('all')">All</button>
-                <button class="grimoire-own" data-filter="owned" onclick="setCollFilter('owned')">⭐ Owned</button>
-                <button class="grimoire-own" data-filter="locked" onclick="setCollFilter('locked')">🔒 Locked</button>
-              </div>
-              <div class="grimoire-grid" id="grimoire-grid"></div>
-              <div class="grimoire-stats" id="grimoire-stats"></div>
-
-              <div style="margin-top:12px;border-top:2px dashed rgba(0,0,0,0.06);padding-top:12px;">
-                <div class="rc-header">
-                  <span class="rc-header-title">⚗️ Creations</span>
+              <div class="grimoire-book" id="grimoire-book">
+                <!-- Left Page: Character Detail -->
+                <div class="gb-page gb-page-left">
+                  <div class="gb-page-inner">
+                    <!-- Welcome state (shown when no character selected) -->
+                    <div class="gb-welcome" id="gb-welcome">
+                      <div class="gb-welcome-ornament">✧</div>
+                      <div class="gb-welcome-icon">📖</div>
+                      <div class="gb-welcome-title">Alchemist's Codex</div>
+                      <div class="gb-welcome-text">Tap a discovered character on the right page to reveal its secrets.</div>
+                    </div>
+                    <!-- Detail state (shown when a character is selected) -->
+                    <div class="gb-detail" id="gb-detail" style="display:none;">
+                      <div class="gb-detail-char-wrap">
+                        <span class="gb-detail-char" id="gb-detail-char">明</span>
+                      </div>
+                      <div class="gb-detail-illust" id="gb-detail-illust" style="display:none;">
+                        <img class="gb-detail-illust-img" id="gb-detail-illust-img" src="" alt="" />
+                      </div>
+                      <div class="gb-detail-pinyin" id="gb-detail-pinyin">míng</div>
+                      <div class="gb-detail-divider">◈</div>
+                      <div class="gb-detail-meaning" id="gb-detail-meaning">bright, luminous</div>
+                      <div class="gb-detail-recipe" id="gb-detail-recipe">日 + 月 → 明</div>
+                      <div class="gb-detail-section" id="gb-detail-origin-section">
+                        <div class="gb-section-label">📜 Origin</div>
+                        <div class="gb-section-text" id="gb-detail-etymology"></div>
+                      </div>
+                      <div class="gb-detail-section" id="gb-detail-components-section">
+                        <div class="gb-section-label">🔬 Components</div>
+                        <div class="gb-section-text" id="gb-detail-components"></div>
+                      </div>
+                      <div class="gb-detail-section" id="gb-detail-course-section">
+                        <div class="gb-section-label">📚 Found in</div>
+                        <div class="gb-section-text" id="gb-detail-course"></div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="creations-list" id="creations-list">
-                  <div class="lab-empty">
-                    <div class="emp-emoji">⚗️</div>
-                    <div class="emp-text">No characters discovered yet</div>
-                    <div class="emp-sub">Head to the Brew tab and combine ingredients!</div>
+                <!-- Book Spine -->
+                <div class="gb-spine">
+                  <div class="gb-spine-inner"></div>
+                </div>
+                <!-- Right Page: Discovered Characters -->
+                <div class="gb-page gb-page-right">
+                  <div class="gb-page-inner">
+                    <div class="gb-right-filters" id="gb-right-filters">
+                      <button class="gb-filter active" data-filter="all" onclick="setGrimoireFilter('all')">All</button>
+                      <button class="gb-filter" data-filter="brewed" onclick="setGrimoireFilter('brewed')">🧪 Brewed</button>
+                      <button class="gb-filter" data-filter="extracted" onclick="setGrimoireFilter('extracted')">🔬 Extracted</button>
+                    </div>
+                    <div class="gb-right-list" id="gb-creations-list">
+                      <div class="lab-empty" style="flex:1;padding:20px;">
+                        <div class="emp-emoji">⚗️</div>
+                        <div class="emp-text">No characters discovered yet</div>
+                        <div class="emp-sub">Head to the Brew tab and combine ingredients!</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -167,6 +167,8 @@ Lab.state = {
     // Course data
     courseCharMap: {},
     wordData: {},
+    grimoireFilter: 'all',
+    selectedCreation: null,
     courseFiles: [
       'characters_1A.json', 'characters_1B.json',
       'characters_2a.json', 'characters_2b.json',
@@ -287,8 +289,14 @@ Lab.init = function () {
     }
     Lab.state.profileId = p.id;
 
-    // Wire up right panel tabs
+    // Wire up right panel tabs (desktop)
     document.querySelectorAll('.right-tab').forEach(function (tab) {
+        tab.addEventListener('click', function () {
+            Lab.switchTab(tab.dataset.tab);
+        });
+    });
+    // Wire up mobile bar tab pills
+    document.querySelectorAll('.lmb-tab').forEach(function (tab) {
         tab.addEventListener('click', function () {
             Lab.switchTab(tab.dataset.tab);
         });
@@ -382,12 +390,56 @@ if (document.readyState === 'loading') {
 ══════════════════════════════════════════════════════════════ */
 
 Lab.switchTab = function (tabId) {
+    // Desktop tabs
     document.querySelectorAll('.right-tab').forEach(function (tab) {
+        tab.classList.toggle('active', tab.dataset.tab === tabId);
+    });
+    // Mobile bar tabs
+    document.querySelectorAll('.lmb-tab').forEach(function (tab) {
         tab.classList.toggle('active', tab.dataset.tab === tabId);
     });
     document.querySelectorAll('.rc-panel').forEach(function (panel) {
         panel.classList.toggle('active', panel.id === 'rc-' + tabId);
     });
+
+    // Show/hide left column (flask area) — hidden on grimoire for full-width book
+    var labLeft = document.querySelector('.lab-left');
+    if (labLeft) {
+        labLeft.classList.toggle('lab-left-hidden', tabId === 'grimoire');
+    }
+
+    // Hide sidebar and remove content padding in grimoire mode for full-width book
+    var panelBody = docID('right-panel-body');
+    if (panelBody) {
+        panelBody.classList.toggle('grimoire-mode', tabId === 'grimoire');
+    }
+    // Also toggle grimoire-mode on right-panel to fix corner clipping
+    var rightPanel = docID('right-panel');
+    if (rightPanel) {
+        rightPanel.classList.toggle('grimoire-mode', tabId === 'grimoire');
+    }
+    // Remove page bottom padding in grimoire mode so the book reaches the bottom
+    var labPage = document.querySelector('.lab-page');
+    if (labPage) {
+        labPage.classList.toggle('grimoire-mode', tabId === 'grimoire');
+    }
+
+    // Clear decomp state when leaving decomp tab
+    if (tabId !== 'decomp' && Lab.state.selectedDecompChar) {
+        Lab.state.selectedDecompChar = null;
+        Lab.state.selectedRadicals = [null, null, null];
+        var detail = docID('extract-detail');
+        if (detail) detail.classList.remove('visible');
+        var flaskOverlay = docID('flask-result-overlay');
+        if (flaskOverlay) flaskOverlay.classList.remove('visible');
+        Lab.updateFlaskSlots();
+    }
+    // Reset panda message if leaving decomp
+    if (tabId === 'shelf') {
+        var msgEl = docID('panda-msg');
+        if (msgEl) msgEl.textContent = 'Drop some ingredients in the cauldron! \uD83C\uDF3F';
+    }
+
     var pid = Lab.state.profileId;
     if (!pid) return;
     if (tabId === 'shelf') {
@@ -397,8 +449,6 @@ Lab.switchTab = function (tabId) {
         Lab.renderDecompList();
     } else if (tabId === 'grimoire') {
         Lab.renderGrimoire();
-        Lab.renderStats();
-        Lab.renderCreations();
     }
 };
 
@@ -415,12 +465,17 @@ Lab.updateTopbar = function () {
     var energy = XHZ.getLabEnergy(pid);
     var maxEnergy = XHZ.getMaxLabEnergy();
 
-    // Player card in left column
+    // Player card in left column (desktop)
     setText('lab-level-val', 'Lv ' + level);
     setText('lab-stars-val', totalStars);
     setText('lab-energy-val', energy + '/' + maxEnergy);
     setText('lab-xp-text', progress.starsOwned + ' / ' + (progress.starsNeeded || 0));
     setStyle('lab-xp-bar', 'width', progress.progressPercent + '%');
+
+    // Mobile bar
+    setText('lmb-level', 'Lv ' + level);
+    setText('lmb-energy', '\u26A1' + energy);
+    setText('lmb-stars', '\u2B50' + totalStars);
 
     // Profile name
     var p = XHZ.getActiveProfile();
@@ -430,10 +485,10 @@ Lab.updateTopbar = function () {
 
     if (pid && Lab.state.radicalData) {
         var allRads = XHZ.getAllUserRadicals ? XHZ.getAllUserRadicals(pid) : [];
-        setText('grimoire-count', allRads.length + ' / ' + Lab.state.allRadicals.length + ' ingredients collected');
-        var pct = Lab.state.allRadicals.length > 0 ? Math.round(allRads.length / Lab.state.allRadicals.length * 100) : 0;
-        setText('grimoire-progress-text', pct + '%');
-        setStyle('grimoire-progress-bar', 'width', pct + '%');
+        // Update creations count in the book
+        var discovered = XHZ.getDiscoveredCharacters(pid);
+        var chars = Object.keys(discovered);
+        setText('gb-creations-count', chars.length);
     }
 };
 
@@ -669,6 +724,11 @@ function onFlaskDropClick(index) {
 }
 
 function clearMixSelection() {
+    // Also clear decomp state if it was active
+    if (Lab.state.selectedDecompChar) {
+        clearDecompSelection();
+        return;
+    }
     if (Lab.state.synthesisMode) {
         Lab.state.synthesisMode = false;
         Lab.resetMixState();
@@ -1393,7 +1453,8 @@ Lab.loadCourseData = function () {
                             word_id: w.word_id,
                             course: data.course || '',
                             pinyin: w.py || w.pinyin || '',
-                            meaning: w.en || w.meaning || ''
+                            meaning: w.en || w.meaning || '',
+                            etymology: w.etymology || null
                         };
                     }
                     if (w.word_id && !Lab.state.wordData[w.word_id]) {
@@ -1420,137 +1481,178 @@ Lab.loadCourseData = function () {
 ══════════════════════════════════════════════════════════════ */
 
 Lab.renderGrimoire = function () {
-    var grid = docID('grimoire-grid');
-    if (!grid) return;
-
-    var pid = Lab.state.profileId;
-    if (!pid || !Lab.state.allRadicals.length) return;
-
-    var allUser = XHZ.getAllUserRadicals ? XHZ.getAllUserRadicals(pid) : [];
-    var userSet = {};
-    for (var ui = 0; ui < allUser.length; ui++) { userSet[allUser[ui]] = true; }
-
-    var filtered = [];
-    for (var i = 0; i < Lab.state.allRadicals.length; i++) {
-        var r = Lab.state.allRadicals[i];
-        var owned = !!userSet[r.char];
-        if (Lab.state.collCategory !== 'all') {
-            var rCat = r.doodle_category || r.category || 'other';
-            if (rCat !== Lab.state.collCategory) continue;
-        }
-        if (Lab.state.collFilter === 'owned' && !owned) continue;
-        if (Lab.state.collFilter === 'locked' && owned) continue;
-        filtered.push(r);
-    }
-
-    if (filtered.length === 0) {
-        grid.innerHTML = '<div class="lab-empty" style="padding:12px;"><div class="emp-panda" style="font-size:2rem;">\uD83D\uDC3C</div><div class="emp-sub">No ingredients match this filter! Try a different category.</div></div>';
-        return;
-    }
-
-    var html = '';
-    for (var fi = 0; fi < filtered.length; fi++) {
-        var rad = filtered[fi];
-        var owned = !!userSet[rad.char];
-        var cat = rad.doodle_category || rad.category || 'other';
-        var meta = LAB_CATEGORY_META[cat] || LAB_CATEGORY_META['other'];
-        var cls = 'grimoire-card' + (owned ? ' owned' : ' locked');
-        html += '<div class="' + cls + '">' +
-            '<span class="gc-char">' + rad.char + '</span>' +
-            '<span class="gc-pinyin">' + (rad.pinyin || '') + '</span>' +
-            '<span class="gc-cat"><span class="cat-dot" style="background:' + meta.color + ';"></span>' + meta.emoji + '</span>' +
-            '</div>';
-    }
-    grid.innerHTML = html;
-
-    // Update progress
-    setText('grimoire-count', allUser.length + ' / ' + Lab.state.allRadicals.length + ' ingredients collected');
-    var pct = Lab.state.allRadicals.length > 0 ? Math.round(allUser.length / Lab.state.allRadicals.length * 100) : 0;
-    setText('grimoire-progress-text', pct + '%');
-    setStyle('grimoire-progress-bar', 'width', pct + '%');
-
-    Lab._renderGrimoireCategoryFilters();
-    Lab.renderStats();
-};
-
-Lab._renderGrimoireCategoryFilters = function () {
-    var container = docID('grimoire-cats');
-    if (!container) return;
-
-    var cats = [];
-    var seen = {};
-    for (var i = 0; i < Lab.state.allRadicals.length; i++) {
-        var r = Lab.state.allRadicals[i];
-        var cat = r.doodle_category || r.category || 'other';
-        if (!seen[cat]) {
-            seen[cat] = true;
-            var meta = LAB_CATEGORY_META[cat] || LAB_CATEGORY_META['other'];
-            cats.push({ id: cat, emoji: meta.emoji, color: meta.color });
-        }
-    }
-    cats.sort(function (a, b) { return a.id.localeCompare(b.id); });
-
-    var html = '<button class="grimoire-cat' + (Lab.state.collCategory === 'all' ? ' active' : '') + '" ' +
-        'style="--cat-color:var(--lab-vial);" onclick="setCollCategory(\'all\')">All</button>';
-    for (var ci = 0; ci < cats.length; ci++) {
-        var c = cats[ci];
-        html += '<button class="grimoire-cat' + (Lab.state.collCategory === c.id ? ' active' : '') + '" ' +
-            'style="--cat-color:' + c.color + ';" onclick="setCollCategory(\'' + c.id + '\')">' +
-            '<span class="cat-dot" style="background:' + c.color + ';"></span>' +
-            c.emoji + ' ' + c.id + '</button>';
-    }
-    container.innerHTML = html;
-};
-
-function setCollFilter(filter) {
-    Lab.state.collFilter = filter;
-    document.querySelectorAll('#grimoire-ownership .grimoire-own').forEach(function (btn) {
-        btn.classList.toggle('active', btn.dataset.filter === filter);
-    });
-    Lab.renderGrimoire();
-}
-
-function setCollCategory(category) {
-    Lab.state.collCategory = category;
-    Lab.renderGrimoire();
-}
-
-Lab.renderStats = function () {
-    var grid = docID('grimoire-stats');
-    if (!grid) return;
-
     var pid = Lab.state.profileId;
     if (!pid) return;
 
-    var stats = XHZ.getLabStats ? XHZ.getLabStats(pid) : null;
-    if (!stats) {
-        grid.innerHTML = '<div class="lab-empty" style="grid-column:1/-1;padding:12px;"><div class="emp-panda" style="font-size:2rem;">\uD83D\uDC3C</div><div class="emp-text">No lab activity yet!</div><div class="emp-sub">Start brewing in the cauldron to see your stats here!</div></div>';
+    // Render the creations list on the right page
+    Lab._renderCreationsList();
+};
+
+Lab._renderCreationsList = function () {
+    var list = docID('gb-creations-list');
+    if (!list) return;
+
+    var pid = Lab.state.profileId;
+    if (!pid) {
+        list.innerHTML = '<div class="lab-empty" style="padding:16px;"><div class="emp-panda" style="font-size:2rem;">\uD83D\uDC3C</div><div class="emp-text">No profile selected!</div></div>';
         return;
     }
 
     var discovered = XHZ.getDiscoveredCharacters(pid);
-    var discCount = Object.keys(discovered).length;
-    var allUser = XHZ.getAllUserRadicals ? XHZ.getAllUserRadicals(pid) : [];
+    var chars = Object.keys(discovered);
 
-    var usage = stats.radical_usage || {};
-    var usageArr = [];
-    for (var k in usage) { usageArr.push({ char: k, count: usage[k] }); }
-    usageArr.sort(function (a, b) { return b.count - a.count; });
-    var top3 = usageArr.slice(0, 6);
+    if (chars.length === 0) {
+        list.innerHTML = '<div class="lab-empty" style="padding:20px;"><div class="emp-emoji">\uD83D\uDCD6</div><div class="emp-text">Your potion journal is empty!</div><div class="emp-sub">Head to the Brew tab and combine ingredients to discover new characters!</div></div>';
+        setText('gb-creations-count', '0');
+        return;
+    }
 
-    grid.innerHTML =
-        '<div class="grimoire-stat"><div class="gs-icon">\u2697\uFE0F</div><div class="gs-value">' + (stats.total_mix_attempts || 0) + '</div><div class="gs-label">Total Brews</div></div>' +
-        '<div class="grimoire-stat"><div class="gs-icon">\u2705</div><div class="gs-value" style="color:var(--lab-brew-dark);">' + (stats.total_mix_successes || 0) + '</div><div class="gs-label">Successes</div></div>' +
-        '<div class="grimoire-stat"><div class="gs-icon">\u274C</div><div class="gs-value" style="color:var(--lab-extract-dark);">' + (stats.total_mix_failures || 0) + '</div><div class="gs-label">Failures</div></div>' +
-        '<div class="grimoire-stat"><div class="gs-icon">\uD83D\uDCA1</div><div class="gs-value">' + (stats.total_triple_blends || 0) + '</div><div class="gs-label">Triple Brews</div></div>' +
-        '<div class="grimoire-stat"><div class="gs-icon">\uD83C\uDF1F</div><div class="gs-value" style="color:var(--lab-glow-dark);">' + discCount + '</div><div class="gs-label">Discoveries</div></div>' +
-        '<div class="grimoire-stat"><div class="gs-icon">\uD83D\uDCE6</div><div class="gs-value" style="color:var(--lab-brew-dark);">' + allUser.length + '</div><div class="gs-label">Ingredients</div></div>' +
-        '<div class="grimoire-stat"><div class="gs-icon">\uD83D\uDD2C</div><div class="gs-value">' + (stats.total_decompositions || 0) + '</div><div class="gs-label">Extractions</div></div>' +
-        '<div class="grimoire-stat"><div class="gs-icon">\u26A1</div><div class="gs-value">' + XHZ.getLabEnergy(pid) + '/' + XHZ.getMaxLabEnergy() + '</div><div class="gs-label">Energy</div></div>' +
-        (top3.length > 0 ? '<div class="grimoire-favs" style="grid-column:1/-1;">' +
-            top3.map(function (u) { return '<div class="grimoire-fav"><span class="gf-char">' + u.char + '</span><span class="gf-count">' + u.count + 'x</span></div>'; }).join('') +
-            '</div>' : '');
+    // Filter
+    var filter = Lab.state.grimoireFilter || 'all';
+    var filtered = [];
+    for (var i = 0; i < chars.length; i++) {
+        var ch = chars[i];
+        var entry = discovered[ch];
+        if (filter === 'brewed' && entry.decomposed) continue;
+        if (filter === 'extracted' && !entry.decomposed) continue;
+        filtered.push({ char: ch, entry: entry });
+    }
+
+    setText('gb-creations-count', chars.length);
+
+    var html = '';
+    for (var fi = 0; fi < filtered.length; fi++) {
+        var item = filtered[fi];
+        var ch = item.char;
+        var isSelected = Lab.state.selectedCreation === ch;
+
+        html += '<div class="gb-entry' + (isSelected ? ' selected' : '') + '" onclick="selectCreation(\'' + ch + '\')">' +
+            '<span class="gbe-char">' + ch + '</span>' +
+            '</div>';
+    }
+
+    if (filtered.length === 0) {
+        html = '<div class="lab-empty" style="padding:20px;"><div class="emp-emoji">\uD83D\uDD0D</div><div class="emp-text">No ' + filter + ' creations yet!</div></div>';
+    }
+
+    list.innerHTML = html;
 };
+
+function selectCreation(char) {
+    // Toggle deselect if clicking the same character again
+    if (Lab.state.selectedCreation === char) {
+        Lab.state.selectedCreation = null;
+        Lab._renderCreationsList();
+        // Show welcome, hide detail
+        var welcome = docID('gb-welcome');
+        var detail = docID('gb-detail');
+        if (welcome) welcome.style.display = '';
+        if (detail) detail.style.display = 'none';
+        return;
+    }
+    Lab.state.selectedCreation = char;
+    Lab._renderCreationsList();
+    Lab.renderGrimoireDetail(char);
+}
+
+Lab.renderGrimoireDetail = function (char) {
+    var pid = Lab.state.profileId;
+    if (!pid || !char) return;
+
+    var discovered = XHZ.getDiscoveredCharacters(pid);
+    var entry = discovered[char];
+    if (!entry) return;
+
+    // Show detail, hide welcome
+    var welcome = docID('gb-welcome');
+    var detail = docID('gb-detail');
+    if (welcome) welcome.style.display = 'none';
+    if (detail) detail.style.display = 'flex';
+
+    // Character
+    setText('gb-detail-char', char);
+
+    // Pinyin
+    setText('gb-detail-pinyin', entry.pinyin || '');
+
+    // Meaning
+    setText('gb-detail-meaning', entry.meaning || '');
+
+    // Recipe
+    var recipe = (entry.recipe || []).join(' + ');
+    setText('gb-detail-recipe', recipe ? recipe + ' \u2192 ' + char : '');
+
+    // Try to load flashcard illustration from word_id
+    var courseInfo = Lab.state.courseCharMap[char];
+    var illustContainer = docID('gb-detail-illust');
+    var illustImg = docID('gb-detail-illust-img');
+    // Hide immediately to prevent stale image flash from previous character
+    if (illustContainer) illustContainer.style.display = 'none';
+    if (illustContainer && illustImg && courseInfo && courseInfo.word_id) {
+        var imgUrl = 'assets/characters/' + courseInfo.word_id + '.png';
+        var testImg = new Image();
+        testImg.onload = function () {
+            illustImg.src = imgUrl;
+            illustContainer.style.display = 'flex';
+        };
+        testImg.onerror = function () {
+            illustContainer.style.display = 'none';
+        };
+        testImg.src = imgUrl;
+    } else if (illustContainer) {
+        illustContainer.style.display = 'none';
+    }
+    var etymology = courseInfo ? courseInfo.etymology : null;
+
+    // Origin section
+    var originSection = docID('gb-detail-origin-section');
+    var etymologyEl = docID('gb-detail-etymology');
+    if (originSection && etymologyEl) {
+        if (etymology && etymology.notes) {
+            originSection.style.display = '';
+            etymologyEl.textContent = etymology.notes;
+        } else {
+            originSection.style.display = 'none';
+        }
+    }
+
+    // Components section
+    var compSection = docID('gb-detail-components-section');
+    var compEl = docID('gb-detail-components');
+    if (compSection && compEl) {
+        var comps = etymology && etymology.components ? etymology.components : [];
+        if (comps.length > 0) {
+            compSection.style.display = '';
+            compEl.textContent = comps.map(function (c) { return c.char + ' (' + c.type + ')'; }).join(', ');
+        } else if (entry.recipe && entry.recipe.length > 0) {
+            compSection.style.display = '';
+            compEl.textContent = 'Formed from: ' + entry.recipe.join(', ') + (entry.decomposed ? ' (extracted)' : ' (discovered through brewing)');
+        } else {
+            compSection.style.display = 'none';
+        }
+    }
+
+    // Course section
+    var courseSection = docID('gb-detail-course-section');
+    var courseEl = docID('gb-detail-course');
+    if (courseSection && courseEl) {
+        if (courseInfo && courseInfo.course) {
+            courseSection.style.display = '';
+            courseEl.textContent = 'Course: ' + courseInfo.course + ' \u00B7 ' + (courseInfo.pinyin || '') + ' \u00B7 ' + (courseInfo.meaning || '');
+        } else {
+            courseSection.style.display = 'none';
+        }
+    }
+};
+
+function setGrimoireFilter(filter) {
+    Lab.state.grimoireFilter = filter;
+    // Update active state on filter buttons using data-filter attribute
+    document.querySelectorAll('#gb-right-filters .gb-filter').forEach(function (btn) {
+        btn.classList.toggle('active', btn.getAttribute('data-filter') === filter);
+    });
+    Lab._renderCreationsList();
+}
 
 /* ══════════════════════════════════════════════════════════════
    EXTRACT — Decomposition
@@ -1598,15 +1700,11 @@ Lab.renderDecompList = function () {
         var decomposed = XHZ.isCharDecomposed(pid, dc.char);
         var selected = Lab.state.selectedDecompChar === dc.char;
         var statusClass = decomposed ? 'done' : (energy > 0 ? 'ready' : 'locked');
-        var statusText = decomposed ? '\u2705 Done' : (energy > 0 ? '\u26A1 Ready' : '\uD83D\uDD12 No energy');
+        var extraCls = decomposed ? ' decomposed' : '';
 
-        html += '<div class="extract-card' + (selected ? ' selected' : '') + '" onclick="selectDecompChar(\'' + dc.char + '\')">' +
+        html += '<div class="extract-card' + (selected ? ' selected' : '') + extraCls + '" onclick="selectDecompChar(\'' + dc.char + '\')">' +
             '<span class="ec-char">' + dc.char + '</span>' +
-            '<div class="ec-info">' +
-            '<div class="ec-name">' + (dc.courseInfo.meaning || '') + '</div>' +
-            '<div class="ec-meta">' + (dc.courseInfo.pinyin || '') + ' \u00B7 ' + (dc.courseInfo.course || '') + '</div>' +
-            '</div>' +
-            '<span class="ec-status ' + statusClass + '">' + statusText + '</span>' +
+            '<span class="ec-dot ' + statusClass + '"></span>' +
             '</div>';
     }
     list.innerHTML = html;
@@ -1620,6 +1718,32 @@ function selectDecompChar(char) {
 
     Lab.state.selectedDecompChar = char;
     Lab.renderDecompList();
+
+    // Clear brew state — drop zones stay empty
+    Lab.state.selectedRadicals = [null, null, null];
+    Lab.updateFlaskSlots();
+
+    // Show the character centered in the flask via the result overlay
+    var flaskOverlay = docID('flask-result-overlay');
+    var flaskChar = docID('flask-result-char');
+    if (flaskChar) flaskChar.textContent = char;
+    if (flaskOverlay) flaskOverlay.classList.add('visible');
+
+    // Override the lower frame prompt (updateFlaskSlots sets it to brew text)
+    var promptEl = docID('lf-action-prompt');
+    if (promptEl) promptEl.textContent = 'Ready to extract ' + char + '! Hit the Extract button! \uD83D\uDD2C';
+    var tipEl = docID('brew-tip');
+    if (tipEl) tipEl.style.display = 'none';
+
+    // Hide clear button and disable MIX button during decomp
+    var clearBtn = docID('flask-clear-btn');
+    if (clearBtn) clearBtn.classList.remove('visible');
+    var flaskBtn = docID('flask-mix-btn');
+    if (flaskBtn) flaskBtn.classList.add('disabled');
+
+    // Update panda message
+    var msgEl = docID('panda-msg');
+    if (msgEl) msgEl.textContent = 'Breaking down ' + char + '... Hit Extract! \uD83D\uDD2C';
 
     var detail = docID('extract-detail');
     if (!detail) return;
@@ -1669,7 +1793,7 @@ function onDecomposeClick() {
     if (!pid || !char) return;
 
     if (!XHZ.canDecompose(pid)) {
-        alert('No lab energy remaining today! Come back tomorrow.');
+        Lab.showToast('\u26A0\uFE0F', 'No energy!', 'No lab energy remaining today. Come back tomorrow!', 'OK');
         return;
     }
 
@@ -1685,13 +1809,67 @@ function onDecomposeClick() {
                 XHZ.markCharAsDecomposed(pid, char, newRads);
                 XHZ.incrementLabStat(pid, 'total_decompositions');
                 Lab.sfx.decomp();
+
+                // Show reverse reaction in flask: extracted radicals in the drop zones
+                Lab.state.selectedRadicals = [null, null, null];
+                var maxSlots = Math.min(rads.length, 2);
+                for (var si = 0; si < maxSlots; si++) {
+                    Lab.state.selectedRadicals[si] = rads[si];
+                }
+                Lab.updateFlaskSlots();
+
+                // Override prompt for decomp success
+                var promptEl = docID('lf-action-prompt');
+                if (promptEl) promptEl.textContent = char + ' broke down into ' + rads.join(' + ') + '! \u2728';
+                var tipEl = docID('brew-tip');
+                if (tipEl) tipEl.style.display = 'none';
+
+                // Hide flask overlay (character no longer in the center)
+                var flaskOverlay = docID('flask-result-overlay');
+                if (flaskOverlay) flaskOverlay.classList.remove('visible');
+
+                // Hide clear button and disable MIX button
+                var clearBtn = docID('flask-clear-btn');
+                if (clearBtn) clearBtn.classList.remove('visible');
+                var flaskBtn = docID('flask-mix-btn');
+                if (flaskBtn) flaskBtn.classList.add('disabled');
+
+                // Show the result in the lower frame: char → rads
+                var lfResult = docID('lf-result');
+                var lfChar = docID('lf-result-char');
+                var lfInfo = docID('lf-result-info');
+                var lfBadge = docID('lf-result-badge');
+                if (lfChar) lfChar.textContent = char + ' \u2192 ' + rads.join(' + ');
+                if (lfInfo) lfInfo.textContent = 'Extracted ' + rads.length + ' components!';
+                if (lfBadge) {
+                    lfBadge.textContent = '\u2705 Extracted!';
+                    lfBadge.className = 'lf-result-badge success';
+                }
+                if (lfResult) {
+                    lfResult.className = 'lf-content lf-result';
+                    lfResult.classList.add('success');
+                }
+                Lab.showLowerFrame('result');
+
+                // Sparkle burst
+                Lab.spawnBurstParticles();
+                Lab.setPandaExcited();
+
+                // Auto-clear the flask after 2s
+                setTimeout(function () {
+                    Lab.state.selectedRadicals = [null, null, null];
+                    Lab.updateFlaskSlots();
+                }, 2500);
+
                 Lab.state.selectedDecompChar = null;
                 var detail = docID('extract-detail');
                 if (detail) detail.classList.remove('visible');
                 Lab.renderDecompList();
                 Lab.updateTopbar();
                 if (newRads.length > 0) {
-                    Lab.showToast('\uD83D\uDD2C', 'Extracted!', 'Discovered ' + newRads.join(', ') + ' from ' + char, 'Awesome!');
+                    setTimeout(function () {
+                        Lab.showToast('\uD83D\uDD2C', 'Extracted!', 'Discovered ' + newRads.join(', ') + ' from ' + char, 'Awesome!');
+                    }, 600);
                 }
             }
             return;
@@ -1701,6 +1879,19 @@ function onDecomposeClick() {
 
 function clearDecompSelection() {
     Lab.state.selectedDecompChar = null;
+    // Hide flask overlay
+    var flaskOverlay = docID('flask-result-overlay');
+    if (flaskOverlay) flaskOverlay.classList.remove('visible');
+    // Clear the flask
+    Lab.state.selectedRadicals = [null, null, null];
+    Lab.updateFlaskSlots();
+    // Reset panda message
+    var msgEl = docID('panda-msg');
+    if (msgEl) msgEl.textContent = 'Select a character to decompose! \uD83D\uDD2C';
+    Lab.showLowerFrame('welcome');
+    // Restore the tip element
+    var tipEl = docID('brew-tip');
+    if (tipEl) tipEl.style.display = '';
     var detail = docID('extract-detail');
     if (detail) detail.classList.remove('visible');
     Lab.renderDecompList();
@@ -1711,40 +1902,8 @@ function clearDecompSelection() {
 ══════════════════════════════════════════════════════════════ */
 
 Lab.renderCreations = function () {
-    var list = docID('creations-list');
-    if (!list) return;
-
-    var pid = Lab.state.profileId;
-    if (!pid) {
-        list.innerHTML = '<div class="lab-empty"><div class="emp-panda">\uD83D\uDC3C</div><div class="emp-text">No profile selected!</div></div>';
-        return;
-    }
-
-    var discovered = XHZ.getDiscoveredCharacters(pid);
-    var chars = Object.keys(discovered);
-
-    if (chars.length === 0) {
-        list.innerHTML = '<div class="lab-empty"><div class="emp-panda">\uD83D\uDC3C</div><div class="emp-text">Your potion journal is empty!</div><div class="emp-sub">Head to the Brew tab and mix ingredients together to discover new characters! \u2697\uFE0F</div></div>';
-        return;
-    }
-
-    var html = '';
-    for (var i = 0; i < chars.length; i++) {
-        var ch = chars[i];
-        var entry = discovered[ch];
-        var recipe = (entry.recipe || []).join(' + ');
-        html += '<div class="creations-card">' +
-            '<span class="cc-char">' + ch + '</span>' +
-            '<div class="cc-info">' +
-            '<div class="cc-recipe">' + recipe + '</div>' +
-            '<div class="cc-meta">' + (entry.pinyin || '') + (entry.meaning ? ' \u00B7 ' + entry.meaning : '') + '</div>' +
-            '</div>' +
-            '<span class="cc-badge ' + (entry.decomposed ? 'extracted' : 'brewed') + '">' +
-            (entry.decomposed ? '\u2705 Extracted' : '\uD83C\uDF1F Brewed') +
-            '</span>' +
-            '</div>';
-    }
-    list.innerHTML = html;
+    // Redirect to the new grimoire book renderer
+    Lab._renderCreationsList();
 };
 
 /* ══════════════════════════════════════════════════════════════

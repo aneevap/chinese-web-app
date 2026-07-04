@@ -1,0 +1,1564 @@
+
+
+
+/* ══════════════════════════════════════════════════════════════
+   LABORATORY ENGINE
+══════════════════════════════════════════════════════════════ */
+
+var Lab = {};
+Lab.sfx = (function () {
+    var ctx = null;
+    function getCtx() {
+        if (!ctx) {
+            try { ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return null; }
+        }
+        return ctx;
+    }
+    function play(freq, duration, type, vol) {
+        var c = getCtx();
+        if (!c) return;
+        var osc = c.createOscillator();
+        var gain = c.createGain();
+        osc.type = type || 'sine';
+        osc.frequency.setValueAtTime(freq, c.currentTime);
+        gain.gain.setValueAtTime(vol || 0.12, c.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime + (duration || 0.15));
+        osc.connect(gain);
+        gain.connect(c.destination);
+        osc.start(c.currentTime);
+        osc.stop(c.currentTime + (duration || 0.15));
+    }
+    return {
+        /** Short click / tap */
+        click: function () { play(800, 0.06, 'sine', 0.08); },
+        /** Success — ascending bright tone */
+        success: function () {
+            var c = getCtx();
+            if (!c) return;
+            [523, 659, 784].forEach(function (f, i) {
+                var osc = c.createOscillator();
+                var gain = c.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(f, c.currentTime + i * 0.08);
+                gain.gain.setValueAtTime(0.10, c.currentTime + i * 0.08);
+                gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime + i * 0.08 + 0.2);
+                osc.connect(gain);
+                gain.connect(c.destination);
+                osc.start(c.currentTime + i * 0.08);
+                osc.stop(c.currentTime + i * 0.08 + 0.2);
+            });
+        },
+        /** Fail — descending dull tone */
+        fail: function () {
+            var c = getCtx();
+            if (!c) return;
+            var osc = c.createOscillator();
+            var gain = c.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(400, c.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(150, c.currentTime + 0.3);
+            gain.gain.setValueAtTime(0.08, c.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.3);
+            osc.connect(gain);
+            gain.connect(c.destination);
+            osc.start(c.currentTime);
+            osc.stop(c.currentTime + 0.3);
+        },
+        /** Synthesis — sparkly ascending */
+        chain: function () {
+            var c = getCtx();
+            if (!c) return;
+            [660, 880, 1100, 1320].forEach(function (f, i) {
+                var osc = c.createOscillator();
+                var gain = c.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(f, c.currentTime + i * 0.06);
+                gain.gain.setValueAtTime(0.07, c.currentTime + i * 0.06);
+                gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime + i * 0.06 + 0.25);
+                osc.connect(gain);
+                gain.connect(c.destination);
+                osc.start(c.currentTime + i * 0.06);
+                osc.stop(c.currentTime + i * 0.06 + 0.25);
+            });
+        },
+        /** Decomposition — mechanical click */
+        decomp: function () {
+            var c = getCtx();
+            if (!c) return;
+            for (var i = 0; i < 3; i++) {
+                var osc = c.createOscillator();
+                var gain = c.createGain();
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(200 + i * 300, c.currentTime + i * 0.1);
+                gain.gain.setValueAtTime(0.04, c.currentTime + i * 0.1);
+                gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime + i * 0.1 + 0.08);
+                osc.connect(gain);
+                gain.connect(c.destination);
+                osc.start(c.currentTime + i * 0.1);
+                osc.stop(c.currentTime + i * 0.1 + 0.08);
+            }
+        },
+        /** Level up — fanfare */
+        levelup: function () {
+            var c = getCtx();
+            if (!c) return;
+            [523, 659, 784, 1047].forEach(function (f, i) {
+                var osc = c.createOscillator();
+                var gain = c.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(f, c.currentTime + i * 0.12);
+                gain.gain.setValueAtTime(0.10, c.currentTime + i * 0.12);
+                gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime + i * 0.12 + 0.35);
+                osc.connect(gain);
+                gain.connect(c.destination);
+                osc.start(c.currentTime + i * 0.12);
+                osc.stop(c.currentTime + i * 0.12 + 0.35);
+            });
+        }        };
+    })();
+
+Lab.state = {
+    profileId: null,
+    radicalData: null,
+    reactionData: null,
+    allRadicals: [],
+    allReactions: [],
+    // Mixing
+    selectedRadicals: [null, null, null], // chars (2 or 3 slots)
+    beakerAffinities: [null, null], // affinity arrays for each slot
+    tripleBlendMode: false, // ×3 mode toggle (available at Lv 25+)
+    synthesisMode: false, // whether we're in stepwise synthesis mode
+    lastResult: null, // the last successful reaction { char, pinyin, meaning, radicals }
+    // Decomposition
+    selectedDecompChar: null,
+    // Collection filter
+    collFilter: 'all',
+    collCategory: 'all',
+    // Shelf category filter (Elemental Orbs)
+    shelfFilter: 'all',
+    // Course data: char -> { word_id, course, pinyin, meaning }
+    courseCharMap: {},
+    // Course data: word_id -> { ch, pinyin, meaning, course }
+    wordData: {},
+    // All course file paths to load
+    courseFiles: [
+      'characters_1A.json', 'characters_1B.json',
+      'characters_2a.json', 'characters_2b.json',
+      'characters_3a.json', 'characters_3b.json',
+      'characters_4a.json', 'characters_4b.json',
+      'characters_5a.json', 'characters_5b.json',
+      'characters_6a.json', 'characters_6b.json',
+      'characters_hsk1.json', 'characters_hsk2.json',
+      'characters_hsk3.json', 'characters_hsk4.json',
+      'characters_hsk5.json', 'characters_hsk6.json',
+      'characters_hsk20_1.json', 'characters_hsk20_2.json',
+      'characters_hsk20_3.json', 'characters_hsk20_4.json',
+      'characters_hsk20_5.json', 'characters_hsk20_6.json',
+    ],
+    // Course route constants
+    ROUTE_SCHOOL: ['1A','1B','2A','2B','3A','3B','4A','4B','5A','5B','6A','6B'],
+    ROUTE_HSK:   ['HSK1','HSK2','HSK3','HSK4','HSK5','HSK6','HSK20_1','HSK20_2','HSK20_3','HSK20_4','HSK20_5','HSK20_6'],
+    userRoute: 'all'  // 'school' | 'hsk' | 'all'
+  }
+
+Lab.init = function () {
+    var p = XHZ.getActiveProfile();
+    // If no active profile, try to auto-select first available profile
+    if (!p) {
+        var allProfiles = XHZ.getAllProfiles ? XHZ.getAllProfiles() : [];
+        if (allProfiles.length > 0) {
+            XHZ.setActive(allProfiles[0].id);
+            p = allProfiles[0];
+        } else {
+            // Try loading from localStorage
+            try {
+                var raw = localStorage.getItem('xhz_profiles');
+                if (raw) {
+                    var parsed = JSON.parse(raw);
+                    var arr = parsed && parsed.profiles ? parsed.profiles : [];
+                    if (arr.length > 0) {
+                        XHZ.setActive(arr[0].id);
+                        p = arr[0];
+                    }
+                }
+            } catch(e) {}
+        }
+    }
+    if (!p) {
+        // Show a dismissible banner at the top of the page
+        var banner = document.createElement('div');
+        banner.id = 'lab-no-profile-banner';
+        banner.style.cssText = 'background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:var(--card-radius);padding:12px 16px;text-align:center;flex-shrink:0;';
+        banner.innerHTML = '<span style="font-size:1.1em;">⚠️</span> <span style="font-weight:700;color:var(--botes-coral);">No profile detected!</span> '
+            + '<span style="color:var(--ink-soft);font-size:0.85em;">Visit the </span>'
+            + '<a href="dashboard.html" style="color:var(--botes-sage);font-weight:700;font-size:0.85em;">Dashboard</a>'
+            + '<span style="color:var(--ink-soft);font-size:0.85em;"> to create or select a profile, then come back here!</span>';
+        var page = document.querySelector('.lab-page');
+        if (page) page.insertBefore(banner, page.firstChild);
+
+        // Attach tab switching even without profile
+        var tabs = document.querySelectorAll('.lab-tab');
+        tabs.forEach(function (tab) {
+            tab.addEventListener('click', function () {
+                Lab.switchTab(tab.dataset.tab);
+            });
+        });
+        return;
+    }
+    Lab.state.profileId = p.id;
+
+    // Set up tab switching — must happen synchronously, not inside fetch callbacks
+    var tabs = document.querySelectorAll('.lab-tab');
+    tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+            Lab.switchTab(tab.dataset.tab);
+        });
+    });
+    document.getElementById('lab-branch-modal').addEventListener('click', function (e) {
+        if (e.target === this) Lab.closeBranchingModal();
+    });
+
+    // Load radical data
+    fetch('radicals.json')
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+            XHZ.loadRadicalData(data);
+            Lab.state.radicalData = data;
+            Lab.state.allRadicals = data.radicals || [];
+            Lab.renderCollection();
+            Lab.renderOrbFilters();
+            Lab.renderRadicalPicker();
+            // Auto-claim level 1-5 rewards
+            XHZ.autoClaimLevelRewards(p.id);
+            Lab.updateTopbar();
+        })
+        .catch(function (err) {
+            console.error('Failed to load radicals.json', err);
+        });
+
+    // Load reaction data
+    fetch('reactions.json')
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+            XHZ.loadReactionData(data);
+            Lab.state.reactionData = data;
+            Lab.state.allReactions = data.reactions || [];
+            Lab.renderDecompList();
+            Lab.renderDiscovered();
+        })
+        .catch(function (err) {
+            console.error('Failed to load reactions.json', err);
+        });
+
+    // Load chain reaction data for stepwise synthesis
+    fetch('chain_reactions.json')
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+            XHZ.loadChainReactionData(data);
+        })
+        .catch(function (err) {
+            console.error('Failed to load chain_reactions.json', err);
+        });
+
+    // Load 3-component reaction data for triple blend
+    fetch('three_component_reactions.json')
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+            XHZ.loadThreeComponentData(data);
+        })
+        .catch(function (err) {
+            console.error('Failed to load three_component_reactions.json', err);
+        });
+
+    // Show/hide triple blend toggle based on level
+    Lab.updateBlendToggle();
+
+    // Load course data to build character → mastery mapping
+    Lab.loadCourseData();
+
+    // Render initial states
+    Lab.updateTopbar();
+    Lab.renderDecompList();
+    Lab.renderDiscovered();
+
+    // Diagnostic: log init state
+    console.log('🧪 Lab.init complete', {
+        profileId: Lab.state.profileId,
+        radicalDataLoaded: !!Lab.state.radicalData,
+        reactionDataLoaded: !!Lab.state.reactionData,
+        allRadicalsCount: Lab.state.allRadicals.length
+    });
+
+    // Refresh on focus (in case user earned stars elsewhere)
+    window.addEventListener('focus', function () {
+        Lab.updateTopbar();
+    });
+}
+
+// Auto-init — script at bottom of <body>, DOM is ready
+// Use direct call + DOMContentLoaded fallback
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { Lab.init(); });
+} else {
+    Lab.init();
+}
+
+Lab.startSynthesis = function () {
+    // Chain reactions temporarily unavailable in book layout
+}
+
+/**
+ * Compute extend options for a given pair of radicals (3-comp reactions).
+ * @param {string} pid - Profile ID
+ * @param {string[]} filled - Array of 2 radicals
+ * @returns {object[]} Array of {char, pinyin, meaning, thirdRad, radicals, locked}
+ */
+Lab.computeExtendOptions = function (pid, filled) {
+    if (!pid || !filled || filled.length < 2) return [];
+    
+    var earnedRads = XHZ.getAllUserRadicals ? XHZ.getAllUserRadicals(pid) : [];
+    var ownedSet = {};
+    for (var oi = 0; oi < earnedRads.length; oi++) { ownedSet[earnedRads[oi]] = true; }
+
+    var all3Comp = XHZ.getAllThreeComponentReactions ? XHZ.getAllThreeComponentReactions() : [];
+    if (!all3Comp || !all3Comp.length) return [];
+    
+    var extendOptions = [];
+    for (var ei = 0; ei < all3Comp.length; ei++) {
+        var tc = all3Comp[ei];
+        var tcRads = tc.radicals || [];
+        if (tcRads.length !== 3) continue;
+
+        var r1 = filled[0], r2 = filled[1];
+        var tcSet = {};
+        for (var si = 0; si < tcRads.length; si++) { tcSet[tcRads[si]] = (tcSet[tcRads[si]] || 0) + 1; }
+
+        var remaining = {};
+        for (var k in tcSet) { remaining[k] = tcSet[k]; }
+
+        var r1found = false;
+        if (remaining[r1] && remaining[r1] > 0) {
+            remaining[r1]--;
+            r1found = true;
+        }
+        var r2found = false;
+        if (r2 !== r1 && remaining[r2] && remaining[r2] > 0) {
+            remaining[r2]--;
+            r2found = true;
+        } else if (r2 === r1 && r1found && remaining[r1] && remaining[r1] > 0) {
+            remaining[r1]--;
+            r2found = true;
+        }
+
+        if (!r1found || !r2found) continue;
+
+        var thirdRad = null;
+        for (var k in remaining) {
+            if (remaining[k] > 0) {
+                thirdRad = k;
+                break;
+            }
+        }
+        if (!thirdRad) continue;
+
+        var tcResult = tc.result || tc.char;
+        var already = false;
+        for (var di = 0; di < extendOptions.length; di++) {
+            if (extendOptions[di].char === tcResult) {
+                already = true;
+                break;
+            }
+        }
+        if (!already) {
+            extendOptions.push({
+                char: tcResult,
+                pinyin: tc.pinyin || '',
+                meaning: tc.meaning || '',
+                thirdRad: thirdRad,
+                radicals: tcRads,
+                locked: !ownedSet[thirdRad] && thirdRad !== r1 && thirdRad !== r2
+            });
+        }
+    }
+    return extendOptions;
+};
+
+/**
+ * Render chain reaction buttons in the book-left panel.
+ * Shows "🔗 + [radical]" buttons for each extend option (no result preview).
+ */
+Lab.renderChainButtons = function () {
+    var container = document.getElementById('lab-book-chains');
+    var options = Lab.state._extendOptions;
+    if (!container) return;
+    
+    if (!options || !options.length) {
+        container.style.display = 'none';
+        container.innerHTML = '';
+        return;
+    }
+    
+    var html = '<div class="ch-label">🔗 Chain Reactions</div><div class="ch-options">';
+    for (var i = 0; i < options.length; i++) {
+        var opt = options[i];
+        html += '<button class="lab-btn lb-chain" onclick="onChainClick(' + i + ')">' +
+            '<span class="ch-rad">+ ' + opt.thirdRad + '</span>' +
+            '</button>';
+    }
+    html += '</div>';
+    container.innerHTML = html;
+    container.style.display = '';
+};
+
+/**
+ * onChainClick — handle clicking a chain reaction button.
+ * Triggers the 3-rad mix animation in the flask overlay.
+ */
+function onChainClick(index) {
+    if (!Lab.state || !Lab.state._extendOptions) return;
+    var opt = Lab.state._extendOptions[index];
+    if (!opt) return;
+    if (opt.locked) {
+        Lab.showToast('\ud83d\udd12', 'Locked!', 'You need the radical ' + opt.thirdRad + ' to extend this combination.', 'Got it');
+        return;
+    }
+    
+    var pid = Lab.state.profileId;
+    if (!pid) return;
+    
+    // Disable mix and chain buttons while animating
+    var btn = document.getElementById('btn-mix');
+    if (btn) btn.disabled = true;
+    var chainContainer = document.getElementById('lab-book-chains');
+    if (chainContainer) chainContainer.style.display = 'none';
+    
+    // Play sound
+    Lab.sfx.chain();
+    
+    // Set up the result for the overlay and dismiss
+    var allRads = opt.radicals || [];
+    Lab.state.lastResult = {
+        char: opt.char,
+        pinyin: opt.pinyin || '',
+        meaning: opt.meaning || '',
+        radicals: allRads
+    };
+    Lab.state._extendOptions = null; // clear after use
+    
+    // Show the flask overlay with the 3-rad result
+    showFlaskOverlay(true, opt.char, opt.pinyin, opt.meaning, allRads);
+    
+    // Track stats
+    XHZ.incrementLabStat(pid, 'total_triple_blends');
+    XHZ.incrementLabStat(pid, 'total_mix_successes');
+    allRads.forEach(function (r) {
+        XHZ.incrementLabStat(pid, 'radical_usage', r);
+    });
+    
+    // Save as discovered
+    var alreadyDiscovered = XHZ.hasDiscoveredCharacter(pid, opt.char);
+    XHZ.addDiscoveredCharacter(pid, opt.char, allRads, {
+        pinyin: opt.pinyin || '',
+        meaning: opt.meaning || ''
+    });
+    
+    if (!alreadyDiscovered) {
+        Lab.renderDiscovered();
+        Lab.sfx.success();
+        setTimeout(function () {
+            Lab.showToast('\ud83d\udd2e', 'Extended!', allRads.join(' + ') + ' \u2192 ' + opt.char + (opt.pinyin ? ' (' + opt.pinyin + ')' : ''), 'Awesome!');
+        }, 400);
+    }
+}
+
+/**
+ * onMixClick — handle the Mix button
+ */
+function onMixClick() {
+    var sel = Lab.state.selectedRadicals;
+    var pid = Lab.state.profileId;
+    if (!pid) return;
+
+    // Clear chain buttons — user committed to 2-rad mix
+    Lab.state._extendOptions = null;
+    Lab.renderChainButtons();
+
+    // Get filled radicals
+    var filled = [];
+    for (var i = 0; i < sel.length; i++) {
+        if (sel[i]) filled.push(sel[i]);
+    }
+    if (filled.length < 2) return;
+
+    // Check for a reaction (2-rad only — triple blend via popup)
+    var result = XHZ.checkReaction(filled[0], filled[1]);
+
+    // Filter out 2-rad reactions where the same result is produced by a 3-comp reaction
+    // with the same repeated radical (e.g. 力+力 should not give 劍 — needs 3 力's)
+    if (result && filled[0] === filled[1]) {
+        var all3Comp = XHZ.getAllThreeComponentReactions ? XHZ.getAllThreeComponentReactions() : [];
+        for (var ti = 0; ti < all3Comp.length; ti++) {
+            var tc = all3Comp[ti];
+            var tcRads = tc.radicals || [];
+            if (tcRads.length === 3 &&
+                tcRads[0] === filled[0] && tcRads[1] === filled[0] && tcRads[2] === filled[0] &&
+                (tc.result === result.result || tc.char === result.result)) {
+                result = null;
+                break;
+            }
+        }
+    }
+
+    // Track stats
+    XHZ.incrementLabStat(pid, 'total_mix_attempts');
+
+    if (result) {
+        // --- 2-rad mix success! ---
+        var char = result.result || result.char;
+        var pinyin = result.pinyin || '';
+        var meaning = result.meaning || '';
+        var radicals = result.radicals || filled;
+
+        XHZ.incrementLabStat(pid, 'total_mix_successes');
+
+        // Track radical usage
+        filled.forEach(function (r) {
+            XHZ.incrementLabStat(pid, 'radical_usage', r);
+        });
+
+        // Show flask overlay animation
+        Lab.state.lastResult = { char: char, pinyin: pinyin, meaning: meaning, radicals: radicals };
+
+        // Single success sound (only on first discovery)
+        if (!XHZ.hasDiscoveredCharacter(pid, char)) {
+            Lab.sfx.success();
+        }
+
+        // Show the 2-rad mix result in the flask overlay
+        showFlaskOverlay(true, char, pinyin, meaning, radicals);
+
+        // Save as discovered character
+        var alreadyDisc = XHZ.hasDiscoveredCharacter(pid, char);
+        XHZ.addDiscoveredCharacter(pid, char, radicals, {
+            pinyin: pinyin,
+            meaning: meaning
+        });
+
+        // Update discovered tab
+        if (!alreadyDisc) {
+            Lab.renderDiscovered();
+        }
+
+        // Disable mix button until cleared
+        var btn = document.getElementById('btn-mix');
+        btn.disabled = true;
+        btn.innerHTML = '✅ Done!';
+
+    } else {
+        // No reaction — failure (or filtered out for triple-only)
+        // Check if there's a 3-component reaction with our radicals that we should hint about
+        var hintRads = XHZ.getAllThreeComponentReactions ? XHZ.getAllThreeComponentReactions() : [];
+        var failMsg = '💥 No reaction! Try different radicals.';
+        for (var fi = 0; fi < hintRads.length; fi++) {
+            var hr = hintRads[fi];
+            var hrRads = hr.radicals || [];
+            if (hrRads.length !== 3) continue;
+            // Check if our radicals are a subset
+            var hSet = {};
+            for (var si2 = 0; si2 < hrRads.length; si2++) { hSet[hrRads[si2]] = (hSet[hrRads[si2]] || 0) + 1; }
+            var had1 = false, had2 = false;
+            if (hSet[filled[0]] && hSet[filled[0]] > 0) { hSet[filled[0]]--; had1 = true; }
+            if (hSet[filled[1]] && hSet[filled[1]] > 0) { hSet[filled[1]]--; had2 = true; }
+            if (had1 && had2) {
+                // Find the missing radical
+                for (var k in hSet) {
+                    if (hSet[k] > 0) {
+                        var ownedRads3 = XHZ.getAllUserRadicals ? XHZ.getAllUserRadicals(pid) : [];
+                        var ownedSet3 = {};
+                        for (var oi3 = 0; oi3 < ownedRads3.length; oi3++) { ownedSet3[ownedRads3[oi3]] = true; }
+                        if (ownedSet3[k] || k === filled[0] || k === filled[1]) {
+                            failMsg = '💥 Needs 3 radicals! Try adding ' + k + ' to create ' + (hr.char || hr.result) + '.';
+                        }
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+
+        XHZ.incrementLabStat(pid, 'total_mix_failures');
+
+        // Clear any stale extend options (from a previous success)
+        Lab.state._extendOptions = null;
+        // Show failure in the flask overlay
+        Lab.state.lastResult = { char: null, pinyin: '', meaning: failMsg, radicals: filled };
+        showFlaskOverlay(false, '?', '', failMsg, filled);
+
+        Lab.sfx.fail();
+    }
+}
+
+/**
+ * onBeakerClick — handle click on a drop zone
+ */
+function onBookSlotClick(index) {
+    if (Lab.state.synthesisMode) return;
+    var sel = Lab.state.selectedRadicals;
+    if (sel[index]) {
+        sel[index] = null;
+        Lab.updateBookSlots();
+        Lab.renderRadicalPicker();
+        Lab.sfx.click();
+    }
+}
+
+/**
+ * clearMixSelection — clear all mixing selections
+ */
+function clearMixSelection() {
+    if (Lab.state.synthesisMode) {
+        Lab.state.synthesisMode = false;
+        Lab.resetMixState();
+    }
+    Lab.state._extendOptions = null;
+    Lab.resetMixState();
+    Lab.updateBookSlots();
+    Lab.renderRadicalPicker();
+}
+
+
+
+/**
+ * Show centered flask overlay for mix animation
+ */
+function showFlaskOverlay(isSuccess, char, pinyin, meaning, radicals) {
+    var overlay = document.getElementById('lab-flask-overlay');
+    var result = document.getElementById('ol-result');
+    var smoke = document.getElementById('ol-smoke');
+    var btn = document.getElementById('ol-continue');
+    var liquid = document.getElementById('ol-liquid');
+    
+    // Hide actions container
+    var actions = document.getElementById('ol-actions');
+    if (actions) actions.style.display = 'none';
+
+    // Update result content
+    document.getElementById('ol-char').textContent = char;
+    document.getElementById('ol-meaning').textContent = (pinyin || '') + (meaning ? ' · ' + meaning : '');
+    document.getElementById('ol-recipe').textContent = radicals.join(' + ');
+
+    // Reset
+    result.className = 'ol-result';
+    result.style.display = 'none';
+    if (btn) btn.style.display = 'none';
+    if (smoke) smoke.style.display = '';
+    if (liquid) liquid.style.opacity = '0';
+
+    // Set liquid color and show it
+    if (liquid) {
+        var color = null;
+        if (radicals && radicals[0]) color = getCategoryColor(radicals[0]);
+        if (color) {
+            liquid.style.setProperty('--liquid-color', color);
+            liquid.style.opacity = '0.35';
+        } else {
+            liquid.style.opacity = '0.15';
+        }
+    }
+
+    // Show overlay
+    overlay.classList.add('visible');
+
+    // Phase 1: Smoke animation for 1.2s
+    setTimeout(function () {
+        // Hide smoke, show result
+        if (smoke) smoke.style.display = 'none';
+
+        result.style.display = '';
+        if (isSuccess) {
+            result.classList.add('success');
+        } else {
+            result.classList.add('fail');
+        }
+
+        // Show continue button (inside actions container)
+        if (btn) {
+            btn.textContent = isSuccess ? '→ Great!' : '→ Try Again';
+            var actions = document.getElementById('ol-actions');
+            if (actions) actions.style.display = '';
+        }
+
+    }, 1200);
+}
+
+
+/**
+ * Dismiss flask overlay and show result on the book left page
+ */
+function dismissFlaskOverlay() {
+    var overlay = document.getElementById('lab-flask-overlay');
+    overlay.classList.remove('visible');
+
+    // Show result on book left
+    var lastResult = Lab.state.lastResult;
+    var pid = Lab.state.profileId;
+
+    if (lastResult) {
+        var resultDiv = document.getElementById('lab-book-result');
+        var welcome = document.getElementById('lab-book-welcome');
+        var slots = document.getElementById('lab-book-slots');
+        var actions = document.getElementById('lab-book-actions');
+
+        if (welcome) welcome.style.display = 'none';
+        if (slots) slots.style.display = 'none';
+        if (actions) actions.style.display = 'none';
+
+        if (resultDiv) {
+            var isSuccess = !!lastResult.char;
+            document.getElementById('br-char').textContent = lastResult.char || '?';
+            document.getElementById('br-info').textContent = (lastResult.pinyin || '') + (lastResult.meaning ? ' · ' + lastResult.meaning : '');
+            document.getElementById('br-recipe').textContent = (lastResult.radicals || []).join(' + ');
+            var badge = document.getElementById('br-badge');
+            if (isSuccess) {
+                badge.textContent = '✅ Discovered!';
+                badge.className = 'br-badge success';
+            } else {
+                badge.textContent = '❌ No reaction';
+                badge.className = 'br-badge fail';
+            }
+            resultDiv.style.display = '';
+        }
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   LAB RENDERING FUNCTIONS
+══════════════════════════════════════════════════════════════ */
+
+// ── Category metadata (emoji, colors) ──
+var LAB_CATEGORY_META = {
+    'abstract':     { emoji: '\uD83D\uDCAD', color: '#D4A574', glow: 'rgba(212,165,116,0.25)' },
+    'body':         { emoji: '\uD83E\uDDCD', color: '#D89B9B', glow: 'rgba(216,155,155,0.25)' },
+    'civilization': { emoji: '\uD83C\uDFDB', color: '#A4C2D9', glow: 'rgba(164,194,217,0.25)' },
+    'fauna':        { emoji: '\uD83E\uDD8A', color: '#E8C547', glow: 'rgba(232,197,71,0.25)' },
+    'nature':       { emoji: '\uD83C\uDF3F', color: '#94A88E', glow: 'rgba(148,168,142,0.25)' },
+    'other':        { emoji: '\uD83D\uDCE6', color: '#A89580', glow: 'rgba(168,149,128,0.25)' }
+};
+
+/** Get category color for a radical char */
+function getCategoryColor(char) {
+    var rads = Lab.state.allRadicals || [];
+    for (var i = 0; i < rads.length; i++) {
+        if (rads[i].char === char) {
+            var cat = rads[i].doodle_category || rads[i].category || 'other';
+            var meta = LAB_CATEGORY_META[cat];
+            return meta ? meta.color : '#A89580';
+        }
+    }
+    return '#A89580';
+}
+
+/** Get category meta for a radical char */
+function getCategoryMeta(char) {
+    var rads = Lab.state.allRadicals || [];
+    for (var i = 0; i < rads.length; i++) {
+        if (rads[i].char === char) {
+            var cat = rads[i].doodle_category || rads[i].category || 'other';
+            return LAB_CATEGORY_META[cat] || LAB_CATEGORY_META['other'];
+        }
+    }
+    return LAB_CATEGORY_META['other'];
+}
+
+/** Get category id for a radical char */
+function getCategoryId(char) {
+    var rads = Lab.state.allRadicals || [];
+    for (var i = 0; i < rads.length; i++) {
+        if (rads[i].char === char) {
+            return rads[i].doodle_category || rads[i].category || 'other';
+        }
+    }
+    return 'other';
+}
+
+// ── Tab switching ──
+Lab.switchTab = function (tabId) {
+    // Update tab buttons
+    document.querySelectorAll('.lab-tab').forEach(function (tab) {
+        tab.classList.toggle('active', tab.dataset.tab === tabId);
+    });
+    // Update panels
+    document.querySelectorAll('.lab-panel').forEach(function (panel) {
+        panel.classList.toggle('active', panel.id === 'panel-' + tabId);
+    });
+    // Re-render some panels when switching to them
+    var pid = Lab.state.profileId;
+    if (!pid) return;
+    if (tabId === 'collection') {
+        Lab.renderCollection();
+    } else if (tabId === 'discovered') {
+        Lab.renderDiscovered();
+    } else if (tabId === 'decomp') {
+        Lab.renderDecompList();
+    } else if (tabId === 'stats') {
+        Lab.renderStats();
+    }
+};
+
+// ── Topbar update (level, XP, stars, energy) ──
+Lab.updateTopbar = function () {
+    var pid = Lab.state.profileId;
+    if (!pid) return;
+    var level = XHZ.getLevel(pid);
+    var progress = XHZ.getLevelProgress(pid);
+    var totalStars = XHZ.getTotalStars(pid);
+    var energy = XHZ.getLabEnergy(pid);
+    var maxEnergy = XHZ.getMaxLabEnergy();
+
+    setText('lab-level-val', 'Lv ' + level);
+    setText('lab-stars-val', totalStars);
+    setText('lab-energy-val', energy + '/' + maxEnergy);
+    setText('lab-xp-text', progress.starsOwned + ' / ' + (progress.starsNeeded || 0));
+    setText('lab-xp-pct', progress.progressPercent + '%');
+    setStyle('lab-xp-bar', 'width', progress.progressPercent + '%');
+
+    var energyStat = docID('lab-energy-stat');
+    if (energyStat) {
+        energyStat.classList.toggle('ls-energy-empty', energy === 0);
+    }
+
+    // Update collection count in tab header
+    var pid2 = Lab.state.profileId;
+    if (pid2 && Lab.state.radicalData) {
+        var allRads = XHZ.getAllUserRadicals ? XHZ.getAllUserRadicals(pid2) : [];
+        setText('collection-count', allRads.length + ' / ' + Lab.state.allRadicals.length + ' radicals owned');
+    }
+};
+
+// ── Helpers ──
+function docID(id) { return document.getElementById(id); }
+function setText(id, txt) { var el = docID(id); if (el) el.textContent = txt; }
+function setStyle(id, prop, val) { var el = docID(id); if (el) el.style[prop] = val; }
+function show(id) { var el = docID(id); if (el) el.style.display = ''; }
+function hide(id) { var el = docID(id); if (el) el.style.display = 'none'; }
+
+// ── Course data loading ──
+Lab.loadCourseData = function () {
+    var files = Lab.state.courseFiles || [];
+    var loaded = 0;
+    files.forEach(function (file) {
+        fetch(file)
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+                var words = data.words || [];
+                for (var i = 0; i < words.length; i++) {
+                    var w = words[i];
+                    var ch = w.ch || w.char || '';
+                    if (!ch) continue;
+                    // Character → course info
+                    if (!Lab.state.courseCharMap[ch]) {
+                        Lab.state.courseCharMap[ch] = {
+                            word_id: w.word_id,
+                            course: data.course || '',
+                            pinyin: w.py || w.pinyin || '',
+                            meaning: w.en || w.meaning || ''
+                        };
+                    }
+                    // word_id → full word data
+                    if (w.word_id && !Lab.state.wordData[w.word_id]) {
+                        Lab.state.wordData[w.word_id] = {
+                            ch: ch,
+                            pinyin: w.py || w.pinyin || '',
+                            meaning: w.en || w.meaning || '',
+                            course: data.course || ''
+                        };
+                    }
+                }
+                loaded++;
+                if (loaded >= files.length) {
+                    Lab.renderDecompList();
+                }
+            })
+            .catch(function (err) {
+                console.warn('Failed to load course file:', file, err.message);
+                loaded++;
+            });
+    });
+};
+
+// ── Book slot update ──
+Lab.updateBookSlots = function () {
+    var sel = Lab.state.selectedRadicals;
+    var slots = [docID('book-slot-0'), docID('book-slot-1')];
+    for (var i = 0; i < 2; i++) {
+        var slot = slots[i];
+        if (!slot) continue;
+        if (sel[i]) {
+            slot.innerHTML = '<span class="slot-char">' + sel[i] + '</span>';
+            slot.classList.add('filled');
+        } else {
+            slot.innerHTML = '<span class="slot-placeholder">?</span>';
+            slot.classList.remove('filled');
+        }
+    }
+
+    // Show/hide welcome vs slots/actions
+    var welcome = docID('lab-book-welcome');
+    var slotArea = docID('lab-book-slots');
+    var actions = docID('lab-book-actions');
+    var result = docID('lab-book-result');
+
+    var hasAny = sel[0] || sel[1];
+    if (welcome) welcome.style.display = hasAny ? 'none' : '';
+    if (slotArea) slotArea.style.display = hasAny ? '' : 'none';
+    if (actions) actions.style.display = hasAny ? '' : 'none';
+    if (result) result.style.display = 'none';
+
+    // Update mix button state
+    var btn = docID('btn-mix');
+    if (btn) {
+        var filledCount = (sel[0] ? 1 : 0) + (sel[1] ? 1 : 0);
+        btn.disabled = filledCount < 2;
+    }
+
+    // Compute chain reaction options when both slots filled
+    if (Lab.state.profileId && sel[0] && sel[1]) {
+        var filled = [sel[0], sel[1]];
+        var extendOpts = Lab.computeExtendOptions(Lab.state.profileId, filled);
+        Lab.state._extendOptions = extendOpts.length > 0 ? extendOpts : null;
+    } else {
+        Lab.state._extendOptions = null;
+    }
+    Lab.renderChainButtons();
+};
+
+// ── Reset mix state ──
+Lab.resetMixState = function () {
+    Lab.state.selectedRadicals = [null, null, null];
+    Lab.state.tripleBlendMode = false;
+    Lab.state.lastResult = null;
+    Lab.state.synthesisMode = false;
+
+    var welcome = docID('lab-book-welcome');
+    var slotArea = docID('lab-book-slots');
+    var actions = docID('lab-book-actions');
+    var result = docID('lab-book-result');
+
+    if (welcome) welcome.style.display = '';
+    if (slotArea) slotArea.style.display = 'none';
+    if (actions) actions.style.display = 'none';
+    if (result) result.style.display = 'none';
+
+    var btn = docID('btn-mix');
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '\u2697\uFE0F Mix!';
+    }
+
+    // Hide chain buttons
+    Lab.state._extendOptions = null;
+    Lab.renderChainButtons();
+};
+
+// ── Elemental Orb filters ──
+Lab.renderOrbFilters = function () {
+    var container = docID('lab-orb-filters');
+    if (!container) return;
+
+    // Get unique categories from radical data
+    var cats = [];
+    var seen = {};
+    for (var i = 0; i < Lab.state.allRadicals.length; i++) {
+        var r = Lab.state.allRadicals[i];
+        var cat = r.doodle_category || r.category || 'other';
+        if (!seen[cat]) {
+            seen[cat] = true;
+            var meta = LAB_CATEGORY_META[cat] || LAB_CATEGORY_META['other'];
+            // Count how many unlocked radicals in this category
+            var pid = Lab.state.profileId;
+            var count = 0;
+            if (pid) {
+                var allUser = XHZ.getAllUserRadicals ? XHZ.getAllUserRadicals(pid) : [];
+                var userSet = {};
+                for (var ui = 0; ui < allUser.length; ui++) { userSet[allUser[ui]] = true; }
+                for (var ri = 0; ri < Lab.state.allRadicals.length; ri++) {
+                    var rc = Lab.state.allRadicals[ri];
+                    if ((rc.doodle_category || rc.category || 'other') === cat && userSet[rc.char]) {
+                        count++;
+                    }
+                }
+            }
+            cats.push({
+                id: cat,
+                emoji: meta.emoji,
+                color: meta.color,
+                glow: meta.glow,
+                count: count
+            });
+        }
+    }
+
+    // Sort: All first, then by name
+    cats.sort(function (a, b) { return a.id.localeCompare(b.id); });
+
+    var html = '<button class="lab-orb-btn' + (Lab.state.shelfFilter === 'all' ? ' active' : '') + '" ' +
+        'style="--orb-color:#000;--orb-glow:rgba(0,0,0,0.1);--orb-bg:rgba(0,0,0,0.04);" ' +
+        'onclick="Lab.setShelfFilter(\'all\')" title="All categories">\uD83D\uDD35</button>';
+    for (var ci = 0; ci < cats.length; ci++) {
+        var c = cats[ci];
+        html += '<button class="lab-orb-btn' + (Lab.state.shelfFilter === c.id ? ' active' : '') + '" ' +
+            'style="--orb-color:' + c.color + ';--orb-glow:' + c.glow + ';--orb-bg:rgba(0,0,0,0.03);" ' +
+            'onclick="Lab.setShelfFilter(\'' + c.id + '\')" title="' + c.id + '">' +
+            c.emoji +
+            '<span class="orb-count">' + c.count + '</span></button>';
+    }
+
+    container.innerHTML = html;
+};
+
+// ── Set shelf filter ──
+Lab.setShelfFilter = function (catId) {
+    Lab.state.shelfFilter = catId;
+    Lab.renderOrbFilters();
+    Lab.renderRadicalPicker();
+    Lab.sfx.click();
+};
+
+// ── Radical picker (shelves by category) ──
+Lab.renderRadicalPicker = function () {
+    var grid = docID('rad-picker-grid');
+    if (!grid) return;
+
+    var pid = Lab.state.profileId;
+    if (!pid || !Lab.state.allRadicals.length) {
+        grid.innerHTML = '<div class="lab-empty-state" style="padding:12px;"><div class="empty-emoji">\uD83D\uDCD6</div><div class="empty-sub">Loading radicals...</div></div>';
+        return;
+    }
+
+    var allUser = XHZ.getAllUserRadicals ? XHZ.getAllUserRadicals(pid) : [];
+    var userSet = {};
+    for (var ui = 0; ui < allUser.length; ui++) { userSet[allUser[ui]] = true; }
+
+    // Group radicals by category, filtering by active shelfFilter
+    var cats = {};
+    for (var i = 0; i < Lab.state.allRadicals.length; i++) {
+        var r = Lab.state.allRadicals[i];
+        var cat = r.doodle_category || r.category || 'other';
+        if (Lab.state.shelfFilter !== 'all' && Lab.state.shelfFilter !== cat) continue;
+        if (!cats[cat]) cats[cat] = [];
+        cats[cat].push(r);
+    }
+
+    // Sort categories
+    var catKeys = Object.keys(cats).sort();
+
+    var html = '';
+    for (var ci = 0; ci < catKeys.length; ci++) {
+        var catId = catKeys[ci];
+        var rads = cats[catId];
+        var meta = LAB_CATEGORY_META[catId] || LAB_CATEGORY_META['other'];
+
+        html += '<div class="lab-rad-shelf" style="--shelf-color:' + meta.color + ';">' +
+            '<div class="lab-rad-shelf-header">' +
+            '<span class="sh-emoji">' + meta.emoji + '</span>' +
+            '<span>' + catId.charAt(0).toUpperCase() + catId.slice(1) + '</span>' +
+            '<span class="sh-count">' + rads.length + '</span></div>' +
+            '<div class="lab-rad-shelf-grid">';
+
+        for (var ri = 0; ri < rads.length; ri++) {
+            var rad = rads[ri];
+            var owned = !!userSet[rad.char];
+            var selected = Lab.state.selectedRadicals.indexOf(rad.char) !== -1;
+            var cls = 'lab-rad-chip';
+            if (selected) cls += ' selected';
+            if (!owned) cls += ' locked';
+            html += '<div class="' + cls + '" style="--shelf-color:' + (owned ? meta.color : 'transparent') + ';" ' +
+                'onclick="Lab.selectRadical(\'' + rad.char + '\')" title="' + (rad.meaning || '') + '">' +
+                '<span class="rc-char">' + rad.char + '</span>' +
+                '<span class="rc-pinyin">' + (rad.pinyin || '') + '</span>' +
+                (owned ? '' : '<span class="rc-tip">Lv ' + (rad.unlock_level || '\u221E') + '</span>') +
+                '</div>';
+        }
+
+        html += '</div></div>';
+    }
+
+    if (!html) {
+        html = '<div class="lab-empty-state" style="padding:12px;"><div class="empty-emoji">\uD83D\uDD0D</div><div class="empty-sub">No radicals in this category</div></div>';
+    }
+
+    grid.innerHTML = html;
+};
+
+// ── Select/deselect a radical for mixing ──
+Lab.selectRadical = function (char) {
+    var pid = Lab.state.profileId;
+    if (!pid) return;
+
+    // Check if owned
+    var allUser = XHZ.getAllUserRadicals ? XHZ.getAllUserRadicals(pid) : [];
+    if (allUser.indexOf(char) === -1) return;
+
+    var sel = Lab.state.selectedRadicals;
+
+    // Find first empty slot
+    var emptySlot = -1;
+    for (var i = 0; i < 2; i++) {
+        if (!sel[i]) { emptySlot = i; break; }
+    }
+
+    if (emptySlot !== -1) {
+        // Fill empty slot
+        sel[emptySlot] = char;
+    } else {
+        // Both slots filled — allow duplicate selection
+        if (sel[0] === char && sel[1] === char) {
+            // Already in both — clear last
+            sel[1] = null;
+        } else if (sel[0] === char) {
+            // Only in slot 0 — also fill slot 1
+            sel[1] = char;
+        } else if (sel[1] === char) {
+            // Only in slot 1 — also fill slot 0
+            sel[0] = char;
+        } else {
+            // Not in any slot — replace slot 1
+            sel[1] = char;
+        }
+    }
+
+    Lab.sfx.click();
+    Lab.updateBookSlots();
+    Lab.renderRadicalPicker();
+};
+
+// ── Rendering: Radical Collection (panel 3) ──
+Lab.renderCollection = function () {
+    var grid = docID('collection-grid');
+    if (!grid) return;
+
+    var pid = Lab.state.profileId;
+    if (!pid || !Lab.state.allRadicals.length) return;
+
+    var allUser = XHZ.getAllUserRadicals ? XHZ.getAllUserRadicals(pid) : [];
+    var userSet = {};
+    for (var ui = 0; ui < allUser.length; ui++) { userSet[allUser[ui]] = true; }
+
+    // Apply filters
+    var filtered = [];
+    for (var i = 0; i < Lab.state.allRadicals.length; i++) {
+        var r = Lab.state.allRadicals[i];
+        var owned = !!userSet[r.char];
+
+        // Category filter
+        if (Lab.state.collCategory !== 'all') {
+            var rCat = r.doodle_category || r.category || 'other';
+            if (rCat !== Lab.state.collCategory) continue;
+        }
+        // Ownership filter
+        if (Lab.state.collFilter === 'owned' && !owned) continue;
+        if (Lab.state.collFilter === 'locked' && owned) continue;
+
+        filtered.push(r);
+    }
+
+    if (filtered.length === 0) {
+        grid.innerHTML = '<div class="lab-empty-state" style="padding:12px;grid-column:1/-1;"><div class="empty-emoji">\uD83D\uDD0D</div><div class="empty-sub">No radicals match this filter</div></div>';
+        return;
+    }
+
+    var html = '';
+    for (var fi = 0; fi < filtered.length; fi++) {
+        var rad = filtered[fi];
+        var owned = !!userSet[rad.char];
+        var cat = rad.doodle_category || rad.category || 'other';
+        var meta = LAB_CATEGORY_META[cat] || LAB_CATEGORY_META['other'];
+        var cls = 'lab-coll-card' + (owned ? ' owned' : ' locked');
+        html += '<div class="' + cls + '">' +
+            '<span class="cc-char">' + rad.char + '</span>' +
+            '<span class="cc-pinyin">' + (rad.pinyin || '') + '</span>' +
+            '<span class="cc-cat-badge"><span class="cat-dot" style="background:' + meta.color + ';"></span>' + meta.emoji + ' ' + cat + '</span>' +
+            (rad.source === 'leveling' ? '<span class="cc-level">Lv ' + (rad.unlock_level || '\u221E') + '</span>' : '<span class="cc-source">\uD83D\udd2C</span>') +
+            '</div>';
+    }
+
+    grid.innerHTML = html;
+
+    // Update count
+    setText('collection-count', allUser.length + ' / ' + Lab.state.allRadicals.length + ' radicals owned');
+
+    // Render category filters
+    Lab._renderCollCategoryFilters();
+};
+
+// ── Collection category filter pills ──
+Lab._renderCollCategoryFilters = function () {
+    var container = docID('collection-cat-filters');
+    if (!container) return;
+
+    var cats = [];
+    var seen = {};
+    for (var i = 0; i < Lab.state.allRadicals.length; i++) {
+        var r = Lab.state.allRadicals[i];
+        var cat = r.doodle_category || r.category || 'other';
+        if (!seen[cat]) {
+            seen[cat] = true;
+            var meta = LAB_CATEGORY_META[cat] || LAB_CATEGORY_META['other'];
+            cats.push({
+                id: cat,
+                emoji: meta.emoji,
+                color: meta.color
+            });
+        }
+    }
+    cats.sort(function (a, b) { return a.id.localeCompare(b.id); });
+
+    var html = '<button class="lab-cat-chip cat-all' + (Lab.state.collCategory === 'all' ? ' active' : '') + '" onclick="setCollCategory(\'all\')">All</button>';
+    for (var ci = 0; ci < cats.length; ci++) {
+        var c = cats[ci];
+        html += '<button class="lab-cat-chip' + (Lab.state.collCategory === c.id ? ' active' : '') + '" ' +
+            'style="color:' + c.color + ';" onclick="setCollCategory(\'' + c.id + '\')">' +
+            '<span class="cat-dot" style="background:' + c.color + ';"></span>' +
+            c.emoji + ' ' + c.id +
+            '</button>';
+    }
+
+    container.innerHTML = html;
+};
+
+// ── Collection filter setters (global wrappers) ──
+function setCollFilter(filter) {
+    Lab.state.collFilter = filter;
+    // Update active class on filter pills
+    document.querySelectorAll('#collection-filters .lab-filter-chip').forEach(function (btn) {
+        btn.classList.toggle('active', btn.dataset.filter === filter);
+    });
+    Lab.renderCollection();
+}
+
+function setCollCategory(category) {
+    Lab.state.collCategory = category;
+    Lab.renderCollection();
+}
+
+// ── Rendering: Decomposition Chamber (panel 2) ──
+Lab.renderDecompList = function () {
+    var list = docID('lab-decomp-list');
+    if (!list) return;
+
+    var pid = Lab.state.profileId;
+    if (!pid) {
+        list.innerHTML = '<div class="lab-empty-state"><div class="empty-emoji">\uD83D\udd2C</div><div class="empty-text">No profile selected</div></div>';
+        return;
+    }
+
+    // Get characters the user has studied (from courseCharMap)
+    // and check which ones have decomposition data in reactions.json
+    var studied = {};
+    for (var ch in Lab.state.courseCharMap) {
+        studied[ch] = Lab.state.courseCharMap[ch];
+    }
+
+    // Match against reactions to find decomposable characters
+    // A character is decomposable if it appears as a result in reactions.json
+    var decompChars = [];
+    var seenChar = {};
+    for (var ri = 0; ri < Lab.state.allReactions.length; ri++) {
+        var react = Lab.state.allReactions[ri];
+        var result = react.result || react.char || '';
+        if (result && studied[result] && !seenChar[result]) {
+            seenChar[result] = true;
+            decompChars.push({
+                char: result,
+                courseInfo: studied[result],
+                radicals: react.radicals || []
+            });
+        }
+    }
+
+    // Sort by course order
+    decompChars.sort(function (a, b) {
+        return (a.courseInfo.word_id || '').localeCompare(b.courseInfo.word_id || '');
+    });
+
+    if (decompChars.length === 0) {
+        list.innerHTML = '<div class="lab-empty-state"><div class="empty-emoji">\uD83D\udd2C</div><div class="empty-text">No decomposable characters yet</div><div class="empty-sub">Study more characters to unlock decomposition!</div></div>';
+        return;
+    }
+
+    var energy = XHZ.getLabEnergy(pid);
+    setText('decomp-energy-hint', '\u26A1 ' + energy + ' decompositions remaining today');
+
+    var html = '';
+    for (var di = 0; di < decompChars.length; di++) {
+        var dc = decompChars[di];
+        var decomposed = XHZ.isCharDecomposed(pid, dc.char);
+        var selected = Lab.state.selectedDecompChar === dc.char;
+
+        var statusClass = decomposed ? 'done' : (energy > 0 ? 'ready' : 'locked');
+        var statusText = decomposed ? '\u2705 Done' : (energy > 0 ? '\u26A1 Ready' : '\u26A1 No energy');
+
+        html += '<div class="lab-decomp-char' + (selected ? ' selected' : '') + '" onclick="selectDecompChar(\'' + dc.char + '\')">' +
+            '<span class="dc-char">' + dc.char + '</span>' +
+            '<div class="dc-info">' +
+            '<div class="dc-word">' + (dc.courseInfo.meaning || '') + '</div>' +
+            '<div class="dc-meta">' + (dc.courseInfo.pinyin || '') + ' \u00B7 ' + (dc.courseInfo.course || '') + '</div>' +
+            '</div>' +
+            '<span class="dc-status ' + statusClass + '">' + statusText + '</span>' +
+            '</div>';
+    }
+
+    list.innerHTML = html;
+};
+
+// ── Select decomposition char ──
+function selectDecompChar(char) {
+    var pid = Lab.state.profileId;
+    if (!pid) return;
+
+    var decomposed = XHZ.isCharDecomposed(pid, char);
+    if (decomposed) return; // Already done
+
+    Lab.state.selectedDecompChar = char;
+    Lab.renderDecompList();
+
+    // Show detail panel
+    var detail = docID('lab-decomp-detail');
+    if (!detail) return;
+    detail.classList.add('visible');
+
+    // Find the reaction
+    for (var ri = 0; ri < Lab.state.allReactions.length; ri++) {
+        var react = Lab.state.allReactions[ri];
+        if ((react.result || react.char) === char) {
+            var rads = react.radicals || [];
+            var ciInfo = Lab.state.courseCharMap[char] || {};
+
+            setText('dd-char', char + ' (' + (ciInfo.pinyin || '') + ')');
+
+            var compoundsHtml = '';
+            for (var i = 0; i < rads.length; i++) {
+                if (i > 0) compoundsHtml += '<span class="dd-plus">+</span>';
+                var isNew = XHZ.hasRadical ? !XHZ.hasRadical(pid, rads[i]) : true;
+                var isEarned = XHZ.getEarnedRadicals ? XHZ.getEarnedRadicals(pid).indexOf(rads[i]) !== -1 : false;
+                var radInfo = null;
+                for (var ri2 = 0; ri2 < Lab.state.allRadicals.length; ri2++) {
+                    if (Lab.state.allRadicals[ri2].char === rads[i]) {
+                        radInfo = Lab.state.allRadicals[ri2];
+                        break;
+                    }
+                }
+                var compCls = 'dd-comp';
+                if (!isEarned) compCls += ' new-rad';
+                compoundsHtml += '<div class="' + compCls + '">' +
+                    '<span class="dc-char">' + rads[i] + '</span>' +
+                    '<span class="dc-label">' + (radInfo ? (radInfo.pinyin || '') : '') + '</span>' +
+                    '</div>';
+            }
+            docID('dd-compounds').innerHTML = compoundsHtml;
+
+            // Description
+            var desc = '';
+            if (rads.length === 2) {
+                desc = 'Break down ' + char + ' into its 2 radical components.';
+            }
+            // Check for new radicals
+            var newRads = [];
+            for (var ri3 = 0; ri3 < rads.length; ri3++) {
+                if (!XHZ.hasRadical(pid, rads[ri3])) newRads.push(rads[ri3]);
+            }
+            if (newRads.length > 0) {
+                desc += ' Will unlock: ' + newRads.join(', ');
+            }
+            docID('dd-desc').textContent = desc;
+
+            break;
+        }
+    }
+
+    Lab.sfx.click();
+}
+
+// ── Decompose action ──
+function onDecomposeClick() {
+    var pid = Lab.state.profileId;
+    var char = Lab.state.selectedDecompChar;
+    if (!pid || !char) return;
+
+    if (!XHZ.canDecompose(pid)) {
+        alert('No lab energy remaining today! Come back tomorrow.');
+        return;
+    }
+
+    // Find the reaction
+    for (var ri = 0; ri < Lab.state.allReactions.length; ri++) {
+        var react = Lab.state.allReactions[ri];
+        if ((react.result || react.char) === char) {
+            var rads = react.radicals || [];
+
+            // Find which radicals are NEW (decomp-only, not yet earned)
+            var newRads = [];
+            for (var i = 0; i < rads.length; i++) {
+                if (!XHZ.hasRadical(pid, rads[i])) {
+                    newRads.push(rads[i]);
+                }
+            }
+
+            // Consume energy & mark as decomposed
+            if (XHZ.useDecomposition(pid)) {
+                XHZ.markCharAsDecomposed(pid, char, newRads);
+                XHZ.incrementLabStat(pid, 'total_decompositions');
+
+                Lab.sfx.decomp();
+
+                // Reset selection
+                Lab.state.selectedDecompChar = null;
+                var detail = docID('lab-decomp-detail');
+                if (detail) detail.classList.remove('visible');
+
+                // Refresh
+                Lab.renderDecompList();
+                Lab.updateTopbar();
+
+                // Show toast if new radicals were earned
+                if (newRads.length > 0) {
+                    Lab.showToast(
+                        '\uD83D\udd2C',
+                        'Decomposed!',
+                        'Discovered ' + newRads.join(', ') + ' from ' + char,
+                        'Awesome!'
+                    );
+                }
+            }
+            return;
+        }
+    }
+}
+
+// ── Clear decomposition selection ──
+function clearDecompSelection() {
+    Lab.state.selectedDecompChar = null;
+    var detail = docID('lab-decomp-detail');
+    if (detail) detail.classList.remove('visible');
+    Lab.renderDecompList();
+}
+
+// ── Rendering: Discovered Characters (panel 4) ──
+Lab.renderDiscovered = function () {
+    var list = docID('discovered-list');
+    if (!list) return;
+
+    var pid = Lab.state.profileId;
+    if (!pid) {
+        list.innerHTML = '<div class="lab-empty-state"><div class="empty-emoji">\u2697\uFE0F</div><div class="empty-text">No profile selected</div></div>';
+        return;
+    }
+
+    var discovered = XHZ.getDiscoveredCharacters(pid);
+    var chars = Object.keys(discovered);
+
+    if (chars.length === 0) {
+        list.innerHTML = '<div class="lab-empty-state"><div class="empty-emoji">\u2697\uFE0F</div><div class="empty-text">No characters discovered yet</div><div class="empty-sub">Head to the Mixing Station and combine radicals!</div></div>';
+        return;
+    }
+
+    var html = '';
+    for (var i = 0; i < chars.length; i++) {
+        var ch = chars[i];
+        var entry = discovered[ch];
+        var recipe = (entry.recipe || []).join(' + ');
+        html += '<div class="lab-disc-card">' +
+            '<span class="dcc-char">' + ch + '</span>' +
+            '<div class="dcc-info">' +
+            '<div class="dcc-recipe">' + recipe + '</div>' +
+            '<div class="dcc-meta">' + (entry.pinyin || '') + (entry.meaning ? ' \u00B7 ' + entry.meaning : '') + '</div>' +
+            '</div>' +
+            '<span class="dcc-badge ' + (entry.decomposed ? 'decomposed' : 'new') + '">' +
+            (entry.decomposed ? '\u2705 Decomposed' : '\uD83C\uDF1F New') +
+            '</span>' +
+            '</div>';
+    }
+
+    list.innerHTML = html;
+};
+
+// ── Rendering: Stats (panel 5) ──
+Lab.renderStats = function () {
+    var grid = docID('lab-stats-grid');
+    if (!grid) return;
+
+    var pid = Lab.state.profileId;
+    if (!pid) return;
+
+    var stats = XHZ.getLabStats ? XHZ.getLabStats(pid) : null;
+    if (!stats) {
+        grid.innerHTML = '<div class="lab-empty-state" style="grid-column:1/-1;"><div class="empty-emoji">\uD83D\uDCCA</div><div class="empty-text">No lab activity yet</div><div class="empty-sub">Start mixing to see your stats!</div></div>';
+        return;
+    }
+
+    var discovered = XHZ.getDiscoveredCharacters(pid);
+    var discCount = Object.keys(discovered).length;
+    var allUser = XHZ.getAllUserRadicals ? XHZ.getAllUserRadicals(pid) : [];
+
+    // Find favorite radicals (top used)
+    var usage = stats.radical_usage || {};
+    var usageArr = [];
+    for (var k in usage) {
+        usageArr.push({ char: k, count: usage[k] });
+    }
+    usageArr.sort(function (a, b) { return b.count - a.count; });
+    var top3 = usageArr.slice(0, 6);
+
+    grid.innerHTML =
+        '<div class="lab-stat-section-title" style="grid-column:1/-1;">\uD83D\uDD2C Mixing Activity</div>' +
+        '<div class="lab-stat-card sc-gold"><div class="sc-icon">\u2697\uFE0F</div><div class="sc-value">' + (stats.total_mix_attempts || 0) + '</div><div class="sc-label">Total Mixes</div></div>' +
+        '<div class="lab-stat-card sc-success"><div class="sc-icon">\u2705</div><div class="sc-value">' + (stats.total_mix_successes || 0) + '</div><div class="sc-label">Successes</div></div>' +
+        '<div class="lab-stat-card sc-fail"><div class="sc-icon">\u274C</div><div class="sc-value">' + (stats.total_mix_failures || 0) + '</div><div class="sc-label">Failures</div></div>' +
+        '<div class="lab-stat-card"><div class="sc-icon">\uD83D\uDCA1</div><div class="sc-value">' + (stats.total_triple_blends || 0) + '</div><div class="sc-label">Triple Blends</div></div>' +
+        '<div class="lab-stat-section-title" style="grid-column:1/-1;">\uD83D\uDCCA Collection</div>' +
+        '<div class="lab-stat-card sc-gold"><div class="sc-icon">\uD83C\uDF1F</div><div class="sc-value">' + discCount + '</div><div class="sc-label">Discovered</div></div>' +
+        '<div class="lab-stat-card sc-success"><div class="sc-icon">\uD83D\uDCE6</div><div class="sc-value">' + allUser.length + '</div><div class="sc-label">Radicals Owned</div></div>' +
+        '<div class="lab-stat-card"><div class="sc-icon">\uD83D\udd2C</div><div class="sc-value">' + (stats.total_decompositions || 0) + '</div><div class="sc-label">Decompositions</div></div>' +
+        '<div class="lab-stat-card"><div class="sc-icon">\u26A1</div><div class="sc-value">' + XHZ.getLabEnergy(pid) + '/' + XHZ.getMaxLabEnergy() + '</div><div class="sc-label">Energy Today</div></div>' +
+        (top3.length > 0 ? '<div class="lab-stat-section-title" style="grid-column:1/-1;">\u2B50 Favorite Radicals</div>' +
+            '<div class="lab-fav-rads" style="grid-column:1/-1;">' +
+            top3.map(function (u) {
+                return '<div class="lab-fav-rad"><span class="fr-char">' + u.char + '</span><span class="fr-count">' + u.count + 'x</span></div>';
+            }).join('') +
+            '</div>' : '');
+};
+
+// ── Blend toggle ──
+Lab.updateBlendToggle = function () {
+    // Triple blend is available at Lv 25+
+    var pid = Lab.state.profileId;
+    if (!pid) return;
+    var level = XHZ.getLevel(pid);
+    var toggle = docID('lab-blend-toggle-wrap');
+    if (toggle) {
+        toggle.style.display = level >= 25 ? '' : 'none';
+    }
+};
+
+// ── Branching modal ──
+Lab.closeBranchingModal = function () {
+    docID('lab-branch-modal').classList.remove('visible');
+};
+
+// ── Toast notification ──
+Lab.showToast = function (emoji, title, desc, btnText) {
+    var toast = docID('lab-result-toast');
+    if (!toast) return;
+    setText('rt-emoji', emoji || '\uD83C\uDF89');
+    setText('rt-info', title || '');
+    setText('rt-desc', desc || '');
+    var btn = docID('rt-close-btn');
+    if (btn && btnText) btn.textContent = btnText;
+    toast.classList.add('visible');
+};
+
+function closeResultToast() {
+    docID('lab-result-toast').classList.remove('visible');
+}
+
+
