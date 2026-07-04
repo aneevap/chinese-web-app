@@ -40,9 +40,11 @@
 
 body {
   background-color: #eedec2;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='105' viewBox='0 0 80 105'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='death-star' fill='%23e8c57f' fill-opacity='0.4'%3E%3Cpath d='M20 10a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V10zm15 35a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V45zM20 75a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V75zm30-65a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V10zm0 65a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V75zM35 10a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V10zM5 45a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V45zm0-35a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V10zm60 35a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V45zm0-35a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V10z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-image: url('assets/textures/bg_bamboo2.png');
+  background-size: cover;
   background-attachment: fixed;
-  background-repeat: repeat;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 /* ── Layout ── */
@@ -74,7 +76,7 @@ body {
   flex-wrap: wrap;
 }
 
-/* ── Left: avatar + streak (frameless) ── */
+/* ── Left: avatar + greeting (frameless) ── */
 .tb-left {
   display: flex;
   align-items: center;
@@ -107,20 +109,6 @@ body {
   font-size: 0.9rem;
   color: var(--db-text);
   white-space: nowrap;
-}
-
-.tb-streak-group {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: 'Nunito', sans-serif;
-  font-weight: 800;
-  font-size: 0.82rem;
-  color: var(--db-text);
-}
-.tb-streak-icon {
-  font-size: 1.1rem;
-  line-height: 1;
 }
 
 /* ── Level Badge (between streak and ribbon) ── */
@@ -188,25 +176,12 @@ body {
   letter-spacing: 0.03em;
 }
 
-/* ── Right: coins + treasure chest (frameless) ── */
+/* ── Right: empty placeholder ── */
 .tb-right {
   display: flex;
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
-}
-
-.tb-coins-group {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: 'Nunito', sans-serif;
-  font-weight: 800;
-  font-size: 0.82rem;
-  color: var(--db-text);
-}
-.tb-coins-icon {
-  font-size: 1.1rem;
 }
 
 
@@ -1122,15 +1097,9 @@ body {
   .tb-avatar-group {
     flex-shrink: 0;
   }
-  .tb-streak-group {
-    flex-shrink: 0;
-  }
   .tb-right {
     flex-shrink: 0;
     margin-left: auto;
-  }
-  .tb-coins-group {
-    font-size: 0.75rem;
   }
   .ribbon-float {
     position: relative;
@@ -1319,20 +1288,10 @@ body {
             <div class="tb-avatar" id="dash-avatar">🐼</div>
             <span class="tb-greeting" id="dash-greeting">Hi, Learner!</span>
           </div>
-          <div class="tb-streak-group">
-            <span class="tb-streak-icon">🔥</span>
-            <span id="dash-streak-text">0 Day Streak!</span>
-          </div>
-
         </div>
 
-        <!-- Right: coins + chest -->
-        <div class="tb-right">
-          <div class="tb-coins-group">
-            <span class="tb-coins-icon">🪙</span>
-            <span id="dash-coins-text">0 COINS</span>
-          </div>
-        </div>
+        <!-- Right: empty placeholder for future use -->
+        <div class="tb-right"></div>
       </header>
 
 
@@ -1547,6 +1506,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // Guest banner check
   showGuestWarningIfNeeded();
 
+  // Check for Bamboo Forest Aura gift after initial render
+  setTimeout(checkBambooForestAura, 1500);
+
   console.log('🐼 Dashboard loaded');
 });
 
@@ -1595,6 +1557,7 @@ function loadData() {
     renderStats();
     renderQuests();
     renderJourneyCard();
+    checkBambooForestAura();
     renderPandaAvatar();
     renderDailyBonus();
   })
@@ -1637,13 +1600,6 @@ function renderHeader() {
 function renderStats() {
   var profile = XHZ.getActiveProfile();
   if (!profile) return;
-
-  var coins = XHZ.getCoins(profile.id);
-  var streak = XHZ.getCurrentStreak(profile.id);
-  var streakLabel = streak === 1 ? '1 Day Streak!' : streak + ' Day Streak!';
-
-  document.getElementById('dash-coins-text').textContent = coins + ' COINS';
-  document.getElementById('dash-streak-text').textContent = streakLabel;
 
   // Random encouraging ribbon text
   var ribbonEl = document.getElementById('dash-ribbon-text');
@@ -1743,8 +1699,6 @@ function renderQuestReward(profile, allComplete) {
     }
     if (bonusAwarded > 0) {
       showToast('🎉 Daily quest bonus! +1 🪙', '', 3000);
-      var coinsEl = document.getElementById('dash-coins-text');
-      if (coinsEl) coinsEl.textContent = XHZ.getCoins(profile.id) + ' COINS';
     }
   } else {
     if (text) text.textContent = 'Complete all tasks for +1 bonus!';
@@ -2194,6 +2148,31 @@ function showGuestWarningIfNeeded() {
     '<button class="dismiss" onclick="this.parentElement.remove()">✕</button>';
   var nav = document.getElementById('app-nav');
   nav.parentNode.insertBefore(banner, nav.nextSibling);
+}
+
+// ── Bamboo Forest Aura Gift ──
+// Auto-gift the Bamboo Forest Aura to anyone who reaches the Bamboo Cub stage (20%+ in year 1).
+function checkBambooForestAura() {
+  var p = XHZ.getActiveProfile();
+  if (!p) return;
+
+  // Check if already owned
+  var itemData = XHZ.getItems(p.id);
+  if (itemData && itemData.earned && itemData.earned.indexOf('bambooforest_aura') !== -1) return;
+
+  // Load rewards to get mastery titles
+  if (!REWARDS) return;
+
+  var info = getMasteryTitle();
+  // Bamboo Cub is at 20% in year group 1 — gift to anyone at or past that milestone
+  if (info && info.pct >= 20) {
+    var result = XHZ.awardItem(p.id, 'bambooforest_aura');
+    if (result && result.success) {
+      showToast('🎋 New aura unlocked! Bamboo Forest Aura!', '', 4000);
+      // Refresh the panda avatar display to show the new aura
+      renderPandaAvatar();
+    }
+  }
 }
 
 // ── Level Badge & Panda Level/XP Info ──

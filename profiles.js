@@ -1266,6 +1266,23 @@ const XHZ = {
    * Purchase an item from the shop using coins.
    * Returns { success, reason ('ok' | 'insufficient_coins' | 'already_owned' | 'item_not_found'), item, spent }
    */
+  /**
+   * Award an item to a profile for free (no coin cost).
+   * Used for stage milestones, quest rewards, etc.
+   * @param {string} profileId
+   * @param {string} itemId
+   * @returns {{ success: boolean, reason: string, item: object|null }}
+   */
+  awardItem(profileId, itemId) {
+    const itemData = this._loadItems(profileId);
+    if (itemData.earned.indexOf(itemId) !== -1) {
+      return { success: false, reason: 'already_owned', item: null };
+    }
+    itemData.earned.push(itemId);
+    this._saveItems(profileId, itemData);
+    return { success: true, reason: 'ok', item: itemId };
+  },
+
   purchaseItem(profileId, itemId, allItems) {
     const profile = this.getProfile(profileId);
     if (!profile) return { success: false, reason: 'profile_not_found' };

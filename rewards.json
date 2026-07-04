@@ -352,6 +352,14 @@
       "category":   "food",
       "coin_cost":  20,
       "message":    "Donut \u2014 a sweet ring of joy!"
+    },
+    {
+      "id":         "bambooforest_aura",
+      "label":      "Bamboo Forest Aura",
+      "emoji":      "🎋",
+      "category":   "aura",
+      "coin_cost":  999,
+      "message":    "Bamboo Forest Aura \u2014 the spirit of the bamboo grove surrounds you!"
     }
   ]
 }
