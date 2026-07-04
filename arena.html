@@ -1934,6 +1934,7 @@ body {
     var DOLL_ALL_ITEMS = [
       // Auras
       { id: 'sparkle_aura', label: 'Sparkle Aura', emoji: '🌟', category: 'aura', type: 'sparkle' },
+      { id: 'bambooforest_aura', label: 'Bamboo Forest Aura', emoji: '🎋', category: 'aura', type: 'bambooforest' },
       // Clothing (from rewards.json 'accessory' → clothing)
       { id: 'dragon_cape',  label: 'Dragon Cape',  emoji: '🦸', category: 'clothing', type: 'cape' },
       { id: 'silk_scarf',   label: 'Silk Scarf',   emoji: '🧣', category: 'clothing', type: 'scarf' },
@@ -1965,6 +1966,7 @@ body {
        Accessory items need per-ID mapping since they split into clothing + head. */
     var ITEM_TO_SLOT = {
       sparkle_aura:  'aura',
+      bambooforest_aura: 'aura',
       dragon_cape:   'clothing',
       silk_scarf:    'clothing',
       straw_hat:     'head',
