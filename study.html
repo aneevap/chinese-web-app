@@ -19,8 +19,14 @@
     <!-- 🎨 Universal Design System -->
     <link rel="stylesheet" href="shared/design-system.css">
 
-    <!-- 🎯 Memo / Notebook button on flash card -->
+    <!-- 🎯 Multi-character word: scale font-size based on char count -->
     <style>
+    .card-char[data-chars="2"] { font-size: clamp(3rem, 12vw, 6rem); }
+    .card-char[data-chars="3"] { font-size: clamp(2.4rem, 9vw, 4.5rem); }
+    .card-char[data-chars="4"] { font-size: clamp(1.8rem, 7vw, 3.5rem); }
+    .card-char-small[data-chars="2"] { font-size: clamp(1.8rem, 5vw, 2.8rem); }
+    .card-char-small[data-chars="3"] { font-size: clamp(1.4rem, 4vw, 2.2rem); }
+    .card-char-small[data-chars="4"] { font-size: clamp(1.1rem, 3vw, 1.7rem); }
     .card-memo-btn {
       display: inline-flex; align-items: center; gap: 4px;
       padding: 6px 14px;
@@ -258,18 +264,20 @@ function renderJourneyPath(course,allWords){
     var seen=XHZ.getSeenCount(pid,wordIds);
     var best=info?info.best_score:0;
     var stars='';for(var s=1;s<=5;s++)stars+='<span class="'+(s<=best?'lit':'')+'">⭐</span>';
-    var badge=info?'<span class="stage-badge">✓ Done</span>':seen>0?'<span class="stage-badge in-progress">In Progress</span>':'';
+    // Only show Done when ALL words in this theme have been seen
+    var allSeen=seen>=themeWords.length;
+    var badge=allSeen?'<span class="stage-badge">✓ Done</span>':seen>0?'<span class="stage-badge in-progress">In Progress</span>':'';
     
     var bc=getBotesColor(theme.id);
     var card=document.createElement('button');
-    card.className='stage-card'+(info?' completed':'')+(isLocked?' locked':'');
+    card.className='stage-card'+(allSeen?' completed':'')+(isLocked?' locked':'');
     card.style.setProperty('--theme-color',bc.color);
     card.style.setProperty('--theme-color-deep',bc.deep);
     if(!isLocked)card.onclick=function(th,tw){return function(){startSession(course.id,th,tw,allWords);};}(theme,themeWords);
     card.innerHTML='<div class="stage-icon">'+(isLocked?'🔒':theme.emoji)+'</div>'+
                    '<div class="stage-info">'+
                      '<h3>'+theme.name+'</h3>'+
-                     '<div class="stage-meta">'+themeWords.length+' chars'+(info?' · '+info.completed_date:'')+' · '+mastered+'/'+themeWords.length+' mastered</div>'+
+                     '<div class="stage-meta">'+themeWords.length+' chars'+(allSeen&&info?' · '+info.completed_date:'')+' · '+mastered+'/'+themeWords.length+' mastered</div>'+
                      '<div class="stage-stars">'+stars+'</div>'+
                    '</div>'+badge;
     el.appendChild(card);
@@ -315,14 +323,13 @@ function renderCard(index){
   var isCharFront=(mode==='char');
   var meaningText=lang==='th'?word.th:word.en;
   var meaningClass='card-meaning'+(lang==='th'?' th':'');
-  var illustrationUrl='assets/characters/'+word.word_id+'.png';
-  
+  var illustrationUrl='assets/characters/'+word.word_id+'.png';    var charsCount = word.ch.length;
   var front,back;
   if(isCharFront){
-    front='<div class="card-char">'+word.ch+'</div>'+
+    front='<div class="card-char" data-chars="'+charsCount+'">'+word.ch+'</div>'+
           '<div class="card-tap-hint">👆 Tap to reveal</div>';
     back='<div class="card-illustration" data-illust-url="'+illustrationUrl+'"></div>'+
-         '<div class="card-char-small">'+word.ch+'</div>'+
+         '<div class="card-char-small" data-chars="'+charsCount+'">'+word.ch+'</div>'+
          '<div class="card-pinyin">'+colorPinyin(word.py)+'</div>'+
          '<div class="'+meaningClass+'">'+meaningText+'</div>';
   }else{
@@ -330,7 +337,7 @@ function renderCard(index){
           '<div class="'+meaningClass+'" style="font-size:1.15rem;">'+meaningText+'</div>'+
           '<div class="card-tap-hint">👆 Tap for character</div>';
     back='<div class="card-illustration" data-illust-url="'+illustrationUrl+'"></div>'+
-         '<div class="card-char">'+word.ch+'</div>'+
+         '<div class="card-char" data-chars="'+charsCount+'">'+word.ch+'</div>'+
          '<div class="card-pinyin">'+colorPinyin(word.py)+'</div>';
   }
   if(word.zh||word.sent_en){

@@ -186,7 +186,152 @@
       "data_file": "characters_2a.json",
       "is_free": true,
       "unlock": null,
-      "themes": []
+      "themes": [
+        {
+          "id": "everyday",
+          "name": "Everyday",
+          "emoji": "🏠",
+          "color": "#FFCC80"
+        },
+        {
+          "id": "actions",
+          "name": "Actions",
+          "emoji": "🏃",
+          "color": "#FFB347"
+        },
+        {
+          "id": "nature",
+          "name": "Nature",
+          "emoji": "🌿",
+          "color": "#AED581"
+        },
+        {
+          "id": "time",
+          "name": "Time",
+          "emoji": "🕐",
+          "color": "#D4A5A5"
+        },
+        {
+          "id": "people",
+          "name": "People",
+          "emoji": "👤",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "animals",
+          "name": "Animals",
+          "emoji": "🐾",
+          "color": "#F48FB1"
+        },
+        {
+          "id": "emotions",
+          "name": "Emotions",
+          "emoji": "😊",
+          "color": "#FF6B6B"
+        },
+        {
+          "id": "school",
+          "name": "School",
+          "emoji": "🏫",
+          "color": "#4A90E2"
+        },
+        {
+          "id": "body",
+          "name": "Body",
+          "emoji": "🫀",
+          "color": "#EF9A9A"
+        },
+        {
+          "id": "directions",
+          "name": "Directions",
+          "emoji": "🧭",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "movement",
+          "name": "Movement",
+          "emoji": "🏃",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "food",
+          "name": "Food",
+          "emoji": "🍜",
+          "color": "#FFAB91"
+        },
+        {
+          "id": "colors",
+          "name": "Colors",
+          "emoji": "🌈",
+          "color": "#FFD700"
+        },
+        {
+          "id": "shapes",
+          "name": "Shapes",
+          "emoji": "🔷",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "family",
+          "name": "Family",
+          "emoji": "👨‍👩‍👧‍👦",
+          "color": "#FFB6C1"
+        },
+        {
+          "id": "numbers",
+          "name": "Numbers",
+          "emoji": "🔢",
+          "color": "#E8C547"
+        },
+        {
+          "id": "weather",
+          "name": "Weather",
+          "emoji": "⛅",
+          "color": "#87CEEB"
+        },
+        {
+          "id": "art",
+          "name": "Art",
+          "emoji": "🎨",
+          "color": "#CE93D8"
+        },
+        {
+          "id": "celebration",
+          "name": "Celebration",
+          "emoji": "🎉",
+          "color": "#FF8A65"
+        },
+        {
+          "id": "grammar",
+          "name": "Grammar",
+          "emoji": "📐",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "measurements",
+          "name": "Measurements",
+          "emoji": "📏",
+          "color": "#C5E1A5"
+        },
+        {
+          "id": "music",
+          "name": "Music",
+          "emoji": "🎵",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "space",
+          "name": "Space",
+          "emoji": "🌌",
+          "color": "#7986CB"
+        },
+        {
+          "id": "weapons",
+          "name": "Weapons",
+          "emoji": "⚔️",
+          "color": "#90A4AE"
+        }
+      ]
     },
     {
       "id": "2B",
@@ -195,7 +340,122 @@
       "data_file": "characters_2b.json",
       "is_free": true,
       "unlock": null,
-      "themes": []
+      "themes": [
+        {
+          "id": "everyday",
+          "name": "Everyday",
+          "emoji": "🏠",
+          "color": "#FFCC80"
+        },
+        {
+          "id": "nature",
+          "name": "Nature",
+          "emoji": "🌿",
+          "color": "#AED581"
+        },
+        {
+          "id": "actions",
+          "name": "Actions",
+          "emoji": "🏃",
+          "color": "#FFB347"
+        },
+        {
+          "id": "movement",
+          "name": "Movement",
+          "emoji": "🏃",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "animals",
+          "name": "Animals",
+          "emoji": "🐾",
+          "color": "#F48FB1"
+        },
+        {
+          "id": "people",
+          "name": "People",
+          "emoji": "👤",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "school",
+          "name": "School",
+          "emoji": "🏫",
+          "color": "#4A90E2"
+        },
+        {
+          "id": "emotions",
+          "name": "Emotions",
+          "emoji": "😊",
+          "color": "#FF6B6B"
+        },
+        {
+          "id": "food",
+          "name": "Food",
+          "emoji": "🍜",
+          "color": "#FFAB91"
+        },
+        {
+          "id": "time",
+          "name": "Time",
+          "emoji": "🕐",
+          "color": "#D4A5A5"
+        },
+        {
+          "id": "body",
+          "name": "Body",
+          "emoji": "🫀",
+          "color": "#EF9A9A"
+        },
+        {
+          "id": "colors",
+          "name": "Colors",
+          "emoji": "🌈",
+          "color": "#FFD700"
+        },
+        {
+          "id": "weather",
+          "name": "Weather",
+          "emoji": "⛅",
+          "color": "#87CEEB"
+        },
+        {
+          "id": "directions",
+          "name": "Directions",
+          "emoji": "🧭",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "family",
+          "name": "Family",
+          "emoji": "👨‍👩‍👧‍👦",
+          "color": "#FFB6C1"
+        },
+        {
+          "id": "building",
+          "name": "Buildings",
+          "emoji": "🏗️",
+          "color": "#90A4AE"
+        },
+        {
+          "id": "mythology",
+          "name": "Mythology",
+          "emoji": "🏛️",
+          "color": "#CE93D8"
+        },
+        {
+          "id": "numbers",
+          "name": "Numbers",
+          "emoji": "🔢",
+          "color": "#E8C547"
+        },
+        {
+          "id": "shapes",
+          "name": "Shapes",
+          "emoji": "🔷",
+          "color": "#B0BEC5"
+        }
+      ]
     },
     {
       "id": "3A",
@@ -204,7 +464,140 @@
       "data_file": "characters_3a.json",
       "is_free": true,
       "unlock": null,
-      "themes": []
+      "themes": [
+        {
+          "id": "everyday",
+          "name": "Everyday",
+          "emoji": "🏠",
+          "color": "#FFCC80"
+        },
+        {
+          "id": "actions",
+          "name": "Actions",
+          "emoji": "🏃",
+          "color": "#FFB347"
+        },
+        {
+          "id": "nature",
+          "name": "Nature",
+          "emoji": "🌿",
+          "color": "#AED581"
+        },
+        {
+          "id": "emotions",
+          "name": "Emotions",
+          "emoji": "😊",
+          "color": "#FF6B6B"
+        },
+        {
+          "id": "movement",
+          "name": "Movement",
+          "emoji": "🏃",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "people",
+          "name": "People",
+          "emoji": "👤",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "food",
+          "name": "Food",
+          "emoji": "🍜",
+          "color": "#FFAB91"
+        },
+        {
+          "id": "body",
+          "name": "Body",
+          "emoji": "🫀",
+          "color": "#EF9A9A"
+        },
+        {
+          "id": "school",
+          "name": "School",
+          "emoji": "🏫",
+          "color": "#4A90E2"
+        },
+        {
+          "id": "directions",
+          "name": "Directions",
+          "emoji": "🧭",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "time",
+          "name": "Time",
+          "emoji": "🕐",
+          "color": "#D4A5A5"
+        },
+        {
+          "id": "animals",
+          "name": "Animals",
+          "emoji": "🐾",
+          "color": "#F48FB1"
+        },
+        {
+          "id": "weather",
+          "name": "Weather",
+          "emoji": "⛅",
+          "color": "#87CEEB"
+        },
+        {
+          "id": "colors",
+          "name": "Colors",
+          "emoji": "🌈",
+          "color": "#FFD700"
+        },
+        {
+          "id": "family",
+          "name": "Family",
+          "emoji": "👨‍👩‍👧‍👦",
+          "color": "#FFB6C1"
+        },
+        {
+          "id": "history",
+          "name": "History",
+          "emoji": "📜",
+          "color": "#D7CCC8"
+        },
+        {
+          "id": "numbers",
+          "name": "Numbers",
+          "emoji": "🔢",
+          "color": "#E8C547"
+        },
+        {
+          "id": "measurement",
+          "name": "Measurement",
+          "emoji": "📏",
+          "color": "#C5E1A5"
+        },
+        {
+          "id": "mythology",
+          "name": "Mythology",
+          "emoji": "🏛️",
+          "color": "#CE93D8"
+        },
+        {
+          "id": "religion",
+          "name": "Religion",
+          "emoji": "🛐",
+          "color": "#D1C4E9"
+        },
+        {
+          "id": "shapes",
+          "name": "Shapes",
+          "emoji": "🔷",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "weapons",
+          "name": "Weapons",
+          "emoji": "⚔️",
+          "color": "#90A4AE"
+        }
+      ]
     },
     {
       "id": "3B",
@@ -213,7 +606,158 @@
       "data_file": "characters_3b.json",
       "is_free": true,
       "unlock": null,
-      "themes": []
+      "themes": [
+        {
+          "id": "everyday",
+          "name": "Everyday",
+          "emoji": "🏠",
+          "color": "#FFCC80"
+        },
+        {
+          "id": "actions",
+          "name": "Actions",
+          "emoji": "🏃",
+          "color": "#FFB347"
+        },
+        {
+          "id": "nature",
+          "name": "Nature",
+          "emoji": "🌿",
+          "color": "#AED581"
+        },
+        {
+          "id": "emotions",
+          "name": "Emotions",
+          "emoji": "😊",
+          "color": "#FF6B6B"
+        },
+        {
+          "id": "body",
+          "name": "Body",
+          "emoji": "🫀",
+          "color": "#EF9A9A"
+        },
+        {
+          "id": "movement",
+          "name": "Movement",
+          "emoji": "🏃",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "people",
+          "name": "People",
+          "emoji": "👤",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "time",
+          "name": "Time",
+          "emoji": "🕐",
+          "color": "#D4A5A5"
+        },
+        {
+          "id": "animals",
+          "name": "Animals",
+          "emoji": "🐾",
+          "color": "#F48FB1"
+        },
+        {
+          "id": "food",
+          "name": "Food",
+          "emoji": "🍜",
+          "color": "#FFAB91"
+        },
+        {
+          "id": "school",
+          "name": "School",
+          "emoji": "🏫",
+          "color": "#4A90E2"
+        },
+        {
+          "id": "weather",
+          "name": "Weather",
+          "emoji": "⛅",
+          "color": "#87CEEB"
+        },
+        {
+          "id": "colors",
+          "name": "Colors",
+          "emoji": "🌈",
+          "color": "#FFD700"
+        },
+        {
+          "id": "family",
+          "name": "Family",
+          "emoji": "👨‍👩‍👧‍👦",
+          "color": "#FFB6C1"
+        },
+        {
+          "id": "shapes",
+          "name": "Shapes",
+          "emoji": "🔷",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "directions",
+          "name": "Directions",
+          "emoji": "🧭",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "history",
+          "name": "History",
+          "emoji": "📜",
+          "color": "#D7CCC8"
+        },
+        {
+          "id": "weapons",
+          "name": "Weapons",
+          "emoji": "⚔️",
+          "color": "#90A4AE"
+        },
+        {
+          "id": "agriculture",
+          "name": "Agriculture",
+          "emoji": "🌾",
+          "color": "#8BC34A"
+        },
+        {
+          "id": "clothing",
+          "name": "Clothing",
+          "emoji": "👘",
+          "color": "#B39DDB"
+        },
+        {
+          "id": "conjunctions",
+          "name": "Conjunctions",
+          "emoji": "🔗",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "music",
+          "name": "Music",
+          "emoji": "🎵",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "numbers",
+          "name": "Numbers",
+          "emoji": "🔢",
+          "color": "#E8C547"
+        },
+        {
+          "id": "religion",
+          "name": "Religion",
+          "emoji": "🛐",
+          "color": "#D1C4E9"
+        },
+        {
+          "id": "sports",
+          "name": "Sports",
+          "emoji": "⚽",
+          "color": "#81C784"
+        }
+      ]
     },
     {
       "id": "4A",
@@ -222,7 +766,140 @@
       "data_file": "characters_4a.json",
       "is_free": true,
       "unlock": null,
-      "themes": []
+      "themes": [
+        {
+          "id": "everyday",
+          "name": "Everyday",
+          "emoji": "🏠",
+          "color": "#FFCC80"
+        },
+        {
+          "id": "nature",
+          "name": "Nature",
+          "emoji": "🌿",
+          "color": "#AED581"
+        },
+        {
+          "id": "actions",
+          "name": "Actions",
+          "emoji": "🏃",
+          "color": "#FFB347"
+        },
+        {
+          "id": "movement",
+          "name": "Movement",
+          "emoji": "🏃",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "people",
+          "name": "People",
+          "emoji": "👤",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "emotions",
+          "name": "Emotions",
+          "emoji": "😊",
+          "color": "#FF6B6B"
+        },
+        {
+          "id": "animals",
+          "name": "Animals",
+          "emoji": "🐾",
+          "color": "#F48FB1"
+        },
+        {
+          "id": "school",
+          "name": "School",
+          "emoji": "🏫",
+          "color": "#4A90E2"
+        },
+        {
+          "id": "food",
+          "name": "Food",
+          "emoji": "🍜",
+          "color": "#FFAB91"
+        },
+        {
+          "id": "body",
+          "name": "Body",
+          "emoji": "🫀",
+          "color": "#EF9A9A"
+        },
+        {
+          "id": "shapes",
+          "name": "Shapes",
+          "emoji": "🔷",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "weather",
+          "name": "Weather",
+          "emoji": "⛅",
+          "color": "#87CEEB"
+        },
+        {
+          "id": "time",
+          "name": "Time",
+          "emoji": "🕐",
+          "color": "#D4A5A5"
+        },
+        {
+          "id": "colors",
+          "name": "Colors",
+          "emoji": "🌈",
+          "color": "#FFD700"
+        },
+        {
+          "id": "family",
+          "name": "Family",
+          "emoji": "👨‍👩‍👧‍👦",
+          "color": "#FFB6C1"
+        },
+        {
+          "id": "agriculture",
+          "name": "Agriculture",
+          "emoji": "🌾",
+          "color": "#8BC34A"
+        },
+        {
+          "id": "building",
+          "name": "Buildings",
+          "emoji": "🏗️",
+          "color": "#90A4AE"
+        },
+        {
+          "id": "light",
+          "name": "Light",
+          "emoji": "💡",
+          "color": "#FFF176"
+        },
+        {
+          "id": "numbers",
+          "name": "Numbers",
+          "emoji": "🔢",
+          "color": "#E8C547"
+        },
+        {
+          "id": "science",
+          "name": "Science",
+          "emoji": "🔬",
+          "color": "#80CBC4"
+        },
+        {
+          "id": "supernatural",
+          "name": "Supernatural",
+          "emoji": "👻",
+          "color": "#B39DDB"
+        },
+        {
+          "id": "water",
+          "name": "Water",
+          "emoji": "💧",
+          "color": "#4FC3F7"
+        }
+      ]
     },
     {
       "id": "4B",
@@ -231,7 +908,140 @@
       "data_file": "characters_4b.json",
       "is_free": true,
       "unlock": null,
-      "themes": []
+      "themes": [
+        {
+          "id": "everyday",
+          "name": "Everyday",
+          "emoji": "🏠",
+          "color": "#FFCC80"
+        },
+        {
+          "id": "actions",
+          "name": "Actions",
+          "emoji": "🏃",
+          "color": "#FFB347"
+        },
+        {
+          "id": "nature",
+          "name": "Nature",
+          "emoji": "🌿",
+          "color": "#AED581"
+        },
+        {
+          "id": "animals",
+          "name": "Animals",
+          "emoji": "🐾",
+          "color": "#F48FB1"
+        },
+        {
+          "id": "people",
+          "name": "People",
+          "emoji": "👤",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "movement",
+          "name": "Movement",
+          "emoji": "🏃",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "emotions",
+          "name": "Emotions",
+          "emoji": "😊",
+          "color": "#FF6B6B"
+        },
+        {
+          "id": "body",
+          "name": "Body",
+          "emoji": "🫀",
+          "color": "#EF9A9A"
+        },
+        {
+          "id": "food",
+          "name": "Food",
+          "emoji": "🍜",
+          "color": "#FFAB91"
+        },
+        {
+          "id": "shapes",
+          "name": "Shapes",
+          "emoji": "🔷",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "time",
+          "name": "Time",
+          "emoji": "🕐",
+          "color": "#D4A5A5"
+        },
+        {
+          "id": "family",
+          "name": "Family",
+          "emoji": "👨‍👩‍👧‍👦",
+          "color": "#FFB6C1"
+        },
+        {
+          "id": "law",
+          "name": "Law",
+          "emoji": "⚖️",
+          "color": "#9E9E9E"
+        },
+        {
+          "id": "school",
+          "name": "School",
+          "emoji": "🏫",
+          "color": "#4A90E2"
+        },
+        {
+          "id": "agriculture",
+          "name": "Agriculture",
+          "emoji": "🌾",
+          "color": "#8BC34A"
+        },
+        {
+          "id": "architecture",
+          "name": "Architecture",
+          "emoji": "🏛️",
+          "color": "#A1887F"
+        },
+        {
+          "id": "colors",
+          "name": "Colors",
+          "emoji": "🌈",
+          "color": "#FFD700"
+        },
+        {
+          "id": "directions",
+          "name": "Directions",
+          "emoji": "🧭",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "health",
+          "name": "Health",
+          "emoji": "💊",
+          "color": "#A5D6A7"
+        },
+        {
+          "id": "medical",
+          "name": "Medical",
+          "emoji": "🏥",
+          "color": "#E0E0E0"
+        },
+        {
+          "id": "religion",
+          "name": "Religion",
+          "emoji": "🛐",
+          "color": "#D1C4E9"
+        },
+        {
+          "id": "supernatural",
+          "name": "Supernatural",
+          "emoji": "👻",
+          "color": "#B39DDB"
+        }
+      ]
     },
     {
       "id": "5A",
@@ -240,7 +1050,134 @@
       "data_file": "characters_5a.json",
       "is_free": true,
       "unlock": null,
-      "themes": []
+      "themes": [
+        {
+          "id": "everyday",
+          "name": "Everyday",
+          "emoji": "🏠",
+          "color": "#FFCC80"
+        },
+        {
+          "id": "actions",
+          "name": "Actions",
+          "emoji": "🏃",
+          "color": "#FFB347"
+        },
+        {
+          "id": "nature",
+          "name": "Nature",
+          "emoji": "🌿",
+          "color": "#AED581"
+        },
+        {
+          "id": "people",
+          "name": "People",
+          "emoji": "👤",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "food",
+          "name": "Food",
+          "emoji": "🍜",
+          "color": "#FFAB91"
+        },
+        {
+          "id": "body",
+          "name": "Body",
+          "emoji": "🫀",
+          "color": "#EF9A9A"
+        },
+        {
+          "id": "movement",
+          "name": "Movement",
+          "emoji": "🏃",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "animals",
+          "name": "Animals",
+          "emoji": "🐾",
+          "color": "#F48FB1"
+        },
+        {
+          "id": "emotions",
+          "name": "Emotions",
+          "emoji": "😊",
+          "color": "#FF6B6B"
+        },
+        {
+          "id": "school",
+          "name": "School",
+          "emoji": "🏫",
+          "color": "#4A90E2"
+        },
+        {
+          "id": "time",
+          "name": "Time",
+          "emoji": "🕐",
+          "color": "#D4A5A5"
+        },
+        {
+          "id": "advice",
+          "name": "Advice",
+          "emoji": "💡",
+          "color": "#FFD54F"
+        },
+        {
+          "id": "directions",
+          "name": "Directions",
+          "emoji": "🧭",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "family",
+          "name": "Family",
+          "emoji": "👨‍👩‍👧‍👦",
+          "color": "#FFB6C1"
+        },
+        {
+          "id": "health",
+          "name": "Health",
+          "emoji": "💊",
+          "color": "#A5D6A7"
+        },
+        {
+          "id": "history",
+          "name": "History",
+          "emoji": "📜",
+          "color": "#D7CCC8"
+        },
+        {
+          "id": "numbers",
+          "name": "Numbers",
+          "emoji": "🔢",
+          "color": "#E8C547"
+        },
+        {
+          "id": "shapes",
+          "name": "Shapes",
+          "emoji": "🔷",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "speech",
+          "name": "Speech",
+          "emoji": "💬",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "supernatural",
+          "name": "Supernatural",
+          "emoji": "👻",
+          "color": "#B39DDB"
+        },
+        {
+          "id": "weather",
+          "name": "Weather",
+          "emoji": "⛅",
+          "color": "#87CEEB"
+        }
+      ]
     },
     {
       "id": "5B",
@@ -249,7 +1186,152 @@
       "data_file": "characters_5b.json",
       "is_free": true,
       "unlock": null,
-      "themes": []
+      "themes": [
+        {
+          "id": "everyday",
+          "name": "Everyday",
+          "emoji": "🏠",
+          "color": "#FFCC80"
+        },
+        {
+          "id": "actions",
+          "name": "Actions",
+          "emoji": "🏃",
+          "color": "#FFB347"
+        },
+        {
+          "id": "people",
+          "name": "People",
+          "emoji": "👤",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "emotions",
+          "name": "Emotions",
+          "emoji": "😊",
+          "color": "#FF6B6B"
+        },
+        {
+          "id": "movement",
+          "name": "Movement",
+          "emoji": "🏃",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "animals",
+          "name": "Animals",
+          "emoji": "🐾",
+          "color": "#F48FB1"
+        },
+        {
+          "id": "nature",
+          "name": "Nature",
+          "emoji": "🌿",
+          "color": "#AED581"
+        },
+        {
+          "id": "food",
+          "name": "Food",
+          "emoji": "🍜",
+          "color": "#FFAB91"
+        },
+        {
+          "id": "family",
+          "name": "Family",
+          "emoji": "👨‍👩‍👧‍👦",
+          "color": "#FFB6C1"
+        },
+        {
+          "id": "body",
+          "name": "Body",
+          "emoji": "🫀",
+          "color": "#EF9A9A"
+        },
+        {
+          "id": "clothing",
+          "name": "Clothing",
+          "emoji": "👘",
+          "color": "#B39DDB"
+        },
+        {
+          "id": "school",
+          "name": "School",
+          "emoji": "🏫",
+          "color": "#4A90E2"
+        },
+        {
+          "id": "time",
+          "name": "Time",
+          "emoji": "🕐",
+          "color": "#D4A5A5"
+        },
+        {
+          "id": "architecture",
+          "name": "Architecture",
+          "emoji": "🏛️",
+          "color": "#A1887F"
+        },
+        {
+          "id": "art",
+          "name": "Art",
+          "emoji": "🎨",
+          "color": "#CE93D8"
+        },
+        {
+          "id": "chemicals",
+          "name": "Chemicals",
+          "emoji": "🧪",
+          "color": "#80CBC4"
+        },
+        {
+          "id": "directions",
+          "name": "Directions",
+          "emoji": "🧭",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "geography",
+          "name": "Geography",
+          "emoji": "🌍",
+          "color": "#81C784"
+        },
+        {
+          "id": "measurement",
+          "name": "Measurement",
+          "emoji": "📏",
+          "color": "#C5E1A5"
+        },
+        {
+          "id": "music",
+          "name": "Music",
+          "emoji": "🎵",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "numbers",
+          "name": "Numbers",
+          "emoji": "🔢",
+          "color": "#E8C547"
+        },
+        {
+          "id": "religion",
+          "name": "Religion",
+          "emoji": "🛐",
+          "color": "#D1C4E9"
+        },
+        {
+          "id": "rituals",
+          "name": "Rituals",
+          "emoji": "🕯️",
+          "color": "#FFCC80"
+        },
+        {
+          "id": "shapes",
+          "name": "Shapes",
+          "emoji": "🔷",
+          "color": "#B0BEC5"
+        }
+      ]
     },
     {
       "id": "6A",
@@ -258,7 +1340,98 @@
       "data_file": "characters_6a.json",
       "is_free": true,
       "unlock": null,
-      "themes": []
+      "themes": [
+        {
+          "id": "everyday",
+          "name": "Everyday",
+          "emoji": "🏠",
+          "color": "#FFCC80"
+        },
+        {
+          "id": "actions",
+          "name": "Actions",
+          "emoji": "🏃",
+          "color": "#FFB347"
+        },
+        {
+          "id": "nature",
+          "name": "Nature",
+          "emoji": "🌿",
+          "color": "#AED581"
+        },
+        {
+          "id": "emotions",
+          "name": "Emotions",
+          "emoji": "😊",
+          "color": "#FF6B6B"
+        },
+        {
+          "id": "people",
+          "name": "People",
+          "emoji": "👤",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "animals",
+          "name": "Animals",
+          "emoji": "🐾",
+          "color": "#F48FB1"
+        },
+        {
+          "id": "body",
+          "name": "Body",
+          "emoji": "🫀",
+          "color": "#EF9A9A"
+        },
+        {
+          "id": "food",
+          "name": "Food",
+          "emoji": "🍜",
+          "color": "#FFAB91"
+        },
+        {
+          "id": "weather",
+          "name": "Weather",
+          "emoji": "⛅",
+          "color": "#87CEEB"
+        },
+        {
+          "id": "movement",
+          "name": "Movement",
+          "emoji": "🏃",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "school",
+          "name": "School",
+          "emoji": "🏫",
+          "color": "#4A90E2"
+        },
+        {
+          "id": "directions",
+          "name": "Directions",
+          "emoji": "🧭",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "art",
+          "name": "Art",
+          "emoji": "🎨",
+          "color": "#CE93D8"
+        },
+        {
+          "id": "family",
+          "name": "Family",
+          "emoji": "👨‍👩‍👧‍👦",
+          "color": "#FFB6C1"
+        },
+        {
+          "id": "time",
+          "name": "Time",
+          "emoji": "🕐",
+          "color": "#D4A5A5"
+        }
+      ]
     },
     {
       "id": "6B",
@@ -267,7 +1440,110 @@
       "data_file": "characters_6b.json",
       "is_free": true,
       "unlock": null,
-      "themes": []
+      "themes": [
+        {
+          "id": "everyday",
+          "name": "Everyday",
+          "emoji": "🏠",
+          "color": "#FFCC80"
+        },
+        {
+          "id": "actions",
+          "name": "Actions",
+          "emoji": "🏃",
+          "color": "#FFB347"
+        },
+        {
+          "id": "food",
+          "name": "Food",
+          "emoji": "🍜",
+          "color": "#FFAB91"
+        },
+        {
+          "id": "nature",
+          "name": "Nature",
+          "emoji": "🌿",
+          "color": "#AED581"
+        },
+        {
+          "id": "people",
+          "name": "People",
+          "emoji": "👤",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "emotions",
+          "name": "Emotions",
+          "emoji": "😊",
+          "color": "#FF6B6B"
+        },
+        {
+          "id": "movement",
+          "name": "Movement",
+          "emoji": "🏃",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "school",
+          "name": "School",
+          "emoji": "🏫",
+          "color": "#4A90E2"
+        },
+        {
+          "id": "animals",
+          "name": "Animals",
+          "emoji": "🐾",
+          "color": "#F48FB1"
+        },
+        {
+          "id": "body",
+          "name": "Body",
+          "emoji": "🫀",
+          "color": "#EF9A9A"
+        },
+        {
+          "id": "directions",
+          "name": "Directions",
+          "emoji": "🧭",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "family",
+          "name": "Family",
+          "emoji": "👨‍👩‍👧‍👦",
+          "color": "#FFB6C1"
+        },
+        {
+          "id": "geography",
+          "name": "Geography",
+          "emoji": "🌍",
+          "color": "#81C784"
+        },
+        {
+          "id": "history",
+          "name": "History",
+          "emoji": "📜",
+          "color": "#D7CCC8"
+        },
+        {
+          "id": "science",
+          "name": "Science",
+          "emoji": "🔬",
+          "color": "#80CBC4"
+        },
+        {
+          "id": "supernatural",
+          "name": "Supernatural",
+          "emoji": "👻",
+          "color": "#B39DDB"
+        },
+        {
+          "id": "time",
+          "name": "Time",
+          "emoji": "🕐",
+          "color": "#D4A5A5"
+        }
+      ]
     },
     {
       "id": "HSK3_1",
@@ -276,7 +1552,146 @@
       "data_file": "characters_hsk1.json",
       "is_free": true,
       "unlock": null,
-      "themes": []
+      "themes": [
+        {
+          "id": "everyday",
+          "name": "Everyday",
+          "emoji": "🏠",
+          "color": "#FFCC80"
+        },
+        {
+          "id": "directions",
+          "name": "Directions",
+          "emoji": "🧭",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "people",
+          "name": "People",
+          "emoji": "👤",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "actions",
+          "name": "Actions",
+          "emoji": "🏃",
+          "color": "#FFB347"
+        },
+        {
+          "id": "time",
+          "name": "Time",
+          "emoji": "🕐",
+          "color": "#D4A5A5"
+        },
+        {
+          "id": "school",
+          "name": "School",
+          "emoji": "🏫",
+          "color": "#4A90E2"
+        },
+        {
+          "id": "movement",
+          "name": "Movement",
+          "emoji": "🏃",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "numbers",
+          "name": "Numbers",
+          "emoji": "🔢",
+          "color": "#E8C547"
+        },
+        {
+          "id": "nature",
+          "name": "Nature",
+          "emoji": "🌿",
+          "color": "#AED581"
+        },
+        {
+          "id": "family",
+          "name": "Family",
+          "emoji": "👨‍👩‍👧‍👦",
+          "color": "#FFB6C1"
+        },
+        {
+          "id": "food",
+          "name": "Food",
+          "emoji": "🍜",
+          "color": "#FFAB91"
+        },
+        {
+          "id": "body",
+          "name": "Body",
+          "emoji": "🫀",
+          "color": "#EF9A9A"
+        },
+        {
+          "id": "emotions",
+          "name": "Emotions",
+          "emoji": "😊",
+          "color": "#FF6B6B"
+        },
+        {
+          "id": "nature2",
+          "name": "Nature",
+          "emoji": "🌱",
+          "color": "#A5D6A7"
+        },
+        {
+          "id": "literature",
+          "name": "Literature",
+          "emoji": "📖",
+          "color": "#BCAAA4"
+        },
+        {
+          "id": "shapes",
+          "name": "Shapes",
+          "emoji": "🔷",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "art",
+          "name": "Art",
+          "emoji": "🎨",
+          "color": "#CE93D8"
+        },
+        {
+          "id": "clothing",
+          "name": "Clothing",
+          "emoji": "👘",
+          "color": "#B39DDB"
+        },
+        {
+          "id": "misc",
+          "name": "Misc",
+          "emoji": "✨",
+          "color": "#FFF59D"
+        },
+        {
+          "id": "weather",
+          "name": "Weather",
+          "emoji": "⛅",
+          "color": "#87CEEB"
+        },
+        {
+          "id": "animals",
+          "name": "Animals",
+          "emoji": "🐾",
+          "color": "#F48FB1"
+        },
+        {
+          "id": "history",
+          "name": "History",
+          "emoji": "📜",
+          "color": "#D7CCC8"
+        },
+        {
+          "id": "speech",
+          "name": "Speech",
+          "emoji": "💬",
+          "color": "#90CAF9"
+        }
+      ]
     },
     {
       "id": "HSK3_2",
@@ -285,7 +1700,164 @@
       "data_file": "characters_hsk2.json",
       "is_free": true,
       "unlock": null,
-      "themes": []
+      "themes": [
+        {
+          "id": "everyday",
+          "name": "Everyday",
+          "emoji": "🏠",
+          "color": "#FFCC80"
+        },
+        {
+          "id": "actions",
+          "name": "Actions",
+          "emoji": "🏃",
+          "color": "#FFB347"
+        },
+        {
+          "id": "people",
+          "name": "People",
+          "emoji": "👤",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "directions",
+          "name": "Directions",
+          "emoji": "🧭",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "time",
+          "name": "Time",
+          "emoji": "🕐",
+          "color": "#D4A5A5"
+        },
+        {
+          "id": "school",
+          "name": "School",
+          "emoji": "🏫",
+          "color": "#4A90E2"
+        },
+        {
+          "id": "movement",
+          "name": "Movement",
+          "emoji": "🏃",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "emotions",
+          "name": "Emotions",
+          "emoji": "😊",
+          "color": "#FF6B6B"
+        },
+        {
+          "id": "nature",
+          "name": "Nature",
+          "emoji": "🌿",
+          "color": "#AED581"
+        },
+        {
+          "id": "body",
+          "name": "Body",
+          "emoji": "🫀",
+          "color": "#EF9A9A"
+        },
+        {
+          "id": "numbers",
+          "name": "Numbers",
+          "emoji": "🔢",
+          "color": "#E8C547"
+        },
+        {
+          "id": "animals",
+          "name": "Animals",
+          "emoji": "🐾",
+          "color": "#F48FB1"
+        },
+        {
+          "id": "shapes",
+          "name": "Shapes",
+          "emoji": "🔷",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "colors",
+          "name": "Colors",
+          "emoji": "🌈",
+          "color": "#FFD700"
+        },
+        {
+          "id": "food",
+          "name": "Food",
+          "emoji": "🍜",
+          "color": "#FFAB91"
+        },
+        {
+          "id": "misc",
+          "name": "Misc",
+          "emoji": "✨",
+          "color": "#FFF59D"
+        },
+        {
+          "id": "weather",
+          "name": "Weather",
+          "emoji": "⛅",
+          "color": "#87CEEB"
+        },
+        {
+          "id": "literature",
+          "name": "Literature",
+          "emoji": "📖",
+          "color": "#BCAAA4"
+        },
+        {
+          "id": "nature2",
+          "name": "Nature",
+          "emoji": "🌱",
+          "color": "#A5D6A7"
+        },
+        {
+          "id": "family",
+          "name": "Family",
+          "emoji": "👨‍👩‍👧‍👦",
+          "color": "#FFB6C1"
+        },
+        {
+          "id": "art",
+          "name": "Art",
+          "emoji": "🎨",
+          "color": "#CE93D8"
+        },
+        {
+          "id": "clothing",
+          "name": "Clothing",
+          "emoji": "👘",
+          "color": "#B39DDB"
+        },
+        {
+          "id": "celebration",
+          "name": "Celebration",
+          "emoji": "🎉",
+          "color": "#FF8A65"
+        },
+        {
+          "id": "conjunctions",
+          "name": "Conjunctions",
+          "emoji": "🔗",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "health",
+          "name": "Health",
+          "emoji": "💊",
+          "color": "#A5D6A7"
+        },
+        {
+          "id": "measurement",
+          "name": "Measurement",
+          "emoji": "📏",
+          "color": "#C5E1A5"
+        }
+      ]
     },
     {
       "id": "HSK3_3",
@@ -294,7 +1866,194 @@
       "data_file": "characters_hsk3.json",
       "is_free": true,
       "unlock": null,
-      "themes": []
+      "themes": [
+        {
+          "id": "everyday",
+          "name": "Everyday",
+          "emoji": "🏠",
+          "color": "#FFCC80"
+        },
+        {
+          "id": "actions",
+          "name": "Actions",
+          "emoji": "🏃",
+          "color": "#FFB347"
+        },
+        {
+          "id": "people",
+          "name": "People",
+          "emoji": "👤",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "time",
+          "name": "Time",
+          "emoji": "🕐",
+          "color": "#D4A5A5"
+        },
+        {
+          "id": "movement",
+          "name": "Movement",
+          "emoji": "🏃",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "school",
+          "name": "School",
+          "emoji": "🏫",
+          "color": "#4A90E2"
+        },
+        {
+          "id": "nature",
+          "name": "Nature",
+          "emoji": "🌿",
+          "color": "#AED581"
+        },
+        {
+          "id": "directions",
+          "name": "Directions",
+          "emoji": "🧭",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "body",
+          "name": "Body",
+          "emoji": "🫀",
+          "color": "#EF9A9A"
+        },
+        {
+          "id": "emotions",
+          "name": "Emotions",
+          "emoji": "😊",
+          "color": "#FF6B6B"
+        },
+        {
+          "id": "animals",
+          "name": "Animals",
+          "emoji": "🐾",
+          "color": "#F48FB1"
+        },
+        {
+          "id": "nature2",
+          "name": "Nature",
+          "emoji": "🌱",
+          "color": "#A5D6A7"
+        },
+        {
+          "id": "shapes",
+          "name": "Shapes",
+          "emoji": "🔷",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "family",
+          "name": "Family",
+          "emoji": "👨‍👩‍👧‍👦",
+          "color": "#FFB6C1"
+        },
+        {
+          "id": "misc",
+          "name": "Misc",
+          "emoji": "✨",
+          "color": "#FFF59D"
+        },
+        {
+          "id": "food",
+          "name": "Food",
+          "emoji": "🍜",
+          "color": "#FFAB91"
+        },
+        {
+          "id": "numbers",
+          "name": "Numbers",
+          "emoji": "🔢",
+          "color": "#E8C547"
+        },
+        {
+          "id": "literature",
+          "name": "Literature",
+          "emoji": "📖",
+          "color": "#BCAAA4"
+        },
+        {
+          "id": "colors",
+          "name": "Colors",
+          "emoji": "🌈",
+          "color": "#FFD700"
+        },
+        {
+          "id": "clothing",
+          "name": "Clothing",
+          "emoji": "👘",
+          "color": "#B39DDB"
+        },
+        {
+          "id": "art",
+          "name": "Art",
+          "emoji": "🎨",
+          "color": "#CE93D8"
+        },
+        {
+          "id": "history",
+          "name": "History",
+          "emoji": "📜",
+          "color": "#D7CCC8"
+        },
+        {
+          "id": "weather",
+          "name": "Weather",
+          "emoji": "⛅",
+          "color": "#87CEEB"
+        },
+        {
+          "id": "measurement",
+          "name": "Measurement",
+          "emoji": "📏",
+          "color": "#C5E1A5"
+        },
+        {
+          "id": "speech",
+          "name": "Speech",
+          "emoji": "💬",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "sports",
+          "name": "Sports",
+          "emoji": "⚽",
+          "color": "#81C784"
+        },
+        {
+          "id": "celebration",
+          "name": "Celebration",
+          "emoji": "🎉",
+          "color": "#FF8A65"
+        },
+        {
+          "id": "health",
+          "name": "Health",
+          "emoji": "💊",
+          "color": "#A5D6A7"
+        },
+        {
+          "id": "law",
+          "name": "Law",
+          "emoji": "⚖️",
+          "color": "#9E9E9E"
+        },
+        {
+          "id": "music",
+          "name": "Music",
+          "emoji": "🎵",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "water",
+          "name": "Water",
+          "emoji": "💧",
+          "color": "#4FC3F7"
+        }
+      ]
     },
     {
       "id": "HSK3_4",
@@ -303,7 +2062,182 @@
       "data_file": "characters_hsk4.json",
       "is_free": true,
       "unlock": null,
-      "themes": []
+      "themes": [
+        {
+          "id": "everyday",
+          "name": "Everyday",
+          "emoji": "🏠",
+          "color": "#FFCC80"
+        },
+        {
+          "id": "actions",
+          "name": "Actions",
+          "emoji": "🏃",
+          "color": "#FFB347"
+        },
+        {
+          "id": "people",
+          "name": "People",
+          "emoji": "👤",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "movement",
+          "name": "Movement",
+          "emoji": "🏃",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "nature",
+          "name": "Nature",
+          "emoji": "🌿",
+          "color": "#AED581"
+        },
+        {
+          "id": "time",
+          "name": "Time",
+          "emoji": "🕐",
+          "color": "#D4A5A5"
+        },
+        {
+          "id": "school",
+          "name": "School",
+          "emoji": "🏫",
+          "color": "#4A90E2"
+        },
+        {
+          "id": "directions",
+          "name": "Directions",
+          "emoji": "🧭",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "body",
+          "name": "Body",
+          "emoji": "🫀",
+          "color": "#EF9A9A"
+        },
+        {
+          "id": "emotions",
+          "name": "Emotions",
+          "emoji": "😊",
+          "color": "#FF6B6B"
+        },
+        {
+          "id": "shapes",
+          "name": "Shapes",
+          "emoji": "🔷",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "food",
+          "name": "Food",
+          "emoji": "🍜",
+          "color": "#FFAB91"
+        },
+        {
+          "id": "misc",
+          "name": "Misc",
+          "emoji": "✨",
+          "color": "#FFF59D"
+        },
+        {
+          "id": "weather",
+          "name": "Weather",
+          "emoji": "⛅",
+          "color": "#87CEEB"
+        },
+        {
+          "id": "family",
+          "name": "Family",
+          "emoji": "👨‍👩‍👧‍👦",
+          "color": "#FFB6C1"
+        },
+        {
+          "id": "nature2",
+          "name": "Nature",
+          "emoji": "🌱",
+          "color": "#A5D6A7"
+        },
+        {
+          "id": "literature",
+          "name": "Literature",
+          "emoji": "📖",
+          "color": "#BCAAA4"
+        },
+        {
+          "id": "numbers",
+          "name": "Numbers",
+          "emoji": "🔢",
+          "color": "#E8C547"
+        },
+        {
+          "id": "colors",
+          "name": "Colors",
+          "emoji": "🌈",
+          "color": "#FFD700"
+        },
+        {
+          "id": "animals",
+          "name": "Animals",
+          "emoji": "🐾",
+          "color": "#F48FB1"
+        },
+        {
+          "id": "clothing",
+          "name": "Clothing",
+          "emoji": "👘",
+          "color": "#B39DDB"
+        },
+        {
+          "id": "grammar",
+          "name": "Grammar",
+          "emoji": "📐",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "measurement",
+          "name": "Measurement",
+          "emoji": "📏",
+          "color": "#C5E1A5"
+        },
+        {
+          "id": "health",
+          "name": "Health",
+          "emoji": "💊",
+          "color": "#A5D6A7"
+        },
+        {
+          "id": "history",
+          "name": "History",
+          "emoji": "📜",
+          "color": "#D7CCC8"
+        },
+        {
+          "id": "religion",
+          "name": "Religion",
+          "emoji": "🛐",
+          "color": "#D1C4E9"
+        },
+        {
+          "id": "music",
+          "name": "Music",
+          "emoji": "🎵",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "speech",
+          "name": "Speech",
+          "emoji": "💬",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "sports",
+          "name": "Sports",
+          "emoji": "⚽",
+          "color": "#81C784"
+        }
+      ]
     },
     {
       "id": "HSK3_5",
@@ -312,7 +2246,224 @@
       "data_file": "characters_hsk5.json",
       "is_free": true,
       "unlock": null,
-      "themes": []
+      "themes": [
+        {
+          "id": "everyday",
+          "name": "Everyday",
+          "emoji": "🏠",
+          "color": "#FFCC80"
+        },
+        {
+          "id": "actions",
+          "name": "Actions",
+          "emoji": "🏃",
+          "color": "#FFB347"
+        },
+        {
+          "id": "people",
+          "name": "People",
+          "emoji": "👤",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "time",
+          "name": "Time",
+          "emoji": "🕐",
+          "color": "#D4A5A5"
+        },
+        {
+          "id": "nature",
+          "name": "Nature",
+          "emoji": "🌿",
+          "color": "#AED581"
+        },
+        {
+          "id": "movement",
+          "name": "Movement",
+          "emoji": "🏃",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "directions",
+          "name": "Directions",
+          "emoji": "🧭",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "school",
+          "name": "School",
+          "emoji": "🏫",
+          "color": "#4A90E2"
+        },
+        {
+          "id": "emotions",
+          "name": "Emotions",
+          "emoji": "😊",
+          "color": "#FF6B6B"
+        },
+        {
+          "id": "body",
+          "name": "Body",
+          "emoji": "🫀",
+          "color": "#EF9A9A"
+        },
+        {
+          "id": "food",
+          "name": "Food",
+          "emoji": "🍜",
+          "color": "#FFAB91"
+        },
+        {
+          "id": "animals",
+          "name": "Animals",
+          "emoji": "🐾",
+          "color": "#F48FB1"
+        },
+        {
+          "id": "numbers",
+          "name": "Numbers",
+          "emoji": "🔢",
+          "color": "#E8C547"
+        },
+        {
+          "id": "misc",
+          "name": "Misc",
+          "emoji": "✨",
+          "color": "#FFF59D"
+        },
+        {
+          "id": "nature2",
+          "name": "Nature",
+          "emoji": "🌱",
+          "color": "#A5D6A7"
+        },
+        {
+          "id": "shapes",
+          "name": "Shapes",
+          "emoji": "🔷",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "weather",
+          "name": "Weather",
+          "emoji": "⛅",
+          "color": "#87CEEB"
+        },
+        {
+          "id": "colors",
+          "name": "Colors",
+          "emoji": "🌈",
+          "color": "#FFD700"
+        },
+        {
+          "id": "clothing",
+          "name": "Clothing",
+          "emoji": "👘",
+          "color": "#B39DDB"
+        },
+        {
+          "id": "law",
+          "name": "Law",
+          "emoji": "⚖️",
+          "color": "#9E9E9E"
+        },
+        {
+          "id": "family",
+          "name": "Family",
+          "emoji": "👨‍👩‍👧‍👦",
+          "color": "#FFB6C1"
+        },
+        {
+          "id": "water",
+          "name": "Water",
+          "emoji": "💧",
+          "color": "#4FC3F7"
+        },
+        {
+          "id": "weapons",
+          "name": "Weapons",
+          "emoji": "⚔️",
+          "color": "#90A4AE"
+        },
+        {
+          "id": "grammar",
+          "name": "Grammar",
+          "emoji": "📐",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "literature",
+          "name": "Literature",
+          "emoji": "📖",
+          "color": "#BCAAA4"
+        },
+        {
+          "id": "religion",
+          "name": "Religion",
+          "emoji": "🛐",
+          "color": "#D1C4E9"
+        },
+        {
+          "id": "sports",
+          "name": "Sports",
+          "emoji": "⚽",
+          "color": "#81C784"
+        },
+        {
+          "id": "advice",
+          "name": "Advice",
+          "emoji": "💡",
+          "color": "#FFD54F"
+        },
+        {
+          "id": "art",
+          "name": "Art",
+          "emoji": "🎨",
+          "color": "#CE93D8"
+        },
+        {
+          "id": "conjunctions",
+          "name": "Conjunctions",
+          "emoji": "🔗",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "history",
+          "name": "History",
+          "emoji": "📜",
+          "color": "#D7CCC8"
+        },
+        {
+          "id": "measurement",
+          "name": "Measurement",
+          "emoji": "📏",
+          "color": "#C5E1A5"
+        },
+        {
+          "id": "measurements",
+          "name": "Measurements",
+          "emoji": "📏",
+          "color": "#C5E1A5"
+        },
+        {
+          "id": "medical",
+          "name": "Medical",
+          "emoji": "🏥",
+          "color": "#E0E0E0"
+        },
+        {
+          "id": "music",
+          "name": "Music",
+          "emoji": "🎵",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "supernatural",
+          "name": "Supernatural",
+          "emoji": "👻",
+          "color": "#B39DDB"
+        }
+      ]
     },
     {
       "id": "HSK3_6",
@@ -321,7 +2472,242 @@
       "data_file": "characters_hsk6.json",
       "is_free": true,
       "unlock": null,
-      "themes": []
+      "themes": [
+        {
+          "id": "everyday",
+          "name": "Everyday",
+          "emoji": "🏠",
+          "color": "#FFCC80"
+        },
+        {
+          "id": "actions",
+          "name": "Actions",
+          "emoji": "🏃",
+          "color": "#FFB347"
+        },
+        {
+          "id": "people",
+          "name": "People",
+          "emoji": "👤",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "nature",
+          "name": "Nature",
+          "emoji": "🌿",
+          "color": "#AED581"
+        },
+        {
+          "id": "time",
+          "name": "Time",
+          "emoji": "🕐",
+          "color": "#D4A5A5"
+        },
+        {
+          "id": "directions",
+          "name": "Directions",
+          "emoji": "🧭",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "movement",
+          "name": "Movement",
+          "emoji": "🏃",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "school",
+          "name": "School",
+          "emoji": "🏫",
+          "color": "#4A90E2"
+        },
+        {
+          "id": "emotions",
+          "name": "Emotions",
+          "emoji": "😊",
+          "color": "#FF6B6B"
+        },
+        {
+          "id": "body",
+          "name": "Body",
+          "emoji": "🫀",
+          "color": "#EF9A9A"
+        },
+        {
+          "id": "family",
+          "name": "Family",
+          "emoji": "👨‍👩‍👧‍👦",
+          "color": "#FFB6C1"
+        },
+        {
+          "id": "food",
+          "name": "Food",
+          "emoji": "🍜",
+          "color": "#FFAB91"
+        },
+        {
+          "id": "nature2",
+          "name": "Nature",
+          "emoji": "🌱",
+          "color": "#A5D6A7"
+        },
+        {
+          "id": "numbers",
+          "name": "Numbers",
+          "emoji": "🔢",
+          "color": "#E8C547"
+        },
+        {
+          "id": "shapes",
+          "name": "Shapes",
+          "emoji": "🔷",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "weather",
+          "name": "Weather",
+          "emoji": "⛅",
+          "color": "#87CEEB"
+        },
+        {
+          "id": "animals",
+          "name": "Animals",
+          "emoji": "🐾",
+          "color": "#F48FB1"
+        },
+        {
+          "id": "colors",
+          "name": "Colors",
+          "emoji": "🌈",
+          "color": "#FFD700"
+        },
+        {
+          "id": "literature",
+          "name": "Literature",
+          "emoji": "📖",
+          "color": "#BCAAA4"
+        },
+        {
+          "id": "misc",
+          "name": "Misc",
+          "emoji": "✨",
+          "color": "#FFF59D"
+        },
+        {
+          "id": "art",
+          "name": "Art",
+          "emoji": "🎨",
+          "color": "#CE93D8"
+        },
+        {
+          "id": "health",
+          "name": "Health",
+          "emoji": "💊",
+          "color": "#A5D6A7"
+        },
+        {
+          "id": "music",
+          "name": "Music",
+          "emoji": "🎵",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "clothing",
+          "name": "Clothing",
+          "emoji": "👘",
+          "color": "#B39DDB"
+        },
+        {
+          "id": "law",
+          "name": "Law",
+          "emoji": "⚖️",
+          "color": "#9E9E9E"
+        },
+        {
+          "id": "measurement",
+          "name": "Measurement",
+          "emoji": "📏",
+          "color": "#C5E1A5"
+        },
+        {
+          "id": "religion",
+          "name": "Religion",
+          "emoji": "🛐",
+          "color": "#D1C4E9"
+        },
+        {
+          "id": "water",
+          "name": "Water",
+          "emoji": "💧",
+          "color": "#4FC3F7"
+        },
+        {
+          "id": "history",
+          "name": "History",
+          "emoji": "📜",
+          "color": "#D7CCC8"
+        },
+        {
+          "id": "speech",
+          "name": "Speech",
+          "emoji": "💬",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "sports",
+          "name": "Sports",
+          "emoji": "⚽",
+          "color": "#81C784"
+        },
+        {
+          "id": "weapons",
+          "name": "Weapons",
+          "emoji": "⚔️",
+          "color": "#90A4AE"
+        },
+        {
+          "id": "building",
+          "name": "Buildings",
+          "emoji": "🏗️",
+          "color": "#90A4AE"
+        },
+        {
+          "id": "conjunctions",
+          "name": "Conjunctions",
+          "emoji": "🔗",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "grammar",
+          "name": "Grammar",
+          "emoji": "📐",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "light",
+          "name": "Light",
+          "emoji": "💡",
+          "color": "#FFF176"
+        },
+        {
+          "id": "rituals",
+          "name": "Rituals",
+          "emoji": "🕯️",
+          "color": "#FFCC80"
+        },
+        {
+          "id": "science",
+          "name": "Science",
+          "emoji": "🔬",
+          "color": "#80CBC4"
+        },
+        {
+          "id": "space",
+          "name": "Space",
+          "emoji": "🌌",
+          "color": "#7986CB"
+        }
+      ]
     },
     {
       "id": "HSK20_1",
@@ -330,7 +2716,116 @@
       "data_file": "characters_hsk20_1.json",
       "is_free": true,
       "unlock": null,
-      "themes": []
+      "themes": [
+        {
+          "id": "everyday",
+          "name": "Everyday",
+          "emoji": "🏠",
+          "color": "#FFCC80"
+        },
+        {
+          "id": "people",
+          "name": "People",
+          "emoji": "👤",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "directions",
+          "name": "Directions",
+          "emoji": "🧭",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "numbers",
+          "name": "Numbers",
+          "emoji": "🔢",
+          "color": "#E8C547"
+        },
+        {
+          "id": "time",
+          "name": "Time",
+          "emoji": "🕐",
+          "color": "#D4A5A5"
+        },
+        {
+          "id": "school",
+          "name": "School",
+          "emoji": "🏫",
+          "color": "#4A90E2"
+        },
+        {
+          "id": "actions",
+          "name": "Actions",
+          "emoji": "🏃",
+          "color": "#FFB347"
+        },
+        {
+          "id": "emotions",
+          "name": "Emotions",
+          "emoji": "😊",
+          "color": "#FF6B6B"
+        },
+        {
+          "id": "food",
+          "name": "Food",
+          "emoji": "🍜",
+          "color": "#FFAB91"
+        },
+        {
+          "id": "nature",
+          "name": "Nature",
+          "emoji": "🌿",
+          "color": "#AED581"
+        },
+        {
+          "id": "literature",
+          "name": "Literature",
+          "emoji": "📖",
+          "color": "#BCAAA4"
+        },
+        {
+          "id": "animals",
+          "name": "Animals",
+          "emoji": "🐾",
+          "color": "#F48FB1"
+        },
+        {
+          "id": "family",
+          "name": "Family",
+          "emoji": "👨‍👩‍👧‍👦",
+          "color": "#FFB6C1"
+        },
+        {
+          "id": "misc",
+          "name": "Misc",
+          "emoji": "✨",
+          "color": "#FFF59D"
+        },
+        {
+          "id": "movement",
+          "name": "Movement",
+          "emoji": "🏃",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "nature2",
+          "name": "Nature",
+          "emoji": "🌱",
+          "color": "#A5D6A7"
+        },
+        {
+          "id": "clothing",
+          "name": "Clothing",
+          "emoji": "👘",
+          "color": "#B39DDB"
+        },
+        {
+          "id": "weather",
+          "name": "Weather",
+          "emoji": "⛅",
+          "color": "#87CEEB"
+        }
+      ]
     },
     {
       "id": "HSK20_2",
@@ -339,7 +2834,146 @@
       "data_file": "characters_hsk20_2.json",
       "is_free": true,
       "unlock": null,
-      "themes": []
+      "themes": [
+        {
+          "id": "everyday",
+          "name": "Everyday",
+          "emoji": "🏠",
+          "color": "#FFCC80"
+        },
+        {
+          "id": "actions",
+          "name": "Actions",
+          "emoji": "🏃",
+          "color": "#FFB347"
+        },
+        {
+          "id": "movement",
+          "name": "Movement",
+          "emoji": "🏃",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "people",
+          "name": "People",
+          "emoji": "👤",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "directions",
+          "name": "Directions",
+          "emoji": "🧭",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "time",
+          "name": "Time",
+          "emoji": "🕐",
+          "color": "#D4A5A5"
+        },
+        {
+          "id": "family",
+          "name": "Family",
+          "emoji": "👨‍👩‍👧‍👦",
+          "color": "#FFB6C1"
+        },
+        {
+          "id": "body",
+          "name": "Body",
+          "emoji": "🫀",
+          "color": "#EF9A9A"
+        },
+        {
+          "id": "emotions",
+          "name": "Emotions",
+          "emoji": "😊",
+          "color": "#FF6B6B"
+        },
+        {
+          "id": "school",
+          "name": "School",
+          "emoji": "🏫",
+          "color": "#4A90E2"
+        },
+        {
+          "id": "colors",
+          "name": "Colors",
+          "emoji": "🌈",
+          "color": "#FFD700"
+        },
+        {
+          "id": "food",
+          "name": "Food",
+          "emoji": "🍜",
+          "color": "#FFAB91"
+        },
+        {
+          "id": "literature",
+          "name": "Literature",
+          "emoji": "📖",
+          "color": "#BCAAA4"
+        },
+        {
+          "id": "weather",
+          "name": "Weather",
+          "emoji": "⛅",
+          "color": "#87CEEB"
+        },
+        {
+          "id": "animals",
+          "name": "Animals",
+          "emoji": "🐾",
+          "color": "#F48FB1"
+        },
+        {
+          "id": "nature",
+          "name": "Nature",
+          "emoji": "🌿",
+          "color": "#AED581"
+        },
+        {
+          "id": "nature2",
+          "name": "Nature",
+          "emoji": "🌱",
+          "color": "#A5D6A7"
+        },
+        {
+          "id": "numbers",
+          "name": "Numbers",
+          "emoji": "🔢",
+          "color": "#E8C547"
+        },
+        {
+          "id": "art",
+          "name": "Art",
+          "emoji": "🎨",
+          "color": "#CE93D8"
+        },
+        {
+          "id": "conjunctions",
+          "name": "Conjunctions",
+          "emoji": "🔗",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "measurement",
+          "name": "Measurement",
+          "emoji": "📏",
+          "color": "#C5E1A5"
+        },
+        {
+          "id": "misc",
+          "name": "Misc",
+          "emoji": "✨",
+          "color": "#FFF59D"
+        },
+        {
+          "id": "speech",
+          "name": "Speech",
+          "emoji": "💬",
+          "color": "#90CAF9"
+        }
+      ]
     },
     {
       "id": "HSK20_3",
@@ -348,7 +2982,146 @@
       "data_file": "characters_hsk20_3.json",
       "is_free": true,
       "unlock": null,
-      "themes": []
+      "themes": [
+        {
+          "id": "everyday",
+          "name": "Everyday",
+          "emoji": "🏠",
+          "color": "#FFCC80"
+        },
+        {
+          "id": "actions",
+          "name": "Actions",
+          "emoji": "🏃",
+          "color": "#FFB347"
+        },
+        {
+          "id": "time",
+          "name": "Time",
+          "emoji": "🕐",
+          "color": "#D4A5A5"
+        },
+        {
+          "id": "nature",
+          "name": "Nature",
+          "emoji": "🌿",
+          "color": "#AED581"
+        },
+        {
+          "id": "people",
+          "name": "People",
+          "emoji": "👤",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "body",
+          "name": "Body",
+          "emoji": "🫀",
+          "color": "#EF9A9A"
+        },
+        {
+          "id": "school",
+          "name": "School",
+          "emoji": "🏫",
+          "color": "#4A90E2"
+        },
+        {
+          "id": "directions",
+          "name": "Directions",
+          "emoji": "🧭",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "emotions",
+          "name": "Emotions",
+          "emoji": "😊",
+          "color": "#FF6B6B"
+        },
+        {
+          "id": "food",
+          "name": "Food",
+          "emoji": "🍜",
+          "color": "#FFAB91"
+        },
+        {
+          "id": "movement",
+          "name": "Movement",
+          "emoji": "🏃",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "animals",
+          "name": "Animals",
+          "emoji": "🐾",
+          "color": "#F48FB1"
+        },
+        {
+          "id": "numbers",
+          "name": "Numbers",
+          "emoji": "🔢",
+          "color": "#E8C547"
+        },
+        {
+          "id": "weather",
+          "name": "Weather",
+          "emoji": "⛅",
+          "color": "#87CEEB"
+        },
+        {
+          "id": "shapes",
+          "name": "Shapes",
+          "emoji": "🔷",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "colors",
+          "name": "Colors",
+          "emoji": "🌈",
+          "color": "#FFD700"
+        },
+        {
+          "id": "family",
+          "name": "Family",
+          "emoji": "👨‍👩‍👧‍👦",
+          "color": "#FFB6C1"
+        },
+        {
+          "id": "misc",
+          "name": "Misc",
+          "emoji": "✨",
+          "color": "#FFF59D"
+        },
+        {
+          "id": "nature2",
+          "name": "Nature",
+          "emoji": "🌱",
+          "color": "#A5D6A7"
+        },
+        {
+          "id": "health",
+          "name": "Health",
+          "emoji": "💊",
+          "color": "#A5D6A7"
+        },
+        {
+          "id": "history",
+          "name": "History",
+          "emoji": "📜",
+          "color": "#D7CCC8"
+        },
+        {
+          "id": "literature",
+          "name": "Literature",
+          "emoji": "📖",
+          "color": "#BCAAA4"
+        },
+        {
+          "id": "sports",
+          "name": "Sports",
+          "emoji": "⚽",
+          "color": "#81C784"
+        }
+      ]
     },
     {
       "id": "HSK20_4",
@@ -357,7 +3130,170 @@
       "data_file": "characters_hsk20_4.json",
       "is_free": true,
       "unlock": null,
-      "themes": []
+      "themes": [
+        {
+          "id": "everyday",
+          "name": "Everyday",
+          "emoji": "🏠",
+          "color": "#FFCC80"
+        },
+        {
+          "id": "actions",
+          "name": "Actions",
+          "emoji": "🏃",
+          "color": "#FFB347"
+        },
+        {
+          "id": "people",
+          "name": "People",
+          "emoji": "👤",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "time",
+          "name": "Time",
+          "emoji": "🕐",
+          "color": "#D4A5A5"
+        },
+        {
+          "id": "nature",
+          "name": "Nature",
+          "emoji": "🌿",
+          "color": "#AED581"
+        },
+        {
+          "id": "school",
+          "name": "School",
+          "emoji": "🏫",
+          "color": "#4A90E2"
+        },
+        {
+          "id": "emotions",
+          "name": "Emotions",
+          "emoji": "😊",
+          "color": "#FF6B6B"
+        },
+        {
+          "id": "movement",
+          "name": "Movement",
+          "emoji": "🏃",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "directions",
+          "name": "Directions",
+          "emoji": "🧭",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "body",
+          "name": "Body",
+          "emoji": "🫀",
+          "color": "#EF9A9A"
+        },
+        {
+          "id": "food",
+          "name": "Food",
+          "emoji": "🍜",
+          "color": "#FFAB91"
+        },
+        {
+          "id": "misc",
+          "name": "Misc",
+          "emoji": "✨",
+          "color": "#FFF59D"
+        },
+        {
+          "id": "numbers",
+          "name": "Numbers",
+          "emoji": "🔢",
+          "color": "#E8C547"
+        },
+        {
+          "id": "animals",
+          "name": "Animals",
+          "emoji": "🐾",
+          "color": "#F48FB1"
+        },
+        {
+          "id": "family",
+          "name": "Family",
+          "emoji": "👨‍👩‍👧‍👦",
+          "color": "#FFB6C1"
+        },
+        {
+          "id": "shapes",
+          "name": "Shapes",
+          "emoji": "🔷",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "literature",
+          "name": "Literature",
+          "emoji": "📖",
+          "color": "#BCAAA4"
+        },
+        {
+          "id": "nature2",
+          "name": "Nature",
+          "emoji": "🌱",
+          "color": "#A5D6A7"
+        },
+        {
+          "id": "weather",
+          "name": "Weather",
+          "emoji": "⛅",
+          "color": "#87CEEB"
+        },
+        {
+          "id": "speech",
+          "name": "Speech",
+          "emoji": "💬",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "art",
+          "name": "Art",
+          "emoji": "🎨",
+          "color": "#CE93D8"
+        },
+        {
+          "id": "clothing",
+          "name": "Clothing",
+          "emoji": "👘",
+          "color": "#B39DDB"
+        },
+        {
+          "id": "conjunctions",
+          "name": "Conjunctions",
+          "emoji": "🔗",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "grammar",
+          "name": "Grammar",
+          "emoji": "📐",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "history",
+          "name": "History",
+          "emoji": "📜",
+          "color": "#D7CCC8"
+        },
+        {
+          "id": "sports",
+          "name": "Sports",
+          "emoji": "⚽",
+          "color": "#81C784"
+        },
+        {
+          "id": "weapons",
+          "name": "Weapons",
+          "emoji": "⚔️",
+          "color": "#90A4AE"
+        }
+      ]
     },
     {
       "id": "HSK20_5",
@@ -366,7 +3302,224 @@
       "data_file": "characters_hsk20_5.json",
       "is_free": true,
       "unlock": null,
-      "themes": []
+      "themes": [
+        {
+          "id": "everyday",
+          "name": "Everyday",
+          "emoji": "🏠",
+          "color": "#FFCC80"
+        },
+        {
+          "id": "actions",
+          "name": "Actions",
+          "emoji": "🏃",
+          "color": "#FFB347"
+        },
+        {
+          "id": "people",
+          "name": "People",
+          "emoji": "👤",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "time",
+          "name": "Time",
+          "emoji": "🕐",
+          "color": "#D4A5A5"
+        },
+        {
+          "id": "movement",
+          "name": "Movement",
+          "emoji": "🏃",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "nature",
+          "name": "Nature",
+          "emoji": "🌿",
+          "color": "#AED581"
+        },
+        {
+          "id": "school",
+          "name": "School",
+          "emoji": "🏫",
+          "color": "#4A90E2"
+        },
+        {
+          "id": "body",
+          "name": "Body",
+          "emoji": "🫀",
+          "color": "#EF9A9A"
+        },
+        {
+          "id": "emotions",
+          "name": "Emotions",
+          "emoji": "😊",
+          "color": "#FF6B6B"
+        },
+        {
+          "id": "directions",
+          "name": "Directions",
+          "emoji": "🧭",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "shapes",
+          "name": "Shapes",
+          "emoji": "🔷",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "animals",
+          "name": "Animals",
+          "emoji": "🐾",
+          "color": "#F48FB1"
+        },
+        {
+          "id": "food",
+          "name": "Food",
+          "emoji": "🍜",
+          "color": "#FFAB91"
+        },
+        {
+          "id": "misc",
+          "name": "Misc",
+          "emoji": "✨",
+          "color": "#FFF59D"
+        },
+        {
+          "id": "nature2",
+          "name": "Nature",
+          "emoji": "🌱",
+          "color": "#A5D6A7"
+        },
+        {
+          "id": "family",
+          "name": "Family",
+          "emoji": "👨‍👩‍👧‍👦",
+          "color": "#FFB6C1"
+        },
+        {
+          "id": "weather",
+          "name": "Weather",
+          "emoji": "⛅",
+          "color": "#87CEEB"
+        },
+        {
+          "id": "numbers",
+          "name": "Numbers",
+          "emoji": "🔢",
+          "color": "#E8C547"
+        },
+        {
+          "id": "colors",
+          "name": "Colors",
+          "emoji": "🌈",
+          "color": "#FFD700"
+        },
+        {
+          "id": "history",
+          "name": "History",
+          "emoji": "📜",
+          "color": "#D7CCC8"
+        },
+        {
+          "id": "literature",
+          "name": "Literature",
+          "emoji": "📖",
+          "color": "#BCAAA4"
+        },
+        {
+          "id": "measurement",
+          "name": "Measurement",
+          "emoji": "📏",
+          "color": "#C5E1A5"
+        },
+        {
+          "id": "music",
+          "name": "Music",
+          "emoji": "🎵",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "speech",
+          "name": "Speech",
+          "emoji": "💬",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "religion",
+          "name": "Religion",
+          "emoji": "🛐",
+          "color": "#D1C4E9"
+        },
+        {
+          "id": "art",
+          "name": "Art",
+          "emoji": "🎨",
+          "color": "#CE93D8"
+        },
+        {
+          "id": "celebration",
+          "name": "Celebration",
+          "emoji": "🎉",
+          "color": "#FF8A65"
+        },
+        {
+          "id": "clothing",
+          "name": "Clothing",
+          "emoji": "👘",
+          "color": "#B39DDB"
+        },
+        {
+          "id": "geography",
+          "name": "Geography",
+          "emoji": "🌍",
+          "color": "#81C784"
+        },
+        {
+          "id": "health",
+          "name": "Health",
+          "emoji": "💊",
+          "color": "#A5D6A7"
+        },
+        {
+          "id": "law",
+          "name": "Law",
+          "emoji": "⚖️",
+          "color": "#9E9E9E"
+        },
+        {
+          "id": "medical",
+          "name": "Medical",
+          "emoji": "🏥",
+          "color": "#E0E0E0"
+        },
+        {
+          "id": "science",
+          "name": "Science",
+          "emoji": "🔬",
+          "color": "#80CBC4"
+        },
+        {
+          "id": "sports",
+          "name": "Sports",
+          "emoji": "⚽",
+          "color": "#81C784"
+        },
+        {
+          "id": "water",
+          "name": "Water",
+          "emoji": "💧",
+          "color": "#4FC3F7"
+        },
+        {
+          "id": "weapons",
+          "name": "Weapons",
+          "emoji": "⚔️",
+          "color": "#90A4AE"
+        }
+      ]
     },
     {
       "id": "HSK20_6",
@@ -375,7 +3528,254 @@
       "data_file": "characters_hsk20_6.json",
       "is_free": true,
       "unlock": null,
-      "themes": []
+      "themes": [
+        {
+          "id": "everyday",
+          "name": "Everyday",
+          "emoji": "🏠",
+          "color": "#FFCC80"
+        },
+        {
+          "id": "actions",
+          "name": "Actions",
+          "emoji": "🏃",
+          "color": "#FFB347"
+        },
+        {
+          "id": "people",
+          "name": "People",
+          "emoji": "👤",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "nature",
+          "name": "Nature",
+          "emoji": "🌿",
+          "color": "#AED581"
+        },
+        {
+          "id": "movement",
+          "name": "Movement",
+          "emoji": "🏃",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "time",
+          "name": "Time",
+          "emoji": "🕐",
+          "color": "#D4A5A5"
+        },
+        {
+          "id": "emotions",
+          "name": "Emotions",
+          "emoji": "😊",
+          "color": "#FF6B6B"
+        },
+        {
+          "id": "directions",
+          "name": "Directions",
+          "emoji": "🧭",
+          "color": "#80DEEA"
+        },
+        {
+          "id": "school",
+          "name": "School",
+          "emoji": "🏫",
+          "color": "#4A90E2"
+        },
+        {
+          "id": "body",
+          "name": "Body",
+          "emoji": "🫀",
+          "color": "#EF9A9A"
+        },
+        {
+          "id": "shapes",
+          "name": "Shapes",
+          "emoji": "🔷",
+          "color": "#B0BEC5"
+        },
+        {
+          "id": "misc",
+          "name": "Misc",
+          "emoji": "✨",
+          "color": "#FFF59D"
+        },
+        {
+          "id": "nature2",
+          "name": "Nature",
+          "emoji": "🌱",
+          "color": "#A5D6A7"
+        },
+        {
+          "id": "animals",
+          "name": "Animals",
+          "emoji": "🐾",
+          "color": "#F48FB1"
+        },
+        {
+          "id": "food",
+          "name": "Food",
+          "emoji": "🍜",
+          "color": "#FFAB91"
+        },
+        {
+          "id": "weather",
+          "name": "Weather",
+          "emoji": "⛅",
+          "color": "#87CEEB"
+        },
+        {
+          "id": "family",
+          "name": "Family",
+          "emoji": "👨‍👩‍👧‍👦",
+          "color": "#FFB6C1"
+        },
+        {
+          "id": "numbers",
+          "name": "Numbers",
+          "emoji": "🔢",
+          "color": "#E8C547"
+        },
+        {
+          "id": "history",
+          "name": "History",
+          "emoji": "📜",
+          "color": "#D7CCC8"
+        },
+        {
+          "id": "colors",
+          "name": "Colors",
+          "emoji": "🌈",
+          "color": "#FFD700"
+        },
+        {
+          "id": "clothing",
+          "name": "Clothing",
+          "emoji": "👘",
+          "color": "#B39DDB"
+        },
+        {
+          "id": "literature",
+          "name": "Literature",
+          "emoji": "📖",
+          "color": "#BCAAA4"
+        },
+        {
+          "id": "law",
+          "name": "Law",
+          "emoji": "⚖️",
+          "color": "#9E9E9E"
+        },
+        {
+          "id": "music",
+          "name": "Music",
+          "emoji": "🎵",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "advice",
+          "name": "Advice",
+          "emoji": "💡",
+          "color": "#FFD54F"
+        },
+        {
+          "id": "supernatural",
+          "name": "Supernatural",
+          "emoji": "👻",
+          "color": "#B39DDB"
+        },
+        {
+          "id": "art",
+          "name": "Art",
+          "emoji": "🎨",
+          "color": "#CE93D8"
+        },
+        {
+          "id": "religion",
+          "name": "Religion",
+          "emoji": "🛐",
+          "color": "#D1C4E9"
+        },
+        {
+          "id": "weapons",
+          "name": "Weapons",
+          "emoji": "⚔️",
+          "color": "#90A4AE"
+        },
+        {
+          "id": "light",
+          "name": "Light",
+          "emoji": "💡",
+          "color": "#FFF176"
+        },
+        {
+          "id": "speech",
+          "name": "Speech",
+          "emoji": "💬",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "agriculture",
+          "name": "Agriculture",
+          "emoji": "🌾",
+          "color": "#8BC34A"
+        },
+        {
+          "id": "architecture",
+          "name": "Architecture",
+          "emoji": "🏛️",
+          "color": "#A1887F"
+        },
+        {
+          "id": "building",
+          "name": "Buildings",
+          "emoji": "🏗️",
+          "color": "#90A4AE"
+        },
+        {
+          "id": "health",
+          "name": "Health",
+          "emoji": "💊",
+          "color": "#A5D6A7"
+        },
+        {
+          "id": "measurement",
+          "name": "Measurement",
+          "emoji": "📏",
+          "color": "#C5E1A5"
+        },
+        {
+          "id": "mythology",
+          "name": "Mythology",
+          "emoji": "🏛️",
+          "color": "#CE93D8"
+        },
+        {
+          "id": "rituals",
+          "name": "Rituals",
+          "emoji": "🕯️",
+          "color": "#FFCC80"
+        },
+        {
+          "id": "space",
+          "name": "Space",
+          "emoji": "🌌",
+          "color": "#7986CB"
+        },
+        {
+          "id": "sports",
+          "name": "Sports",
+          "emoji": "⚽",
+          "color": "#81C784"
+        },
+        {
+          "id": "water",
+          "name": "Water",
+          "emoji": "💧",
+          "color": "#4FC3F7"
+        }
+      ]
     }
   ]
 }

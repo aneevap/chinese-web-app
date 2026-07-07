@@ -459,7 +459,7 @@ button:active { opacity: .82; transform: scale(.98); }
 
 #quiz-options { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 8px 16px 16px; align-content: start; overflow: visible; }
 .quiz-option { min-height: 96px; border-radius: var(--card-radius); background: #FAEFD3; background-image: url('../assets/textures/paper-grain.png'); background-blend-mode: multiply; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 16px 12px; transition: all .2s; box-shadow: var(--shadow-card); position: relative; overflow: visible; cursor: pointer; }
-.quiz-option .opt-meaning-main { font-family: var(--font-main); font-size: clamp(1.05rem, 3.5vw, 1.3rem); font-weight: 800; color: var(--ink-dark); text-align: center; line-height: 1.3; padding: 0 4px; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.quiz-option .opt-meaning-main { font-family: var(--font-main); font-size: clamp(1rem, 3.5vw, 1.25rem); font-weight: 800; color: var(--ink-dark); text-align: center; line-height: 1.25; padding: 0 4px; overflow: visible; }
 .quiz-option .opt-pinyin { font-family: var(--font-pinyin); font-size: .85rem; text-align: center; font-weight: 700; }
 .quiz-option:hover:not(:disabled) { transform: translateY(-3px); box-shadow: var(--shadow-lifted); }
 .quiz-option.correct { background: var(--botes-sage); animation: correctPulse .4s ease; }

@@ -6,14 +6,15 @@
       "ch": "阿姨",
       "trad": "阿姨",
       "py": "ā​yí",
-      "en": "maternal aunt, step-mother, childcare worker, nursemaid, woman of similar age to one's parents (term of address used by child), CL:個|个[gè]",
+      "en": "maternal aunt, step-mother, childcare worker, nursemaid",
       "th": "",
       "zh": "我的阿姨給了我一台攝影機。",
       "sent_en": "My aunt gave me a camera.",
       "sent_th": "",
       "theme": "family",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "maternal aunt, step-mother, childcare worker, nursemaid, woman of similar age to one's parents (term of address used by child), CL:個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0002",
@@ -41,7 +42,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "interjection of surprise, Ah!, Oh!"
     },
     {
       "word_id": "HSK20_3_0003",
@@ -69,21 +71,23 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "low, short (in length)"
     },
     {
       "word_id": "HSK20_3_0004",
       "ch": "爱好",
       "trad": "愛好",
       "py": "ài​hào",
-      "en": "to like, to take pleasure in, keen on, fond of, interest, hobby, appetite for, CL:個|个[gè]",
+      "en": "to like, to take pleasure in, keen on, fond of",
       "th": "",
       "zh": "你的爱好是什么？",
       "sent_en": "What's your hobby?",
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to like, to take pleasure in, keen on, fond of, interest, hobby, appetite for, CL:個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0005",
@@ -97,14 +101,15 @@
       "sent_th": "",
       "theme": "shapes",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "quiet, peaceful, calm"
     },
     {
       "word_id": "HSK20_3_0006",
       "ch": "把",
       "trad": "把",
       "py": "bǎ",
-      "en": "to hold, to contain, to grasp, to take hold of, handle, particle marking the following noun as a direct object, classifier for objects with handle, classifier for small objects: handful",
+      "en": "to hold, to contain, to grasp, to take hold of",
       "th": "ถือ",
       "zh": "我把书放在桌子上。",
       "sent_en": "I put the book on the table.",
@@ -125,7 +130,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "to hold, to contain, to grasp, to take hold of, handle, particle marking the following noun as a direct object, classifier for objects with handle, classifier for small objects: handful"
     },
     {
       "word_id": "HSK20_3_0007",
@@ -153,14 +159,15 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "surname Ban"
     },
     {
       "word_id": "HSK20_3_0008",
       "ch": "搬",
       "trad": "搬",
       "py": "bān",
-      "en": "to move (i.e. relocate oneself), to move (sth relatively heavy or bulky), to shift, to copy indiscriminately",
+      "en": "to move (i.e. relocate oneself), to move (sth relatively heavy or bulky), to shift",
       "th": "ย้าย",
       "zh": "我帮你搬箱子。",
       "sent_en": "I will help you move the boxes.",
@@ -181,35 +188,38 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "to move (i.e. relocate oneself), to move (sth relatively heavy or bulky), to shift, to copy indiscriminately"
     },
     {
       "word_id": "HSK20_3_0009",
       "ch": "办法",
       "trad": "辦法",
       "py": "bàn​fǎ",
-      "en": "means, method, way (of doing sth), CL:條|条[tiáo],個|个[gè]",
+      "en": "means, method, way (of doing sth)",
       "th": "",
       "zh": "有个办法。",
       "sent_en": "There is one way.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "means, method, way (of doing sth), CL:條|条[tiáo],個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0010",
       "ch": "办公室",
       "trad": "辦公室",
       "py": "bàn​gōng​shì",
-      "en": "office, business premises, bureau, CL:間|间[jiān]",
+      "en": "office, business premises, bureau",
       "th": "",
       "zh": "我会在我的办公室里。",
       "sent_en": "I'll be in my office.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "office, business premises, bureau, CL:間|间[jiān]"
     },
     {
       "word_id": "HSK20_3_0011",
@@ -242,7 +252,8 @@
             "caption": "Seal script"
           }
         ]
-      }
+      },
+      "en_full": "half, semi-, incomplete, (after a number) and a half"
     },
     {
       "word_id": "HSK20_3_0012",
@@ -256,7 +267,8 @@
       "sent_th": "",
       "theme": "body",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to help, to lend a hand, to do a favor, to do a good turn"
     },
     {
       "word_id": "HSK20_3_0013",
@@ -284,7 +296,8 @@
             "caption": "Seal script"
           }
         ]
-      }
+      },
+      "en_full": "surname Bao"
     },
     {
       "word_id": "HSK20_3_0014",
@@ -312,7 +325,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "to eat till full, satisfied"
     },
     {
       "word_id": "HSK20_3_0015",
@@ -326,14 +340,15 @@
       "sent_th": "",
       "theme": "directions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "north, the northern part a country, China north of the Yellow River"
     },
     {
       "word_id": "HSK20_3_0016",
       "ch": "被",
       "trad": "被",
       "py": "bèi",
-      "en": "quilt, by, (indicates passive-voice clauses), (literary) to cover, to meet with, (coll.) (since c. 2009) used before a verb that does not accurately represent what actually happened, to describe with black humor how sb or sth was dealt with by the authorities (as in 被自殺|被自杀[bèi​zì​shā])",
+      "en": "quilt, by",
       "th": "ผ้าห่ม",
       "zh": "我的被子很暖和。",
       "sent_en": "My quilt is very warm.",
@@ -354,63 +369,68 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "quilt, by, (indicates passive-voice clauses), (literary) to cover, to meet with, (coll.) (since c. 2009) used before a verb that does not accurately represent what actually happened, to describe with black humor how sb or sth was dealt with by the authorities (as in 被自殺|被自杀[bèi​zì​shā])"
     },
     {
       "word_id": "HSK20_3_0017",
       "ch": "鼻子",
       "trad": "鼻子",
       "py": "bí​zi",
-      "en": "nose, CL:個|个[gè],隻|只[zhī]",
+      "en": "nose",
       "th": "",
       "zh": "擤擤你的鼻子。",
       "sent_en": "Blow your nose.",
       "sent_th": "",
       "theme": "body",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "nose, CL:個|个[gè],隻|只[zhī]"
     },
     {
       "word_id": "HSK20_3_0018",
       "ch": "比较",
       "trad": "比較",
       "py": "bǐ​jiào",
-      "en": "to compare, to contrast, comparatively, relatively, quite, comparison",
+      "en": "to compare, to contrast, comparatively, relatively",
       "th": "",
       "zh": "我回家比较好。",
       "sent_en": "I'd better get back home.",
       "sent_th": "",
       "theme": "directions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to compare, to contrast, comparatively, relatively, quite, comparison"
     },
     {
       "word_id": "HSK20_3_0019",
       "ch": "比赛",
       "trad": "比賽",
       "py": "bǐ​sài",
-      "en": "competition (sports etc), match, CL:場|场[chǎng],次[cì], to compete",
+      "en": "competition (sports etc), match",
       "th": "",
       "zh": "我们比赛输了。",
       "sent_en": "We lost the game.",
       "sent_th": "",
       "theme": "sports",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "competition (sports etc), match, CL:場|场[chǎng],次[cì], to compete"
     },
     {
       "word_id": "HSK20_3_0020",
       "ch": "笔记本",
       "trad": "筆記本",
       "py": "bǐ​jì​běn",
-      "en": "notebook (stationery), CL:本[běn], notebook (computing)",
+      "en": "notebook (stationery)",
       "th": "",
       "zh": "我的笔记本电脑发生故障了。",
       "sent_en": "My laptop crashed.",
       "sent_th": "",
       "theme": "school",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "notebook (stationery), CL:本[běn], notebook (computing)"
     },
     {
       "word_id": "HSK20_3_0021",
@@ -424,21 +444,23 @@
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to have to, must, compulsory, necessarily"
     },
     {
       "word_id": "HSK20_3_0022",
       "ch": "变化",
       "trad": "變化",
       "py": "biàn​huà",
-      "en": "change, variation, to change, to vary, CL:個|个[gè]",
+      "en": "change, variation, to change, to vary",
       "th": "",
       "zh": "相比二十年前的日本，现在的日本有了翻天覆地的变化。",
       "sent_en": "Japan is now very different from what it was twenty years ago.",
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "change, variation, to change, to vary, CL:個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0023",
@@ -452,21 +474,23 @@
       "sent_th": "",
       "theme": "numbers",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "other people, others, other person"
     },
     {
       "word_id": "HSK20_3_0024",
       "ch": "冰箱",
       "trad": "冰箱",
       "py": "bīng​xiāng",
-      "en": "icebox, freezer cabinet, refrigerator, CL:臺|台[tái],個|个[gè]",
+      "en": "icebox, freezer cabinet, refrigerator",
       "th": "",
       "zh": "冰箱開著。",
       "sent_en": "The fridge is open.",
       "sent_th": "",
       "theme": "weather",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "icebox, freezer cabinet, refrigerator, CL:臺|台[tái],個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0025",
@@ -480,14 +504,15 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "not only (... but also...)"
     },
     {
       "word_id": "HSK20_3_0026",
       "ch": "才",
       "trad": "才",
       "py": "cái",
-      "en": "ability, talent, sb of a certain type, a capable individual, only, only then, just now",
+      "en": "ability, talent, sb of a certain type, a capable individual",
       "th": "เท่านั้น",
       "zh": "现在才八点。",
       "sent_en": "It's only eight o'clock now.",
@@ -512,21 +537,23 @@
             "caption": "Seal script"
           }
         ]
-      }
+      },
+      "en_full": "ability, talent, sb of a certain type, a capable individual, only, only then, just now"
     },
     {
       "word_id": "HSK20_3_0027",
       "ch": "菜单",
       "trad": "菜單",
       "py": "cài​dān",
-      "en": "menu, CL:份[fèn],張|张[zhāng]",
+      "en": "menu",
       "th": "",
       "zh": "",
       "sent_en": "",
       "sent_th": "",
       "theme": "food",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "menu, CL:份[fèn],張|张[zhāng]"
     },
     {
       "word_id": "HSK20_3_0028",
@@ -540,7 +567,8 @@
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to participate, to take part, to join"
     },
     {
       "word_id": "HSK20_3_0029",
@@ -568,14 +596,15 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "variant of 草[cǎo]"
     },
     {
       "word_id": "HSK20_3_0030",
       "ch": "层",
       "trad": "層",
       "py": "céng",
-      "en": "layer, stratum, laminated, floor (of a building), storey, classifier for layers, repeated, sheaf (math.)",
+      "en": "layer, stratum, laminated, floor (of a building)",
       "th": "ชั้น",
       "zh": "我家住在五层。",
       "sent_en": "My family lives on the fifth floor.",
@@ -596,14 +625,15 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "layer, stratum, laminated, floor (of a building), storey, classifier for layers, repeated, sheaf (math.)"
     },
     {
       "word_id": "HSK20_3_0031",
       "ch": "差",
       "trad": "差",
       "py": "chā",
-      "en": "difference, discrepancy, to differ, error, to err, to make a mistake",
+      "en": "difference, discrepancy, to differ, error",
       "th": "แย่",
       "zh": "这个苹果很差。",
       "sent_en": "This apple is bad.",
@@ -629,63 +659,68 @@
             "caption": "Bronze script"
           }
         ]
-      }
+      },
+      "en_full": "difference, discrepancy, to differ, error, to err, to make a mistake"
     },
     {
       "word_id": "HSK20_3_0032",
       "ch": "超市",
       "trad": "超市",
       "py": "chāo​shì",
-      "en": "supermarket, abbr. for 超級市場|超级市场, CL:家[jiā]",
+      "en": "supermarket, abbr. for 超級市場|超级市场",
       "th": "",
       "zh": "去了超市。",
       "sent_en": "I went to the supermarket.",
       "sent_th": "",
       "theme": "movement",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "supermarket, abbr. for 超級市場|超级市场, CL:家[jiā]"
     },
     {
       "word_id": "HSK20_3_0033",
       "ch": "衬衫",
       "trad": "襯衫",
       "py": "chèn​shān",
-      "en": "shirt, blouse, CL:件[jiàn]",
+      "en": "shirt, blouse",
       "th": "",
       "zh": "他把衬衫脱了。",
       "sent_en": "He removed his shirt.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "shirt, blouse, CL:件[jiàn]"
     },
     {
       "word_id": "HSK20_3_0034",
       "ch": "成绩",
       "trad": "成績",
       "py": "chéng​jì",
-      "en": "achievement, performance records, grades, CL:項|项[xiàng],個|个[gè]",
+      "en": "achievement, performance records, grades",
       "th": "",
       "zh": "她英语成绩很好。",
       "sent_en": "She gets good marks in English.",
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "achievement, performance records, grades, CL:項|项[xiàng],個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0035",
       "ch": "城市",
       "trad": "城市",
       "py": "chéng​shì",
-      "en": "city, town, CL:座[zuò]",
+      "en": "city, town",
       "th": "",
       "zh": "我喜欢你们的城市。",
       "sent_en": "I like your city.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "city, town, CL:座[zuò]"
     },
     {
       "word_id": "HSK20_3_0036",
@@ -699,7 +734,8 @@
       "sent_th": "",
       "theme": "time",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to arrive late"
     },
     {
       "word_id": "HSK20_3_0037",
@@ -713,7 +749,8 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "besides, apart from (... also...), in addition to, except (for)"
     },
     {
       "word_id": "HSK20_3_0038",
@@ -741,7 +778,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "variant of 船[chuán]"
     },
     {
       "word_id": "HSK20_3_0039",
@@ -769,35 +807,38 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "old variant of 春[chūn]"
     },
     {
       "word_id": "HSK20_3_0040",
       "ch": "词典",
       "trad": "詞典",
       "py": "cí​diǎn",
-      "en": "dictionary (of Chinese compound words), also written 辭典|辞典[cí​diǎn], CL:部[bù],本[běn]",
+      "en": "dictionary (of Chinese compound words), also written 辭典|辞典[cí​diǎn]",
       "th": "",
       "zh": "我想要本好词典。",
       "sent_en": "I want a good dictionary.",
       "sent_th": "",
       "theme": "school",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "dictionary (of Chinese compound words), also written 辭典|辞典[cí​diǎn], CL:部[bù],本[běn]"
     },
     {
       "word_id": "HSK20_3_0041",
       "ch": "聪明",
       "trad": "聰明",
       "py": "cōng​ming",
-      "en": "intelligent, clever, bright, smart, acute (of sight and hearing)",
+      "en": "intelligent, clever, bright, smart",
       "th": "",
       "zh": "你很聪明。",
       "sent_en": "You're very smart.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "intelligent, clever, bright, smart, acute (of sight and hearing)"
     },
     {
       "word_id": "HSK20_3_0042",
@@ -811,28 +852,30 @@
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to clean, to sweep"
     },
     {
       "word_id": "HSK20_3_0043",
       "ch": "打算",
       "trad": "打算",
       "py": "dǎ​suàn",
-      "en": "to plan, to intend, to calculate, plan, intention, calculation, CL:個|个[gè]",
+      "en": "to plan, to intend, to calculate, plan",
       "th": "",
       "zh": "你打算做什么？",
       "sent_en": "What're you up to?",
       "sent_th": "",
       "theme": "school",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to plan, to intend, to calculate, plan, intention, calculation, CL:個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0044",
       "ch": "带",
       "trad": "帶",
       "py": "dài",
-      "en": "band, belt, girdle, ribbon, tire, area, zone, region, CL:條|条[tiáo], to wear, to carry, to take along, to bear (i.e. to have), to lead, to bring, to look after, to raise",
+      "en": "band, belt, girdle, ribbon",
       "th": "พก",
       "zh": "我每天带书包去学校。",
       "sent_en": "I bring my backpack to school every day.",
@@ -853,49 +896,53 @@
             "caption": "Seal script"
           }
         ]
-      }
+      },
+      "en_full": "band, belt, girdle, ribbon, tire, area, zone, region, CL:條|条[tiáo], to wear, to carry, to take along, to bear (i.e. to have), to lead, to bring, to look after, to raise"
     },
     {
       "word_id": "HSK20_3_0045",
       "ch": "担心",
       "trad": "擔心",
       "py": "dān​xīn",
-      "en": "anxious, worried, uneasy, to worry, to be anxious",
+      "en": "anxious, worried, uneasy, to worry",
       "th": "",
       "zh": "别担心了。",
       "sent_en": "Stop worrying.",
       "sent_th": "",
       "theme": "emotions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "anxious, worried, uneasy, to worry, to be anxious"
     },
     {
       "word_id": "HSK20_3_0046",
       "ch": "蛋糕",
       "trad": "蛋糕",
       "py": "dàn​gāo",
-      "en": "cake, CL:塊|块[kuài],個|个[gè]",
+      "en": "cake",
       "th": "",
       "zh": "我想要点蛋糕。",
       "sent_en": "I want some cake.",
       "sent_th": "",
       "theme": "food",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "cake, CL:塊|块[kuài],個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0047",
       "ch": "当然",
       "trad": "當然",
       "py": "dāng​rán",
-      "en": "only natural, as it should be, certainly, of course, without doubt",
+      "en": "only natural, as it should be, certainly, of course",
       "th": "",
       "zh": "当然哪！",
       "sent_en": "Of course!",
       "sent_th": "",
       "theme": "misc",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "only natural, as it should be, certainly, of course, without doubt"
     },
     {
       "word_id": "HSK20_3_0048",
@@ -923,21 +970,23 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "-ly, structural particle: used before a verb or adjective, linking it to preceding modifying adverbial adjunct"
     },
     {
       "word_id": "HSK20_3_0049",
       "ch": "地方",
       "trad": "地方",
       "py": "dì​fāng",
-      "en": "region, regional (away from the central administration), local",
+      "en": "region, regional, local",
       "th": "",
       "zh": "腾一下地方。",
       "sent_en": "Move over.",
       "sent_th": "",
       "theme": "nature",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "region, regional (away from the central administration), local"
     },
     {
       "word_id": "HSK20_3_0050",
@@ -951,28 +1000,30 @@
       "sent_th": "",
       "theme": "nature",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "subway, metro"
     },
     {
       "word_id": "HSK20_3_0051",
       "ch": "地图",
       "trad": "地圖",
       "py": "dì​tú",
-      "en": "map, CL:張|张[zhāng],本[běn]",
+      "en": "map",
       "th": "",
       "zh": "地图挂在墙上。",
       "sent_en": "The map is on the wall.",
       "sent_th": "",
       "theme": "nature",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "map, CL:張|张[zhāng],本[běn]"
     },
     {
       "word_id": "HSK20_3_0052",
       "ch": "灯",
       "trad": "燈",
       "py": "dēng",
-      "en": "lamp, light, lantern, CL:盞|盏[zhǎn]",
+      "en": "lamp, light, lantern",
       "th": "โคมไฟ",
       "zh": "请打开灯。",
       "sent_en": "Please turn on the lamp.",
@@ -993,35 +1044,38 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "lamp, light, lantern, CL:盞|盏[zhǎn]"
     },
     {
       "word_id": "HSK20_3_0053",
       "ch": "电梯",
       "trad": "電梯",
       "py": "diàn​tī",
-      "en": "elevator, escalator, CL:臺|台[tái],部[bù]",
+      "en": "elevator, escalator",
       "th": "",
       "zh": "电梯好像故障了。",
       "sent_en": "The elevator seems to be out of order.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "elevator, escalator, CL:臺|台[tái],部[bù]"
     },
     {
       "word_id": "HSK20_3_0054",
       "ch": "电子邮件",
       "trad": "電子郵件",
       "py": "diàn​zǐ​yóu​jiàn",
-      "en": "email, CL:封[fēng],份[fèn]",
+      "en": "email",
       "th": "",
       "zh": "我只想查一下我的电子邮件。",
       "sent_en": "I just wanted to check my email.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "email, CL:封[fēng],份[fèn]"
     },
     {
       "word_id": "HSK20_3_0055",
@@ -1061,7 +1115,8 @@
             "caption": "Cursive script"
           }
         ]
-      }
+      },
+      "en_full": "surname Dong"
     },
     {
       "word_id": "HSK20_3_0056",
@@ -1089,28 +1144,30 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "winter"
     },
     {
       "word_id": "HSK20_3_0057",
       "ch": "动物",
       "trad": "動物",
       "py": "dòng​wù",
-      "en": "animal, CL:隻|只[zhī],群[qún],個|个[gè]",
+      "en": "animal",
       "th": "",
       "zh": "鲸鱼是哺乳动物。",
       "sent_en": "A whale is a mammal.",
       "sent_th": "",
       "theme": "animals",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "animal, CL:隻|只[zhī],群[qún],個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0058",
       "ch": "短",
       "trad": "短",
       "py": "duǎn",
-      "en": "short, brief, to lack, weak point, fault",
+      "en": "short, brief, to lack, weak point",
       "th": "สั้น",
       "zh": "这条裤子很短。",
       "sent_en": "These pants are very short.",
@@ -1131,7 +1188,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "short, brief, to lack, weak point, fault"
     },
     {
       "word_id": "HSK20_3_0059",
@@ -1164,35 +1222,38 @@
             "caption": "Bronze script"
           }
         ]
-      }
+      },
+      "en_full": "surname Duan"
     },
     {
       "word_id": "HSK20_3_0060",
       "ch": "锻炼",
       "trad": "鍛鍊",
       "py": "duàn​liàn",
-      "en": "to toughen, to temper, to engage in physical exercise, to work out, (fig.) to develop one's skills, to train oneself",
+      "en": "to toughen, to temper, to engage in physical exercise, to work out",
       "th": "",
       "zh": "我需要更经常地锻炼。",
       "sent_en": "I need to exercise more often.",
       "sent_th": "",
       "theme": "nature2",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to toughen, to temper, to engage in physical exercise, to work out, (fig.) to develop one's skills, to train oneself"
     },
     {
       "word_id": "HSK20_3_0061",
       "ch": "多么",
       "trad": "多麼",
       "py": "duō​me",
-      "en": "how (wonderful etc), what (a great idea etc), however (difficult it may be etc), (in interrogative sentences) how (much etc), to what extent",
+      "en": "how (wonderful etc), what (a great idea etc), however (difficult it may be etc)",
       "th": "",
       "zh": "多么有趣啊！",
       "sent_en": "How interesting!",
       "sent_th": "",
       "theme": "misc",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "how (wonderful etc), what (a great idea etc), however (difficult it may be etc), (in interrogative sentences) how (much etc), to what extent"
     },
     {
       "word_id": "HSK20_3_0062",
@@ -1220,7 +1281,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "to be hungry, hungry, to starve (sb)"
     },
     {
       "word_id": "HSK20_3_0063",
@@ -1234,28 +1296,30 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "(not only ...) but also, moreover, in addition, furthermore"
     },
     {
       "word_id": "HSK20_3_0064",
       "ch": "耳朵",
       "trad": "耳朵",
       "py": "ěr​duo",
-      "en": "ear, CL:隻|只[zhī],個|个[gè],對|对[duì], handle (on a cup)",
+      "en": "ear",
       "th": "",
       "zh": "我們有兩隻耳朵。",
       "sent_en": "We have two ears.",
       "sent_th": "",
       "theme": "body",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "ear, CL:隻|只[zhī],個|个[gè],對|对[duì], handle (on a cup)"
     },
     {
       "word_id": "HSK20_3_0065",
       "ch": "发",
       "trad": "發",
       "py": "fā",
-      "en": "to send out, to show (one's feeling), to issue, to develop, to make a bundle of money, classifier for gunshots (rounds)",
+      "en": "to send out, to show (one's feeling), to issue, to develop",
       "th": "ส่ง",
       "zh": "我发短信给朋友。",
       "sent_en": "I send a text message to my friend.",
@@ -1267,7 +1331,8 @@
         "definition": "send out; hair",
         "components": [],
         "images": []
-      }
+      },
+      "en_full": "to send out, to show (one's feeling), to issue, to develop, to make a bundle of money, classifier for gunshots (rounds)"
     },
     {
       "word_id": "HSK20_3_0066",
@@ -1281,7 +1346,8 @@
       "sent_th": "",
       "theme": "health",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to have a high temperature (from illness), to have a fever"
     },
     {
       "word_id": "HSK20_3_0067",
@@ -1295,28 +1361,30 @@
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to find, to discover"
     },
     {
       "word_id": "HSK20_3_0068",
       "ch": "方便",
       "trad": "方便",
       "py": "fāng​biàn",
-      "en": "convenient, suitable, to facilitate, to make things easy, having money to spare, (euphemism) to relieve oneself",
+      "en": "convenient, suitable, to facilitate, to make things easy",
       "th": "",
       "zh": "这很方便。",
       "sent_en": "That's very handy.",
       "sent_th": "",
       "theme": "shapes",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "convenient, suitable, to facilitate, to make things easy, having money to spare, (euphemism) to relieve oneself"
     },
     {
       "word_id": "HSK20_3_0069",
       "ch": "放",
       "trad": "放",
       "py": "fàng",
-      "en": "to put, to place, to release, to free, to let go, to let out, to set off (fireworks)",
+      "en": "to put, to place, to release, to free",
       "th": "วาง",
       "zh": "我把书放在桌子上。",
       "sent_en": "I put the book on the table.",
@@ -1337,7 +1405,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "to put, to place, to release, to free, to let go, to let out, to set off (fireworks)"
     },
     {
       "word_id": "HSK20_3_0070",
@@ -1351,14 +1420,15 @@
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to feel relieved, to feel reassured, to be at ease"
     },
     {
       "word_id": "HSK20_3_0071",
       "ch": "分",
       "trad": "分",
       "py": "fēn",
-      "en": "to divide, to separate, to distribute, to allocate, to distinguish (good and bad), part or subdivision, fraction, one tenth (of certain units), unit of length equivalent to 0.33 cm, minute (unit of time), minute (angular measurement unit), a point (in sports or games), 0.01 yuan (unit of money)",
+      "en": "to divide, to separate, to distribute, to allocate",
       "th": "นาที",
       "zh": "现在是三点十分。",
       "sent_en": "It is ten past three.",
@@ -1379,7 +1449,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "to divide, to separate, to distribute, to allocate, to distinguish (good and bad), part or subdivision, fraction, one tenth (of certain units), unit of length equivalent to 0.33 cm, minute (unit of time), minute (angular measurement unit), a point (in sports or games), 0.01 yuan (unit of money)"
     },
     {
       "word_id": "HSK20_3_0072",
@@ -1393,35 +1464,38 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "(in the) vicinity, nearby, neighboring, next to"
     },
     {
       "word_id": "HSK20_3_0073",
       "ch": "复习",
       "trad": "復習",
       "py": "fù​xí",
-      "en": "to review, revision, CL:次[cì]",
+      "en": "to review, revision",
       "th": "",
       "zh": "我想复习英语。",
       "sent_en": "I would like to brush up my English.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to review, revision, CL:次[cì]"
     },
     {
       "word_id": "HSK20_3_0074",
       "ch": "感冒",
       "trad": "感冒",
       "py": "gǎn​mào",
-      "en": "to catch cold, (common) cold, CL:場|场[cháng],次[cì], (coll.) to be interested in (often used in the negative), (Tw) to detest, can't stand",
+      "en": "to catch cold, (common) cold",
       "th": "",
       "zh": "我感冒了。",
       "sent_en": "I have a cold.",
       "sent_th": "",
       "theme": "weather",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to catch cold, (common) cold, CL:場|场[cháng],次[cì], (coll.) to be interested in (often used in the negative), (Tw) to detest, can't stand"
     },
     {
       "word_id": "HSK20_3_0075",
@@ -1435,7 +1509,8 @@
       "sent_th": "",
       "theme": "emotions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to be interested"
     },
     {
       "word_id": "HSK20_3_0076",
@@ -1449,7 +1524,8 @@
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "clean, neat"
     },
     {
       "word_id": "HSK20_3_0077",
@@ -1463,7 +1539,8 @@
       "sent_th": "",
       "theme": "time",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "just now, a moment ago"
     },
     {
       "word_id": "HSK20_3_0078",
@@ -1477,28 +1554,30 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "height, stature, build, size"
     },
     {
       "word_id": "HSK20_3_0079",
       "ch": "根据",
       "trad": "根據",
       "py": "gēn​jù",
-      "en": "according to, based on, basis, foundation, CL:個|个[gè]",
+      "en": "according to, based on, basis, foundation",
       "th": "",
       "zh": "他们根据情报采取行动。",
       "sent_en": "They acted on the information.",
       "sent_th": "",
       "theme": "nature",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "according to, based on, basis, foundation, CL:個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0080",
       "ch": "跟",
       "trad": "跟",
       "py": "gēn",
-      "en": "heel, to follow closely, to go with, (of a woman) to marry sb, with, compared with, to, towards, and (joining two nouns)",
+      "en": "heel, to follow closely, to go with, (of a woman) to marry sb",
       "th": "กับ",
       "zh": "我跟你一起去。",
       "sent_en": "I will go with you.",
@@ -1519,14 +1598,15 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "heel, to follow closely, to go with, (of a woman) to marry sb, with, compared with, to, towards, and (joining two nouns)"
     },
     {
       "word_id": "HSK20_3_0081",
       "ch": "更",
       "trad": "更",
       "py": "gēng",
-      "en": "to change or replace, to experience, one of the five two-hour periods into which the night was formerly divided, watch (e.g. of a sentry or guard)",
+      "en": "to change or replace, to experience, one of the five two-hour periods into which the night was formerly divided",
       "th": "มากขึ้น",
       "zh": "现在更晚了。",
       "sent_en": "It's even later now.",
@@ -1552,7 +1632,8 @@
             "caption": "Seal script"
           }
         ]
-      }
+      },
+      "en_full": "to change or replace, to experience, one of the five two-hour periods into which the night was formerly divided, watch (e.g. of a sentry or guard)"
     },
     {
       "word_id": "HSK20_3_0082",
@@ -1566,35 +1647,38 @@
       "sent_th": "",
       "theme": "people",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "kilogram (kg)"
     },
     {
       "word_id": "HSK20_3_0083",
       "ch": "公园",
       "trad": "公園",
       "py": "gōng​yuán",
-      "en": "park (for public recreation), CL:個|个[gè],座[zuò]",
+      "en": "park (for public recreation)",
       "th": "",
       "zh": "我们在公园里跑了步。",
       "sent_en": "We ran in the park.",
       "sent_th": "",
       "theme": "people",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "park (for public recreation), CL:個|个[gè],座[zuò]"
     },
     {
       "word_id": "HSK20_3_0084",
       "ch": "故事",
       "trad": "故事",
       "py": "gù​shì",
-      "en": "old practice, CL:個|个[gè]",
+      "en": "old practice",
       "th": "",
       "zh": "我怀疑他的故事。",
       "sent_en": "I doubt his story.",
       "sent_th": "",
       "theme": "people",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "old practice, CL:個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0085",
@@ -1608,7 +1692,8 @@
       "sent_th": "",
       "theme": "weather",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to be windy"
     },
     {
       "word_id": "HSK20_3_0086",
@@ -1645,21 +1730,23 @@
             "caption": "Cursive script"
           }
         ]
-      }
+      },
+      "en_full": "surname Guan"
     },
     {
       "word_id": "HSK20_3_0087",
       "ch": "关系",
       "trad": "關係",
       "py": "guān​xi",
-      "en": "relation, relationship, to concern, to affect, to have to do with, guanxi, CL:個|个[gè]",
+      "en": "relation, relationship, to concern, to affect",
       "th": "",
       "zh": "没关系。",
       "sent_en": "It's OK.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "relation, relationship, to concern, to affect, to have to do with, guanxi, CL:個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0088",
@@ -1673,35 +1760,38 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to be concerned about, to care about"
     },
     {
       "word_id": "HSK20_3_0089",
       "ch": "关于",
       "trad": "關於",
       "py": "guān​yú",
-      "en": "pertaining to, concerning, with regard to, about, a matter of",
+      "en": "pertaining to, concerning, with regard to, about",
       "th": "",
       "zh": "这是一本关于星星的书。",
       "sent_en": "This is a book about stars.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "pertaining to, concerning, with regard to, about, a matter of"
     },
     {
       "word_id": "HSK20_3_0090",
       "ch": "国家",
       "trad": "國家",
       "py": "guó​jiā",
-      "en": "country, nation, state, CL:個|个[gè]",
+      "en": "country, nation, state",
       "th": "",
       "zh": "希腊是个古老的国家。",
       "sent_en": "Greece is an old country.",
       "sent_th": "",
       "theme": "history",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "country, nation, state, CL:個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0091",
@@ -1738,21 +1828,23 @@
             "caption": "Cursive script"
           }
         ]
-      }
+      },
+      "en_full": "surname Guo"
     },
     {
       "word_id": "HSK20_3_0092",
       "ch": "过去",
       "trad": "過去",
       "py": "guò​qù",
-      "en": "(in the) past, former, previous, to go over, to pass by",
+      "en": "(in the) past, former, previous, to go over",
       "th": "",
       "zh": "多少年过去了。",
       "sent_en": "Years passed.",
       "sent_th": "",
       "theme": "time",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "(in the) past, former, previous, to go over, to pass by"
     },
     {
       "word_id": "HSK20_3_0093",
@@ -1780,7 +1872,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "surname Huan"
     },
     {
       "word_id": "HSK20_3_0094",
@@ -1794,7 +1887,8 @@
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "or, still, nevertheless, had better"
     },
     {
       "word_id": "HSK20_3_0095",
@@ -1808,21 +1902,23 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to be afraid, to be scared"
     },
     {
       "word_id": "HSK20_3_0096",
       "ch": "黑板",
       "trad": "黑板",
       "py": "hēi​bǎn",
-      "en": "blackboard, CL:塊|块[kuài],個|个[gè]",
+      "en": "blackboard",
       "th": "",
       "zh": "你看得到黑板嗎？",
       "sent_en": "Can you see the blackboard?",
       "sent_th": "",
       "theme": "colors",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "blackboard, CL:塊|块[kuài],個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0097",
@@ -1836,21 +1932,23 @@
       "sent_th": "",
       "theme": "time",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "afterwards, later"
     },
     {
       "word_id": "HSK20_3_0098",
       "ch": "护照",
       "trad": "護照",
       "py": "hù​zhào",
-      "en": "passport, CL:本[běn],個|个[gè]",
+      "en": "passport",
       "th": "",
       "zh": "去拿你的护照。",
       "sent_en": "Go get your passport.",
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "passport, CL:本[běn],個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0099",
@@ -1878,14 +1976,15 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "surname Hua"
     },
     {
       "word_id": "HSK20_3_0100",
       "ch": "画",
       "trad": "畫",
       "py": "huà",
-      "en": "to draw, picture, painting, CL:幅[fú],張|张[zhāng], classifier for paintings etc, variant of 劃|划[huà]",
+      "en": "to draw, picture, painting",
       "th": "วาด",
       "zh": "我喜欢画画。",
       "sent_en": "I like to draw/paint.",
@@ -1927,14 +2026,15 @@
             "caption": "Cursive script"
           }
         ]
-      }
+      },
+      "en_full": "to draw, picture, painting, CL:幅[fú],張|张[zhāng], classifier for paintings etc, variant of 劃|划[huà]"
     },
     {
       "word_id": "HSK20_3_0101",
       "ch": "坏",
       "trad": "壞",
       "py": "huài",
-      "en": "bad, spoiled, broken, to break down, (suffix) to the utmost",
+      "en": "bad, spoiled, broken, to break down",
       "th": "ไม่ดี",
       "zh": "这个苹果坏了。",
       "sent_en": "This apple is bad.",
@@ -1955,7 +2055,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "bad, spoiled, broken, to break down, (suffix) to the utmost"
     },
     {
       "word_id": "HSK20_3_0102",
@@ -1969,28 +2070,30 @@
       "sent_th": "",
       "theme": "emotions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to welcome, welcome"
     },
     {
       "word_id": "HSK20_3_0103",
       "ch": "环境",
       "trad": "環境",
       "py": "huán​jìng",
-      "en": "environment, circumstances, surroundings, CL:個|个[gè], ambient",
+      "en": "environment, circumstances, surroundings",
       "th": "",
       "zh": "我适应新环境很慢。",
       "sent_en": "I'm slow to adapt to new situations.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "environment, circumstances, surroundings, CL:個|个[gè], ambient"
     },
     {
       "word_id": "HSK20_3_0104",
       "ch": "换",
       "trad": "換",
       "py": "huàn",
-      "en": "to exchange, to change (clothes etc), to substitute, to switch, to convert (currency)",
+      "en": "to exchange, to change (clothes etc), to substitute, to switch",
       "th": "เปลี่ยน",
       "zh": "我想换一件衣服。",
       "sent_en": "I want to change my clothes.",
@@ -2011,7 +2114,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "to exchange, to change (clothes etc), to substitute, to switch, to convert (currency)"
     },
     {
       "word_id": "HSK20_3_0105",
@@ -2025,35 +2129,38 @@
       "sent_th": "",
       "theme": "colors",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "Yellow River or Huang He"
     },
     {
       "word_id": "HSK20_3_0106",
       "ch": "回答",
       "trad": "回答",
       "py": "huí​dá",
-      "en": "to reply, to answer, the answer, CL:個|个[gè]",
+      "en": "to reply, to answer, the answer",
       "th": "",
       "zh": "回答我。",
       "sent_en": "Answer me.",
       "sent_th": "",
       "theme": "school",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to reply, to answer, the answer, CL:個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0107",
       "ch": "会议",
       "trad": "會議",
       "py": "huì​yì",
-      "en": "meeting, conference, CL:場|场[chǎng],屆|届[jiè]",
+      "en": "meeting, conference",
       "th": "",
       "zh": "会议结束了。",
       "sent_en": "The meeting ended.",
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "meeting, conference, CL:場|场[chǎng],屆|届[jiè]"
     },
     {
       "word_id": "HSK20_3_0108",
@@ -2067,28 +2174,30 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "or, possibly, maybe, perhaps"
     },
     {
       "word_id": "HSK20_3_0109",
       "ch": "机会",
       "trad": "機會",
       "py": "jī​huì",
-      "en": "opportunity, chance, occasion, CL:個|个[gè]",
+      "en": "opportunity, chance, occasion",
       "th": "",
       "zh": "机会错过了。",
       "sent_en": "The chance is gone.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "opportunity, chance, occasion, CL:個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0110",
       "ch": "极",
       "trad": "極",
       "py": "jí",
-      "en": "extremely, pole (geography, physics), utmost, top",
+      "en": "extremely, pole (geography, physics), utmost",
       "th": "ที่สุด",
       "zh": "我走到北极。",
       "sent_en": "I walked to the North Pole.",
@@ -2109,7 +2218,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "extremely, pole (geography, physics), utmost, top"
     },
     {
       "word_id": "HSK20_3_0111",
@@ -2123,7 +2233,8 @@
       "sent_th": "",
       "theme": "misc",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "almost, nearly, practically"
     },
     {
       "word_id": "HSK20_3_0112",
@@ -2137,35 +2248,38 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to remember"
     },
     {
       "word_id": "HSK20_3_0113",
       "ch": "季节",
       "trad": "季節",
       "py": "jì​jié",
-      "en": "time, season, period, CL:個|个[gè]",
+      "en": "time, season, period",
       "th": "",
       "zh": "秋天是我最喜爱的季节。",
       "sent_en": "Fall is my favorite season.",
       "sent_th": "",
       "theme": "time",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "time, season, period, CL:個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0114",
       "ch": "检查",
       "trad": "檢查",
       "py": "jiǎn​chá",
-      "en": "inspection, to examine, to inspect, CL:次[cì]",
+      "en": "inspection, to examine, to inspect",
       "th": "",
       "zh": "再检查一下汤姆的脉搏。",
       "sent_en": "Check Tom's pulse again.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "inspection, to examine, to inspect, CL:次[cì]"
     },
     {
       "word_id": "HSK20_3_0115",
@@ -2179,21 +2293,23 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "simple, not complicated"
     },
     {
       "word_id": "HSK20_3_0116",
       "ch": "见面",
       "trad": "見面",
       "py": "jiàn​miàn",
-      "en": "to meet, to see each other, CL:次[cì]",
+      "en": "to meet, to see each other",
       "th": "",
       "zh": "我们在哪里见面？",
       "sent_en": "Where are we meeting?",
       "sent_th": "",
       "theme": "movement",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to meet, to see each other, CL:次[cì]"
     },
     {
       "word_id": "HSK20_3_0117",
@@ -2207,14 +2323,15 @@
       "sent_th": "",
       "theme": "health",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "health, healthy"
     },
     {
       "word_id": "HSK20_3_0118",
       "ch": "讲",
       "trad": "講",
       "py": "jiǎng",
-      "en": "to speak, to explain, to negotiate, to emphasise, to be particular about, as far as sth is concerned, speech, lecture",
+      "en": "to speak, to explain, to negotiate, to emphasise",
       "th": "พูด",
       "zh": "老师讲故事。",
       "sent_en": "The teacher tells a story.",
@@ -2235,7 +2352,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "to speak, to explain, to negotiate, to emphasise, to be particular about, as far as sth is concerned, speech, lecture"
     },
     {
       "word_id": "HSK20_3_0119",
@@ -2267,14 +2385,15 @@
             "caption": "Seal script"
           }
         ]
-      }
+      },
+      "en_full": "surname Jue"
     },
     {
       "word_id": "HSK20_3_0120",
       "ch": "脚",
       "trad": "腳",
       "py": "jiǎo",
-      "en": "foot, leg (of an animal or an object), base (of an object), CL:雙|双[shuāng],隻|只[zhī], classifier for kicks",
+      "en": "foot, leg (of an animal or an object), base (of an object)",
       "th": "เท้า",
       "zh": "我的脚很疼。",
       "sent_en": "My foot hurts.",
@@ -2295,7 +2414,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "foot, leg (of an animal or an object), base (of an object), CL:雙|双[shuāng],隻|只[zhī], classifier for kicks"
     },
     {
       "word_id": "HSK20_3_0121",
@@ -2323,14 +2443,15 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "surname Jiao"
     },
     {
       "word_id": "HSK20_3_0122",
       "ch": "接",
       "trad": "接",
       "py": "jiē",
-      "en": "to receive, to answer (the phone), to meet or welcome sb, to connect, to catch, to join, to extend, to take one's turn on duty, to take over for sb",
+      "en": "to receive, to answer (the phone), to meet or welcome sb, to connect",
       "th": "รับ",
       "zh": "我接电话。",
       "sent_en": "I answer the phone.",
@@ -2351,91 +2472,98 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "to receive, to answer (the phone), to meet or welcome sb, to connect, to catch, to join, to extend, to take one's turn on duty, to take over for sb"
     },
     {
       "word_id": "HSK20_3_0123",
       "ch": "街道",
       "trad": "街道",
       "py": "jiē​dào",
-      "en": "street, CL:條|条[tiáo], subdistrict, residential district",
+      "en": "street",
       "th": "",
       "zh": "從我的房間望出去是街道。",
       "sent_en": "My room looks out on the street.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "street, CL:條|条[tiáo], subdistrict, residential district"
     },
     {
       "word_id": "HSK20_3_0124",
       "ch": "节目",
       "trad": "節目",
       "py": "jié​mù",
-      "en": "program, item (on a program), CL:臺|台[tái],個|个[gè],套[tào]",
+      "en": "program, item (on a program)",
       "th": "",
       "zh": "这个节目是重播。",
       "sent_en": "This program is a rerun.",
       "sent_th": "",
       "theme": "time",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "program, item (on a program), CL:臺|台[tái],個|个[gè],套[tào]"
     },
     {
       "word_id": "HSK20_3_0125",
       "ch": "节日",
       "trad": "節日",
       "py": "jié​rì",
-      "en": "holiday, festival, CL:個|个[gè]",
+      "en": "holiday, festival",
       "th": "",
       "zh": "圣诞节绝对是我最喜欢的节日。",
       "sent_en": "Christmas is definitely my favorite holiday.",
       "sent_th": "",
       "theme": "time",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "holiday, festival, CL:個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0126",
       "ch": "结婚",
       "trad": "結婚",
       "py": "jié​hūn",
-      "en": "to marry, to get married, CL:次[cì]",
+      "en": "to marry, to get married",
       "th": "",
       "zh": "我结婚了。",
       "sent_en": "I'm married.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to marry, to get married, CL:次[cì]"
     },
     {
       "word_id": "HSK20_3_0127",
       "ch": "结束",
       "trad": "結束",
       "py": "jié​shù",
-      "en": "termination, to finish, to end, to conclude, to close",
+      "en": "termination, to finish, to end, to conclude",
       "th": "",
       "zh": "你结束了吗？",
       "sent_en": "Are you finished?",
       "sent_th": "",
       "theme": "time",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "termination, to finish, to end, to conclude, to close"
     },
     {
       "word_id": "HSK20_3_0128",
       "ch": "解决",
       "trad": "解決",
       "py": "jiě​jué",
-      "en": "to settle (a dispute), to resolve, to solve, to dispose of, to dispatch",
+      "en": "to settle (a dispute), to resolve, to solve, to dispose of",
       "th": "",
       "zh": "解决他们。",
       "sent_en": "Deal with them.",
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to settle (a dispute), to resolve, to solve, to dispose of, to dispatch"
     },
     {
       "word_id": "HSK20_3_0129",
@@ -2463,49 +2591,53 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "to lend, to borrow, by means of, to take (an opportunity)"
     },
     {
       "word_id": "HSK20_3_0130",
       "ch": "经常",
       "trad": "經常",
       "py": "jīng​cháng",
-      "en": "frequently, constantly, regularly, often, day-to-day, everyday, daily",
+      "en": "frequently, constantly, regularly, often",
       "th": "",
       "zh": "我经常打嗝。",
       "sent_en": "I hiccup a lot.",
       "sent_th": "",
       "theme": "time",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "frequently, constantly, regularly, often, day-to-day, everyday, daily"
     },
     {
       "word_id": "HSK20_3_0131",
       "ch": "经过",
       "trad": "經過",
       "py": "jīng​guò",
-      "en": "to pass, to go through, process, course, CL:個|个[gè]",
+      "en": "to pass, to go through, process, course",
       "th": "",
       "zh": "已经过了很长时间了。",
       "sent_en": "It's been a long time.",
       "sent_th": "",
       "theme": "time",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to pass, to go through, process, course, CL:個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0132",
       "ch": "经理",
       "trad": "經理",
       "py": "jīng​lǐ",
-      "en": "manager, director, CL:個|个[gè],位[wèi],名[míng]",
+      "en": "manager, director",
       "th": "",
       "zh": "他们任命他为经理。",
       "sent_en": "They appointed him as a director.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "manager, director, CL:個|个[gè],位[wèi],名[míng]"
     },
     {
       "word_id": "HSK20_3_0133",
@@ -2524,7 +2656,8 @@
         "definition": "long time",
         "components": [],
         "images": []
-      }
+      },
+      "en_full": "(long) time, (long) duration of time"
     },
     {
       "word_id": "HSK20_3_0134",
@@ -2552,35 +2685,38 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "old, opposite: new 新, former, worn (with age)"
     },
     {
       "word_id": "HSK20_3_0135",
       "ch": "句子",
       "trad": "句子",
       "py": "jù​zi",
-      "en": "sentence, CL:個|个[gè]",
+      "en": "sentence",
       "th": "",
       "zh": "這不是一個句子。",
       "sent_en": "This is not a sentence.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "sentence, CL:個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0136",
       "ch": "决定",
       "trad": "決定",
       "py": "jué​dìng",
-      "en": "to decide (to do something), to resolve, decision, CL:個|个[gè],項|项[xiàng], certainly",
+      "en": "to decide (to do something), to resolve, decision",
       "th": "",
       "zh": "我让你来决定。",
       "sent_en": "I'll let you decide.",
       "sent_th": "",
       "theme": "time",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to decide (to do something), to resolve, decision, CL:個|个[gè],項|项[xiàng], certainly"
     },
     {
       "word_id": "HSK20_3_0137",
@@ -2594,7 +2730,8 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "adorable, cute, lovely"
     },
     {
       "word_id": "HSK20_3_0138",
@@ -2622,14 +2759,15 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "thirsty"
     },
     {
       "word_id": "HSK20_3_0139",
       "ch": "刻",
       "trad": "刻",
       "py": "kè",
-      "en": "quarter (hour), moment, to carve, to engrave, to cut, oppressive, classifier for short time intervals",
+      "en": "quarter (hour), moment, to carve, to engrave",
       "th": "หนึ่งในสี่ของชั่วโมง",
       "zh": "现在是三点一刻。",
       "sent_en": "It is now a quarter past three.",
@@ -2650,42 +2788,45 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "quarter (hour), moment, to carve, to engrave, to cut, oppressive, classifier for short time intervals"
     },
     {
       "word_id": "HSK20_3_0140",
       "ch": "客人",
       "trad": "客人",
       "py": "kè​rén",
-      "en": "visitor, guest, customer, client, CL:位[wèi]",
+      "en": "visitor, guest, customer, client",
       "th": "",
       "zh": "你有客人。",
       "sent_en": "You have a visitor.",
       "sent_th": "",
       "theme": "people",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "visitor, guest, customer, client, CL:位[wèi]"
     },
     {
       "word_id": "HSK20_3_0141",
       "ch": "空调",
       "trad": "空調",
       "py": "kōng​tiáo",
-      "en": "air conditioning, air conditioner (including units that have a heating mode), CL:臺|台[tái]",
+      "en": "air conditioning, air conditioner",
       "th": "",
       "zh": "实验室里的空调坏了。",
       "sent_en": "The air conditioner in the lab is broken.",
       "sent_th": "",
       "theme": "nature",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "air conditioning, air conditioner (including units that have a heating mode), CL:臺|台[tái]"
     },
     {
       "word_id": "HSK20_3_0142",
       "ch": "口",
       "trad": "口",
       "py": "kǒu",
-      "en": "mouth, classifier for things with mouths (people, domestic animals, cannons, wells etc), classifier for bites or mouthfuls",
+      "en": "mouth, classifier for things with mouths (people, domestic animals",
       "th": "ปาก",
       "zh": "张开嘴，说“啊”。",
       "sent_en": "Open your mouth and say \"ah\".",
@@ -2706,7 +2847,8 @@
             "caption": "Bronze script"
           }
         ]
-      }
+      },
+      "en_full": "mouth, classifier for things with mouths (people, domestic animals, cannons, wells etc), classifier for bites or mouthfuls"
     },
     {
       "word_id": "HSK20_3_0143",
@@ -2734,35 +2876,38 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "to cry, to weep"
     },
     {
       "word_id": "HSK20_3_0144",
       "ch": "裤子",
       "trad": "褲子",
       "py": "kù​zi",
-      "en": "trousers, pants, CL:條|条[tiáo]",
+      "en": "trousers, pants",
       "th": "",
       "zh": "我扯掉了自己的裤子。",
       "sent_en": "I ripped my pants.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "trousers, pants, CL:條|条[tiáo]"
     },
     {
       "word_id": "HSK20_3_0145",
       "ch": "筷子",
       "trad": "筷子",
       "py": "kuài​zi",
-      "en": "chopsticks, CL:對|对[duì],根[gēn],把[bǎ],雙|双[shuāng]",
+      "en": "chopsticks",
       "th": "",
       "zh": "用筷子吃饭难吗？",
       "sent_en": "Is eating with chopsticks difficult?",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "chopsticks, CL:對|对[duì],根[gēn],把[bǎ],雙|双[shuāng]"
     },
     {
       "word_id": "HSK20_3_0146",
@@ -2790,14 +2935,15 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "surname Lan"
     },
     {
       "word_id": "HSK20_3_0147",
       "ch": "老",
       "trad": "老",
       "py": "lǎo",
-      "en": "prefix used before the surname of a person or a numeral indicating the order of birth of the children in a family or to indicate affection or familiarity, old (of people), venerable (person), experienced, of long standing, always, all the time, of the past, very, outdated, (of meat etc) tough",
+      "en": "prefix used before the surname of a person or a numeral indicating the order of birth of the children in a family or to indicate affection or familiarity, old (of people), venerable (person)",
       "th": "เก่า",
       "zh": "我的爷爷很老。",
       "sent_en": "My grandfather is very old.",
@@ -2835,7 +2981,8 @@
             "caption": "Seal script"
           }
         ]
-      }
+      },
+      "en_full": "prefix used before the surname of a person or a numeral indicating the order of birth of the children in a family or to indicate affection or familiarity, old (of people), venerable (person), experienced, of long standing, always, all the time, of the past, very, outdated, (of meat etc) tough"
     },
     {
       "word_id": "HSK20_3_0148",
@@ -2849,7 +2996,8 @@
       "sent_th": "",
       "theme": "directions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to understand, to realize, to find out"
     },
     {
       "word_id": "HSK20_3_0149",
@@ -2863,42 +3011,45 @@
       "sent_th": "",
       "theme": "movement",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to depart, to leave"
     },
     {
       "word_id": "HSK20_3_0150",
       "ch": "礼物",
       "trad": "禮物",
       "py": "lǐ​wù",
-      "en": "gift, present, CL:件[jiàn],個|个[gè],份[fèn]",
+      "en": "gift, present",
       "th": "",
       "zh": "他接受了她的礼物。",
       "sent_en": "He accepted her gift.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "gift, present, CL:件[jiàn],個|个[gè],份[fèn]"
     },
     {
       "word_id": "HSK20_3_0151",
       "ch": "历史",
       "trad": "歷史",
       "py": "lì​shǐ",
-      "en": "history, CL:門|门[mén],段[duàn]",
+      "en": "history",
       "th": "",
       "zh": "他学了英国历史。",
       "sent_en": "He studied English history.",
       "sent_th": "",
       "theme": "time",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "history, CL:門|门[mén],段[duàn]"
     },
     {
       "word_id": "HSK20_3_0152",
       "ch": "脸",
       "trad": "臉",
       "py": "liǎn",
-      "en": "face, CL:張|张[zhāng],個|个[gè]",
+      "en": "face",
       "th": "หน้า",
       "zh": "她的脸很红。",
       "sent_en": "Her face is very red.",
@@ -2919,21 +3070,23 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "face, CL:張|张[zhāng],個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0153",
       "ch": "练习",
       "trad": "練習",
       "py": "liàn​xí",
-      "en": "to practice, exercise, drill, practice, CL:個|个[gè]",
+      "en": "to practice, exercise, drill, practice",
       "th": "",
       "zh": "",
       "sent_en": "",
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to practice, exercise, drill, practice, CL:個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0154",
@@ -2961,7 +3114,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "classifier for vehicles"
     },
     {
       "word_id": "HSK20_3_0155",
@@ -2975,21 +3129,23 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to chat, to gossip"
     },
     {
       "word_id": "HSK20_3_0156",
       "ch": "邻居",
       "trad": "鄰居",
       "py": "lín​jū",
-      "en": "neighbor, next door, CL:個|个[gè]",
+      "en": "neighbor, next door",
       "th": "",
       "zh": "我讨厌我的邻居。",
       "sent_en": "I hate my neighbor.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "neighbor, next door, CL:個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0157",
@@ -3003,7 +3159,8 @@
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to study abroad"
     },
     {
       "word_id": "HSK20_3_0158",
@@ -3031,7 +3188,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "surname Lou"
     },
     {
       "word_id": "HSK20_3_0159",
@@ -3059,7 +3217,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "green"
     },
     {
       "word_id": "HSK20_3_0160",
@@ -3091,21 +3250,23 @@
             "caption": "Seal script"
           }
         ]
-      }
+      },
+      "en_full": "surname Ma, abbr. for Malaysia 馬來西亞|马来西亚[Mǎ​lái​xī​yà]"
     },
     {
       "word_id": "HSK20_3_0161",
       "ch": "马上",
       "trad": "馬上",
       "py": "mǎ​shàng",
-      "en": "at once, right away, immediately, on horseback (i.e. by military force)",
+      "en": "at once, right away, immediately",
       "th": "",
       "zh": "我马上过去!",
       "sent_en": "I'll be right there.",
       "sent_th": "",
       "theme": "directions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "at once, right away, immediately, on horseback (i.e. by military force)"
     },
     {
       "word_id": "HSK20_3_0162",
@@ -3119,21 +3280,23 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "satisfied, pleased, to one's satisfaction"
     },
     {
       "word_id": "HSK20_3_0163",
       "ch": "帽子",
       "trad": "帽子",
       "py": "mào​zi",
-      "en": "hat, cap, (fig.) label, bad name, CL:頂|顶[dǐng]",
+      "en": "hat, cap, (fig.) label, bad name",
       "th": "",
       "zh": "戴上你的帽子。",
       "sent_en": "Put your hat on.",
       "sent_th": "",
       "theme": "people",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "hat, cap, (fig.) label, bad name, CL:頂|顶[dǐng]"
     },
     {
       "word_id": "HSK20_3_0164",
@@ -3157,35 +3320,38 @@
             "caption": "Oracle bone script"
           }
         ]
-      }
+      },
+      "en_full": "surname Mi"
     },
     {
       "word_id": "HSK20_3_0165",
       "ch": "面包",
       "trad": "麵包",
       "py": "miàn​bāo",
-      "en": "bread, CL:片[piàn],袋[dài],塊|块[kuài]",
+      "en": "bread",
       "th": "",
       "zh": "我吃面包。",
       "sent_en": "I eat bread.",
       "sent_th": "",
       "theme": "food",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "bread, CL:片[piàn],袋[dài],塊|块[kuài]"
     },
     {
       "word_id": "HSK20_3_0166",
       "ch": "明白",
       "trad": "明白",
       "py": "míng​bai",
-      "en": "clear, obvious, unequivocal, to understand, to realize",
+      "en": "clear, obvious, unequivocal, to understand",
       "th": "",
       "zh": "我明白了。",
       "sent_en": "I understand.",
       "sent_th": "",
       "theme": "nature",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "clear, obvious, unequivocal, to understand, to realize"
     },
     {
       "word_id": "HSK20_3_0167",
@@ -3213,21 +3379,23 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "old variant of 拿[ná]"
     },
     {
       "word_id": "HSK20_3_0168",
       "ch": "奶奶",
       "trad": "奶奶",
       "py": "nǎi​nai",
-      "en": "(informal) grandma (paternal grandmother), (respectful) mistress of the house, CL:位[wèi], (coll.) boobies, breasts",
+      "en": "(informal) grandma (paternal grandmother), (respectful) mistress of the house",
       "th": "",
       "zh": "这条项链是我奶奶送给我的。",
       "sent_en": "My grandma gave me this necklace.",
       "sent_th": "",
       "theme": "family",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "(informal) grandma (paternal grandmother), (respectful) mistress of the house, CL:位[wèi], (coll.) boobies, breasts"
     },
     {
       "word_id": "HSK20_3_0169",
@@ -3255,14 +3423,15 @@
             "caption": "Bronze script"
           }
         ]
-      }
+      },
+      "en_full": "surname Nan"
     },
     {
       "word_id": "HSK20_3_0170",
       "ch": "难",
       "trad": "難",
       "py": "nán",
-      "en": "difficult (to...), problem, difficulty, difficult, not good",
+      "en": "difficult (to...), problem, difficulty, difficult",
       "th": "ยาก",
       "zh": "这道题很难。",
       "sent_en": "This question is very difficult.",
@@ -3292,7 +3461,8 @@
             "caption": "Cursive script"
           }
         ]
-      }
+      },
+      "en_full": "difficult (to...), problem, difficulty, difficult, not good"
     },
     {
       "word_id": "HSK20_3_0171",
@@ -3306,21 +3476,23 @@
       "sent_th": "",
       "theme": "emotions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to feel sad, to feel unwell, (of life) to be difficult"
     },
     {
       "word_id": "HSK20_3_0172",
       "ch": "年级",
       "trad": "年級",
       "py": "nián​jí",
-      "en": "grade, year (in school, college etc), CL:個|个[gè]",
+      "en": "grade, year (in school, college etc)",
       "th": "",
       "zh": "",
       "sent_en": "",
       "sent_th": "",
       "theme": "school",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "grade, year (in school, college etc), CL:個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0173",
@@ -3334,7 +3506,8 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "young"
     },
     {
       "word_id": "HSK20_3_0174",
@@ -3366,7 +3539,8 @@
             "caption": "Seal script"
           }
         ]
-      }
+      },
+      "en_full": "variant of 屌[diǎo], penis"
     },
     {
       "word_id": "HSK20_3_0175",
@@ -3380,7 +3554,8 @@
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "great effort, to strive, to try hard"
     },
     {
       "word_id": "HSK20_3_0176",
@@ -3394,21 +3569,23 @@
       "sent_th": "",
       "theme": "movement",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to climb a mountain, to mountaineer, hiking, mountaineering"
     },
     {
       "word_id": "HSK20_3_0177",
       "ch": "盘子",
       "trad": "盤子",
       "py": "pán​zi",
-      "en": "tray, plate, dish, CL:個|个[gè]",
+      "en": "tray, plate, dish",
       "th": "",
       "zh": "没有任何干净的盘子。",
       "sent_en": "There are no clean plates.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "tray, plate, dish, CL:個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0178",
@@ -3436,7 +3613,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "healthy, at ease"
     },
     {
       "word_id": "HSK20_3_0179",
@@ -3450,35 +3628,38 @@
       "sent_th": "",
       "theme": "nature2",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "leather shoes"
     },
     {
       "word_id": "HSK20_3_0180",
       "ch": "啤酒",
       "trad": "啤酒",
       "py": "pí​jiǔ",
-      "en": "beer (loanword), CL:杯[bēi],瓶[píng],罐[guàn],桶[tǒng],缸[gāng]",
+      "en": "beer (loanword)",
       "th": "",
       "zh": "给汤姆买一瓶啤酒。",
       "sent_en": "Buy Tom a beer.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "beer (loanword), CL:杯[bēi],瓶[píng],罐[guàn],桶[tǒng],缸[gāng]"
     },
     {
       "word_id": "HSK20_3_0181",
       "ch": "瓶子",
       "trad": "瓶子",
       "py": "píng​zi",
-      "en": "bottle, CL:個|个[gè]",
+      "en": "bottle",
       "th": "",
       "zh": "把瓶子打开。",
       "sent_en": "Open the bottle.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "bottle, CL:個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0182",
@@ -3492,7 +3673,8 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "actually, in fact, really"
     },
     {
       "word_id": "HSK20_3_0183",
@@ -3506,7 +3688,8 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "other, (sth or sb) else, the rest"
     },
     {
       "word_id": "HSK20_3_0184",
@@ -3520,7 +3703,8 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "strange, odd, to marvel, to be baffled"
     },
     {
       "word_id": "HSK20_3_0185",
@@ -3548,7 +3732,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "(Taiwan) saddle horse, mounted soldier"
     },
     {
       "word_id": "HSK20_3_0186",
@@ -3562,7 +3747,8 @@
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "(of an aircraft) to take off"
     },
     {
       "word_id": "HSK20_3_0187",
@@ -3576,7 +3762,8 @@
       "sent_th": "",
       "theme": "movement",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to stand up, to get up, also pr. [qǐ​lái]"
     },
     {
       "word_id": "HSK20_3_0188",
@@ -3590,7 +3777,8 @@
       "sent_th": "",
       "theme": "nature",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "clear, distinct, to understand thoroughly, to be clear about"
     },
     {
       "word_id": "HSK20_3_0189",
@@ -3604,7 +3792,8 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to request leave of absence"
     },
     {
       "word_id": "HSK20_3_0190",
@@ -3645,21 +3834,23 @@
             "caption": "Seal script"
           }
         ]
-      }
+      },
+      "en_full": "surname Qiu"
     },
     {
       "word_id": "HSK20_3_0191",
       "ch": "裙子",
       "trad": "裙子",
       "py": "qún​zi",
-      "en": "skirt, CL:條|条[tiáo]",
+      "en": "skirt",
       "th": "",
       "zh": "她穿了一条红色的裙子。",
       "sent_en": "She wore a red dress.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "skirt, CL:條|条[tiáo]"
     },
     {
       "word_id": "HSK20_3_0192",
@@ -3673,21 +3864,23 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "after, then (afterwards), after that, afterwards"
     },
     {
       "word_id": "HSK20_3_0193",
       "ch": "热情",
       "trad": "熱情",
       "py": "rè​qíng",
-      "en": "cordial, enthusiastic, passion, passionate, passionately",
+      "en": "cordial, enthusiastic, passion, passionate",
       "th": "",
       "zh": "热情具有传染性。",
       "sent_en": "Enthusiasm is contagious.",
       "sent_th": "",
       "theme": "weather",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "cordial, enthusiastic, passion, passionate, passionately"
     },
     {
       "word_id": "HSK20_3_0194",
@@ -3701,21 +3894,23 @@
       "sent_th": "",
       "theme": "emotions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to believe, to think, to consider, to feel"
     },
     {
       "word_id": "HSK20_3_0195",
       "ch": "认真",
       "trad": "認真",
       "py": "rèn​zhēn",
-      "en": "conscientious, earnest, serious, to take seriously, to take to heart",
+      "en": "conscientious, earnest, serious, to take seriously",
       "th": "",
       "zh": "认真的？",
       "sent_en": "Seriously?",
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "conscientious, earnest, serious, to take seriously, to take to heart"
     },
     {
       "word_id": "HSK20_3_0196",
@@ -3729,7 +3924,8 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "easy, likely, liable (to)"
     },
     {
       "word_id": "HSK20_3_0197",
@@ -3743,14 +3939,15 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "if, in case, in the event that"
     },
     {
       "word_id": "HSK20_3_0198",
       "ch": "伞",
       "trad": "傘",
       "py": "sǎn",
-      "en": "umbrella, parasol, CL:把[bǎ]",
+      "en": "umbrella, parasol",
       "th": "ร่ม",
       "zh": "下雨了，带伞吧。",
       "sent_en": "It's raining",
@@ -3762,70 +3959,75 @@
         "definition": "umbrella",
         "components": [],
         "images": []
-      }
+      },
+      "en_full": "umbrella, parasol, CL:把[bǎ]"
     },
     {
       "word_id": "HSK20_3_0199",
       "ch": "上网",
       "trad": "上網",
       "py": "shàng​wǎng",
-      "en": "to go online, to connect to the Internet, (of a document etc) to be uploaded to the Internet, (tennis, volleyball etc) to move in close to the net",
+      "en": "to go online, to connect to the Internet, (of a document etc) to be uploaded to the Internet",
       "th": "",
       "zh": "我上网了。",
       "sent_en": "I am online.",
       "sent_th": "",
       "theme": "movement",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to go online, to connect to the Internet, (of a document etc) to be uploaded to the Internet, (tennis, volleyball etc) to move in close to the net"
     },
     {
       "word_id": "HSK20_3_0200",
       "ch": "生气",
       "trad": "生氣",
       "py": "shēng​qì",
-      "en": "to get angry, to take offense, angry, vitality, liveliness",
+      "en": "to get angry, to take offense, angry, vitality",
       "th": "",
       "zh": "您生气了吗？",
       "sent_en": "Are you mad?",
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to get angry, to take offense, angry, vitality, liveliness"
     },
     {
       "word_id": "HSK20_3_0201",
       "ch": "声音",
       "trad": "聲音",
       "py": "shēng​yīn",
-      "en": "voice, sound, CL:個|个[gè]",
+      "en": "voice, sound",
       "th": "",
       "zh": "把电视声音调大点儿。",
       "sent_en": "Turn up the TV.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "voice, sound, CL:個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0202",
       "ch": "世界",
       "trad": "世界",
       "py": "shì​jiè",
-      "en": "world, CL:個|个[gè]",
+      "en": "world",
       "th": "",
       "zh": "上帝创造了世界",
       "sent_en": "God created the world.",
       "sent_th": "",
       "theme": "time",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "world, CL:個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0203",
       "ch": "试",
       "trad": "試",
       "py": "shì",
-      "en": "to test, to try, experiment, examination, test",
+      "en": "to test, to try, experiment, examination",
       "th": "ทดสอบ",
       "zh": "我们明天有考试。",
       "sent_en": "We have a test tomorrow.",
@@ -3846,14 +4048,15 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "to test, to try, experiment, examination, test"
     },
     {
       "word_id": "HSK20_3_0204",
       "ch": "瘦",
       "trad": "瘦",
       "py": "shòu",
-      "en": "thin, to lose weight, (of clothing) tight, (of meat) lean, (of land) unproductive",
+      "en": "thin, to lose weight, (of clothing) tight, (of meat) lean",
       "th": "ผอม",
       "zh": "我的哥哥很瘦。",
       "sent_en": "My older brother is very thin.",
@@ -3874,21 +4077,23 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "thin, to lose weight, (of clothing) tight, (of meat) lean, (of land) unproductive"
     },
     {
       "word_id": "HSK20_3_0205",
       "ch": "叔叔",
       "trad": "叔叔",
       "py": "shū​shu",
-      "en": "father's younger brother, uncle, Taiwan pr. [shú​shu], CL:個|个[gè]",
+      "en": "father's younger brother, uncle, Taiwan pr. [shú​shu]",
       "th": "",
       "zh": "汤姆是玛丽的叔叔。",
       "sent_en": "Tom is Mary's uncle.",
       "sent_th": "",
       "theme": "family",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "father's younger brother, uncle, Taiwan pr. [shú​shu], CL:個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0206",
@@ -3902,14 +4107,15 @@
       "sent_th": "",
       "theme": "emotions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "comfortable, feeling well"
     },
     {
       "word_id": "HSK20_3_0207",
       "ch": "树",
       "trad": "樹",
       "py": "shù",
-      "en": "tree, CL:棵[kē], to cultivate, to set up",
+      "en": "tree",
       "th": "ต้นไม้",
       "zh": "这棵树很高。",
       "sent_en": "This tree is very tall.",
@@ -3930,7 +4136,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "tree, CL:棵[kē], to cultivate, to set up"
     },
     {
       "word_id": "HSK20_3_0208",
@@ -3944,7 +4151,8 @@
       "sent_th": "",
       "theme": "school",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "mathematics, mathematical"
     },
     {
       "word_id": "HSK20_3_0209",
@@ -3958,7 +4166,8 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to brush one's teeth"
     },
     {
       "word_id": "HSK20_3_0210",
@@ -3986,7 +4195,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "surname Shuang"
     },
     {
       "word_id": "HSK20_3_0211",
@@ -4000,35 +4210,38 @@
       "sent_th": "",
       "theme": "nature",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "level (of achievement etc), standard, horizontal"
     },
     {
       "word_id": "HSK20_3_0212",
       "ch": "司机",
       "trad": "司機",
       "py": "sī​jī",
-      "en": "chauffeur, driver, CL:個|个[gè]",
+      "en": "chauffeur, driver",
       "th": "",
       "zh": "汤姆是个公交车司机。",
       "sent_en": "Tom is a bus driver.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "chauffeur, driver, CL:個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0213",
       "ch": "太阳",
       "trad": "太陽",
       "py": "tài​yang",
-      "en": "sun, CL:個|个[gè], abbr. for 太陽穴|太阳穴[tài​yáng​xué]",
+      "en": "sun",
       "th": "",
       "zh": "太阳露出来了。",
       "sent_en": "The sun came out.",
       "sent_th": "",
       "theme": "nature",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "sun, CL:個|个[gè], abbr. for 太陽穴|太阳穴[tài​yáng​xué]"
     },
     {
       "word_id": "HSK20_3_0214",
@@ -4042,7 +4255,8 @@
       "sent_th": "",
       "theme": "animals",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "especially, special, particular, unusual"
     },
     {
       "word_id": "HSK20_3_0215",
@@ -4070,7 +4284,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "(it) hurts, sore, to love dearly"
     },
     {
       "word_id": "HSK20_3_0216",
@@ -4084,7 +4299,8 @@
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to raise, to increase, to improve"
     },
     {
       "word_id": "HSK20_3_0217",
@@ -4098,7 +4314,8 @@
       "sent_th": "",
       "theme": "body",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "sports, physical education"
     },
     {
       "word_id": "HSK20_3_0218",
@@ -4126,14 +4343,15 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "sweet"
     },
     {
       "word_id": "HSK20_3_0219",
       "ch": "条",
       "trad": "條",
       "py": "tiáo",
-      "en": "strip, item, article, clause (of law or treaty), classifier for long thin things (ribbon, river, road, trousers etc)",
+      "en": "strip, item, article, clause (of law or treaty)",
       "th": "แถบ",
       "zh": "我有一条毛巾。",
       "sent_en": "I have a towel.",
@@ -4154,21 +4372,23 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "strip, item, article, clause (of law or treaty), classifier for long thin things (ribbon, river, road, trousers etc)"
     },
     {
       "word_id": "HSK20_3_0220",
       "ch": "同事",
       "trad": "同事",
       "py": "tóng​shì",
-      "en": "colleague, co-worker, CL:個|个[gè],位[wèi]",
+      "en": "colleague, co-worker",
       "th": "",
       "zh": "我是汤姆的一位同事。",
       "sent_en": "I'm a colleague of Tom's.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "colleague, co-worker, CL:個|个[gè],位[wèi]"
     },
     {
       "word_id": "HSK20_3_0221",
@@ -4182,7 +4402,8 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to agree, to consent, to approve"
     },
     {
       "word_id": "HSK20_3_0222",
@@ -4196,7 +4417,8 @@
       "sent_th": "",
       "theme": "body",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "hair (on the head)"
     },
     {
       "word_id": "HSK20_3_0223",
@@ -4210,28 +4432,30 @@
       "sent_th": "",
       "theme": "weather",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "sudden, abrupt, unexpected"
     },
     {
       "word_id": "HSK20_3_0224",
       "ch": "图书馆",
       "trad": "圖書館",
       "py": "tú​shū​guǎn",
-      "en": "library, CL:家[jiā],個|个[gè]",
+      "en": "library",
       "th": "",
       "zh": "他在图书馆里。",
       "sent_en": "He is in his library.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "library, CL:家[jiā],個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0225",
       "ch": "腿",
       "trad": "腿",
       "py": "tuǐ",
-      "en": "leg, CL:條|条[tiáo]",
+      "en": "leg",
       "th": "ขา",
       "zh": "我的腿很长。",
       "sent_en": "My legs are long.",
@@ -4252,7 +4476,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "leg, CL:條|条[tiáo]"
     },
     {
       "word_id": "HSK20_3_0226",
@@ -4266,7 +4491,8 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to complete, to accomplish"
     },
     {
       "word_id": "HSK20_3_0227",
@@ -4294,7 +4520,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "variant of 碗[wǎn]"
     },
     {
       "word_id": "HSK20_3_0228",
@@ -4313,7 +4540,8 @@
         "definition": "ten thousand",
         "components": [],
         "images": []
-      }
+      },
+      "en_full": "see 万俟[Mò​qí]"
     },
     {
       "word_id": "HSK20_3_0229",
@@ -4327,14 +4555,15 @@
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to forget"
     },
     {
       "word_id": "HSK20_3_0230",
       "ch": "为",
       "trad": "為",
       "py": "wéi",
-      "en": "as (in the capacity of), to take sth as, to act as, to serve as, to behave as, to become, to be, to do, by (in the passive voice)",
+      "en": "as (in the capacity of), to take sth as, to act as, to serve as",
       "th": "เพื่อ",
       "zh": "我为你高兴。",
       "sent_en": "I am happy for you.",
@@ -4364,7 +4593,8 @@
             "caption": "Seal script"
           }
         ]
-      }
+      },
+      "en_full": "as (in the capacity of), to take sth as, to act as, to serve as, to behave as, to become, to be, to do, by (in the passive voice)"
     },
     {
       "word_id": "HSK20_3_0231",
@@ -4378,14 +4608,15 @@
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "in order to, for the purpose of, so as to"
     },
     {
       "word_id": "HSK20_3_0232",
       "ch": "位",
       "trad": "位",
       "py": "wèi",
-      "en": "position, location, place, seat, classifier for people (honorific), classifier for binary bits (e.g. 十六位 16-bit or 2 bytes), (physics) potential",
+      "en": "position, location, place, seat",
       "th": "ตำแหน่ง",
       "zh": "请坐这个位子。",
       "sent_en": "Please sit in this seat.",
@@ -4406,21 +4637,23 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "position, location, place, seat, classifier for people (honorific), classifier for binary bits (e.g. 十六位 16-bit or 2 bytes), (physics) potential"
     },
     {
       "word_id": "HSK20_3_0233",
       "ch": "文化",
       "trad": "文化",
       "py": "wén​huà",
-      "en": "culture, civilization, cultural, CL:個|个[gè],種|种[zhǒng]",
+      "en": "culture, civilization, cultural",
       "th": "",
       "zh": "他熟悉日本文化。",
       "sent_en": "He is familiar with Japanese culture.",
       "sent_th": "",
       "theme": "people",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "culture, civilization, cultural, CL:個|个[gè],種|种[zhǒng]"
     },
     {
       "word_id": "HSK20_3_0234",
@@ -4448,21 +4681,23 @@
             "caption": "Bronze script"
           }
         ]
-      }
+      },
+      "en_full": "the West, abbr. for Spain 西班牙[Xī​bān​yá], Spanish"
     },
     {
       "word_id": "HSK20_3_0235",
       "ch": "习惯",
       "trad": "習慣",
       "py": "xí​guàn",
-      "en": "habit, custom, usual practice, to be used to, CL:個|个[gè]",
+      "en": "habit, custom, usual practice, to be used to",
       "th": "",
       "zh": "我现在已经习惯它了。",
       "sent_en": "I'm used to it by now.",
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "habit, custom, usual practice, to be used to, CL:個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0236",
@@ -4476,7 +4711,8 @@
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "toilet, lavatory, washroom"
     },
     {
       "word_id": "HSK20_3_0237",
@@ -4490,7 +4726,8 @@
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to bathe, to take a shower"
     },
     {
       "word_id": "HSK20_3_0238",
@@ -4531,14 +4768,15 @@
             "caption": "Seal script"
           }
         ]
-      }
+      },
+      "en_full": "the Xia or Hsia dynasty c. 2000 BC, Xia of the Sixteen Kingdoms (407-432), surname Xia"
     },
     {
       "word_id": "HSK20_3_0239",
       "ch": "先",
       "trad": "先",
       "py": "xiān",
-      "en": "early, prior, former, in advance, first",
+      "en": "early, prior, former, in advance",
       "th": "ก่อน",
       "zh": "我先去学校。",
       "sent_en": "I go to school first.",
@@ -4568,7 +4806,8 @@
             "caption": "Bronze script"
           }
         ]
-      }
+      },
+      "en_full": "early, prior, former, in advance, first"
     },
     {
       "word_id": "HSK20_3_0240",
@@ -4582,21 +4821,23 @@
       "sent_th": "",
       "theme": "people",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to be convinced (that sth is true), to believe, to accept sth as true"
     },
     {
       "word_id": "HSK20_3_0241",
       "ch": "香蕉",
       "trad": "香蕉",
       "py": "xiāng​jiāo",
-      "en": "banana, CL:枝[zhī],根[gēn],個|个[gè],把[bǎ]",
+      "en": "banana",
       "th": "",
       "zh": "湯姆喜歡香蕉。",
       "sent_en": "Tom loved bananas.",
       "sent_th": "",
       "theme": "food",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "banana, CL:枝[zhī],根[gēn],個|个[gè],把[bǎ]"
     },
     {
       "word_id": "HSK20_3_0242",
@@ -4629,14 +4870,15 @@
             "caption": "Seal script"
           }
         ]
-      }
+      },
+      "en_full": "surname Xiang"
     },
     {
       "word_id": "HSK20_3_0243",
       "ch": "像",
       "trad": "像",
       "py": "xiàng",
-      "en": "to resemble, to be like, to look as if, such as, appearance, image, portrait, image under a mapping (math.)",
+      "en": "to resemble, to be like, to look as if, such as",
       "th": "เหมือน",
       "zh": "她像她的妈妈。",
       "sent_en": "She resembles her mother.",
@@ -4657,7 +4899,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "to resemble, to be like, to look as if, such as, appearance, image, portrait, image under a mapping (math.)"
     },
     {
       "word_id": "HSK20_3_0244",
@@ -4671,49 +4914,53 @@
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to be careful, to take care"
     },
     {
       "word_id": "HSK20_3_0245",
       "ch": "校长",
       "trad": "校長",
       "py": "xiào​zhǎng",
-      "en": "(college, university) president, headmaster, CL:個|个[gè],位[wèi],名[míng]",
+      "en": "(college, university) president, headmaster",
       "th": "",
       "zh": "我校校长很老了。",
       "sent_en": "Our school's principal is very old.",
       "sent_th": "",
       "theme": "school",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "(college, university) president, headmaster, CL:個|个[gè],位[wèi],名[míng]"
     },
     {
       "word_id": "HSK20_3_0246",
       "ch": "新闻",
       "trad": "新聞",
       "py": "xīn​wén",
-      "en": "news, CL:條|条[tiáo],個|个[gè]",
+      "en": "news",
       "th": "",
       "zh": "你听到新闻了吗？",
       "sent_en": "Did you hear the news?",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "news, CL:條|条[tiáo],個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0247",
       "ch": "新鲜",
       "trad": "新鮮",
       "py": "xīn​xiān",
-      "en": "fresh (experience, food etc), freshness, novel, uncommon",
+      "en": "fresh (experience, food etc), freshness, novel",
       "th": "",
       "zh": "有什么新鲜事吗？",
       "sent_en": "What's new?",
       "sent_th": "",
       "theme": "food",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "fresh (experience, food etc), freshness, novel, uncommon"
     },
     {
       "word_id": "HSK20_3_0248",
@@ -4727,133 +4974,143 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "credit card"
     },
     {
       "word_id": "HSK20_3_0249",
       "ch": "行李箱",
       "trad": "行李箱",
       "py": "xíng​li​xiāng",
-      "en": "suitcase, baggage compartment, overhead bin, (car) trunk, boot",
+      "en": "suitcase, baggage compartment, overhead bin, (car) trunk",
       "th": "",
       "zh": "您的行李箱有多重?",
       "sent_en": "How heavy is your suitcase?",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "suitcase, baggage compartment, overhead bin, (car) trunk, boot"
     },
     {
       "word_id": "HSK20_3_0250",
       "ch": "熊猫",
       "trad": "熊貓",
       "py": "xióng​māo",
-      "en": "panda, CL:隻|只[zhī]",
+      "en": "panda",
       "th": "",
       "zh": "",
       "sent_en": "",
       "sent_th": "",
       "theme": "animals",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "panda, CL:隻|只[zhī]"
     },
     {
       "word_id": "HSK20_3_0251",
       "ch": "需要",
       "trad": "需要",
       "py": "xū​yào",
-      "en": "to need, to want, to demand, to require, requirement, need",
+      "en": "to need, to want, to demand, to require",
       "th": "",
       "zh": "我需要你。",
       "sent_en": "I need you.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to need, to want, to demand, to require, requirement, need"
     },
     {
       "word_id": "HSK20_3_0252",
       "ch": "选择",
       "trad": "選擇",
       "py": "xuǎn​zé",
-      "en": "to select, to pick, choice, option, alternative",
+      "en": "to select, to pick, choice, option",
       "th": "",
       "zh": "那时我没有选择的余地。",
       "sent_en": "I had no choice.",
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to select, to pick, choice, option, alternative"
     },
     {
       "word_id": "HSK20_3_0253",
       "ch": "要求",
       "trad": "要求",
       "py": "yāo​qiú",
-      "en": "to request, to require, requirement, to stake a claim, to ask, to demand, CL:點|点[diǎn]",
+      "en": "to request, to require, requirement, to stake a claim",
       "th": "",
       "zh": "他要求我幫助他。",
       "sent_en": "He asked me to help him.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to request, to require, requirement, to stake a claim, to ask, to demand, CL:點|点[diǎn]"
     },
     {
       "word_id": "HSK20_3_0254",
       "ch": "爷爷",
       "trad": "爺爺",
       "py": "yé​ye",
-      "en": "(coll.) father's father, paternal grandfather, CL:個|个[gè]",
+      "en": "(coll.) father's father, paternal grandfather",
       "th": "",
       "zh": "爷爷买给我的！",
       "sent_en": "Grandpa bought it for me!",
       "sent_th": "",
       "theme": "family",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "(coll.) father's father, paternal grandfather, CL:個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0255",
       "ch": "一般",
       "trad": "一般",
       "py": "yī​bān",
-      "en": "same, ordinary, so-so, common, general, generally, in general",
+      "en": "same, ordinary, so-so, common",
       "th": "",
       "zh": "我一般六点起床。",
       "sent_en": "I usually get up at six.",
       "sent_th": "",
       "theme": "numbers",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "same, ordinary, so-so, common, general, generally, in general"
     },
     {
       "word_id": "HSK20_3_0256",
       "ch": "一边",
       "trad": "一邊",
       "py": "yī​biān",
-      "en": "one side, either side, on the one hand, on the other hand, doing while",
+      "en": "one side, either side, on the one hand, on the other hand",
       "th": "",
       "zh": "一边站着。",
       "sent_en": "Stand aside.",
       "sent_th": "",
       "theme": "directions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "one side, either side, on the one hand, on the other hand, doing while"
     },
     {
       "word_id": "HSK20_3_0257",
       "ch": "一定",
       "trad": "一定",
       "py": "yī​dìng",
-      "en": "surely, certainly, necessarily, fixed, a certain (extent etc), given, particular, must",
+      "en": "surely, certainly, necessarily, fixed",
       "th": "",
       "zh": "他一定很愛你。",
       "sent_en": "He must love you.",
       "sent_th": "",
       "theme": "numbers",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "surely, certainly, necessarily, fixed, a certain (extent etc), given, particular, must"
     },
     {
       "word_id": "HSK20_3_0258",
@@ -4867,49 +5124,53 @@
       "sent_th": "",
       "theme": "numbers",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "altogether"
     },
     {
       "word_id": "HSK20_3_0259",
       "ch": "一会儿",
       "trad": "一會兒",
       "py": "yī​huì​r",
-      "en": "a moment, a while, in a moment, now...now..., also pr. [yī​huǐ​r]",
+      "en": "a moment, a while, in a moment, now...now...",
       "th": "",
       "zh": "一会儿见！",
       "sent_en": "See you soon!",
       "sent_th": "",
       "theme": "numbers",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "a moment, a while, in a moment, now...now..., also pr. [yī​huǐ​r]"
     },
     {
       "word_id": "HSK20_3_0260",
       "ch": "一样",
       "trad": "一樣",
       "py": "yī​yàng",
-      "en": "same, like, equal to, the same as, just like",
+      "en": "same, like, equal to, the same as",
       "th": "",
       "zh": "像男人一样战斗！",
       "sent_en": "Fight like a man!",
       "sent_th": "",
       "theme": "numbers",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "same, like, equal to, the same as, just like"
     },
     {
       "word_id": "HSK20_3_0261",
       "ch": "一直",
       "trad": "一直",
       "py": "yī​zhí",
-      "en": "straight (in a straight line), continuously, always, from the beginning of ... up to ..., all along",
+      "en": "straight (in a straight line), continuously, always",
       "th": "",
       "zh": "我一直在這裡。",
       "sent_en": "I'm always here.",
       "sent_th": "",
       "theme": "shapes",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "straight (in a straight line), continuously, always, from the beginning of ... up to ..., all along"
     },
     {
       "word_id": "HSK20_3_0262",
@@ -4923,35 +5184,38 @@
       "sent_th": "",
       "theme": "time",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "before, formerly, previous, ago"
     },
     {
       "word_id": "HSK20_3_0263",
       "ch": "音乐",
       "trad": "音樂",
       "py": "yīn​yuè",
-      "en": "music, CL:張|张[zhāng],曲[qǔ],段[duàn]",
+      "en": "music",
       "th": "",
       "zh": "我爱音乐。",
       "sent_en": "I love music.",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "music, CL:張|张[zhāng],曲[qǔ],段[duàn]"
     },
     {
       "word_id": "HSK20_3_0264",
       "ch": "银行",
       "trad": "銀行",
       "py": "yín​háng",
-      "en": "bank, CL:家[jiā],個|个[gè]",
+      "en": "bank",
       "th": "",
       "zh": "银行在哪里？",
       "sent_en": "Where is the bank?",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "bank, CL:家[jiā],個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0265",
@@ -4965,7 +5229,8 @@
       "sent_th": "",
       "theme": "food",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "drink, beverage"
     },
     {
       "word_id": "HSK20_3_0266",
@@ -4979,28 +5244,30 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "ought to, should, must"
     },
     {
       "word_id": "HSK20_3_0267",
       "ch": "影响",
       "trad": "影響",
       "py": "yǐng​xiǎng",
-      "en": "influence, effect, to influence, to affect (usually adversely), to disturb, CL:股[gǔ]",
+      "en": "influence, effect, to influence, to affect (usually adversely)",
       "th": "",
       "zh": "你的影响力是什么？",
       "sent_en": "What are your influences?",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "influence, effect, to influence, to affect (usually adversely), to disturb, CL:股[gǔ]"
     },
     {
       "word_id": "HSK20_3_0268",
       "ch": "用",
       "trad": "用",
       "py": "yòng",
-      "en": "to use, to employ, to have to, to eat or drink, expense or outlay, usefulness, hence, therefore",
+      "en": "to use, to employ, to have to, to eat or drink",
       "th": "ใช้",
       "zh": "我用筷子吃饭。",
       "sent_en": "I eat with chopsticks.",
@@ -5021,21 +5288,23 @@
             "caption": "Seal script"
           }
         ]
-      }
+      },
+      "en_full": "to use, to employ, to have to, to eat or drink, expense or outlay, usefulness, hence, therefore"
     },
     {
       "word_id": "HSK20_3_0269",
       "ch": "游戏",
       "trad": "遊戲",
       "py": "yóu​xì",
-      "en": "game, CL:場|场[chǎng], to play",
+      "en": "game",
       "th": "",
       "zh": "这游戏太棒了！",
       "sent_en": "What a game!",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "game, CL:場|场[chǎng], to play"
     },
     {
       "word_id": "HSK20_3_0270",
@@ -5049,14 +5318,15 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "famous, well-known"
     },
     {
       "word_id": "HSK20_3_0271",
       "ch": "又",
       "trad": "又",
       "py": "yòu",
-      "en": "(once) again, also, both... and..., and yet, (used for emphasis) anyway",
+      "en": "(once) again, also, both... and..., and yet",
       "th": "อีกครั้ง",
       "zh": "他又迟到了。",
       "sent_en": "He is late again.",
@@ -5077,7 +5347,8 @@
             "caption": "Bronze script"
           }
         ]
-      }
+      },
+      "en_full": "(once) again, also, both... and..., and yet, (used for emphasis) anyway"
     },
     {
       "word_id": "HSK20_3_0272",
@@ -5091,7 +5362,8 @@
       "sent_th": "",
       "theme": "movement",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to meet, to run into, to come across"
     },
     {
       "word_id": "HSK20_3_0273",
@@ -5119,7 +5391,8 @@
             "caption": "Bronze script"
           }
         ]
-      }
+      },
+      "en_full": "surname Yuan, the Yuan or Mongol dynasty (1279-1368)"
     },
     {
       "word_id": "HSK20_3_0274",
@@ -5133,7 +5406,8 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to wish, to want, ready, willing (to do sth)"
     },
     {
       "word_id": "HSK20_3_0275",
@@ -5147,7 +5421,8 @@
       "sent_th": "",
       "theme": "nature",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "the moon"
     },
     {
       "word_id": "HSK20_3_0276",
@@ -5175,14 +5450,15 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "generic word for peoples or states of south China or south Asia at different historical periods, abbr. for Vietnam 越南"
     },
     {
       "word_id": "HSK20_3_0277",
       "ch": "站",
       "trad": "站",
       "py": "zhàn",
-      "en": "station, to stand, to halt, to stop, branch of a company or organization, website",
+      "en": "station, to stand, to halt, to stop",
       "th": "ยืน",
       "zh": "我在车站等车。",
       "sent_en": "I am waiting for the bus at the station.",
@@ -5203,7 +5479,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "station, to stand, to halt, to stop, branch of a company or organization, website"
     },
     {
       "word_id": "HSK20_3_0278",
@@ -5231,14 +5508,15 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "surname Zhang"
     },
     {
       "word_id": "HSK20_3_0279",
       "ch": "长",
       "trad": "長",
       "py": "cháng",
-      "en": "length, long, forever, always, constantly",
+      "en": "length, long, forever, always",
       "th": "ยาว",
       "zh": "这条路很长。",
       "sent_en": "This road is very long.",
@@ -5271,7 +5549,8 @@
             "caption": "Cursive script"
           }
         ]
-      }
+      },
+      "en_full": "length, long, forever, always, constantly"
     },
     {
       "word_id": "HSK20_3_0280",
@@ -5285,35 +5564,38 @@
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to take care of, to show consideration, to attend to, to look after"
     },
     {
       "word_id": "HSK20_3_0281",
       "ch": "照片",
       "trad": "照片",
       "py": "zhào​piàn",
-      "en": "photograph, picture, CL:張|张[zhāng],套[tào],幅[fú]",
+      "en": "photograph, picture",
       "th": "",
       "zh": "那是我的照片嗎？",
       "sent_en": "Is that a picture of me?",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "photograph, picture, CL:張|张[zhāng],套[tào],幅[fú]"
     },
     {
       "word_id": "HSK20_3_0282",
       "ch": "照相机",
       "trad": "照相機",
       "py": "zhào​xiàng​jī",
-      "en": "camera, CL:個|个[gè],架[jià],部[bù],台[tái],隻|只[zhī]",
+      "en": "camera",
       "th": "",
       "zh": "你有照相机吗？",
       "sent_en": "Do you have a camera?",
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "camera, CL:個|个[gè],架[jià],部[bù],台[tái],隻|只[zhī]"
     },
     {
       "word_id": "HSK20_3_0283",
@@ -5327,7 +5609,8 @@
       "sent_th": "",
       "theme": "emotions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to worry, to feel anxious, Taiwan pr. [zhāo​jí]"
     },
     {
       "word_id": "HSK20_3_0284",
@@ -5346,7 +5629,8 @@
         "definition": "only; but; (simp.) [measure word]",
         "components": [],
         "images": []
-      }
+      },
+      "en_full": "only, merely, just, but"
     },
     {
       "word_id": "HSK20_3_0285",
@@ -5374,7 +5658,8 @@
       "sent_th": "",
       "theme": "directions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "between, intermediate, mid, middle"
     },
     {
       "word_id": "HSK20_3_0287",
@@ -5388,7 +5673,8 @@
       "sent_th": "",
       "theme": "school",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "Chinese language"
     },
     {
       "word_id": "HSK20_3_0288",
@@ -5402,14 +5688,15 @@
       "sent_th": "",
       "theme": "time",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "at last, in the end, finally, eventually"
     },
     {
       "word_id": "HSK20_3_0289",
       "ch": "种",
       "trad": "種",
       "py": "zhǒng",
-      "en": "seed, species, kind, type, classifier for types, kinds, sorts",
+      "en": "seed, species, kind, type",
       "th": "ปลูก",
       "zh": "我们在花园里种花。",
       "sent_en": "We plant flowers in the garden.",
@@ -5430,7 +5717,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "seed, species, kind, type, classifier for types, kinds, sorts"
     },
     {
       "word_id": "HSK20_3_0290",
@@ -5444,7 +5732,8 @@
       "sent_th": "",
       "theme": "everyday",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "important, significant, major"
     },
     {
       "word_id": "HSK20_3_0291",
@@ -5458,7 +5747,8 @@
       "sent_th": "",
       "theme": "time",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "weekend"
     },
     {
       "word_id": "HSK20_3_0292",
@@ -5472,7 +5762,8 @@
       "sent_th": "",
       "theme": "people",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "main, principal, major, primary"
     },
     {
       "word_id": "HSK20_3_0293",
@@ -5486,7 +5777,8 @@
       "sent_th": "",
       "theme": "actions",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "to take note of, to pay attention to"
     },
     {
       "word_id": "HSK20_3_0294",
@@ -5500,21 +5792,23 @@
       "sent_th": "",
       "theme": "people",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "oneself, one's own"
     },
     {
       "word_id": "HSK20_3_0295",
       "ch": "自行车",
       "trad": "自行車",
       "py": "zì​xíng​chē",
-      "en": "bicycle, bike, CL:輛|辆[liàng]",
+      "en": "bicycle, bike",
       "th": "",
       "zh": "这是我的自行车。",
       "sent_en": "It's my bicycle.",
       "sent_th": "",
       "theme": "people",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "bicycle, bike, CL:輛|辆[liàng]"
     },
     {
       "word_id": "HSK20_3_0296",
@@ -5528,14 +5822,15 @@
       "sent_th": "",
       "theme": "time",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "always"
     },
     {
       "word_id": "HSK20_3_0297",
       "ch": "嘴",
       "trad": "嘴",
       "py": "zuǐ",
-      "en": "mouth, beak, nozzle, spout (of teapot etc), CL:張|张[zhāng],個|个[gè]",
+      "en": "mouth, beak, nozzle, spout (of teapot etc)",
       "th": "ปาก",
       "zh": "我的嘴很小。",
       "sent_en": "My mouth is small.",
@@ -5556,7 +5851,8 @@
           }
         ],
         "images": []
-      }
+      },
+      "en_full": "mouth, beak, nozzle, spout (of teapot etc), CL:張|张[zhāng],個|个[gè]"
     },
     {
       "word_id": "HSK20_3_0298",
@@ -5570,7 +5866,8 @@
       "sent_th": "",
       "theme": "time",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "final, last, finally, ultimate"
     },
     {
       "word_id": "HSK20_3_0299",
@@ -5584,21 +5881,23 @@
       "sent_th": "",
       "theme": "time",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "recently, soon, nearest"
     },
     {
       "word_id": "HSK20_3_0300",
       "ch": "作业",
       "trad": "作業",
       "py": "zuò​yè",
-      "en": "school assignment, homework, work, task, operation, CL:個|个[gè], to operate",
+      "en": "school assignment, homework, work, task",
       "th": "",
       "zh": "我不喜欢作业。",
       "sent_en": "I don't like homework.",
       "sent_th": "",
       "theme": "nature2",
       "hsk_level": 3,
-      "etymology": null
+      "etymology": null,
+      "en_full": "school assignment, homework, work, task, operation, CL:個|个[gè], to operate"
     }
   ]
 }

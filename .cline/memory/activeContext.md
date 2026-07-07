@@ -868,6 +868,24 @@ Major polish pass on `dashboard.html` — responsive layout restructured for iPh
 10. **Discovery reveal animation** — Sparkle/bubble animation when new radical is earned or character discovered
 11. **Stats panel visual pass** — Stat cards are plain text — add charts or visual indicators
 
+## Post-Radical-Replan Fixes & Data Improvements
+
+### Session: Flashcard Meaning Truncation Fix
+- **Problem:** `.quiz-option .opt-meaning-main` had `-webkit-line-clamp: 2` which truncated long meanings (e.g., "to like, to take pleasure in, keen on, fond of, interest...") to 2 lines with ellipsis in the study quiz
+- **Fix:** Removed `display: -webkit-box`, `-webkit-line-clamp: 2`, `line-clamp: 2`, `-webkit-box-orient: vertical` from `shared/design-system.css`. Changed `overflow: hidden` → `visible`, tightened `font-size` slightly and `line-height` from 1.3 → 1.25. All meaning text now wraps naturally within the button.
+
+### Session: Theme "Done" Badge Fix
+- **Problem:** After studying 4 words (one batch), `finishBatch()` called `saveStageResult()` which set `S.stageData[key] = {best_score, completed_date}`. Then `renderJourneyPath()` used `getStageInfo()` to determine if a theme was "Done" — so any theme that had at least one batch completed showed "Done" even if it had 20+ words remaining.
+- **Fix:** Changed from `info` (stage data exists) to `allSeen` (seen >= themeWords.length) for the "✓ Done" badge and `completed` CSS class. Date display also gated on `allSeen` with null-safety.
+
+### Session: en_short → en_full Data Migration
+- **Problem:** Many HSK words have long `en` fields packed with all dictionary info — multiple synonyms, classifiers (CL:), etc. This makes displayed meanings unnecessarily long in quiz options, flashcard backs, and writing info strips.
+- **Solution:** Created `scripts/generate_en_short.py` which processes all 12 `characters_hsk*.json` files:
+  1. Saves the full original `en` → `en_full` (preserved as reference)
+  2. Generates a concise version via `shorten_en()` → sets as new `en`
+  - Shortening rules: strip everything after `, CL:`, keep at most 4 comma-separated items, strip very long parentheticals (30+ chars)
+- **Result:** 10,354 words updated across all HSK levels. Display fields like `爱` now show "to love, to be fond of, to like, affection" instead of the full dictionary entry. No code changes needed on display pages since `en` field name is unchanged.
+
 ## Next Steps
 
 ### Next Stage: Phase 3.5 — Visual Cohesion Overhaul
@@ -896,3 +914,4 @@ Original 5-priority roadmap deferred until visual cohesion is addressed first:
 - Create 9-slice SVG frames for quest board and ribbon (`assets/frames/`)
 - Apply notebook SQL to Supabase dashboard
 - Create journey background PNGs (`journey_village_bg.png`, etc.)
+- Fill remaining 5,310 HSK words missing example sentences

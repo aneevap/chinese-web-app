@@ -754,6 +754,62 @@ Conducted a thorough visual audit of `laboratory-playground.html` against the la
 6. Empty state/toast brush-up
 7. Background decorative line art
 
+## Session: Flashcard Meaning Truncation Fix
+
+**Problem:** `.quiz-option .opt-meaning-main` had `-webkit-line-clamp: 2` which truncated long English meanings to 2 lines with ellipsis. E.g., "to like, to take pleasure in, keen on, fond of, interest..." was cut off.
+
+**Fix (`shared/design-system.css`):**
+- Removed `display: -webkit-box`, `-webkit-line-clamp: 2`, `line-clamp: 2`, `-webkit-box-orient: vertical` — the direct cause of truncation
+- Changed `overflow: hidden` → `visible` to ensure all text shows
+- Slightly tightened `font-size` from `clamp(1.05rem, 3.5vw, 1.3rem)` → `clamp(1rem, 3.5vw, 1.25rem)` and `line-height` from 1.3 → 1.25 to give more room
+- All meaning text now wraps naturally within the quiz option button
+
+**Files changed:** `shared/design-system.css`
+
+---
+
+## Session: Theme "Done" Badge Fix
+
+**Problem:** Theme showed "✓ Done" after studying just 4 words (one batch), because `saveStageResult()` was called on first batch completion, and `renderJourneyPath()` used `info = getStageInfo()` to determine completion status.
+
+**Fix (`study.html`):**
+- Changed from `info` (stage data exists, set after first batch) to `allSeen` (seen >= themeWords.length)
+- "✓ Done" badge, `completed` CSS class, and completion date now only show when ALL words in a theme have been seen
+- Added null-safety to `info.completed_date` access (`allSeen && info ? ... : ''`)
+
+**Files changed:** `study.html`
+
+---
+
+## Session: en_short → en_full Data Migration
+
+**Problem:** HSK word `en` fields contained full dictionary info with classifiers (CL:), excessive synonyms, and long parenthetical notes. Meaning text was unnecessarily long in quiz options, flashcard backs, writing info strips, and print worksheets.
+
+**Solution (`scripts/generate_en_short.py`):**
+- New script that processes all 12 `characters_hsk*.json` files
+- For each word:
+  1. If `en_short` exists from a prior run: saves current `en` → `en_full`, moves `en_short` → `en`, deletes `en_short`
+  2. If no `en_short`: generates concise version via `shorten_en()`, saves current `en` → `en_full`, sets new `en` = shortened version
+- **Shortening logic (`shorten_en()`):**
+  1. Strip everything after `, CL:` (classifier info)
+  2. Keep at most 4 comma-separated synonyms (3 if any item exceeds 30 chars)
+  3. Strip very long parentheticals (30+ chars)
+  4. Clean up trailing punctuation
+- **Results:** 10,354 words updated across all 12 HSK files (HSK1–HSK6, HSK20_1–HSK20_6)
+- **Zero display code changes needed** — since `en` field name is preserved, all pages (study.html, write.html, print.html) automatically show the short version
+- Full reference data preserved in `en_full` field for future use
+
+**Examples:**
+| Word | `en` (now concise) | `en_full` (preserved) |
+|------|-------------------|----------------------|
+| 爱 | `to love, to be fond of, to like, affection` | Full original meaning with CL: info |
+| 房子 | `house, building (single- or two-story), apartment` | Full original with CL:棟|栋... |
+| 电脑 | `computer` | `computer, CL:臺|台[tái]...` |
+
+**Files changed:** 12 HSK JSON files, `scripts/generate_en_short.py` (new)
+
+---
+
 ## Persistent Issues
 - **Git push silently fails ~50% of the time** from the assistant (basher agent). Fix: always run `git push origin main` explicitly.
 - Notebook table still needs to be applied to Supabase dashboard to eliminate remaining 404

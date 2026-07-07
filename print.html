@@ -110,6 +110,28 @@
     .ws-box.trace svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block; z-index: 0; }
     .ws-box.trace::before, .ws-box.trace::after { z-index: 1; }
 
+    .ws-multi-block {
+        margin-bottom: 2mm;
+    }
+    .ws-multi-header {
+        display: flex; align-items: baseline; gap: 3pt; margin-bottom: 1.5mm; font-size: 8pt;
+        flex-wrap: wrap; flex-shrink: 0;
+    }
+    .ws-multi-header .ws-pinyin {
+        font-size: 8pt; font-weight: bold; color: #444; flex-shrink: 0;
+    }
+    .ws-multi-header .ws-meaning-label {
+        font-size: 7.5pt; color: #333; flex: 1; min-width: 0;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-left: 0;
+        padding-left: 4pt; border-left: 0.8pt solid #ccc;
+    }
+    .ws-char-row {
+        display: flex; align-items: center; gap: 2pt; margin-bottom: 0.5mm; flex-shrink: 0;
+    }
+    .ws-char-label {
+        font-size: 9pt; font-weight: bold; color: #111; min-width: 12pt; text-align: center; flex-shrink: 0;
+    }
+
     .ws-footer {
         margin-top: auto; padding-top: 3pt; display: flex; justify-content: space-between;
         font-size: 6.5pt; color: #bbb; border-top: 0.4pt solid #eee; flex-shrink: 0;
@@ -553,21 +575,26 @@ function buildPreview() {
     var html = '';
     keys.forEach(function(key, index) {
         var word = selected[key];
+        var chars = word.ch.split('');
         var mean = getMeaning(word);
         var sent = getSentence(word);
 
-        html += '<div style="display:flex; align-items:center; gap:20px; padding:16px 0; border-bottom: ' + (index === keys.length - 1 ? 'none' : '2px dashed var(--paper-deep)') + ';">';
-        html += '<div style="font-size:3rem; color:var(--ink-dark); font-family:var(--font-hanzi); min-width:50px; text-align:center;">' + word.ch + '</div>';
+        html += '<div style="padding:14px 0; border-bottom: ' + (index === keys.length - 1 ? 'none' : '2px dashed var(--paper-deep)') + ';">';
+        // Word header
+        html += '<div style="display:flex; align-items:center; gap:16px; margin-bottom:' + (chars.length > 1 ? '12' : '0') + 'px;">';
+        html += '<div style="font-size:2.8rem; color:var(--ink-dark); font-family:var(--font-hanzi); min-width:50px; text-align:center;">' + word.ch + '</div>';
         html += '<div style="font-family:var(--font-main); color:var(--ink-medium);">';
-        html += '<div style="font-size:1.15rem; font-family:var(--font-pinyin); font-weight:800; margin-bottom:4px;">' + colorPinyin(word.py) + '</div>';
-        html += '<div style="font-size:.95rem; font-weight:700;" class="' + (getNavLang() === 'th' ? 'th' : '') + '">' + mean + '</div>';
+        html += '<div style="font-size:1.1rem; font-family:var(--font-pinyin); font-weight:800; margin-bottom:4px;">' + colorPinyin(word.py) + '</div>';
+        html += '<div style="font-size:.9rem; font-weight:700;" class="' + (getNavLang() === 'th' ? 'th' : '') + '">' + mean + '</div>';
         if (opts.sentence === 'yes' && word.zh) {
             var zhHighlighted = word.zh.split(word.ch).join('<span style="color:var(--highlight-red);">' + word.ch + '</span>');
-            html += '<div style="margin-top:6px; font-size:.85rem; color:var(--ink-soft);">';
+            html += '<div style="margin-top:6px; font-size:.8rem; color:var(--ink-soft);">';
             html += '<span style="font-family:var(--font-hanzi); font-size:1.1em; color:var(--ink-dark);">' + zhHighlighted + '</span>　';
             html += '<span style="font-style:italic;">' + sent + '</span></div>';
         }
         html += '</div></div>';
+
+        html += '</div>';
     });
     area.innerHTML = html;
 }
@@ -597,9 +624,15 @@ function fetchCharData(ch) {
 }
 
 function fetchAllSelectedData() {
-    var chars = Object.keys(selected).map(function(k) { return selected[k].ch; });
-    var unique = chars.filter(function(c, i) { return chars.indexOf(c) === i; });
-    return Promise.all(unique.map(fetchCharData));
+    // Fetch stroke data for each individual character across all selected words
+    var charSet = {};
+    Object.keys(selected).forEach(function(k) {
+        var word = selected[k];
+        for (var i = 0; i < word.ch.length; i++) {
+            charSet[word.ch[i]] = true;
+        }
+    });
+    return Promise.all(Object.keys(charSet).map(fetchCharData));
 }
 
 function makeTraceSVG(data) {
@@ -653,22 +686,44 @@ function buildPrintable() {
         html += '<div class="ws-rows">';
         pageKeys.forEach(function(key) {
             var word = selected[key];
-            var data = charData[word.ch];
+            var chars = word.ch.split('');
             var mean = getMeaning(word);
             var sent = getSentence(word);
 
-            html += '<div class="ws-char-block"><div class="ws-stroke-line"><span class="ws-pinyin">' + word.py + '</span><span class="ws-stroke-sep"></span>';
-
-            if (data && data.strokes && data.strokes.length) {
-                data.strokes.forEach(function(_, i) { html += '<span class="ws-stroke-thumb">' + makeStrokeThumbSVG(data, i) + '</span>'; });
-                html += '<span class="ws-stroke-sep"></span>';
+            if (chars.length === 1) {
+                // Single character: original layout
+                var data = charData[word.ch];
+                html += '<div class="ws-char-block"><div class="ws-stroke-line"><span class="ws-pinyin">' + word.py + '</span><span class="ws-stroke-sep"></span>';
+                if (data && data.strokes && data.strokes.length) {
+                    data.strokes.forEach(function(_, i) { html += '<span class="ws-stroke-thumb">' + makeStrokeThumbSVG(data, i) + '</span>'; });
+                    html += '<span class="ws-stroke-sep"></span>';
+                }
+                html += '<span class="ws-meaning-label"><span class="ws-meaning-char">' + word.ch + '</span>: <span class="ws-meaning-text">' + mean + '</span>';
+                if (opts.sentence === 'yes' && word.zh) html += '　<span class="ws-sentence-text">' + word.zh + '　' + sent + '</span>';
+                html += '</span></div><div class="ws-box-rows">';
+                for (var r = 0; r < opts.rows; r++) { html += makeBoxRowHTML(data); }
+                html += '</div></div>';
+            } else {
+                // Multi-character: word header + one row per character
+                html += '<div class="ws-char-block ws-multi-block">';
+                // Word header
+                html += '<div class="ws-multi-header"><span class="ws-pinyin">' + word.py + '</span>';
+                html += ' <span class="ws-meaning-label"><span class="ws-meaning-char">' + word.ch + '</span>: <span class="ws-meaning-text">' + mean + '</span>';
+                if (opts.sentence === 'yes' && word.zh) html += '　<span class="ws-sentence-text">' + word.zh + '　' + sent + '</span>';
+                html += '</span></div>';
+                // One row per character
+                chars.forEach(function(ch) {
+                    var data = charData[ch];
+                    html += '<div class="ws-char-row"><span class="ws-char-label">' + ch + '</span><span class="ws-stroke-sep"></span>';
+                    if (data && data.strokes && data.strokes.length) {
+                        data.strokes.forEach(function(_, i) { html += '<span class="ws-stroke-thumb">' + makeStrokeThumbSVG(data, i) + '</span>'; });
+                    }
+                    html += '</div><div class="ws-box-rows">';
+                    for (var r = 0; r < opts.rows; r++) { html += makeBoxRowHTML(data); }
+                    html += '</div>';
+                });
+                html += '</div>';
             }
-
-            html += '<span class="ws-meaning-label"><span class="ws-meaning-char">' + word.ch + '</span>: <span class="ws-meaning-text">' + mean + '</span>';
-            if (opts.sentence === 'yes' && word.zh) html += '　<span class="ws-sentence-text">' + word.zh + '　' + sent + '</span>';
-            html += '</span></div><div class="ws-box-rows">';
-            for (var r = 0; r < opts.rows; r++) { html += makeBoxRowHTML(data); }
-            html += '</div></div>';
         });
         html += '</div>';
 
