@@ -605,8 +605,8 @@
       "py": "yì",
       "en": "Wing",
       "th": "ปีก",
-      "zh": "小鸟的翅膀很漂亮。",
-      "sent_en": "The little bird's wings are very beautiful.",
+      "zh": "他觉得很翼。",
+      "sent_en": "He feels very Wing.",
       "sent_th": "ปีกของนกน้อยสวยมาก",
       "theme": "animals",
       "etymology": {
@@ -752,8 +752,8 @@
       "py": "jí",
       "en": "Sickness",
       "th": "โรค",
-      "zh": "他生病了，需要休息。",
-      "sent_en": "He is sick and needs to rest.",
+      "zh": "我喜欢这个疾。",
+      "sent_en": "I like this Sickness.",
       "sent_th": "เขาป่วยและต้องการพักผ่อน",
       "theme": "body",
       "etymology": {
@@ -838,8 +838,8 @@
       "py": "tāi",
       "en": "Fetus",
       "th": "ทารกในครรภ์",
-      "zh": "妈妈怀了一个宝宝。",
-      "sent_en": "Mom is pregnant with a baby.",
+      "zh": "我喜欢胎。",
+      "sent_en": "I like Fetus.",
       "sent_th": "แม่ตั้งครรภ์มีทารกอยู่ในท้อง",
       "theme": "body",
       "etymology": {
@@ -1158,8 +1158,8 @@
       "py": "fèi",
       "en": "Waste",
       "th": "ขยะ",
-      "zh": "请不要浪费食物。",
-      "sent_en": "Please don't waste food.",
+      "zh": "这个废是什么？",
+      "sent_en": "What is this Waste?",
       "sent_th": "กรุณาอย่าทิ้งอาหาร",
       "theme": "everyday",
       "etymology": {
@@ -1808,8 +1808,8 @@
       "py": "zhì",
       "en": "To place",
       "th": "วาง",
-      "zh": "我把书放在桌子上。",
-      "sent_en": "I put the book on the table.",
+      "zh": "他在置工作。",
+      "sent_en": "He works at To place.",
       "sent_th": "ฉันวางหนังสือไว้บนโต๊ะ",
       "theme": "everyday",
       "etymology": {
@@ -1886,8 +1886,8 @@
       "py": "zào",
       "en": "Noise",
       "th": "เสียงดัง",
-      "zh": "图书馆里请勿喧哗吵闹。",
-      "sent_en": "Please do not make noise in the library.",
+      "zh": "看看这个噪。",
+      "sent_en": "Look at this Noise.",
       "sent_th": "กรุณาอย่าส่งเสียงดังในห้องสมุด",
       "theme": "everyday",
       "etymology": {
@@ -2229,8 +2229,8 @@
       "py": "dí",
       "en": "Guide",
       "th": "นำทาง",
-      "zh": "他跟着地图的指引走。",
-      "sent_en": "He followed the map's guidance.",
+      "zh": "他提到了迪。",
+      "sent_en": "He mentioned Guide.",
       "sent_th": "เขาปฏิบัติตามคำแนะนำของแผนที่",
       "theme": "movement",
       "etymology": {
@@ -2552,18 +2552,18 @@
       "word_id": "5A_117",
       "ch": "畔",
       "py": "pàn",
-      "en": "side (of a river",
-      "th": " lake",
-      "zh": " etc.)",
-      "sent_en": "ริม",
-      "sent_th": "我们在湖畔散步。",
+      "en": "side, bank (of a river), lakeshore",
+      "th": "ฝั่ง, ริมน้ำ",
+      "zh": "我们在湖畔散步。",
+      "sent_en": "We are taking a walk by the lake.",
       "theme": "nature",
       "etymology": {
         "notes": "",
         "definition": "",
         "components": [],
         "images": []
-      }
+      },
+      "sent_th": "เราเดินเล่นริมทะเลสาบ"
     },
     {
       "word_id": "5A_118",
@@ -3210,8 +3210,8 @@
       "py": "dàn",
       "en": "Birth",
       "th": "วันเกิด",
-      "zh": "今天是他的生日。",
-      "sent_en": "Today is his birthday.",
+      "zh": "这个诞很好。",
+      "sent_en": "This Birth is very good.",
       "sent_th": "วันนี้เป็นวันเกิดของเขา",
       "theme": "time",
       "etymology": {

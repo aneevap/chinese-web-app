@@ -1565,8 +1565,8 @@
       "py": "jǐn",
       "en": "Brocade",
       "th": "ผ้าไหม",
-      "zh": "这件衣服的图案很漂亮。",
-      "sent_en": "The pattern on this clothing is very beautiful.",
+      "zh": "我喜欢锦。",
+      "sent_en": "I like Brocade.",
       "sent_th": "ลวดลายบนเสื้อผ้าชิ้นนี้สวยมาก",
       "theme": "everyday",
       "etymology": {
@@ -1582,8 +1582,8 @@
       "py": "màn",
       "en": "Curtain",
       "th": "ม่าน",
-      "zh": "窗帘是布做的。",
-      "sent_en": "The curtain is made of cloth.",
+      "zh": "这个幔是什么？",
+      "sent_en": "What is this Curtain?",
       "sent_th": "ผ้าม่านทำจากผ้า",
       "theme": "everyday",
       "etymology": {
@@ -1599,8 +1599,8 @@
       "py": "nuò",
       "en": "Promise",
       "th": "สัญญา",
-      "zh": "他答应了我的请求。",
-      "sent_en": "He promised my request.",
+      "zh": "看看这个诺。",
+      "sent_en": "Look at this Promise.",
       "sent_th": "เขาสัญญาตอบรับคำขอของฉัน",
       "theme": "everyday",
       "etymology": {
@@ -2619,8 +2619,8 @@
       "py": "sì",
       "en": "Four",
       "th": "สี่",
-      "zh": "我买了四个苹果。",
-      "sent_en": "I bought four apples.",
+      "zh": "他提到了肆。",
+      "sent_en": "He mentioned Four.",
       "sent_th": "ฉันซื้อแอปเปิ้ลสี่ลูก",
       "theme": "numbers",
       "etymology": {

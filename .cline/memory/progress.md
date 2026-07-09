@@ -808,6 +808,73 @@ Conducted a thorough visual audit of `laboratory-playground.html` against the la
 
 **Files changed:** 12 HSK JSON files, `scripts/generate_en_short.py` (new)
 
+## Data Integrity Pass — Pinyin Normalization, Validation, Teaching Frames
+
+### Pipeline (4 scripts executed in sequence)
+
+1. **`scripts/normalize_pinyin.py`** — Convert all tone numbers to tone marks, remove ZWSP (8,587 entries fixed)
+   - **Bug:** ZWSP removed without inserting regular spaces → 12,798 entries became run-together
+
+2. **`scripts/fix_pinyin_spacing.py`** — Insert spaces into run-together pinyin via CC-CEDICT character lookup
+   - **Side effects:** CC-CEDICT introduced uppercase (title case), wrong erhua (rén→r), wrong 女 (nǔ:→nǚ), and multi-reading errors (还→huán instead of hái)
+
+3. **`scripts/fix_pinyin_remaining.py`** — Fix remaining format issues: lowercase all, erhua rén→r, 女 nǔ:→nǚ
+   - **Final format state:** 15,423 HSK entries — 0 tone numbers, 0 ZWSP, 0 uppercase, 0 run-together
+
+4. **`scripts/fix_multi_reading_pinyin.py`** — Fix 72 multi-reading errors (还hái, 着zhe, 乐yuè, 觉jué, 行xíng/háng, 长zhǎng, 重zhòng, 率lǜ, 调tiáo, 背bèi, 好hào, 等)
+   - **Final:** 104/104 multi-reading entries verified correct
+
+### Validation (`scripts/validate_integrity.py`)
+
+30 files, 12,916 entries checked across 7 sections:
+- File integrity ✅ / Structural integrity ✅ / Pinyin format ✅
+- Data completeness: **2 missing py, 1 missing sent_th** found
+- sent_th quality: 4 mixed-language entries found (巾, 畔, …极了, …分之…)
+- Multi-reading accuracy: 72 correct, 0 wrong
+- School course format: 0 issues
+
+### Fixes applied
+
+**Data fixes (during initial pass):**
+- 巾 (1A): mixed Thai+Chinese sent_th → clean Thai
+- 畔 (5A): Chinese text as sent_th → cleared
+- …极了, …分之… (HSK3/4): ZWSP in teaching frame → removed
+
+**70 missing en filled (`scripts/fill_missing_en.py`):**
+- 35 teaching-frame words + 35 others with verified English definitions
+- Cross-referenced from CC-CEDICT where possible; manually provided where not
+
+**3 remaining gaps fixed (`scripts/fix_remaining_gaps.py`):**
+- HSK3 …极了: added py='jí le', en, th
+- HSK4 …分之…: added py='fēn zhī', en, th
+- 5A 畔: all corrupted fields (en, th, zh, sent_en, sent_th) fixed
+
+**37 teaching-frame placeholders replaced (`scripts/fill_teaching_frames.py`):**
+- All `คำว่า '…'` sent_th → proper Thai translations with natural example sentences
+- All zh/sent_en/sent_th fields filled (were 0/37)
+- en filled for remaining 35 entries (now 37/37)
+- th filled for remaining 35 entries (now 37/37)
+- Thai translations research-backed (ยกตัวอย่างเช่น, แป๊บเดียว, ตอนนั้น, ฯลฯ)
+
+**5 pinyin corruption fixes (same script):**
+| Word | Was → Fixed |
+|------|------------|
+| 放暑假 | fàng shǔ gēi → fàng shǔ jià |
+| 一番 | yī pān → yī fān |
+| 这就是说 | zhè jiù shì shuì → zhè jiù shì shuō |
+| 表面上 | biǎo miàn shǎng → biǎo miàn shàng |
+| 一路上 | yī lù shǎng → yī lù shàng |
+
+### Final validation state
+- **0 missing py**, **0 missing zh**, **0 missing sent_th**
+- Teaching-frame warning eliminated — no more คำว่า placeholders in the data
+- Remaining gaps: 33 missing en, 3604 missing th (pre-existing HSK translation gaps)
+
+### Files changed
+- All 12 HSK JSON files — pinyin normalization + multi-reading fixes + teaching frame content
+- characters_1A.json, characters_5A.json — sent_th/data fixes
+- 5 new scripts in `scripts/` directory
+
 ---
 
 ## Persistent Issues

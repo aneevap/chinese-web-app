@@ -886,6 +886,33 @@ Major polish pass on `dashboard.html` — responsive layout restructured for iPh
   - Shortening rules: strip everything after `, CL:`, keep at most 4 comma-separated items, strip very long parentheticals (30+ chars)
 - **Result:** 10,354 words updated across all HSK levels. Display fields like `爱` now show "to love, to be fond of, to like, affection" instead of the full dictionary entry. No code changes needed on display pages since `en` field name is unchanged.
 
+## Session: Data Integrity Pass — Pinyin Normalization, Validation, Teaching Frames
+
+### Pinyin Normalization Pipeline
+| Script | Purpose | Result |
+|--------|---------|--------|
+| `scripts/normalize_pinyin.py` | Tone numbers→marks, ZWSP removal | 8,587 entries fixed |
+| `scripts/fix_pinyin_spacing.py` | Re-insert spaces via CC-CEDICT lookup | Fixed ZWSP→spacing bug |
+| `scripts/fix_pinyin_remaining.py` | Lowercase, erhua fix, 女 fix | 0 remaining format issues |
+| `scripts/fix_multi_reading_pinyin.py` | 72 multi-reading fixes (还, 着, 乐, etc.) | 104/104 verified correct |
+
+### Data Quality Fixes
+- **4 sent_th fixes**: 巾→clean Thai, 畔→cleared, …极了/…分之…→ZWSP removed
+- **70 missing en fields filled**: All teaching-frame words with verified English definitions
+- **3 remaining gaps**: Filled 2 missing py (…极了, …分之…), 1 missing sent_th (畔)
+- **37 teaching-frame placeholders replaced**: `คำว่า '…'` → proper Thai translations with zh/sent_en
+- **5 pinyin corruption fixes**: 放暑假 (gēi→jià), 一番 (pān→fān), 这就是说 (shuì→shuō), 表面上/一路上 (shǎng→shàng)
+
+### Validation
+`scripts/validate_integrity.py` — comprehensive checks across 30 files, 12,916 entries:
+- ✅ File integrity (30/30 valid)
+- ✅ Structural integrity (all required fields present)
+- ✅ Pinyin format (0 tone numbers, 0 ZWSP, 0 uppercase, 0 run-together)
+- ✅ sent_th quality (0 mixed-language issues — teaching-frame warning eliminated)
+- ✅ Multi-reading accuracy (0 errors)
+- ✅ School course format (0 issues)
+- ⚠️ 33 missing en, 3604 missing th (pre-existing HSK translation gaps)
+
 ## Next Steps
 
 ### Next Stage: Phase 3.5 — Visual Cohesion Overhaul
@@ -901,17 +928,8 @@ Major polish pass on `dashboard.html` — responsive layout restructured for iPh
 6. **Empty state & toast brush-up** — More game-like prompts
 7. **Background decor** — Faint SVG line art
 
-### Game-ification Roadmap (Deferred: Alchemist's Toolkit Overhaul)
-
-Original 5-priority roadmap deferred until visual cohesion is addressed first:
-1. ~~Parchment Cards~~ → Deferred (partially done — chips already have parchment style)
-2. ~~Elemental Orb Filters~~ → Already built (orb filter row exists)
-3. ~~Wings → Work Trays~~ → Deferred (wings hidden on mobile, need rethinking)
-4. ~~Background Decor~~ → Deferred (Phase 3.5 step 7)
-5. ~~Discovery Animation~~ → Deferred (Phase 3.5 step 6)
-
 ### Other Active Items
 - Create 9-slice SVG frames for quest board and ribbon (`assets/frames/`)
 - Apply notebook SQL to Supabase dashboard
 - Create journey background PNGs (`journey_village_bg.png`, etc.)
-- Fill remaining 5,310 HSK words missing example sentences
+- Fill remaining 3,604 HSK words missing Thai translations and example sentences

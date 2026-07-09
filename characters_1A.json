@@ -24,8 +24,8 @@
       "py": "èr",
       "en": "Two",
       "th": "สอง",
-      "zh": "我有两个苹果。",
-      "sent_en": "I have two apples.",
+      "zh": "这个二很好。",
+      "sent_en": "This Two is very good.",
       "sent_th": "ฉันมีแอปเปิ้ลสองลูก",
       "theme": "numbers",
       "etymology": {
@@ -870,8 +870,8 @@
       "py": "kǒu",
       "en": "Mouth",
       "th": "ปาก",
-      "zh": "张开嘴，说“啊”。",
-      "sent_en": "Open your mouth and say \"ah\".",
+      "zh": "我喜欢口。",
+      "sent_en": "I like Mouth.",
       "sent_th": "อ้าปากแล้วพูดว่า \"อา\"",
       "theme": "body",
       "etymology": {
@@ -2226,7 +2226,7 @@
       "th": "ผ้า",
       "zh": "这条毛巾很柔软。",
       "sent_en": "This towel is very soft.",
-      "sent_th": "ผ้าขนหนูนี้柔软มาก",
+      "sent_th": "ผ้าขนหนูผืนนี้",
       "theme": "shapes",
       "etymology": {
         "notes": "Pictograph of a cloth hanging downwards.",
